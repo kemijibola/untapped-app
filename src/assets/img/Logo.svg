@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260.904" height="50.895" viewBox="0 0 260.904 50.895">
+  <g id="Logo" transform="translate(-100.096 -19)">
+    <g id="Group_41" data-name="Group 41" transform="translate(108 -134.311)">
+      <path id="Exclusion_1" data-name="Exclusion 1" d="M22.005,46.842h0L0,33.81V8.667L15.089,0V3.7l-11.8,6.817V32.3L22.005,42.981l1.55-1.057V4.7l13.591,7.443V26.128L26.914,31.1V43.956l-4.909,2.885Zm4.959-36.576V27.518l7.2-3.347V14.187Z" transform="translate(-7.905 157.365)" fill="#048792"/>
+      <path id="Path_37" data-name="Path 37" d="M1397.781-649.417l3.255-1.872.039,17.881,7.071,3.98v-33.25l4.97-3.011,21.835,12.759v25.167l-15.095,9.058v-3.777l12.028-6.946v-21.861l-18.768-10.923-1.987.939v37.028l-13.348-7.334Z" transform="translate(-1399.065 819)" fill="#cf3121"/>
+    </g>
+    <text id="tapped_pool" data-name="tapped pool" transform="translate(180 56)" fill="#11868b" font-size="34" font-family="AvenirNext-Medium, Avenir Next" font-weight="500" letter-spacing="-0.04em"><tspan x="0" y="0">tapped pool</tspan></text>
+    <text id="u" transform="translate(151 56)" fill="#11868b" font-size="34" font-family="AvenirNext-Medium, Avenir Next" font-weight="500" letter-spacing="-0.04em"><tspan x="0" y="0">u</tspan></text>
+    <text id="n" transform="translate(162 56)" fill="#11868b" font-size="34" font-family="AvenirNext-Medium, Avenir Next" font-weight="500" letter-spacing="-0.04em"><tspan x="0" y="0">n</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="14" viewBox="0 0 14 14">
+  <defs>
+    <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 512 512">
+      <image width="512" height="512" xlink:href="Rectangle%20170-image.png"/>
+    </pattern>
+  </defs>
+  <g id="Rectangle_170" data-name="Rectangle 170" stroke="rgba(0,0,0,0)" stroke-width="1" fill="url(#pattern)">
+    <rect width="14" height="14" stroke="none"/>
+    <rect x="0.5" y="0.5" width="13" height="13" fill="none"/>
+  </g>
+</svg>
