@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    // subscribe to user-type action here
+  }
 
   ngOnInit() {
   }

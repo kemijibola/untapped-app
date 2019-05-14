@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^7.2.15",
     "@angular/platform-server": "^7.2.15",
     "@angular/router": "^7.2.15",
+    "@ngrx/effects": "^7.4.0",
     "@ngrx/store": "^7.4.0",
     "angular-animations": "0.0.9",
     "bootstrap": "^4.1.0",

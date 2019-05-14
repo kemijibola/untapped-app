@@ -6,7 +6,9 @@ import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
-import { coreReducer } from './core/store/core.reducers';
+import { reducers } from './store/app.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { UserTypeEffects } from './user-type/store/user-type.effects';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { coreReducer } from './core/store/core.reducers';
     AppRoutingModule,
     OwlModule,
     CoreModule,
-    StoreModule.forRoot({coreModule: coreReducer})
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([UserTypeEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,9 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
+import { Store } from '@ngrx/store';
+import * as fromApp from './store/app.reducers';
+import * as UserTypeActions from './user-type/store/user-type.actions';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,8 +19,14 @@ import { DOCUMENT } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   title = 'untapped-app';
-  ngOnInit() {}
-  constructor(@Inject(DOCUMENT) document) {}
+  ngOnInit() {
+    this.onFetchUserTypes();
+  }
+  constructor(@Inject(DOCUMENT) document, private store: Store<fromApp.AppState>) {}
+
+  onFetchUserTypes() {
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
+  }
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(e) {
