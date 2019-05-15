@@ -1,12 +1,15 @@
 import * as AuthActions from './auth.actions';
+import { User } from 'src/app/models';
 
 export interface State {
     token: string;
     authenticated: boolean;
+    user: User;
 }
 const initialState: State = {
     token: null,
-    authenticated: false
+    authenticated: false,
+    user: null
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
@@ -20,7 +23,17 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
             return {
                 ...state,
                 token: null,
-                isAuthenticated: false
+                authenticated: false
+            };
+        // case (AuthActions.FETCH_USER):
+        //     return {
+        //         ...state,
+        //         param: action.payload
+        //     };
+        case (AuthActions.SET_EMAIL_AVAILABILITY):
+            return {
+                ...state,
+                user: action.payload
             };
         default:
             return state;

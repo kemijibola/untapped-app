@@ -1,7 +1,6 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { UserType } from '../../models/';
 import * as UserTypeActions from './user-type.actions';
 import { UserTypeService } from '../../services/user-type.service';
 import 'rxjs/add/operator/map';
@@ -15,8 +14,7 @@ export class UserTypeEffects {
         .switchMap((action: UserTypeActions.FetchUserTypes) => {
             return this.userTypeService.getUserTypes();
         })
-        .map((userTypes: UserType[]) => {
-            console.log(userTypes);
+        .map((userTypes) => {
             return {
                 type: UserTypeActions.SET_USERTYPES,
                 payload: userTypes
