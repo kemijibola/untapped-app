@@ -33,12 +33,16 @@
                                     *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">
                                     Please enter a valid
                                 </span>
+                                <!-- <span 
+                                    class="error-block"
+                                    *ngIf="emailCheckStatus === 'INVALID'">
+                                    Email is not available
+                                </span> -->
                                     Email
                                 </label>
                                 <input 
                                     class="input-design mb-45" 
                                     formControlName="email"
-                                    (keyup)="onKeyUp()" 
                                     (keydown)="onKeyDown()"
                                     type="email">
                                 <label for="">

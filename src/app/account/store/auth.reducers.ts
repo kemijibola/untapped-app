@@ -1,15 +1,15 @@
 import * as AuthActions from './auth.actions';
-import { User } from 'src/app/models';
+import { User, Result } from 'src/app/models';
 
 export interface State {
     token: string;
     authenticated: boolean;
-    isEmailAvailable: boolean;
+    userByEmail: Result;
 }
 const initialState: State = {
     token: null,
     authenticated: false,
-    isEmailAvailable: false
+    userByEmail: new Result()
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
@@ -25,10 +25,10 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 token: null,
                 authenticated: false
             };
-        case (AuthActions.DO_EMAIL_CHECK):
+        case (AuthActions.SET_USER_BY_EMAIL):
             return {
                 ...state,
-                isEmailAvailable: action.payload
+                userByEmail: action.payload
             };
         default:
             return state;

@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
-import { User } from 'src/app/models';
+import { User, Result } from 'src/app/models';
 
 export const DO_SIGNUP = 'DO_SIGNUP';
 export const DO_SIGNIN = 'DO_SIGNIN';
-export const DO_EMAIL_CHECK = 'DO_EMAIL_CHECK';
-export const SET_EMAIL_AVAILABILITY = 'SET_EMAIL_AVAILABILITY';
+export const FETCH_USER_BY_EMAIL = 'FETCH_USER_BY_EMAIL';
+export const SET_USER_BY_EMAIL = 'SET_USER_BY_EMAIL';
 export const TOKEN_CHANGED = 'TOKEN_CHANGED';
 export const SIGNUP = 'SIGNUP';
 export const SIGNIN = 'SIGNIN';
@@ -38,14 +38,14 @@ export class DoSignUp implements Action {
     readonly type = DO_SIGNUP;
     constructor(public payload: { name: string , email: string, password: string }) {}
 }
-export class DoEmailCheck implements Action {
-    readonly type = DO_EMAIL_CHECK;
+export class FetchUserByEmail implements Action {
+    readonly type = FETCH_USER_BY_EMAIL;
     constructor(public payload: { param: string }) {
     }
 }
-export class SetEmailAvailability implements Action {
-    readonly type = SET_EMAIL_AVAILABILITY;
-    constructor(public payload: boolean) {}
+export class SetUserByEmail implements Action {
+    readonly type = SET_USER_BY_EMAIL;
+    constructor(public payload: Result) {}
 }
 
-export type AuthActions = SignUp | SignIn | LogOut | SetToken | UpdateToken | DoSignUp | DoEmailCheck | SetEmailAvailability;
+export type AuthActions = SignUp | SignIn | LogOut | SetToken | UpdateToken | DoSignUp | FetchUserByEmail | SetUserByEmail;

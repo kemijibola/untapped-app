@@ -3,25 +3,21 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as AuthActions from '../store/auth.actions';
 
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models';
+import { User, Result } from 'src/app/models';
 
 
 @Injectable()
 export class AuthEffects {
     @Effect()
     findUserByProperty = this.actions$
-        .pipe(ofType(AuthActions.DO_EMAIL_CHECK))
-        .switchMap((action: AuthActions.DoEmailCheck) => {
+        .pipe(ofType(AuthActions.FETCH_USER_BY_EMAIL))
+        .switchMap((action: AuthActions.FetchUserByEmail) => {
             return this.authService.findUserByEmail(action.payload);
         })
-        .map((user: User) => {
-            let canUseEmail = true;
-            if (user['data'][0]) {
-                canUseEmail = false;
-            }
+        .map(user => {
             return {
-                type: AuthActions.SET_EMAIL_AVAILABILITY,
-                payload: canUseEmail
+                type: AuthActions.SET_USER_BY_EMAIL,
+                payload: user
             };
         });
 
