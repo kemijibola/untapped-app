@@ -4,6 +4,7 @@ import * as AuthActions from '../store/auth.actions';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { User, Result } from 'src/app/models';
+import { map, filter } from 'rxjs/operators';
 
 
 @Injectable()
@@ -21,18 +22,14 @@ export class AuthEffects {
             };
         });
 
-    @Effect()
-    findUserByEmail = this.actions$
-        .pipe(ofType(AuthActions.SET_NEW_USER_EMAIL))
-        .switchMap((action: AuthActions.SetNewUserEmail) => {
-            return this.authService.findUserByEmail(action.payload);
-        })
-        .map(data => {
-            return {
-                type: AuthActions.SET_USER_BY_EMAIL,
-                payload: data
-            };
-        });
+
+        @Effect()
+        loadUser$ = this.actions$
+            .pipe(ofType(AuthActions.FETCH_USER_BY_EMAIL))
+            .switchMap((action: AuthActions.FetchUserByEmail) =>
+                this.authService.findUserByEmail(action.payload)
+                    .pipe(map(user => new AuthActions.SetUserByEmail(user['data'][0] === undefined ? true : false))
+            ));
 
     constructor(private actions$: Actions, private authService: AuthService) {}
 }

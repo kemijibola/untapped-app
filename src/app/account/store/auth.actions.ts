@@ -46,7 +46,7 @@ export class FetchUserByEmail implements Action {
 }
 export class SetUserByEmail implements Action {
     readonly type = SET_USER_BY_EMAIL;
-    constructor(public payload: Result) {}
+    constructor(public payload: any) {}
 }
 export class SetNewUserEmail implements Action {
     readonly type = SET_NEW_USER_EMAIL;

@@ -14,6 +14,7 @@ import { Subject } from 'rxjs/Subject';
 import { User, Result } from 'src/app/models';
 import { AuthService } from 'src/app/services/auth.service';
 import { resolve } from 'url';
+import { pipe } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -26,7 +27,7 @@ export class SignupComponent implements OnInit {
   selectedUserType = '';
   userExists = {};
   emailCheckStatus = 'VALID';
-  emailIsForbidden = false;
+  emailIsForbidden;
   constructor(private store: Store<fromApp.AppState>,
     private authService: AuthService,
     private formBuilder: FormBuilder) {}
@@ -41,10 +42,8 @@ export class SignupComponent implements OnInit {
       this.store.select('userTypes').subscribe(data => {
         this.selectedUserType = data.selectedUserType;
       });
-
       this.store.select('auth').subscribe(data => {
-        this.userExists = data.userByEmail;
-        console.log(this.userExists);
+        this.emailIsForbidden = data.emailIsAvailable;
       });
   }
 
@@ -52,14 +51,14 @@ export class SignupComponent implements OnInit {
     // tslint:disable-next-line:no-shadowed-variable
     const promise = new Promise((resolve) => {
         control.valueChanges
-          .pipe(debounceTime(500))
+          .pipe(debounceTime(1000), distinctUntilChanged())
           .subscribe(val => {
             if (val.length >= 2) {
-              this.store.dispatch(new AuthActions.SetNewUserEmail(control.value));
+              this.store.dispatch(new AuthActions.FetchUserByEmail(val));
             }
           });
-        if (this.isEmpty(this.userExists['data'])) {
-            resolve({'emailIsForbidden': true });
+        if (this.emailIsForbidden) {
+          resolve({'emailForbidden': true});
         } else {
           resolve(null);
         }
