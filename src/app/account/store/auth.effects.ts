@@ -10,25 +10,12 @@ import { map, filter } from 'rxjs/operators';
 @Injectable()
 export class AuthEffects {
     @Effect()
-    findUserByProperty = this.actions$
-        .pipe(ofType(AuthActions.FETCH_USER_BY_EMAIL))
-        .switchMap((action: AuthActions.FetchUserByEmail) => {
-            return this.authService.findUserByEmail(action.payload);
-        })
-        .map(user => {
-            return {
-                type: AuthActions.SET_USER_BY_EMAIL,
-                payload: user
-            };
-        });
-
-
         @Effect()
         loadUser$ = this.actions$
             .pipe(ofType(AuthActions.FETCH_USER_BY_EMAIL))
             .switchMap((action: AuthActions.FetchUserByEmail) =>
                 this.authService.findUserByEmail(action.payload)
-                    .pipe(map(user => new AuthActions.SetUserByEmail(user['data'][0] === undefined ? true : false))
+                    .pipe(map(user => new AuthActions.SetEmailAvailability(user['data'][0] === undefined ? true : false))
             ));
 
     constructor(private actions$: Actions, private authService: AuthService) {}

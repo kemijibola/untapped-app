@@ -4,7 +4,7 @@ import { User, Result } from 'src/app/models';
 export const DO_SIGNUP = 'DO_SIGNUP';
 export const DO_SIGNIN = 'DO_SIGNIN';
 export const FETCH_USER_BY_EMAIL = 'FETCH_USER_BY_EMAIL';
-export const SET_USER_BY_EMAIL = 'SET_USER_BY_EMAIL';
+export const SET_EMAIL_AVAILABILITY = 'SET_EMAIL_AVAILABILITY';
 export const TOKEN_CHANGED = 'TOKEN_CHANGED';
 export const SIGNUP = 'SIGNUP';
 export const SIGNIN = 'SIGNIN';
@@ -44,8 +44,8 @@ export class FetchUserByEmail implements Action {
     constructor(public payload: { param: string }) {
     }
 }
-export class SetUserByEmail implements Action {
-    readonly type = SET_USER_BY_EMAIL;
+export class SetEmailAvailability implements Action {
+    readonly type = SET_EMAIL_AVAILABILITY;
     constructor(public payload: any) {}
 }
 export class SetNewUserEmail implements Action {
@@ -54,4 +54,4 @@ export class SetNewUserEmail implements Action {
 }
 
 export type AuthActions = SignUp | SignIn | LogOut |
-SetToken | UpdateToken | DoSignUp | FetchUserByEmail | SetUserByEmail | SetNewUserEmail;
+SetToken | UpdateToken | DoSignUp | FetchUserByEmail | SetEmailAvailability | SetNewUserEmail;

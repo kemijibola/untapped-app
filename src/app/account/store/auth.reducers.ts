@@ -27,8 +27,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 token: null,
                 authenticated: false
             };
-        case (AuthActions.SET_USER_BY_EMAIL):
-            console.log(action.payload);
+        case (AuthActions.SET_EMAIL_AVAILABILITY):
             return {
                 ...state,
                 emailIsAvailable: action.payload
