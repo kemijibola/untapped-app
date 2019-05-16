@@ -3,7 +3,7 @@ import { User } from 'src/app/models';
 
 export const DO_SIGNUP = 'DO_SIGNUP';
 export const DO_SIGNIN = 'DO_SIGNIN';
-export const FETCH_USER = 'FETCH_USER';
+export const DO_EMAIL_CHECK = 'DO_EMAIL_CHECK';
 export const SET_EMAIL_AVAILABILITY = 'SET_EMAIL_AVAILABILITY';
 export const TOKEN_CHANGED = 'TOKEN_CHANGED';
 export const SIGNUP = 'SIGNUP';
@@ -38,14 +38,14 @@ export class DoSignUp implements Action {
     readonly type = DO_SIGNUP;
     constructor(public payload: { name: string , email: string, password: string }) {}
 }
-export class FetchUser implements Action {
-    readonly type = FETCH_USER;
+export class DoEmailCheck implements Action {
+    readonly type = DO_EMAIL_CHECK;
     constructor(public payload: { param: string }) {
     }
 }
 export class SetEmailAvailability implements Action {
     readonly type = SET_EMAIL_AVAILABILITY;
-    constructor(public payload: User) {}
+    constructor(public payload: boolean) {}
 }
 
-export type AuthActions = SignUp | SignIn | LogOut | SetToken | UpdateToken | DoSignUp | FetchUser | SetEmailAvailability;
+export type AuthActions = SignUp | SignIn | LogOut | SetToken | UpdateToken | DoSignUp | DoEmailCheck | SetEmailAvailability;

@@ -15,7 +15,6 @@ export class AuthService {
     }
 
     findUserByEmail(prop): Observable<User> {
-        console.log(prop);
         const url = `${this.BASE_URI}/users`;
         return this.http.get<User>(`${url}/${prop}`);
     }

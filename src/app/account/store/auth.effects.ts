@@ -10,15 +10,18 @@ import { User } from 'src/app/models';
 export class AuthEffects {
     @Effect()
     findUserByProperty = this.actions$
-        .pipe(ofType(AuthActions.FETCH_USER))
-        .switchMap((action: AuthActions.FetchUser) => {
+        .pipe(ofType(AuthActions.DO_EMAIL_CHECK))
+        .switchMap((action: AuthActions.DoEmailCheck) => {
             return this.authService.findUserByEmail(action.payload);
         })
-        .map((user) => {
-            console.log(user);
+        .map((user: User) => {
+            let canUseEmail = true;
+            if (user['data'][0]) {
+                canUseEmail = false;
+            }
             return {
                 type: AuthActions.SET_EMAIL_AVAILABILITY,
-                payload: user
+                payload: canUseEmail
             };
         });
 
