@@ -12,6 +12,7 @@ export const LOGOUT = 'LOGOUT';
 export const SET_TOKEN = 'SET_TOKEN';
 export const EXPIRE_TOKEN = 'EXPIRE_TOKEN';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const SET_NEW_USER_EMAIL = 'SET_NEW_USER_EMAIL';
 
 export class SignUp implements Action {
     readonly type = SIGNUP;
@@ -47,5 +48,10 @@ export class SetUserByEmail implements Action {
     readonly type = SET_USER_BY_EMAIL;
     constructor(public payload: Result) {}
 }
+export class SetNewUserEmail implements Action {
+    readonly type = SET_NEW_USER_EMAIL;
+    constructor(public payload: string) {}
+}
 
-export type AuthActions = SignUp | SignIn | LogOut | SetToken | UpdateToken | DoSignUp | FetchUserByEmail | SetUserByEmail;
+export type AuthActions = SignUp | SignIn | LogOut |
+SetToken | UpdateToken | DoSignUp | FetchUserByEmail | SetUserByEmail | SetNewUserEmail;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../models/account/user';
+import { Result } from '../models';
 
 @Injectable()
 export class AuthService {
@@ -14,9 +15,8 @@ export class AuthService {
         return this.http.post<User>(url, { name, email, password});
     }
 
-    findUserByEmail(prop): Observable<User> {
-        console.log(prop);
+    findUserByEmail(prop): Observable<any> {
         const url = `${this.BASE_URI}/users`;
-        return this.http.get<User>(`${url}/${prop}`);
+        return this.http.get<any>(`${url}/${prop}`);
     }
 }

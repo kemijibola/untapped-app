@@ -21,6 +21,19 @@ export class AuthEffects {
             };
         });
 
+    @Effect()
+    findUserByEmail = this.actions$
+        .pipe(ofType(AuthActions.SET_NEW_USER_EMAIL))
+        .switchMap((action: AuthActions.SetNewUserEmail) => {
+            return this.authService.findUserByEmail(action.payload);
+        })
+        .map(data => {
+            return {
+                type: AuthActions.SET_USER_BY_EMAIL,
+                payload: data
+            };
+        });
+
     constructor(private actions$: Actions, private authService: AuthService) {}
 }
 

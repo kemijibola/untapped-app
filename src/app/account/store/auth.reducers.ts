@@ -4,12 +4,14 @@ import { User, Result } from 'src/app/models';
 export interface State {
     token: string;
     authenticated: boolean;
-    userByEmail: Result;
+    newUserEmail: string;
+    userByEmail: any;
 }
 const initialState: State = {
     token: null,
     authenticated: false,
-    userByEmail: new Result()
+    newUserEmail: '',
+    userByEmail: {}
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
@@ -29,6 +31,11 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
             return {
                 ...state,
                 userByEmail: action.payload
+            };
+        case (AuthActions.SET_NEW_USER_EMAIL):
+            return {
+                ...state,
+                newUserEmail: action.payload
             };
         default:
             return state;
