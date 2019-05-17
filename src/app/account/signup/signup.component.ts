@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
   selectedUserType = '';
   userExists = {};
   emailCheckStatus = 'VALID';
-  emailIsForbidden;
+  emailIsForbidden = false;
   constructor(private store: Store<fromApp.AppState>,
     private authService: AuthService,
     private formBuilder: FormBuilder) {}
@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
       'name': new FormControl(null, Validators.required),
-      'email': new FormControl(null, [ Validators.required, Validators.email], this.emailAvailability.bind(this)),
+      'email': new FormControl(null, [ Validators.required, Validators.email ], this.emailAvailability.bind(this)),
       'password': new FormControl(null, Validators.required)
       });
 
@@ -51,34 +51,20 @@ export class SignupComponent implements OnInit {
     // tslint:disable-next-line:no-shadowed-variable
     const promise = new Promise((resolve) => {
         control.valueChanges
-          .pipe(debounceTime(1000), distinctUntilChanged())
+          .pipe(debounceTime(500), distinctUntilChanged())
           .subscribe(val => {
             if (val.length >= 2) {
               this.store.dispatch(new AuthActions.FetchUserByEmail(val));
+              if (!this.emailIsForbidden) {
+                resolve({'emailExists': true});
+              } else {
+                resolve(null);
+              }
             }
           });
-        if (this.emailIsForbidden) {
-          resolve({'emailForbidden': true});
-        } else {
-          resolve(null);
-        }
     });
     return promise;
   }
-
-  isEmpty(obj) {
-    for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          return false;
-        }
-    }
-    return true;
-  }
-  onKeyDown() {
-    // When the user starts to type, remove the validator
-    //this.signupForm.controls['email'].clearValidators();
-  }
-
   onSubmit() {
     console.log(this.signupForm);
   }
