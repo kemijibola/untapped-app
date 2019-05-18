@@ -41,17 +41,20 @@ export class DoSignUp implements Action {
 }
 export class FetchUserByEmail implements Action {
     readonly type = FETCH_USER_BY_EMAIL;
-    constructor(public payload: { param: string }) {
-    }
+    constructor(public payload: { email: string }) {}
 }
 export class SetEmailAvailability implements Action {
     readonly type = SET_EMAIL_AVAILABILITY;
-    constructor(public payload: any) {}
+    constructor(public payload: { emailExist: boolean}) {}
 }
 export class SetNewUserEmail implements Action {
     readonly type = SET_NEW_USER_EMAIL;
     constructor(public payload: string) {}
 }
 
-export type AuthActions = SignUp | SignIn | LogOut |
-SetToken | UpdateToken | DoSignUp | FetchUserByEmail | SetEmailAvailability | SetNewUserEmail;
+export type AuthActions =
+SignUp | SignIn |
+LogOut | SetToken |
+UpdateToken | DoSignUp |
+FetchUserByEmail | SetEmailAvailability |
+SetNewUserEmail;

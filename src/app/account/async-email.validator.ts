@@ -1,12 +1,23 @@
-import { AbstractControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { FormControl } from '@angular/forms';
+import { timer, of, pipe, Observable } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators/';
+import { map } from 'rxjs/operators/';
+import { Store, select } from '@ngrx/store';
+import * as fromApp from '../store/app.reducers';
+import * as AuthActions from './store/auth.actions';
 
-export class ValidateEmailNotTaken {
-  static createValidator(authService: AuthService) {
-    return (control: AbstractControl) => {
-      return authService.findUserByEmail(control.value).map(res => {
-        return console.log(res.data[0] ? { emailTaken: true } : null);
-      });
-    };
-  }
+export function emailAsyncValidator(time: number = 500, authService: AuthService) {
+  return (input: FormControl): Observable<any> | Promise<any> => {
+    return timer(500)
+        .pipe(
+          switchMap(() =>
+              authService.findUserByEmail(input.value)
+          ),
+          map(res => {
+            return res['data'][0] === undefined ? null : { emailExist: true};
+          })
+        );
+  };
 }
+

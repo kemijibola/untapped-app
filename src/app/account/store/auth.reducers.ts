@@ -5,13 +5,13 @@ export interface State {
     token: string;
     authenticated: boolean;
     newUserEmail: string;
-    emailIsAvailable: boolean;
+    emailExist: boolean;
 }
 const initialState: State = {
     token: null,
     authenticated: false,
     newUserEmail: '',
-    emailIsAvailable: false
+    emailExist: false
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
@@ -28,10 +28,9 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 authenticated: false
             };
         case (AuthActions.SET_EMAIL_AVAILABILITY):
-            console.log(action.payload);
             return {
                 ...state,
-                emailIsAvailable: action.payload
+                emailExist: action.payload.emailExist
             };
         case (AuthActions.SET_NEW_USER_EMAIL):
             return {

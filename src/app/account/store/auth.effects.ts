@@ -10,13 +10,13 @@ import { map, filter } from 'rxjs/operators';
 @Injectable()
 export class AuthEffects {
     @Effect()
-        @Effect()
-        loadUser$ = this.actions$
-            .pipe(ofType(AuthActions.FETCH_USER_BY_EMAIL))
-            .switchMap((action: AuthActions.FetchUserByEmail) =>
-                this.authService.findUserByEmail(action.payload)
-                    .pipe(map(user => new AuthActions.SetEmailAvailability(user['data'][0] === undefined ? true : false))
-            ));
+    loadUser$ = this.actions$
+        .pipe(ofType(AuthActions.FETCH_USER_BY_EMAIL))
+        .switchMap((action: AuthActions.FetchUserByEmail) =>
+            this.authService.findUserByEmail(action.payload.email)
+                .pipe(map(user => new AuthActions.SetEmailAvailability(user['data'][0] === undefined ?
+                { emailExist: true } : { emailExist: false }))
+        ));
 
     constructor(private actions$: Actions, private authService: AuthService) {}
 }

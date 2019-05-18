@@ -3,18 +3,14 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Store, select } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
 import { Observable } from 'rxjs/Observable';
-import * as fromUserType from '../../user-type/store/user-type.reducers';
-import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, switchMap, switchMapTo, filter,
+  tap, map, take, withLatestFrom, takeLast, last, mergeMap } from 'rxjs/operators';
 import { debounceTime } from 'rxjs/operators';
 import * as AuthActions from '../store/auth.actions';
-import * as fromAuth from '../store/auth.reducers';
-import * as take from 'rxjs/operators/take';
-
-import { Subject } from 'rxjs/Subject';
-import { User, Result } from 'src/app/models';
+import { timer, of, pipe } from 'rxjs';
+import { emailAsyncValidator } from '../async-email.validator';
 import { AuthService } from 'src/app/services/auth.service';
-import { resolve } from 'url';
-import { pipe } from 'rxjs';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-signup',
@@ -23,11 +19,12 @@ import { pipe } from 'rxjs';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  subject: Subject<any> = new Subject();
   selectedUserType = '';
   userExists = {};
   emailCheckStatus = 'VALID';
-  emailIsForbidden = false;
+  emailIsForbidden;
+  time = 500;
+  emailPattern = '^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
   constructor(private store: Store<fromApp.AppState>,
     private authService: AuthService,
     private formBuilder: FormBuilder) {}
@@ -35,36 +32,17 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
       'name': new FormControl(null, Validators.required),
-      'email': new FormControl(null, [ Validators.required, Validators.email ], this.emailAvailability.bind(this)),
+      'email': new FormControl(null, Validators.compose([ Validators.required, Validators.email, Validators.pattern(this.emailPattern)]),
+        emailAsyncValidator(500, this.authService).bind(this)
+        ),
       'password': new FormControl(null, Validators.required)
       });
 
       this.store.select('userTypes').subscribe(data => {
         this.selectedUserType = data.selectedUserType;
       });
-      this.store.select('auth').subscribe(data => {
-        this.emailIsForbidden = data.emailIsAvailable;
-      });
   }
 
-  emailAvailability(control: FormControl): Promise<any> | Observable<any> {
-    // tslint:disable-next-line:no-shadowed-variable
-    const promise = new Promise((resolve) => {
-        control.valueChanges
-          .pipe(debounceTime(500), distinctUntilChanged())
-          .subscribe(val => {
-            if (val.length >= 2) {
-              this.store.dispatch(new AuthActions.FetchUserByEmail(val));
-              if (!this.emailIsForbidden) {
-                resolve({'emailExists': true});
-              } else {
-                resolve(null);
-              }
-            }
-          });
-    });
-    return promise;
-  }
   onSubmit() {
     console.log(this.signupForm);
   }

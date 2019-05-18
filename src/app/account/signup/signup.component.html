@@ -30,15 +30,16 @@
                                 <label for="">
                                     <span 
                                         class="error-block"
-                                        *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched && !signupForm.get('email').hasError('emailExists')">
+                                        *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched && !signupForm.get('email').hasError('emailExist')">
                                         Please enter a valid
                                     </span>
+                                Email
                                     <span 
                                         class="error-block"
-                                        *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched && signupForm.get('email').hasError('emailExists')">
-                                        is taken 
+                                        *ngIf="signupForm.get('email').hasError('emailExist')"
+                                        >
+                                        already taken 
                                     </span>
-                                Email
                                 </label>
                                 <input 
                                     class="input-design mb-45" 
