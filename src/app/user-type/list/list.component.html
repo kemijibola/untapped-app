@@ -1,4 +1,4 @@
 <ul class="community-ctg">
     <app-user-type-item *ngFor="let item of (userTypeState | async ).userTypes.data | keyvalue; let i = index"
-    [userType]="item"></app-user-type-item>
+    [userType]="item" [defaultSelect]= "defaultSelect"></app-user-type-item>
 </ul>

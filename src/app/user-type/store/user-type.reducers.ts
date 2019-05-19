@@ -23,6 +23,11 @@ export function userTypeReducer(state = initialState, action: UserTypeActions.Us
                 ...state,
                 selectedUserType: action.payload
             };
+        case (UserTypeActions.REMOVE_SELECTEDUSERTYPE):
+            return {
+                ...state,
+                selectedUserType: ''
+            };
         default:
             return state;
     }

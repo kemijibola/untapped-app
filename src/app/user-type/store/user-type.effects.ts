@@ -11,7 +11,7 @@ export class UserTypeEffects {
     @Effect()
     userTypeFetch = this.actions$
         .pipe(ofType(UserTypeActions.FETCH_USERTYPES))
-        .switchMap((action: UserTypeActions.FetchUserTypes) => {
+        .switchMap(() => {
             return this.userTypeService.getUserTypes();
         })
         .map((userTypes) => {

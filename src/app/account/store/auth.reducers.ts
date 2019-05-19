@@ -1,25 +1,48 @@
 import * as AuthActions from './auth.actions';
-import { User, Result } from 'src/app/models';
+import { Register } from '../../models/';
 
 export interface State {
-    token: string;
     authenticated: boolean;
-    newUserEmail: string;
-    emailExist: boolean;
+    newUser: Register;
+    user: {
+        token: string;
+        id: string;
+        user_type: string
+    };
+    errorMessage: string;
 }
 const initialState: State = {
-    token: null,
     authenticated: false,
-    newUserEmail: '',
-    emailExist: false
+    newUser: new Register(),
+    user: {
+        token: '',
+        id: '',
+        user_type: ''
+    },
+    errorMessage: ''
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
-        case (AuthActions.SIGNUP):
-        case (AuthActions.SIGNIN):
+        case (AuthActions.DO_SIGNUP):
+            return {
+            ...state,
+            newUser: action.payload
+        };
+        case (AuthActions.SIGNUP_SUCCESS):
+        case (AuthActions.SIGNIN_SUCCESS):
             return {
                 ...state,
-                authenticated: true
+                authenticated: true,
+                errorMessage: null
+            };
+        case (AuthActions.SET_TOKEN):
+            return {
+                ...state,
+                user: {
+                    token: action.payload.token,
+                    id: action.payload.id,
+                    user_type: action.payload.user_type
+                }
             };
         case (AuthActions.LOGOUT):
             return {
@@ -27,15 +50,10 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 token: null,
                 authenticated: false
             };
-        case (AuthActions.SET_EMAIL_AVAILABILITY):
+        case (AuthActions.SIGNUP_FAILURE):
             return {
                 ...state,
-                emailExist: action.payload.emailExist
-            };
-        case (AuthActions.SET_NEW_USER_EMAIL):
-            return {
-                ...state,
-                newUserEmail: action.payload
+                errorMessage: action.payload.message
             };
         default:
             return state;

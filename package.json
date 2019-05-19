@@ -23,6 +23,7 @@
     "@angular/router": "^7.2.15",
     "@ngrx/effects": "^7.4.0",
     "@ngrx/store": "^7.4.0",
+    "@ngx-pwa/local-storage": "^6.2.3",
     "angular-animations": "0.0.9",
     "bootstrap": "^4.1.0",
     "core-js": "^2.5.4",
