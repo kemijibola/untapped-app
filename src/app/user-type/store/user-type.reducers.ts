@@ -1,13 +1,14 @@
-import { Result } from './../../models/';
 import { UserType } from '../../models/index';
 import * as UserTypeActions from './user-type.actions';
 
 export interface State {
-    userTypes: Result;
+    userTypes: UserType[];
     selectedUserType: string;
 }
 const initialState: State = {
-    userTypes: new Result(),
+    userTypes: [
+        new UserType('', '', '')
+    ],
     selectedUserType: ''
 };
 

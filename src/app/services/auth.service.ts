@@ -9,13 +9,19 @@ import * as fromUserType from '../user-type/store/user-type.reducers';
 import { Result } from '../models';
 @Injectable()
 export class AuthService {
+
     private BASE_URI = 'http://127.0.0.1:9000';
 
     constructor(private http: HttpClient, private store: Store<fromApp.AppState>) {}
 
-    signUp(email: string, name: string, password: string, user_type: string, audience: string): Observable<Result> {
+    signUp(name: string, email: string, password: string, user_type: string, audience: string): Observable<Result> {
         const url = `${this.BASE_URI}/signup`;
         return this.http.post<Result>(url, { name, email, password, user_type, audience});
+    }
+
+    signin(email: string, password): Observable<Result> {
+        const url = `${this.BASE_URI}/signin`;
+        return this.http.post<Result>(url, { email, password});
     }
 
     findUserByEmail(prop): Observable<Result> {

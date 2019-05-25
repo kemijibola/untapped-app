@@ -9,7 +9,7 @@ import * as AuthActions from './store/auth.actions';
 
 export function emailAsyncValidator(time: number = 500, authService: AuthService) {
   return (input: FormControl): Observable<any> | Promise<any> => {
-    return timer(500)
+    return timer(time)
         .pipe(
           switchMap(() =>
               authService.findUserByEmail(input.value)

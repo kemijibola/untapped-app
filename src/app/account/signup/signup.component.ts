@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
@@ -6,19 +6,18 @@ import { emailAsyncValidator } from '../async-email.validator';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
 import * as AuthActions from '../store/auth.actions';
-import { Register } from 'src/app/models';
+import * as fromUserType from '../../user-type/store/user-type.reducers';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   time = 500;
   emailPattern = '^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
-  selectedUserTypeSubscription: Subscription;
-  selectedUserTypeState = '';
+  selectedUserType = '';
 
   constructor(private store: Store<fromApp.AppState>,
     private authService: AuthService,
@@ -34,9 +33,10 @@ export class SignupComponent implements OnInit, OnDestroy {
       'terms': new FormControl(null, Validators.required)
       });
 
-      this.selectedUserTypeSubscription = this.store.select('userTypes').subscribe(val => {
-        this.selectedUserTypeState = val['selectedUserType'];
-      });
+      this.store.select('userTypes')
+      .subscribe((userTypeState: fromUserType.State) => {
+         this.selectedUserType = userTypeState.selectedUserType;
+       });
   }
 
   onSubmit() {
@@ -47,16 +47,11 @@ export class SignupComponent implements OnInit, OnDestroy {
       name: name,
       email: email,
       password: password,
-      user_type: this.selectedUserTypeState,
+      user_type: this.selectedUserType,
       audience: 'http://127.0.0.1:4200'
     };
+    console.log(payload);
     this.store.dispatch(new AuthActions.DoSignUp(payload));
-  }
-
-  ngOnDestroy() {
-    if (this.selectedUserTypeSubscription) {
-        this.selectedUserTypeSubscription.unsubscribe();
-    }
   }
 
 }

@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as UserTypeActions from '../../store/user-type.actions';
 import * as fromApp from '../../../store/app.reducers';
+import * as fromUserType from '../../store/user-type.reducers';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-user-type-item',
@@ -10,8 +12,8 @@ import * as fromApp from '../../../store/app.reducers';
   styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit, OnDestroy {
-  @Input() userType;
-  @Input() defaultSelect;
+  userTypesState: Observable<fromUserType.State>;
+  selectedUserType = '';
   userTypeForm: FormGroup;
   icons = {
     Talent: 'assets/img/i2.svg',
@@ -20,12 +22,21 @@ export class ItemComponent implements OnInit, OnDestroy {
   };
 
   constructor(private store: Store<fromApp.AppState>) { }
-
   ngOnInit() {
-    this.userTypeForm = new FormGroup({
-      'typeOfUser': new FormControl(this.defaultSelect, Validators.required)
+
+    this.userTypesState = this.store.select('userTypes');
+
+    this.store.select('userTypes')
+   .subscribe((userTypeState: fromUserType.State) => {
+      this.selectedUserType = userTypeState.selectedUserType;
     });
+
+    this.userTypeForm = new FormGroup({
+      'typeOfUser': new FormControl(this.selectedUserType, Validators.required)
+    });
+
   }
+
   onClick(id: string) {
     this.userTypeForm.get('typeOfUser').setValue(id);
     this.store.dispatch(new UserTypeActions.SetSelectedUserType(id));

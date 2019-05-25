@@ -20,13 +20,14 @@ import * as UserTypeActions from './user-type/store/user-type.actions';
 export class AppComponent implements OnInit {
   title = 'untapped-app';
   ngOnInit() {
-    this.onFetchUserTypes();
+    // this.onFetchUserTypes();
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
   }
   constructor(@Inject(DOCUMENT) document, private store: Store<fromApp.AppState>) {}
 
-  onFetchUserTypes() {
-    this.store.dispatch(new UserTypeActions.FetchUserTypes());
-  }
+  // onFetchUserTypes() {
+  //   this.store.dispatch(new UserTypeActions.FetchUserTypes());
+  // }
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(e) {

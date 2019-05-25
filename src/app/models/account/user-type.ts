@@ -1,4 +1,7 @@
 export class UserType {
-    name: string;
-    description: string;
+    constructor(
+        public _id,
+        public name,
+        public description
+    ) {}
 }

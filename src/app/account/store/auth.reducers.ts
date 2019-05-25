@@ -3,7 +3,6 @@ import { Register } from '../../models/';
 
 export interface State {
     authenticated: boolean;
-    newUser: Register;
     user: {
         token: string;
         id: string;
@@ -13,7 +12,6 @@ export interface State {
 }
 const initialState: State = {
     authenticated: false,
-    newUser: new Register(),
     user: {
         token: '',
         id: '',
@@ -23,12 +21,13 @@ const initialState: State = {
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
-        case (AuthActions.DO_SIGNUP):
-            return {
-            ...state,
-            newUser: action.payload
-        };
         case (AuthActions.SIGNUP_SUCCESS):
+            return {
+                ...state,
+                authenticated: false,
+                token: null,
+                errorMessage: null
+            };
         case (AuthActions.SIGNIN_SUCCESS):
             return {
                 ...state,
