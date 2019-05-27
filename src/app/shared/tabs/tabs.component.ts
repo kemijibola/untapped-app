@@ -25,12 +25,10 @@ export class TabsComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     this.fragment = this.route.snapshot.fragment ? this.route.snapshot.fragment.toLowerCase() : 'profile';
-    if (this.route.snapshot.fragment) {
-      this.route.fragment.subscribe((fragment) => {
-        this.fragment = fragment.toLowerCase();
-        this.setActiveTabByFragment();
-      });
-    }
+    this.route.fragment.subscribe((fragment) => {
+      this.fragment = fragment ? fragment.toLowerCase() : 'profile';
+      this.setActiveTabByFragment();
+    });
     this.setActiveTabByFragment();
   }
 

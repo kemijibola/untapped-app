@@ -1,26 +1,25 @@
-  <!-- Profile Area Start  -->
-  <div class="profile-area fx-padding-2 pt-80 pb-105">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12">
-            <ul class="nav nav-tabs mb-30 all-tablinks" id="myTab" role="tablist">
-              <li class="nav-item" *ngFor="let tab of tabs" (click)="selectTab(tab)">
-                <a class="nav-link"
-                  [class.active]="tab.active"
-                  id="profile-tab" 
-                  [routerLink]="['./']"
-                  fragment= "{{tab.tag}}">
-                  {{tab.title}}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- show content of tab here  -->
-          <app-profile *ngIf="activeTab.tag === 'profile'"></app-profile>
-          <app-portfolio *ngIf="activeTab.tag === 'portfolio'"></app-portfolio>
-          <app-settings *ngIf="activeTab.tag === 'settings'"></app-settings>
-        <!-- show content of tab here  -->
+<!-- Profile Area Start  -->
+<div class="profile-area fx-padding-2 pt-80 pb-105">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12">
+        <ul class="nav nav-tabs mb-30 all-tablinks" id="myTab" role="tablist">
+          <li class="nav-item" *ngFor="let tab of tabs" (click)="selectTab(tab)">
+            <a class="nav-link" [class.active]="tab.active" [routerLink]="['./']"
+              fragment="{{tab.tag}}">
+              {{tab.title}}
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
-    <!-- Profile Area End -->
+    <!-- show content of tab here  -->
+    <div class="tab-content fix">
+      <app-profile *ngIf="activeTab.tag === 'profile'"></app-profile>
+      <app-portfolio *ngIf="activeTab.tag === 'portfolio'"></app-portfolio>
+      <app-settings *ngIf="activeTab.tag === 'settings'"></app-settings>
+    </div>
+    <!-- show content of tab here  -->
+  </div>
+</div>
+<!-- Profile Area End -->
