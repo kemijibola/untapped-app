@@ -17,7 +17,9 @@
           </div>
         </div>
         <!-- show content of tab here  -->
-
+          <app-profile *ngIf="activeTab.tag === 'profile'"></app-profile>
+          <app-portfolio *ngIf="activeTab.tag === 'portfolio'"></app-portfolio>
+          <app-settings *ngIf="activeTab.tag === 'settings'"></app-settings>
         <!-- show content of tab here  -->
       </div>
     </div>
