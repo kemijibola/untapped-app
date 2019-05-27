@@ -5,7 +5,6 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TalentRoutingModule } from './talent-routing.module';
 import { TabsComponent } from '../shared/tabs/tabs.component';
-import { TabComponent } from '../shared/tabs/tab/tab.component';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -14,8 +13,7 @@ import { CommonModule } from '@angular/common';
         PortfolioComponent,
         SettingsComponent,
         TalentComponent,
-        TabsComponent,
-        TabComponent
+        TabsComponent
     ],
     imports: [
         TalentRoutingModule,
