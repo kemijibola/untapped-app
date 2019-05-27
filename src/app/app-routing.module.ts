@@ -4,7 +4,8 @@ import { HomeComponent } from './core/home/home.component';
 
 const appRoutes: Routes = [
     { path: '',  component: HomeComponent },
-    { path: 'auth', loadChildren: './account/auth.module#AuthModule'}
+    { path: 'auth', loadChildren: './account/auth.module#AuthModule' },
+    { path: ':username', loadChildren: './talent/talent.module#TalentModule' }
 ];
 
 @NgModule({

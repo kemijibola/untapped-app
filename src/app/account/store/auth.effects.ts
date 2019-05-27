@@ -35,7 +35,7 @@ export class AuthEffects {
     authSignUpSuccess = this.actions$
         .pipe(ofType(AuthActions.SIGNUP_SUCCESS))
         .do(() => {
-            this.router.navigate(['/signup-success']);
+            this.router.navigate(['/auth/signup-success']);
         });
 
     constructor(private actions$: Actions,

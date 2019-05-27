@@ -23,14 +23,13 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/assets/css/style.css",
-              "src/assets/css/all.min.css",
-              "src/assets/css/default.css",
-              "src/assets/css/fontawesome.css",
-              "src/assets/css/meanmenu.css",
-              "src/assets/css/nice-select.css",
-              "src/assets/css/responsive.css"
+              // "src/assets/css/style.css",
+              // "src/assets/css/all.min.css",
+              // "src/assets/css/default.css",
+              // "src/assets/css/fontawesome.css",
+              // "src/assets/css/meanmenu.css",
+              // "src/assets/css/nice-select.css",
+              // "src/assets/css/responsive.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

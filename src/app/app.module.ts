@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserTypeEffects } from './user-type/store/user-type.effects';
 import { AuthEffects } from './account/store/auth.effects';
 import { ErrorEffects } from './store/global/error/error-effects';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ErrorEffects } from './store/global/error/error-effects';
     AppRoutingModule,
     OwlModule,
     CoreModule,
+    SharedModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([
       UserTypeEffects,

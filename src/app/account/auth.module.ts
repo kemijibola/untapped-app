@@ -6,13 +6,15 @@ import { ListComponent } from '../user-type/list/list.component';
 import { ItemComponent } from './../user-type/list/item/item.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { CommonModule } from '@angular/common';
+import { SignupSuccessComponent } from './signup-success/signup-success.component';
 
 @NgModule({
     declarations: [
         LoginComponent,
         SignupComponent,
         ListComponent,
-        ItemComponent
+        ItemComponent,
+        SignupSuccessComponent
     ],
     imports: [
         CommonModule,
@@ -20,7 +22,8 @@ import { CommonModule } from '@angular/common';
         AuthRoutingModule
     ],
     exports: [
-        AuthRoutingModule]
+        AuthRoutingModule
+    ]
 })
 export class AuthModule {
 

@@ -50,7 +50,6 @@ export class SignupComponent implements OnInit {
       user_type: this.selectedUserType,
       audience: 'http://127.0.0.1:4200'
     };
-    console.log(payload);
     this.store.dispatch(new AuthActions.DoSignUp(payload));
   }
 
