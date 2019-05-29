@@ -19,69 +19,117 @@
       </div>
     </div>
   </div>
-  <form action="#">
+  <form [formGroup]="profileForm">
     <div class="row">
       <div class="col-xl-6">
         <label for="">Stage Name</label>
-        <input class="input-design" type="text">
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="stageName"
+          >
       </div>
       <div class="col-xl-6">
         <label for="">Location</label>
-        <input class="input-design" type="text">
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="location"
+          >
       </div>
       <div class="col-xl-6">
         <label for="">Full Name</label>
-        <input class="input-design" type="text">
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="fullName"
+          >
       </div>
       <div class="col-xl-6">
         <label for="">Email Address</label>
-        <input class="input-design" type="email">
+        <input 
+          class="input-design" 
+          type="email"
+          formControlName="emailAddress"
+          >
       </div>
       <div class="col-xl-12">
         <div class="bio">
           <h4>Short Bio</h4>
-          <span class="condition">Word length restriction from the backend</span>
+          <!-- <span class="condition">Word length restriction from the backend</span> -->
         </div>
-        <textarea class="text-area" name="" id="" cols="30" rows="10"></textarea>
+        <textarea 
+            class="text-area" 
+            name="" 
+            formControlName="shortBio"
+            id="" 
+            cols="30" 
+            rows="10">
+        </textarea>
       </div>
       <div class="col-xl-12">
         <h4 class="profile-ctg">Add your talent</h4>
-        <div class="category">
-          <span>Acting</span>
-          <span>Drumming</span>
-          <span>Contortion</span>
-          <span>Acting</span>
-          <a href="#"><span><i class="fas fa-plus"></i></span></a>
-          <select name="" id="">
-            <option value="">Start typing to search / appears after clicking plus</option>
-            <option value="">Start typing to search / appears after clicking plus</option>
-            <option value="">Start typing to search / appears after clicking plus</option>
-            <option value="">Start typing to search / appears after clicking plus</option>
-            <option value="">Start typing to search / appears after clicking plus</option>
-          </select>
-        </div>
+          <!-- untapped pool category section -->
+
+          <!-- <app-categories></app-categories> -->
+
+          <!-- untapped pool category section -->
       </div>
       <div class="col-xl-6">
         <label for="">Instagram profile link</label>
-        <input class="input-design" type="text">
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="instagram"
+          >
       </div>
       <div class="col-xl-6">
         <label for="">Facebook profile link</label>
-        <input class="input-design" type="text">
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="facebook"
+          >
       </div>
       <div class="col-xl-6">
         <label for="">Twitter Profile link</label>
-        <input class="input-design last" type="text">
+        <input 
+          class="input-design last" 
+          type="text"
+          formControlName="twitter"
+          >
       </div>
       <div class="col-xl-6">
-        <label for="">Youtube profile link</label>
-        <input class="input-design last" type="text">
-      </div>
-      <div class="col-xl-12">
-        <div class="social-media">
-          <a href="#">+ Add another social media profile link</a>
+          <label for="">Youtube Profile link</label>
+          <input 
+            class="input-design last" 
+            type="text"
+            formControlName="youtube"
+            >
         </div>
-        <button class="box-btn profile-save">SAVE CHANGES</button>
+      <div formArrayName="additionalSocial">
+        <div class="row social-media">
+            <div class="col-xl-6" *ngFor="let additionalControl of profileForm.get('additionalSocial').controls; let  i = index">
+                <label for="">Additional link</label>
+                <input 
+                  class="input-design last" 
+                  type="text"
+                  [formControlName]="i"
+                  >
+            </div>
+            <div class="col-xl-12">
+                <div class="social-media">
+                  <a style="cursor: pointer" (click)="onAddAdditionalSocial()">+ Add another social media profile link</a>
+                </div>
+                <button 
+                  class="box-btn profile-save" 
+                  [disabled]="!profileForm.valid"
+                  (click)="onUpdateProfile()"
+                  type="button">
+                  SAVE CHANGES
+                </button>
+            </div>
+        </div>
       </div>
     </div>
   </form>

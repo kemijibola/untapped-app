@@ -6,6 +6,11 @@ import { SettingsComponent } from './settings/settings.component';
 import { TalentRoutingModule } from './talent-routing.module';
 import { TabsComponent } from '../shared/tabs/tabs.component';
 import { CommonModule } from '@angular/common';
+import { CategoriesComponent } from './../shared/categories/categories.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { TabsReducers } from '../store/global/tabs/tabs.reducers';
+
 
 @NgModule({
     declarations: [
@@ -13,11 +18,18 @@ import { CommonModule } from '@angular/common';
         PortfolioComponent,
         SettingsComponent,
         TalentComponent,
-        TabsComponent
+        TabsComponent,
+        CategoriesComponent
     ],
     imports: [
         TalentRoutingModule,
-        CommonModule
+        CommonModule,
+        ReactiveFormsModule,
+        StoreModule.forFeature('tabs', TabsReducers)
+    ],
+    exports: [
+        CategoriesComponent,
+        TabsComponent
     ]
 })
 

@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-xl-12">
         <ul class="nav nav-tabs mb-30 all-tablinks" id="myTab" role="tablist">
-          <li class="nav-item" *ngFor="let tab of tabs" (click)="selectTab(tab)">
+          <li class="nav-item" *ngFor="let tab of tabs">
             <a class="nav-link" [class.active]="tab.active" [routerLink]="['./']"
               fragment="{{tab.tag}}">
               {{tab.title}}
@@ -15,6 +15,7 @@
     </div>
     <!-- show content of tab here  -->
     <div class="tab-content fix">
+      <!-- Some content -->
       <app-profile *ngIf="activeTab.tag === 'profile'"></app-profile>
       <app-portfolio *ngIf="activeTab.tag === 'portfolio'"></app-portfolio>
       <app-settings *ngIf="activeTab.tag === 'settings'"></app-settings>

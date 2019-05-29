@@ -6,11 +6,11 @@ import * as fromTab from './global/tabs/tabs.reducers';
 export interface AppState {
     auth: fromAuth.State;
     userTypes: fromUserType.State;
-    tabs: fromTab.State;
+    // tabs: fromTab.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
     auth: fromAuth.authReducer,
-    userTypes: fromUserType.userTypeReducer,
-    tabs: fromTab.TabsReducers
+    userTypes: fromUserType.userTypeReducer
+    // tabs: fromTab.TabsReducers
 };

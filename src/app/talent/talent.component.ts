@@ -11,18 +11,18 @@ import * as TabsAction from '../store/global/tabs/tabs.actions';
   styleUrls: ['./talent.component.css']
 })
 export class TalentComponent implements OnInit {
-  fragment;
   tabs: Tab[];
 
-  constructor(private router: Router, private route: ActivatedRoute, private store: Store<fromTabs.AppState>) {
+  constructor(private store: Store<fromTabs.AppState>) {
     this.tabs = [
-      {index: 0, title: 'Profile', tag: 'profile', active: false },
+      { index: 0, title: 'Profile', tag: 'profile', active: false },
       {index: 1, title: 'Portfolio', tag: 'portfolio', active: false },
       {index: 2, title: 'Settings', tag: 'settings', active: false }
     ];
   }
 
   ngOnInit() {
+    // set up tabs with default properties
     this.store.dispatch(new TabsAction.AddTabs({tabs: this.tabs}));
   }
 
