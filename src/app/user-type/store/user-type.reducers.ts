@@ -6,9 +6,7 @@ export interface State {
     selectedUserType: string;
 }
 const initialState: State = {
-    userTypes: [
-        new UserType('', '', '')
-    ],
+    userTypes: [],
     selectedUserType: ''
 };
 

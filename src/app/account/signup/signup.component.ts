@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
 import { emailAsyncValidator } from '../async-email.validator';
 import { AuthService } from 'src/app/services/auth.service';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import * as AuthActions from '../store/auth.actions';
 import * as fromUserType from '../../user-type/store/user-type.reducers';
+import { take, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
   signupForm: FormGroup;
   time = 500;
   emailPattern = '^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
   selectedUserType = '';
+  ngDestroyed = new Subject();
 
   constructor(private store: Store<fromApp.AppState>,
     private authService: AuthService,
@@ -32,14 +34,20 @@ export class SignupComponent implements OnInit {
       'password': new FormControl(null, Validators.compose([Validators.required, Validators.minLength(8)])),
       'terms': new FormControl(null, Validators.required)
       });
-
-      this.store.select('userTypes')
-      .subscribe((userTypeState: fromUserType.State) => {
-         this.selectedUserType = userTypeState.selectedUserType;
-       });
   }
 
+  ngAfterContentInit() {
+    this.store
+    .pipe(
+      select('userTypes'),
+      takeUntil(this.ngDestroyed)
+    )
+    .subscribe((userTypeState: fromUserType.State) => {
+       this.selectedUserType = userTypeState.selectedUserType;
+     });
+  }
   onSubmit() {
+    console.log(this.selectedUserType);
     const name: string = this.signupForm.controls['name'].value;
     const email: string = this.signupForm.controls['email'].value;
     const password: string = this.signupForm.controls['password'].value;
@@ -51,6 +59,11 @@ export class SignupComponent implements OnInit {
       audience: 'http://127.0.0.1:4200'
     };
     this.store.dispatch(new AuthActions.DoSignUp(payload));
+  }
+
+  ngOnDestroy() {
+    this.ngDestroyed.next();
+    this.ngDestroyed.complete();
   }
 
 }

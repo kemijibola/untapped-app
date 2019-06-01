@@ -1,9 +1,5 @@
 import { AppTab, Tab } from 'src/app/models';
 import * as TabsAction from './tabs.actions';
-
-export interface FeatureState {
-    tabs: State;
-}
 export interface State {
     tabs: AppTab[];
 }

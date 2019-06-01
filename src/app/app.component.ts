@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as fromApp from './store/app.reducers';
 import * as UserTypeActions from './user-type/store/user-type.actions';
+import * as fromUserType from './user-type/store/user-type.reducers';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,14 +21,13 @@ import * as UserTypeActions from './user-type/store/user-type.actions';
 export class AppComponent implements OnInit {
   title = 'untapped-app';
   ngOnInit() {
-    // this.onFetchUserTypes();
+    this.onFetchUserTypes();
+  }
+  constructor(@Inject(DOCUMENT) document, private store: Store<fromUserType.State>) { }
+
+  onFetchUserTypes() {
     this.store.dispatch(new UserTypeActions.FetchUserTypes());
   }
-  constructor(@Inject(DOCUMENT) document, private store: Store<fromApp.AppState>) {}
-
-  // onFetchUserTypes() {
-  //   this.store.dispatch(new UserTypeActions.FetchUserTypes());
-  // }
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(e) {

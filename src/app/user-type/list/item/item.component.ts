@@ -1,10 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as UserTypeActions from '../../store/user-type.actions';
 import * as fromApp from '../../../store/app.reducers';
 import * as fromUserType from '../../store/user-type.reducers';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-type-item',
@@ -20,21 +22,24 @@ export class ItemComponent implements OnInit, OnDestroy {
     Professional: 'assets/img/i3.svg',
     Audience: 'assets/img/audience.svg'
   };
+  ngDestroyed = new Subject();
 
   constructor(private store: Store<fromApp.AppState>) { }
   ngOnInit() {
-
     this.userTypesState = this.store.select('userTypes');
 
-    this.store.select('userTypes')
-   .subscribe((userTypeState: fromUserType.State) => {
+    this.store
+    .pipe(
+      select('userTypes'),
+      takeUntil(this.ngDestroyed)
+    )
+    .subscribe((userTypeState: fromUserType.State) => {
       this.selectedUserType = userTypeState.selectedUserType;
     });
 
     this.userTypeForm = new FormGroup({
       'typeOfUser': new FormControl(this.selectedUserType, Validators.required)
     });
-
   }
 
   onClick(id: string) {
@@ -43,7 +48,10 @@ export class ItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // component clean up
     this.store.dispatch(new UserTypeActions.RemoveSelectedUserType());
+    this.ngDestroyed.next();
+    this.ngDestroyed.complete();
   }
 
 }

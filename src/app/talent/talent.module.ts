@@ -24,8 +24,7 @@ import { TabsReducers } from '../store/global/tabs/tabs.reducers';
     imports: [
         TalentRoutingModule,
         CommonModule,
-        ReactiveFormsModule,
-        StoreModule.forFeature('tabs', TabsReducers)
+        ReactiveFormsModule
     ],
     exports: [
         CategoriesComponent,

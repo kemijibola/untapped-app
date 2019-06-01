@@ -4,6 +4,7 @@ import { Tab, AppTab } from '../models';
 import { Store } from '@ngrx/store';
 import * as fromTabs from '../store/app.reducers';
 import * as TabsAction from '../store/global/tabs/tabs.actions';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-talent',
@@ -13,7 +14,6 @@ import * as TabsAction from '../store/global/tabs/tabs.actions';
 export class TalentComponent implements OnInit, OnDestroy {
   tab: AppTab;
   tab2: AppTab;
-
   componentName = 'Talent';
 
   constructor(private store: Store<fromTabs.AppState>) {
@@ -26,20 +26,11 @@ export class TalentComponent implements OnInit, OnDestroy {
         { index: 2, title: 'Settings', tag: 'settings', active: false }
       ]
     };
-
-    this.tab2 = {
-      name: 'Second',
-      tabs: [
-        { index: 0, title: 'Gigs', tag: 'gigs', active: false },
-        { index: 1, title: 'Sent Gigs', tag: 'sentgigs', active: false }
-      ]
-    };
   }
 
   ngOnInit() {
     // set up tabs with default properties
     this.store.dispatch(new TabsAction.AddTab({tab: this.tab}));
-    this.store.dispatch(new TabsAction.AddTab({tab: this.tab2}));
   }
 
   ngOnDestroy() {

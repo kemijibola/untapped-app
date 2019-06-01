@@ -3,6 +3,7 @@ import { Tab, AppTab } from 'src/app/models';
 import * as TabsAction from '../../store/global/tabs/tabs.actions';
 import { Store, select } from '@ngrx/store';
 import * as fromTabs from '../../store/global/tabs/tabs.reducers';
+import * as fromShared from '../shared.reducers';
 import { Router, ActivatedRoute } from '@angular/router';
 import { take, count, switchMap, withLatestFrom, tap, map, filter } from 'rxjs/operators';
 import { selectTabList } from '../../store/global/tabs/tabs.selectors';
@@ -23,15 +24,15 @@ export class TabsComponent implements OnInit, AfterContentInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private store: Store<fromTabs.FeatureState>) {}
+    private store: Store<fromShared.SharedState>) {}
 
   ngOnInit() {
     this.store
     .pipe(
-        select('tabs')
+        select('shared')
       )
     .subscribe(val => {
-      this.talentTab = val.tabs.filter(x => x.name === this.appTabName)[0];
+      this.talentTab = val['tabs'].tabs.filter(x => x.name === this.appTabName)[0];
     });
   }
 

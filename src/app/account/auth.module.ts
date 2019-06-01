@@ -23,7 +23,7 @@ import { SignupSuccessComponent } from './signup-success/signup-success.componen
     ],
     exports: [
         AuthRoutingModule
-    ]
+    ],
 })
 export class AuthModule {
 

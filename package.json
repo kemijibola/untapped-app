@@ -28,6 +28,7 @@
     "@ngx-pwa/local-storage": "^6.2.3",
     "angular-animations": "0.0.9",
     "core-js": "^2.5.4",
+    "fstream": "^1.0.12",
     "jquery": "^3.4.1",
     "ngx-owl-carousel": "^2.0.7",
     "owl.carousel": "^2.3.4",
