@@ -5,6 +5,8 @@ import { StoreModule } from '@ngrx/store';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from './../environments/environment';
+import { APP_INITIALIZER } from '@angular/core';
+import { load } from './helper/app-initializer.helper';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -15,6 +17,8 @@ import { UserTypeEffects } from './user-type/store/user-type.effects';
 import { AuthEffects } from './account/store/auth.effects';
 import { ErrorEffects } from './store/global/error/error-effects';
 import { SharedModule } from './shared/shared.module';
+import { HttpClient } from '@angular/common/http';
+import { ConfigurationService } from './services/configuration.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,15 @@ import { SharedModule } from './shared/shared.module';
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [],
+  providers: [{
+      provide: APP_INITIALIZER,
+      useFactory: load,
+      deps: [
+        HttpClient,
+        ConfigurationService
+      ],
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

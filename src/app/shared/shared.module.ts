@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { sharedReducers } from './shared.reducers';
 
 @NgModule({
-    declarations: [
-    ],
     imports: [
-        CommonModule
-    ],
-    exports: [
+        StoreModule.forFeature('shared', sharedReducers)
     ]
 })
 

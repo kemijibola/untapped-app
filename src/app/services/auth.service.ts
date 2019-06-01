@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { User } from '../models/account/user';
-import * as fromApp from '../store/app.reducers';
-import { Store, select } from '@ngrx/store';
-import { map, tap, takeUntil, switchMap } from 'rxjs/operators';
-import * as fromUserType from '../user-type/store/user-type.reducers';
 import { Result } from '../models';
+import { ConfigurationService } from './configuration.service';
 @Injectable()
 export class AuthService {
 
-    private BASE_URI = 'http://127.0.0.1:9000';
+    private BASE_URI = '';
 
-    constructor(private http: HttpClient, private store: Store<fromApp.AppState>) {}
+    constructor(private http: HttpClient, private config: ConfigurationService) {
+        this.BASE_URI = this.config.baseUrl;
+    }
 
     signUp(name: string, email: string, password: string, user_type: string, audience: string): Observable<Result> {
         const url = `${this.BASE_URI}/signup`;
