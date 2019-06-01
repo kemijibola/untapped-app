@@ -13,9 +13,11 @@ const initialState: State = {
 
 export function profileReducer(state= initialState, action: ProfileTypeActions.ProfileTypeActions) {
     switch (action.type) {
-        case ProfileTypeActions.UPDATE_PROFILE:
+        case ProfileTypeActions.SET_PROFILE:
             return {
-
+                ...state,
+                profile: Object.assign(state.profile, action.payload),
+                profileImage: Object.assign(state.profileImage, action.payload.profile['profile_picture'])
             };
     }
 

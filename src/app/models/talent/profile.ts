@@ -7,5 +7,7 @@ export interface IProfile {
     phone_numbers: string[];
     short_bio: string;
     categories: ICategory[];
+    social_media: string[];
+    profile_picture: string;
     physical_stats: IPhysicalAttribute;
 }
