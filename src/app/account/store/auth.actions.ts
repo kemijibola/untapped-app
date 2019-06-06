@@ -6,6 +6,7 @@ export const DO_SIGNIN = 'DO_SIGNIN';
 export const TOKEN_CHANGED = 'TOKEN_CHANGED';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
+export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const LOGOUT = 'LOGOUT';
 export const SET_TOKEN = 'SET_TOKEN';
@@ -23,7 +24,7 @@ export class DoSignUp implements Action {
 }
 export class DoSignIn implements Action {
     readonly type = DO_SIGNIN;
-    constructor(public payload: { email: string, password: string }) {}
+    constructor(public payload: { email: string, password: string, audience: string }) {}
 }
 export class SignUpSuccess implements Action {
     readonly type = SIGNUP_SUCCESS;
@@ -36,7 +37,7 @@ export class LogOut implements Action {
 }
 export class SetToken implements Action {
     readonly type = SET_TOKEN;
-    constructor(public payload: { token: string, id: string, user_type: string }) {}
+    constructor(public payload: { token: string, permissions: [], user: string }) {}
 }
 // this might also work for LogOut Action
 export class ExpireToken implements Action {
@@ -55,10 +56,15 @@ export class SignUpFailure implements Action {
     constructor(public payload: { message: string}) {}
 }
 
+export class SignInFailure implements Action {
+    readonly type = SIGNIN_FAILURE;
+    constructor(public payload: { message: string }) {}
+}
+
 export type AuthActions =
 SignUpSuccess | SignInSuccess |
 LogOut | SetToken |
 UpdateToken | DoSignUp |
 SetNewUserEmail | DoSignIn |
-SignUpFailure;
+SignUpFailure | SignInFailure;
 

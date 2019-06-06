@@ -1,6 +1,5 @@
 import { IProfile } from 'src/app/models';
-import * as ProfileTypeActions from './profile.actions';
-
+import * as ProfileActions from './profile.actions';
 
 export interface State {
     profile: IProfile;
@@ -11,9 +10,9 @@ const initialState: State = {
     profileImage: 'assets/img/profile/profile-2.png'
 };
 
-export function profileReducer(state= initialState, action: ProfileTypeActions.ProfileTypeActions) {
+export function profileReducer(state= initialState, action: ProfileActions.ProfileActions) {
     switch (action.type) {
-        case ProfileTypeActions.SET_PROFILE:
+        case ProfileActions.SET_PROFILE:
             return {
                 ...state,
                 profile: Object.assign(state.profile, action.payload),

@@ -13,7 +13,6 @@ import { Subject } from 'rxjs';
 })
 export class TalentComponent implements OnInit, OnDestroy {
   tab: AppTab;
-  tab2: AppTab;
   componentName = 'Talent';
 
   constructor(private store: Store<fromTabs.AppState>) {

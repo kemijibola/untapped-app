@@ -2,12 +2,8 @@ import { Component, OnInit, AfterContentInit, Input } from '@angular/core';
 import { Tab, AppTab } from 'src/app/models';
 import * as TabsAction from '../../store/global/tabs/tabs.actions';
 import { Store, select } from '@ngrx/store';
-import * as fromTabs from '../../store/global/tabs/tabs.reducers';
 import * as fromShared from '../shared.reducers';
 import { Router, ActivatedRoute } from '@angular/router';
-import { take, count, switchMap, withLatestFrom, tap, map, filter } from 'rxjs/operators';
-import { selectTabList } from '../../store/global/tabs/tabs.selectors';
-import { pipe } from 'rxjs';
 
 
 @Component({
@@ -19,6 +15,7 @@ export class TabsComponent implements OnInit, AfterContentInit {
   talentTab: AppTab;
   activeTab: Tab;
   fragment: string;
+  // when calling tabs, send default toFragment
   toFragment = 'profile';
   @Input() appTabName: string;
   constructor(
@@ -45,6 +42,7 @@ export class TabsComponent implements OnInit, AfterContentInit {
     });
   }
 
+  // Make Tab component more resuable
   private setActiveTabByFragment() {
     // This is to check if fragment matches any of defined tabs
     let matchedFragment = '';

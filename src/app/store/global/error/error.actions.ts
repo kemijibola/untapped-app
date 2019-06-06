@@ -1,10 +1,16 @@
 import { Action } from '@ngrx/store';
 
-export const EFFECT_ERROR = 'EFFECT_ERROR';
+export const SET_EXCEPTION = 'SET_EXCEPTION';
+export const EXCEPTION_OCCURRED = 'EXCEPTION_OCCURRED';
 
-export class EffectError implements Action {
-    readonly type = EFFECT_ERROR;
-    constructor(public payload: { message: string, type: string}) {}
+export class SetException implements Action {
+    readonly type = SET_EXCEPTION;
+    constructor(public payload: { message: string }) {}
 }
 
-export type ErrorActions = EffectError;
+export class ExceptionOccurred implements Action {
+    readonly type = EXCEPTION_OCCURRED;
+    constructor(public payload: { message: string }) {}
+}
+
+export type ErrorActions = SetException | ExceptionOccurred;

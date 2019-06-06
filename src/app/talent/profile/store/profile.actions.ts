@@ -31,7 +31,7 @@ export class SetProfileImage implements Action {
     constructor(public payload: { image: string }) {}
 }
 
-export type ProfileTypeActions =
+export type ProfileActions =
 UpdateProfile | FetchProfile |
 SetProfile | UpdateProfileImage |
 SetProfileImage;

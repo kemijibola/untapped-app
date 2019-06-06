@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as AuthActions from '../store/auth.actions';
-
 import { AuthService } from 'src/app/services/auth.service';
 import { User, Result, Register, Error } from 'src/app/models';
-import { map, filter, mergeMap, tap, catchError } from 'rxjs/operators';
-import { Observable, pipe, of } from 'rxjs';
+import { map,  mergeMap,  catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EffectError } from 'src/app/store/global/error/error.actions';
+import {  Router } from '@angular/router';
+import * as ErrorActions from '../../store/global/error/error.actions';
 import 'rxjs/add/operator/do';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducers';
 
 @Injectable()
 export class AuthEffects {
@@ -28,7 +29,10 @@ export class AuthEffects {
                     };
                 }
             }),
-            catchError(error => of(new EffectError(error)))
+            catchError(error => of({
+                type: ErrorActions.EXCEPTION_OCCURRED,
+                payload: error
+            }))
         );
 
     @Effect({dispatch: false})
@@ -38,8 +42,43 @@ export class AuthEffects {
             this.router.navigate(['/auth/signup-success']);
         });
 
+    @Effect()
+    authSignIn = this.actions$
+        .pipe(ofType(AuthActions.DO_SIGNIN))
+        .switchMap((action: AuthActions.DoSignIn) => {
+            const { email, password, audience } = action.payload;
+            return this.authService.signin(email, password, audience);
+        })
+        .pipe(
+            mergeMap((res) => {
+                // call actions set token and signin success
+                if (res.status) {
+                    return [
+                        {
+                            type: AuthActions.SIGNIN_SUCCESS
+                        },
+                        {
+                            type: AuthActions.SET_TOKEN,
+                            payload: res.data
+                        }
+                    ];
+                }
+                return [
+                    {
+                        type: AuthActions.SIGNIN_FAILURE,
+                        payload: res.message
+                    }
+                ];
+            }),
+            catchError((error, caught) => {
+                this.store.dispatch(new ErrorActions.ExceptionOccurred(error));
+                return caught;
+            }
+        ));
+
     constructor(private actions$: Actions,
         private authService: AuthService,
+        private store: Store<fromApp.AppState>,
         protected localStorage: LocalStorage,
         private router: Router) {}
 }

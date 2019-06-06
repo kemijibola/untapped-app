@@ -27,6 +27,7 @@
     "@ngrx/store-devtools": "^7.4.0",
     "@ngx-pwa/local-storage": "^6.2.3",
     "angular-animations": "0.0.9",
+    "bcryptjs": "^2.4.3",
     "core-js": "^2.5.4",
     "fstream": "^1.0.12",
     "jquery": "^3.4.1",

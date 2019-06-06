@@ -1,73 +1,56 @@
-        <!-- Sign-UP Area Start -->
-        <div class="sign-up-area fx-padding pt-120 pb-100">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="left-wrapper">
-                            <div class="head text-left mb-45">
-                                <span>Sign Up to</span>
-                                <h3>Join the Community</h3>
-                            </div>
-                            <!-- Type of user list -->
-                            <app-user-type-list></app-user-type-list>
-                            <!-- Type of user list -->
-                        </div>
+<!-- Sign-UP Area Start -->
+<div class="sign-up-area fx-padding pt-120 pb-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="left-wrapper">
+                    <div class="head text-left mb-45">
+                        <span>Sign Up to</span>
+                        <h3>Join the Community</h3>
                     </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" [formGroup]="signupForm">
-                            <div class="login-form mt-40" action="#">
-                                <label for="">
-                                <span 
-                                    class="error-block"
-                                    *ngIf="!signupForm.get('name').valid && signupForm.get('name').touched">
-                                    Please enter a valid
-                                </span>
-                                    Name
-                                </label>
-                                <input 
-                                    class="input-design mb-45"
-                                    formControlName="name"
-                                    type="text">
-                                <label for="">
-                                    <span 
-                                        class="error-block"
-                                        *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched && !signupForm.get('email').hasError('emailExist')">
-                                        Please enter a valid
-                                    </span>
-                                Email
-                                    <span 
-                                        class="error-block"
-                                        *ngIf="signupForm.get('email').hasError('emailExist')"
-                                        >
-                                        already taken 
-                                    </span>
-                                </label>
-                                <input 
-                                    class="input-design mb-45" 
-                                    formControlName="email"
-                                    type="email">
-                                <label for="">
-                                <span 
-                                    class="error-block"
-                                    *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched">
-                                    Please enter a valid
-                                </span>
-                                    Password
-                                </label>
-                                <input 
-                                    class="input-design" 
-                                    formControlName="password"
-                                    type="password">
-                                <label class="form round">
-                                    <input type="checkbox" 
-                                    formControlName="terms"
-                                    >
-                                    I agree to everything, so help me God amen.
-                                    <span class="checkmark"></span>
-                                </label>
-                                <button class="box-btn login-btn mt-50" (click)="onSubmit()">SignUp</button>
-                            </div>
-                    </div>
+                    <!-- Type of user list -->
+                    <app-user-type-list></app-user-type-list>
+                    <!-- Type of user list -->
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" [formGroup]="signupForm">
+                <div class="login-form mt-40" action="#">
+                    <label for="">
+                        <span class="error-block"
+                            *ngIf="!signupForm.get('name').valid && signupForm.get('name').touched">
+                            Please enter a valid
+                        </span>
+                        Name
+                    </label>
+                    <input class="input-design mb-45" formControlName="name" type="text">
+                    <label for="">
+                        <span class="error-block"
+                            *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched && !signupForm.get('email').hasError('emailExist')">
+                            Please enter a valid
+                        </span>
+                        Email
+                        <span class="error-block" *ngIf="signupForm.get('email').hasError('emailExist')">
+                            already taken
+                        </span>
+                    </label>
+                    <input class="input-design mb-45" formControlName="email" type="email">
+                    <label for="">
+                        <span class="error-block"
+                            *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched">
+                            Please enter a valid
+                        </span>
+                        Password
+                    </label>
+                    <input class="input-design" formControlName="password" type="password">
+                    <label class="form round">
+                        <input type="checkbox" formControlName="terms">
+                        I agree to everything, so help me God amen.
+                        <span class="checkmark"></span>
+                    </label>
+                    <button class="box-btn login-btn mt-50" (click)="onSubmit()">SignUp</button>
                 </div>
             </div>
         </div>
-        <!-- Sign-UP Area End -->
+    </div>
+</div>
+<!-- Sign-UP Area End -->

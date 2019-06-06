@@ -3,19 +3,19 @@ import { Register } from '../../models/';
 
 export interface State {
     authenticated: boolean;
-    user: {
+    authData: {
         token: string;
-        id: string;
-        user_type: string
+        permissions: [];
+        user: string
     };
     errorMessage: string;
 }
 const initialState: State = {
     authenticated: false,
-    user: {
+    authData: {
         token: '',
-        id: '',
-        user_type: ''
+        permissions: [],
+        user: ''
     },
     errorMessage: ''
 };
@@ -39,8 +39,8 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 ...state,
                 user: {
                     token: action.payload.token,
-                    id: action.payload.id,
-                    user_type: action.payload.user_type
+                    user: action.payload.user,
+                    permissions: action.payload.permissions
                 }
             };
         case (AuthActions.LOGOUT):
@@ -50,6 +50,11 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
                 authenticated: false
             };
         case (AuthActions.SIGNUP_FAILURE):
+            return {
+                ...state,
+                errorMessage: action.payload.message
+            };
+        case (AuthActions.SIGNIN_FAILURE):
             return {
                 ...state,
                 errorMessage: action.payload.message

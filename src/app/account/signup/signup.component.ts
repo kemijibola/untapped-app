@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Subject } from 'rxjs';
 import * as AuthActions from '../store/auth.actions';
 import * as fromUserType from '../../user-type/store/user-type.reducers';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup',
@@ -26,12 +26,12 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
     private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.signupForm = this.formBuilder.group({
+    this.signupForm = new FormGroup({
       'name': new FormControl(null, Validators.required),
-      'email': new FormControl(null, Validators.compose([ Validators.required, Validators.email, Validators.pattern(this.emailPattern)]),
+      'email': new FormControl(null, Validators.compose([ Validators.required, Validators.email]),
         emailAsyncValidator(500, this.authService).bind(this)
         ),
-      'password': new FormControl(null, Validators.compose([Validators.required, Validators.minLength(8)])),
+      'password': new FormControl(null, Validators.compose([Validators.required, Validators.minLength(6)])),
       'terms': new FormControl(null, Validators.required)
       });
   }
@@ -47,7 +47,6 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
      });
   }
   onSubmit() {
-    console.log(this.selectedUserType);
     const name: string = this.signupForm.controls['name'].value;
     const email: string = this.signupForm.controls['email'].value;
     const password: string = this.signupForm.controls['password'].value;
