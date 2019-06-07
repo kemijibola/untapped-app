@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthService } from '../services/auth.service';
 import { UserTypeService } from '../services/user-type.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         DropDownComponent
     ],
     imports: [
+        CommonModule,
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule

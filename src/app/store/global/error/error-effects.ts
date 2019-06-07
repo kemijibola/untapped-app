@@ -10,12 +10,21 @@ import * as fromError from './error.reducers';
 export class ErrorEffects {
     @Effect()
     onGlobalError = this.actions$
-        .pipe(ofType(ErrorActions.EXCEPTION_OCCURRED))
+        .pipe(ofType(ErrorActions.ERROR_OCCURRED))
         .switchMap((error) => {
             return of({
-                type: ErrorActions.SET_EXCEPTION,
-                payload: error
+                type: ErrorActions.SET_ERROR,
+                payload: error['payload']
             });
-        });
+    });
+
+    // display snackbar using this action
+
+    // @Effect()
+    // onErrorAction = this.actions$
+    //     .pipe(ofType(ErrorActions.SET_ERROR))
+    //     .switchMap(() => {
+
+    //     })
     constructor(private actions$: Actions) {}
 }

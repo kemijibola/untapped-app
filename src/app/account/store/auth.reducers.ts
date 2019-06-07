@@ -1,23 +1,13 @@
 import * as AuthActions from './auth.actions';
-import { Register } from '../../models/';
+import { Register, IAuthData } from '../../models/';
 
 export interface State {
     authenticated: boolean;
-    authData: {
-        token: string;
-        permissions: [];
-        user: string
-    };
-    errorMessage: string;
+    userData: IAuthData;
 }
 const initialState: State = {
     authenticated: false,
-    authData: {
-        token: '',
-        permissions: [],
-        user: ''
-    },
-    errorMessage: ''
+    userData:  null
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
@@ -25,39 +15,23 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
             return {
                 ...state,
                 authenticated: false,
-                token: null,
-                errorMessage: null
+                userData: null
             };
         case (AuthActions.SIGNIN_SUCCESS):
             return {
                 ...state,
-                authenticated: true,
-                errorMessage: null
+                authenticated: true
             };
         case (AuthActions.SET_TOKEN):
             return {
                 ...state,
-                user: {
-                    token: action.payload.token,
-                    user: action.payload.user,
-                    permissions: action.payload.permissions
-                }
+                userData: action.payload.authData
             };
         case (AuthActions.LOGOUT):
             return {
                 ...state,
-                token: null,
+                userData: null,
                 authenticated: false
-            };
-        case (AuthActions.SIGNUP_FAILURE):
-            return {
-                ...state,
-                errorMessage: action.payload.message
-            };
-        case (AuthActions.SIGNIN_FAILURE):
-            return {
-                ...state,
-                errorMessage: action.payload.message
             };
         default:
             return state;

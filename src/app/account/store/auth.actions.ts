@@ -1,13 +1,11 @@
 import { Action } from '@ngrx/store';
-import { User, Result } from 'src/app/models';
+import { IAuthData } from 'src/app/models';
 
 export const DO_SIGNUP = 'DO_SIGNUP';
 export const DO_SIGNIN = 'DO_SIGNIN';
 export const TOKEN_CHANGED = 'TOKEN_CHANGED';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
-export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
-export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const LOGOUT = 'LOGOUT';
 export const SET_TOKEN = 'SET_TOKEN';
 export const EXPIRE_TOKEN = 'EXPIRE_TOKEN';
@@ -37,7 +35,7 @@ export class LogOut implements Action {
 }
 export class SetToken implements Action {
     readonly type = SET_TOKEN;
-    constructor(public payload: { token: string, permissions: [], user: string }) {}
+    constructor(public payload: { authData: IAuthData }) {}
 }
 // this might also work for LogOut Action
 export class ExpireToken implements Action {
@@ -51,20 +49,10 @@ export class SetNewUserEmail implements Action {
     readonly type = SET_NEW_USER_EMAIL;
     constructor(public payload: string) {}
 }
-export class SignUpFailure implements Action {
-    readonly type = SIGNUP_FAILURE;
-    constructor(public payload: { message: string}) {}
-}
-
-export class SignInFailure implements Action {
-    readonly type = SIGNIN_FAILURE;
-    constructor(public payload: { message: string }) {}
-}
 
 export type AuthActions =
 SignUpSuccess | SignInSuccess |
 LogOut | SetToken |
 UpdateToken | DoSignUp |
-SetNewUserEmail | DoSignIn |
-SignUpFailure | SignInFailure;
+SetNewUserEmail | DoSignIn;
 

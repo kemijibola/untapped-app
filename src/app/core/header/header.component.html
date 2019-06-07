@@ -52,7 +52,6 @@
                   routerLink="/"
                   routerLinkActive="visited"
                   [routerLinkActiveOptions]="{exact: true}"
-                  (click)="onClick('home')"
                   ><svg xmlns="http://www.w3.org/2000/svg" 
                   appActiveLink
                   width="10.83" height="12" viewBox="0 0 10.83 12">
@@ -80,7 +79,7 @@
                       </g>
                     </svg>
                     Talents</a></li>
-                <li><a (click)="onClick('professional')"
+                <li><a
                   routerLink="professionals"
                   appActiveLink
                   routerLinkActive="">
@@ -113,7 +112,8 @@
                     </svg>
                   Professionals</a></li>
                   <!-- authenticated user -->
-                  <!-- <li class="bell"><a href="#"><i class="far fa-bell"></i></a><span>4</span></li>
+                  <div *ngIf="(authState | async).authenticated">
+                  <li class="bell"><a href="#"><i class="far fa-bell"></i></a><span>4</span></li>
                   <li class="user"><img src="assets/img/contest/user.png" alt=""> 
                       <span>Ojo Lake</span>
                       <div class="drpdown">
@@ -131,13 +131,14 @@
                               <li><a href="#">Logout</a></li>
                           </ul>
                       </div>
-                  </li> -->
+                  </li>
+                </div>
                   <!-- authenticated user -->
               </ul>
             </nav>
           </div>
         </div>
-        <div class="col-lg-3 col-12 text-right">
+        <div class="col-lg-3 col-12 text-right"  *ngIf="!(authState | async).authenticated">
           <div class="menu-btn">
             <a routerLink="/auth/signin"
             routerLinkActive=""

@@ -13,15 +13,16 @@ const initialState: State = {
 
 export function errorReducer(state = initialState, action: ErrorActions.ErrorActions) {
     switch (action.type) {
-        case (ErrorActions.EXCEPTION_OCCURRED):
+        case (ErrorActions.ERROR_OCCURRED):
             return {
                 ...state,
                 message: action.payload
             };
-        case (ErrorActions.SET_EXCEPTION):
+        case (ErrorActions.SET_ERROR):
+            console.log(action.payload);
             return {
                 ...state,
-                message: action.payload.message
+                message: action.payload
             };
         default:
             return state;

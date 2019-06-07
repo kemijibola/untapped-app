@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as AuthActions from '../store/auth.actions';
 import { AuthService } from 'src/app/services/auth.service';
-import { User, Result, Register, Error } from 'src/app/models';
+import { Result, Register, Error } from 'src/app/models';
 import { map,  mergeMap,  catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { LocalStorage } from '@ngx-pwa/local-storage';
@@ -30,7 +30,7 @@ export class AuthEffects {
                 }
             }),
             catchError(error => of({
-                type: ErrorActions.EXCEPTION_OCCURRED,
+                type: ErrorActions.ERROR_OCCURRED,
                 payload: error
             }))
         );
@@ -65,7 +65,7 @@ export class AuthEffects {
                 }
                 return [
                     {
-                        type: AuthActions.SIGNIN_FAILURE,
+                        type: ErrorActions.SET_ERROR,
                         payload: res.message
                     }
                 ];
