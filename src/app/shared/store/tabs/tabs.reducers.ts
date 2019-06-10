@@ -1,5 +1,6 @@
 import { AppTab, Tab } from 'src/app/models';
 import * as TabsAction from './tabs.actions';
+
 export interface State {
     tabs: AppTab[];
 }
@@ -10,7 +11,7 @@ const initialState: State = {
 
 export function TabsReducers(state = initialState, action: TabsAction.TabsAction) {
     switch (action.type) {
-        case TabsAction.UPDATE_TAB:
+        case (TabsAction.UPDATE_TAB):
         const tabByBame = state.tabs.filter(x => x.name === action.payload.name)[0];
         const selectedTab = tabByBame.tabs[action.payload.tabIndex];
         const updateObj = {
@@ -30,17 +31,17 @@ export function TabsReducers(state = initialState, action: TabsAction.TabsAction
             ...state,
             tabs: [tabByBame]
         };
-        case TabsAction.ADD_TAB:
+        case (TabsAction.ADD_TAB):
             return {
                 ...state,
                 tabs: [...state.tabs, action.payload.tab]
             };
-        case TabsAction.ADD_TABS:
+        case (TabsAction.ADD_TABS):
             return {
                 ...state,
                 tabs: [...state.tabs, ...action.payload.tabs]
             };
-        case TabsAction.DESTROY_TAB:
+        case (TabsAction.DESTROY_TAB):
             return {
                 ...state,
                 tabs: []

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterContentInit, Input, OnDestroy } from '@angular/core';
 import { Tab, AppTab } from 'src/app/models';
-import * as TabsAction from '../../store/global/tabs/tabs.actions';
+import * as TabsAction from '../store/tabs/tabs.actions';
 import { Store, select } from '@ngrx/store';
 import * as fromShared from '../shared.reducers';
 import { Subject } from 'rxjs';

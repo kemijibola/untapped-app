@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IProfile, Result } from '../models';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProfileService {
@@ -9,7 +10,7 @@ export class ProfileService {
         this.BASE_URI = 'http://127.0.0.1:9000';
     }
 
-    updateProfile(data: IProfile) {
+    updateProfile(data: IProfile): Observable<Result> {
         const url = `${this.BASE_URI}/profiles`;
         return this.http.post<Result>(url, data);
     }

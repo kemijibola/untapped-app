@@ -5,6 +5,9 @@ import { pipe, of } from 'rxjs';
 import * as ProfileTypeActions from './profile.actions';
 import { IProfile, Result } from 'src/app/models';
 import { ProfileService } from 'src/app/services/profile.service';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../../store/app.reducers';
+import * as ErrorActions from '../../../store/global/error/error.actions';
 
 @Injectable()
 export class ProfileEffect {
@@ -21,9 +24,16 @@ export class ProfileEffect {
                     type: ProfileTypeActions.SET_PROFILE,
                     payload: res.data
                 };
+            }),
+            catchError((error, caught) => {
+                this.store.dispatch(new ErrorActions.ExceptionOccurred(error));
+                return caught;
             })
-            // catchError(error => of(new EffectError(error)))
         );
 
-    constructor(private action$: Actions, private profileService: ProfileService) {}
+    constructor(
+        private action$: Actions,
+        private profileService: ProfileService,
+        private store: Store<fromApp.AppState>
+        ) {}
 }

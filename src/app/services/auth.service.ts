@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Result } from '../models';
+import { Result, IAuthData } from '../models';
+import { LocalStorage } from '@ngx-pwa/local-storage';
 @Injectable()
 export class AuthService {
 
     private BASE_URI = '';
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        private localStorage: LocalStorage) {
         this.BASE_URI = 'http://127.0.0.1:9000';
     }
 
@@ -24,6 +27,10 @@ export class AuthService {
     findUserByEmail(prop): Observable<Result> {
         const url = `${this.BASE_URI}/users`;
         return this.http.get<Result>(`${url}/${prop}`);
+    }
+
+    getUserData(): Observable<IAuthData> {
+        return this.localStorage.getItem('authData');
     }
 
 }

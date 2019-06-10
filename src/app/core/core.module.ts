@@ -14,6 +14,9 @@ import { AuthService } from '../services/auth.service';
 import { UserTypeService } from '../services/user-type.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ProfileService } from '../services/profile.service';
+import { UploadService } from '../services/upload.service';
+import { AppFileInputDirective } from '../directives/file-multiple.directive';
 
 @NgModule({
     declarations: [
@@ -36,7 +39,9 @@ import { CommonModule } from '@angular/common';
     ],
     providers: [
         AuthService,
-        UserTypeService
+        UserTypeService,
+        ProfileService,
+        UploadService
     ]
 })
 export class CoreModule {}

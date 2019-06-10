@@ -6,7 +6,7 @@ import { ListComponent } from '../user-type/list/list.component';
 import { ItemComponent } from './../user-type/list/item/item.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { CommonModule } from '@angular/common';
-import { SignupSuccessComponent } from './signup-success/signup-success.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 @NgModule({
     declarations: [
@@ -14,7 +14,7 @@ import { SignupSuccessComponent } from './signup-success/signup-success.componen
         SignupComponent,
         ListComponent,
         ItemComponent,
-        SignupSuccessComponent
+        ConfirmEmailComponent
     ],
     imports: [
         CommonModule,

@@ -3,7 +3,6 @@ import * as ErrorActions from './error.actions';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { mergeMap, map, concatMap, mapTo } from 'rxjs/operators';
-import { STATUSCODE} from '../../../lib/constants';
 import * as fromError from './error.reducers';
 
 @Injectable()

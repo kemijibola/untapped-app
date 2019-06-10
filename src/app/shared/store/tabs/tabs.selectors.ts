@@ -1,6 +1,6 @@
 import { createSelector, Store } from '@ngrx/store';
 import * as fromTabs from './tabs.reducers';
-import * as fromShared from '../../../shared/shared.reducers';
+import * as fromShared from '../../shared.reducers';
 
 
 

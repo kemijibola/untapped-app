@@ -24,6 +24,7 @@ export class AuthEffects {
         .pipe(
             map((res: Result) => {
                 if (res.status) {
+                    this.router.navigate(['/auth/signup-success']);
                     return {
                         type: AuthActions.SIGNUP_SUCCESS
                     };
@@ -34,13 +35,6 @@ export class AuthEffects {
                 payload: error
             }))
         );
-
-    @Effect({dispatch: false})
-    authSignUpSuccess = this.actions$
-        .pipe(ofType(AuthActions.SIGNUP_SUCCESS))
-        .do(() => {
-            this.router.navigate(['/auth/signup-success']);
-        });
 
     @Effect()
     authSignIn = this.actions$
@@ -53,6 +47,8 @@ export class AuthEffects {
             mergeMap((res) => {
                 // call actions set token and signin success
                 if (res.status) {
+                    this.localStorage.setItem('authData', res.data);
+                    this.router.navigate(['/']);
                     return [
                         {
                             type: AuthActions.SIGNIN_SUCCESS

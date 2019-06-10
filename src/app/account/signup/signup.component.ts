@@ -21,9 +21,10 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
   selectedUserType = '';
   ngDestroyed = new Subject();
 
-  constructor(private store: Store<fromApp.AppState>,
-    private authService: AuthService,
-    private formBuilder: FormBuilder) {}
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private authService: AuthService
+    ) {}
 
   ngOnInit() {
     this.signupForm = new FormGroup({

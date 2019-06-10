@@ -7,16 +7,9 @@
       </div>
     </div>
     <div class="col-xl-12">
-      <div class="profile-pic-wrapper">
-        <div class="profile-pic">
-          <img src="assets/img/profile/profile-2.png" alt="">
-          <a href="#"><img src="assets/img/profile/cross.svg" alt="Cross-btn"></a>
-        </div>
-        <div class="pic-change">
-          <a class="btn-gray" href="#">Upload Picture</a>
-          <p>Size and dimension restriction from the backend</p>
-        </div>
-      </div>
+      <!-- profile picture section -->
+      <app-profile-picture></app-profile-picture>
+      <!-- profile picture section -->
     </div>
   </div>
   <form [formGroup]="profileForm">
@@ -47,6 +40,14 @@
       </div>
       <div class="col-xl-6">
         <label for="">Email Address</label>
+        <input 
+          class="input-design" 
+          type="email"
+          formControlName="emailAddress"
+          >
+      </div>
+      <div class="col-xl-6">
+        <label for="">Phone Number</label>
         <input 
           class="input-design" 
           type="email"

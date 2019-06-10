@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Tab, AppTab } from '../models';
 import { Store } from '@ngrx/store';
 import * as fromTabs from '../store/app.reducers';
-import * as TabsAction from '../store/global/tabs/tabs.actions';
+import * as TabsAction from '../shared/store/tabs/tabs.actions';
 
 @Component({
   selector: 'app-talent',

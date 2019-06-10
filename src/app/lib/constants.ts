@@ -1,4 +1,12 @@
-export enum STATUSCODE {
-    NotAuthenticated = 401,
-    InternalServerError = 500
-}
+export const UPLOAD_ACTION = {
+    UPLOAD_PROFILE_IMAGE: 'UPLOAD_PROFILE_IMAGE',
+    UPLOAD_PORTFOLIO: 'UPLOAD_PORTFOLIO',
+    UPLOAD_GIG: 'UPLOAD_GIG'
+};
+
+export const SOCIAL_MEDIAS = {
+    TWITTER: 'TWITTER',
+    FACEBOOK: 'FACEBOOK',
+    INSTAGRAM: 'INSTAGRAM',
+    YOUTUBE: 'YOUTUBE'
+};
