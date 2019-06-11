@@ -1,3 +1,7 @@
-<app-tabs [appTabName]="componentName"></app-tabs>
+<app-tabs [appTabName]="componentName" [activeTab]="activeTab">
+    <app-profile *ngIf="activeTab.tag === 'profile'"></app-profile>
+    <app-portfolio *ngIf="activeTab.tag === 'portfolio'"></app-portfolio>
+    <app-settings *ngIf="activeTab.tag === 'settings'"></app-settings>
+</app-tabs>
 
 

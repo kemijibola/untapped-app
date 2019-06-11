@@ -1,3 +1,38 @@
-<p>
-  login works!
-</p>
+<!-- Log-In Area Start -->
+<div class="login-area pt-75 pb-100">
+  <div class="container-fluid">
+    <div class="login-wrapper" [formGroup]="signinForm">
+      <div class="head text-center mb-30">
+        <span>Sign In to</span>
+        <h3>untapped pool</h3>
+      </div>
+      <div class="login-form">
+        <label for="">Email</label>
+        <input 
+          class="input-design mb-35" 
+          type="email" 
+          formControlName="email">
+        <label for="">Password</label>
+        <input 
+          class="input-design" 
+          type="password" 
+          formControlName="password">
+        <button 
+          class="box-btn login-btn mt-50" 
+          [disabled]="!signinForm.valid"
+          (click)="onSignin()" 
+          type="button">
+        Login
+      </button>
+      </div>
+      <div class="log-other text-center mt-55">
+        <span>Sign In With</span>
+        <div class="alternative mt-25">
+          <a class="ggl"><i class="fab fa-google"></i>Google account</a>
+          <a class="fb"><i class="fab fa-facebook"></i>Facebook account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Log-In Area End -->

@@ -1,23 +1,13 @@
 import * as AuthActions from './auth.actions';
-import { Register } from '../../models/';
+import { Register, IAuthData } from '../../models/';
 
 export interface State {
     authenticated: boolean;
-    user: {
-        token: string;
-        id: string;
-        user_type: string
-    };
-    errorMessage: string;
+    userData: IAuthData;
 }
 const initialState: State = {
     authenticated: false,
-    user: {
-        token: '',
-        id: '',
-        user_type: ''
-    },
-    errorMessage: ''
+    userData:  null
 };
 export function authReducer(state = initialState, action: AuthActions.AuthActions) {
     switch (action.type) {
@@ -25,34 +15,23 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
             return {
                 ...state,
                 authenticated: false,
-                token: null,
-                errorMessage: null
+                userData: null
             };
         case (AuthActions.SIGNIN_SUCCESS):
             return {
                 ...state,
-                authenticated: true,
-                errorMessage: null
+                authenticated: true
             };
         case (AuthActions.SET_TOKEN):
             return {
                 ...state,
-                user: {
-                    token: action.payload.token,
-                    id: action.payload.id,
-                    user_type: action.payload.user_type
-                }
+                userData: action.payload.authData
             };
         case (AuthActions.LOGOUT):
             return {
                 ...state,
-                token: null,
+                userData: null,
                 authenticated: false
-            };
-        case (AuthActions.SIGNUP_FAILURE):
-            return {
-                ...state,
-                errorMessage: action.payload.message
             };
         default:
             return state;

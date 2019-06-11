@@ -2,29 +2,28 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import * as ErrorActions from './error.actions';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { mergeMap, map, concatMap, mapTo } from 'rxjs/operators';
+import * as fromError from './error.reducers';
 
 @Injectable()
 export class ErrorEffects {
-
     @Effect()
-    onError = this.actions$
-        .pipe(
-            ofType(ErrorActions.EFFECT_ERROR))
-            .switchMap((action: ErrorActions.EffectError) => {
-                console.log(action.payload);
-            // handle errors here
-            // check the payload here to show different messages
-            // like if error.statusCode === 501 etc.
+    onGlobalError = this.actions$
+        .pipe(ofType(ErrorActions.ERROR_OCCURRED))
+        .switchMap((error) => {
+            return of({
+                type: ErrorActions.SET_ERROR,
+                payload: error['payload']
+            });
+    });
 
-            // this.snackBar.open('Error', 'Ok', {
-            // duration: 2500
-            // });
+    // display snackbar using this action
 
-            // remap to noop Action if no state needs to be updated.
-            // or for example on 401 Errors dispach a re-login action etc.
+    // @Effect()
+    // onErrorAction = this.actions$
+    //     .pipe(ofType(ErrorActions.SET_ERROR))
+    //     .switchMap(() => {
 
-            return of({ type: 'idontknowyet'});
-        });
-
+    //     })
     constructor(private actions$: Actions) {}
 }

@@ -1,12 +1,14 @@
-// import { ActionReducerMap } from '@ngrx/store';
-// import * as fromTab from '../store/global/tabs/tabs.reducers';
-// import * as fromProfile
+import { ActionReducerMap } from '@ngrx/store';
+import * as fromProfile from '../talent/profile/store/profile.reducers';
+import * as fromProfilePicture from '../talent/profile/profile-picture/store/profile-picture.reducers';
 
-// export interface TalentFeatureState {
-//     profile:
-// }
+export interface TalentState {
+    profile: fromProfile.State;
+    profilePicture: fromProfilePicture.State;
+}
 
-// export const talentReducers: ActionReducerMap<TalentFeatureState> = {
-
-// };
+export const talentReducers: ActionReducerMap<TalentState> = {
+    profile: fromProfile.profileReducer,
+    profilePicture: fromProfilePicture.profilePictureReducer
+};
 

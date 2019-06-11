@@ -7,11 +7,14 @@ import { TalentRoutingModule } from './talent-routing.module';
 import { TabsComponent } from '../shared/tabs/tabs.component';
 import { CommonModule } from '@angular/common';
 import { CategoriesComponent } from './../shared/categories/categories.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { TabsReducers } from '../store/global/tabs/tabs.reducers';
-
-
+import { profileReducer } from './profile/store/profile.reducers';
+import { ProfilePictureComponent } from './profile/profile-picture/profile-picture.component';
+import { talentReducers } from './talent-feature.reducers';
+import { SharedModule } from '../shared/shared.module';
+import { EffectsModule } from '@ngrx/effects';
+import { UploadEffect } from '../shared/store/upload/upload.effects';
 @NgModule({
     declarations: [
         ProfileComponent,
@@ -19,12 +22,19 @@ import { TabsReducers } from '../store/global/tabs/tabs.reducers';
         SettingsComponent,
         TalentComponent,
         TabsComponent,
-        CategoriesComponent
+        CategoriesComponent,
+        ProfilePictureComponent
     ],
     imports: [
         TalentRoutingModule,
+        SharedModule,
         CommonModule,
-        ReactiveFormsModule
+        FormsModule,
+        ReactiveFormsModule,
+        StoreModule.forFeature('talent', talentReducers),
+        EffectsModule.forFeature([
+            UploadEffect
+        ])
     ],
     exports: [
         CategoriesComponent,

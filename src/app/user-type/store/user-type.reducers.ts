@@ -22,10 +22,10 @@ export function userTypeReducer(state = initialState, action: UserTypeActions.Us
                 ...state,
                 selectedUserType: action.payload
             };
-        case (UserTypeActions.REMOVE_SELECTEDUSERTYPE):
+        case (UserTypeActions.RESET_SELECTEDUSERTYPE):
             return {
                 ...state,
-                selectedUserType: ''
+                selectedUserType: action.payload.selectedUserType
             };
         default:
             return state;

@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { NavLink } from 'src/app/models';
+import * as fromApp from '../../store/app.reducers';
+import * as fromAuth from '../../account/store/auth.reducers';
 import { Observable } from 'rxjs';
-import * as CoreModuleActions from '../store/core.actions';
 
 @Component({
   selector: 'app-header',
@@ -10,35 +10,13 @@ import * as CoreModuleActions from '../store/core.actions';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, AfterContentInit {
-  homeClicked = false;
-  talentsClicked = false;
-  constructor(private store: Store<{ coreModule: {
-    activeLink: NavLink}}>) { }
+
+  authState: Observable<fromAuth.State>;
+  constructor(private store: Store<fromAuth.State>) { }
 
   ngOnInit() {
-    // this.store.select('coreModule' ).subscribe(data => {
-    //     console.log(data);
-    // });
-  }
-  onClick(clicked) {
-    if (clicked === 'home') {
-      this.homeClicked = !this.homeClicked;
-    } else if (clicked === 'talents') {
-      this.talentsClicked = !this.talentsClicked;
-    }
+    this.authState = this.store.select('auth');
   }
   ngAfterContentInit() {
-
-    // let nav = document.getElementById('#nav');
-    // window.addEventListener('scroll', () => {
-    //   if (window.scrollY > 1.5) {
-    //     nav.classList.add("fixed-top");
-    //     document.body.style.paddingTop = '70';
-    //   } else {
-    //     nav.classList.remove("fixed-top");
-    //     document.body.style.paddingTop = '0';
-    //   }
-    // });
-    // console.log('Listner added');
   }
 }

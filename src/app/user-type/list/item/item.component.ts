@@ -48,8 +48,9 @@ export class ItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // set selected user type to default select
+    this.store.dispatch(new UserTypeActions.ResetSelectedUserType({selectedUserType: this.selectedUserType}));
     // component clean up
-    this.store.dispatch(new UserTypeActions.RemoveSelectedUserType());
     this.ngDestroyed.next();
     this.ngDestroyed.complete();
   }
