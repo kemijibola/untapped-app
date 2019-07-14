@@ -1,0 +1,137 @@
+<div class="tab-pane fade show active">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="profile-des">
+        <p>Fill your details; your personal details, contact detail, talents, location and
+          social media handles.</p>
+      </div>
+    </div>
+    <div class="col-xl-12">
+      <!-- profile picture section -->
+      <app-profile-picture></app-profile-picture>
+      <!-- profile picture section -->
+    </div>
+  </div>
+  <form [formGroup]="profileForm">
+    <div class="row">
+      <div class="col-xl-6">
+        <label for="">Stage Name</label>
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="stageName"
+          >
+      </div>
+      <div class="col-xl-6">
+        <label for="">Location</label>
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="location"
+          >
+      </div>
+      <div class="col-xl-6">
+        <label for="">Full Name</label>
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="fullName"
+          >
+      </div>
+      <div class="col-xl-6">
+        <label for="">Email Address</label>
+        <input 
+          class="input-design" 
+          type="email"
+          formControlName="emailAddress"
+          >
+      </div>
+      <div class="col-xl-6">
+        <label for="">Phone Number</label>
+        <input 
+          class="input-design" 
+          type="email"
+          formControlName="emailAddress"
+          >
+      </div>
+      <div class="col-xl-12">
+        <div class="bio">
+          <h4>Short Bio</h4>
+          <!-- <span class="condition">Word length restriction from the backend</span> -->
+        </div>
+        <textarea 
+            class="text-area" 
+            name="" 
+            formControlName="shortBio"
+            id="" 
+            cols="30" 
+            rows="10">
+        </textarea>
+      </div>
+      <div class="col-xl-12">
+        <h4 class="profile-ctg">Add your talent</h4>
+          <!-- untapped pool category section -->
+
+          <!-- <app-categories></app-categories> -->
+
+          <!-- untapped pool category section -->
+      </div>
+      <div class="col-xl-6">
+        <label for="">Instagram profile link</label>
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="instagram"
+          >
+      </div>
+      <div class="col-xl-6">
+        <label for="">Facebook profile link</label>
+        <input 
+          class="input-design" 
+          type="text"
+          formControlName="facebook"
+          >
+      </div>
+      <div class="col-xl-6">
+        <label for="">Twitter Profile link</label>
+        <input 
+          class="input-design last" 
+          type="text"
+          formControlName="twitter"
+          >
+      </div>
+      <div class="col-xl-6">
+          <label for="">Youtube Profile link</label>
+          <input 
+            class="input-design last" 
+            type="text"
+            formControlName="youtube"
+            >
+        </div>
+      <div formArrayName="additionalSocial">
+        <div class="row social-media">
+            <div class="col-xl-6" *ngFor="let additionalControl of profileForm.get('additionalSocial').controls; let  i = index">
+                <label for="">Additional link</label>
+                <input 
+                  class="input-design last" 
+                  type="text"
+                  [formControlName]="i"
+                  >
+            </div>
+            <div class="col-xl-12">
+                <div class="social-media">
+                  <a style="cursor: pointer" (click)="onAddAdditionalSocial()">+ Add another social media profile link</a>
+                </div>
+                <button 
+                  class="box-btn profile-save" 
+                  [disabled]="!profileForm.valid"
+                  (click)="onUpdateProfile()"
+                  type="button">
+                  SAVE CHANGES
+                </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

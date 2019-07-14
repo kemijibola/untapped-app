@@ -13,14 +13,20 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { reducers } from './store/app.reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { UserTypeEffects } from './user-type/store/user-type.effects';
+import { RoleEffects } from './role/store/role.effects';
 import { AuthEffects } from './account/store/auth.effects';
 import { ErrorEffects } from './store/global/error/error-effects';
 import { SharedModule } from './shared/shared.module';
+import { UserAccountComponent } from './user-account/user-account.component';
+import { RoleListComponent } from './role/role-list/role-list.component';
+import { RoleItemComponent } from './role/role-list/role-item/role-item.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserAccountComponent,
+    RoleListComponent,
+    RoleItemComponent
   ],
   imports: [
     BrowserModule,
@@ -28,15 +34,11 @@ import { SharedModule } from './shared/shared.module';
     OwlModule,
     SharedModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([
-      UserTypeEffects,
-      AuthEffects,
-      ErrorEffects
-    ]),
+    EffectsModule.forRoot([RoleEffects, AuthEffects, ErrorEffects]),
     CoreModule,
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
