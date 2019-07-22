@@ -17,31 +17,31 @@ import { CommonModule } from '@angular/common';
 import { ProfileService } from '../services/profile.service';
 import { UploadService } from '../services/upload.service';
 import { AppFileInputDirective } from '../directives/file-multiple.directive';
+import { RoleService } from '../services/role.service';
+import { PortfolioService } from '../services/portfolio.service';
 
 @NgModule({
-    declarations: [
-        HeaderComponent,
-        HomeComponent,
-        SlideMenuComponent,
-        FooterComponent,
-        DropDownComponent
-    ],
-    imports: [
-        CommonModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        HttpClientModule
-    ],
-    exports: [
-        AppRoutingModule,
-        HeaderComponent,
-        FooterComponent
-    ],
-    providers: [
-        AuthService,
-        UserTypeService,
-        ProfileService,
-        UploadService
-    ]
+  declarations: [
+    HeaderComponent,
+    HomeComponent,
+    SlideMenuComponent,
+    FooterComponent,
+    DropDownComponent
+  ],
+  imports: [
+    CommonModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  exports: [AppRoutingModule, HeaderComponent, FooterComponent],
+  providers: [
+    AuthService,
+    UserTypeService,
+    ProfileService,
+    PortfolioService,
+    UploadService,
+    RoleService
+  ]
 })
 export class CoreModule {}

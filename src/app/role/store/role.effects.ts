@@ -17,6 +17,12 @@ export class RoleEffects {
     })
     .pipe(
       mergeMap((resp: IResult<IRole[]>) => {
+        let preSelectedRole = '';
+        for (const role of resp.data) {
+          if (role.name === 'Talent') {
+            preSelectedRole = role._id;
+          }
+        }
         return [
           {
             type: RoleActions.SET_ROLES,
@@ -24,7 +30,7 @@ export class RoleEffects {
           },
           {
             type: RoleActions.SET_SELECTEDROLE,
-            payload: ''
+            payload: preSelectedRole
           }
         ];
       })

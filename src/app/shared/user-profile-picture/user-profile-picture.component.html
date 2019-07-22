@@ -1,0 +1,21 @@
+<div class="profile-pic-wrapper">
+  <div class="profile-pic">
+    <img
+      src="{{ (userProfileImageState | async).userImage.imagePath }}"
+      alt=""
+    />
+    <a
+      [class.cancel-btn]="(userProfileImageState | async).userImage.isDefault"
+      style="cursor:pointer"
+      ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
+    /></a>
+  </div>
+  <div class="pic-change">
+    <a class="btn-gray" style="cursor:pointer" (click)="onClickUploadImageBtn()"
+      >Upload Picture</a
+    >
+    <!-- upload component goes here -->
+    <app-upload> </app-upload>
+    <!-- upload component goes here -->
+  </div>
+</div>

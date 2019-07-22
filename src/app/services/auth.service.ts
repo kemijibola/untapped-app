@@ -9,17 +9,17 @@ export class AuthService {
   private BASE_URI = '';
 
   constructor(private http: HttpClient, private localStorage: LocalStorage) {
-    this.BASE_URI = 'http://127.0.0.1:9000';
+    this.BASE_URI = 'http://127.0.0.1:8900/v1';
   }
 
   signUp(newUser: IRegister): Observable<IResult<IAuthData>> {
-    const { name, email, password, role, audience } = newUser;
-    const url = `${this.BASE_URI}/signup`;
+    const { name, email, password, roles, audience } = newUser;
+    const url = `${this.BASE_URI}/account/signup`;
     return this.http.post<IResult<IAuthData>>(url, {
       name,
       email,
       password,
-      role,
+      roles,
       audience
     });
   }
@@ -34,9 +34,9 @@ export class AuthService {
     );
   }
 
-  findUserByEmail(prop: string): Observable<IResult<IUser>> {
+  findUserByEmail(email: string): Observable<IResult<IUser[]>> {
     const url = `${this.BASE_URI}/users`;
-    return this.http.get<IResult<IUser>>(`${url}/${prop}`);
+    return this.http.get<IResult<IUser[]>>(`${url}?email=${email}`);
   }
 
   getUserData(): Observable<IAuthData> {

@@ -1,20 +1,20 @@
 import { Action } from '@ngrx/store';
 import {
   IFileInputModel,
-  IFileUploadModel,
   IFileModel,
-  IPresignFileModel
+  IPresignFileModel,
+  IUploadedFiles
 } from 'src/app/interfaces';
 
 export const FILE_INPUT_CONFIG = 'FILE_INPUT_CONFIG';
 export const RESET_FILE_INPUT = 'RESET_FILE_INPUT';
-export const FILE_TO_UPLOAD = 'FILE_TO_UPLOAD';
+export const FILE_TOUPLOAD = 'FILE_TOUPLOAD';
 export const GET_PRESIGNED_URL = 'GET_PRESIGNED_URL';
 export const SET_PRESIGNED_URL = 'SET_PRESIGNED_URL';
 
 export class FileInputConfig implements Action {
   readonly type = FILE_INPUT_CONFIG;
-  constructor(public payload: { fileInput: IFileInputModel }) {}
+  constructor(public payload: IFileInputModel) {}
 }
 
 export class ResetFileInput implements Action {
@@ -22,18 +22,18 @@ export class ResetFileInput implements Action {
 }
 
 export class FileToUpload implements Action {
-  readonly type = FILE_TO_UPLOAD;
-  constructor(public payload: { file: IFileModel }) {}
+  readonly type = FILE_TOUPLOAD;
+  constructor(public payload: IFileModel) {}
 }
 
 export class GetPresignedUrl implements Action {
   readonly type = GET_PRESIGNED_URL;
-  constructor(public payload: { file: IPresignFileModel }) {}
+  constructor(public payload: IPresignFileModel) {}
 }
 
 export class SetPresignedUrl implements Action {
   readonly type = SET_PRESIGNED_URL;
-  constructor(public payload: { presignedUrls: {} }) {}
+  constructor(public payload: IUploadedFiles) {}
 }
 
 export type UploadActions =

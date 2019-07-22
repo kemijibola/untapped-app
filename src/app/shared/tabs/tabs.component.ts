@@ -30,10 +30,8 @@ export class TabsComponent implements OnInit, OnDestroy {
         select('shared'),
         takeUntil(this.ngDestroyed)
       )
-      .subscribe(val => {
-        this.appTab = val['tabs'].tabs.filter(
-          (x: { name: string }) => x.name === this.appTabName
-        )[0];
+      .subscribe((val: IAppTab[]) => {
+        this.appTab = val.filter(x => x.name === this.appTabName)[0];
       });
   }
 

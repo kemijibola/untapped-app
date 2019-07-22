@@ -13,6 +13,8 @@ import { Subject } from 'rxjs';
 import * as AuthActions from '../store/auth.actions';
 import * as fromRole from '../../role/store/role.reducers';
 import { takeUntil } from 'rxjs/operators';
+import { IRegister } from 'src/app/interfaces';
+import { AUDIENCE } from 'src/app/lib/constants';
 
 @Component({
   selector: 'app-signup',
@@ -61,12 +63,12 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
     const name: string = this.signupForm.controls['name'].value;
     const email: string = this.signupForm.controls['email'].value;
     const password: string = this.signupForm.controls['password'].value;
-    const payload = {
+    const payload: IRegister = {
       name: name,
       email: email,
       password: password,
-      role: this.selectedRole,
-      audience: 'http://127.0.0.1:4200'
+      roles: [this.selectedRole],
+      audience: AUDIENCE
     };
     this.store.dispatch(new AuthActions.DoSignUp(payload));
   }

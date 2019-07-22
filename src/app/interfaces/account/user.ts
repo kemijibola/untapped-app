@@ -1,4 +1,4 @@
-import { IRole } from './user-type';
+import { IRole } from './role';
 
 export interface IAuthData {
   email: string;
@@ -19,6 +19,7 @@ export interface IUserAccountStatus {
 }
 
 export interface IUser {
+  _id: string;
   email: string;
   name: string;
   password: string;
@@ -31,5 +32,6 @@ export interface IUser {
   loginCount: number;
   status: IUserAccountStatus;
   roles: IRole['_id'][];
+  profileImage: string;
   lastLogin: Date;
 }

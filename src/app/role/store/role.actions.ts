@@ -8,7 +8,7 @@ export const RESET_SELECTEDROLE = 'RESET_SELECTEDROLE';
 
 export class SetRoles implements Action {
   readonly type = SET_ROLES;
-  constructor(public payload: { roles: IRole[] }) {}
+  constructor(public payload: IRole[]) {}
 }
 
 export class FetchRoles implements Action {
@@ -17,12 +17,12 @@ export class FetchRoles implements Action {
 
 export class SetSelectedRole implements Action {
   readonly type = SET_SELECTEDROLE;
-  constructor(public payload: { selectedRole: string }) {}
+  constructor(public payload: string) {}
 }
 
 export class ResetSelectedRole implements Action {
   readonly type = RESET_SELECTEDROLE;
-  constructor(public payload: { selectedRole: string }) {}
+  constructor(public payload: string) {}
 }
 
 export type RoleActions =

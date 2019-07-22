@@ -22,7 +22,7 @@ export class AuthEffects {
         name: action.payload.name,
         email: action.payload.email,
         password: action.payload.password,
-        role: action.payload.role,
+        roles: action.payload.roles,
         audience: action.payload.audience
       };
       return this.authService.signUp(newUser);

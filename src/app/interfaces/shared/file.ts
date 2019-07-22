@@ -1,3 +1,9 @@
+export enum UploadOperatons {
+  PROFILEIMAGE = 'PROFILEIMAGE',
+  GIGUPLOAD = 'GIGUPLOAD',
+  CONTESTSUBMISSION = 'CONTESTSUBMISSION'
+}
+
 export interface IFileUploadModel {
   inProgress?: boolean;
   progress?: number;
@@ -24,4 +30,9 @@ export interface IFileInputModel {
 export interface IFileMetaData {
   file: string;
   file_type: string;
+}
+
+export interface IUploadedFiles {
+  uploadUrls: string[];
+  action: UploadOperatons;
 }

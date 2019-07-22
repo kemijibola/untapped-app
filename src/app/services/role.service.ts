@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { IRole, IResult } from 'src/app/interfaces';
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class RoleService {
-  private BASE_URI = 'http://127.0.0.1:8900';
+  private BASE_URI = 'http://127.0.0.1:8900/v1';
 
   constructor(private http: HttpClient) {}
 

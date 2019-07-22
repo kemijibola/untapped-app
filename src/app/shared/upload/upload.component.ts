@@ -60,20 +60,29 @@ export class UploadComponent
         select('shared'),
         takeUntil(this.ngDestroyed)
       )
-      .subscribe(val => {
-        if (val['upload']['fileInput']['state']) {
-          this.multiple = val['upload']['fileInput']['multiple'];
-          this.accept = val['upload']['fileInput']['accept'];
-          this.operationType = val['upload']['fileInput']['process'];
-          this.state = val['upload']['fileInput']['process'];
+      .subscribe((val: IFileInputModel) => {
+        if (val.state) {
+          this.multiple = val.multiple;
+          this.operationType = val.process;
+          this.state = val.state;
+          this.accept = val.accept;
           if (this.state) {
             this.triggerFileInput();
           }
         }
+        // if (val['upload']['fileInput']['state']) {
+        //   this.multiple = val['upload']['fileInput']['multiple'];
+        //   this.accept = val['upload']['fileInput']['accept'];
+        //   this.operationType = val['upload']['fileInput']['process'];
+        //   this.state = val['upload']['fileInput']['process'];
+        //   if (this.state) {
+        //     this.triggerFileInput();
+        //   }
+        // }
       });
   }
 
-  private triggerFileInput() {
+  private triggerFileInput(): void {
     this.fileInput.nativeElement.multiple = this.multiple;
     this.fileInput.nativeElement.accept = this.accept;
     this.fileInput.nativeElement.click();
@@ -92,7 +101,7 @@ export class UploadComponent
       files: [...fileArray]
     };
     this.onChange(this.file);
-    this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
+    this.store.dispatch(new UploadActions.FileToUpload(this.file));
   }
 
   writeValue(value: null) {

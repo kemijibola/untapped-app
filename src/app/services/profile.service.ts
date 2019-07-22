@@ -10,6 +10,10 @@ export class ProfileService {
     this.BASE_URI = 'http://127.0.0.1:9000';
   }
 
+  fetchUserProfile(): Observable<IResult<IProfile>> {
+    const url = `${this.BASE_URI}/profiles`;
+    return this.http.get<IResult<IProfile>>(url);
+  }
   updateProfile(data: IProfile): Observable<IResult<IProfile>> {
     const url = `${this.BASE_URI}/profiles`;
     return this.http.post<IResult<IProfile>>(url, data);

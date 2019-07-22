@@ -6,8 +6,6 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from './../environments/environment';
 import { APP_INITIALIZER } from '@angular/core';
-// import { load } from './helper/app-config';
-
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,17 +15,14 @@ import { RoleEffects } from './role/store/role.effects';
 import { AuthEffects } from './account/store/auth.effects';
 import { ErrorEffects } from './store/global/error/error-effects';
 import { SharedModule } from './shared/shared.module';
-import { UserAccountComponent } from './user-account/user-account.component';
-import { RoleListComponent } from './role/role-list/role-list.component';
-import { RoleItemComponent } from './role/role-list/role-item/role-item.component';
+import { ConfigService } from './services/config.service';
+
+// export function loadConfigurations(configService: ConfigService) {
+//   return () => configService.getConfigs();
+// }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    UserAccountComponent,
-    RoleListComponent,
-    RoleItemComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -39,6 +34,15 @@ import { RoleItemComponent } from './role/role-list/role-item/role-item.componen
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
+  // providers: [
+  //   ConfigService,
+  //   {
+  //     provide: APP_INITIALIZER,
+  //     useFactory: loadConfigurations,
+  //     deps: [ConfigService],
+  //     multi: true
+  //   }
+  // ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -14,8 +14,7 @@ export class UploadEffect {
   getPresignedUrl = this.actions$
     .pipe(ofType(UploadActions.GET_PRESIGNED_URL))
     .switchMap((action: UploadActions.GetPresignedUrl) => {
-      const { file } = action.payload;
-      return this.uploadService.getPresignedUrl(file);
+      return this.uploadService.getPresignedUrl(action.payload);
     })
     .pipe(
       map(res => {

@@ -39,14 +39,15 @@ export function TabsReducers(
     case TabsAction.ADD_TAB:
       return {
         ...state,
-        tabs: [...state.tabs, action.payload.tab]
+        tabs: [...state.tabs, action.payload]
       };
     case TabsAction.ADD_TABS:
       return {
         ...state,
-        tabs: [...state.tabs, ...action.payload.tabs]
+        tabs: [...state.tabs, ...action.payload]
       };
     case TabsAction.DESTROY_TAB:
+      // TODO:: implement tab destroy by global name
       return {
         ...state,
         tabs: []

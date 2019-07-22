@@ -9,3 +9,8 @@ export interface ITab {
   active: boolean;
   tag: string;
 }
+
+export interface IUpdateTab {
+  name: string;
+  tabIndex: number;
+}
