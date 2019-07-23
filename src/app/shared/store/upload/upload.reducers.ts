@@ -9,12 +9,14 @@ export interface State {
   fileInput: IFileInputModel;
   file: IFileModel;
   preSignedUrls: IUploadedFiles;
+  isReadyForUpload: boolean;
 }
 
 const initialState: State = {
   fileInput: null,
   file: null,
-  preSignedUrls: null
+  preSignedUrls: null,
+  isReadyForUpload: false
 };
 
 export function UploadReducers(
@@ -41,6 +43,11 @@ export function UploadReducers(
       return {
         ...state,
         preSignedUrls: action.payload
+      };
+    case UploadActions.SET_APPUPLOAD_STATE:
+      return {
+        ...state,
+        isReadyForUpload: action.payload
       };
     default:
       return state;

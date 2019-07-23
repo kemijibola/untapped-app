@@ -14,6 +14,8 @@ import { PortfolioVideosComponent } from './portfolio/portfolio-videos/portfolio
 import { PortfolioImagesComponent } from './portfolio/portfolio-images/portfolio-images.component';
 import { PortfolioEffect } from './store/portfolio/portfolio.effects';
 import { ProfileEffect } from './store/profile/profile.effects';
+import { UserRoutingModule } from './user-routing.module';
+import { UserComponent } from './user.component';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -21,16 +23,18 @@ import { ProfileEffect } from './store/profile/profile.effects';
     SettingsComponent,
     PortfolioAudiosComponent,
     PortfolioVideosComponent,
-    PortfolioImagesComponent
+    PortfolioImagesComponent,
+    UserComponent
   ],
   imports: [
     SharedModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    UserRoutingModule,
     StoreModule.forFeature('user', userReducers),
     EffectsModule.forFeature([ProfileEffect, PortfolioEffect])
   ],
-  exports: []
+  exports: [UserRoutingModule]
 })
 export class UserModule {}

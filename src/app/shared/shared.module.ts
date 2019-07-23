@@ -9,13 +9,10 @@ import { UserProfilePictureComponent } from './user-profile-picture/user-profile
 import { UploadEffect } from './store/upload/upload.effects';
 import { TabsComponent } from './tabs/tabs.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    StoreModule.forFeature('shared', sharedReducers),
-    EffectsModule.forFeature([UploadEffect])
-  ],
+  imports: [CommonModule, RouterModule.forChild([])],
   exports: [
     UploadComponent,
     UserProfilePictureComponent,

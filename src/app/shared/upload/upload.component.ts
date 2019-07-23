@@ -10,6 +10,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import * as fromShared from '../../shared/shared.reducers';
+import * as fromApp from '../../store/app.reducers';
 import { Subject } from 'rxjs';
 import * as UploadActions from '../store/upload/upload.actions';
 import { takeUntil } from 'rxjs/operators';
@@ -18,7 +19,7 @@ import {
   IFileUploadModel,
   IFileModel
 } from 'src/app/interfaces';
-import { ALLOW_MULTIPLE_PLATFORMS } from '@angular/core/src/application_ref';
+import { selectUploadActionState } from '../../shared/store/upload/upload.selectors';
 
 const noop = () => {};
 
@@ -48,38 +49,50 @@ export class UploadComponent
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
-    private store: Store<fromShared.SharedState>
+    private store: Store<fromApp.AppState>
   ) {
     this.onTouchedCallback = noop;
     this.onChange = noop;
   }
 
   ngOnInit() {
-    this.store
-      .pipe(
-        select('shared'),
-        takeUntil(this.ngDestroyed)
-      )
-      .subscribe((val: IFileInputModel) => {
-        if (val.state) {
-          this.multiple = val.multiple;
-          this.operationType = val.process;
-          this.state = val.state;
-          this.accept = val.accept;
-          if (this.state) {
-            this.triggerFileInput();
-          }
-        }
-        // if (val['upload']['fileInput']['state']) {
-        //   this.multiple = val['upload']['fileInput']['multiple'];
-        //   this.accept = val['upload']['fileInput']['accept'];
-        //   this.operationType = val['upload']['fileInput']['process'];
-        //   this.state = val['upload']['fileInput']['process'];
-        //   if (this.state) {
-        //     this.triggerFileInput();
-        //   }
-        // }
-      });
+    const config$ = this.store.pipe(select(selectUploadActionState));
+    config$.subscribe(val => {
+      console.log(val);
+    });
+    // this.store
+    //   .pipe(
+    //     select('shared'),
+    //     takeUntil(this.ngDestroyed)
+    //   )
+    //   .subscribe(val => {
+    //     console.log(val);
+    //   });
+    // this.store
+    //   .pipe(
+    //     select('shared'),
+    //     takeUntil(this.ngDestroyed)
+    //   )
+    //   .subscribe((val: IFileInputModel) => {
+    //     if (val.state) {
+    //       this.multiple = val.multiple;
+    //       this.operationType = val.process;
+    //       this.state = val.state;
+    //       this.accept = val.accept;
+    //       if (this.state) {
+    //         this.triggerFileInput();
+    //       }
+    //     }
+    //     // if (val['upload']['fileInput']['state']) {
+    //     //   this.multiple = val['upload']['fileInput']['multiple'];
+    //     //   this.accept = val['upload']['fileInput']['accept'];
+    //     //   this.operationType = val['upload']['fileInput']['process'];
+    //     //   this.state = val['upload']['fileInput']['process'];
+    //     //   if (this.state) {
+    //     //     this.triggerFileInput();
+    //     //   }
+    //     // }
+    //   });
   }
 
   private triggerFileInput(): void {

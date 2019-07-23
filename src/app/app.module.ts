@@ -16,6 +16,7 @@ import { AuthEffects } from './account/store/auth.effects';
 import { ErrorEffects } from './store/global/error/error-effects';
 import { SharedModule } from './shared/shared.module';
 import { ConfigService } from './services/config.service';
+import { UploadEffect } from './shared/store/upload/upload.effects';
 
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -29,7 +30,12 @@ import { ConfigService } from './services/config.service';
     OwlModule,
     SharedModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([RoleEffects, AuthEffects, ErrorEffects]),
+    EffectsModule.forRoot([
+      RoleEffects,
+      AuthEffects,
+      ErrorEffects,
+      UploadEffect
+    ]),
     CoreModule,
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []

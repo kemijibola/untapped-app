@@ -7,7 +7,10 @@ export interface State {
 }
 
 const initialState: State = {
-  userImage: null,
+  userImage: {
+    imagePath: '',
+    isDefault: true
+  },
   readyToUploadImage: false
 };
 

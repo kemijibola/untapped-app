@@ -8,9 +8,10 @@ import {
 import { ITab, IAppTab } from 'src/app/interfaces';
 import * as TabsAction from '../store/tabs/tabs.actions';
 import { Store, select } from '@ngrx/store';
-import * as fromShared from '../shared.reducers';
+import * as fromApp from '../../store/app.reducers';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { selectTabList } from '../../shared/store/tabs/tabs.selectors';
 
 @Component({
   selector: 'app-tabs',
@@ -22,12 +23,12 @@ export class TabsComponent implements OnInit, OnDestroy {
   @Input() activeTab: ITab;
   @Input() appTabName: string;
   ngDestroyed = new Subject();
-  constructor(private store: Store<fromShared.SharedState>) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store
       .pipe(
-        select('shared'),
+        select(selectTabList),
         takeUntil(this.ngDestroyed)
       )
       .subscribe((val: IAppTab[]) => {
