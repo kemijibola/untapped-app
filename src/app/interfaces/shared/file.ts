@@ -1,7 +1,8 @@
-export enum UploadOperatons {
-  PROFILEIMAGE = 'PROFILEIMAGE',
-  GIGUPLOAD = 'GIGUPLOAD',
-  CONTESTSUBMISSION = 'CONTESTSUBMISSION'
+export enum UPLOADOPERATIONS {
+  UploadProfileImage = 'UploadProfileImage',
+  UploadPortfolio = 'UploadPortfolio',
+  UploadEntry = 'UploadEntry',
+  Default = 'Default'
 }
 
 export interface IFileUploadModel {
@@ -34,5 +35,5 @@ export interface IFileMetaData {
 
 export interface IUploadedFiles {
   uploadUrls: string[];
-  action: UploadOperatons;
+  action: UPLOADOPERATIONS;
 }

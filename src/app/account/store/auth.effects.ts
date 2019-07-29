@@ -19,7 +19,7 @@ export class AuthEffects {
     .pipe(ofType(AuthActions.DO_SIGNUP))
     .switchMap((action: AuthActions.DoSignUp) => {
       const newUser: IRegister = {
-        name: action.payload.name,
+        username: action.payload.username,
         email: action.payload.email,
         password: action.payload.password,
         roles: action.payload.roles,
@@ -28,11 +28,15 @@ export class AuthEffects {
       return this.authService.signUp(newUser);
     })
     .pipe(
-      map((res: IResult<IAuthData>) => {
-        if (res.isSuccessful) {
-          this.router.navigate(['/auth/signup-success']);
+      map((res: IResult<boolean>) => {
+        if (res.data) {
           return {
             type: AuthActions.SIGNUP_SUCCESS
+          };
+        } else {
+          return {
+            type: AuthActions.SIGNUP_FAILURE,
+            payload: res.error
           };
         }
       }),

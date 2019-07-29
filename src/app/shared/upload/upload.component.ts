@@ -5,21 +5,21 @@ import {
   ElementRef,
   HostListener,
   ViewChild,
-  OnDestroy
+  OnDestroy,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import * as fromShared from '../../shared/shared.reducers';
 import * as fromApp from '../../store/app.reducers';
 import { Subject } from 'rxjs';
 import * as UploadActions from '../store/upload/upload.actions';
-import { takeUntil } from 'rxjs/operators';
 import {
   IFileInputModel,
-  IFileUploadModel,
-  IFileModel
+  IFileModel,
+  UPLOADOPERATIONS
 } from 'src/app/interfaces';
-import { selectUploadActionState } from '../../shared/store/upload/upload.selectors';
+import { selectFileInput } from '../../shared/store/upload/upload.selectors';
 
 const noop = () => {};
 
@@ -36,7 +36,7 @@ const noop = () => {};
   ]
 })
 export class UploadComponent
-  implements ControlValueAccessor, OnInit, OnDestroy {
+  implements ControlValueAccessor, OnInit, OnChanges {
   private file: IFileModel;
   ngDestroyed = new Subject();
   multiple: boolean;
@@ -46,6 +46,7 @@ export class UploadComponent
   private onChange: Function;
   private onTouchedCallback: Function;
   @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
+  @Input() fileConfig: IFileInputModel;
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
@@ -54,47 +55,23 @@ export class UploadComponent
     this.onTouchedCallback = noop;
     this.onChange = noop;
   }
+  ngOnInit() {}
 
-  ngOnInit() {
-    const config$ = this.store.pipe(select(selectUploadActionState));
-    config$.subscribe(val => {
-      console.log(val);
-    });
-    // this.store
-    //   .pipe(
-    //     select('shared'),
-    //     takeUntil(this.ngDestroyed)
-    //   )
-    //   .subscribe(val => {
-    //     console.log(val);
-    //   });
-    // this.store
-    //   .pipe(
-    //     select('shared'),
-    //     takeUntil(this.ngDestroyed)
-    //   )
-    //   .subscribe((val: IFileInputModel) => {
-    //     if (val.state) {
-    //       this.multiple = val.multiple;
-    //       this.operationType = val.process;
-    //       this.state = val.state;
-    //       this.accept = val.accept;
-    //       if (this.state) {
-    //         this.triggerFileInput();
-    //       }
-    //     }
-    //     // if (val['upload']['fileInput']['state']) {
-    //     //   this.multiple = val['upload']['fileInput']['multiple'];
-    //     //   this.accept = val['upload']['fileInput']['accept'];
-    //     //   this.operationType = val['upload']['fileInput']['process'];
-    //     //   this.state = val['upload']['fileInput']['process'];
-    //     //   if (this.state) {
-    //     //     this.triggerFileInput();
-    //     //   }
-    //     // }
-    //   });
+  ngOnChanges(simple: SimpleChanges) {
+    if (simple['fileConfig']) {
+      if (this.fileConfig) {
+        if (this.fileConfig.process !== UPLOADOPERATIONS.Default) {
+          this.multiple = this.fileConfig.multiple;
+          this.operationType = this.fileConfig.process;
+          this.state = this.fileConfig.state;
+          this.accept = this.fileConfig.accept;
+          if (this.state) {
+            this.triggerFileInput();
+          }
+        }
+      }
+    }
   }
-
   private triggerFileInput(): void {
     this.fileInput.nativeElement.multiple = this.multiple;
     this.fileInput.nativeElement.accept = this.accept;
@@ -129,11 +106,5 @@ export class UploadComponent
 
   registerOnTouched(fn: Function) {
     this.onTouchedCallback = fn;
-  }
-
-  ngOnDestroy() {
-    this.store.dispatch(new UploadActions.ResetFileInput());
-    this.ngDestroyed.next();
-    this.ngDestroyed.complete();
   }
 }

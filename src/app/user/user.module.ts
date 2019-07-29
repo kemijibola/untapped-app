@@ -28,7 +28,6 @@ import { UserComponent } from './user.component';
   ],
   imports: [
     SharedModule,
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     UserRoutingModule,

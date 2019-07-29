@@ -5,6 +5,7 @@ export const DO_SIGNUP = 'DO_SIGNUP';
 export const DO_SIGNIN = 'DO_SIGNIN';
 export const TOKEN_CHANGED = 'TOKEN_CHANGED';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 export const SET_TOKEN = 'SET_TOKEN';
@@ -26,12 +27,16 @@ export class SignUpSuccess implements Action {
 export class SignInSuccess implements Action {
   readonly type = SIGNIN_SUCCESS;
 }
+export class SignUpFailure implements Action {
+  readonly type = SIGNUP_FAILURE;
+  constructor(public payload: string) {}
+}
 export class LogOut implements Action {
   readonly type = LOGOUT;
 }
 export class SetToken implements Action {
   readonly type = SET_TOKEN;
-  constructor(public payload: { authData: IAuthData }) {}
+  constructor(public payload: IAuthData) {}
 }
 // this might also work for LogOut Action
 export class ExpireToken implements Action {
@@ -54,4 +59,5 @@ export type AuthActions =
   | UpdateToken
   | DoSignUp
   | SetNewUserEmail
-  | DoSignIn;
+  | DoSignIn
+  | SignUpFailure;

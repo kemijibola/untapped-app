@@ -10,21 +10,29 @@ import { UploadEffect } from './store/upload/upload.effects';
 import { TabsComponent } from './tabs/tabs.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { RouterModule } from '@angular/router';
+import { AppUserSearchCategoriesComponent } from './app-user-search-categories/app-user-search-categories.component';
+import { AppSearchCategoriesComponent } from './app-search-categories/app-search-categories.component';
+import { MainAppComponent } from './main-app/main-app.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild([])],
   exports: [
+    CommonModule,
     UploadComponent,
     UserProfilePictureComponent,
     TabsComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    AppUserSearchCategoriesComponent
   ],
   declarations: [
     UploadComponent,
     DialogComponent,
     UserProfilePictureComponent,
     TabsComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    AppUserSearchCategoriesComponent,
+    AppSearchCategoriesComponent,
+    MainAppComponent
   ]
 })
 export class SharedModule {}

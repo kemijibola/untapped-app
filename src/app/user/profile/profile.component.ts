@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as fromProfile from '../store/profile/profile.reducers';
 import * as fromUser from '../user.reducers';
-import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducers';
+import { Store, select } from '@ngrx/store';
+import { selectUploadAction } from '../../shared/store/upload/upload.selectors';
+import { takeUntil } from 'rxjs/operators';
+import { UPLOADOPERATIONS, IFileInputModel } from 'src/app/interfaces';
+import * as UploadActions from '../../shared/store/upload/upload.actions';
+import * as fromUpload from '../../shared/store/upload/upload.reducers';
 
 @Component({
   selector: 'app-profile',
@@ -15,8 +21,14 @@ export class ProfileComponent implements OnInit {
   userProfileState: Observable<fromProfile.State>;
   isTalent: boolean;
   isProfessional: boolean;
+  ngDestroyed = new Subject();
+  fileConfig: IFileInputModel;
+  fileUploadOperation: UPLOADOPERATIONS;
 
-  constructor(private userState: Store<fromUser.UserState>) {
+  constructor(
+    private userState: Store<fromUser.UserState>,
+    private store: Store<fromApp.AppState>
+  ) {
     // TODO:: In backend, add each user type's gobal permission
     // i.e global permissions are isTalent, isProfessional, isAudience
     // TODO:: get current user's permissions to check type of user

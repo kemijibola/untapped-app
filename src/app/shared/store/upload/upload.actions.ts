@@ -3,24 +3,26 @@ import {
   IFileInputModel,
   IFileModel,
   IPresignFileModel,
-  IUploadedFiles
+  IUploadedFiles,
+  UPLOADOPERATIONS
 } from 'src/app/interfaces';
 
 export const FILE_INPUT_CONFIG = 'FILE_INPUT_CONFIG';
 export const RESET_FILE_INPUT = 'RESET_FILE_INPUT';
+
 export const FILE_TOUPLOAD = 'FILE_TOUPLOAD';
 export const GET_PRESIGNED_URL = 'GET_PRESIGNED_URL';
 export const SET_PRESIGNED_URL = 'SET_PRESIGNED_URL';
-export const SET_APPUPLOAD_STATE = 'SET_APPUPLOAD_STATE';
+export const SET_APPUPLOAD_OPERATION = 'SET_APPUPLOAD_OPERATION';
 
 export class FileInputConfig implements Action {
   readonly type = FILE_INPUT_CONFIG;
   constructor(public payload: IFileInputModel) {}
 }
 
-export class SetAppUploadState implements Action {
-  readonly type = SET_APPUPLOAD_STATE;
-  constructor(public payload: boolean) {}
+export class SetAppUploadOperation implements Action {
+  readonly type = SET_APPUPLOAD_OPERATION;
+  constructor(public payload: UPLOADOPERATIONS) {}
 }
 export class ResetFileInput implements Action {
   readonly type = RESET_FILE_INPUT;
@@ -47,4 +49,4 @@ export type UploadActions =
   | FileToUpload
   | GetPresignedUrl
   | SetPresignedUrl
-  | SetAppUploadState;
+  | SetAppUploadOperation;

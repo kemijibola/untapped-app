@@ -60,11 +60,11 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       });
   }
   onSubmit() {
-    const name: string = this.signupForm.controls['name'].value;
+    const username: string = this.signupForm.controls['name'].value;
     const email: string = this.signupForm.controls['email'].value;
     const password: string = this.signupForm.controls['password'].value;
     const payload: IRegister = {
-      name: name,
+      username: username,
       email: email,
       password: password,
       roles: [this.selectedRole],

@@ -3,11 +3,13 @@ import { IAuthData } from '../../interfaces';
 
 export interface State {
   authenticated: boolean;
+  errorMessage: string;
   userData: IAuthData;
 }
 const initialState: State = {
   authenticated: false,
-  userData: null
+  userData: null,
+  errorMessage: ''
 };
 export function authReducer(
   state = initialState,
@@ -18,7 +20,8 @@ export function authReducer(
       return {
         ...state,
         authenticated: false,
-        userData: null
+        userData: null,
+        errorMessage: ''
       };
     case AuthActions.SIGNIN_SUCCESS:
       return {
@@ -28,13 +31,20 @@ export function authReducer(
     case AuthActions.SET_TOKEN:
       return {
         ...state,
-        userData: action.payload.authData
+        userData: action.payload
       };
     case AuthActions.LOGOUT:
       return {
         ...state,
         userData: null,
         authenticated: false
+      };
+    case AuthActions.SIGNUP_FAILURE:
+      return {
+        ...state,
+        userData: null,
+        authenticated: false,
+        errorMessage: action.payload
       };
     default:
       return state;

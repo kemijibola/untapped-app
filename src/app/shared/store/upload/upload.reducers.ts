@@ -1,7 +1,8 @@
 import {
   IFileInputModel,
   IFileModel,
-  IUploadedFiles
+  IUploadedFiles,
+  UPLOADOPERATIONS
 } from 'src/app/interfaces';
 import * as UploadActions from './upload.actions';
 
@@ -10,13 +11,20 @@ export interface State {
   file: IFileModel;
   preSignedUrls: IUploadedFiles;
   isReadyForUpload: boolean;
+  uploadAction: UPLOADOPERATIONS;
 }
 
 const initialState: State = {
-  fileInput: null,
+  fileInput: {
+    state: false,
+    process: UPLOADOPERATIONS.Default,
+    multiple: false,
+    accept: ''
+  },
   file: null,
   preSignedUrls: null,
-  isReadyForUpload: false
+  isReadyForUpload: false,
+  uploadAction: UPLOADOPERATIONS.Default
 };
 
 export function UploadReducers(
@@ -32,7 +40,12 @@ export function UploadReducers(
     case UploadActions.RESET_FILE_INPUT:
       return {
         ...state,
-        fileInput: null
+        fileInput: {
+          state: false,
+          process: UPLOADOPERATIONS.Default,
+          multiple: false,
+          accept: ''
+        }
       };
     case UploadActions.FILE_TOUPLOAD:
       return {
@@ -44,10 +57,10 @@ export function UploadReducers(
         ...state,
         preSignedUrls: action.payload
       };
-    case UploadActions.SET_APPUPLOAD_STATE:
+    case UploadActions.SET_APPUPLOAD_OPERATION:
       return {
         ...state,
-        isReadyForUpload: action.payload
+        uploadAction: action.payload
       };
     default:
       return state;

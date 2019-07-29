@@ -12,11 +12,11 @@ export class AuthService {
     this.BASE_URI = 'http://127.0.0.1:8900/v1';
   }
 
-  signUp(newUser: IRegister): Observable<IResult<IAuthData>> {
-    const { name, email, password, roles, audience } = newUser;
+  signUp(newUser: IRegister): Observable<IResult<boolean>> {
+    const { username, email, password, roles, audience } = newUser;
     const url = `${this.BASE_URI}/account/signup`;
-    return this.http.post<IResult<IAuthData>>(url, {
-      name,
+    return this.http.post<IResult<boolean>>(url, {
+      username,
       email,
       password,
       roles,

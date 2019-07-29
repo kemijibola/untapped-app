@@ -9,7 +9,7 @@
               class="nav-link"
               [class.active]="currentTab.active"
               [routerLink]="['./']"
-              fragment="{{ currentTab.tag }}"
+              [queryParams]="{ tab: currentTab.tag }"
             >
               {{ currentTab.title }}
             </a>

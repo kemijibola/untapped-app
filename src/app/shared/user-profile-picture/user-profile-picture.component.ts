@@ -1,33 +1,31 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { IFileInputModel, IUserImage } from 'src/app/interfaces';
-import * as fromShared from '../shared.reducers';
-import * as UserProfileImageActions from '../store/user-profile-image/user-profile-image.actions';
-import * as UploadActions from '../store/upload/upload.actions';
+import {
+  IFileInputModel,
+  IUserImage,
+  UPLOADOPERATIONS
+} from 'src/app/interfaces';
 import * as fromUserProfileImage from '../store/user-profile-image/user-profile-image.reducers';
 import * as fromApp from '../../store/app.reducers';
 import { Observable, Subject } from 'rxjs';
 import { selectUserProfileImage } from '../../shared/store/user-profile-image/user-profile.selectors';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile-picture',
   templateUrl: './user-profile-picture.component.html',
   styleUrls: ['./user-profile-picture.component.css']
 })
-export class UserProfilePictureComponent implements OnInit, OnDestroy {
+export class UserProfilePictureComponent implements OnInit {
   imagePath: string;
   isDefault: boolean;
   userProfileImageState: Observable<fromUserProfileImage.State>;
   ngDestroyed = new Subject();
+  fileConfig: IFileInputModel;
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store
-      .pipe(
-        select(selectUserProfileImage),
-        takeUntil(this.ngDestroyed)
-      )
+      .pipe(select(selectUserProfileImage))
       .subscribe((val: IUserImage) => {
         this.imagePath = val.imagePath || 'assets/img/profile/profile-2.png';
         this.isDefault = val.isDefault;
@@ -35,11 +33,11 @@ export class UserProfilePictureComponent implements OnInit, OnDestroy {
   }
 
   onClickUploadImageBtn() {
-    // dispatch user action triggered
-    this.store.dispatch(new UploadActions.SetAppUploadState(true));
-  }
-
-  ngOnDestroy() {
-    this.store.dispatch(new UploadActions.SetAppUploadState(false));
+    this.fileConfig = {
+      state: true,
+      process: UPLOADOPERATIONS.UploadProfileImage,
+      multiple: false,
+      accept: 'image/*'
+    };
   }
 }
