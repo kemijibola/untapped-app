@@ -3,6 +3,7 @@ import * as fromApp from '../../store/app.reducers';
 import * as AuthActions from '../store/auth.actions';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ILogin } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-login',
@@ -21,9 +22,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSignin() {
-      const email = this.signinForm.controls['email'].value;
-      const password = this.signinForm.controls['password'].value;
-      const payload = {
+      const email: string = this.signinForm.controls['email'].value;
+      const password: string = this.signinForm.controls['password'].value;
+      const payload: ILogin = {
         email,
         password,
         audience: 'untappedpool.com'

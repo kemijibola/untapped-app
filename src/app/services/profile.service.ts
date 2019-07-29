@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IProfile, Result } from '../models';
+import { IProfile, IResult } from '../interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProfileService {
-    private BASE_URI = '';
-    constructor(private http: HttpClient) {
-        this.BASE_URI = 'http://127.0.0.1:9000';
-    }
+  private BASE_URI = '';
+  constructor(private http: HttpClient) {
+    this.BASE_URI = 'http://127.0.0.1:9000';
+  }
 
-    updateProfile(data: IProfile): Observable<Result> {
-        const url = `${this.BASE_URI}/profiles`;
-        return this.http.post<Result>(url, data);
-    }
+  fetchUserProfile(): Observable<IResult<IProfile>> {
+    const url = `${this.BASE_URI}/profiles`;
+    return this.http.get<IResult<IProfile>>(url);
+  }
+  updateProfile(data: IProfile): Observable<IResult<IProfile>> {
+    const url = `${this.BASE_URI}/profiles`;
+    return this.http.post<IResult<IProfile>>(url, data);
+  }
 }
