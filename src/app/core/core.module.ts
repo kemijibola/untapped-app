@@ -19,6 +19,7 @@ import { UploadService } from '../services/upload.service';
 import { AppFileInputDirective } from '../directives/file-multiple.directive';
 import { RoleService } from '../services/role.service';
 import { PortfolioService } from '../services/portfolio.service';
+import { UserService } from '../services/user.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { PortfolioService } from '../services/portfolio.service';
     ProfileService,
     PortfolioService,
     UploadService,
-    RoleService
+    RoleService,
+    UserService
   ]
 })
 export class CoreModule {}

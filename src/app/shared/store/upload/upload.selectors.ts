@@ -5,6 +5,8 @@ import * as fromApp from '../../../store/app.reducers';
 const upload = (state: fromApp.AppState) => state.upload;
 const fileInput = (state: fromApp.AppState) => state.upload;
 const currentUploadAction = (state: fromApp.AppState) => state.upload;
+const fileToUpload = (state: fromApp.AppState) => state.upload;
+const presignedUrls = (state: fromApp.AppState) => state.upload;
 
 export const selectUploadActionState = createSelector(
   upload,
@@ -19,4 +21,14 @@ export const selectFileInput = createSelector(
 export const selectUploadAction = createSelector(
   currentUploadAction,
   (state: fromUpload.State) => state.uploadAction
+);
+
+export const selectFilesToUpload = createSelector(
+  fileToUpload,
+  (state: fromUpload.State) => state.file
+);
+
+export const selectPresignedUrls = createSelector(
+  presignedUrls,
+  (state: fromUpload.State) => state.preSignedUrls
 );

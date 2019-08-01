@@ -17,6 +17,7 @@ import { ErrorEffects } from './store/global/error/error-effects';
 import { SharedModule } from './shared/shared.module';
 import { ConfigService } from './services/config.service';
 import { UploadEffect } from './shared/store/upload/upload.effects';
+import { UserProfileImageEffects } from './shared/store/user-profile-image/user-profile-image.effects';
 
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -34,7 +35,8 @@ import { UploadEffect } from './shared/store/upload/upload.effects';
       RoleEffects,
       AuthEffects,
       ErrorEffects,
-      UploadEffect
+      UploadEffect,
+      UserProfileImageEffects
     ]),
     CoreModule,
     StoreRouterConnectingModule,

@@ -191,6 +191,28 @@
                   Professionals</a
                 >
               </li>
+              <li>
+                <a
+                  routerLink="/"
+                  routerLinkActive="visited"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    appActiveLink
+                    width="10.83"
+                    height="12"
+                    viewBox="0 0 10.83 12"
+                  >
+                    <path
+                      id="nc-sample-outline_ui-home"
+                      d="M8.962,12.975h3.481a.365.365,0,0,0,.387-.387V5.239a.352.352,0,0,0-.155-.309L7.647,1.062a.352.352,0,0,0-.464,0L2.155,4.93A.352.352,0,0,0,2,5.239v7.349a.365.365,0,0,0,.387.387H5.868a.365.365,0,0,0,.387-.387V9.107H8.575v3.481A.365.365,0,0,0,8.962,12.975ZM5.868,8.334a.365.365,0,0,0-.387.387V12.2H2.774V5.433L7.415,1.874l4.641,3.558V12.2H9.349V8.72a.365.365,0,0,0-.387-.387Z"
+                      transform="translate(-2 -0.975)"
+                      fill="#5d5c5c"
+                    />
+                  </svg>
+                  Contests
+                </a>
+              </li>
               <!-- authenticated user -->
               <div *ngIf="(authState | async).authenticated">
                 <li class="bell">

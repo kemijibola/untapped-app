@@ -13,3 +13,5 @@ export * from './AppConfig';
 export * from './shared/UserProfile';
 export * from './user/portfolio';
 export * from './user/settings';
+export * from './contests/ContestList';
+export * from './contests/PrizeType';

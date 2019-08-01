@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomeComponent } from './core/home/home.component';
-import { MainAppComponent } from './shared/main-app/main-app.component';
+// import { MainAppComponent } from './shared/main-app/main-app.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -11,9 +11,18 @@ const appRoutes: Routes = [
     loadChildren: './talents/talents.module#TalentsModule'
   },
   {
-    path: 'user-contest',
+    path: 'contests',
+    loadChildren: './contests/contests.module#ContestsModule'
+  },
+  {
+    path: 'user',
     loadChildren: './user-contest/user-contest.module#UserContestModule'
   },
+  {
+    path: 'professionals',
+    loadChildren: './professionals/professionals.module#ProfessionalsModule'
+  },
+
   {
     path: '',
     loadChildren: './user/user.module#UserModule'

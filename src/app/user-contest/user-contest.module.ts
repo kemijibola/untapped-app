@@ -8,10 +8,10 @@ import { SettingComponent } from './setting/setting.component';
 
 @NgModule({
   declarations: [
-    UserContestComponent,
     AllContestComponent,
     NewContestComponent,
-    SettingComponent
+    SettingComponent,
+    UserContestComponent
   ],
   imports: [SharedModule, UserContestRoutingModule],
   exports: [UserContestRoutingModule]
