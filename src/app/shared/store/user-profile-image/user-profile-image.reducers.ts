@@ -24,20 +24,10 @@ export function UserProfileImageReducers(
         ...state,
         userImage: action.payload
       };
-    case UserProfileImageActions.SET_UPLOADBUTTON:
-      return {
-        ...state,
-        readyToUploadImage: action.payload
-      };
     case UserProfileImageActions.RESET_PROFILEIMAGE_PATH:
       return {
         ...state,
         userImage: action.payload
-      };
-    case UserProfileImageActions.RESET_UPLOADBUTTON:
-      return {
-        ...state,
-        readyToUploadImage: false
       };
     default:
       return state;

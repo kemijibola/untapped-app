@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as fromTabs from '../store/app.reducers';
-import * as TabsAction from '../shared/store/tabs/tabs.actions';
-import { IAppTab, ITab } from '../interfaces';
-import { AbstractTabComponent } from '../shared/Classes/abstract/abstract-tab/abstract-tab.component';
+import * as fromTabs from '../../store/app.reducers';
+import { IAppTab, ITab } from '../../interfaces';
+import { AbstractTabComponent } from '../../shared/Classes/abstract/abstract-tab/abstract-tab.component';
 
 @Component({
   selector: 'app-user-contest',

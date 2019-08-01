@@ -41,7 +41,7 @@ export class UploadComponent
   ngDestroyed = new Subject();
   multiple: boolean;
   accept: string;
-  operationType: string;
+  operationType: UPLOADOPERATIONS;
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;

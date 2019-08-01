@@ -34,11 +34,6 @@ export class AuthService {
     );
   }
 
-  findUserByEmail(email: string): Observable<IResult<IUser[]>> {
-    const url = `${this.BASE_URI}/users`;
-    return this.http.get<IResult<IUser[]>>(`${url}?email=${email}`);
-  }
-
   getUserData(): Observable<IAuthData> {
     return this.localStorage.getItem('authData');
   }

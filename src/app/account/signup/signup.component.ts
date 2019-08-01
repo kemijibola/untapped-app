@@ -8,7 +8,7 @@ import {
 import { Store, select } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
 import { emailAsyncValidator } from '../async-email.validator';
-import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 import { Subject } from 'rxjs';
 import * as AuthActions from '../store/auth.actions';
 import * as fromRole from '../../role/store/role.reducers';
@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
 
   constructor(
     private store: Store<fromApp.AppState>,
-    private authService: AuthService
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       email: new FormControl(
         null,
         Validators.compose([Validators.required, Validators.email]),
-        emailAsyncValidator(500, this.authService).bind(this)
+        emailAsyncValidator(500, this.userService).bind(this)
       ),
       password: new FormControl(
         null,

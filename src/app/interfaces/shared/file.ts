@@ -1,7 +1,8 @@
 export enum UPLOADOPERATIONS {
-  UploadProfileImage = 'UploadProfileImage',
-  UploadPortfolio = 'UploadPortfolio',
-  UploadEntry = 'UploadEntry',
+  ProfileImage = 'ProfileImage',
+  Portfolio = 'Portfolio',
+  Entries = 'Entries',
+  ContestBanner = 'ContestBanner',
   Default = 'Default'
 }
 
@@ -14,17 +15,16 @@ export interface IFileUploadModel {
 
 export interface IFileModel extends IFileUploadModel {
   files: File[];
-  action: string;
+  action: UPLOADOPERATIONS;
 }
 
-export interface IPresignFileModel {
-  action: string;
+export interface IPresignRequest {
+  action: UPLOADOPERATIONS;
   files: IFileMetaData[];
 }
-
 export interface IFileInputModel {
   state: boolean;
-  process: string;
+  process: UPLOADOPERATIONS;
   multiple: boolean;
   accept: string;
 }
@@ -32,8 +32,21 @@ export interface IFileMetaData {
   file: string;
   file_type: string;
 }
-
-export interface IUploadedFiles {
-  uploadUrls: string[];
+export interface SignedUrl {
   action: UPLOADOPERATIONS;
+  presignedUrl: PresignedUrl[];
+}
+
+export interface PresignedUrl {
+  file: string;
+  url: string;
+  key: string;
+}
+export interface IUploadedFiles {
+  uploadUrls: PresignedUrl[];
+}
+
+export interface CloudUploadParams {
+  file: File;
+  url: string;
 }

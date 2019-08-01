@@ -1,26 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IResult } from '../interfaces';
+import {
+  IResult,
+  SignedUrl,
+  PresignedUrl,
+  CloudUploadParams
+} from '../interfaces';
 import { Observable } from 'rxjs';
-import { IFileModel, IPresignFileModel } from '../interfaces';
+import { IPresignRequest } from '../interfaces';
 
 @Injectable()
 export class UploadService {
   private BASE_URI = '';
   constructor(private http: HttpClient) {
-    this.BASE_URI = 'http://127.0.0.1:9000';
+    this.BASE_URI = 'http://127.0.0.1:8900/v1';
   }
 
-  upload(files: string[]): Observable<IResult<string[]>> {
-    const url = `${this.BASE_URI}/uploads`;
-    return this.http.post<IResult<string[]>>(url, files);
+  upload(data: CloudUploadParams): Observable<IResult<string>> {
+    return this.http.put<IResult<string>>(data.url, data.file, {
+      headers: {
+        'Content-Type': data.file.type
+      }
+    });
   }
-  getPresignedUrl(
-    data: IPresignFileModel
-  ): Observable<IResult<IPresignFileModel>> {
-    console.log(data);
+  getPresignedUrl(data: IPresignRequest): Observable<IResult<SignedUrl>> {
     const url = `${this.BASE_URI}/uploads`;
-    return this.http.post<IResult<IPresignFileModel>>(url, data);
+    return this.http.post<IResult<SignedUrl>>(url, data);
   }
   // uploadFiles(data): Observable<true> {
   //     return this.http.put(data.url, data)

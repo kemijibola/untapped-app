@@ -19,9 +19,10 @@ export interface IUserAccountStatus {
 }
 
 export interface IUser {
-  _id: string;
+  _id?: string;
   email: string;
   name: string;
+  profileImagePath?: string;
   password: string;
   isEmailConfirmed: boolean;
   isPhoneConfirmed: boolean;
@@ -32,6 +33,6 @@ export interface IUser {
   loginCount: number;
   status: IUserAccountStatus;
   roles: IRole['_id'][];
-  profileImage: string;
   lastLogin: Date;
+  createdAt: Date;
 }

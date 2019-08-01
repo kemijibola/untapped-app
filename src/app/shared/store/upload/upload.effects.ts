@@ -6,7 +6,12 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducers';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import * as UploadActions from './upload.actions';
-import { IResult, IPresignFileModel } from 'src/app/interfaces';
+import {
+  IResult,
+  IPresignRequest,
+  PresignedUrl,
+  SignedUrl
+} from 'src/app/interfaces';
 
 @Injectable()
 export class UploadEffect {
@@ -17,7 +22,7 @@ export class UploadEffect {
       return this.uploadService.getPresignedUrl(action.payload);
     })
     .pipe(
-      map(res => {
+      map((res: IResult<SignedUrl>) => {
         return {
           type: UploadActions.SET_PRESIGNED_URL,
           payload: res.data
@@ -26,6 +31,20 @@ export class UploadEffect {
       catchError((error, caught) => {
         this.store.dispatch(new ErrorActions.ExceptionOccurred(error));
         return caught;
+      })
+    );
+
+  @Effect()
+  uploadFiles = this.actions$
+    .pipe(ofType(UploadActions.UPLOAD_FILES))
+    .switchMap((action: UploadActions.UploadFiles) => {
+      return this.uploadService.upload(action.payload);
+    })
+    .pipe(
+      map(resp => {
+        return {
+          type: UploadActions.CLOUD_UPLOAD_SUCCESS
+        };
       })
     );
 

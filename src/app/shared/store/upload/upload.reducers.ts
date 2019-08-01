@@ -2,14 +2,16 @@ import {
   IFileInputModel,
   IFileModel,
   IUploadedFiles,
-  UPLOADOPERATIONS
+  UPLOADOPERATIONS,
+  PresignedUrl,
+  SignedUrl
 } from 'src/app/interfaces';
 import * as UploadActions from './upload.actions';
 
 export interface State {
   fileInput: IFileInputModel;
   file: IFileModel;
-  preSignedUrls: IUploadedFiles;
+  preSignedUrls: SignedUrl;
   isReadyForUpload: boolean;
   uploadAction: UPLOADOPERATIONS;
 }
@@ -21,8 +23,14 @@ const initialState: State = {
     multiple: false,
     accept: ''
   },
-  file: null,
-  preSignedUrls: null,
+  file: {
+    files: [],
+    action: UPLOADOPERATIONS.Default
+  },
+  preSignedUrls: {
+    action: UPLOADOPERATIONS.Default,
+    presignedUrl: []
+  },
   isReadyForUpload: false,
   uploadAction: UPLOADOPERATIONS.Default
 };
@@ -36,6 +44,26 @@ export function UploadReducers(
       return {
         ...state,
         fileInput: action.payload
+      };
+    case UploadActions.CLOUD_UPLOAD_SUCCESS:
+      return {
+        ...state,
+        fileInput: {
+          state: false,
+          process: UPLOADOPERATIONS.Default,
+          multiple: false,
+          accept: ''
+        },
+        file: {
+          files: [],
+          action: UPLOADOPERATIONS.Default
+        },
+        preSignedUrls: {
+          action: UPLOADOPERATIONS.Default,
+          presignedUrl: []
+        },
+        isReadyForUpload: false,
+        uploadAction: UPLOADOPERATIONS.Default
       };
     case UploadActions.RESET_FILE_INPUT:
       return {
