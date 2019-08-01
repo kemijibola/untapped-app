@@ -14,7 +14,7 @@ import { AbstractTabComponent } from '../shared/Classes/abstract/abstract-tab/ab
 export class UserComponent extends AbstractTabComponent {
   tab: IAppTab;
   componentName = 'Talent';
-  queryParam = 'talent';
+  queryParam = 'profile';
   activeTab: ITab;
   toQueryParam = 'profile';
   constructor(
@@ -23,6 +23,7 @@ export class UserComponent extends AbstractTabComponent {
     public route: ActivatedRoute
   ) {
     super();
+    console.log('user');
     this.tab = {
       name: this.componentName,
       tabs: [

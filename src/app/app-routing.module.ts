@@ -10,15 +10,19 @@ const appRoutes: Routes = [
     path: 'talents',
     loadChildren: './talents/talents.module#TalentsModule'
   },
-  // {
-  //   path: 'user-contest',
-  //   loadChildren:
-  //     './contests/user-contest/user-contest.module#UserContestModule'
-  // },
+  {
+    path: 'contests',
+    loadChildren: './contests/contests.module#ContestsModule'
+  },
+  {
+    path: 'user',
+    loadChildren: './user-contest/user-contest.module#UserContestModule'
+  },
   {
     path: 'professionals',
     loadChildren: './professionals/professionals.module#ProfessionalsModule'
   },
+
   {
     path: '',
     loadChildren: './user/user.module#UserModule'

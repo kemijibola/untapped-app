@@ -26,33 +26,31 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
     this.queryParam = this.route.snapshot.queryParams['tab']
       ? this.route.snapshot.queryParams['tab'].toLowerCase()
       : this.toQueryParam;
-    // subscribing to fragment change
+    // subscribing to query param change
     this.route.queryParams.subscribe(fragement => {
       this.queryParam = fragement['tab']
         ? fragement['tab'].toLowerCase()
         : this.toQueryParam;
-      this.setActiveTabByFragment();
+      this.setActiveTabByQueryParam();
     });
   }
-
   // Make Tab component more resuable
-  private setActiveTabByFragment(): void {
+  private setActiveTabByQueryParam(): void {
     // This is to check if queryParam matches any of defined tabs
-    let matchedFragment = '';
+    let matchedQuery = '';
     for (const item of this.tab.tabs) {
       const escapeTag = this.escapeRegExp(item.tag);
       const regex = new RegExp(escapeTag, 'i');
-      const fragmentMatch = this.queryParam.match(regex);
-      if (fragmentMatch) {
-        matchedFragment = fragmentMatch[0];
-        // update toQueryParam with latest valid fragment
-        this.toQueryParam = fragmentMatch[0];
+      const queryMatch = this.queryParam.match(regex);
+      if (queryMatch) {
+        matchedQuery = queryMatch[0];
+        // update toQueryParam with latest valid query param
+        this.toQueryParam = queryMatch[0];
       }
     }
     // if queryParam does not exist
-    // set to last known valid fragment
-    this.queryParam =
-      matchedFragment !== '' ? matchedFragment : this.toQueryParam;
+    // set to last known valid query param
+    this.queryParam = matchedQuery !== '' ? matchedQuery : this.toQueryParam;
     const selectedTab = this.tab.tabs.filter(x => x.tag === this.queryParam)[0];
     this.store.dispatch(
       new TabsAction.UpdateTab({
@@ -64,7 +62,7 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
     this.activeTab = selectedTab;
   }
 
-  private escapeRegExp(routeFragment: string) {
-    return routeFragment.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  private escapeRegExp(param: string) {
+    return param.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 }
