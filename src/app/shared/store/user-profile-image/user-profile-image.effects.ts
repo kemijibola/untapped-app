@@ -14,7 +14,6 @@ export class UserProfileImageEffects {
     .pipe(ofType(UserProfileImageActions.UPDATE_USER_PROFILEIMAGE))
     .switchMap((action: UserProfileImageActions.UpdateUserProfileImage) => {
       const { id, profileImagePath } = action.payload;
-      console.log('called');
       return this.userService.updateUserProfileImage(id, profileImagePath);
     })
     .pipe(

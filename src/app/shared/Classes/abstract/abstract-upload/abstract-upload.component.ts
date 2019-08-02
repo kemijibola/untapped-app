@@ -56,14 +56,5 @@ export abstract class AbstractUploadComponent implements OnInit {
           }
         }
       });
-
-    // this.store.select('upload').subscribe((val: fromUploads.State) => {
-    //   if (val.file.files.length > 0) {
-    //     for (let index = 0; index < val.file.files.length; index++) {
-    //       const fileToUpload = val.file.files[index];
-    //       console.log(fileToUpload['data']['name']);
-    //     }
-    //   }
-    // });
   }
 }
