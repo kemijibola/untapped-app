@@ -18,6 +18,7 @@ import { SharedModule } from './shared/shared.module';
 import { ConfigService } from './services/config.service';
 import { UploadEffect } from './shared/store/upload/upload.effects';
 import { UserProfileImageEffects } from './shared/store/user-profile-image/user-profile-image.effects';
+import { ServiceEffects } from './shared/store/service/service.effects';
 
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -36,6 +37,7 @@ import { UserProfileImageEffects } from './shared/store/user-profile-image/user-
       AuthEffects,
       ErrorEffects,
       UploadEffect,
+      ServiceEffects,
       UserProfileImageEffects
     ]),
     CoreModule,

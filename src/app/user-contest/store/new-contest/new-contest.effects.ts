@@ -37,6 +37,19 @@ export class UserContestEffect {
       this.router.navigate(['/new-contest/success/overview']);
     });
 
+  @Effect()
+  updateContestJudge = this.action$
+    .pipe(ofType(NewContestActions.ADD_CONTEST_JUDGE))
+    .switchMap((action: NewContestActions.AddContestJudge) => {
+      const { _id, judges } = action.payload;
+      return this.contestsService.updateContestWithJudge(_id, judges);
+    })
+    .pipe(
+      map((resp: IResult<IContest>) => {
+        // TODO:: on success, navigate to user/contest?tab=all
+      })
+    );
+
   constructor(
     private action$: Actions,
     private router: Router,

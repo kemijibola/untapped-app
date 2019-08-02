@@ -6,6 +6,8 @@ import { AllContestComponent } from './all-contest/all-contest.component';
 import { NewContestComponent } from './new-contest/new-contest.component';
 import { SettingComponent } from './setting/setting.component';
 import { NewContestBannerComponent } from './new-contest/new-contest-banner/new-contest-banner.component';
+import { ContestOverviewComponent } from './contest-overview/contest-overview.component';
+import { ContestServiceComponent } from './contest-overview/contest-service/contest-service.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { NewContestBannerComponent } from './new-contest/new-contest-banner/new-
     NewContestComponent,
     SettingComponent,
     UserContestComponent,
-    NewContestBannerComponent
+    NewContestBannerComponent,
+    ContestOverviewComponent,
+    ContestServiceComponent
   ],
   imports: [SharedModule, UserContestRoutingModule],
   exports: [UserContestRoutingModule]

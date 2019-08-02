@@ -19,7 +19,7 @@ export function roleReducer(
     case RoleActions.SET_ROLES:
       return {
         ...state,
-        roles: action.payload
+        roles: [...state.roles, ...action.payload]
       };
     case RoleActions.SET_SELECTEDROLE:
       return {

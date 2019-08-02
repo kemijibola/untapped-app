@@ -1,5 +1,16 @@
 import { IRole } from './role';
 
+export enum SocialMedia {
+  FACEBOOK = 'FACEBOOK',
+  TWITTER = 'TWITTER',
+  INSTAGRAM = 'INSTAGRAM',
+  OTHER = 'OTHER'
+}
+
+export interface IUserSocialMedia {
+  type: SocialMedia;
+  handles: string[];
+}
 export interface IAuthData {
   email: string;
   _id: string;

@@ -8,6 +8,7 @@ import {
   IContestIssue
 } from '../interfaces';
 import { Observable } from 'rxjs';
+import { IJudge } from '../interfaces/contests/Judge';
 
 @Injectable()
 export class ContestService {
@@ -34,5 +35,14 @@ export class ContestService {
   createContestIssue(item: IContestIssue): Observable<IResult<IContestIssue>> {
     const url = `${this.BASE_URI}/contests`;
     return this.http.post<IResult<IContestIssue>>(url, item);
+  }
+  updateContestWithJudge(
+    _id: string,
+    judges: IJudge[]
+  ): Observable<IResult<IContest>> {
+    const url = `${this.BASE_URI}/contests/${_id}`;
+    return this.http.patch<IResult<IContest>>(url, {
+      judges: judges
+    });
   }
 }
