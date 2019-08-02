@@ -1,11 +1,13 @@
 import { Action } from '@ngrx/store';
 import { IContest } from '../../../interfaces';
+import { IJudge } from 'src/app/interfaces/contests/Judge';
 
 export const CREATE_CONTEST = 'CREATE_CONTEST';
 export const SET_NEW_CONTEST = 'SET_NEW_CONTEST';
 export const SET_CONTEST_BANNER = 'SET_CONTEST_BANNER';
 export const SET_CONTEST_SUCCESS = 'CREATE_CONTEST_SUCCESS';
 export const SET_CONTEST_FAILURE = 'CREATE_CONTEST_FAILURE';
+export const ADD_CONTEST_JUDGE = 'ADD_CONTEST_JUDGE';
 
 export class CreateContest implements Action {
   readonly type = CREATE_CONTEST;
@@ -28,9 +30,15 @@ export class SetContestBanner implements Action {
   constructor(public payload: string) {}
 }
 
+export class AddContestJudge implements Action {
+  readonly type = ADD_CONTEST_JUDGE;
+  constructor(public payload: { _id: string; judges: IJudge[] }) {}
+}
+
 export type NewContestActions =
   | CreateContest
   | SetContestSuccess
   | SetNewContest
   | SetContestFailure
-  | SetContestBanner;
+  | SetContestBanner
+  | AddContestJudge;

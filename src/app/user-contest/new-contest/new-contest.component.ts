@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-contest.component.css']
 })
 export class NewContestComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
-
+  // TODO:: on click of proceed to payment, order is created
+  // payment is sent to payment gateway
+  // On success, updated order collection, contest collection and payment collection
 }

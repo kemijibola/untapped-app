@@ -5,4 +5,10 @@ export const SOCIAL_MEDIAS = {
   YOUTUBE: 'YOUTUBE'
 };
 
+export enum ServiceTypes {
+  Contest = 'Contest',
+  Vote = 'Vote',
+  ContactDetails = 'ContactDetails'
+}
+
 export const AUDIENCE = 'http://localhost:4200';
