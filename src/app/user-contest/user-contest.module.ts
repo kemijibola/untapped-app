@@ -5,13 +5,15 @@ import { SharedModule } from '../shared/shared.module';
 import { AllContestComponent } from './all-contest/all-contest.component';
 import { NewContestComponent } from './new-contest/new-contest.component';
 import { SettingComponent } from './setting/setting.component';
+import { NewContestBannerComponent } from './new-contest/new-contest-banner/new-contest-banner.component';
 
 @NgModule({
   declarations: [
     AllContestComponent,
     NewContestComponent,
     SettingComponent,
-    UserContestComponent
+    UserContestComponent,
+    NewContestBannerComponent
   ],
   imports: [SharedModule, UserContestRoutingModule],
   exports: [UserContestRoutingModule]

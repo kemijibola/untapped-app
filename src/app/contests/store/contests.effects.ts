@@ -31,20 +31,6 @@ export class ContestsEffect {
       })
     );
 
-  fetchUserContests = this.action$
-    .pipe(ofType(ContestsActions.FETCH_USER_CONTESTS))
-    .switchMap((action: ContestsActions.FetchUserContests) => {
-      return this.contestsService.fetchUserContests(action.payload);
-    })
-    .pipe(
-      map((resp: IResult<IUserContest[]>) => {
-        return {
-          type: ContestsActions.SET_USER_CONTESTS,
-          payload: resp.data
-        };
-      })
-    );
-
   fetchContest = this.action$
     .pipe(ofType(ContestsActions.FETCH_CONTEST))
     .switchMap((action: ContestsActions.FetchContest) => {
@@ -58,32 +44,6 @@ export class ContestsEffect {
         };
       })
     );
-
-  createContest = this.action$
-    .pipe(ofType(ContestsActions.CREATE_CONTEST))
-    .switchMap((action: ContestsActions.CreateContest) => {
-      return this.contestsService.createContest(action.payload);
-    })
-    .pipe(
-      mergeMap((resp: IResult<IContest>) => {
-        return [
-          {
-            type: ContestsActions.CREATE_CONTEST_SUCCESS
-          },
-          {
-            type: ContestsActions.SET_USER_CONTEST,
-            payload: resp.data
-          }
-        ];
-      })
-    );
-
-  @Effect({ dispatch: false })
-  createContestSuccess = this.action$
-    .pipe(ofType(ContestsActions.CREATE_CONTEST_SUCCESS))
-    .do((action: ContestsActions.CreateContestSuccess) => {
-      this.router.navigate(['/new-contest/success/overview']);
-    });
 
   constructor(
     private action$: Actions,

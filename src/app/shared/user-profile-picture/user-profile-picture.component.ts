@@ -25,8 +25,6 @@ import * as UserProfileImageActions from '../../shared/store/user-profile-image/
 export class UserProfilePictureComponent extends AbstractUploadComponent {
   imagePath: string;
   isDefault: boolean;
-  userProfileImageState: Observable<fromUserProfileImage.State>;
-  ngDestroyed = new Subject();
   fileConfig: IFileInputModel;
   uploadOperation = UPLOADOPERATIONS.ProfileImage;
   constructor(public store: Store<fromApp.AppState>) {
