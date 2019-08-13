@@ -31,42 +31,42 @@ export function portfolioReducer(
     case PortfolioActions.SET_PORTFOLIO_AUDIOS:
       return {
         ...state,
-        audios: [...state.audios, ...action.payload]
+        audios: [...state.audios, ...action.payload.audios]
       };
     case PortfolioActions.SET_PORTFOLIO_VIDEOS:
       return {
         ...state,
-        vidoes: [...state.vidoes, ...action.payload]
+        vidoes: [...state.vidoes, ...action.payload.videos]
       };
     case PortfolioActions.SET_PORTFOLIO_IMAGES:
       return {
         ...state,
-        images: [...state.images, ...action.payload]
+        images: [...state.images, ...action.payload.images]
       };
     case PortfolioActions.SET_PORTFOLIO_GENERALS:
       return {
         ...state,
-        items: [...state.items, ...action.payload]
+        items: [...state.items, ...action.payload.generalUploads]
       };
     case PortfolioActions.SET_PORTFOLIO_AUDIO:
       return {
         ...state,
-        audio: Object.assign(state.audio, action.payload)
+        audio: Object.assign(state.audio, action.payload.audio)
       };
     case PortfolioActions.SET_PORTFOLIO_VIDEO:
       return {
         ...state,
-        video: Object.assign(state.video, action.payload)
+        video: Object.assign(state.video, action.payload.video)
       };
     case PortfolioActions.SET_PORTFOLIO_IMAGE:
       return {
         ...state,
-        image: Object.assign(state.image, action.payload)
+        image: Object.assign(state.image, action.payload.image)
       };
     case PortfolioActions.SET_PORTFOLIO_GENERAL:
       return {
         ...state,
-        item: Object.assign(state.image, action.payload)
+        item: Object.assign(state.image, action.payload.generalUpload)
       };
     default:
       return state;

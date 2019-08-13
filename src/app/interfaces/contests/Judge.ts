@@ -1,4 +1,4 @@
-import { IContest } from './ContestList';
+import { IContest } from './Contest';
 import { IUserSocialMedia } from '../account/user';
 
 export interface IJudge {

@@ -16,7 +16,7 @@ export function allContestReducer(
     case AllContestActions.SET_USER_CONTESTS:
       return {
         ...state,
-        userContests: [...state.userContests, ...action.payload]
+        userContests: [...state.userContests, ...action.payload.userContest]
       };
     default:
       return state;

@@ -24,7 +24,7 @@ export const CLOUD_UPLOAD_SUCCESS = 'CLOUD_UPLOAD_SUCCESS';
 
 export class FileInputConfig implements Action {
   readonly type = FILE_INPUT_CONFIG;
-  constructor(public payload: IFileInputModel) {}
+  constructor(public payload: { fileInput: IFileInputModel }) {}
 }
 
 export class CloudUploadSuccess implements Action {
@@ -33,7 +33,7 @@ export class CloudUploadSuccess implements Action {
 
 export class SetAppUploadOperation implements Action {
   readonly type = SET_APPUPLOAD_OPERATION;
-  constructor(public payload: UPLOADOPERATIONS) {}
+  constructor(public payload: { uploadOperation: UPLOADOPERATIONS }) {}
 }
 export class ResetFileInput implements Action {
   readonly type = RESET_FILE_INPUT;
@@ -41,22 +41,22 @@ export class ResetFileInput implements Action {
 
 export class FileToUpload implements Action {
   readonly type = FILE_TOUPLOAD;
-  constructor(public payload: IFileModel) {}
+  constructor(public payload: { file: IFileModel }) {}
 }
 
 export class GetPresignedUrl implements Action {
   readonly type = GET_PRESIGNED_URL;
-  constructor(public payload: IPresignRequest) {}
+  constructor(public payload: { preSignRequest: IPresignRequest }) {}
 }
 
 export class SetPresignedUrl implements Action {
   readonly type = SET_PRESIGNED_URL;
-  constructor(public payload: SignedUrl) {}
+  constructor(public payload: { signedUrl: SignedUrl }) {}
 }
 
 export class UploadFiles implements Action {
   readonly type = UPLOAD_FILES;
-  constructor(public payload: CloudUploadParams) {}
+  constructor(public payload: { cloudParams: CloudUploadParams }) {}
 }
 
 export type UploadActions =

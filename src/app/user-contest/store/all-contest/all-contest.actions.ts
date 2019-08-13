@@ -7,12 +7,12 @@ export const SET_USER_CONTESTS = 'SET_USER_CONTESTS';
 export class FetchUserContests implements Action {
   readonly type = FETCH_USER_CONTESTS;
   // payload is current user Id
-  constructor(public payload: string) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class SetUserContests implements Action {
   readonly type = SET_USER_CONTESTS;
-  constructor(public payload: IUserContest[]) {}
+  constructor(public payload: { userContest: IUserContest[] }) {}
 }
 
 export type AllContestActions = FetchUserContests | SetUserContests;

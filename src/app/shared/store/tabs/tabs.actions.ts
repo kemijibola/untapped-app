@@ -8,16 +8,16 @@ export const DESTROY_TAB = 'DESTROY_TAB';
 
 export class AddTab implements Action {
   readonly type = ADD_TAB;
-  constructor(public payload: IAppTab) {}
+  constructor(public payload: { appTab: IAppTab }) {}
 }
 
 export class AddTabs implements Action {
   readonly type = ADD_TABS;
-  constructor(public payload: IAppTab[]) {}
+  constructor(public payload: { appTabs: IAppTab[] }) {}
 }
 export class UpdateTab implements Action {
   readonly type = UPDATE_TAB;
-  constructor(public payload: IUpdateTab) {}
+  constructor(public payload: { updateObj: IUpdateTab }) {}
 }
 export class DestroyTab implements Action {
   readonly type = DESTROY_TAB;

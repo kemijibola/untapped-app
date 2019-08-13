@@ -20,15 +20,19 @@ export interface IRedeemable {
 }
 
 export interface IUserContest {
+  _id: string;
   title: string;
   entryCount: number;
   bannerImage: string;
 }
+
 export interface IContestList {
+  _id: string;
   title: string;
   entryCount: number;
   viewCount: number;
   bannerImage: string;
+  contestDateDistanceInWords: string;
 }
 
 export interface IContest {
@@ -36,7 +40,7 @@ export interface IContest {
   title: string;
   information: string;
   bannerImage: string;
-  eligibleCategories: ICategory['_id'];
+  eligibleCategories: ICategory['_id'][];
   eligibilityInfo: string;
   submissionRules: string;
   startDate: Date;
@@ -58,4 +62,10 @@ export interface IContestIssue {
 export enum ComplaintStatus {
   Opened = 'Opened',
   Resolved = 'Resolved'
+}
+
+export interface CreateContest {
+  user: IUser['_id'];
+  contest: IContest['_id'];
+  submissionPath: string;
 }

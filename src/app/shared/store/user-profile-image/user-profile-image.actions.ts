@@ -11,12 +11,12 @@ export class UpdateUserProfileImage implements Action {
 }
 export class SetProfileImagePath implements Action {
   readonly type = SET_PROFILEIMAGE_PATH;
-  constructor(public payload: IUserImage) {}
+  constructor(public payload: { userImage: IUserImage }) {}
 }
 
 export class ResetProfileImagePath implements Action {
   readonly type = RESET_PROFILEIMAGE_PATH;
-  constructor(public payload: IUserImage) {}
+  constructor(public payload: { userImage: IUserImage }) {}
 }
 
 export type UserProfileImageActions =

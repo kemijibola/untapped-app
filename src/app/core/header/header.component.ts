@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducers';
-import * as fromAuth from '../../account/store/auth.reducers';
-import { Observable } from 'rxjs';
+import * as AuthActions from '../../account/store/auth.actions';
+import { selectUserData } from '../../account/store/auth.selectors';
+import { IAuthData } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +11,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, AfterContentInit {
-
-  authState: Observable<fromAuth.State>;
-  constructor(private store: Store<fromAuth.State>) { }
+  isAuthenticated: boolean;
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    this.authState = this.store.select('auth');
+    this.store.dispatch(new AuthActions.FetchAuthData());
+    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
+      this.isAuthenticated = val.authenticated;
+    });
   }
-  ngAfterContentInit() {
+
+  onLogOut() {
+    this.store.dispatch(new AuthActions.LogOut());
   }
+
+  ngAfterContentInit() {}
 }

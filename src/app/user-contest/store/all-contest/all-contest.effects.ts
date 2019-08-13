@@ -14,7 +14,7 @@ export class AllUserContestEffect {
   fetchUserContests = this.action$
     .pipe(ofType(AllContestActions.FETCH_USER_CONTESTS))
     .switchMap((action: AllContestActions.FetchUserContests) => {
-      return this.contestsService.fetchUserContests(action.payload);
+      return this.contestsService.fetchUserContests(action.payload.id);
     })
     .pipe(
       map((resp: IResult<IUserContest[]>) => {

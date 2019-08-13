@@ -16,9 +16,9 @@ export function TabsReducers(
   switch (action.type) {
     case TabsAction.UPDATE_TAB:
       const tabByBame = state.tabs.filter(
-        x => x.name === action.payload.name
+        x => x.name === action.payload.updateObj.name
       )[0];
-      const selectedTab = tabByBame.tabs[action.payload.tabIndex];
+      const selectedTab = tabByBame.tabs[action.payload.updateObj.tabIndex];
       const updateObj = {
         index: selectedTab.index,
         title: selectedTab.title,
@@ -31,7 +31,7 @@ export function TabsReducers(
         ...updateObj
       };
       tabByBame.tabs.forEach(x => (x.active = false));
-      tabByBame.tabs[action.payload.tabIndex] = updateTab;
+      tabByBame.tabs[action.payload.updateObj.tabIndex] = updateTab;
       return {
         ...state,
         tabs: [tabByBame]
@@ -39,12 +39,12 @@ export function TabsReducers(
     case TabsAction.ADD_TAB:
       return {
         ...state,
-        tabs: [...state.tabs, action.payload]
+        tabs: [...state.tabs, action.payload.appTab]
       };
     case TabsAction.ADD_TABS:
       return {
         ...state,
-        tabs: [...state.tabs, ...action.payload]
+        tabs: [...state.tabs, ...action.payload.appTabs]
       };
     case TabsAction.DESTROY_TAB:
       // TODO:: implement tab destroy by global name

@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { sharedReducers } from './shared.reducers';
 import { UploadComponent } from './upload/upload.component';
 import { UserProfilePictureComponent } from './user-profile-picture/user-profile-picture.component';
-import { UploadEffect } from './store/upload/upload.effects';
 import { TabsComponent } from './tabs/tabs.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { RouterModule } from '@angular/router';
 import { AppUserSearchCategoriesComponent } from './app-user-search-categories/app-user-search-categories.component';
 import { AppSearchCategoriesComponent } from './app-search-categories/app-search-categories.component';
-import { MainAppComponent } from './main-app/main-app.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild([])],
@@ -21,7 +17,8 @@ import { MainAppComponent } from './main-app/main-app.component';
     UserProfilePictureComponent,
     TabsComponent,
     CategoriesComponent,
-    AppUserSearchCategoriesComponent
+    AppUserSearchCategoriesComponent,
+    ModalComponent
   ],
   declarations: [
     UploadComponent,
@@ -30,7 +27,7 @@ import { MainAppComponent } from './main-app/main-app.component';
     CategoriesComponent,
     AppUserSearchCategoriesComponent,
     AppSearchCategoriesComponent,
-    MainAppComponent
+    ModalComponent
   ]
 })
 export class SharedModule {}

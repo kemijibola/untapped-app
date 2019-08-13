@@ -22,12 +22,12 @@ export function UserProfileImageReducers(
     case UserProfileImageActions.SET_PROFILEIMAGE_PATH:
       return {
         ...state,
-        userImage: action.payload
+        userImage: action.payload.userImage
       };
     case UserProfileImageActions.RESET_PROFILEIMAGE_PATH:
       return {
         ...state,
-        userImage: action.payload
+        userImage: action.payload.userImage
       };
     default:
       return state;

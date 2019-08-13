@@ -23,7 +23,6 @@ export class UserComponent extends AbstractTabComponent {
     public route: ActivatedRoute
   ) {
     super();
-    console.log('user');
     this.tab = {
       name: this.componentName,
       tabs: [

@@ -43,7 +43,7 @@ export function UploadReducers(
     case UploadActions.FILE_INPUT_CONFIG:
       return {
         ...state,
-        fileInput: action.payload
+        fileInput: action.payload.fileInput
       };
     case UploadActions.CLOUD_UPLOAD_SUCCESS:
       return {
@@ -78,17 +78,17 @@ export function UploadReducers(
     case UploadActions.FILE_TOUPLOAD:
       return {
         ...state,
-        file: action.payload
+        file: action.payload.file
       };
     case UploadActions.SET_PRESIGNED_URL:
       return {
         ...state,
-        preSignedUrls: action.payload
+        preSignedUrls: action.payload.signedUrl
       };
     case UploadActions.SET_APPUPLOAD_OPERATION:
       return {
         ...state,
-        uploadAction: action.payload
+        uploadAction: action.payload.uploadOperation
       };
     default:
       return state;

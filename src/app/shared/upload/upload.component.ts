@@ -91,7 +91,7 @@ export class UploadComponent
       files: [...fileArray]
     };
     this.onChange(this.file);
-    this.store.dispatch(new UploadActions.FileToUpload(this.file));
+    this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
   }
 
   writeValue(value: null) {

@@ -37,14 +37,14 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new RoleActions.FetchRoles());
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    if (window.pageYOffset > 0) {
-      const element = document.getElementById('navbar');
-      element.classList.add('sticky');
-    } else {
-      const element = document.getElementById('navbar');
-      element.classList.remove('sticky');
-    }
-  }
+  // @HostListener('window:scroll', ['$event'])
+  // onWindowScroll() {
+  //   if (window.pageYOffset > 0) {
+  //     const element = document.getElementById('top-header');
+  //     element.classList.add('sticky');
+  //   } else {
+  //     const element = document.getElementById('top-header');
+  //     element.classList.remove('sticky');
+  //   }
+  // }
 }

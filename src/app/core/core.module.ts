@@ -21,6 +21,7 @@ import { RoleService } from '../services/role.service';
 import { PortfolioService } from '../services/portfolio.service';
 import { UserService } from '../services/user.service';
 import { ServicesService } from '../services/services.service';
+import { ModalService } from '../services/modal.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ServicesService } from '../services/services.service';
     UploadService,
     RoleService,
     ServicesService,
-    UserService
+    UserService,
+    ModalService
   ]
 })
 export class CoreModule {}

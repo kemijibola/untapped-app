@@ -19,7 +19,7 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
   constructor() {}
 
   ngOnInit() {
-    this.store.dispatch(new TabsAction.AddTab(this.tab));
+    this.store.dispatch(new TabsAction.AddTab({ appTab: this.tab }));
   }
 
   ngAfterContentInit() {
@@ -54,8 +54,10 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
     const selectedTab = this.tab.tabs.filter(x => x.tag === this.queryParam)[0];
     this.store.dispatch(
       new TabsAction.UpdateTab({
-        name: this.componentName,
-        tabIndex: selectedTab.index
+        updateObj: {
+          name: this.componentName,
+          tabIndex: selectedTab.index
+        }
       })
     );
     this.navigate();

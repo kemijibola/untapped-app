@@ -1,6 +1,6 @@
 import { ActionReducerMap } from '@ngrx/store';
 import * as fromAuth from '../account/store/auth.reducers';
-import * as fromError from './global/error/error.reducers';
+import * as fromUser from '../account/store/user/user.reducers';
 import * as fromRole from '../role/store/role.reducers';
 import * as fromUpload from '../shared/store/upload/upload.reducers';
 import * as fromTab from '../shared/store/tabs/tabs.reducers';
@@ -9,7 +9,7 @@ import * as fromService from '../shared/store/service/service.reducers';
 
 export interface AppState {
   auth: fromAuth.State;
-  exception: fromError.State;
+  user: fromUser.State;
   roles: fromRole.State;
   upload: fromUpload.State;
   appTabs: fromTab.State;
@@ -19,7 +19,7 @@ export interface AppState {
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: fromAuth.authReducer,
-  exception: fromError.errorReducer,
+  user: fromUser.userReducers,
   roles: fromRole.roleReducer,
   upload: fromUpload.UploadReducers,
   appTabs: fromTab.TabsReducers,

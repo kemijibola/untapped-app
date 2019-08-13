@@ -9,17 +9,17 @@ export const RESET_SELECTEDSERVICE = 'RESET_SELECTEDSERVICE';
 
 export class FetchService implements Action {
   readonly type = FETCH_SERVICE;
-  constructor(public payload: ServiceTypes) {}
+  constructor(public payload: { serviceTypes: ServiceTypes }) {}
 }
 
 export class SetService implements Action {
   readonly type = SET_SERVICE;
-  constructor(public payload: IService) {}
+  constructor(public payload: { service: IService }) {}
 }
 
 export class SetSelectedService implements Action {
   readonly type = SET_SELECTED_SERVICE;
-  constructor(public payload: string) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class ResetSelectedService implements Action {

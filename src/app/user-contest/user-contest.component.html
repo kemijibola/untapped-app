@@ -1,5 +1,8 @@
+<!-- All -Contest Area Start -->
 <app-tabs [appTabName]="componentName" [activeTab]="activeTab">
   <app-all-contest *ngIf="activeTab.tag === tab.tabs[0].tag"></app-all-contest>
   <app-new-contest *ngIf="activeTab.tag === tab.tabs[1].tag"></app-new-contest>
   <app-setting *ngIf="activeTab.tag === tab.tabs[2].tag"></app-setting>
 </app-tabs>
+
+<!-- All-Contest Area End -->

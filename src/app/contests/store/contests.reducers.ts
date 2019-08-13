@@ -4,10 +4,12 @@ import * as ContestsActions from './contests.action';
 export interface State {
   contests: IContestList[];
   contest: IContest;
+  errorMessage: string;
 }
 const initialState: State = {
   contests: [],
-  contest: null
+  contest: null,
+  errorMessage: ''
 };
 
 export function contestsReducer(
@@ -24,6 +26,11 @@ export function contestsReducer(
       return {
         ...state,
         contest: Object.assign(state.contest, action.payload)
+      };
+    case ContestsActions.FAILURE_ENTER_CONTEST:
+      return {
+        ...state,
+        errorMessage: action.payload
       };
     default:
       return state;

@@ -12,11 +12,10 @@ export interface IUserSocialMedia {
   handles: string[];
 }
 export interface IAuthData {
-  email: string;
   _id: string;
-  token?: string;
+  token: string;
   roles: IRole['name'][];
-  permissions: {};
+  authenticated: boolean;
 }
 
 enum AccountStatus {
@@ -31,19 +30,19 @@ export interface IUserAccountStatus {
 
 export interface IUser {
   _id?: string;
-  email: string;
-  name: string;
+  email?: string;
+  name?: string;
   profileImagePath?: string;
-  password: string;
-  isEmailConfirmed: boolean;
-  isPhoneConfirmed: boolean;
-  isProfileCompleted: boolean;
-  generalNotification: boolean;
-  emailNotification: boolean;
-  profileVisibility: boolean;
-  loginCount: number;
-  status: IUserAccountStatus;
-  roles: IRole['_id'][];
-  lastLogin: Date;
-  createdAt: Date;
+  password?: string;
+  isEmailConfirmed?: boolean;
+  isPhoneConfirmed?: boolean;
+  isProfileCompleted?: boolean;
+  generalNotification?: boolean;
+  emailNotification?: boolean;
+  profileVisibility?: boolean;
+  loginCount?: number;
+  status?: IUserAccountStatus;
+  roles?: IRole['_id'][];
+  lastLogin?: Date;
+  createdAt?: Date;
 }

@@ -34,7 +34,14 @@ export class AuthService {
     );
   }
 
-  getUserData(): Observable<IAuthData> {
-    return this.localStorage.getItem('authData');
+  fetchUserAuthData(key: string): Observable<IAuthData> {
+    return this.localStorage.getItem(key);
+  }
+  removeUserAuthData(key: string): Observable<boolean> {
+    return this.localStorage.removeItem(key);
+  }
+
+  setItem(key: string, data = {}): void {
+    this.localStorage.setItemSubscribe(key, data);
   }
 }

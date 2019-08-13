@@ -28,6 +28,7 @@ export class RoleItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.rolesState = this.store.select('roles');
+
     this.store
       .pipe(
         select('roles'),

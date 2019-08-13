@@ -49,7 +49,9 @@ export class UserProfilePictureComponent extends AbstractUploadComponent {
           file: files[0]['data'],
           url: val.presignedUrl[0].url
         };
-        this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
+        this.store.dispatch(
+          new UploadActions.UploadFiles({ cloudParams: uploadParams })
+        );
 
         this.store.dispatch(
           new UserProfileImageActions.UpdateUserProfileImage({
