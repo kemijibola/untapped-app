@@ -1456,10 +1456,10 @@ footer p {
   font-size: 14px;
   font-family: AvenirNext-reg;
 }
-.option-seclect span svg path {
+/* .option-seclect span svg path {
   fill: #5d5c5c;
   color: #5d5c5c;
-}
+} */
 .option-seclect span {
 }
 
@@ -1491,14 +1491,19 @@ footer p {
   flex-wrap: wrap;
 }
 
-.option-seclect span:hover {
+.option-seclect span:hover{
   border-color: #06a9b0;
   cursor: pointer;
 }
-.option-seclect span:hover svg path {
+
+.option-seclect-active  {
+	color: #06a9b0;
+}
+
+/* .option-seclect span:hover svg path {
   fill: #06a9b0;
   color: #06a9b0;
-}
+} */
 
 .drag-section {
   width: 452px;
@@ -3377,12 +3382,20 @@ button.accordion.is-open:after {
 	border: 1px solid #D8D8D8;
 	border-radius: 5px;
 }
+.up-btn.single:hover {
+	cursor: pointer;
+}
+
 .up-btn.multiple {
 	background: #06A9B0;
 	color: #fff;
 	border-radius: 5px;
 	margin-left: -12px;
 	border: 1px solid transparent;
+}
+
+.up-btn.multiple {
+	cursor: pointer;
 }
 .modal-dialog.profileModal {
 	max-width: 860px;

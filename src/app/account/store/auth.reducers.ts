@@ -9,6 +9,8 @@ const initialState: State = {
   userData: {
     _id: '',
     token: '',
+    email: '',
+    fullName: '',
     roles: [],
     authenticated: false
   },
@@ -25,6 +27,8 @@ export function authReducer(
         userData: {
           _id: '',
           token: '',
+          email: '',
+          fullName: '',
           roles: [],
           authenticated: false
         },
@@ -37,6 +41,8 @@ export function authReducer(
         userData: {
           _id: '',
           token: '',
+          email: '',
+          fullName: '',
           roles: [],
           authenticated: false
         }
@@ -52,6 +58,8 @@ export function authReducer(
         userData: {
           _id: '',
           token: '',
+          email: '',
+          fullName: '',
           roles: [],
           authenticated: false
         }
@@ -62,6 +70,8 @@ export function authReducer(
         userData: {
           _id: '',
           token: '',
+          email: '',
+          fullName: '',
           roles: [],
           authenticated: false
         }
@@ -72,6 +82,8 @@ export function authReducer(
         userData: {
           _id: '',
           token: '',
+          email: '',
+          fullName: '',
           roles: [],
           authenticated: false
         },
@@ -83,6 +95,8 @@ export function authReducer(
         userData: {
           _id: '',
           token: '',
+          email: '',
+          fullName: '',
           roles: [],
           authenticated: false
         },

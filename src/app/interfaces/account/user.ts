@@ -14,6 +14,8 @@ export interface IUserSocialMedia {
 export interface IAuthData {
   _id: string;
   token: string;
+  email: string;
+  fullName: string;
   roles: IRole['name'][];
   authenticated: boolean;
 }

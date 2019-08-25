@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as fromTabs from '../store/app.reducers';
-import * as TabsAction from '../shared/store/tabs/tabs.actions';
+import * as fromApp from '../store/app.reducers';
+import * as AuthActions from '../account/store/auth.actions';
 import { IAppTab, ITab } from '../interfaces';
 import { AbstractTabComponent } from '../shared/Classes/abstract/abstract-tab/abstract-tab.component';
 
@@ -12,17 +12,19 @@ import { AbstractTabComponent } from '../shared/Classes/abstract/abstract-tab/ab
   styleUrls: ['./user.component.css']
 })
 export class UserComponent extends AbstractTabComponent {
+  userId = '';
   tab: IAppTab;
   componentName = 'Talent';
   queryParam = 'profile';
   activeTab: ITab;
   toQueryParam = 'profile';
   constructor(
-    public store: Store<fromTabs.AppState>,
+    public store: Store<fromApp.AppState>,
     public router: Router,
     public route: ActivatedRoute
   ) {
     super();
+    this.store.dispatch(new AuthActions.FetchAuthData());
     this.tab = {
       name: this.componentName,
       tabs: [

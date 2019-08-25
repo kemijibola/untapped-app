@@ -7,7 +7,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { RouterModule } from '@angular/router';
 import { AppUserSearchCategoriesComponent } from './app-user-search-categories/app-user-search-categories.component';
 import { AppSearchCategoriesComponent } from './app-search-categories/app-search-categories.component';
-import { ModalComponent } from './modal/modal.component';
+import { ModalsComponent } from './modals/modals.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild([])],
@@ -18,7 +18,7 @@ import { ModalComponent } from './modal/modal.component';
     TabsComponent,
     CategoriesComponent,
     AppUserSearchCategoriesComponent,
-    ModalComponent
+    ModalsComponent
   ],
   declarations: [
     UploadComponent,
@@ -27,7 +27,7 @@ import { ModalComponent } from './modal/modal.component';
     CategoriesComponent,
     AppUserSearchCategoriesComponent,
     AppSearchCategoriesComponent,
-    ModalComponent
+    ModalsComponent
   ]
 })
 export class SharedModule {}

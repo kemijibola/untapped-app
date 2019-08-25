@@ -7,10 +7,13 @@ import {
   animate
 } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromApp from './store/app.reducers';
 import * as RoleActions from './role/store/role.actions';
+import * as AuthActions from './account/store/auth.actions';
+import { selectUserData } from './account/store/auth.selectors';
 import * as fromRole from './role/store/role.reducers';
+import { IAuthData } from './interfaces';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,12 +28,13 @@ import * as fromRole from './role/store/role.reducers';
 })
 export class AppComponent implements OnInit {
   title = 'untapped-app';
+  isAuthenticated = false;
   ngOnInit() {
     this.onFetchUserTypes();
   }
   constructor(
     @Inject(DOCUMENT) document,
-    private store: Store<fromRole.State>
+    private store: Store<fromApp.AppState>
   ) {}
 
   onFetchUserTypes() {

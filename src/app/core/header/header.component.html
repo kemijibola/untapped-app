@@ -99,27 +99,41 @@
                 </li>
                 <li class="user">
                   <img src="assets/img/contest/user.png" alt="" />
-                  <span>Ojo Lake</span>
+                  <span>Oluwakemi</span>
                   <div class="drpdown">
                     <ul class="top">
                       <li><a href="#">Contests</a></li>
                       <li><a href="#">Gigs</a></li>
-                      <li><a href="#">Appointments</a></li>
                       <li><a href="#">New Portfolio Upload</a></li>
                     </ul>
                     <ul class="bot">
                       <li>
                         <a
-                          [routerLink]="['/']"
+                          routerLink="./{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
-                          [queryParams]="{ tab: profile }"
+                          [queryParams]="{ tab: 'profile' }"
                           >Profile</a
                         >
                       </li>
-                      <li><a href="#">Portfolio</a></li>
-                      <li><a href="#">Messages</a></li>
-                      <li><a href="#">Settings</a></li>
+                      <li>
+                        <a
+                          routerLink="./{{ userPreEmailAdress }}"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
+                          [queryParams]="{ tab: 'portfolio' }"
+                          >Portfolio</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          routerLink="./{{ userPreEmailAdress }}"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
+                          [queryParams]="{ tab: 'settings' }"
+                          >Settings</a
+                        >
+                      </li>
                       <li><a (click)="onLogOut()">Logout</a></li>
                     </ul>
                   </div>

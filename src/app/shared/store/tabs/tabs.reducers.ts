@@ -44,7 +44,7 @@ export function TabsReducers(
     case TabsAction.ADD_TABS:
       return {
         ...state,
-        tabs: [...state.tabs, ...action.payload.appTabs]
+        tabs: [...action.payload.appTabs]
       };
     case TabsAction.DESTROY_TAB:
       // TODO:: implement tab destroy by global name

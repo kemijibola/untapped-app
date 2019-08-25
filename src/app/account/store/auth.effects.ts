@@ -96,6 +96,8 @@ export class AuthEffects {
         const defaultUserData: IAuthData = {
           _id: '',
           token: '',
+          email: '',
+          fullName: '',
           roles: [],
           authenticated: false
         };

@@ -1,19 +1,27 @@
 import { IUser } from '../account/user';
+import { MediaAcceptType } from '..';
+
+export interface PortfolioUploadInputConfig {
+  isMultiple: boolean;
+  mediaAccept: string;
+}
 
 export interface PortfolioQueryParams {
-  user?: string;
+  user: string;
   type: MediaType;
   upload: MediaUploadType;
 }
 
 export enum MediaType {
-  VIDEOS = 'VIDEOS',
-  AUDIOS = 'AUDIOS',
-  IMAGES = 'IMAGES'
+  VIDEO = 'VIDEO',
+  AUDIO = 'AUDIO',
+  IMAGE = 'IMAGE'
 }
 export enum MediaUploadType {
   SINGLE = 'SINGLE',
-  MULTIPLE = 'MULTIPLE'
+  MULTIPLE = 'MULTIPLE',
+  ALL = 'ALL',
+  NONE = 'NONE'
 }
 
 export interface IMedia {

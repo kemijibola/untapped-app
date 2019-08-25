@@ -4,6 +4,7 @@ export * from './account/role';
 export * from './result';
 export * from './account/auth';
 export * from './shared/tab';
+export * from './shared/modal';
 export * from './shared/file';
 export * from './shared/category';
 export * from './user/physical-attributes';

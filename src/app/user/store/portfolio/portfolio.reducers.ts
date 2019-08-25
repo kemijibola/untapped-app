@@ -1,5 +1,18 @@
-import { IAudio, IVideo, IImage, IGeneralMedia } from 'src/app/interfaces';
+import {
+  IAudio,
+  IVideo,
+  IImage,
+  IGeneralMedia,
+  MediaUploadType,
+  PortfolioUploadInputConfig,
+  MediaAcceptType,
+  MediaType
+} from 'src/app/interfaces';
 import * as PortfolioActions from './portfolio.actions';
+
+export interface PortfolioFeatureState {
+  portfolios: State;
+}
 
 export interface State {
   audios: IAudio[];
@@ -10,6 +23,9 @@ export interface State {
   video: IVideo;
   image: IImage;
   item: IGeneralMedia;
+  selectedMediaUploadType: string;
+  selectedMediaType: MediaType;
+  uploadConfig: PortfolioUploadInputConfig;
 }
 
 const initialState: State = {
@@ -20,7 +36,13 @@ const initialState: State = {
   audio: null,
   video: null,
   image: null,
-  item: null
+  item: null,
+  selectedMediaUploadType: MediaUploadType.NONE,
+  selectedMediaType: MediaType.AUDIO,
+  uploadConfig: {
+    isMultiple: false,
+    mediaAccept: MediaAcceptType.IMAGE
+  }
 };
 
 export function portfolioReducer(
@@ -31,22 +53,22 @@ export function portfolioReducer(
     case PortfolioActions.SET_PORTFOLIO_AUDIOS:
       return {
         ...state,
-        audios: [...state.audios, ...action.payload.audios]
+        audios: [...action.payload]
       };
     case PortfolioActions.SET_PORTFOLIO_VIDEOS:
       return {
         ...state,
-        vidoes: [...state.vidoes, ...action.payload.videos]
+        vidoes: [...action.payload]
       };
     case PortfolioActions.SET_PORTFOLIO_IMAGES:
       return {
         ...state,
-        images: [...state.images, ...action.payload.images]
+        images: [...action.payload]
       };
     case PortfolioActions.SET_PORTFOLIO_GENERALS:
       return {
         ...state,
-        items: [...state.items, ...action.payload.generalUploads]
+        items: [...action.payload]
       };
     case PortfolioActions.SET_PORTFOLIO_AUDIO:
       return {
@@ -67,6 +89,26 @@ export function portfolioReducer(
       return {
         ...state,
         item: Object.assign(state.image, action.payload.generalUpload)
+      };
+    case PortfolioActions.SET_MEDIA_UPLOAD_TYPE:
+      return {
+        ...state,
+        selectedMediaUploadType: action.payload
+      };
+    case PortfolioActions.RESET_MEDIA_UPLOAD_TYPE:
+      return {
+        ...state,
+        selectedMediaUploadType: MediaUploadType.NONE
+      };
+    case PortfolioActions.SET_PORTFOLIO_UPDATE_INPUT_CONFIG:
+      return {
+        ...state,
+        uploadConfig: Object.assign(state.uploadConfig, action.paylod)
+      };
+    case PortfolioActions.SET_SELECTED_MEDIA_TYPE:
+      return {
+        ...state,
+        selectedMediaType: action.payload
       };
     default:
       return state;

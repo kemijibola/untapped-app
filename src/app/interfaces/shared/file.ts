@@ -6,6 +6,11 @@ export enum UPLOADOPERATIONS {
   Default = 'Default'
 }
 
+export enum MediaAcceptType {
+  IMAGE = 'image/*',
+  VIDEO = 'video/*',
+  AUDIO = 'audio/*'
+}
 export interface IFileUploadModel {
   inProgress?: boolean;
   progress?: number;
@@ -42,6 +47,7 @@ export interface PresignedUrl {
   url: string;
   key: string;
 }
+
 export interface IUploadedFiles {
   uploadUrls: PresignedUrl[];
 }

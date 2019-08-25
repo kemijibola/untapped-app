@@ -22,6 +22,7 @@ import { PortfolioService } from '../services/portfolio.service';
 import { UserService } from '../services/user.service';
 import { ServicesService } from '../services/services.service';
 import { ModalService } from '../services/modal.service';
+import { AddOrRemoveClassDirective } from '../directives/add-or-remove-class.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ModalService } from '../services/modal.service';
     HomeComponent,
     SlideMenuComponent,
     FooterComponent,
-    DropDownComponent
+    DropDownComponent,
+    AddOrRemoveClassDirective
   ],
   imports: [
     CommonModule,
