@@ -1,4 +1,9 @@
-<div class="tab-pane fade show active">
+<div
+  class="tab-pane fade show active"
+  id="profile"
+  role="tabpanel"
+  aria-labelledby="profile-tab"
+>
   <div class="row">
     <div class="col-xl-12">
       <div class="profile-des">
@@ -9,126 +14,99 @@
       </div>
     </div>
     <div class="col-xl-12">
-      <!-- profile picture section -->
       <app-user-profile-picture></app-user-profile-picture>
-      <!-- profile picture section -->
     </div>
   </div>
   <form [formGroup]="profileForm">
     <div class="row">
-      <div class="col-xl-6">
-        <label for="" *ngIf="isTalent">Stage Name</label>
-        <label for="" *ngIf="isProfessional">Business Name</label>
-        <input
-          class="input-design"
-          type="text"
-          formControlName="professionalName"
-        />
+      <div class="col-xl-3">
+        <label for="">Stage Name</label>
+        <input class="input-design" type="text" />
+      </div>
+      <div class="col-xl-3">
+        <label for="">rcNumber</label>
+        <input class="input-design" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Location</label>
-        <input class="input-design" type="text" formControlName="location" />
+        <input class="input-design" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Full Name</label>
-        <input class="input-design" type="text" formControlName="fullName" />
+        <input class="input-design" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Email Address</label>
-        <input
-          class="input-design"
-          type="email"
-          formControlName="emailAddress"
-        />
-      </div>
-      <div class="col-xl-6">
-        <label for="">Phone Number</label>
-        <input
-          class="input-design"
-          type="email"
-          formControlName="emailAddress"
-        />
+        <input class="input-design" type="email" />
       </div>
       <div class="col-xl-12">
         <div class="bio">
           <h4>Short Bio</h4>
-          <!-- <span class="condition">Word length restriction from the backend</span> -->
+          <span class="condition"
+            >Word length restriction from the backend</span
+          >
         </div>
         <textarea
           class="text-area"
           name=""
-          formControlName="shortBio"
           id=""
           cols="30"
           rows="10"
-        >
-        </textarea>
+        ></textarea>
       </div>
       <div class="col-xl-12">
         <h4 class="profile-ctg">Add your talent</h4>
-        <!-- untapped pool category section -->
-
-        <!-- <app-categories></app-categories> -->
-
-        <!-- untapped pool category section -->
+        <div class="category">
+          <span>Acting</span>
+          <span>Drumming</span>
+          <span>Contortion</span>
+          <a href="#"
+            ><span><i class="fas fa-plus"></i></span
+          ></a>
+          <div class="type-appears">
+            <input
+              type="text"
+              placeholder="Start typing to search / appears after clicking plus"
+            />
+            <div class="search-result-bar">
+              <ul>
+                <li>Result item bar</li>
+                <li>Result item bar</li>
+                <li>Result item bar</li>
+                <li>Result item bar</li>
+                <li>Result item bar</li>
+                <li>Result item bar</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-xl-6">
         <label for="">Instagram profile link</label>
-        <input class="input-design" type="text" formControlName="instagram" />
+        <input class="input-design" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Facebook profile link</label>
-        <input class="input-design" type="text" formControlName="facebook" />
+        <input class="input-design" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Twitter Profile link</label>
-        <input
-          class="input-design last"
-          type="text"
-          formControlName="twitter"
-        />
+        <input class="input-design last" type="text" />
       </div>
       <div class="col-xl-6">
-        <label for="">Youtube Profile link</label>
-        <input
-          class="input-design last"
-          type="text"
-          formControlName="youtube"
-        />
+        <label for="">Youtube profile link</label>
+        <input class="input-design last" type="text" />
       </div>
-      <div formArrayName="additionalSocial">
-        <div class="row social-media">
-          <div
-            class="col-xl-6"
-            *ngFor="
-              let additionalControl of profileForm.get('additionalSocial')
-                .controls;
-              let i = index
-            "
-          >
-            <label for="">Additional link</label>
-            <input
-              class="input-design last"
-              type="text"
-              [formControlName]="i"
-            />
-          </div>
-          <div class="col-xl-12">
-            <div class="social-media">
-              <a style="cursor: pointer" (click)="onAddAdditionalSocial()"
-                >+ Add another social media profile link</a
-              >
-            </div>
-            <button
-              class="box-btn profile-save"
-              [disabled]="!profileForm.valid"
-              (click)="onUpdateProfile()"
-              type="button"
-            >
-              SAVE CHANGES
-            </button>
-          </div>
+      <div class="col-xl-6">
+        <label for="">Profile link</label>
+        <input class="input-design last" type="text" />
+      </div>
+
+      <div class="col-xl-12">
+        <div class="social-media">
+          <a href="#">+ Add another social media profile link</a>
         </div>
+        <button class="box-btn profile-save">SAVE CHANGES</button>
       </div>
     </div>
   </form>

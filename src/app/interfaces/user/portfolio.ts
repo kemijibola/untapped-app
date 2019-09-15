@@ -23,7 +23,6 @@ export enum MediaUploadType {
   ALL = 'ALL',
   NONE = 'NONE'
 }
-
 export interface IMedia {
   title: string;
   shortDescription: string;
@@ -31,7 +30,6 @@ export interface IMedia {
   items: IMediaItem[];
   uploadType: MediaUploadType;
 }
-
 export interface IGeneralMedia {
   title: string;
   shortDescription: string;
@@ -39,17 +37,20 @@ export interface IGeneralMedia {
   item: IMediaItem;
   uploadType: MediaUploadType;
 }
-
 interface IMediaItem {
   path: string;
   likes: string[];
 }
-
 export interface IPortfolio {
   audios: IAudio[];
   videos: IVideo[];
   images: IImage[];
   general: IGeneralMedia[];
+}
+
+export interface UploadedPortfolioItems {
+  mediaType: MediaType;
+  items: string[];
 }
 
 // tslint:disable-next-line:no-empty-interface

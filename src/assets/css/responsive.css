@@ -3,6 +3,11 @@
 /* XL Device :1200px. */
 @media (min-width: 1400px) and (max-width: 1700px) {
 
+.rating-icons a {
+	color: #71bb76;
+	font-size: 15px;
+	margin-left: 10px;
+}
 .ex-padding {
 	padding-left: 40px;
 	padding-right: 40px;
@@ -111,7 +116,11 @@
 
 /* XL Device :1200px. */
 @media (min-width: 1200px) and (max-width: 1399px) {
-
+.rating-icons a {
+	color: #71bb76;
+	font-size: 15px;
+	margin-left: 10px;
+}
   .comment-blk-winner {
 	width: 700px;
 	margin: 0 auto;
@@ -321,7 +330,7 @@
 /* LG Device :992px. */
 @media (min-width: 992px) and (max-width: 1200px) {
   
-    
+
     .ex-padding {
 	padding-left: 0;
 	padding-right: 0;
@@ -654,10 +663,10 @@
 	padding: 10px;
 	
 }  
-.rating-icons a {
+    .rating-icons a {
 	color: #71bb76;
-	font-size: 22px;
-	margin-left: 8px;
+	font-size: 15px;
+	margin-left: 10px;
 }
 .rating-part h4 {
 

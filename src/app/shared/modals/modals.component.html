@@ -1,12 +1,12 @@
 <div
   class="modal fade"
   [attr.id]="currentModal.name"
+  [attr.aria-hidden]="currentModal.show"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="profileModalLabel"
-  [attr.aria-hidden]="currentModal.show"
+  aria-labelledby="upModalLabel"
 >
-  <div class="modal-dialog profileModal" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content contest-d">
       <div class="row">
         <div class="col-xl-12">
@@ -23,7 +23,9 @@
           </div>
         </div>
       </div>
-      <ng-content select="[body]"></ng-content>
+      <div class="row no-gutters">
+        <ng-content select="[body]"></ng-content>
+      </div>
     </div>
   </div>
 </div>

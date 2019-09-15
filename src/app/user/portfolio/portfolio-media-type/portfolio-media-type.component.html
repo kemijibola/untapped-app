@@ -1,10 +1,22 @@
 <app-modals>
   <div class="slide-arrow" navigate>
-    <a class="left"><i class="far fa-angle-left"></i></a>
-    <a class="right"><i class="far fa-angle-right"></i></a>
+    <a
+      class="left"
+      style="font-size: 22px; color: #000; display: inline-block;cursor: pointer;"
+      ><i class="far fa-angle-left"></i
+    ></a>
+    <a
+      class="right"
+      style="font-size: 22px; color: #000; display: inline-block;cursor: pointer;"
+      ><i class="far fa-angle-right"></i
+    ></a>
   </div>
-  <app-portfolio-modal-content body ></app-portfolio-modal-content>
+  <app-portfolio-modal-content
+    body
+    [mediaType]="selectedMediaType"
+  ></app-portfolio-modal-content>
 </app-modals>
+
 <div class="row">
   <div class="col-xl-12">
     <div class="new-up-section">
@@ -74,15 +86,7 @@
           <h5>Video</h5>
         </span>
       </div>
-      <!-- <div class="drag-section">
-        <p>Drag and drop multiple file to upload or <span>BROWSE</span></p>
-      </div> -->
     </div>
-    <!-- <div class="social-media prot">
-      <a href="#profile" data-toggle="modal" data-target="#portfolio-modal"
-        >+ Add new uploads</a
-      >
-    </div> -->
     <div
       class="social-media prot"
       (click)="onClickAddUploadBtn()"

@@ -68,18 +68,6 @@ a:hover { text-decoration: none }
 
 
 /* Header bar section start */
-
-.sticky{
-  position: fixed;
-	top: 0px;
-	left: 0px;
-  z-index: 2;
-	background: #fff;
-	height: 84.5px;
-	width: 100%;
-
-}
-
 .logo {
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -218,10 +206,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efcf00', end
     position: relative
 }
 
-.div-cursor {
-	cursor: pointer
-}
-
 .p-top-1 img {
 	position: relative;
 	top: 58px;
@@ -242,7 +226,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efcf00', end
 	padding-bottom: 70px;
 }
 
-
+.add-more-blk.sb-rls {
+	margin-left: 0;
+	margin-bottom: 32px;
+}
 
 .professional-content-area {
 	padding: 180px 0;
@@ -323,6 +310,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efcf00', end
 	margin-right: 7px;
 }
 
+.prz-list li {
+  list-style: none;
+  position: relative;
+  padding-left: 12px;
+  margin-bottom: 6px;
+}
+.prz-list li:after {
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  background: #000;
+  content: "";
+  border-radius: 50%;
+}
 .tm-img {
   position: relative;
 }
@@ -1101,6 +1104,7 @@ footer p {
 .pop-review-outer-section {
 	height: 201px;
 	overflow-X: hidden;
+	overflow-y: scroll;
 }
 .comment-acheive .card-body {
 	height: 40px;
@@ -1491,28 +1495,27 @@ footer p {
   flex-wrap: wrap;
 }
 
-.option-seclect span:hover{
+.option-seclect span:hover {
   border-color: #06a9b0;
   cursor: pointer;
 }
-
-.option-seclect-active  {
-	color: #06a9b0;
-}
-
 /* .option-seclect span:hover svg path {
   fill: #06a9b0;
   color: #06a9b0;
 } */
 
+.option-seclect-active  {
+	color: #06a9b0;
+}
+
 .drag-section {
-  width: 452px;
-  border: 1px dashed #000;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 18px;
-  padding-bottom: 18px;
-  margin: 20px 0;
+	width: 452px;
+	border: 1px dashed #000;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	margin: 20px 0;
 }
 .drag-section p {
   margin: 0;
@@ -2862,7 +2865,7 @@ button.accordion.is-open:after {
 }
 .input-1.pro-page textarea {
 	width: 100%;
-	height: 119px;
+	height: 89px;
 }
 .git-btn button.box-btn {
 	height: 50px;
@@ -3382,20 +3385,12 @@ button.accordion.is-open:after {
 	border: 1px solid #D8D8D8;
 	border-radius: 5px;
 }
-.up-btn.single:hover {
-	cursor: pointer;
-}
-
 .up-btn.multiple {
 	background: #06A9B0;
 	color: #fff;
 	border-radius: 5px;
 	margin-left: -12px;
 	border: 1px solid transparent;
-}
-
-.up-btn.multiple {
-	cursor: pointer;
 }
 .modal-dialog.profileModal {
 	max-width: 860px;
@@ -3449,6 +3444,7 @@ button.accordion.is-open:after {
 	margin-bottom: 10px;
 	font-size: 13px;
 }
+
 .comm.sin {
 	width: 90px;
 	border: 1px solid #D8D8D8;
@@ -3457,7 +3453,7 @@ button.accordion.is-open:after {
 	line-height: 32.48px;
 	border-radius: 5px;
 	font-size: 10px;
-	color: #272424;
+	
 	text-align: center;
 	font-family: AvenirNextLTProMedium;
 }
@@ -3495,9 +3491,11 @@ button.accordion.is-open:after {
 .cmnt-bx .card.card-body textarea:focus {
   background: #fff;
 }
-
+.upload-scene-demo.popup.mb-20 {
+	margin-bottom: 0;
+}
 .popup-content-wrap.pp {
-	padding-top: 35px;
+	padding-top: 22px;
 	padding-left: 50px;
 	padding-right: 50px;
 	padding-bottom: 35px;
@@ -3511,8 +3509,9 @@ button.accordion.is-open:after {
 	margin-bottom: -7px;
 }
 .git-btn.pp button {
-	width: 285px;
+	width: 238px;
 	text-align: center;
+	font-size: 13px;
 }
 /* Complete Profile Popup Css End */
 /* Complete Profile Page Css End */
@@ -4151,9 +4150,9 @@ button.close-btn {
     margin-top: 10px;
 }
 .success-right-content h1 a {
-    color: #06A9B0;
-    font-size: 22px;
-    font-family: AvenirNext-reg;
+	color: #06A9B0;
+	font-size: 16px;
+	font-family: AvenirNext-reg;
 }
 .judge-prof.use-main-info img {
     max-width: 188px;
@@ -4588,11 +4587,11 @@ button.close-btn {
   max-width: 1200px;
 }
 .selected-cnt-left-content h3 {
-    font-size: 22px;
-    color: #0C0C0C;
-    marg-b: ;
-    margin-bottom: 7px;
-    font-family: AvenirNextLTProMedium;
+	font-size: 14px;
+	color: #0C0C0C;
+	marg-b: ;
+	margin-bottom: 7px;
+	font-family: AvenirNextLTProMedium;
 }
 .social-md-links a {
 	display: block;
@@ -4606,9 +4605,9 @@ button.close-btn {
 	padding-right: 5px;
 }
 .social-md-links a {
-  display: block;
-  font-size: 18px;
-  color: #0C0C0C;
+	display: block;
+	font-size: 13px;
+	color: #0C0C0C;
 }
 .social-md-links a span {
   width: 150px;
@@ -4673,31 +4672,38 @@ button.close-btn {
 }
 
 .winner-content-inner h1 {
-    font-size: 50px;
-    color: #0C0C0C;
-    font-family: AvenirNextLTProBold;
+	font-size: 28px;
+	color: #0C0C0C;
+	font-family: AvenirNextLTProBold;
 }
+.winner-content-inner h4 {
+	font-size: 20px;
+	
+}
+
 
 .winner-content-inner h4 {
-    font-size: 30px;
-    color: #0C0C0C;
-    font-family: AvenirNextLTProMedium;
+	font-size: 18px;
+	color: #0C0C0C;
+	font-family: AvenirNextLTProMedium;
 }
-
-.prf-rating span img {width: 33px;margin: 0 5px;}
-
+.prf-rating span img {
+	width: 22px;
+	margin: 0 5px;
+}
 .winner-content-inner a {
-    display: block;
-    font-size: 22px;
-    width: 300px;
-    margin: 0 auto;
+	display: block;
+	font-size: 16px;
+	width: 217px;
+	margin: 0 auto;
 	background: -webkit-gradient(linear, left top, left bottom, from(rgba(239,207,0,1)),to(rgba(0,172,176,1)));
 	background: linear-gradient(to bottom, rgba(239,207,0,1) 0%,rgba(0,172,176,1) 100%);
-    height: 50px;
-    line-height: 50px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;color: #fff;
+	height: 46px;
+	line-height: 45px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+	color: #fff;
 }
 .user-prf-img {
 	max-width: 450px;
@@ -4919,14 +4925,22 @@ button.close-btn {
 }
 
 
-
 .popup-content-wrap.pp {
-	max-height: 330px;
+	max-height: 200px;
 	overflow: scroll;
+}
+.bbbtn span:hover {
+	background: #06a9b0;
+	color: #fff;
+}
+
+.bbtn-active {
+	background: #06a9b0;
+	color: #fff;
 }
 
 .popup-img {
-  height: 300px;
+	height: 200px;
 }
 .popup-img img {
   height: 100%;
@@ -4944,9 +4958,15 @@ button.close-btn {
   border: none;
 }
 
+.add-img-blk .drag-section {
+	margin: 0 auto;
+	margin-bottom: 25px;
+	margin-top: 10px;
+}
+
 
 .popup-img.pp {
-  height: 300px;
+	height: 200px;
 }
 .popup-img.pp img {
   height: 100%;

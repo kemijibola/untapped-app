@@ -8,9 +8,17 @@ import { RouterModule } from '@angular/router';
 import { AppUserSearchCategoriesComponent } from './app-user-search-categories/app-user-search-categories.component';
 import { AppSearchCategoriesComponent } from './app-search-categories/app-search-categories.component';
 import { ModalsComponent } from './modals/modals.component';
+import { SlideToggleComponent } from './slide-toggle/slide-toggle.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild([])],
+  imports: [
+    BrowserAnimationsModule,
+    MatSlideToggleModule,
+    CommonModule,
+    RouterModule.forChild([])
+  ],
   exports: [
     CommonModule,
     UploadComponent,
@@ -18,7 +26,8 @@ import { ModalsComponent } from './modals/modals.component';
     TabsComponent,
     CategoriesComponent,
     AppUserSearchCategoriesComponent,
-    ModalsComponent
+    ModalsComponent,
+    SlideToggleComponent
   ],
   declarations: [
     UploadComponent,
@@ -27,7 +36,8 @@ import { ModalsComponent } from './modals/modals.component';
     CategoriesComponent,
     AppUserSearchCategoriesComponent,
     AppSearchCategoriesComponent,
-    ModalsComponent
+    ModalsComponent,
+    SlideToggleComponent
   ]
 })
 export class SharedModule {}
