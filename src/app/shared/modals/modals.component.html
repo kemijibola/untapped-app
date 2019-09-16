@@ -1,0 +1,31 @@
+<div
+  class="modal fade"
+  [attr.id]="currentModal.name"
+  [attr.aria-hidden]="currentModal.show"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="upModalLabel"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content contest-d">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="pop-icon-bar pop-talent">
+            <ng-content select="[navigate]"></ng-content>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true"><i class="far fa-times"></i></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row no-gutters">
+        <ng-content select="[body]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

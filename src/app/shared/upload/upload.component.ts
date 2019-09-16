@@ -60,6 +60,7 @@ export class UploadComponent
   ngOnChanges(simple: SimpleChanges) {
     if (simple['fileConfig']) {
       if (this.fileConfig) {
+        console.log(this.fileConfig);
         if (this.fileConfig.process !== UPLOADOPERATIONS.Default) {
           this.multiple = this.fileConfig.multiple;
           this.operationType = this.fileConfig.process;
@@ -91,7 +92,7 @@ export class UploadComponent
       files: [...fileArray]
     };
     this.onChange(this.file);
-    this.store.dispatch(new UploadActions.FileToUpload(this.file));
+    this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
   }
 
   writeValue(value: null) {

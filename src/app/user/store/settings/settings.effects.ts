@@ -27,7 +27,7 @@ export class SettingsEffect {
   updateSetings = this.action$
     .pipe(ofType(UserSettingsActions.UPDATE_USERSETTINGS))
     .switchMap((action: UserSettingsActions.UpdateUserSettings) => {
-      return this.settingsService.updateSettings(action.payload);
+      return this.settingsService.updateSettings(action.payload.updateObj);
     })
     .pipe(
       map((resp: IResult<ISettings>) => {

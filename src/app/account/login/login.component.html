@@ -7,23 +7,50 @@
         <h3>untapped pool</h3>
       </div>
       <div class="login-form">
-        <label for="">Email</label>
-        <input 
-          class="input-design mb-35" 
-          type="email" 
-          formControlName="email">
-        <label for="">Password</label>
-        <input 
-          class="input-design" 
-          type="password" 
-          formControlName="password">
-        <button 
-          class="box-btn login-btn mt-50" 
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="
+              !signinForm.get('email').valid && signinForm.get('email').touched
+            "
+          >
+            Please enter a valid
+          </span>
+          Email
+        </label>
+        <input
+          class="input-design mb-35"
+          type="email"
+          formControlName="email"
+        />
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="
+              !signinForm.get('password').valid &&
+              signinForm.get('password').touched
+            "
+          >
+            Please enter a valid
+          </span>
+          Password</label
+        >
+        <input
+          class="input-design"
+          type="password"
+          formControlName="password"
+        />
+        <span class="error-block" *ngIf="hasError">
+          {{ errorMessage }}
+        </span>
+        <button
+          class="box-btn login-btn mt-50"
           [disabled]="!signinForm.valid"
-          (click)="onSignin()" 
-          type="button">
-        Login
-      </button>
+          (click)="onSignin()"
+          type="button"
+        >
+          Login
+        </button>
       </div>
       <div class="log-other text-center mt-55">
         <span>Sign In With</span>

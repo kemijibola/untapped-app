@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as AuthActions from '../store/auth.actions';
 import { AuthService } from 'src/app/services/auth.service';
 import { IResult, IRegister, IAuthData, ILogin } from 'src/app/interfaces';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, tap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { Router } from '@angular/router';
@@ -19,66 +19,58 @@ export class AuthEffects {
     .pipe(ofType(AuthActions.DO_SIGNUP))
     .switchMap((action: AuthActions.DoSignUp) => {
       const newUser: IRegister = {
-        username: action.payload.username,
-        email: action.payload.email,
-        password: action.payload.password,
-        roles: action.payload.roles,
-        audience: action.payload.audience
+        username: action.payload.register.username,
+        email: action.payload.register.email,
+        password: action.payload.register.password,
+        roles: action.payload.register.roles,
+        audience: action.payload.register.audience
       };
       return this.authService.signUp(newUser);
     })
     .pipe(
       map((res: IResult<boolean>) => {
-        if (res.data) {
+        if (res.error) {
           return {
-            type: AuthActions.SIGNUP_SUCCESS
-          };
-        } else {
-          return {
-            type: AuthActions.SIGNUP_FAILURE,
+            type: AuthActions.SIGNIN_FAILURE,
             payload: res.error
           };
         }
+        return {
+          type: AuthActions.SIGNUP_SUCCESS
+        };
       }),
-      catchError(error =>
-        of({
-          type: ErrorActions.ERROR_OCCURRED,
+      catchError(error => {
+        return of({
+          type: ErrorActions.EXCEPTION_OCCURED,
           payload: error
-        })
-      )
+        });
+      })
     );
 
   @Effect()
   authSignIn = this.actions$
     .pipe(ofType(AuthActions.DO_SIGNIN))
     .switchMap((action: AuthActions.DoSignIn) => {
-      const userLogin: ILogin = {
-        email: action.payload.email,
-        password: action.payload.password,
-        audience: action.payload.audience
-      };
-      return this.authService.signin(userLogin);
+      const { email, password, audience } = action.payload.loginParam;
+      return this.authService.signin({ email, password, audience });
     })
     .pipe(
-      mergeMap(res => {
-        // call actions set token and signin success
-        if (res.isSuccessful) {
-          this.localStorage.setItem('authData', res.data);
-          this.router.navigate(['/']);
+      mergeMap((resp: IResult<IAuthData>) => {
+        if (!resp.error) {
           return [
             {
-              type: AuthActions.SIGNIN_SUCCESS
+              type: AuthActions.SIGNIN_SUCCESS,
+              payload: resp.data
             },
             {
-              type: AuthActions.SET_TOKEN,
-              payload: res.data
+              type: AuthActions.FETCH_AUTHDATA
             }
           ];
         }
         return [
           {
-            type: ErrorActions.SET_ERROR,
-            payload: res.error
+            type: AuthActions.SIGNIN_FAILURE,
+            payload: resp.error
           }
         ];
       }),
@@ -87,6 +79,74 @@ export class AuthEffects {
         return caught;
       })
     );
+
+  @Effect()
+  fetchAuthData = this.actions$
+    .pipe(ofType(AuthActions.FETCH_AUTHDATA))
+    .switchMap((action: AuthActions.FetchAuthData) => {
+      return this.authService.fetchUserAuthData('authData');
+    })
+    .map((resp: IAuthData) => {
+      if (resp !== null) {
+        return {
+          type: AuthActions.SET_AUTHDATA,
+          payload: resp
+        };
+      } else {
+        const defaultUserData: IAuthData = {
+          _id: '',
+          token: '',
+          email: '',
+          fullName: '',
+          roles: [],
+          authenticated: false
+        };
+        return {
+          type: AuthActions.SET_AUTHDATA,
+          payload: defaultUserData
+        };
+      }
+    });
+
+  @Effect({ dispatch: false })
+  signInSuccess = this.actions$.pipe(
+    ofType(AuthActions.SIGNIN_SUCCESS),
+    map((action: AuthActions.SignInSuccess) => {
+      action.payload.authenticated = true;
+      return action.payload;
+    }),
+    map((authData: IAuthData) => {
+      return this.authService.setItem('authData', authData);
+    }),
+    tap(() => {
+      this.router.navigate(['/']);
+    })
+  );
+
+  // @Effect()
+  // signInSuccess = this.actions$.pipe(ofType(AuthActions.SIGNIN_SUCCESS)).pipe(
+  //   map((action: AuthActions.SignInSuccess) => {
+  //     action.payload.authenticated = true;
+  //     return action.payload;
+  //   }),
+  //   tap((authData: IAuthData) => {
+  //     this.localStorage.setItem('authData', authData);
+  //     this.router.navigate(['/']);
+  //   })
+  // );
+
+  @Effect({ dispatch: false })
+  logOut = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT),
+    switchMap(() => {
+      return this.authService.removeUserAuthData('authData');
+    }),
+    tap((isDeleted: boolean) => {
+      if (isDeleted) {
+        this.router.navigate(['/']);
+      }
+    })
+  );
 
   constructor(
     private actions$: Actions,

@@ -30,6 +30,7 @@ export class PortfolioEffect {
       })
     );
 
+  @Effect()
   fetchUserPortfolioVideos = this.action$
     .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_VIDEOS))
     .switchMap((action: PortfolioActions.FetchPortfolioVideos) => {
@@ -44,6 +45,7 @@ export class PortfolioEffect {
       })
     );
 
+  @Effect()
   fetchUserPortfolioImages = this.action$
     .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_IMAGES))
     .switchMap((action: PortfolioActions.FetchPortfolioImages) => {
@@ -58,6 +60,7 @@ export class PortfolioEffect {
       })
     );
 
+  @Effect()
   fetchUserPortfolioItems = this.action$
     .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_GENERALS))
     .switchMap((action: PortfolioActions.FetchPortfolioGenerals) => {
@@ -72,10 +75,11 @@ export class PortfolioEffect {
       })
     );
 
+  @Effect()
   fetchUserPortfolioAudio = this.action$
     .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_AUDIO))
     .switchMap((action: PortfolioActions.FetchPortfolioAudio) => {
-      return this.portfolioService.fetchUserPortfolioMedia(action.payload);
+      return this.portfolioService.fetchUserPortfolioMedia(action.payload.id);
     })
     .pipe(
       map((resp: IResult<IAudio>) => {
@@ -86,10 +90,11 @@ export class PortfolioEffect {
       })
     );
 
+  @Effect()
   fetchUserPortfolioVideo = this.action$
     .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_VIDEO))
     .switchMap((action: PortfolioActions.FetchPortfolioVideo) => {
-      return this.portfolioService.fetchUserPortfolioMedia(action.payload);
+      return this.portfolioService.fetchUserPortfolioMedia(action.payload.id);
     })
     .pipe(
       map((resp: IResult<IVideo>) => {
@@ -100,10 +105,11 @@ export class PortfolioEffect {
       })
     );
 
+  @Effect()
   fetchUserPortfolioImage = this.action$
     .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_IMAGE))
     .switchMap((action: PortfolioActions.FetchPortfolioImage) => {
-      return this.portfolioService.fetchUserPortfolioMedia(action.payload);
+      return this.portfolioService.fetchUserPortfolioMedia(action.payload.id);
     })
     .pipe(
       map((resp: IResult<IImage>) => {
@@ -114,10 +120,11 @@ export class PortfolioEffect {
       })
     );
 
+  @Effect()
   fetchUserPortfolioItem = this.action$
     .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_GENERAL))
     .switchMap((action: PortfolioActions.FetchPortfolioGeneral) => {
-      return this.portfolioService.fetchUserPortfolioItem(action.payload);
+      return this.portfolioService.fetchUserPortfolioItem(action.payload.id);
     })
     .pipe(
       map((resp: IResult<IGeneralMedia>) => {

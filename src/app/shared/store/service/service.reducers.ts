@@ -24,12 +24,12 @@ export function serviceReducer(
     case ServiceActions.SET_SERVICE:
       return {
         ...state,
-        services: Object.assign(state.service, action.payload)
+        service: Object.assign(state.service, action.payload.service)
       };
     case ServiceActions.SET_SELECTED_SERVICE:
       return {
         ...state,
-        selectedService: action.payload
+        selectedService: action.payload.id
       };
     case ServiceActions.RESET_SELECTEDSERVICE:
       return {

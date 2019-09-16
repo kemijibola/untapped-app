@@ -2,13 +2,18 @@ import * as AuthActions from './auth.actions';
 import { IAuthData } from '../../interfaces';
 
 export interface State {
-  authenticated: boolean;
   errorMessage: string;
   userData: IAuthData;
 }
 const initialState: State = {
-  authenticated: false,
-  userData: null,
+  userData: {
+    _id: '',
+    token: '',
+    email: '',
+    fullName: '',
+    roles: [],
+    authenticated: false
+  },
   errorMessage: ''
 };
 export function authReducer(
@@ -19,32 +24,83 @@ export function authReducer(
     case AuthActions.SIGNUP_SUCCESS:
       return {
         ...state,
-        authenticated: false,
-        userData: null,
+        userData: {
+          _id: '',
+          token: '',
+          email: '',
+          fullName: '',
+          roles: [],
+          authenticated: false
+        },
         errorMessage: ''
       };
-    case AuthActions.SIGNIN_SUCCESS:
+    case AuthActions.SIGNIN_FAILURE:
       return {
         ...state,
-        authenticated: true
+        errorMessage: action.payload,
+        userData: {
+          _id: '',
+          token: '',
+          email: '',
+          fullName: '',
+          roles: [],
+          authenticated: false
+        }
       };
-    case AuthActions.SET_TOKEN:
+    case AuthActions.SET_AUTHDATA:
       return {
         ...state,
         userData: action.payload
       };
+    case AuthActions.DELETE_AUTHDATA:
+      return {
+        ...state,
+        userData: {
+          _id: '',
+          token: '',
+          email: '',
+          fullName: '',
+          roles: [],
+          authenticated: false
+        }
+      };
     case AuthActions.LOGOUT:
       return {
         ...state,
-        userData: null,
-        authenticated: false
+        userData: {
+          _id: '',
+          token: '',
+          email: '',
+          fullName: '',
+          roles: [],
+          authenticated: false
+        }
       };
     case AuthActions.SIGNUP_FAILURE:
       return {
         ...state,
-        userData: null,
-        authenticated: false,
-        errorMessage: action.payload
+        userData: {
+          _id: '',
+          token: '',
+          email: '',
+          fullName: '',
+          roles: [],
+          authenticated: false
+        },
+        errorMessage: action.payload.error
+      };
+    case AuthActions.RESET_FAILURE_MESSAGE:
+      return {
+        ...state,
+        userData: {
+          _id: '',
+          token: '',
+          email: '',
+          fullName: '',
+          roles: [],
+          authenticated: false
+        },
+        errorMessage: ''
       };
     default:
       return state;

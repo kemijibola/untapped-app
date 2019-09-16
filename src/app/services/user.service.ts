@@ -11,6 +11,11 @@ export class UserService {
     this.BASE_URI = 'http://127.0.0.1:8900/v1';
   }
 
+  findUserById(id: string): Observable<IResult<IUser>> {
+    const url = `${this.BASE_URI}/users`;
+    return this.http.get<IResult<IUser>>(`${url}/${id}`);
+  }
+
   findUserByEmail(email: string): Observable<IResult<IUser[]>> {
     const url = `${this.BASE_URI}/users`;
     return this.http.get<IResult<IUser[]>>(`${url}?email=${email}`);

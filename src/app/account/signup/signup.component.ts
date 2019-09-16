@@ -47,6 +47,8 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       ),
       terms: new FormControl(null, Validators.required)
     });
+
+    // subscribe to error state and if error, display error message
   }
 
   ngAfterContentInit() {
@@ -70,7 +72,7 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       roles: [this.selectedRole],
       audience: AUDIENCE
     };
-    this.store.dispatch(new AuthActions.DoSignUp(payload));
+    this.store.dispatch(new AuthActions.DoSignUp({ register: payload }));
   }
 
   ngOnDestroy() {

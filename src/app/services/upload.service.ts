@@ -16,7 +16,7 @@ export class UploadService {
     this.BASE_URI = 'http://127.0.0.1:8900/v1';
   }
 
-  upload(data: CloudUploadParams): Observable<IResult<string>> {
+  s3Upload(data: CloudUploadParams): Observable<IResult<string>> {
     return this.http.put<IResult<string>>(data.url, data.file, {
       headers: {
         'Content-Type': data.file.type

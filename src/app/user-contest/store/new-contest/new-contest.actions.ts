@@ -19,15 +19,15 @@ export class SetContestSuccess implements Action {
 }
 export class SetNewContest implements Action {
   readonly type = SET_NEW_CONTEST;
-  constructor(public payload: IContest) {}
+  constructor(public payload: { contest: IContest }) {}
 }
 export class SetContestFailure implements Action {
   readonly type = SET_CONTEST_FAILURE;
-  constructor(public payload: string) {}
+  constructor(public payload: { error: string }) {}
 }
 export class SetContestBanner implements Action {
   readonly type = SET_CONTEST_BANNER;
-  constructor(public payload: string) {}
+  constructor(public payload: { contestBanner: string }) {}
 }
 
 export class AddContestJudge implements Action {

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class ProfileService {
   private BASE_URI = '';
   constructor(private http: HttpClient) {
-    this.BASE_URI = 'http://127.0.0.1:9000';
+    this.BASE_URI = 'http://127.0.0.1:8900/v1';
   }
 
   fetchUserProfile(): Observable<IResult<IProfile>> {

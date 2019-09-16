@@ -1,4 +1,8 @@
-import { CloudUploadParams, SignedUrl } from './../../interfaces/shared/file';
+import {
+  CloudUploadParams,
+  SignedUrl,
+  MediaAcceptType
+} from './../../interfaces/shared/file';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import {
@@ -44,12 +48,14 @@ export class UserProfilePictureComponent extends AbstractUploadComponent {
 
   uploadFiles(files: File[]): void {
     this.store.pipe(select(selectPresignedUrls)).subscribe((val: SignedUrl) => {
-      if (val.action === UPLOADOPERATIONS.ProfileImage) {
+      if (val.action === this.uploadOperation) {
         const uploadParams: CloudUploadParams = {
           file: files[0]['data'],
           url: val.presignedUrl[0].url
         };
-        this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
+        this.store.dispatch(
+          new UploadActions.UploadFiles({ cloudParams: uploadParams })
+        );
 
         this.store.dispatch(
           new UserProfileImageActions.UpdateUserProfileImage({
@@ -64,9 +70,9 @@ export class UserProfilePictureComponent extends AbstractUploadComponent {
   onClickUploadImageBtn() {
     this.fileConfig = {
       state: true,
-      process: UPLOADOPERATIONS.ProfileImage,
+      process: this.uploadOperation,
       multiple: false,
-      accept: 'image/*'
+      accept: MediaAcceptType.IMAGE
     };
   }
 }

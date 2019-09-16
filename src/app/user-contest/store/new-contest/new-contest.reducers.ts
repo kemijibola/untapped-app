@@ -20,17 +20,17 @@ export function newContestReducer(
     case NewContestActions.SET_NEW_CONTEST:
       return {
         ...state,
-        contest: Object.assign(state.contest, action.payload)
+        contest: Object.assign(state.contest, action.payload.contest)
       };
     case NewContestActions.SET_CONTEST_FAILURE:
       return {
         ...state,
-        contestErrMessage: action.payload
+        contestErrMessage: action.payload.error
       };
     case NewContestActions.SET_CONTEST_BANNER:
       return {
         ...state,
-        bannerImage: action.payload
+        bannerImage: action.payload.contestBanner
       };
     default:
       return state;

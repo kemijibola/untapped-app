@@ -21,6 +21,8 @@ import { RoleService } from '../services/role.service';
 import { PortfolioService } from '../services/portfolio.service';
 import { UserService } from '../services/user.service';
 import { ServicesService } from '../services/services.service';
+import { ModalService } from '../services/modal.service';
+import { AddOrRemoveClassDirective } from '../directives/add-or-remove-class.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { ServicesService } from '../services/services.service';
     HomeComponent,
     SlideMenuComponent,
     FooterComponent,
-    DropDownComponent
+    DropDownComponent,
+    AddOrRemoveClassDirective
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,8 @@ import { ServicesService } from '../services/services.service';
     UploadService,
     RoleService,
     ServicesService,
-    UserService
+    UserService,
+    ModalService
   ]
 })
 export class CoreModule {}

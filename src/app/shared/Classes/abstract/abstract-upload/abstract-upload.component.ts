@@ -10,7 +10,6 @@ import * as fromApp from '../../../../store/app.reducers';
 import { Store, select } from '@ngrx/store';
 import { selectFilesToUpload } from '../../../../shared/store/upload/upload.selectors';
 import * as UploadActions from '../../../../shared/store/upload/upload.actions';
-import * as fromUploads from '../../../../shared/store/upload/upload.reducers';
 
 export abstract class AbstractUploadComponent implements OnInit {
   private file: IPresignRequest;
@@ -46,7 +45,9 @@ export abstract class AbstractUploadComponent implements OnInit {
               action: val.action,
               files: [...files]
             };
-            this.store.dispatch(new UploadActions.GetPresignedUrl(this.file));
+            this.store.dispatch(
+              new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
+            );
             this.store.dispatch(new UploadActions.ResetFileInput());
 
             // perform actual upload to cloud

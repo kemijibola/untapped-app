@@ -4,7 +4,11 @@ import {
   IAudio,
   IVideo,
   IImage,
-  IGeneralMedia
+  IGeneralMedia,
+  MediaUploadType,
+  PortfolioUploadInputConfig,
+  MediaAcceptType,
+  MediaType
 } from '../../../interfaces';
 
 export const FETCH_PORTFOLIO_AUDIOS = 'FETCH_PORTFOLIO_AUDIOS';
@@ -24,6 +28,12 @@ export const SET_PORTFOLIO_AUDIO = 'SET_PORTFOLIO_AUDIO';
 export const SET_PORTFOLIO_VIDEO = 'SET_PORTFOLIO_VIDEO';
 export const SET_PORTFOLIO_IMAGE = 'SET_PORTFOLIO_IMAGE';
 export const SET_PORTFOLIO_GENERAL = 'SET_PORTFOLIO_GENERAL';
+
+export const SET_MEDIA_UPLOAD_TYPE = 'SET_MEDIA_UPLOAD_TYPE';
+export const RESET_MEDIA_UPLOAD_TYPE = 'RESET_MEDIA_UPLOAD_TYPE';
+export const SET_PORTFOLIO_UPDATE_INPUT_CONFIG =
+  'SET_PORTFOLIO_UPDATE_INPUT_CONFIG';
+export const SET_SELECTED_MEDIA_TYPE = 'SET_SELECTED_MEDIA_TYPE';
 
 export class FetchPortfolioAudios implements Action {
   readonly type = FETCH_PORTFOLIO_AUDIOS;
@@ -68,42 +78,61 @@ export class SetPortfolioGenerals implements Action {
 export class FetchPortfolioAudio implements Action {
   readonly type = FETCH_PORTFOLIO_AUDIO;
   // fetch portfolio audio by audio item id
-  constructor(public payload: string) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class FetchPortfolioVideo implements Action {
   readonly type = FETCH_PORTFOLIO_VIDEO;
-  constructor(public payload: string) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class FetchPortfolioImage implements Action {
   readonly type = FETCH_PORTFOLIO_IMAGE;
-  constructor(public payload: string) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class FetchPortfolioGeneral implements Action {
   readonly type = FETCH_PORTFOLIO_GENERAL;
-  constructor(public payload: string) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class SetPortfolioAudio implements Action {
   readonly type = SET_PORTFOLIO_AUDIO;
-  constructor(public payload: IAudio) {}
+  constructor(public payload: { audio: IAudio }) {}
 }
 
 export class SetPortfolioVideo implements Action {
   readonly type = SET_PORTFOLIO_VIDEO;
-  constructor(public payload: IVideo) {}
+  constructor(public payload: { video: IVideo }) {}
 }
 
 export class SetPortfolioImage implements Action {
   readonly type = SET_PORTFOLIO_IMAGE;
-  constructor(public payload: IImage) {}
+  constructor(public payload: { image: IImage }) {}
 }
 
 export class SetPortfolioGeneral implements Action {
   readonly type = SET_PORTFOLIO_GENERAL;
-  constructor(public payload: IGeneralMedia) {}
+  constructor(public payload: { generalUpload: IGeneralMedia }) {}
+}
+
+export class SetMediaUploadType implements Action {
+  readonly type = SET_MEDIA_UPLOAD_TYPE;
+  constructor(public payload: MediaUploadType) {}
+}
+
+export class ResetMediaUploadType implements Action {
+  readonly type = RESET_MEDIA_UPLOAD_TYPE;
+}
+
+export class SetPortfolioUpdateInputConfig implements Action {
+  readonly type = SET_PORTFOLIO_UPDATE_INPUT_CONFIG;
+  constructor(public paylod: PortfolioUploadInputConfig) {}
+}
+
+export class SetSelectedMediaType implements Action {
+  readonly type = SET_SELECTED_MEDIA_TYPE;
+  constructor(public payload: MediaType) {}
 }
 
 export type PortfolioActions =
@@ -122,4 +151,8 @@ export type PortfolioActions =
   | SetPortfolioAudio
   | SetPortfolioVideo
   | SetPortfolioImage
-  | SetPortfolioGeneral;
+  | SetPortfolioGeneral
+  | SetMediaUploadType
+  | ResetMediaUploadType
+  | SetPortfolioUpdateInputConfig
+  | SetSelectedMediaType;

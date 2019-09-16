@@ -8,7 +8,7 @@ import { UploadEffect } from '../shared/store/upload/upload.effects';
 import { ProfileComponent } from './profile/profile.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { SettingsComponent } from './settings/settings.component';
-import { userReducers } from './user.reducers';
+// import { userReducers } from './user.reducers';
 import { PortfolioAudiosComponent } from './portfolio/portfolio-audios/portfolio-audios.component';
 import { PortfolioVideosComponent } from './portfolio/portfolio-videos/portfolio-videos.component';
 import { PortfolioImagesComponent } from './portfolio/portfolio-images/portfolio-images.component';
@@ -16,6 +16,12 @@ import { PortfolioEffect } from './store/portfolio/portfolio.effects';
 import { ProfileEffect } from './store/profile/profile.effects';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
+import { PortfolioUploadComponent } from './portfolio/portfolio-upload/portfolio-upload.component';
+import { PortfolioMediaTypeComponent } from './portfolio/portfolio-media-type/portfolio-media-type.component';
+import { portfolioReducer } from './store/portfolio/portfolio.reducers';
+import { PortfolioModalContentComponent } from './portfolio/portfolio-modal-content/portfolio-modal-content.component';
+import { PortfolioItemContainerComponent } from './portfolio/portfolio-item-container/portfolio-item-container.component';
+import { PortfolioBrowseComponent } from './portfolio/portfolio-browse/portfolio-browse.component';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -24,14 +30,19 @@ import { UserComponent } from './user.component';
     PortfolioAudiosComponent,
     PortfolioVideosComponent,
     PortfolioImagesComponent,
-    UserComponent
+    UserComponent,
+    PortfolioUploadComponent,
+    PortfolioMediaTypeComponent,
+    PortfolioModalContentComponent,
+    PortfolioItemContainerComponent,
+    PortfolioBrowseComponent
   ],
   imports: [
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
     UserRoutingModule,
-    StoreModule.forFeature('user', userReducers),
+    StoreModule.forFeature('portfolios', portfolioReducer),
     EffectsModule.forFeature([ProfileEffect, PortfolioEffect])
   ],
   exports: [UserRoutingModule]

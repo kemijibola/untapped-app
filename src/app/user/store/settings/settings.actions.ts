@@ -11,12 +11,12 @@ export class FetchUserSettings implements Action {
 
 export class SetUserSettings implements Action {
   readonly type = SET_USERSETTINGS;
-  constructor(public payload: ISettings) {}
+  constructor(public payload: { userSetting: ISettings }) {}
 }
 
 export class UpdateUserSettings implements Action {
   readonly type = UPDATE_USERSETTINGS;
-  constructor(public payload: ISettings) {}
+  constructor(public payload: { updateObj: ISettings }) {}
 }
 
 export type UserSettingsAction =

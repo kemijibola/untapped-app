@@ -21,14 +21,16 @@ export abstract class AbstractServiceComponent implements OnInit, OnDestroy {
   private setCurrentService(): void {
     // dispatch action to set selected service;
     this.store.dispatch(
-      new ServiceActions.SetSelectedService(this.selectedServiceId)
+      new ServiceActions.SetSelectedService({ id: this.selectedServiceId })
     );
   }
 
   private triggerServiceFetch(): void {
     // fetch service by service name
     // set serviceId
-    this.store.dispatch(new ServiceActions.FetchService(this.serviceName));
+    this.store.dispatch(
+      new ServiceActions.FetchService({ serviceTypes: this.serviceName })
+    );
   }
 
   ngOnDestroy() {

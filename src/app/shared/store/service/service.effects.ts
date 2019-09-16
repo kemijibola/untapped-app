@@ -11,7 +11,7 @@ export class ServiceEffects {
   fetchServices = this.actions$
     .pipe(ofType(ServiceActions.FETCH_SERVICE))
     .switchMap((action: ServiceActions.FetchService) => {
-      return this.servicesService.getServices(action.payload);
+      return this.servicesService.getServices(action.payload.serviceTypes);
     })
     .pipe(
       map((resp: IResult<IService>) => {

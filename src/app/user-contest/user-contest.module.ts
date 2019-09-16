@@ -8,6 +8,7 @@ import { SettingComponent } from './setting/setting.component';
 import { NewContestBannerComponent } from './new-contest/new-contest-banner/new-contest-banner.component';
 import { ContestOverviewComponent } from './contest-overview/contest-overview.component';
 import { ContestServiceComponent } from './contest-overview/contest-service/contest-service.component';
+import { AllContestItemComponent } from './all-contest/all-contest-item/all-contest-item.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ContestServiceComponent } from './contest-overview/contest-service/cont
     UserContestComponent,
     NewContestBannerComponent,
     ContestOverviewComponent,
-    ContestServiceComponent
+    ContestServiceComponent,
+    AllContestItemComponent
   ],
   imports: [SharedModule, UserContestRoutingModule],
   exports: [UserContestRoutingModule]
