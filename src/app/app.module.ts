@@ -19,6 +19,8 @@ import { ConfigService } from './services/config.service';
 import { UploadEffect } from './shared/store/upload/upload.effects';
 import { UserProfileImageEffects } from './shared/store/user-profile-image/user-profile-image.effects';
 import { ServiceEffects } from './shared/store/service/service.effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
 // }
@@ -27,6 +29,8 @@ import { ServiceEffects } from './shared/store/service/service.effects';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    MatSlideToggleModule,
     AppRoutingModule,
     OwlModule,
     SharedModule,
@@ -43,6 +47,7 @@ import { ServiceEffects } from './shared/store/service/service.effects';
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
+  exports: [MatSlideToggleModule],
   // providers: [
   //   ConfigService,
   //   {
