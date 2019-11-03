@@ -1,3 +1,4 @@
+import { LoggingService } from './../services/LoggingService';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -23,6 +24,8 @@ import { UserService } from '../services/user.service';
 import { ServicesService } from '../services/services.service';
 import { ModalService } from '../services/modal.service';
 import { AddOrRemoveClassDirective } from '../directives/add-or-remove-class.directive';
+import { NotificationService } from '../services/notification.service';
+import { ErrorService } from '../services/ErrorService';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { AddOrRemoveClassDirective } from '../directives/add-or-remove-class.dir
     RoleService,
     ServicesService,
     UserService,
-    ModalService
+    ModalService,
+    NotificationService,
+    ErrorService,
+    LoggingService
   ]
 })
 export class CoreModule {}

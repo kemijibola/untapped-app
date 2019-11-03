@@ -56,6 +56,15 @@ textarea:focus {
   src:  url('../fonts/AvenirNextLTProMedium.otf');
 }
 
+.error {
+	background-color: red;
+	color: white;    
+}
+
+.error button {
+	background-color:orangered;
+	color: white;
+}
 
 .selector-for-some-widget {
   -webkit-box-sizing: content-box;

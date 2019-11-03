@@ -1,5 +1,10 @@
 import { Action } from '@ngrx/store';
-import { IAuthData, IRegister, ILogin } from 'src/app/interfaces';
+import {
+  IAuthData,
+  IRegister,
+  ILogin,
+  IConfirmEmail
+} from 'src/app/interfaces';
 
 export const DO_SIGNUP = 'DO_SIGNUP';
 export const DO_SIGNIN = 'DO_SIGNIN';
@@ -15,6 +20,9 @@ export const FETCH_AUTHDATA = 'FETCH_AUTHDATA';
 export const DELETE_AUTHDATA = 'DELETE_AUTHDATA';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const SET_NEW_USER_EMAIL = 'SET_NEW_USER_EMAIL';
+export const DO_EMAIL_CONFIRMATION = 'DO_EMAIL_CONFIRMATION';
+export const SUCCESS_EMAIL_CONFIRMATION = 'SUCCESS_EMAIL_CONFIRMATION';
+export const FAILURE_EMAIL_CONFIRMATION = 'FAILURE_EMAIL_CONFIRMATION';
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -66,6 +74,20 @@ export class FetchAuthData implements Action {
   readonly type = FETCH_AUTHDATA;
 }
 
+export class DoEmailConfirmation implements Action {
+  readonly type = DO_EMAIL_CONFIRMATION;
+  constructor(public payload: IConfirmEmail) {}
+}
+
+export class SuccessEmailConfirmation implements Action {
+  readonly type = SUCCESS_EMAIL_CONFIRMATION;
+}
+
+export class FailureEmailConfirmation implements Action {
+  readonly type = FAILURE_EMAIL_CONFIRMATION;
+  constructor(public payload: string) {}
+}
+
 export type AuthActions =
   | SignUpSuccess
   | SignInSuccess
@@ -79,4 +101,7 @@ export type AuthActions =
   | SignUpFailure
   | ResetFailureMessage
   | SignInFailure
-  | FetchAuthData;
+  | FetchAuthData
+  | DoEmailConfirmation
+  | SuccessEmailConfirmation
+  | FailureEmailConfirmation;

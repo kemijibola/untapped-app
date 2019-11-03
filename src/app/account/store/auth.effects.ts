@@ -19,31 +19,35 @@ export class AuthEffects {
     .pipe(ofType(AuthActions.DO_SIGNUP))
     .switchMap((action: AuthActions.DoSignUp) => {
       const newUser: IRegister = {
-        username: action.payload.register.username,
+        fullName: action.payload.register.fullName,
         email: action.payload.register.email,
         password: action.payload.register.password,
         roles: action.payload.register.roles,
-        audience: action.payload.register.audience
+        audience: action.payload.register.audience,
+        confirmationUrl: action.payload.register.confirmationUrl
       };
       return this.authService.signUp(newUser);
     })
     .pipe(
       map((res: IResult<boolean>) => {
-        if (res.error) {
-          return {
-            type: AuthActions.SIGNIN_FAILURE,
-            payload: res.error
-          };
-        }
         return {
           type: AuthActions.SIGNUP_SUCCESS
         };
-      }),
-      catchError(error => {
-        return of({
-          type: ErrorActions.EXCEPTION_OCCURED,
-          payload: error
-        });
+      })
+    );
+
+  @Effect()
+  doEmailConfirmation = this.actions$
+    .pipe(ofType(AuthActions.DO_EMAIL_CONFIRMATION))
+    .switchMap((action: AuthActions.DoEmailConfirmation) => {
+      return this.authService.confirmEmail(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<string>) => {
+        return {
+          type: AuthActions.SUCCESS_EMAIL_CONFIRMATION,
+          payload: resp.data
+        };
       })
     );
 
@@ -73,10 +77,6 @@ export class AuthEffects {
             payload: resp.error
           }
         ];
-      }),
-      catchError((error, caught) => {
-        this.store.dispatch(new ErrorActions.ExceptionOccurred(error));
-        return caught;
       })
     );
 
@@ -107,6 +107,18 @@ export class AuthEffects {
         };
       }
     });
+
+  @Effect({ dispatch: false })
+  signupSuccess = this.actions$.pipe(
+    ofType(AuthActions.SIGNUP_SUCCESS),
+    tap(() => this.router.navigate(['/account/confirm-email']))
+  );
+
+  @Effect({ dispatch: false })
+  confirmEmailSuccess = this.actions$.pipe(
+    ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
+    tap(() => this.router.navigate(['/account/signin']))
+  );
 
   @Effect({ dispatch: false })
   signInSuccess = this.actions$.pipe(

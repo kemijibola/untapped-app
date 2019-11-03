@@ -1,3 +1,4 @@
+import { ErrorService } from './../../services/ErrorService';
 import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import {
   FormGroup,
@@ -15,6 +16,8 @@ import * as fromRole from '../../role/store/role.reducers';
 import { takeUntil } from 'rxjs/operators';
 import { IRegister } from 'src/app/interfaces';
 import { AUDIENCE } from 'src/app/lib/constants';
+import { selectErrorMessage } from '../store/auth.selectors';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-signup',
@@ -27,10 +30,13 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
   emailPattern = '^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$';
   selectedRole = '';
   ngDestroyed = new Subject();
+  errorMessage = '';
 
   constructor(
     private store: Store<fromApp.AppState>,
-    private userService: UserService
+    private userService: UserService,
+    private notificationService: NotificationService,
+    private errorService: ErrorService
   ) {}
 
   ngOnInit() {
@@ -48,7 +54,13 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       terms: new FormControl(null, Validators.required)
     });
 
-    // subscribe to error state and if error, display error message
+    // subscribe to error
+    this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
+      if (val) {
+        const message = this.errorService.getServerErrorMessage(val);
+        this.notificationService.showError(message);
+      }
+    });
   }
 
   ngAfterContentInit() {
@@ -66,11 +78,12 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
     const email: string = this.signupForm.controls['email'].value;
     const password: string = this.signupForm.controls['password'].value;
     const payload: IRegister = {
-      username: username,
+      fullName: username,
       email: email,
       password: password,
       roles: [this.selectedRole],
-      audience: AUDIENCE
+      audience: 'http://localhost:4200',
+      confirmationUrl: 'http://localhost:4200/account/confirmation'
     };
     this.store.dispatch(new AuthActions.DoSignUp({ register: payload }));
   }

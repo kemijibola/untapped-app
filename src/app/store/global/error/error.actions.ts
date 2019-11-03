@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-export const EXCEPTION_OCCURED = 'EXCEPTION_OCCURED';
+export const ADD_GLOBAL_ERROR = 'ADD_GLOBAL_ERROR';
 
-export class ExceptionOccurred implements Action {
-  readonly type = EXCEPTION_OCCURED;
-  constructor(public payload: { error: any }) {}
+export class AddGlobalError implements Action {
+  readonly type = ADD_GLOBAL_ERROR;
+  constructor(public payload: any) {}
 }
 
-export type ErrorActions = ExceptionOccurred;
+export type ErrorActions = AddGlobalError;

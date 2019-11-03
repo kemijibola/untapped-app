@@ -4,6 +4,7 @@ import { IAuthData } from '../../interfaces';
 export interface State {
   errorMessage: string;
   userData: IAuthData;
+  errorConfirmationMsg: string;
 }
 const initialState: State = {
   userData: {
@@ -14,7 +15,8 @@ const initialState: State = {
     roles: [],
     authenticated: false
   },
-  errorMessage: ''
+  errorMessage: '',
+  errorConfirmationMsg: ''
 };
 export function authReducer(
   state = initialState,
@@ -77,6 +79,7 @@ export function authReducer(
         }
       };
     case AuthActions.SIGNUP_FAILURE:
+      console.log('error from reducer', action.payload.error);
       return {
         ...state,
         userData: {
@@ -101,6 +104,11 @@ export function authReducer(
           authenticated: false
         },
         errorMessage: ''
+      };
+    case AuthActions.FAILURE_EMAIL_CONFIRMATION:
+      return {
+        ...state,
+        errorConfirmationMsg: action.payload
       };
     default:
       return state;

@@ -22,10 +22,6 @@ export class UploadEffect {
           type: UploadActions.SET_PRESIGNED_URL,
           payload: res.data
         };
-      }),
-      catchError((error, caught) => {
-        this.store.dispatch(new ErrorActions.ExceptionOccurred(error));
-        return caught;
       })
     );
 

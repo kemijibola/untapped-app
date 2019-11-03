@@ -7,6 +7,7 @@ import * as fromTab from '../shared/store/tabs/tabs.reducers';
 import * as fromUserProfileImage from '../shared/store/user-profile-image/user-profile-image.reducers';
 import * as fromService from '../shared/store/service/service.reducers';
 import * as fromModal from '../shared/store/modals/modals.reducers';
+import * as fromError from './global/error/error.reducers';
 
 export interface AppState {
   auth: fromAuth.State;
@@ -17,6 +18,7 @@ export interface AppState {
   userProfileImage: fromUserProfileImage.State;
   service: fromService.State;
   modals: fromModal.State;
+  error: fromError.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -27,5 +29,6 @@ export const reducers: ActionReducerMap<AppState> = {
   appTabs: fromTab.TabsReducers,
   userProfileImage: fromUserProfileImage.UserProfileImageReducers,
   service: fromService.serviceReducer,
-  modals: fromModal.ModalsReducer
+  modals: fromModal.ModalsReducer,
+  error: fromError.errorReducer
 };

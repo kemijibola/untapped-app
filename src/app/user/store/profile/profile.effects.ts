@@ -6,7 +6,6 @@ import { IProfile, IResult } from 'src/app/interfaces';
 import { ProfileService } from 'src/app/services/profile.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducers';
-import * as ErrorActions from '../../../store/global/error/error.actions';
 
 @Injectable()
 export class ProfileEffect {
@@ -37,10 +36,6 @@ export class ProfileEffect {
           type: ProfileActions.SET_USERPROFILE,
           payload: res.data
         };
-      }),
-      catchError((error, caught) => {
-        this.store.dispatch(new ErrorActions.ExceptionOccurred(error));
-        return caught;
       })
     );
   constructor(
