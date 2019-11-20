@@ -24,14 +24,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.queryParamMap.subscribe((queryParams: Params) => {
       const keys = { ...queryParams.params };
-      // if (!params['email']) {
-      //   this.notificationService.showError('Invalid request. Email missing');
-      //   return;
-      // }
-      // if (!params['token']) {
-      //   this.notificationService.showError('Invalid request. Token missing');
-      //   return;
-      // }
       const payload: IConfirmEmail = {
         email: keys['email'],
         token: keys['token'],

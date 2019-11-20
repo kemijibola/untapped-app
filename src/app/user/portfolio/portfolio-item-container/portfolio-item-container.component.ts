@@ -18,14 +18,16 @@ import { selectUserData } from '../../../account/store/auth.selectors';
 })
 export class PortfolioItemContainerComponent implements OnInit {
   userId = '';
+  selectedMediaType: MediaType;
   constructor(
     public store: Store<fromApp.AppState>,
     private featureStore: Store<fromPortfolio.PortfolioFeatureState>
   ) {}
 
   ngOnInit() {
+    this.selectedMediaType = MediaType.AUDIO;
     this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      this.userId = val._id;
+      this.userId = val.user_data._id;
     });
 
     this.triggerUserAudioItemsFetch();

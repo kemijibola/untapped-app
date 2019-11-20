@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IResult, IUser } from '../interfaces';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
@@ -26,11 +27,8 @@ export class UserService {
     return this.http.put<IResult<IUser>>(url, item);
   }
 
-  updateUserProfileImage(
-    _id: string,
-    imagePath: string
-  ): Observable<IResult<IUser>> {
-    const url = `${this.BASE_URI}/users/${_id}`;
+  updateUserProfileImage(imagePath: string): Observable<IResult<IUser>> {
+    const url = `${this.BASE_URI}/users/`;
     return this.http.patch<IResult<IUser>>(url, {
       profileImagePath: imagePath
     });

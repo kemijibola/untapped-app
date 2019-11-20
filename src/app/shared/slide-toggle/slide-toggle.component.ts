@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatSlideToggleChange, MatSlideToggle } from '@angular/material/slide-toggle';
+import { Store } from '@ngrx/store';
+import * as fromSlideToggle from '../../shared/store/slide-toggle/slide-toggle.reducers';
+import * as ToggleStateActions from '../../shared/store/slide-toggle/slide-toggle.actions';
+import { IToggle, ToggleList } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-slide-toggle',
@@ -7,9 +12,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SlideToggleComponent implements OnInit {
 
-  constructor() { }
+  @Input() title: string;
+  @Input() name: string;
+  isChecked: boolean;
+  @Input() data: IToggle;
+  constructor(private featureStore: Store<fromSlideToggle.State>) {
+  }
 
   ngOnInit() {
+  }
+
+  onToggleChange() {
+    this.isChecked = !this.isChecked;
+    const payload: IToggle = {
+      index: this.data.index,
+      name: this.data.name,
+      state: this.isChecked
+    };
+    this.featureStore.dispatch(new ToggleStateActions.UpdateToggle({updateObj: payload}));
   }
 
 }

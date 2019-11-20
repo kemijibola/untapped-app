@@ -9,10 +9,10 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { Store, select } from '@ngrx/store';
 import * as fromApp from './store/app.reducers';
-import * as RoleActions from './role/store/role.actions';
+import * as UserTypeActions from './user-type/store/user-type.actions';
 import * as AuthActions from './account/store/auth.actions';
 import { selectUserData } from './account/store/auth.selectors';
-import * as fromRole from './role/store/role.reducers';
+import * as fromUserType from './user-type/store/user-type.reducers';
 import { IAuthData } from './interfaces';
 @Component({
   selector: 'app-root',
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   onFetchUserTypes() {
-    this.store.dispatch(new RoleActions.FetchRoles());
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
   }
 
   // @HostListener('window:scroll', ['$event'])

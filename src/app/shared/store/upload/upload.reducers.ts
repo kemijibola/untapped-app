@@ -5,8 +5,8 @@ import {
   UPLOADOPERATIONS,
   PresignedUrl,
   SignedUrl
-} from 'src/app/interfaces';
-import * as UploadActions from './upload.actions';
+} from "src/app/interfaces";
+import * as UploadActions from "./upload.actions";
 
 export interface State {
   fileInput: IFileInputModel;
@@ -21,7 +21,7 @@ const initialState: State = {
     state: false,
     process: UPLOADOPERATIONS.Default,
     multiple: false,
-    accept: ''
+    accept: ""
   },
   file: {
     files: [],
@@ -52,7 +52,7 @@ export function UploadReducers(
           state: false,
           process: UPLOADOPERATIONS.Default,
           multiple: false,
-          accept: ''
+          accept: ""
         },
         file: {
           files: [],
@@ -72,7 +72,7 @@ export function UploadReducers(
           state: false,
           process: UPLOADOPERATIONS.Default,
           multiple: false,
-          accept: ''
+          accept: ""
         }
       };
     case UploadActions.FILE_TOUPLOAD:
@@ -83,7 +83,7 @@ export function UploadReducers(
     case UploadActions.SET_PRESIGNED_URL:
       return {
         ...state,
-        preSignedUrls: action.payload.signedUrl
+        preSignedUrls: { ...action.payload }
       };
     case UploadActions.SET_APPUPLOAD_OPERATION:
       return {

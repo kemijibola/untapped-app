@@ -1,36 +1,36 @@
-import { ErrorService } from './../../services/ErrorService';
-import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { ErrorService } from "./../../services/ErrorService";
+import { Component, OnInit, AfterContentInit, OnDestroy } from "@angular/core";
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder
-} from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducers';
-import { emailAsyncValidator } from '../async-email.validator';
-import { UserService } from 'src/app/services/user.service';
-import { Subject } from 'rxjs';
-import * as AuthActions from '../store/auth.actions';
-import * as fromRole from '../../role/store/role.reducers';
-import { takeUntil } from 'rxjs/operators';
-import { IRegister } from 'src/app/interfaces';
-import { AUDIENCE } from 'src/app/lib/constants';
-import { selectErrorMessage } from '../store/auth.selectors';
-import { NotificationService } from 'src/app/services/notification.service';
+} from "@angular/forms";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../../store/app.reducers";
+import { emailAsyncValidator } from "../async-email.validator";
+import { UserService } from "src/app/services/user.service";
+import { Subject } from "rxjs";
+import * as AuthActions from "../store/auth.actions";
+import * as fromUserType from "../../user-type/store/user-type.reducers";
+import { takeUntil } from "rxjs/operators";
+import { IRegister } from "src/app/interfaces";
+import { AUDIENCE } from "src/app/lib/constants";
+import { selectErrorMessage } from "../store/auth.selectors";
+import { NotificationService } from "src/app/services/notification.service";
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  selector: "app-signup",
+  templateUrl: "./signup.component.html",
+  styleUrls: ["./signup.component.css"]
 })
 export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
   signupForm: FormGroup;
   time = 500;
-  emailPattern = '^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$';
-  selectedRole = '';
+  emailPattern = "^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
+  selectedUserType = "";
   ngDestroyed = new Subject();
-  errorMessage = '';
+  errorMessage = "";
 
   constructor(
     private store: Store<fromApp.AppState>,
@@ -57,33 +57,32 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
     // subscribe to error
     this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
       if (val) {
-        const message = this.errorService.getServerErrorMessage(val);
-        this.notificationService.showError(message);
+        if (!this.signupForm.invalid) {
+          const message = this.errorService.getServerErrorMessage(val);
+          this.notificationService.showError(message);
+        }
       }
     });
   }
 
   ngAfterContentInit() {
     this.store
-      .pipe(
-        select('roles'),
-        takeUntil(this.ngDestroyed)
-      )
-      .subscribe((roleState: fromRole.State) => {
-        this.selectedRole = roleState.selectedRole;
+      .pipe(select("userTypes"), takeUntil(this.ngDestroyed))
+      .subscribe((userTypeState: fromUserType.State) => {
+        this.selectedUserType = userTypeState.selectedUserType;
       });
   }
   onSubmit() {
-    const username: string = this.signupForm.controls['name'].value;
-    const email: string = this.signupForm.controls['email'].value;
-    const password: string = this.signupForm.controls['password'].value;
+    const username: string = this.signupForm.controls["name"].value;
+    const email: string = this.signupForm.controls["email"].value;
+    const password: string = this.signupForm.controls["password"].value;
     const payload: IRegister = {
       fullName: username,
       email: email,
       password: password,
-      roles: [this.selectedRole],
-      audience: 'http://localhost:4200',
-      confirmationUrl: 'http://localhost:4200/account/confirmation'
+      roles: [this.selectedUserType],
+      audience: "http://localhost:4200",
+      confirmationUrl: "http://localhost:4200/account/confirmation"
     };
     this.store.dispatch(new AuthActions.DoSignUp({ register: payload }));
   }

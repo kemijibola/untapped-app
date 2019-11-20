@@ -59,24 +59,11 @@ export class AuthEffects {
       return this.authService.signin({ email, password, audience });
     })
     .pipe(
-      mergeMap((resp: IResult<IAuthData>) => {
-        if (!resp.error) {
-          return [
-            {
-              type: AuthActions.SIGNIN_SUCCESS,
-              payload: resp.data
-            },
-            {
-              type: AuthActions.FETCH_AUTHDATA
-            }
-          ];
-        }
-        return [
-          {
-            type: AuthActions.SIGNIN_FAILURE,
-            payload: resp.error
-          }
-        ];
+      map((resp: IResult<IAuthData>) => {
+        return {
+          type: AuthActions.SIGNIN_SUCCESS,
+          payload: resp.data
+        };
       })
     );
 
@@ -87,25 +74,10 @@ export class AuthEffects {
       return this.authService.fetchUserAuthData('authData');
     })
     .map((resp: IAuthData) => {
-      if (resp !== null) {
-        return {
-          type: AuthActions.SET_AUTHDATA,
-          payload: resp
-        };
-      } else {
-        const defaultUserData: IAuthData = {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
-          authenticated: false
-        };
-        return {
-          type: AuthActions.SET_AUTHDATA,
-          payload: defaultUserData
-        };
-      }
+      return {
+        type: AuthActions.SET_AUTHDATA,
+        payload: resp
+      };
     });
 
   @Effect({ dispatch: false })
@@ -128,7 +100,8 @@ export class AuthEffects {
       return action.payload;
     }),
     map((authData: IAuthData) => {
-      return this.authService.setItem('authData', authData);
+      this.store.dispatch(new AuthActions.SetAuthData(authData));
+      this.authService.setItem('authData', authData);
     }),
     tap(() => {
       this.router.navigate(['/']);
@@ -155,6 +128,7 @@ export class AuthEffects {
     }),
     tap((isDeleted: boolean) => {
       if (isDeleted) {
+        this.store.dispatch(new AuthActions.DeleteAutData());
         this.router.navigate(['/']);
       }
     })

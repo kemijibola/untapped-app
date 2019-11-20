@@ -20,9 +20,12 @@ export class HeaderComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.store.dispatch(new AuthActions.FetchAuthData());
+
     this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
       this.isAuthenticated = val.authenticated;
-      this.userPreEmailAdress = val.email.split('@')[0];
+      if (val.authenticated) {
+        this.userPreEmailAdress = val.user_data.email.split('@')[0];
+      }
     });
   }
 

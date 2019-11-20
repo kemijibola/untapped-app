@@ -1,5 +1,5 @@
-import { IUserImage } from 'src/app/interfaces';
-import * as UserProfileImageActions from './user-profile-image.actions';
+import { IUserImage } from "src/app/interfaces";
+import * as UserProfileImageActions from "./user-profile-image.actions";
 
 export interface State {
   userImage: IUserImage;
@@ -8,7 +8,7 @@ export interface State {
 
 const initialState: State = {
   userImage: {
-    imagePath: '',
+    imagePath: "",
     isDefault: true
   },
   readyToUploadImage: false
@@ -22,7 +22,7 @@ export function UserProfileImageReducers(
     case UserProfileImageActions.SET_PROFILEIMAGE_PATH:
       return {
         ...state,
-        userImage: action.payload.userImage
+        userImage: { ...action.payload }
       };
     case UserProfileImageActions.RESET_PROFILEIMAGE_PATH:
       return {

@@ -6,9 +6,11 @@ import {
   MediaUploadType,
   PortfolioUploadInputConfig,
   MediaAcceptType,
-  MediaType
+  MediaType,
+  PortfolioOperationType
 } from 'src/app/interfaces';
 import * as PortfolioActions from './portfolio.actions';
+
 
 export interface PortfolioFeatureState {
   portfolios: State;
@@ -26,6 +28,8 @@ export interface State {
   selectedMediaUploadType: string;
   selectedMediaType: MediaType;
   uploadConfig: PortfolioUploadInputConfig;
+  operationType: PortfolioOperationType;
+  accept: string;
 }
 
 const initialState: State = {
@@ -42,7 +46,9 @@ const initialState: State = {
   uploadConfig: {
     isMultiple: false,
     mediaAccept: MediaAcceptType.IMAGE
-  }
+  },
+  operationType: PortfolioOperationType.DEFAULT,
+  accept: ''
 };
 
 export function portfolioReducer(
@@ -109,6 +115,16 @@ export function portfolioReducer(
       return {
         ...state,
         selectedMediaType: action.payload
+      };
+    case PortfolioActions.SET_PORTFOLIO_OPERATION_TYPE:
+      return {
+        ...state,
+        operationType: action.payload
+      };
+    case PortfolioActions.SET_PORTFOLIO_SELECTED_ACCEPT_TYPE:
+      return {
+        ...state,
+        accept: action.payload
       };
     default:
       return state;

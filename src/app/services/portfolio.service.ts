@@ -7,6 +7,7 @@ import {
   IGeneralMedia
 } from '../interfaces';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PortfolioService {

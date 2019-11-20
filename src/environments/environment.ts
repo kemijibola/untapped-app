@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  TALENT_DEFAULT_IMG: 'assets/img/profile/talent_default_img.png',
+  BASE_URL: 'http://127.0.0.1:8900/v1'
 };
 
 /*

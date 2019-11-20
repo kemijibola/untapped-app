@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { Action } from "@ngrx/store";
 import {
   IFileInputModel,
   IFileModel,
@@ -8,19 +8,19 @@ import {
   PresignedUrl,
   SignedUrl,
   CloudUploadParams
-} from 'src/app/interfaces';
+} from "src/app/interfaces";
 
-export const FILE_INPUT_CONFIG = 'FILE_INPUT_CONFIG';
-export const RESET_FILE_INPUT = 'RESET_FILE_INPUT';
+export const FILE_INPUT_CONFIG = "FILE_INPUT_CONFIG";
+export const RESET_FILE_INPUT = "RESET_FILE_INPUT";
 
-export const FILE_TOUPLOAD = 'FILE_TOUPLOAD';
-export const GET_PRESIGNED_URL = 'GET_PRESIGNED_URL';
-export const SET_PRESIGNED_URL = 'SET_PRESIGNED_URL';
-export const SET_APPUPLOAD_OPERATION = 'SET_APPUPLOAD_OPERATION';
+export const FILE_TOUPLOAD = "FILE_TOUPLOAD";
+export const GET_PRESIGNED_URL = "GET_PRESIGNED_URL";
+export const SET_PRESIGNED_URL = "SET_PRESIGNED_URL";
+export const SET_APPUPLOAD_OPERATION = "SET_APPUPLOAD_OPERATION";
 
-export const UPLOAD_FILES = 'UPLOAD_FILES';
+export const UPLOAD_FILES = "UPLOAD_FILES";
 
-export const CLOUD_UPLOAD_SUCCESS = 'CLOUD_UPLOAD_SUCCESS';
+export const CLOUD_UPLOAD_SUCCESS = "CLOUD_UPLOAD_SUCCESS";
 
 export class FileInputConfig implements Action {
   readonly type = FILE_INPUT_CONFIG;
@@ -51,12 +51,12 @@ export class GetPresignedUrl implements Action {
 
 export class SetPresignedUrl implements Action {
   readonly type = SET_PRESIGNED_URL;
-  constructor(public payload: { signedUrl: SignedUrl }) {}
+  constructor(public payload: SignedUrl) {}
 }
 
 export class UploadFiles implements Action {
   readonly type = UPLOAD_FILES;
-  constructor(public payload: { cloudParams: CloudUploadParams }) {}
+  constructor(public payload: CloudUploadParams) {}
 }
 
 export type UploadActions =

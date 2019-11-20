@@ -21,7 +21,9 @@ export class EmailConfirmedGuard implements CanActivate {
           this.store
             .pipe(select(selectUserData))
             .subscribe((data: IAuthData) => {
-              this.store.dispatch(new UserActions.FetchUser({ id: data._id }));
+              this.store.dispatch(
+                new UserActions.FetchUser({ id: data.user_data._id })
+              );
             });
         }
       })

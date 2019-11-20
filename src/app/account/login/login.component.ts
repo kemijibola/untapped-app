@@ -6,6 +6,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ILogin } from 'src/app/interfaces';
 import { selectErrorMessage } from '../store/auth.selectors';
 import { takeUntil } from 'rxjs/operators';
+import { ErrorService } from 'src/app/services/ErrorService';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,11 @@ export class LoginComponent implements OnInit {
   signinForm: FormGroup;
   errorMessage = '';
   hasError = false;
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private errorService: ErrorService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.signinForm = new FormGroup({
@@ -30,10 +36,12 @@ export class LoginComponent implements OnInit {
       )
     });
 
-    this.store.pipe(select(selectErrorMessage)).subscribe((val: string) => {
+    this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
       if (val) {
-        this.hasError = true;
-        this.errorMessage = val;
+        if (!this.signinForm.invalid) {
+          const message = this.errorService.getServerErrorMessage(val);
+          this.notificationService.showError(message);
+        }
       }
     });
   }

@@ -17,6 +17,13 @@ export enum MediaType {
   AUDIO = 'AUDIO',
   IMAGE = 'IMAGE'
 }
+
+export enum PortfolioOperationType {
+  EDIT = 'EDIT',
+  NEW = 'NEW',
+  DEFAULT = 'DEFAULT'
+}
+
 export enum MediaUploadType {
   SINGLE = 'SINGLE',
   MULTIPLE = 'MULTIPLE',

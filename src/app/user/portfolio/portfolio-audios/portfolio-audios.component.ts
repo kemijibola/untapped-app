@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromPortfolio from '../../store/portfolio/portfolio.reducers';
-import { IAudio } from 'src/app/interfaces';
+import { IAudio, AppModal } from 'src/app/interfaces';
 import { selectUserAudioList } from '../../store/portfolio/portfolio.selectors';
+import * as fromApp from '../../../store/app.reducers';
+import * as ModalsActions from '../../../shared/store/modals/modals.actions';
 
 @Component({
   selector: 'app-portfolio-audios',
@@ -16,6 +18,7 @@ export class PortfolioAudiosComponent implements OnInit {
   userAudios: IAudio[] = [];
   userAudiosLength = 0;
   constructor(
+    private store: Store<fromApp.AppState>,
     private featureStore: Store<fromPortfolio.PortfolioFeatureState>
   ) {}
 
@@ -26,5 +29,9 @@ export class PortfolioAudiosComponent implements OnInit {
         this.userAudios = audios;
         this.userAudiosLength = audios.length;
       });
+  }
+  onClickAddUploadBtn() {
+    console.log('clicked');
+    this.store.dispatch(new ModalsActions.SetModalId(AppModal.Portfolio));
   }
 }

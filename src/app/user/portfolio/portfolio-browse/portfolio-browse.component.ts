@@ -4,8 +4,8 @@ import {
   OnChanges,
   SimpleChanges,
   Input
-} from '@angular/core';
-import { AbstractUploadComponent } from 'src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component';
+} from "@angular/core";
+import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component";
 import {
   IFileInputModel,
   UPLOADOPERATIONS,
@@ -14,22 +14,22 @@ import {
   CloudUploadParams,
   UploadedPortfolioItems,
   MediaType
-} from 'src/app/interfaces';
-import { Store, select } from '@ngrx/store';
-import * as fromApp from '../../../store/app.reducers';
-import { selectPresignedUrls } from '../../../shared/store/upload/upload.selectors';
-import * as UploadActions from '../../../shared/store/upload/upload.actions';
+} from "src/app/interfaces";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../../../store/app.reducers";
+import { selectPresignedUrls } from "../../../shared/store/upload/upload.selectors";
+import * as UploadActions from "../../../shared/store/upload/upload.actions";
 
 @Component({
-  selector: 'app-portfolio-browse',
-  templateUrl: './portfolio-browse.component.html',
-  styleUrls: ['./portfolio-browse.component.css']
+  selector: "app-portfolio-browse",
+  templateUrl: "./portfolio-browse.component.html",
+  styleUrls: ["./portfolio-browse.component.css"]
 })
 export class PortfolioBrowseComponent extends AbstractUploadComponent
   implements OnChanges {
   fileConfig: IFileInputModel;
   @Input() multiple = false;
-  @Input() accept = '';
+  @Input() accept = "";
   isMultiple: boolean;
   mediaAccept: string;
   uploadOperation = UPLOADOPERATIONS.Portfolio;
@@ -40,10 +40,10 @@ export class PortfolioBrowseComponent extends AbstractUploadComponent
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
-    if (simpleChanges['multiple']) {
+    if (simpleChanges["multiple"]) {
       this.isMultiple = this.multiple;
     }
-    if (simpleChanges['accept']) {
+    if (simpleChanges["accept"]) {
       this.mediaAccept = this.accept;
     }
   }
@@ -58,13 +58,11 @@ export class PortfolioBrowseComponent extends AbstractUploadComponent
         };
         for (let i = 0; i < files.length; i++) {
           const uploadParams: CloudUploadParams = {
-            file: files[i]['data'],
+            file: files[i]["data"],
             url: val.presignedUrl[i].url
           };
 
-          this.store.dispatch(
-            new UploadActions.UploadFiles({ cloudParams: uploadParams })
-          );
+          this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
           this.uploadedItems.items = [
             ...this.uploadedItems.items,

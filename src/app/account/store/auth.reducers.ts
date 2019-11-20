@@ -8,11 +8,18 @@ export interface State {
 }
 const initialState: State = {
   userData: {
-    _id: '',
-    token: '',
-    email: '',
-    fullName: '',
-    roles: [],
+    access_token: '',
+    permissions: [],
+    user_data: {
+      _id: '',
+      full_name: '',
+      email: '',
+      profile_is_completed: false,
+      userType: {
+        _id: '',
+        name: ''
+      }
+    },
     authenticated: false
   },
   errorMessage: '',
@@ -27,11 +34,18 @@ export function authReducer(
       return {
         ...state,
         userData: {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
+          access_token: '',
+          permissions: [],
+          user_data: {
+            _id: '',
+            full_name: '',
+            email: '',
+            profile_is_completed: false,
+            userType: {
+              _id: '',
+              name: ''
+            }
+          },
           authenticated: false
         },
         errorMessage: ''
@@ -41,28 +55,42 @@ export function authReducer(
         ...state,
         errorMessage: action.payload,
         userData: {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
+          access_token: '',
+          permissions: [],
+          user_data: {
+            _id: '',
+            full_name: '',
+            email: '',
+            profile_is_completed: false,
+            userType: {
+              _id: '',
+              name: ''
+            }
+          },
           authenticated: false
         }
       };
     case AuthActions.SET_AUTHDATA:
       return {
         ...state,
-        userData: action.payload
+        userData: { ...action.payload }
       };
     case AuthActions.DELETE_AUTHDATA:
       return {
         ...state,
         userData: {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
+          access_token: '',
+          permissions: [],
+          user_data: {
+            _id: '',
+            full_name: '',
+            email: '',
+            profile_is_completed: false,
+            userType: {
+              _id: '',
+              name: ''
+            }
+          },
           authenticated: false
         }
       };
@@ -70,24 +98,37 @@ export function authReducer(
       return {
         ...state,
         userData: {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
+          access_token: '',
+          permissions: [],
+          user_data: {
+            _id: '',
+            full_name: '',
+            email: '',
+            profile_is_completed: false,
+            userType: {
+              _id: '',
+              name: ''
+            }
+          },
           authenticated: false
         }
       };
     case AuthActions.SIGNUP_FAILURE:
-      console.log('error from reducer', action.payload.error);
       return {
         ...state,
         userData: {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
+          access_token: '',
+          permissions: [],
+          user_data: {
+            _id: '',
+            full_name: '',
+            email: '',
+            profile_is_completed: false,
+            userType: {
+              _id: '',
+              name: ''
+            }
+          },
           authenticated: false
         },
         errorMessage: action.payload.error
@@ -95,14 +136,6 @@ export function authReducer(
     case AuthActions.RESET_FAILURE_MESSAGE:
       return {
         ...state,
-        userData: {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
-          authenticated: false
-        },
         errorMessage: ''
       };
     case AuthActions.FAILURE_EMAIL_CONFIRMATION:

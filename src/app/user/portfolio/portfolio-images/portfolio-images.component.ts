@@ -15,15 +15,15 @@ export class PortfolioImagesComponent implements OnInit {
   portfolioImages: Observable<fromPortfolio.PortfolioFeatureState>;
   userImages: IImage[] = [];
   userImagesLength = 0;
-  constructor(private userState: Store<fromUser.UserState>) {}
+  constructor(private userState: Store<fromPortfolio.PortfolioFeatureState>) {}
 
   ngOnInit() {
     // this.portfolioImages = this.userState.select('portfolio');
-    // this.userState
-    //   .pipe(select(selectUserImageList))
-    //   .subscribe((val: IImage[]) => {
-    //     this.userImages = val;
-    //     this.userImagesLength = val.length;
-    //   });
+    this.userState
+      .pipe(select(selectUserImageList))
+      .subscribe((val: IImage[]) => {
+        this.userImages = val;
+        this.userImagesLength = val.length;
+      });
   }
 }

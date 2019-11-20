@@ -8,7 +8,8 @@ import {
   MediaUploadType,
   PortfolioUploadInputConfig,
   MediaAcceptType,
-  MediaType
+  MediaType,
+  PortfolioOperationType
 } from '../../../interfaces';
 
 export const FETCH_PORTFOLIO_AUDIOS = 'FETCH_PORTFOLIO_AUDIOS';
@@ -35,9 +36,34 @@ export const SET_PORTFOLIO_UPDATE_INPUT_CONFIG =
   'SET_PORTFOLIO_UPDATE_INPUT_CONFIG';
 export const SET_SELECTED_MEDIA_TYPE = 'SET_SELECTED_MEDIA_TYPE';
 
+export const SET_PORTFOLIO_OPERATION_TYPE = 'SET_PORTFOLIO_OPERATION_TYPE';
+export const FETCH_PORTFOLIO_OPERATION_TYPE = 'FETCH_PORTFOLIO_OPERATION_TYPE';
+
+export const SET_PORTFOLIO_SELECTED_ACCEPT_TYPE = 'SET_PORTFOLIO_SELECTED_ACCEPT_TYPE';
+export const FETCH_PORTFOLIO_SELECTED_ACCEPT_TYPE = 'FETCH_PORTFOLIO_SELECTED_ACCEPT_TYPE';
+
+
+export class SetPortfolioSelectedAcceptType implements Action {
+  readonly type = SET_PORTFOLIO_SELECTED_ACCEPT_TYPE;
+  constructor(public payload: string) {}
+}
+
+export class FetchPorfolioSelectedAcceptType implements Action {
+  readonly type = FETCH_PORTFOLIO_SELECTED_ACCEPT_TYPE;
+}
+
 export class FetchPortfolioAudios implements Action {
   readonly type = FETCH_PORTFOLIO_AUDIOS;
   constructor(public payload: PortfolioQueryParams) {}
+}
+
+export class SetPortfolioOperationType implements Action {
+  readonly type = SET_PORTFOLIO_OPERATION_TYPE;
+  constructor(public payload: PortfolioOperationType) {}
+}
+
+export class FetchPortfolioOperationType implements Action {
+  readonly type = FETCH_PORTFOLIO_OPERATION_TYPE;
 }
 
 export class FetchPortfolioVideos implements Action {
@@ -155,4 +181,8 @@ export type PortfolioActions =
   | SetMediaUploadType
   | ResetMediaUploadType
   | SetPortfolioUpdateInputConfig
-  | SetSelectedMediaType;
+  | SetSelectedMediaType
+  | SetPortfolioOperationType
+  | FetchPortfolioOperationType
+  | SetPortfolioSelectedAcceptType
+  | FetchPorfolioSelectedAcceptType;

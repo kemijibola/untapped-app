@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomeComponent } from './core/home/home.component';
+import { AuthGuard } from './guard-services/auth-guard.service';
+import { CompleteProfile } from './guard-services/complete-profile.guard.service';
+import { CompleteProfileComponent } from './user/complete-profile/complete-profile.component';
+import { NotLoggedInComponent } from './not-logged-in/not-logged-in.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', canActivate: [CompleteProfile], component: HomeComponent },
   { path: 'account', loadChildren: './account/auth.module#AuthModule' },
   {
     path: 'talents',
@@ -11,10 +15,12 @@ const appRoutes: Routes = [
   },
   {
     path: 'contests',
+    canActivate: [AuthGuard, CompleteProfile],
     loadChildren: './contests/contests.module#ContestsModule'
   },
   {
     path: 'user',
+    canActivate: [AuthGuard, CompleteProfile],
     loadChildren: './user-contest/user-contest.module#UserContestModule'
   },
   {

@@ -9,9 +9,10 @@ import { AppUserSearchCategoriesComponent } from './app-user-search-categories/a
 import { AppSearchCategoriesComponent } from './app-search-categories/app-search-categories.component';
 import { ModalsComponent } from './modals/modals.component';
 import { SlideToggleComponent } from './slide-toggle/slide-toggle.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild([])],
+  imports: [MatSlideToggleModule, CommonModule, RouterModule.forChild([])],
   exports: [
     CommonModule,
     UploadComponent,

@@ -7,7 +7,8 @@ import {
   ViewChild,
   OnDestroy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  Renderer2
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
@@ -50,7 +51,8 @@ export class UploadComponent
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private renderer: Renderer2
   ) {
     this.onTouchedCallback = noop;
     this.onChange = noop;
@@ -60,7 +62,6 @@ export class UploadComponent
   ngOnChanges(simple: SimpleChanges) {
     if (simple['fileConfig']) {
       if (this.fileConfig) {
-        console.log(this.fileConfig);
         if (this.fileConfig.process !== UPLOADOPERATIONS.Default) {
           this.multiple = this.fileConfig.multiple;
           this.operationType = this.fileConfig.process;
@@ -74,9 +75,12 @@ export class UploadComponent
     }
   }
   private triggerFileInput(): void {
-    this.fileInput.nativeElement.multiple = this.multiple;
-    this.fileInput.nativeElement.accept = this.accept;
-    this.fileInput.nativeElement.click();
+    let child;
+    child = this.fileInput.nativeElement;
+    const event = new MouseEvent('click', { bubbles: true });
+    this.renderer.setProperty(child, 'multiple', this.multiple);
+    this.renderer.setProperty(child, 'accept', this.accept);
+    this.fileInput.nativeElement.dispatchEvent(event);
   }
 
   @HostListener('change', ['$event.target.files']) emitFiles(files: FileList) {

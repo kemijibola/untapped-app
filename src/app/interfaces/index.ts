@@ -17,3 +17,4 @@ export * from './user/settings';
 export * from './contests/Contest';
 export * from './contests/PrizeType';
 export * from './contests/Service';
+export * from './shared/toggle';

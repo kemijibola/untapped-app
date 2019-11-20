@@ -35,7 +35,7 @@ export class UserComponent extends AbstractTabComponent {
     };
   }
   navigate(): void {
-    this.router.navigate(['/', this.route.snapshot.params['username']], {
+    this.router.navigate(['/user/', this.route.snapshot.params['username']], {
       queryParams: { tab: this.queryParam }
     });
   }

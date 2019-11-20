@@ -11,6 +11,8 @@ import {
   IConfirmEmail
 } from '../interfaces';
 import { LocalStorage } from '@ngx-pwa/local-storage';
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class AuthService {
   private BASE_URI = '';

@@ -5,11 +5,13 @@ import {
   AppModal,
   MediaType,
   IMedia,
-  MediaUploadType
+  MediaUploadType,
+  PortfolioOperationType
 } from 'src/app/interfaces';
 import { Store, select } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducers';
 import * as fromPortfolio from '../../store/portfolio/portfolio.reducers';
+import * as PortfolioActions from '../../store/portfolio/portfolio.actions';
 import * as ModalsActions from '../../../shared/store/modals/modals.actions';
 import {
   selectUserAudioList,
@@ -48,6 +50,11 @@ export class PortfolioMediaTypeComponent implements OnInit {
       }
     ];
     this.selectedMediaType = this.svgs[0].name;
+    this.featureStore.dispatch(
+      new PortfolioActions.SetPortfolioSelectedAcceptType(
+        MediaAcceptType[this.selectedMediaType]
+      )
+    );
   }
 
   onSelect(index: number): void {
@@ -67,7 +74,14 @@ export class PortfolioMediaTypeComponent implements OnInit {
       this.svgs[2].selected = !this.svgs[2].selected;
       this.selectedMediaType = this.svgs[2].name;
     } else {
- }
+    }
+
+    // emit accepte here
+    this.featureStore.dispatch(
+      new PortfolioActions.SetPortfolioSelectedAcceptType(
+        MediaAcceptType[this.selectedMediaType]
+      )
+    );
   }
 
   onClickAddUploadBtn(): void {
@@ -78,9 +92,10 @@ export class PortfolioMediaTypeComponent implements OnInit {
       items: [],
       uploadType: MediaUploadType.NONE
     };
+
+    // this.featureStore.dispatch(new PortfolioActions.SetPortfolioOperationType(PortfolioOperationType.NEW));
     // user media items  are fetched after modal is popped up
     // this.onMediaTypeSelected(this.selectedMediaType);
-    this.store.dispatch(new ModalsActions.SetModalId(AppModal.Portfolio));
   }
 
   // onMediaTypeSelected(type: MediaType): void {

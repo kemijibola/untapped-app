@@ -22,6 +22,7 @@ import { portfolioReducer } from './store/portfolio/portfolio.reducers';
 import { PortfolioModalContentComponent } from './portfolio/portfolio-modal-content/portfolio-modal-content.component';
 import { PortfolioItemContainerComponent } from './portfolio/portfolio-item-container/portfolio-item-container.component';
 import { PortfolioBrowseComponent } from './portfolio/portfolio-browse/portfolio-browse.component';
+import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -35,7 +36,8 @@ import { PortfolioBrowseComponent } from './portfolio/portfolio-browse/portfolio
     PortfolioMediaTypeComponent,
     PortfolioModalContentComponent,
     PortfolioItemContainerComponent,
-    PortfolioBrowseComponent
+    PortfolioBrowseComponent,
+    CompleteProfileComponent
   ],
   imports: [
     SharedModule,
