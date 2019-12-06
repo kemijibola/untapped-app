@@ -1,5 +1,5 @@
-import * as AuthActions from './auth.actions';
-import { IAuthData } from '../../interfaces';
+import * as AuthActions from "./auth.actions";
+import { IAuthData } from "../../interfaces";
 
 export interface State {
   errorMessage: string;
@@ -8,22 +8,23 @@ export interface State {
 }
 const initialState: State = {
   userData: {
-    access_token: '',
+    access_token: "",
     permissions: [],
     user_data: {
-      _id: '',
-      full_name: '',
-      email: '',
+      _id: "",
+      full_name: "",
+      email: "",
       profile_is_completed: false,
+      profile_image_path: "",
       userType: {
-        _id: '',
-        name: ''
+        _id: "",
+        name: ""
       }
     },
     authenticated: false
   },
-  errorMessage: '',
-  errorConfirmationMsg: ''
+  errorMessage: "",
+  errorConfirmationMsg: ""
 };
 export function authReducer(
   state = initialState,
@@ -34,37 +35,39 @@ export function authReducer(
       return {
         ...state,
         userData: {
-          access_token: '',
+          access_token: "",
           permissions: [],
           user_data: {
-            _id: '',
-            full_name: '',
-            email: '',
+            _id: "",
+            full_name: "",
+            email: "",
             profile_is_completed: false,
+            profile_image_path: "",
             userType: {
-              _id: '',
-              name: ''
+              _id: "",
+              name: ""
             }
           },
           authenticated: false
         },
-        errorMessage: ''
+        errorMessage: ""
       };
     case AuthActions.SIGNIN_FAILURE:
       return {
         ...state,
         errorMessage: action.payload,
         userData: {
-          access_token: '',
+          access_token: "",
           permissions: [],
           user_data: {
-            _id: '',
-            full_name: '',
-            email: '',
+            _id: "",
+            full_name: "",
+            email: "",
             profile_is_completed: false,
+            profile_image_path: "",
             userType: {
-              _id: '',
-              name: ''
+              _id: "",
+              name: ""
             }
           },
           authenticated: false
@@ -79,16 +82,17 @@ export function authReducer(
       return {
         ...state,
         userData: {
-          access_token: '',
+          access_token: "",
           permissions: [],
           user_data: {
-            _id: '',
-            full_name: '',
-            email: '',
+            _id: "",
+            full_name: "",
+            email: "",
             profile_is_completed: false,
+            profile_image_path: "",
             userType: {
-              _id: '',
-              name: ''
+              _id: "",
+              name: ""
             }
           },
           authenticated: false
@@ -98,16 +102,17 @@ export function authReducer(
       return {
         ...state,
         userData: {
-          access_token: '',
+          access_token: "",
           permissions: [],
           user_data: {
-            _id: '',
-            full_name: '',
-            email: '',
+            _id: "",
+            full_name: "",
+            email: "",
             profile_is_completed: false,
+            profile_image_path: "",
             userType: {
-              _id: '',
-              name: ''
+              _id: "",
+              name: ""
             }
           },
           authenticated: false
@@ -117,16 +122,17 @@ export function authReducer(
       return {
         ...state,
         userData: {
-          access_token: '',
+          access_token: "",
           permissions: [],
           user_data: {
-            _id: '',
-            full_name: '',
-            email: '',
+            _id: "",
+            full_name: "",
+            email: "",
             profile_is_completed: false,
+            profile_image_path: "",
             userType: {
-              _id: '',
-              name: ''
+              _id: "",
+              name: ""
             }
           },
           authenticated: false
@@ -136,7 +142,7 @@ export function authReducer(
     case AuthActions.RESET_FAILURE_MESSAGE:
       return {
         ...state,
-        errorMessage: ''
+        errorMessage: ""
       };
     case AuthActions.FAILURE_EMAIL_CONFIRMATION:
       return {

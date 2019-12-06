@@ -18,10 +18,9 @@ import { UploadEffect } from "./shared/store/upload/upload.effects";
 import { UserProfileImageEffects } from "./shared/store/user-profile-image/user-profile-image.effects";
 import { ServiceEffects } from "./shared/store/service/service.effects";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ErrorInterceptor } from "./interceptors/ErrorInterceptor";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MaterialModule } from "./material.module";
 import { GlobalErrorHandler } from "./interceptors/GlobalErrorHandler";
 import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
 import { UserTypeEffects } from "./user-type/store/user-type.effects";
@@ -34,11 +33,10 @@ import { UserTypeEffects } from "./user-type/store/user-type.effects";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatSlideToggleModule,
     AppRoutingModule,
     OwlModule,
     SharedModule,
-    MatSnackBarModule,
+    MaterialModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([
       UserTypeEffects,
@@ -51,7 +49,7 @@ import { UserTypeEffects } from "./user-type/store/user-type.effects";
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  exports: [MatSlideToggleModule],
+  exports: [MaterialModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

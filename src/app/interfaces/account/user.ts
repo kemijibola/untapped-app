@@ -1,16 +1,16 @@
-import { IRole, IPermission } from './role';
+import { IRole, IPermission } from "./role";
 
 export enum SocialMedia {
-  FACEBOOK = 'FACEBOOK',
-  TWITTER = 'TWITTER',
-  INSTAGRAM = 'INSTAGRAM',
-  OTHER = 'OTHER'
+  FACEBOOK = "FACEBOOK",
+  TWITTER = "TWITTER",
+  INSTAGRAM = "INSTAGRAM",
+  OTHER = "OTHER"
 }
 
 export enum UserTypes {
-  Talent = 'Talent',
-  Audience = 'Audience',
-  Professional = 'Professional'
+  Talent = "Talent",
+  Audience = "Audience",
+  Professional = "Professional"
 }
 export interface IUserSocialMedia {
   type: SocialMedia;
@@ -28,6 +28,7 @@ interface IUserData {
   full_name: string;
   email: string;
   profile_is_completed: boolean;
+  profile_image_path: string;
   userType: UserType;
 }
 
@@ -37,9 +38,9 @@ interface UserType {
 }
 
 enum AccountStatus {
-  ACTIVATED = 'ACTIVATED',
-  SUSPENDED = 'SUSPENDED',
-  DELETED = 'DELETED'
+  ACTIVATED = "ACTIVATED",
+  SUSPENDED = "SUSPENDED",
+  DELETED = "DELETED"
 }
 export interface IUserAccountStatus {
   status: AccountStatus;
@@ -60,7 +61,7 @@ export interface IUser {
   profileVisibility?: boolean;
   loginCount?: number;
   status?: IUserAccountStatus;
-  roles?: IRole['_id'][];
+  roles?: IRole["_id"][];
   lastLogin?: Date;
   createdAt?: Date;
 }

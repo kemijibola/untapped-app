@@ -1,37 +1,42 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UploadComponent } from './upload/upload.component';
-import { UserProfilePictureComponent } from './user-profile-picture/user-profile-picture.component';
-import { TabsComponent } from './tabs/tabs.component';
-import { CategoriesComponent } from './categories/categories.component';
-import { RouterModule } from '@angular/router';
-import { AppUserSearchCategoriesComponent } from './app-user-search-categories/app-user-search-categories.component';
-import { AppSearchCategoriesComponent } from './app-search-categories/app-search-categories.component';
-import { ModalsComponent } from './modals/modals.component';
-import { SlideToggleComponent } from './slide-toggle/slide-toggle.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { UploadComponent } from "./upload/upload.component";
+import { UserProfilePictureComponent } from "./user-profile-picture/user-profile-picture.component";
+import { TabsComponent } from "./tabs/tabs.component";
+import { RouterModule } from "@angular/router";
+import { ModalsComponent } from "./modals/modals.component";
+import { SlideToggleComponent } from "./slide-toggle/slide-toggle.component";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { TalentCategoriesComponent } from "./talent-categories/talent-categories.component";
+import { MaterialModule } from "../material.module";
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 
 @NgModule({
-  imports: [MatSlideToggleModule, CommonModule, RouterModule.forChild([])],
+  imports: [
+    FormsModule,
+    MatSlideToggleModule,
+    AngularMultiSelectModule,
+    CommonModule,
+    MaterialModule,
+    RouterModule.forChild([])
+  ],
   exports: [
     CommonModule,
     UploadComponent,
     UserProfilePictureComponent,
     TabsComponent,
-    CategoriesComponent,
-    AppUserSearchCategoriesComponent,
     ModalsComponent,
-    SlideToggleComponent
+    SlideToggleComponent,
+    TalentCategoriesComponent
   ],
   declarations: [
     UploadComponent,
     UserProfilePictureComponent,
     TabsComponent,
-    CategoriesComponent,
-    AppUserSearchCategoriesComponent,
-    AppSearchCategoriesComponent,
     ModalsComponent,
-    SlideToggleComponent
+    SlideToggleComponent,
+    TalentCategoriesComponent
   ]
 })
 export class SharedModule {}

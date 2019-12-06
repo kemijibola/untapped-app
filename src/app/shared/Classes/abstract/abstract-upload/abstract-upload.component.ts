@@ -41,7 +41,9 @@ export abstract class AbstractUploadComponent implements OnInit {
               []
             );
 
+            var fileType = files[0].file_type.split("/");
             this.file = {
+              typeOfFile: fileType[0],
               action: val.action,
               files: [...files]
             };

@@ -32,6 +32,7 @@ export class UploadEffect {
   uploadFiles = this.actions$
     .pipe(ofType(UploadActions.UPLOAD_FILES))
     .switchMap((action: UploadActions.UploadFiles) => {
+      console.log(action.payload);
       return this.uploadService.s3Upload(action.payload);
     })
     .pipe(

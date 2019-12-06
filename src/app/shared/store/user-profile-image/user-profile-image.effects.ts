@@ -10,6 +10,27 @@ import { IResult, IUser, IUserImage } from "src/app/interfaces";
 @Injectable()
 export class UserProfileImageEffects {
   @Effect()
+  fetchUserProfileImage = this.actions$
+    .pipe(ofType(UserProfileImageActions.FETCH_USER_PROFILE_IMAGE))
+    .switchMap((action: UserProfileImageActions.FetchUserProfileImage) => {
+      const { key, editParams } = action.payload;
+      return this.userService.fetchUserProfile(key, editParams);
+    })
+    .pipe(
+      map((resp: IResult<string>) => {
+        console.log(resp);
+        const data: IUserImage = {
+          imagePath: resp.data,
+          isDefault: false
+        };
+        return {
+          type: UserProfileImageActions.SET_PROFILEIMAGE_PATH,
+          payload: data
+        };
+      })
+    );
+
+  @Effect()
   updateUserProfileImage = this.actions$
     .pipe(ofType(UserProfileImageActions.UPDATE_USER_PROFILEIMAGE))
     .switchMap((action: UserProfileImageActions.UpdateUserProfileImage) => {
@@ -18,13 +39,9 @@ export class UserProfileImageEffects {
     })
     .pipe(
       map((resp: IResult<IUser>) => {
-        const data: IUserImage = {
-          imagePath: resp.data.profileImagePath,
-          isDefault: false
-        };
         return {
-          type: UserProfileImageActions.SET_PROFILEIMAGE_PATH,
-          payload: data
+          type: UserProfileImageActions.UPDATE_USER_PROFILEIMAGE_SUCCESS,
+          payload: true
         };
       })
     );

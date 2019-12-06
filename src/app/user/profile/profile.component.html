@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="col-xl-12">
-      <app-user-profile-picture></app-user-profile-picture>
+      <app-change-profile-picture></app-change-profile-picture>
     </div>
   </div>
   <form [formGroup]="profileForm">
@@ -56,30 +56,7 @@
       </div>
       <div class="col-xl-12">
         <h4 class="profile-ctg">Add your talent</h4>
-        <div class="category">
-          <span>Acting</span>
-          <span>Drumming</span>
-          <span>Contortion</span>
-          <a href="#"
-            ><span><i class="fas fa-plus"></i></span
-          ></a>
-          <div class="type-appears">
-            <input
-              type="text"
-              placeholder="Start typing to search / appears after clicking plus"
-            />
-            <div class="search-result-bar">
-              <ul>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <app-talent-categories></app-talent-categories>
       </div>
       <div class="col-xl-6">
         <label for="">Instagram profile link</label>

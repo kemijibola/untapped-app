@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import * as AuthActions from '../store/auth.actions';
-import { AuthService } from 'src/app/services/auth.service';
-import { IResult, IRegister, IAuthData, ILogin } from 'src/app/interfaces';
-import { map, mergeMap, catchError, tap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { LocalStorage } from '@ngx-pwa/local-storage';
-import { Router } from '@angular/router';
-import * as ErrorActions from '../../store/global/error/error.actions';
-import 'rxjs/add/operator/do';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducers';
+import { Injectable } from "@angular/core";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import * as AuthActions from "../store/auth.actions";
+import { AuthService } from "src/app/services/auth.service";
+import { IResult, IRegister, IAuthData, ILogin } from "src/app/interfaces";
+import { map, mergeMap, catchError, tap, switchMap } from "rxjs/operators";
+import { of } from "rxjs";
+import { LocalStorage } from "@ngx-pwa/local-storage";
+import { Router } from "@angular/router";
+import * as ErrorActions from "../../store/global/error/error.actions";
+import "rxjs/add/operator/do";
+import { Store } from "@ngrx/store";
+import * as fromApp from "../../store/app.reducers";
 
 @Injectable()
 export class AuthEffects {
@@ -71,7 +71,7 @@ export class AuthEffects {
   fetchAuthData = this.actions$
     .pipe(ofType(AuthActions.FETCH_AUTHDATA))
     .switchMap((action: AuthActions.FetchAuthData) => {
-      return this.authService.fetchUserAuthData('authData');
+      return this.authService.fetchItem("authData");
     })
     .map((resp: IAuthData) => {
       return {
@@ -83,13 +83,13 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   signupSuccess = this.actions$.pipe(
     ofType(AuthActions.SIGNUP_SUCCESS),
-    tap(() => this.router.navigate(['/account/confirm-email']))
+    tap(() => this.router.navigate(["/account/confirm-email"]))
   );
 
   @Effect({ dispatch: false })
   confirmEmailSuccess = this.actions$.pipe(
     ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
-    tap(() => this.router.navigate(['/account/signin']))
+    tap(() => this.router.navigate(["/account/signin"]))
   );
 
   @Effect({ dispatch: false })
@@ -101,10 +101,10 @@ export class AuthEffects {
     }),
     map((authData: IAuthData) => {
       this.store.dispatch(new AuthActions.SetAuthData(authData));
-      this.authService.setItem('authData', authData);
+      this.authService.setItem("authData", authData);
     }),
     tap(() => {
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     })
   );
 
@@ -124,12 +124,12 @@ export class AuthEffects {
   logOut = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     switchMap(() => {
-      return this.authService.removeUserAuthData('authData');
+      return this.authService.removeItem("authData");
     }),
     tap((isDeleted: boolean) => {
       if (isDeleted) {
         this.store.dispatch(new AuthActions.DeleteAutData());
-        this.router.navigate(['/']);
+        this.router.navigate(["/"]);
       }
     })
   );

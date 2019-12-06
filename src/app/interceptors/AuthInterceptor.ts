@@ -45,13 +45,11 @@ export class AuthInterceptor implements HttpInterceptor {
   useHeader(url: string): boolean {
     if (
       url.startsWith(
-        "https://untapped-platform-bucket.s3-accelerate.amazonaws.com/"
+        "https://untapped-pool-image-bucket.s3-accelerate.amazonaws.com"
       )
     ) {
-      console.log("not using headers");
       return false;
     }
-    console.log("using headers");
     return true;
   }
 }

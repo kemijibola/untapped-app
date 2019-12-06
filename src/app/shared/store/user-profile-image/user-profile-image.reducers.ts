@@ -4,6 +4,7 @@ import * as UserProfileImageActions from "./user-profile-image.actions";
 export interface State {
   userImage: IUserImage;
   readyToUploadImage: boolean;
+  updateSuccessful: boolean;
 }
 
 const initialState: State = {
@@ -11,7 +12,8 @@ const initialState: State = {
     imagePath: "",
     isDefault: true
   },
-  readyToUploadImage: false
+  readyToUploadImage: false,
+  updateSuccessful: false
 };
 
 export function UserProfileImageReducers(
@@ -28,6 +30,11 @@ export function UserProfileImageReducers(
       return {
         ...state,
         userImage: action.payload.userImage
+      };
+    case UserProfileImageActions.UPDATE_USER_PROFILEIMAGE_SUCCESS:
+      return {
+        ...state,
+        updateSuccessful: true
       };
     default:
       return state;

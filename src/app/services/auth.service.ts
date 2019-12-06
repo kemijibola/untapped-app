@@ -1,7 +1,7 @@
-import { RouterModule } from '@angular/router';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { RouterModule } from "@angular/router";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
 import {
   IResult,
   IAuthData,
@@ -9,16 +9,16 @@ import {
   ILogin,
   IUser,
   IConfirmEmail
-} from '../interfaces';
-import { LocalStorage } from '@ngx-pwa/local-storage';
-import { environment } from '../../environments/environment';
+} from "../interfaces";
+import { LocalStorage } from "@ngx-pwa/local-storage";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
-  private BASE_URI = '';
+  private BASE_URI = "";
 
   constructor(private http: HttpClient, private localStorage: LocalStorage) {
-    this.BASE_URI = 'http://127.0.0.1:8900/v1';
+    this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
   confirmEmail(req: IConfirmEmail): Observable<IResult<string>> {
@@ -57,18 +57,23 @@ export class AuthService {
     return this.http.post<IResult<IAuthData>>(
       url,
       { email, password, audience },
-      { observe: 'body' }
+      { observe: "body" }
     );
   }
 
-  fetchUserAuthData(key: string): Observable<IAuthData> {
+  fetchItem(key: string): Observable<any> {
     return this.localStorage.getItem(key);
   }
-  removeUserAuthData(key: string): Observable<boolean> {
+  removeItem(key: string): Observable<boolean> {
     return this.localStorage.removeItem(key);
   }
 
   setItem(key: string, data = {}): void {
+    this.localStorage.setItemSubscribe(key, data);
+  }
+
+  updateData(key: string, data: any): void {
+    this.localStorage.removeItem(key);
     this.localStorage.setItemSubscribe(key, data);
   }
 }

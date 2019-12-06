@@ -23,6 +23,7 @@ import { PortfolioModalContentComponent } from './portfolio/portfolio-modal-cont
 import { PortfolioItemContainerComponent } from './portfolio/portfolio-item-container/portfolio-item-container.component';
 import { PortfolioBrowseComponent } from './portfolio/portfolio-browse/portfolio-browse.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
+import { ChangeProfilePictureComponent } from './profile/change-profile-picture/change-profile-picture.component';
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -37,7 +38,8 @@ import { CompleteProfileComponent } from './complete-profile/complete-profile.co
     PortfolioModalContentComponent,
     PortfolioItemContainerComponent,
     PortfolioBrowseComponent,
-    CompleteProfileComponent
+    CompleteProfileComponent,
+    ChangeProfilePictureComponent
   ],
   imports: [
     SharedModule,

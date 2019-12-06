@@ -1,5 +1,5 @@
-import { IUser } from '../account/user';
-import { MediaAcceptType } from '..';
+import { IUser } from "../account/user";
+import { MediaAcceptType } from "..";
 
 export interface PortfolioUploadInputConfig {
   isMultiple: boolean;
@@ -13,34 +13,34 @@ export interface PortfolioQueryParams {
 }
 
 export enum MediaType {
-  VIDEO = 'VIDEO',
-  AUDIO = 'AUDIO',
-  IMAGE = 'IMAGE'
+  VIDEO = "VIDEO",
+  AUDIO = "AUDIO",
+  IMAGE = "IMAGE"
 }
 
 export enum PortfolioOperationType {
-  EDIT = 'EDIT',
-  NEW = 'NEW',
-  DEFAULT = 'DEFAULT'
+  EDIT = "EDIT",
+  NEW = "NEW",
+  DEFAULT = "DEFAULT"
 }
 
 export enum MediaUploadType {
-  SINGLE = 'SINGLE',
-  MULTIPLE = 'MULTIPLE',
-  ALL = 'ALL',
-  NONE = 'NONE'
+  SINGLE = "SINGLE",
+  MULTIPLE = "MULTIPLE",
+  ALL = "ALL",
+  NONE = "NONE"
 }
 export interface IMedia {
   title: string;
   shortDescription: string;
-  user: IUser['_id'];
+  user: IUser["_id"];
   items: IMediaItem[];
   uploadType: MediaUploadType;
 }
 export interface IGeneralMedia {
   title: string;
   shortDescription: string;
-  user: IUser['_id'];
+  user: IUser["_id"];
   item: IMediaItem;
   uploadType: MediaUploadType;
 }

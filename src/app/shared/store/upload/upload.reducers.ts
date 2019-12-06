@@ -14,6 +14,7 @@ export interface State {
   preSignedUrls: SignedUrl;
   isReadyForUpload: boolean;
   uploadAction: UPLOADOPERATIONS;
+  uploadSuccessful: boolean;
 }
 
 const initialState: State = {
@@ -32,7 +33,8 @@ const initialState: State = {
     presignedUrl: []
   },
   isReadyForUpload: false,
-  uploadAction: UPLOADOPERATIONS.Default
+  uploadAction: UPLOADOPERATIONS.Default,
+  uploadSuccessful: false
 };
 
 export function UploadReducers(
@@ -63,7 +65,8 @@ export function UploadReducers(
           presignedUrl: []
         },
         isReadyForUpload: false,
-        uploadAction: UPLOADOPERATIONS.Default
+        uploadAction: UPLOADOPERATIONS.Default,
+        uploadSuccessful: true
       };
     case UploadActions.RESET_FILE_INPUT:
       return {
@@ -73,7 +76,8 @@ export function UploadReducers(
           process: UPLOADOPERATIONS.Default,
           multiple: false,
           accept: ""
-        }
+        },
+        uploadSuccessful: false
       };
     case UploadActions.FILE_TOUPLOAD:
       return {

@@ -1,23 +1,23 @@
 import {
   MediaUploadType,
   PortfolioQueryParams
-} from './../../../interfaces/user/portfolio';
-import { Component, OnInit } from '@angular/core';
-import * as fromPortfolio from '../../store/portfolio/portfolio.reducers';
-import * as fromApp from '../../../store/app.reducers';
-import * as PortfolioActions from '../../store/portfolio/portfolio.actions';
-import * as AuthActions from '../../../account/store/auth.actions';
-import { Store, select } from '@ngrx/store';
-import { MediaType, IAuthData } from 'src/app/interfaces';
-import { selectUserData } from '../../../account/store/auth.selectors';
+} from "./../../../interfaces/user/portfolio";
+import { Component, OnInit } from "@angular/core";
+import * as fromPortfolio from "../../store/portfolio/portfolio.reducers";
+import * as fromApp from "../../../store/app.reducers";
+import * as PortfolioActions from "../../store/portfolio/portfolio.actions";
+import * as AuthActions from "../../../account/store/auth.actions";
+import { Store, select } from "@ngrx/store";
+import { MediaType, IAuthData } from "src/app/interfaces";
+import { selectUserData } from "../../../account/store/auth.selectors";
 
 @Component({
-  selector: 'app-portfolio-item-container',
-  templateUrl: './portfolio-item-container.component.html',
-  styleUrls: ['./portfolio-item-container.component.css']
+  selector: "app-portfolio-item-container",
+  templateUrl: "./portfolio-item-container.component.html",
+  styleUrls: ["./portfolio-item-container.component.css"]
 })
 export class PortfolioItemContainerComponent implements OnInit {
-  userId = '';
+  userId = "";
   selectedMediaType: MediaType;
   constructor(
     public store: Store<fromApp.AppState>,

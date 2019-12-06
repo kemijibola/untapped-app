@@ -1,28 +1,28 @@
-import { Action } from '@ngrx/store';
+import { Action } from "@ngrx/store";
 import {
   IAuthData,
   IRegister,
   ILogin,
   IConfirmEmail
-} from 'src/app/interfaces';
+} from "src/app/interfaces";
 
-export const DO_SIGNUP = 'DO_SIGNUP';
-export const DO_SIGNIN = 'DO_SIGNIN';
-export const TOKEN_CHANGED = 'TOKEN_CHANGED';
-export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
-export const RESET_FAILURE_MESSAGE = 'RESET_FAILURE_MESSAGE';
-export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
-export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
-export const LOGOUT = 'LOGOUT';
-export const SET_AUTHDATA = 'SET_AUTHDATA';
-export const FETCH_AUTHDATA = 'FETCH_AUTHDATA';
-export const DELETE_AUTHDATA = 'DELETE_AUTHDATA';
-export const UPDATE_TOKEN = 'UPDATE_TOKEN';
-export const SET_NEW_USER_EMAIL = 'SET_NEW_USER_EMAIL';
-export const DO_EMAIL_CONFIRMATION = 'DO_EMAIL_CONFIRMATION';
-export const SUCCESS_EMAIL_CONFIRMATION = 'SUCCESS_EMAIL_CONFIRMATION';
-export const FAILURE_EMAIL_CONFIRMATION = 'FAILURE_EMAIL_CONFIRMATION';
+export const DO_SIGNUP = "DO_SIGNUP";
+export const DO_SIGNIN = "DO_SIGNIN";
+export const TOKEN_CHANGED = "TOKEN_CHANGED";
+export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
+export const RESET_FAILURE_MESSAGE = "RESET_FAILURE_MESSAGE";
+export const SIGNIN_SUCCESS = "SIGNIN_SUCCESS";
+export const SIGNIN_FAILURE = "SIGNIN_FAILURE";
+export const LOGOUT = "LOGOUT";
+export const SET_AUTHDATA = "SET_AUTHDATA";
+export const FETCH_AUTHDATA = "FETCH_AUTHDATA";
+export const DELETE_AUTHDATA = "DELETE_AUTHDATA";
+export const UPDATE_TOKEN = "UPDATE_TOKEN";
+export const SET_NEW_USER_EMAIL = "SET_NEW_USER_EMAIL";
+export const DO_EMAIL_CONFIRMATION = "DO_EMAIL_CONFIRMATION";
+export const SUCCESS_EMAIL_CONFIRMATION = "SUCCESS_EMAIL_CONFIRMATION";
+export const FAILURE_EMAIL_CONFIRMATION = "FAILURE_EMAIL_CONFIRMATION";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
