@@ -1,26 +1,14 @@
 <!-- <div class="category">
-  <span>Acting</span>
-  <span>Drumming</span>
-  <span>Contortion</span>
-  <a href="#"
-    ><span><i class="fas fa-plus"></i></span
-  ></a>
-  <div class="type-appears">
-    <input
-      type="text"
-      placeholder="Start typing to search / appears after clicking plus"
-    />
-    <div class="search-result-bar">
-      <ul>
-        <li>Result item bar</li>
-        <li>Result item bar</li>
-        <li>Result item bar</li>
-        <li>Result item bar</li>
-        <li>Result item bar</li>
-        <li>Result item bar</li>
-      </ul>
-    </div>
-  </div>
+  <angular2-multiselect
+  [data]="itemList"
+  [(ngModel)]="selectedItems"
+  [settings]="settings"
+  (onSelect)="onItemSelect($event)"
+  (onDeSelect)="OnItemDeSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+  (onDeSelectAll)="onDeSelectAll($event)"
+>
+</angular2-multiselect>
 </div> -->
 
 <angular2-multiselect

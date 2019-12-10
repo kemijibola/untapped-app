@@ -24,6 +24,7 @@ import { MaterialModule } from "./material.module";
 import { GlobalErrorHandler } from "./interceptors/GlobalErrorHandler";
 import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
 import { UserTypeEffects } from "./user-type/store/user-type.effects";
+import { CategoryTypeEffects } from "./shared/store/category-type/category-type.effects";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
 // }
@@ -43,7 +44,8 @@ import { UserTypeEffects } from "./user-type/store/user-type.effects";
       AuthEffects,
       UploadEffect,
       ServiceEffects,
-      UserProfileImageEffects
+      UserProfileImageEffects,
+      CategoryTypeEffects
     ]),
     CoreModule,
     StoreRouterConnectingModule,

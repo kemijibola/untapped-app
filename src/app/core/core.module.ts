@@ -29,6 +29,7 @@ import { ErrorService } from "../services/ErrorService";
 import { AuthGuard } from "../guard-services/auth-guard.service";
 import { CompleteProfile } from "../guard-services/complete-profile.guard.service";
 import { AuthInterceptor } from "../interceptors/AuthInterceptor";
+import { CategoryTypeService } from "../services/category-type.service";
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AuthInterceptor } from "../interceptors/AuthInterceptor";
     NotificationService,
     ErrorService,
     LoggingService,
+    CategoryTypeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ]
 })
