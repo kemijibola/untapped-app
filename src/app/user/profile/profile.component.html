@@ -17,35 +17,31 @@
       <app-change-profile-picture></app-change-profile-picture>
     </div>
   </div>
-  <form [formGroup]="profileForm">
+  <div [formGroup]="profileForm">
     <div class="row">
-      <div class="col-xl-6" *ngIf="isTalent">
-        <label for="">Stage Name</label>
-        <input class="input-design" type="text" />
-      </div>
-      <div class="col-xl-3" *ngIf="!isTalent">
-        <label for="">Business Name</label>
-        <input class="input-design" type="text" />
+      <div class="col-xl-6">
+        <label for="" *ngIf="isTalent">Stage Name</label>
+        <label for="" *ngIf="!isTalent">Business Name</label>
+        <input class="input-design" formControlName="name" type="text" />
       </div>
       <div class="col-xl-3" *ngIf="!isTalent">
         <label for="">rcNumber</label>
         <input class="input-design" type="text" />
       </div>
       <div class="col-xl-6">
-        <label for="">Location</label>
-        <input class="input-design" type="text" />
+        <label for="">Full Name</label>
+        <input class="input-design" formControlName="fullName" type="text" />
       </div>
       <div class="col-xl-6">
-        <label for="">Full Name</label>
+        <label for="">Location</label>
         <input class="input-design" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Email Address</label>
         <input
           class="input-design"
-          type="email"
-          readonly="true"
-          disabled="true"
+          formControlName="emailAddress"
+          type="text"
         />
       </div>
       <div class="col-xl-12">
@@ -95,5 +91,5 @@
         <button class="box-btn profile-save">SAVE CHANGES</button>
       </div>
     </div>
-  </form>
+  </div>
 </div>

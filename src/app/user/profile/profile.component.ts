@@ -7,9 +7,16 @@ import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
 import { selectUploadAction } from "../../shared/store/upload/upload.selectors";
 import { takeUntil } from "rxjs/operators";
-import { UPLOADOPERATIONS, IFileInputModel } from "src/app/interfaces";
+import {
+  UPLOADOPERATIONS,
+  IFileInputModel,
+  IAuthData,
+  IProfile
+} from "src/app/interfaces";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
+import { selectUserData } from "src/app/account/store/auth.selectors";
+import { selectUserProfile } from "../store/profile/profile.selectors";
 
 @Component({
   selector: "app-profile",
@@ -24,13 +31,30 @@ export class ProfileComponent implements OnInit {
   ngDestroyed = new Subject();
   fileConfig: IFileInputModel;
   fileUploadOperation: UPLOADOPERATIONS;
+  userEmail: string;
+  userFullName: string;
+  profileData: IProfile;
 
   constructor(
     private userState: Store<fromUser.UserState>,
     private store: Store<fromApp.AppState>
   ) {
     // get type of user from localStorage
-    this.isTalent = false;
+    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
+      if (val.authenticated) {
+        this.isTalent = val.user_data.userType.name !== "Talent" ? true : false;
+        this.userEmail = val.user_data.email;
+        this.userFullName = val.user_data.full_name;
+      }
+    });
+
+    // fetch user profile
+    this.userState
+      .pipe(select(selectUserProfile))
+      .subscribe((val: IProfile) => {
+        console.log(val);
+        this.profileData = { ...val };
+      });
   }
 
   ngOnInit() {
@@ -38,8 +62,8 @@ export class ProfileComponent implements OnInit {
     this.profileForm = new FormGroup({
       professionalName: new FormControl(null, Validators.required),
       location: new FormControl(null, Validators.required),
-      fullName: new FormControl(null, Validators.required),
-      emailAddress: new FormControl(null, Validators.required),
+      fullName: new FormControl(this.userFullName, Validators.required),
+      emailAddress: new FormControl(Validators.required),
       phoneNumber: new FormControl(null, Validators.required),
       shortBio: new FormControl(null),
       facebook: new FormControl(null),
@@ -49,8 +73,13 @@ export class ProfileComponent implements OnInit {
       additionalSocial: new FormArray([])
     });
     this.profileForm.controls["emailAddress"].disable();
+
+    this.setDefaultValue();
   }
 
+  setDefaultValue() {
+    this.profileForm.get("emailAddress").setValue(this.userEmail);
+  }
   onAddAdditionalSocial() {
     const control = new FormControl(null);
     (<FormArray>this.profileForm.get("additionalSocial")).push(control);
