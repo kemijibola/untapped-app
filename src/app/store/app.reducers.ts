@@ -10,6 +10,7 @@ import * as fromService from "../shared/store/service/service.reducers";
 import * as fromModal from "../shared/store/modals/modals.reducers";
 import * as fromError from "./global/error/error.reducers";
 import * as fromToggle from "../shared/store/slide-toggle/slide-toggle.reducers";
+import * as fromProfile from "../user/store/profile/profile.reducers";
 
 export interface AppState {
   auth: fromAuth.State;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ɵConsole } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import {
@@ -18,18 +18,39 @@ export class TalentCategoriesComponent implements OnInit {
   selectedItems = [];
   settings = {};
   selectCategoryIds: string[];
+  preSelectedIds: string[];
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.loadCategories();
-    this.applySettings();
 
-    // this.store
-    //   .pipe(select(selectSelectedCategoryTypes))
-    //   .subscribe((val: string[]) => {
-    //     console.log("selected categories", val);
-    //   });
+    this.store
+      .pipe(select(selectSelectedCategoryTypes))
+      .subscribe((val: string[]) => {
+        if (val) {
+          this.selectedItems = [];
+          val.map(x => {
+            const found = this.itemList.filter(y => y.id === x)[0];
+            this.selectedItems = [
+              ...this.selectedItems,
+              {
+                id: found.id,
+                itemName: found.itemName
+              }
+            ];
+          });
+        }
+      });
+    // this.selectedItems = [
+    //   {
+    //     id: "5de9e29deec81309b00f2b96",
+    //     itemName: "Public Speaking",
+    //     category: "Mass Media"
+    //   }
+    // ];
+    // this.setPreselectedCategories();
+    this.applySettings();
   }
 
   loadCategories() {
@@ -59,6 +80,7 @@ export class TalentCategoriesComponent implements OnInit {
       groupBy: "category"
     };
   }
+
   onItemSelect(item: any) {
     this.setSelectedCategory();
 
@@ -67,6 +89,24 @@ export class TalentCategoriesComponent implements OnInit {
     );
   }
 
+  setPreselectedCategories() {
+    this.store
+      .pipe(select(selectSelectedCategoryTypes))
+      .subscribe((val: string[]) => {
+        if (val) {
+          for (let id of val) {
+            const found = this.itemList.filter(x => x.id === id)[0];
+            if (found) {
+              this.selectedItems.push({
+                id: found.id,
+                itemName: found.itemName,
+                category: found.category
+              });
+            }
+          }
+        }
+      });
+  }
   setSelectedCategory() {
     this.selectCategoryIds = this.selectedItems.reduce((theMap, theItem) => {
       theMap.push(theItem.id);

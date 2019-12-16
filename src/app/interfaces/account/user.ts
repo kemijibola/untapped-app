@@ -4,6 +4,7 @@ export enum SocialMedia {
   FACEBOOK = "FACEBOOK",
   TWITTER = "TWITTER",
   INSTAGRAM = "INSTAGRAM",
+  YOUTUBE = "YOUTUBE",
   OTHER = "OTHER"
 }
 
@@ -14,7 +15,7 @@ export enum UserTypes {
 }
 export interface IUserSocialMedia {
   type: SocialMedia;
-  handles: string[];
+  handle: string;
 }
 export interface IAuthData {
   access_token: string;

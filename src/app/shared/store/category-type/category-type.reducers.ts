@@ -19,7 +19,7 @@ export function CategoryTypeReducers(
     case CategoryTypeAction.SET_CATEGORIES:
       return {
         ...state,
-        categories: action.payload
+        categories: [...action.payload]
       };
     case CategoryTypeAction.SET_SELECTED_CATEGORIES:
       return {

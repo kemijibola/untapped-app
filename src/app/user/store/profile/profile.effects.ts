@@ -1,11 +1,11 @@
-import { catchError, map } from 'rxjs/operators/';
-import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import * as ProfileActions from './profile.actions';
-import { IProfile, IResult } from 'src/app/interfaces';
-import { ProfileService } from 'src/app/services/profile.service';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../../../store/app.reducers';
+import { catchError, map } from "rxjs/operators/";
+import { Injectable } from "@angular/core";
+import { Effect, Actions, ofType } from "@ngrx/effects";
+import * as ProfileActions from "./profile.actions";
+import { IProfile, IResult } from "src/app/interfaces";
+import { ProfileService } from "src/app/services/profile.service";
+import { Store } from "@ngrx/store";
+import * as fromApp from "../../../store/app.reducers";
 
 @Injectable()
 export class ProfileEffect {
@@ -20,6 +20,21 @@ export class ProfileEffect {
         return {
           type: ProfileActions.SET_USERPROFILE,
           payload: resp.data
+        };
+      })
+    );
+
+  @Effect()
+  createProfile = this.action$
+    .pipe(ofType(ProfileActions.CREATE_USERPROFILE))
+    .switchMap((action: ProfileActions.CreateUserProfile) => {
+      return this.profileService.createProfile(action.payload);
+    })
+    .pipe(
+      map((res: IResult<IProfile>) => {
+        return {
+          type: ProfileActions.SET_USERPROFILE,
+          payload: res.data
         };
       })
     );

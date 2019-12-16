@@ -3,19 +3,24 @@ import { IPhysicalAttribute } from "../index";
 
 interface IUserSocialMedia {
   type: SocialMedia;
-  handles: string[];
+  handle: string;
 }
 
 export interface IProfile {
+  _id?: string;
   name?: string;
   rcNumber?: string;
   location: string;
   phoneNumbers?: string[];
-  user: string;
-  tapCount: number;
+  fullName?: string;
+  tapCount?: number;
   shortBio?: string;
   categories?: ICategory["_id"][];
-  socialMedias?: IUserSocialMedia[];
+  twitter?: string;
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+  additionalSocial?: string[];
   physicalStats?: IPhysicalAttribute;
   bannerImagePath?: string;
 }

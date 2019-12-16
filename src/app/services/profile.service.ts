@@ -15,8 +15,14 @@ export class ProfileService {
     const url = `${this.BASE_URI}/profiles/user`;
     return this.http.get<IResult<IProfile>>(url);
   }
-  updateProfile(data: IProfile): Observable<IResult<IProfile>> {
+
+  createProfile(data: IProfile): Observable<IResult<IProfile>> {
     const url = `${this.BASE_URI}/profiles`;
     return this.http.post<IResult<IProfile>>(url, data);
+  }
+
+  updateProfile(data: IProfile): Observable<IResult<IProfile>> {
+    const url = `${this.BASE_URI}/profiles/${data._id}`;
+    return this.http.put<IResult<IProfile>>(url, data);
   }
 }

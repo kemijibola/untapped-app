@@ -30,6 +30,7 @@
     "@ngrx/store": "^7.4.0",
     "@ngrx/store-devtools": "^7.4.0",
     "@ngx-pwa/local-storage": "^6.2.3",
+    "@types/underscore": "^1.9.4",
     "angular-animations": "0.0.9",
     "angular2-multiselect-dropdown": "^4.6.3",
     "bcryptjs": "^2.4.3",
@@ -41,6 +42,7 @@
     "owl.carousel": "^2.3.4",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
+    "underscore": "^1.9.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

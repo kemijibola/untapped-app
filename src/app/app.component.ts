@@ -15,6 +15,8 @@ import * as AuthActions from "./account/store/auth.actions";
 import { selectUserData } from "./account/store/auth.selectors";
 import * as fromUserType from "./user-type/store/user-type.reducers";
 import { IAuthData } from "./interfaces";
+import * as fromUser from "./user/user.reducers";
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -30,18 +32,14 @@ import { IAuthData } from "./interfaces";
 export class AppComponent implements OnInit {
   title = "untapped-app";
   isAuthenticated = false;
+
   ngOnInit() {
-    this.onFetchUserTypes();
     this.store.dispatch(new CategoryTypeActions.FetchCategories());
   }
   constructor(
     @Inject(DOCUMENT) document,
     private store: Store<fromApp.AppState>
   ) {}
-
-  onFetchUserTypes() {
-    this.store.dispatch(new UserTypeActions.FetchUserTypes());
-  }
 
   // @HostListener('window:scroll', ['$event'])
   // onWindowScroll() {

@@ -1,18 +1,19 @@
-import { Component, OnInit, Input, AfterContentInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducers';
-import * as AuthActions from '../../account/store/auth.actions';
-import { selectUserData } from '../../account/store/auth.selectors';
-import { IAuthData } from 'src/app/interfaces';
+import { Component, OnInit, Input, AfterContentInit } from "@angular/core";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../../store/app.reducers";
+import * as AuthActions from "../../account/store/auth.actions";
+import { selectUserData } from "../../account/store/auth.selectors";
+import { IAuthData } from "src/app/interfaces";
+import * as ProfileActions from "../../user/store/profile/profile.actions";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent implements OnInit, AfterContentInit {
   isAuthenticated: boolean;
-  userPreEmailAdress = '';
+  userPreEmailAdress = "";
   constructor(private store: Store<fromApp.AppState>) {}
 
   // TODO:: properties needed, fullname, Split and use [0] for display name
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
       this.isAuthenticated = val.authenticated;
       if (val.authenticated) {
-        this.userPreEmailAdress = val.user_data.email.split('@')[0];
+        this.userPreEmailAdress = val.user_data.email.split("@")[0];
       }
     });
   }

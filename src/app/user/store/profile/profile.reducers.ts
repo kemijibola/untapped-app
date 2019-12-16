@@ -1,5 +1,5 @@
-import { IProfile } from 'src/app/interfaces';
-import * as ProfileActions from './profile.actions';
+import { IProfile } from "src/app/interfaces";
+import * as ProfileActions from "./profile.actions";
 
 export interface State {
   profile: IProfile;
@@ -16,7 +16,7 @@ export function profileReducer(
     case ProfileActions.SET_USERPROFILE:
       return {
         ...state,
-        profile: Object.assign(state.profile, action.payload)
+        profile: { ...action.payload }
       };
     default:
       return state;

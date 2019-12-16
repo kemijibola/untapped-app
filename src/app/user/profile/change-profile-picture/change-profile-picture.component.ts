@@ -45,7 +45,7 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
         height: 120,
         fit: ImageFit.fill
       },
-      grayscale: true
+      grayscale: false
     }
   };
   authData: IAuthData;
