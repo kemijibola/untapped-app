@@ -16,7 +16,7 @@ export class UserComponent extends AbstractTabComponent {
   tab: IAppTab;
   componentName = "Talent";
   queryParam = "profile";
-  activeTab: ITab;
+  //  activeTab: ITab;
   toQueryParam = "profile";
   constructor(
     public store: Store<fromApp.AppState>,

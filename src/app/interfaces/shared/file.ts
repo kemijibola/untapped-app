@@ -26,7 +26,7 @@ export interface IFileModel extends IFileUploadModel {
 }
 
 export interface IPresignRequest {
-  typeOfFile: string;
+  mediaType: string;
   action: UPLOADOPERATIONS;
   files: IFileMetaData[];
 }

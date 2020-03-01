@@ -1,25 +1,21 @@
-<!-- <app-modals>
-  <div class="slide-arrow" navigate>
-    <a
-      class="left"
-      style="font-size: 22px; color: #000; display: inline-block;cursor: pointer;"
-      ><i class="far fa-angle-left"></i
-    ></a>
-    <a
-      class="right"
-      style="font-size: 22px; color: #000; display: inline-block;cursor: pointer;"
-      ><i class="far fa-angle-right"></i
-    ></a>
+<app-modals [id]="'gigs-modal'">
+  <div class="pop-icon-bar pop-talent" navigate>
+    <div class="slide-arrow">
+      <a class="left"><i class="far fa-angle-left"></i></a>
+      <a class="right"><i class="far fa-angle-right"></i></a>
+    </div>
+    <button
+      type="button"
+      class="close"
+      (click)="closeModalDialog('gigs-modal')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true"><i class="far fa-times"></i></span>
+    </button>
   </div>
-  <app-portfolio-modal-content
-    body
-    [mediaType]="selectedMediaType"
-  ></app-portfolio-modal-content>
-</app-modals> -->
 
-
-<app-portfolio-modal-content
-></app-portfolio-modal-content>
+  <app-portfolio-modal-content body></app-portfolio-modal-content>
+</app-modals>
 
 <div class="row">
   <div class="col-xl-12">
@@ -91,108 +87,9 @@
         </span>
       </div>
     </div>
-    <!-- <div
-      class="social-media prot"
-    >
-      <a style="color: #06a9b0"
-      (click)="onClickAddUploadBtn()"
-      data-toggle="modal"
-      data-target="#portfolio-modal"
-      >+ Add new uploads</a>
-    </div> -->
-
-    <!-- <button class="box-btn profile-save">SAVE CHANGES</button> -->
   </div>
 </div>
 
-<div class="social-media prot">
-    <a href="upModal" data-toggle="modal" data-target="#upModal">+ Add new uploads</a>
-  </div>
-
-<!-- <div class="modal fade" id="upModal" tabindex="-1" role="dialog" aria-labelledby="upModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content contest-d">
-          <div class="row">
-              <div class="col-xl-12">
-                  <div class="pop-icon-bar pop-talent">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true"><i class="far fa-times"></i></span>
-                      </button>
-                  </div>
-              </div>
-          </div>
-          <div class="row no-gutters">
-              <div class="col-xl-12">
-                  <div class="p-complete-p-btn">
-                      <div class="p-inner">
-                          <h4><svg xmlns="http://www.w3.org/2000/svg" width="190" height="27" viewBox="0 0 190 27">
-                                  <text id="New_portfolio_upload" data-name="New portfolio upload" transform="translate(0 22)" fill="#272424" font-size="20" font-family="SegoeUI, Segoe UI">
-                                      <tspan x="0" y="0">New portfolio upload</tspan>
-                                  </text>
-                              </svg>
-                          </h4>
-                          <div class="bbbtn">
-                              <a class="comm sin" href="#">Single upload</a>
-                              <a class="comm mult" href="#">Multiple upload</a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-xl-12">
-                  <div class="add-img-blk">
-                      <div class="drag-section">
-                          <p>Drag and drop multiple file to upload or <span>BROWSE</span></p>
-                      </div>
-                  </div>
-                  <div class="popup-img pp">
-                      <img src="assets/img/talent/pop-talent.jpg" alt="">
-                  </div>
-              </div>
-              <div class="col-xl-12">
-                  <div class="popup-content-wrap pp">
-                      <div class="upload-scene-demo popup mb-20">
-                          <div class="scene-inner pp">
-                              <div class="scene-img">
-                                  <img src="assets/img/gigs/demo-upload.png" alt="">
-                                  <a href="#"><img src="assets/img/profile/cross.svg" alt="Cross-btn"></a>
-                              </div>
-                              <div class="scene-img">
-                                  <img src="assets/img/gigs/demo-upload.png" alt="">
-                                  <a href="#"><img src="assets/img/profile/cross.svg" alt="Cross-btn"></a>
-                              </div>
-                              <div class="scene-img">
-                                  <img src="assets/img/gigs/demo-upload.png" alt="">
-                                  <a href="#"><img src="assets/img/profile/cross.svg" alt="Cross-btn"></a>
-                              </div>
-                              <div class="scene-img">
-                                  <img src="assets/img/gigs/demo-upload.png" alt="">
-                                  <a href="#"><img src="assets/img/profile/cross.svg" alt="Cross-btn"></a>
-                              </div>
-                              <div class="scene-img">
-                                  <img src="assets/img/gigs/demo-upload.png" alt="">
-                                  <a href="#"><img src="assets/img/profile/cross.svg" alt="Cross-btn"></a>
-                              </div>
-                              <div class="demo-upload-plus pp">
-                                  <a href="#"><i class="fal fa-plus"></i></a>
-                              </div>
-                          </div>
-                      </div>
-                      <form action="#">
-                          <div class="input-1 pro-page pp">
-                              <label for="">Album/folder Title</label>
-                              <input type="text" class="input-design">
-                          </div>
-                          <div class="input-1 pro-page pp">
-                              <label for="">Short about <span><em>Word count restriction here</em></span></label>
-                              <textarea name="" id="" cols="30" rows="10"></textarea>
-                          </div>
-                          <div class="git-btn pp">
-                              <button class="box-btn">ADD TO PORTFOLIO</button>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</div> -->
+<div class="social-media prot" (click)="openModalDialog('gigs-modal')">
+  <a (click)="openModalDialog('gigs-modal')">+ Add new uploads</a>
+</div>

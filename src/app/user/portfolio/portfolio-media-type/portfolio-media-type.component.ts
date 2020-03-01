@@ -1,59 +1,110 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import {
   MediaAcceptType,
-  Modal,
   AppModal,
   MediaType,
   IMedia,
   MediaUploadType,
-  PortfolioOperationType
-} from 'src/app/interfaces';
-import { Store, select } from '@ngrx/store';
-import * as fromApp from '../../../store/app.reducers';
-import * as fromPortfolio from '../../store/portfolio/portfolio.reducers';
-import * as PortfolioActions from '../../store/portfolio/portfolio.actions';
-import * as ModalsActions from '../../../shared/store/modals/modals.actions';
+  PortfolioOperationType,
+  AppPageState,
+  PageViewMode
+} from "src/app/interfaces";
+import {
+  ModalDisplay,
+  ModalViewModel,
+  ModalContent,
+  IModal
+} from "src/app/interfaces/shared/modal";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../../../store/app.reducers";
+import * as fromUser from "../../user.reducers";
+import * as fromPortfolio from "../../store/portfolio/portfolio.reducers";
+import * as PortfolioActions from "../../store/portfolio/portfolio.actions";
+import * as ModalsActions from "../../../shared/store/modals/modals.actions";
 import {
   selectUserAudioList,
   selectUserVideoList,
   selectUserImageList
-} from '../../store/portfolio/portfolio.selectors';
+} from "../../store/portfolio/portfolio.selectors";
+import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 
 @Component({
-  selector: 'app-portfolio-media-type',
-  templateUrl: './portfolio-media-type.component.html',
-  styleUrls: ['./portfolio-media-type.component.css']
+  selector: "app-portfolio-media-type",
+  templateUrl: "./portfolio-media-type.component.html",
+  styleUrls: ["./portfolio-media-type.component.css"]
 })
-export class PortfolioMediaTypeComponent implements OnInit {
+export class PortfolioMediaTypeComponent extends AbstractModalComponent
+  implements OnInit, OnDestroy {
   svgs = [];
   selectedMediaType: MediaType;
   item: IMedia;
+  modal: AppModal;
+  modalToActivate: IModal;
+  viewMode: ModalViewModel = ModalViewModel.none;
 
   constructor(
-    private featureStore: Store<fromPortfolio.PortfolioFeatureState>,
-    private store: Store<fromApp.AppState>
-  ) {}
+    private userStore: Store<fromUser.UserState>,
+    public store: Store<fromApp.AppState>
+  ) {
+    super();
+    this.modal = {
+      component: "portfolio",
+      modals: [
+        {
+          index: 0,
+          name: "gigs-modal",
+          display: ModalDisplay.none
+        }
+      ]
+    };
+  }
 
   ngOnInit() {
     this.svgs = [
       {
-        name: 'AUDIO',
+        name: "AUDIO",
         selected: true
       },
       {
-        name: 'IMAGE',
+        name: "IMAGE",
         selected: false
       },
       {
-        name: 'VIDEO',
+        name: "VIDEO",
         selected: false
       }
     ];
     this.selectedMediaType = this.svgs[0].name;
-    this.featureStore.dispatch(
+    this.userStore.dispatch(
       new PortfolioActions.SetPortfolioSelectedAcceptType(
         MediaAcceptType[this.selectedMediaType]
       )
+    );
+  }
+
+  openModalDialog(modalId: string) {
+    this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
+    this.modalToActivate.display = ModalDisplay.block;
+    this.modalToActivate.viewMode = ModalViewModel.new;
+    this.store.dispatch(
+      new ModalsActions.ToggleModal({
+        component: this.modal.component,
+        modal: this.modalToActivate
+      })
+    );
+  }
+
+  closeModalDialog(modalId: string) {
+    // set activeModal to null
+
+    this.store.dispatch(new ModalsActions.ResetCurrentModal());
+    this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
+    this.modalToActivate.display = ModalDisplay.none;
+    this.store.dispatch(
+      new ModalsActions.ToggleModal({
+        component: this.modal.component,
+        modal: this.modalToActivate
+      })
     );
   }
 
@@ -77,25 +128,11 @@ export class PortfolioMediaTypeComponent implements OnInit {
     }
 
     // emit accepte here
-    this.featureStore.dispatch(
+    this.userStore.dispatch(
       new PortfolioActions.SetPortfolioSelectedAcceptType(
         MediaAcceptType[this.selectedMediaType]
       )
     );
-  }
-
-  onClickAddUploadBtn(): void {
-    this.item = {
-      title: '',
-      shortDescription: '',
-      user: '',
-      items: [],
-      uploadType: MediaUploadType.NONE
-    };
-
-    // this.featureStore.dispatch(new PortfolioActions.SetPortfolioOperationType(PortfolioOperationType.NEW));
-    // user media items  are fetched after modal is popped up
-    // this.onMediaTypeSelected(this.selectedMediaType);
   }
 
   // onMediaTypeSelected(type: MediaType): void {
@@ -124,4 +161,7 @@ export class PortfolioMediaTypeComponent implements OnInit {
   //       return;
   //   }
   // }
+  ngOnDestroy() {
+    // this.store.dispatch(new ModalsActions.ResetComponentPageState());
+  }
 }

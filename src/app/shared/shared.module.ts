@@ -11,6 +11,7 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { TalentCategoriesComponent } from "./talent-categories/talent-categories.component";
 import { MaterialModule } from "../material.module";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
     UserProfilePictureComponent,
     TabsComponent,
     ModalsComponent,
+    ModalComponent,
     SlideToggleComponent,
     TalentCategoriesComponent
   ],
@@ -36,7 +38,8 @@ import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
     TabsComponent,
     ModalsComponent,
     SlideToggleComponent,
-    TalentCategoriesComponent
+    TalentCategoriesComponent,
+    ModalComponent
   ]
 })
 export class SharedModule {}

@@ -1,15 +1,24 @@
-<div class="row mb-50">
+<div class="row mb-50" *ngIf="userImagesLength > 0">
   <div class="col-xl-12">
     <div class="profile-alb-head">
       <h4>
-        Picture Album<span>({{ userImage }} albums)</span>
+        Picture Albums<span
+          >({{ userImagesLength }} album<i *ngIf="userImagesLength > 1">s</i
+          >)</span
+        >
       </h4>
     </div>
   </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
+  <div
+    class="col-xl-4 col-lg-4 col-md-4 col-sm-6"
+    *ngFor="let image of userImagePreviews; let i = index"
+  >
+    <div
+      class="profile-alb-wrapper mb-30"
+      (click)="openModalDialog('gigs-modal', image._id)"
+    >
       <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
+        <img src="{{ image.albumCover }}" alt="" />
 
         <div class="edit">
           <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
@@ -17,131 +26,58 @@
         <div class="delete">
           <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
         </div>
-        <span class="alb-counter">20</span>
+        <span class="alb-counter">{{ image.activityCount }}</span>
       </div>
       <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
+        <h4>{{ image.title }}</h4>
+        <p>{{ image.shortDescription }}</p>
       </div>
     </div>
   </div>
 </div>
+
+<!-- <app-modals [id]="'gigs-modal'">
+  <div class="pop-icon-bar pop-talent" navigate>
+    <div class="slide-arrow">
+      <a class="left"><i class="far fa-angle-left"></i></a>
+      <a class="right"><i class="far fa-angle-right"></i></a>
+    </div>
+    <button
+      type="button"
+      class="close"
+      (click)="closeModalDialog('gigs-modal')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true"><i class="far fa-times"></i></span>
+    </button>
+  </div>
+
+  <app-portfolio-modal-content
+    body
+    [data]="data"
+    [viewMode]="viewMode"
+  ></app-portfolio-modal-content>
+</app-modals> -->
+
+<!-- <app-modals [id]="'gigs-modal'">
+  <div class="pop-icon-bar pop-talent" navigate>
+    <div class="slide-arrow">
+      <a class="left"><i class="far fa-angle-left"></i></a>
+      <a class="right"><i class="far fa-angle-right"></i></a>
+    </div>
+    <button
+      type="button"
+      class="close"
+      (click)="closeModalDialog('gigs-modal')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true"><i class="far fa-times"></i></span>
+    </button>
+  </div>
+
+  <app-portfolio-modal-content
+    body
+    [mediaType]="selectedMediaType"
+    [viewMode]="viewMode"
+  ></app-portfolio-modal-content>
+</app-modals> -->

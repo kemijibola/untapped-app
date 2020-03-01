@@ -5,7 +5,6 @@ import { AuthService } from "src/app/services/auth.service";
 import { IResult, IRegister, IAuthData, ILogin } from "src/app/interfaces";
 import { map, mergeMap, catchError, tap, switchMap } from "rxjs/operators";
 import { of } from "rxjs";
-import { LocalStorage } from "@ngx-pwa/local-storage";
 import { Router } from "@angular/router";
 import * as ErrorActions from "../../store/global/error/error.actions";
 import "rxjs/add/operator/do";
@@ -22,9 +21,7 @@ export class AuthEffects {
         fullName: action.payload.register.fullName,
         email: action.payload.register.email,
         password: action.payload.register.password,
-        roles: action.payload.register.roles,
-        audience: action.payload.register.audience,
-        confirmationUrl: action.payload.register.confirmationUrl
+        roles: action.payload.register.roles
       };
       return this.authService.signUp(newUser);
     })
@@ -55,8 +52,8 @@ export class AuthEffects {
   authSignIn = this.actions$
     .pipe(ofType(AuthActions.DO_SIGNIN))
     .switchMap((action: AuthActions.DoSignIn) => {
-      const { email, password, audience } = action.payload.loginParam;
-      return this.authService.signin({ email, password, audience });
+      const { email, password } = action.payload.loginParam;
+      return this.authService.signin({ email, password });
     })
     .pipe(
       map((resp: IResult<IAuthData>) => {
@@ -138,7 +135,6 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private store: Store<fromApp.AppState>,
-    protected localStorage: LocalStorage,
     private router: Router
   ) {}
 }

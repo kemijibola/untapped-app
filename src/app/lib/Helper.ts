@@ -1,7 +1,7 @@
 import { ImageEditRequest } from "../interfaces/media/image";
 import { environment } from "../../../src/environments/environment.prod";
 
-export function fetchObjectFromCloudFormation(
+export function fetchImageObjectFromCloudFormation(
   key: string,
   editParams: ImageEditRequest
 ): string {

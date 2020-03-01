@@ -84,7 +84,6 @@ export class ProfileComponent implements OnInit {
       .pipe(select(selectUserProfile), take(2))
       .subscribe((val: IProfile) => {
         if (_.has(val, "_id")) {
-          console.log("setting user profile...", val);
           this.store.dispatch(
             new CategoryTypeActions.SetSelectedCategories(val.categories)
           );

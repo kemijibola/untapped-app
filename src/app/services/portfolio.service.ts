@@ -1,42 +1,79 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import {
   PortfolioQueryParams,
   IResult,
   IMedia,
-  IGeneralMedia
-} from '../interfaces';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+  IGeneralMedia,
+  UploadedItems,
+  MediaUploadType,
+  MediaQueryParams,
+  MediaPreview
+} from "../interfaces";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class PortfolioService {
-  private BASE_URI = '';
+  private BASE_URI = "";
   constructor(private http: HttpClient) {
-    this.BASE_URI = 'http://127.0.0.1:8900/v1';
+    this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
-  fetchUserPortfolioMedias(
-    queryParams: PortfolioQueryParams
+  createPortfolioMedia(
+    mediaUploadType: MediaUploadType,
+    data: UploadedItems
+  ): Observable<IResult<IMedia>> {
+    const url = `${this.BASE_URI}/media`;
+    return this.http.post<IResult<IMedia>>(url, {
+      title: data.title,
+      items: data.items,
+      uploadType: mediaUploadType,
+      mediaType: data.type,
+      shortDescription: data.shortDescription
+    });
+  }
+
+  updatePortfolioMedia(
+    mediaUploadType: MediaUploadType,
+    data: UploadedItems
+  ): Observable<IResult<IMedia>> {
+    const url = `${this.BASE_URI}/media/${data._id}`;
+
+    return this.http.put<IResult<IMedia>>(url, {
+      title: data.title,
+      items: data.items,
+      uploadType: mediaUploadType,
+      mediaType: data.type,
+      shortDescription: data.shortDescription
+    });
+  }
+
+  fetchUserPortfolioList(
+    queryParams: MediaQueryParams
   ): Observable<IResult<IMedia[]>> {
-    const url = `${this.BASE_URI}/media?user=${queryParams.user}&type=${queryParams.type}&upload=${queryParams.upload}`;
+    const url = `${this.BASE_URI}/media/me?mediaType=${queryParams.type}&uploadType=${queryParams.uploadType}`;
     return this.http.get<IResult<IMedia[]>>(url);
   }
 
-  fetchUserPortfolioItems(
-    queryParams: PortfolioQueryParams
-  ): Observable<IResult<IGeneralMedia[]>> {
-    const url = `${this.BASE_URI}/media?user=${queryParams.user}&type=${queryParams.type}&upload=${queryParams.upload}`;
-    return this.http.get<IResult<IGeneralMedia[]>>(url);
+  fetchUserPortfolioPreviewList(
+    queryParams: MediaQueryParams
+  ): Observable<IResult<MediaPreview[]>> {
+    const url = `${this.BASE_URI}/media/me/preview?mediaType=${queryParams.type}&uploadType=${queryParams.uploadType}`;
+    return this.http.get<IResult<MediaPreview[]>>(url);
   }
 
-  fetchUserPortfolioMedia(_id: string): Observable<IResult<IMedia>> {
-    const url = `${this.BASE_URI}/media/${_id}`;
+  fetchPortfolioList(
+    queryParams: MediaQueryParams
+  ): Observable<IResult<IMedia[]>> {
+    const url = `${this.BASE_URI}/media?type=${queryParams.type}&upload_type=${queryParams.uploadType}`;
+    return this.http.get<IResult<IMedia[]>>(url);
+  }
+
+  fetchPortfolioMedia(
+    queryParams: MediaQueryParams
+  ): Observable<IResult<IMedia>> {
+    const url = `${this.BASE_URI}/media/${queryParams.id}`;
     return this.http.get<IResult<IMedia>>(url);
-  }
-
-  fetchUserPortfolioItem(_id: string): Observable<IResult<IGeneralMedia>> {
-    const url = `${this.BASE_URI}/media/${_id}`;
-    return this.http.get<IResult<IGeneralMedia>>(url);
   }
 }

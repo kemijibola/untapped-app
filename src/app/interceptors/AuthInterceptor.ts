@@ -14,6 +14,7 @@ import * as fromAuth from "../account/store/auth.reducers";
 import { selectUserData } from "../account/store/auth.selectors";
 import { IAuthData } from "../interfaces";
 import { catchError } from "rxjs/operators";
+import { environment } from "../../../src/environments/environment.prod";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -38,7 +39,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   addToken(req: HttpRequest<any>, token: string) {
     return req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+        clientId: environment.clientId
+      }
     });
   }
 
@@ -46,6 +50,12 @@ export class AuthInterceptor implements HttpInterceptor {
     if (
       url.startsWith(
         "https://untapped-pool-image-bucket.s3-accelerate.amazonaws.com"
+      )
+    ) {
+      return false;
+    } else if (
+      url.startsWith(
+        "https://untapped-pool-audio-bucket.s3-accelerate.amazonaws.com"
       )
     ) {
       return false;

@@ -4,7 +4,9 @@ import {
   IUploadedFiles,
   UPLOADOPERATIONS,
   PresignedUrl,
-  SignedUrl
+  SignedUrl,
+  UploadedItems,
+  MediaType
 } from "src/app/interfaces";
 import * as UploadActions from "./upload.actions";
 
@@ -15,6 +17,7 @@ export interface State {
   isReadyForUpload: boolean;
   uploadAction: UPLOADOPERATIONS;
   uploadSuccessful: boolean;
+  uploadedItems: UploadedItems;
 }
 
 const initialState: State = {
@@ -34,7 +37,14 @@ const initialState: State = {
   },
   isReadyForUpload: false,
   uploadAction: UPLOADOPERATIONS.Default,
-  uploadSuccessful: false
+  uploadSuccessful: false,
+  uploadedItems: {
+    _id: "",
+    title: "",
+    shortDescription: "",
+    type: MediaType.AUDIO,
+    items: []
+  }
 };
 
 export function UploadReducers(
@@ -93,6 +103,17 @@ export function UploadReducers(
       return {
         ...state,
         uploadAction: action.payload.uploadOperation
+      };
+    case UploadActions.SET_UPLOADED_ITEMS:
+      console.log("uploaded items");
+      return {
+        ...state,
+        uploadedItems: { ...action.payload }
+      };
+    case UploadActions.RESET_UPLOADED_ITEMS:
+      return {
+        ...state,
+        uploadedItems: initialState.uploadedItems
       };
     default:
       return state;

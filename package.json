@@ -34,6 +34,7 @@
     "angular-animations": "0.0.9",
     "angular2-multiselect-dropdown": "^4.6.3",
     "bcryptjs": "^2.4.3",
+    "bootstrap": "^4.0.0",
     "core-js": "^2.5.4",
     "fstream": "^1.0.12",
     "hammerjs": "^2.0.8",

@@ -80,9 +80,7 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       fullName: username,
       email: email,
       password: password,
-      roles: [this.selectedUserType],
-      audience: "http://localhost:4200",
-      confirmationUrl: "http://localhost:4200/account/confirmation"
+      roles: [this.selectedUserType]
     };
     this.store.dispatch(new AuthActions.DoSignUp({ register: payload }));
   }

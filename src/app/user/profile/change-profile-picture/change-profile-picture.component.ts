@@ -22,7 +22,7 @@ import * as UploadActions from "../../../shared/store/upload/upload.actions";
 import * as UserProfileImageActions from "../../../shared/store/user-profile-image/user-profile-image.actions";
 import { environment } from "src/environments/environment.prod";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
-import { fetchObjectFromCloudFormation } from "src/app/lib/Helper";
+import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { selectUserData } from "src/app/account/store/auth.selectors";
 import { AuthService } from "src/app/services/auth.service";
 
@@ -68,15 +68,17 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
   }
 
   uploadFiles(files: File[]): void {
+    let uploadParams: CloudUploadParams[] = [];
     this.store.pipe(select(selectPresignedUrls)).subscribe((val: SignedUrl) => {
       if (val) {
         if (val.action === this.uploadOperation) {
           this.key = val.presignedUrl[0].key;
           this.authData.user_data.profile_image_path = val.presignedUrl[0].key;
-          const uploadParams: CloudUploadParams = {
+          const item: CloudUploadParams = {
             file: files[0]["data"],
             url: val.presignedUrl[0].url
           };
+          uploadParams = [...uploadParams, item];
           this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
           this.store.dispatch(
@@ -103,7 +105,7 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
       if (val.authenticated) {
         this.authData = { ...val };
         this.imagePath = val.user_data.profile_image_path
-          ? fetchObjectFromCloudFormation(
+          ? fetchImageObjectFromCloudFormation(
               val.user_data.profile_image_path,
               this.editParams
             )

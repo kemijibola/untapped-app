@@ -1,4 +1,3 @@
-import { LoggingService } from "./../services/LoggingService";
 import { NgModule } from "@angular/core";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
@@ -30,6 +29,7 @@ import { AuthGuard } from "../guard-services/auth-guard.service";
 import { CompleteProfile } from "../guard-services/complete-profile.guard.service";
 import { AuthInterceptor } from "../interceptors/AuthInterceptor";
 import { CategoryTypeService } from "../services/category-type.service";
+import { LoggingService } from "./../services/LoggingService";
 
 @NgModule({
   declarations: [

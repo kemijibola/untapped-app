@@ -1,7 +1,9 @@
-<div class="row mb-50">
+<div class="row mb-50" *ngIf="userVideosLength > 0">
   <div class="col-xl-12">
     <div class="profile-alb-head">
-      <h4>Video Album<span>(6 albums)</span></h4>
+      <h4>
+        Video Album<span>({{ userVideosLength }} album(s))</span>
+      </h4>
     </div>
   </div>
   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">

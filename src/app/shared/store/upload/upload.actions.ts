@@ -7,7 +7,8 @@ import {
   UPLOADOPERATIONS,
   PresignedUrl,
   SignedUrl,
-  CloudUploadParams
+  CloudUploadParams,
+  UploadedItems
 } from "src/app/interfaces";
 
 export const FILE_INPUT_CONFIG = "FILE_INPUT_CONFIG";
@@ -21,6 +22,20 @@ export const SET_APPUPLOAD_OPERATION = "SET_APPUPLOAD_OPERATION";
 export const UPLOAD_FILES = "UPLOAD_FILES";
 
 export const CLOUD_UPLOAD_SUCCESS = "CLOUD_UPLOAD_SUCCESS";
+
+export const SET_UPLOADED_ITEMS = "SET_UPLOADED_ITEMS";
+export const RESET_UPLOADED_ITEMS = "RESET_UPLOADED_ITEMS";
+
+
+
+export class SetUploadedItems implements Action {
+  readonly type = SET_UPLOADED_ITEMS;
+  constructor(public payload: UploadedItems) {}
+}
+
+export class ResetUploadedItems implements Action {
+  readonly type = RESET_UPLOADED_ITEMS;
+}
 
 export class FileInputConfig implements Action {
   readonly type = FILE_INPUT_CONFIG;
@@ -56,7 +71,7 @@ export class SetPresignedUrl implements Action {
 
 export class UploadFiles implements Action {
   readonly type = UPLOAD_FILES;
-  constructor(public payload: CloudUploadParams) {}
+  constructor(public payload: CloudUploadParams[]) {}
 }
 
 export type UploadActions =
@@ -67,4 +82,6 @@ export type UploadActions =
   | UploadFiles
   | SetPresignedUrl
   | SetAppUploadOperation
-  | CloudUploadSuccess;
+  | CloudUploadSuccess
+  | SetUploadedItems
+  | ResetUploadedItems;

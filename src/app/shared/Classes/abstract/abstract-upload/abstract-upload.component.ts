@@ -3,7 +3,8 @@ import {
   IPresignRequest,
   IFileModel,
   UPLOADOPERATIONS,
-  IFileMetaData
+  IFileMetaData,
+  MediaType
 } from "src/app/interfaces";
 import { OnInit } from "@angular/core";
 import * as fromApp from "../../../../store/app.reducers";
@@ -43,7 +44,7 @@ export abstract class AbstractUploadComponent implements OnInit {
 
             var fileType = files[0].file_type.split("/");
             this.file = {
-              typeOfFile: fileType[0],
+              mediaType: fileType[0],
               action: val.action,
               files: [...files]
             };

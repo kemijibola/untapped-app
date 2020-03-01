@@ -12,6 +12,7 @@ import {
 } from "../interfaces";
 import { LocalStorage } from "@ngx-pwa/local-storage";
 import { environment } from "../../environments/environment";
+import { of } from "rxjs";
 
 @Injectable()
 export class AuthService {
@@ -22,41 +23,31 @@ export class AuthService {
   }
 
   confirmEmail(req: IConfirmEmail): Observable<IResult<string>> {
-    const { email, token, audience } = req;
+    const { email, token } = req;
     const url = `${this.BASE_URI}/account/verify`;
     return this.http.post<IResult<string>>(url, {
       email,
-      token,
-      audience
+      token
     });
   }
 
   signUp(newUser: IRegister): Observable<IResult<boolean>> {
-    const {
-      fullName,
-      email,
-      password,
-      roles,
-      audience,
-      confirmationUrl
-    } = newUser;
+    const { fullName, email, password, roles } = newUser;
     const url = `${this.BASE_URI}/account/signup`;
     return this.http.post<IResult<boolean>>(url, {
       fullName,
       email,
       password,
-      roles,
-      audience,
-      confirmationUrl
+      roles
     });
   }
 
   signin(loginParams: ILogin): Observable<IResult<IAuthData>> {
     const url = `${this.BASE_URI}/authentication`;
-    const { email, password, audience } = loginParams;
+    const { email, password } = loginParams;
     return this.http.post<IResult<IAuthData>>(
       url,
-      { email, password, audience },
+      { email, password },
       { observe: "body" }
     );
   }
@@ -65,7 +56,8 @@ export class AuthService {
     return this.localStorage.getItem(key);
   }
   removeItem(key: string): Observable<boolean> {
-    return this.localStorage.removeItem(key);
+    this.localStorage.removeItemSubscribe(key);
+    return of(true);
   }
 
   setItem(key: string, data = {}): void {

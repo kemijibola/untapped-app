@@ -1,6 +1,7 @@
 import {
   MediaUploadType,
-  PortfolioQueryParams
+  PortfolioQueryParams,
+  MediaQueryParams
 } from "./../../../interfaces/user/portfolio";
 import { Component, OnInit } from "@angular/core";
 import * as fromPortfolio from "../../store/portfolio/portfolio.reducers";
@@ -10,6 +11,7 @@ import * as AuthActions from "../../../account/store/auth.actions";
 import { Store, select } from "@ngrx/store";
 import { MediaType, IAuthData } from "src/app/interfaces";
 import { selectUserData } from "../../../account/store/auth.selectors";
+import * as fromUser from "../../user.reducers";
 
 @Component({
   selector: "app-portfolio-item-container",
@@ -21,7 +23,7 @@ export class PortfolioItemContainerComponent implements OnInit {
   selectedMediaType: MediaType;
   constructor(
     public store: Store<fromApp.AppState>,
-    private featureStore: Store<fromPortfolio.PortfolioFeatureState>
+    private userStore: Store<fromUser.UserState>
   ) {}
 
   ngOnInit() {
@@ -30,41 +32,16 @@ export class PortfolioItemContainerComponent implements OnInit {
       this.userId = val.user_data._id;
     });
 
-    this.triggerUserAudioItemsFetch();
-    this.triggerUserVideoItemsFetch();
-    this.triggerUserImageItemsFetch();
+    this.triggerFetchUserMediaList();
   }
 
-  triggerUserAudioItemsFetch(): void {
-    const queryParams: PortfolioQueryParams = {
-      user: this.userId,
-      type: MediaType.AUDIO,
-      upload: MediaUploadType.MULTIPLE
+  triggerFetchUserMediaList(): void {
+    const queryParams: MediaQueryParams = {
+      type: MediaType.ALL,
+      uploadType: MediaUploadType.ALL
     };
-    this.featureStore.dispatch(
-      new PortfolioActions.FetchPortfolioAudios(queryParams)
-    );
-  }
-
-  triggerUserVideoItemsFetch(): void {
-    const queryParams: PortfolioQueryParams = {
-      user: this.userId,
-      type: MediaType.VIDEO,
-      upload: MediaUploadType.MULTIPLE
-    };
-    this.featureStore.dispatch(
-      new PortfolioActions.FetchPortfolioVideos(queryParams)
-    );
-  }
-
-  triggerUserImageItemsFetch(): void {
-    const queryParams: PortfolioQueryParams = {
-      user: this.userId,
-      type: MediaType.IMAGE,
-      upload: MediaUploadType.MULTIPLE
-    };
-    this.featureStore.dispatch(
-      new PortfolioActions.FetchPortfolioImages(queryParams)
+    this.userStore.dispatch(
+      new PortfolioActions.FetchUserMediaListPreview(queryParams)
     );
   }
 }

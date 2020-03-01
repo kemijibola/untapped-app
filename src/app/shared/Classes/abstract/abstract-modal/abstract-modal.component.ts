@@ -1,28 +1,24 @@
-import * as fromApp from '../../../../store/app.reducers';
-import { OnInit } from '@angular/core';
-import { Modal } from 'src/app/interfaces';
-import { Store, select } from '@ngrx/store';
-import { selectModals } from '../../../../shared/store/modals/modals.selectors';
+import {
+  IModal,
+  ModalDisplay,
+  ModalViewModel,
+  ModalContent
+} from "./../../../../interfaces/shared/modal";
+import * as fromApp from "../../../../store/app.reducers";
+import { OnInit } from "@angular/core";
+import { AppModal } from "src/app/interfaces";
+import { Store, select } from "@ngrx/store";
+import { selectModals } from "../../../../shared/store/modals/modals.selectors";
+import * as ModalsAction from "../../../../shared/store/modals/modals.actions";
 
 export abstract class AbstractModalComponent implements OnInit {
-  abstract modalId: string;
-  abstract store: Store<any>;
-  currentModal: Modal = {
-    name: '',
-    show: false
-  };
+  abstract store: Store<fromApp.AppState>;
+  abstract modal: AppModal;
+  abstract openModalDialog(modalId: string, additionalParams?: any): void;
+  abstract closeModalDialog(modalId: string, additionalParams?: any): void;
   constructor() {}
 
   ngOnInit() {
-    this.store.pipe(select(selectModals)).subscribe((modals: Modal[]) => {
-      if (modals.length > 0) {
-        this.currentModal = modals.filter(
-          x => x.show && x.name === this.modalId
-        )[0] || {
-          name: '',
-          show: false
-        };
-      }
-    });
+    // this.store.dispatch(new ModalsAction.AddModal(this.modal));
   }
 }

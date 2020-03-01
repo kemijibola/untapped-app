@@ -12,13 +12,23 @@ import {
   PortfolioUploadInputConfig,
   SignedUrl,
   CloudUploadParams,
-  UploadedPortfolioItems,
-  MediaType
+  UploadedItems,
+  MediaType,
+  IMedia,
+  IMediaItem
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
-import { selectPresignedUrls } from "../../../shared/store/upload/upload.selectors";
+import {
+  selectPresignedUrls,
+  selectUploadSuccess
+} from "../../../shared/store/upload/upload.selectors";
 import * as UploadActions from "../../../shared/store/upload/upload.actions";
+import {
+  AcceptedMedias,
+  ImageFit,
+  ImageEditRequest
+} from "src/app/interfaces/media/image";
 
 @Component({
   selector: "app-portfolio-browse",
@@ -33,10 +43,12 @@ export class PortfolioBrowseComponent extends AbstractUploadComponent
   isMultiple: boolean;
   mediaAccept: string;
   uploadOperation = UPLOADOPERATIONS.Portfolio;
-  uploadedItems: UploadedPortfolioItems;
+  uploadedItems: UploadedItems;
+  canSetUploadedImage: boolean;
 
   constructor(public store: Store<fromApp.AppState>) {
     super();
+    this.canSetUploadedImage = false;
   }
 
   ngOnChanges(simpleChanges: SimpleChanges) {
@@ -50,25 +62,35 @@ export class PortfolioBrowseComponent extends AbstractUploadComponent
   setUploadedImage(): void {}
 
   uploadFiles(files: File[]): void {
+    let uploadParams: CloudUploadParams[] = [];
     this.store.pipe(select(selectPresignedUrls)).subscribe((val: SignedUrl) => {
       if (val.action === this.uploadOperation) {
         this.uploadedItems = {
-          mediaType: MediaType.AUDIO,
+          type: MediaType.AUDIO,
           items: []
         };
         for (let i = 0; i < files.length; i++) {
-          const uploadParams: CloudUploadParams = {
+          const item: CloudUploadParams = {
             file: files[i]["data"],
             url: val.presignedUrl[i].url
           };
+          uploadParams = [...uploadParams, item];
 
-          this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
-
-          this.uploadedItems.items = [
-            ...this.uploadedItems.items,
-            val.presignedUrl[i].key
-          ];
+          const mediaItem: IMediaItem = {
+            path: val.presignedUrl[i].key
+          };
+          this.uploadedItems.items = [...this.uploadedItems.items, mediaItem];
         }
+        this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
+
+        const uploadExtension = this.uploadedItems.items[0].path
+          .split(".")
+          .pop();
+        this.uploadedItems.type = AcceptedMedias[uploadExtension];
+
+        this.store.dispatch(
+          new UploadActions.SetUploadedItems(this.uploadedItems)
+        );
       }
     });
   }

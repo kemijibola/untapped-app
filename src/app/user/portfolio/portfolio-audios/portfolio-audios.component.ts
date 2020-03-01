@@ -1,37 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import * as fromPortfolio from '../../store/portfolio/portfolio.reducers';
-import { IAudio, AppModal } from 'src/app/interfaces';
-import { selectUserAudioList } from '../../store/portfolio/portfolio.selectors';
-import * as fromApp from '../../../store/app.reducers';
-import * as ModalsActions from '../../../shared/store/modals/modals.actions';
+import { Component, OnInit } from "@angular/core";
+import { Store, select } from "@ngrx/store";
+import { Observable } from "rxjs";
+import * as fromPortfolio from "../../store/portfolio/portfolio.reducers";
+import { IAudio, AppModal, IMedia } from "src/app/interfaces";
+import { selectUserAudioList } from "../../store/portfolio/portfolio.selectors";
+import * as fromApp from "../../../store/app.reducers";
+import * as ModalsActions from "../../../shared/store/modals/modals.actions";
+import * as fromUser from "../../user.reducers";
 
 @Component({
-  selector: 'app-portfolio-audios',
-  templateUrl: './portfolio-audios.component.html',
-  styleUrls: ['./portfolio-audios.component.css']
+  selector: "app-portfolio-audios",
+  templateUrl: "./portfolio-audios.component.html",
+  styleUrls: ["./portfolio-audios.component.css"]
 })
 export class PortfolioAudiosComponent implements OnInit {
-  portfolioAudios: Observable<fromPortfolio.PortfolioFeatureState>;
-  userId = '';
+  userId = "";
   userAudios: IAudio[] = [];
   userAudiosLength = 0;
   constructor(
     private store: Store<fromApp.AppState>,
-    private featureStore: Store<fromPortfolio.PortfolioFeatureState>
+    private userStore: Store<fromUser.UserState>
   ) {}
 
   ngOnInit() {
-    this.featureStore
+    this.userStore
       .pipe(select(selectUserAudioList))
-      .subscribe((audios: IAudio[]) => {
-        this.userAudios = audios;
-        this.userAudiosLength = audios.length;
+      .subscribe((val: IMedia[]) => {
+        console.log("user audio albums", val);
+        this.userAudios = val;
+        this.userAudiosLength = val.length;
       });
   }
   onClickAddUploadBtn() {
-    console.log('clicked');
-    this.store.dispatch(new ModalsActions.SetModalId(AppModal.Portfolio));
+    // this.store.dispatch(new ModalsActions.SetModal(AppModal.Portfolio));
   }
 }

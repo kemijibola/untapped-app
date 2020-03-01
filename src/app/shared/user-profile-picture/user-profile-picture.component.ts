@@ -52,14 +52,15 @@ export class UserProfilePictureComponent extends AbstractUploadComponent {
   }
 
   uploadFiles(files: File[]): void {
+    let uploadParams: CloudUploadParams[] = [];
     this.store.pipe(select(selectPresignedUrls)).subscribe((val: SignedUrl) => {
       if (val) {
         if (val.action === this.uploadOperation) {
-          const uploadParams: CloudUploadParams = {
+          const item: CloudUploadParams = {
             file: files[0]["data"],
             url: val.presignedUrl[0].url
           };
-          console.log("params from controller", uploadParams);
+          uploadParams.push(...uploadParams, item);
           this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
           this.store.dispatch(

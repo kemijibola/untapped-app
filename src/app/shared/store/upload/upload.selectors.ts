@@ -8,6 +8,7 @@ const currentUploadAction = (state: fromApp.AppState) => state.upload;
 const fileToUpload = (state: fromApp.AppState) => state.upload;
 const presignedUrls = (state: fromApp.AppState) => state.upload;
 const uploadSuccess = (state: fromApp.AppState) => state.upload;
+const uploadedItems = (state: fromApp.AppState) => state.upload;
 
 export const selectUploadActionState = createSelector(
   upload,
@@ -37,4 +38,9 @@ export const selectPresignedUrls = createSelector(
 export const selectUploadSuccess = createSelector(
   uploadSuccess,
   (state: fromUpload.State) => state.uploadSuccessful
+);
+
+export const selectUploadedItems = createSelector(
+  uploadedItems,
+  (state: fromUpload.State) => state.uploadedItems
 );

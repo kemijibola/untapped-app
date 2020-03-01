@@ -26,7 +26,7 @@ import { CompleteProfileComponent } from "./complete-profile/complete-profile.co
 import { ChangeProfilePictureComponent } from "./profile/change-profile-picture/change-profile-picture.component";
 import { profileReducer } from "./store/profile/profile.reducers";
 import { ChangeProfessionalBannerComponent } from "./profile/change-professional-banner/change-professional-banner.component";
-import { PortfolioGeneralComponent } from './portfolio/portfolio-general/portfolio-general.component';
+import { PortfolioGeneralComponent } from "./portfolio/portfolio-general/portfolio-general.component";
 @NgModule({
   declarations: [
     ProfileComponent,
@@ -52,7 +52,7 @@ import { PortfolioGeneralComponent } from './portfolio/portfolio-general/portfol
     ReactiveFormsModule,
     UserRoutingModule,
     StoreModule.forFeature("profile", profileReducer),
-    StoreModule.forFeature("portfolios", portfolioReducer),
+    StoreModule.forFeature("portfolio", portfolioReducer),
     EffectsModule.forFeature([ProfileEffect, PortfolioEffect])
   ],
   exports: [UserRoutingModule]
