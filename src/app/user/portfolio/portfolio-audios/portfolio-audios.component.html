@@ -2,14 +2,23 @@
   <div class="col-xl-12">
     <div class="profile-alb-head">
       <h4>
-        Audio Album<span>({{ userAudiosLength }} album)</span>
+        Audio Album<span
+          >({{ userAudiosLength }} album<i *ngIf="userAudiosLength > 1">s</i
+          >)</span
+        >
       </h4>
     </div>
   </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
+  <div
+    class="col-xl-4 col-lg-4 col-md-4 col-sm-6"
+    *ngFor="let item of userAudioPreviews; let i = index"
+  >
+    <div
+      class="profile-alb-wrapper mb-30"
+      (click)="openModalDialog('gigs-modal', item._id)"
+    >
       <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
+        <img src="{{ item.artCover }}" alt="" />
 
         <div class="edit">
           <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
@@ -17,130 +26,11 @@
         <div class="delete">
           <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
         </div>
-        <span class="alb-counter">20</span>
+        <span class="alb-counter">{{ item.activityCount }}</span>
       </div>
       <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-    <div class="profile-alb-wrapper mb-30">
-      <div class="alb-image">
-        <img src="assets/img/profile/alb-pic-1.jpg" alt="" />
-
-        <div class="edit">
-          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
-          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
-        </div>
-        <span class="alb-counter">20</span>
-      </div>
-      <div class="alb-content">
-        <h4>My night at feta</h4>
-        <p>
-          At ullam sint esse. Ipsum libero beatae dignissimos et earum
-          reiciendis aut iure. Reiciendis occaecati accusamus. Iste accusantium
-          rerum.
-        </p>
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.shortDescription }}</p>
       </div>
     </div>
   </div>

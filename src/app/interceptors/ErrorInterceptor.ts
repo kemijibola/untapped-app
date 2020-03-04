@@ -20,7 +20,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private store: Store<fromApp.AppState>,
     private router: Router,
-
     private authService: AuthService
   ) {}
 
@@ -30,6 +29,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
+        console.log(error.message);
         if (!navigator.onLine) {
           console.log("No internet connection");
           this.store.dispatch(
@@ -41,13 +41,12 @@ export class ErrorInterceptor implements HttpInterceptor {
           );
         }
 
-        if (this.router.url !== "/account/signin") {
+        if (this.router.url !== "/account/signin" && error.status === 401) {
           this.store.dispatch(new AuthActions.DeleteAutData());
           this.authService.removeItem("authData").subscribe((val: boolean) => {
             if (val) {
-              console.log(val);
-              this.router.navigate(["/account/signin"]);
-              return of(undefined);
+              return this.router.navigate(["/account/signin"]);
+              // return of(undefined);
             }
           });
         } else {

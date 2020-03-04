@@ -14,3 +14,11 @@ export function fetchImageObjectFromCloudFormation(
   const encryptedRequest = btoa(strRequest);
   return `${environment.CLOUD_FORMATION_API}/${encryptedRequest}`;
 }
+
+export function fetchAudioArt(): string {
+  return environment.ART_ALBUM_COVER;
+}
+
+export function fetchAudioItemFullPath(key: string): string {
+  return `${environment.AUDIO_ACCELERATE_URL}/${key}`;
+}

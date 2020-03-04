@@ -30,6 +30,7 @@ import { CompleteProfile } from "../guard-services/complete-profile.guard.servic
 import { AuthInterceptor } from "../interceptors/AuthInterceptor";
 import { CategoryTypeService } from "../services/category-type.service";
 import { LoggingService } from "./../services/LoggingService";
+import { ErrorInterceptor } from "../interceptors/ErrorInterceptor";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { LoggingService } from "./../services/LoggingService";
     ErrorService,
     LoggingService,
     CategoryTypeService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]
 })
 export class CoreModule {}

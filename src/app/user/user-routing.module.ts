@@ -16,6 +16,7 @@ const userRouting: Routes = [
     canActivate: [AuthGuard],
     component: CompleteProfileComponent
   }
+  // { path: "**", redirectTo: "account/signin" }
   // {
   //   path: ':username/contest',
   //   component: UserContestComponent

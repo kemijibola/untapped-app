@@ -100,6 +100,11 @@ export interface MediaItem {
   updated?: Date;
 }
 
+export interface OtherMedia {
+  id: string;
+  path: string;
+}
+
 // tslint:disable-next-line:no-empty-interface
 export interface IAudio extends IMedia {}
 // tslint:disable-next-line:no-empty-interface
@@ -107,7 +112,9 @@ export interface IVideo extends IMedia {}
 // tslint:disable-next-line:no-empty-interface
 export interface IImage extends IMedia {}
 
-export interface AudioPreview extends MediaPreview {}
+export interface AudioPreview extends MediaPreview {
+  artCover?: string;
+}
 export interface VideoPreview extends MediaPreview {}
 export interface ImagePreview extends MediaPreview {
   albumCover?: string;

@@ -53,9 +53,7 @@ import { CategoryTypeEffects } from "./shared/store/category-type/category-type.
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   exports: [MaterialModule],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-  ],
+  providers: [],
   // providers: [
   //   ConfigService,
   //   {

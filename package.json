@@ -33,6 +33,7 @@
     "@types/underscore": "^1.9.4",
     "angular-animations": "0.0.9",
     "angular2-multiselect-dropdown": "^4.6.3",
+    "angular2-uuid": "^1.1.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.0.0",
     "core-js": "^2.5.4",
@@ -44,6 +45,7 @@
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
     "underscore": "^1.9.1",
+    "videogular2": "^7.0.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
@@ -51,6 +53,7 @@
     "@angular/compiler-cli": "^7.2.15",
     "@angular/language-service": "^6.1.0",
     "@fortawesome/fontawesome-free": "^5.9.0",
+    "@types/core-js": "^2.5.3",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/jquery": "^3.3.31",

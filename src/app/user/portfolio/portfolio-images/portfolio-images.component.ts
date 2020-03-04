@@ -78,7 +78,6 @@ export class PortfolioImagesComponent extends AbstractModalComponent
     this.userStore
       .pipe(select(selectUserImagePreviewList))
       .subscribe((val: ImagePreview[]) => {
-        console.log(val);
         this.userImagePreviews = val;
         this.userImagesLength = val.length;
         if (val.length > 0) {
@@ -103,8 +102,6 @@ export class PortfolioImagesComponent extends AbstractModalComponent
     // use id of clicked Item to fetch
     this.fetchImage(itemId);
 
-    this.modalToActivate.data = this.uploadedItems;
-
     this.modalToActivate.data = this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,
@@ -113,9 +110,9 @@ export class PortfolioImagesComponent extends AbstractModalComponent
     );
   }
 
-  fetchImage(mediaId: string): void {
+  fetchImage(imageId: string): void {
     const queryParams: MediaQueryParams = {
-      id: mediaId
+      id: imageId
     };
     this.userStore.dispatch(new PortfolioActions.FetchMediaById(queryParams));
   }

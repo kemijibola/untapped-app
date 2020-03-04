@@ -59,14 +59,31 @@
 
       <div class="upload-scene-demo popup mb-20" *ngIf="isAudioUpload">
         <div class="scene-inner pp">
-          <div class="scene-img" *ngFor="let path of otherImagesPath">
-            <img src="{{ path }}" alt="" />
+          <div
+            class="scene-img"
+            *ngFor="let item of otherAudioPath; let i = index"
+            (click)="onClickPlaylistItem(item, i)"
+            [class.selected]="item.id === currentItem.id"
+          >
+            <!-- <audio src="{{path}}" /> -->
+
+            <vg-player>
+              <audio
+                #media
+                [vgMedia]="media"
+                [src]="currentItem.path"
+                id="singleAudio"
+                preload="auto"
+                crossorigin
+              ></audio>
+            </vg-player>
+
             <a href="#"
               ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
             /></a>
           </div>
 
-          <div class="demo-upload-plus pp" *ngIf="isMultipleImage">
+          <div class="demo-upload-plus pp" *ngIf="isMultipleAudio">
             <a href="#"><i class="fal fa-plus"></i></a>
           </div>
         </div>

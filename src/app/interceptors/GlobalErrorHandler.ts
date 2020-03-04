@@ -1,12 +1,20 @@
-import { Injectable, Injector, ErrorHandler } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { NotificationService } from '../services/notification.service';
-import { LoggingService } from '../services/LoggingService';
-import { ErrorService } from '../services/ErrorService';
+import { Injectable, Injector, ErrorHandler } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
+import { NotificationService } from "../services/notification.service";
+import { LoggingService } from "../services/LoggingService";
+import { ErrorService } from "../services/ErrorService";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../store/app.reducers";
+import * as fromAuth from "../account/store/auth.reducers";
+import { AuthService } from "../services/auth.service";
+import * as AuthActions from "../account/store/auth.actions";
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(private injector: Injector) {}
+  constructor(
+    private injector: Injector,
+    private store: Store<fromApp.AppState>
+  ) {}
   handleError(error: Error | HttpErrorResponse) {
     const errorService = this.injector.get(ErrorService);
     const logger = this.injector.get(LoggingService);
@@ -25,7 +33,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       notifier.showError(message);
     }
     // Always log errors
-    logger.logError(message, 'stackTrace');
-    console.error(error);
+    logger.logError(message, "stackTrace");
+    // console.error(error);
   }
 }

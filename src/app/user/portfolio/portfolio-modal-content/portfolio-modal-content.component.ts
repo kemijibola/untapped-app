@@ -24,7 +24,9 @@ import {
   UploadedItems,
   ModalViewModel,
   IModal,
-  MediaQueryParams
+  MediaQueryParams,
+  MediaItem,
+  OtherMedia
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
 import { selectToggleList } from "src/app/shared/store/slide-toggle/slide.toggle.selectors";
@@ -38,12 +40,17 @@ import {
   selectUploadSuccess
 } from "src/app/shared/store/upload/upload.selectors";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
-import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
+import {
+  fetchImageObjectFromCloudFormation,
+  fetchAudioArt,
+  fetchAudioItemFullPath
+} from "src/app/lib/Helper";
 import * as _ from "underscore";
 import * as fromUser from "../../user.reducers";
 import { Router, ActivatedRoute } from "@angular/router";
 import { selectActiveModal } from "src/app/shared/store/modals/modals.selectors";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
+import { UUID } from "angular2-uuid";
 
 @Component({
   selector: "app-portfolio-modal-content",
@@ -62,6 +69,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     isMultiple: false,
     mediaAccept: MediaAcceptType.IMAGE
   };
+  cloudItems: UploadedItems;
   mediaUploaded: boolean;
   isVideoUpload: boolean = false;
   isAudioUpload: boolean = false;
@@ -100,9 +108,15 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
 
   defaultImagePath: string = "";
   otherImagesPath: string[] = [];
+  otherAudioPath: OtherMedia[] = [];
   isMultipleImage: boolean;
+  isMultipleAudio: boolean;
+  isMultipleVideo: boolean;
   actionText: string = "";
   uploadType: MediaUploadType;
+  currentIndex = 0;
+  currentItem: OtherMedia = this.otherAudioPath[this.currentIndex];
+
   constructor(
     private store: Store<fromApp.AppState>,
     private toggleStore: Store<fromSlideToggle.State>,
@@ -137,18 +151,15 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(selectUploadedItems))
       .subscribe((val: UploadedItems) => {
-        // this.uploadedItems = val;
-        if (val) {
-          this.setMedia(val);
-          this.initForm();
-        }
+        this.cloudItems = val;
+        this.initForm();
       });
 
-    // this.store.pipe(select(selectUploadSuccess)).subscribe((val: boolean) => {
-    //   if (val) {
-    //     this.setMedia();
-    //   }
-    // });
+    this.store.pipe(select(selectUploadSuccess)).subscribe((val: boolean) => {
+      if (val) {
+        this.setMedia(this.cloudItems);
+      }
+    });
 
     this.userStore.pipe(select(selectMedia)).subscribe((val: IMedia) => {
       if (val) {
@@ -166,6 +177,11 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.activateModalContent();
   }
 
+  onClickPlaylistItem(item: OtherMedia, index: number) {
+    this.currentIndex = index;
+    this.currentItem = item;
+  }
+
   activateModalContent(): void {
     this.store.pipe(select(selectActiveModal)).subscribe((val: IModal) => {
       this.defaultImagePath = "";
@@ -181,25 +197,14 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       }
     });
   }
-  // ngOnChanges(simpleChanges: SimpleChanges) {
-  //   console.log(this.viewMode);
-  //   if (simpleChanges["viewMode"]) {
-  //     this.pageViewMode = this.viewMode;
-  //     if (this.pageViewMode === ModalViewModel.edit) {
-  //       this.actionText = "UPDATE PORTFOLIO";
-  //       this.fetchUploadedMedia();
-  //     } else {
-  //       this.actionText = "ADD TO PORTFOLIO";
-  //     }
-  //   }
-  // }
 
   setMedia(media: UploadedItems) {
     if (media.items) {
       this.canViewDetails = true;
-      const mediaType = this.uploadedItems.type.toUpperCase();
+      const mediaType = media.type.toUpperCase();
       switch (mediaType) {
         case MediaType.AUDIO:
+          this.setAudio(media);
           break;
         case MediaType.IMAGE:
           this.setImage(media);
@@ -212,12 +217,18 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     }
   }
 
+  setDefaultAudioCover() {
+    this.defaultImagePath = fetchAudioArt();
+  }
+
   setDefaultImage(key: string) {
     this.defaultImagePath = fetchImageObjectFromCloudFormation(
       key,
       this.defaultImageParams
     );
   }
+
+  setOtherAudio(media: OtherMedia[]) {}
 
   setOtherImages(media: UploadedItems) {
     media.items.map(x => {
@@ -237,6 +248,34 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       )
     });
   }
+
+  setAudio(media: UploadedItems) {
+    this.isAudioUpload = true;
+    if (media.items.length > 1) {
+      // multiple upload
+      this.isMultipleAudio = true;
+      this.defaultImageSet = true;
+
+      this.defaultImagePath = fetchAudioArt();
+
+      this.otherAudioPath = media.items.reduce(
+        (theMap: OtherMedia[], theItem: MediaItem) => {
+          let uuid = UUID.UUID();
+          theMap.push({
+            id: uuid,
+            path: fetchAudioItemFullPath(theItem.path)
+          });
+          return theMap;
+        },
+        []
+      );
+    } else {
+      // single upload
+      this.isMultipleAudio = false;
+      this.defaultImageSet = true;
+    }
+  }
+
   setImage(media: UploadedItems) {
     this.isImageUpload = true;
     if (media.items.length > 1) {
@@ -260,8 +299,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       queryParams: { tab: "portfolio" }
     });
   }
-
-  setAudio() {}
 
   setVideo() {}
 
