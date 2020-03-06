@@ -119,7 +119,7 @@ export function portfolioReducer(
         ...state,
         audioPreviews: [...userAudioPreviews],
         imagePreviews: [...userImagePreviews],
-        vidoePreviews: [...userVideoPreviews]
+        videoPreviews: [...userVideoPreviews]
       };
     case PortfolioActions.SET_MEDIA_BY_ID:
       return {

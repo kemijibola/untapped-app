@@ -59,6 +59,12 @@ export class AuthInterceptor implements HttpInterceptor {
       )
     ) {
       return false;
+    } else if (
+      url.startsWith(
+        "https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com"
+      )
+    ) {
+      return false;
     }
     return true;
   }

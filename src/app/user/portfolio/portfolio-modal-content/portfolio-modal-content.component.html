@@ -17,11 +17,11 @@
               font-size="20"
               font-family="SegoeUI, Segoe UI"
             >
-              <tspan x="0" y="0">New portfolio upload</tspan>
+              <tspan x="0" y="0">{{ modalContentTitle }}</tspan>
             </text>
           </svg>
         </h4>
-        <div class="bbbtn">
+        <div class="bbbtn" *ngIf="showToggle">
           <app-slide-toggle
             title="Multiple Upload"
             [data]="pageSlideToggles[0]"
@@ -39,13 +39,93 @@
     <div class="popup-img pp" *ngIf="defaultImageSet">
       <img [src]="defaultImagePath" alt="" />
     </div>
+
+    <div class="popup-img pp" *ngIf="defaultAudioSet">
+      <vg-player style="height: 200px;" (onPlayerReady)="onPlayerReady($event)">
+        <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-playback-button></vg-playback-button>
+
+          <vg-time-display
+            vgProperty="current"
+            vgFormat="mm:ss"
+          ></vg-time-display>
+
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+
+          <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+          <vg-time-display
+            vgProperty="total"
+            vgFormat="mm:ss"
+          ></vg-time-display>
+
+          <vg-mute></vg-mute>
+
+          <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+        <audio
+          #media
+          [vgMedia]="media"
+          id="audio_{{ currentAudioItem._id }}"
+          preload="auto"
+        >
+          <source
+            src="{{ currentAudioItem.path }}"
+            [type]="currentAudioItem.type"
+          />
+        </audio>
+      </vg-player>
+    </div>
+
+    <div class="popup-img pp" *ngIf="defaultVideoSet">
+      <vg-player style="height: 200px;" (onPlayerReady)="onPlayerReady($event)">
+        <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-playback-button></vg-playback-button>
+
+          <vg-time-display
+            vgProperty="current"
+            vgFormat="mm:ss"
+          ></vg-time-display>
+
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+
+          <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+          <vg-time-display
+            vgProperty="total"
+            vgFormat="mm:ss"
+          ></vg-time-display>
+
+          <vg-mute></vg-mute>
+
+          <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+        <video
+          #media
+          [vgMedia]="media"
+          id="video_{{ currentVideoItem._id }}"
+          preload="auto"
+        >
+          <source
+            src="{{ currentVideoItem.path }}"
+            [type]="currentVideoItem.type"
+          />
+        </video>
+      </vg-player>
+    </div>
   </div>
   <div class="col-xl-12" *ngIf="canViewDetails">
     <div class="popup-content-wrap pp">
       <div class="upload-scene-demo popup mb-20" *ngIf="isImageUpload">
         <div class="scene-inner pp">
-          <div class="scene-img" *ngFor="let path of otherImagesPath">
-            <img src="{{ path }}" alt="" />
+          <div class="scene-img" *ngFor="let item of otherImagesPath">
+            <img src="{{ item.path }}" alt="" />
             <a href="#"
               ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
             /></a>
@@ -63,24 +143,15 @@
             class="scene-img"
             *ngFor="let item of otherAudioPath; let i = index"
             (click)="onClickPlaylistItem(item, i)"
-            [class.selected]="item.id === currentItem.id"
+            [class.selected]="item === currentAudioItem"
           >
-            <!-- <audio src="{{path}}" /> -->
-
-            <vg-player>
-              <audio
-                #media
-                [vgMedia]="media"
-                [src]="currentItem.path"
-                id="singleAudio"
-                preload="auto"
-                crossorigin
-              ></audio>
-            </vg-player>
-
-            <a href="#"
-              ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
-            /></a>
+            <img src="assets/img/prff.jpg" alt="" />
+            <div class="plays" (click)="onClickPlaylistItem(item, i)">
+              <a><img src="assets/img/profile/play.svg" alt=""/></a>
+            </div>
+            <div class="cros">
+              <a><img src="assets/img/profile/cross.svg" alt=""/></a>
+            </div>
           </div>
 
           <div class="demo-upload-plus pp" *ngIf="isMultipleAudio">
@@ -91,14 +162,22 @@
 
       <div class="upload-scene-demo popup mb-20" *ngIf="isVideoUpload">
         <div class="scene-inner pp">
-          <div class="scene-img" *ngFor="let path of otherImagesPath">
-            <img src="{{ path }}" alt="" />
-            <a href="#"
-              ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
-            /></a>
+          <div
+            class="scene-img"
+            *ngFor="let item of otherVideoPath; let i = index"
+            (click)="onClickPlaylistVideo(item, i)"
+            [class.selected]="item === currentVideoItem"
+          >
+            <img src="assets/img/prff.jpg" alt="" />
+            <div class="plays" (click)="onClickPlaylistVideo(item, i)">
+              <a><img src="assets/img/profile/play.svg" alt=""/></a>
+            </div>
+            <div class="cros">
+              <a><img src="assets/img/profile/cross.svg" alt=""/></a>
+            </div>
           </div>
 
-          <div class="demo-upload-plus pp" *ngIf="isMultipleImage">
+          <div class="demo-upload-plus pp" *ngIf="isMultipleVideo">
             <a href="#"><i class="fal fa-plus"></i></a>
           </div>
         </div>
@@ -129,118 +208,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div
-  class="modal fade"
-  id="upModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="upModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content contest-d">
-      <div class="row">
-        <div class="col-xl-12">
-          <div class="pop-icon-bar pop-talent" navigate>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true"><i class="far fa-times"></i></span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="row no-gutters" body>
-        <div class="col-xl-12">
-          <div class="p-complete-p-btn">
-            <div class="p-inner">
-              <h4>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="190"
-                  height="27"
-                  viewBox="0 0 190 27"
-                >
-                  <text
-                    id="New_portfolio_upload"
-                    data-name="New portfolio upload"
-                    transform="translate(0 22)"
-                    fill="#272424"
-                    font-size="20"
-                    font-family="SegoeUI, Segoe UI"
-                  >
-                    <tspan x="0" y="0">New portfolio upload</tspan>
-                  </text>
-                </svg>
-              </h4>
-              <div class="bbbtn">
-                <app-slide-toggle
-                  title="Multiple Upload"
-                  [data]="pageSlideToggles[0]"
-                ></app-slide-toggle>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-12" style="padding-right: 0;padding-left: 0;">
-          <app-portfolio-browse
-            [multiple]="multiple"
-            [accept]="accept"
-          ></app-portfolio-browse>
-
-          <div class="popup-img pp" *ngIf="defaultImageSet">
-            <img [src]="defaultImagePath" alt="" />
-          </div>
-        </div>
-        <div class="col-xl-12" *ngIf="canViewDetails">
-          <div class="popup-content-wrap pp">
-            <div class="upload-scene-demo popup mb-20">
-              <div class="scene-inner pp">
-                <div class="scene-img" *ngFor="let path of otherImagesPath">
-                  <img src="{{ path }}" alt="" />
-                  <a href="#"
-                    ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
-                  /></a>
-                </div>
-
-                <div class="demo-upload-plus pp" *ngIf="isMultipleImage">
-                  <a href="#"><i class="fal fa-plus"></i></a>
-                </div>
-              </div>
-            </div>
-            <div [formGroup]="portfolioForm">
-              <div class="input-1 pro-page pp">
-                <label for=""> Title</label>
-                <input
-                  type="text"
-                  formControlName="title"
-                  class="input-design"
-                />
-              </div>
-              <div class="input-1 pro-page pp">
-                <label for=""
-                  >Description
-                  <span><em>(Limited to 150 characters)</em></span></label
-                >
-                <textarea
-                  formControlName="description"
-                  cols="30"
-                  rows="10"
-                ></textarea>
-              </div>
-              <div class="git-btn pp">
-                <button class="box-btn" (click)="onClickOnActionButton()">
-                  {{ actionText }}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->

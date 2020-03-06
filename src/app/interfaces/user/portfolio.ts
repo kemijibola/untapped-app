@@ -95,14 +95,17 @@ export interface UploadedItems {
 export interface MediaItem {
   _id?: string;
   path: string;
+  type?: string;
   likedBy?: string[];
   createdAt?: Date;
-  updated?: Date;
+  updatedAt?: Date;
+  isDeleted?: Date;
 }
 
 export interface OtherMedia {
-  id: string;
+  _id: string;
   path: string;
+  type: string;
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -115,7 +118,9 @@ export interface IImage extends IMedia {}
 export interface AudioPreview extends MediaPreview {
   artCover?: string;
 }
-export interface VideoPreview extends MediaPreview {}
+export interface VideoPreview extends MediaPreview {
+  albumCover?: string;
+}
 export interface ImagePreview extends MediaPreview {
   albumCover?: string;
 }

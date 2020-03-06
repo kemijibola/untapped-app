@@ -19,6 +19,14 @@ export function fetchAudioArt(): string {
   return environment.ART_ALBUM_COVER;
 }
 
+export function fetchVideoArt(): string {
+  return environment.ART_ALBUM_COVER;
+}
+
 export function fetchAudioItemFullPath(key: string): string {
   return `${environment.AUDIO_ACCELERATE_URL}/${key}`;
+}
+
+export function fetchVideoItemFullPath(key: string): string {
+  return `${environment.VIDEO_ACCELERATE_URL}/${key}`;
 }

@@ -13,7 +13,7 @@ export const environment = {
     "https://untapped-pool-image-bucket.s3-accelerate.amazonaws.com",
   ART_ALBUM_COVER: "assets/img/profile/1950057_copy.png",
   AUDIO_ACCELERATE_URL:
-    "https://untapped-pool-audio-bucket.s3-accelerate.amazonaws.com",
+    "https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com",
   VIDEO_ACCELERATE_URL:
     "https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com"
 };

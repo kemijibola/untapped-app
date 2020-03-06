@@ -41,7 +41,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           );
         }
 
-        if (this.router.url !== "/account/signin" && error.status === 401) {
+        if (this.router.url !== "/account/signin") {
           this.store.dispatch(new AuthActions.DeleteAutData());
           this.authService.removeItem("authData").subscribe((val: boolean) => {
             if (val) {

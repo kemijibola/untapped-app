@@ -57,6 +57,7 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
         this.userAudioPreviews = val;
         this.userAudiosLength = val.length;
         if (val.length > 0) {
+          this.setAlbumCovers();
         }
       });
   }
