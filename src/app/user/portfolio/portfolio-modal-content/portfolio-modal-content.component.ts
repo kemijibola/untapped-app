@@ -24,7 +24,8 @@ import { Store, select } from "@ngrx/store";
 import { selectToggleList } from "src/app/shared/store/slide-toggle/slide.toggle.selectors";
 import {
   selectMediaAccept,
-  selectMedia
+  selectMedia,
+  selectMediaItemDeleteSuccess
 } from "../../store/portfolio/portfolio.selectors";
 import { map } from "rxjs/operators";
 import {
@@ -121,14 +122,18 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   currentVideoIndex = 0;
   currentVideoItem: MediaItem = {
     _id: "",
+    key: "",
     path: "",
     type: ""
   };
   currentAudioItem: MediaItem = {
     _id: "",
+    key: "",
     path: "",
     type: ""
   };
+  isViewMode: boolean;
+  itemToUpdate: UploadedItems;
 
   constructor(
     private store: Store<fromApp.AppState>,
@@ -176,6 +181,22 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
         this.setMedia(this.uploadedItems);
       }
     });
+
+    // this.userStore
+    //   .pipe(select(selectMediaItemDeleteSuccess))
+    //   .subscribe((deleted: boolean) => {
+    //     if (deleted) {
+    //       if (this.uploadedItems.type === MediaType.IMAGE.toLowerCase()) {
+    //           this.uploadedItems.items
+    //       } else if (this.uploadedItems.type === MediaType.AUDIO.toLowerCase()) {
+
+    //       } else if (this.uploadedItems.type === MediaType.VIDEO.toLowerCase()) {
+
+    //       } else {
+
+    //       }
+    //     }
+    //   });
 
     this.userStore.pipe(select(selectMedia)).subscribe((val: IMedia) => {
       if (val) {
@@ -229,11 +250,13 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       this.currentAudioIndex = 0;
       this.currentAudioItem = {
         _id: "",
+        key: "",
         path: "",
         type: ""
       };
       this.currentVideoItem = {
         _id: "",
+        key: "",
         path: "",
         type: ""
       };
@@ -241,13 +264,15 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
         this.pageViewMode = val.viewMode;
         if (val.viewMode === ModalViewModel.edit) {
           this.showToggle = false;
+          this.isViewMode = true;
+          this.modalContentTitle = "View Album";
           this.actionText = "UPDATE PORTFOLIO";
-          this.modalContentTitle = "Update Porfolio";
         } else {
           this.showToggle = true;
+          this.isViewMode = false;
           this.portfolioForm.controls["title"].setValue("");
           this.portfolioForm.controls["description"].setValue("");
-          this.modalContentTitle = "New Upload";
+          this.modalContentTitle = "New Album Upload";
           this.actionText = "ADD TO PORTFOLIO";
         }
       }
@@ -273,6 +298,24 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     }
   }
 
+  onDeleteMediaItem(mediaItem: MediaItem) {
+    this.itemToUpdate = { ...this.uploadedItems };
+
+    this.itemToUpdate.items = this.itemToUpdate.items.filter(
+      x => x.path !== mediaItem.key
+    );
+    if (mediaItem._id) {
+      this.userStore.dispatch(
+        new PortfolioActions.DeleteMediaItemById({
+          id: this.itemToUpdate._id,
+          itemId: mediaItem._id
+        })
+      );
+    }
+
+    this.setMedia(this.itemToUpdate);
+  }
+
   setDefaultAudioCover() {
     this.defaultImagePath = fetchAudioArt();
   }
@@ -289,6 +332,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       (theMap: MediaItem[], theItem: MediaItem) => {
         theMap.push({
           _id: theItem._id,
+          key: theItem.path,
           path: fetchImageObjectFromCloudFormation(
             theItem.path,
             this.editParams
@@ -321,7 +365,11 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       this.setOtherVideo(media.items);
     } else {
       // single video
-      this.isMultipleVideo = false;
+      if (this.pageViewMode === "edit") {
+        this.isMultipleVideo = true;
+      } else {
+        this.isMultipleVideo = false;
+      }
       this.defaultVideoSet = true;
       this.setDefaultAudio(currentVideo);
       this.setOtherAudio(media.items);
@@ -334,13 +382,16 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       // multiple upload
       this.isMultipleAudio = true;
       this.defaultAudioSet = true;
-
       var currentItem = media.items[this.currentAudioIndex];
       this.setDefaultAudio(currentItem);
       this.setOtherAudio(media.items);
     } else {
       // single upload
-      this.isMultipleAudio = false;
+      if (this.pageViewMode === "edit") {
+        this.isMultipleAudio = true;
+      } else {
+        this.isMultipleAudio = false;
+      }
       this.defaultAudioSet = true;
       this.setDefaultAudio(currentItem);
       this.setOtherAudio(media.items);
@@ -350,6 +401,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   setDefaultVideo(video: MediaItem) {
     this.currentVideoItem = {
       _id: video._id,
+      key: video.path,
       path: fetchVideoItemFullPath(video.path),
       type: `video/${video.path.split(".").pop()}`
     };
@@ -357,6 +409,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   setDefaultAudio(audio: MediaItem) {
     this.currentAudioItem = {
       _id: audio._id,
+      key: audio.key,
       path: fetchAudioItemFullPath(audio.path),
       type: `audio/${audio.path.split(".").pop()}`
     };
@@ -367,6 +420,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       (theMap: MediaItem[], theItem: MediaItem) => {
         theMap.push({
           _id: theItem._id,
+          key: theItem.path,
           path: fetchVideoItemFullPath(theItem.path)
         });
         return theMap;
@@ -380,6 +434,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       (theMap: MediaItem[], theItem: MediaItem) => {
         theMap.push({
           _id: theItem._id,
+          key: theItem.path,
           path: fetchAudioItemFullPath(theItem.path)
         });
         return theMap;
@@ -389,6 +444,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   setImage(media: UploadedItems) {
+    console.log("new media", media);
     this.isImageUpload = true;
     if (media.items.length > 1) {
       // items is greater than 1 means it is multiple upload
@@ -398,7 +454,11 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       this.setOtherImages(media.items);
     } else {
       // single upload
-      this.isMultipleImage = false;
+      if (this.pageViewMode === "edit") {
+        this.isMultipleImage = true;
+      } else {
+        this.isMultipleImage = false;
+      }
       this.defaultImageSet = true;
       this.setDefaultImage(media.items[0].path);
       this.setOtherImages(media.items);

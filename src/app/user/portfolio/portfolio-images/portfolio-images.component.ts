@@ -16,7 +16,8 @@ import {
   selectUserImageList,
   selectUserVideoPreviewList,
   selectUserImagePreviewList,
-  selectMedia
+  selectMedia,
+  selectImageDeleteSuccess
 } from "../../store/portfolio/portfolio.selectors";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
@@ -55,6 +56,7 @@ export class PortfolioImagesComponent extends AbstractModalComponent
   data: IMedia;
   uploadedItems: UploadedItems;
   viewMode: ModalViewModel = ModalViewModel.none;
+  mediaIdToDelete: string;
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -84,6 +86,28 @@ export class PortfolioImagesComponent extends AbstractModalComponent
           this.setAlbumCovers();
         }
       });
+
+    this.userStore
+      .pipe(select(selectImageDeleteSuccess))
+      .subscribe((deleted: boolean) => {
+        if (deleted) {
+          this.userImagePreviews = this.userImagePreviews.filter(
+            item => item._id !== this.mediaIdToDelete
+          );
+
+          console.log(this.userImagePreviews);
+
+          this.userStore.dispatch(
+            new PortfolioActions.ResetDeleteImageByIdSucess()
+          );
+          // TODO:: show snackback for success delete
+        }
+      });
+  }
+
+  onDelete(id: string) {
+    this.mediaIdToDelete = id;
+    this.userStore.dispatch(new PortfolioActions.DeleteImageById(id));
   }
 
   setAlbumCovers() {
@@ -118,9 +142,6 @@ export class PortfolioImagesComponent extends AbstractModalComponent
   }
 
   closeModalDialog(modalId: string) {
-    // set activeModal to null
-    // this.store.dispatch(new ModalsActions.ResetCurrentModal());
-
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
     this.modalToActivate.display = ModalDisplay.none;
     this.modalToActivate.data = null;

@@ -32,6 +32,7 @@
   </div>
   <div class="col-xl-12" style="padding-right: 0;padding-left: 0;">
     <app-portfolio-browse
+      *ngIf="!isViewMode"
       [multiple]="multiple"
       [accept]="accept"
     ></app-portfolio-browse>
@@ -126,7 +127,7 @@
         <div class="scene-inner pp">
           <div class="scene-img" *ngFor="let item of otherImagesPath">
             <img src="{{ item.path }}" alt="" />
-            <a href="#"
+            <a (click)="onDeleteMediaItem(item)"
               ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
             /></a>
           </div>
@@ -149,7 +150,7 @@
             <div class="plays" (click)="onClickPlaylistItem(item, i)">
               <a><img src="assets/img/profile/play.svg" alt=""/></a>
             </div>
-            <div class="cros">
+            <div class="cros" (click)="onDeleteMediaItem(item)">
               <a><img src="assets/img/profile/cross.svg" alt=""/></a>
             </div>
           </div>
@@ -172,7 +173,7 @@
             <div class="plays" (click)="onClickPlaylistVideo(item, i)">
               <a><img src="assets/img/profile/play.svg" alt=""/></a>
             </div>
-            <div class="cros">
+            <div class="cros" (click)="onDeleteMediaItem(item)">
               <a><img src="assets/img/profile/cross.svg" alt=""/></a>
             </div>
           </div>

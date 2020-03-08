@@ -22,17 +22,29 @@ export const SET_USER_MEDIA_LIST = "SET_USER_MEDIA_LIST";
 export const FETCH_USER_MEDIA_LIST_PREVIEW = "FETCH_USER_MEDIA_LIST_PREVIEW";
 export const SET_USER_MEDIA_LIST_PREVIEW = "SET_USER_MEDIA_LIST_PREVIEW";
 
-// export const FETCH_IMAGE_ALBUM_BY_ID = "FETCH_IMAGE_ALBUM_BY_ID";
-// export const SET_IMAGE_ALBUM_BY_ID = "SET_IMAGE_ALBUM_BY_ID";
-
-// export const FETCH_AUDIO_ALBUM_BY_ID = "FETCH_AUDIO_ALBUM_BY_ID";
-// export const SET_AUDIO_ALBUM_BY_ID = "SET_AUDIO_ALBUM_BY_ID";
-
-// export const FETCH_VIDEO_ALBUM_BY_ID = "FETCH_VIDEO_ALBUM_BY_ID";
-// export const SET_AUDIO_ALBUM_BY_ID = "SET_AUDIO_ALBUM_BY_ID";
-
 export const FETCH_MEDIA_BY_ID = "FETCH_MEDIA_BY_ID";
 export const SET_MEDIA_BY_ID = "SET_MEDIA_BY_ID";
+
+export const DELETE_IMAGE_BY_ID = "DELETE_IMAGE_BY_ID";
+export const DELETE_IMAGE_BY_ID_SUCCESS = "DELETE_IMAGE_BY_ID_SUCCESS";
+export const RESET_DELETE_IMAGE_BY_ID_SUCCESS =
+  "RESET_DELETE_IMAGE_BY_ID_SUCCESS";
+
+export const DELETE_MEDIA_ITEM_BY_ID = "DELETE_MEDIA_ITEM_BY_ID";
+export const DELETE_MEDIA_ITEM_BY_ID_SUCCESS =
+  "DELETE_MEDIA_ITEM_BY_ID_SUCCESS";
+export const RESET_DELETE_MEDIA_ITEM_BY_ID_SUCCESS =
+  "RESET_DELETE_MEDIA_ITEM_BY_ID_SUCCESS";
+
+export const DELETE_AUDIO_BY_ID = "DELETE_AUDIO_BY_ID";
+export const DELETE_AUDIO_BY_ID_SUCCESS = "DELETE_AUDIO_BY_ID_SUCCESS";
+export const RESET_DELETE_AUDIO_BY_ID_SUCCESS =
+  "RESET_DELETE_AUDIO_BY_ID_SUCCESS";
+
+export const DELETE_VIDEO_BY_ID = "DELETE_VIDEO_BY_ID";
+export const DELETE_VIDEO_BY_ID_SUCCESS = "DELETE_VIDEO_BY_ID_SUCCESS";
+export const RESET_DELETE_VIDEO_BY_ID_SUCCESS =
+  "RESET_DELETE_VIDEO_BY_ID_SUCCESS";
 
 export const FETCH_ALL_MEDIA = "FETCH_ALL_MEDIA";
 export const SET_ALL_MEDIA = "SET_ALL_MEDIA";
@@ -57,6 +69,54 @@ export const CREATE_PORTFOLIO_MEDIA_SUCCESS = "CREATE_PORTFOLIO_MEDIA_SUCCESS";
 export const UPDATE_PORTFOLIO_MEDIA = "UPDATE_PORTFOLIO_MEDIA";
 export const UPDATE_PORTFOLIO_MEDIA_SUCCESS = "UPDATE_PORTFOLIO_MEDIA_SUCCESS";
 
+export class DeleteMediaItemById implements Action {
+  readonly type = DELETE_MEDIA_ITEM_BY_ID;
+  constructor(public payload: { id: string; itemId: string }) {}
+}
+export class DeleteMediaItemByIdSuccess implements Action {
+  readonly type = DELETE_MEDIA_ITEM_BY_ID_SUCCESS;
+}
+export class ResetDeleteMediaItemByIdSuccess implements Action {
+  readonly type = RESET_DELETE_MEDIA_ITEM_BY_ID_SUCCESS;
+}
+export class ResetDeleteImageByIdSucess implements Action {
+  readonly type = RESET_DELETE_IMAGE_BY_ID_SUCCESS;
+}
+
+export class DeleteImageById implements Action {
+  readonly type = DELETE_IMAGE_BY_ID;
+  constructor(public payload: string) {}
+}
+
+export class DeleteImageByIdSuccess implements Action {
+  readonly type = DELETE_IMAGE_BY_ID_SUCCESS;
+}
+
+export class ResetDeleteAudioByIdSucess implements Action {
+  readonly type = RESET_DELETE_AUDIO_BY_ID_SUCCESS;
+}
+
+export class DeleteAudioById implements Action {
+  readonly type = DELETE_AUDIO_BY_ID;
+  constructor(public payload: string) {}
+}
+
+export class DeleteAudioByIdSuccess implements Action {
+  readonly type = DELETE_AUDIO_BY_ID_SUCCESS;
+}
+
+export class ResetDeleteVideoByIdSucess implements Action {
+  readonly type = RESET_DELETE_VIDEO_BY_ID_SUCCESS;
+}
+
+export class DeleteVideoById implements Action {
+  readonly type = DELETE_VIDEO_BY_ID;
+  constructor(public payload: string) {}
+}
+
+export class DeleteVideoByIdSuccess implements Action {
+  readonly type = DELETE_VIDEO_BY_ID_SUCCESS;
+}
 export class SetPortfolioSelectedAcceptType implements Action {
   readonly type = SET_PORTFOLIO_SELECTED_ACCEPT_TYPE;
   constructor(public payload: string) {}
@@ -98,12 +158,10 @@ export class SetPortfolioOperationType implements Action {
 export class FetchPortfolioOperationType implements Action {
   readonly type = FETCH_PORTFOLIO_OPERATION_TYPE;
 }
-
 export class SetMediaUploadType implements Action {
   readonly type = SET_MEDIA_UPLOAD_TYPE;
   constructor(public payload: MediaUploadType) {}
 }
-
 export class ResetMediaUploadType implements Action {
   readonly type = RESET_MEDIA_UPLOAD_TYPE;
 }
@@ -178,4 +236,16 @@ export type PortfolioActions =
   | FetchMediaById
   | SetMediaById
   | FetchAllMedia
-  | SetAllMedia;
+  | SetAllMedia
+  | DeleteImageById
+  | DeleteImageByIdSuccess
+  | ResetDeleteImageByIdSucess
+  | DeleteAudioById
+  | DeleteAudioByIdSuccess
+  | ResetDeleteAudioByIdSucess
+  | DeleteVideoById
+  | DeleteVideoByIdSuccess
+  | ResetDeleteVideoByIdSucess
+  | DeleteMediaItemById
+  | DeleteMediaItemByIdSuccess
+  | ResetDeleteMediaItemByIdSuccess;

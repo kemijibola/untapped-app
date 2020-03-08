@@ -88,6 +88,63 @@ export class PortfolioEffect {
     );
 
   @Effect()
+  deleteMediaItem = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_MEDIA_ITEM_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteMediaItemById) => {
+      const { id, itemId } = action.payload;
+      return this.portfolioService.deleteMediaItem(id, itemId);
+    })
+    .pipe(
+      map((resp: IResult<boolean>) => {
+        return {
+          type: PortfolioActions.DELETE_MEDIA_ITEM_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
+  deleteImage = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_IMAGE_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteImageById) => {
+      return this.portfolioService.deleteMedia(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<boolean>) => {
+        return {
+          type: PortfolioActions.DELETE_IMAGE_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
+  deleteAudio = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_AUDIO_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteAudioById) => {
+      return this.portfolioService.deleteMedia(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<boolean>) => {
+        return {
+          type: PortfolioActions.DELETE_AUDIO_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
+  deleteVideo = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_VIDEO_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteVideoById) => {
+      return this.portfolioService.deleteMedia(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<boolean>) => {
+        return {
+          type: PortfolioActions.DELETE_VIDEO_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
   fetchMedia = this.action$
     .pipe(ofType(PortfolioActions.FETCH_MEDIA_BY_ID))
     .switchMap((action: PortfolioActions.FetchMediaById) => {

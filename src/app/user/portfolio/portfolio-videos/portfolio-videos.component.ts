@@ -15,7 +15,8 @@ import {
 } from "src/app/interfaces";
 import {
   selectUserVideoList,
-  selectUserVideoPreviewList
+  selectUserVideoPreviewList,
+  selectVideoDeleteSuccess
 } from "../../store/portfolio/portfolio.selectors";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import { fetchVideoArt } from "src/app/lib/Helper";
@@ -34,6 +35,7 @@ export class PortfolioVideosComponent extends AbstractModalComponent {
   userVideosLength = 0;
   modal: AppModal;
   modalToActivate: IModal;
+  mediaIdToDelete: string;
   constructor(
     public store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>
@@ -61,6 +63,28 @@ export class PortfolioVideosComponent extends AbstractModalComponent {
           this.setAlbumCover();
         }
       });
+
+    this.userStore
+      .pipe(select(selectVideoDeleteSuccess))
+      .subscribe((deleted: boolean) => {
+        if (deleted) {
+          this.userVideoPreviews = this.userVideoPreviews.filter(
+            item => item._id !== this.mediaIdToDelete
+          );
+
+          console.log(this.userVideoPreviews);
+
+          this.userStore.dispatch(
+            new PortfolioActions.ResetDeleteVideoByIdSucess()
+          );
+          // TODO:: show snackback for success delete
+        }
+      });
+  }
+
+  onDelete(id: string) {
+    this.mediaIdToDelete = id;
+    this.userStore.dispatch(new PortfolioActions.DeleteVideoById(id));
   }
 
   setAlbumCover() {

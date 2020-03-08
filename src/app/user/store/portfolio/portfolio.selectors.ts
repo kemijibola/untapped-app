@@ -12,7 +12,30 @@ const userImagePreviews = (state: fromUser.UserState) => state.portfolio;
 const mediaType = (state: fromUser.UserState) => state.portfolio;
 const operationType = (state: fromUser.UserState) => state.portfolio;
 const accept = (state: fromUser.UserState) => state.portfolio;
+const imageDeleteSucess = (state: fromUser.UserState) => state.portfolio;
+const audioDeleteSucess = (state: fromUser.UserState) => state.portfolio;
+const videoDeleteSucess = (state: fromUser.UserState) => state.portfolio;
+const mediaItemDeleteSucess = (state: fromUser.UserState) => state.portfolio;
 
+export const selectImageDeleteSuccess = createSelector(
+  imageDeleteSucess,
+  (state: fromPortfolio.State) => state.imageDeleted
+);
+
+export const selectMediaItemDeleteSuccess = createSelector(
+  mediaItemDeleteSucess,
+  (state: fromPortfolio.State) => state.mediaItemDeleted
+);
+
+export const selectAudioDeleteSuccess = createSelector(
+  audioDeleteSucess,
+  (state: fromPortfolio.State) => state.audioDeleted
+);
+
+export const selectVideoDeleteSuccess = createSelector(
+  videoDeleteSucess,
+  (state: fromPortfolio.State) => state.videoDeleted
+);
 export const selectMedia = createSelector(
   media,
   (state: fromPortfolio.State) => state.media

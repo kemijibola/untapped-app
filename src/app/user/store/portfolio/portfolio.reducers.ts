@@ -31,6 +31,10 @@ export interface State {
   uploadConfig: PortfolioUploadInputConfig;
   operationType: PortfolioOperationType;
   accept: string;
+  imageDeleted: boolean;
+  audioDeleted: boolean;
+  videoDeleted: boolean;
+  mediaItemDeleted: boolean;
 }
 
 const initialState: State = {
@@ -51,7 +55,11 @@ const initialState: State = {
     mediaAccept: MediaAcceptType.IMAGE
   },
   operationType: PortfolioOperationType.DEFAULT,
-  accept: ""
+  accept: "",
+  imageDeleted: false,
+  audioDeleted: false,
+  videoDeleted: false,
+  mediaItemDeleted: false
 };
 
 export function portfolioReducer(
@@ -125,6 +133,46 @@ export function portfolioReducer(
       return {
         ...state,
         media: { ...state.media, ...action.payload }
+      };
+    case PortfolioActions.DELETE_IMAGE_BY_ID_SUCCESS:
+      return {
+        ...state,
+        imageDeleted: !state.imageDeleted
+      };
+    case PortfolioActions.RESET_DELETE_IMAGE_BY_ID_SUCCESS:
+      return {
+        ...state,
+        imageDeleted: !state.imageDeleted
+      };
+    case PortfolioActions.DELETE_AUDIO_BY_ID_SUCCESS:
+      return {
+        ...state,
+        audioDeleted: !state.audioDeleted
+      };
+    case PortfolioActions.RESET_DELETE_AUDIO_BY_ID_SUCCESS:
+      return {
+        ...state,
+        audioDeleted: !state.audioDeleted
+      };
+    case PortfolioActions.DELETE_VIDEO_BY_ID_SUCCESS:
+      return {
+        ...state,
+        videoDeleted: !state.videoDeleted
+      };
+    case PortfolioActions.RESET_DELETE_IMAGE_BY_ID_SUCCESS:
+      return {
+        ...state,
+        videoDeleted: !state.videoDeleted
+      };
+    case PortfolioActions.DELETE_MEDIA_ITEM_BY_ID_SUCCESS:
+      return {
+        ...state,
+        mediaItemDeleted: !state.mediaItemDeleted
+      };
+    case PortfolioActions.RESET_DELETE_MEDIA_ITEM_BY_ID_SUCCESS:
+      return {
+        ...state,
+        mediaItemDeleted: !state.mediaItemDeleted
       };
     default:
       return state;

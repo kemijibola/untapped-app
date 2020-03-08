@@ -76,4 +76,17 @@ export class PortfolioService {
     const url = `${this.BASE_URI}/media/${queryParams.id}`;
     return this.http.get<IResult<IMedia>>(url);
   }
+
+  deleteMedia(mediaId: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/media/${mediaId}`;
+    return this.http.delete<IResult<boolean>>(url);
+  }
+
+  deleteMediaItem(
+    mediaId: string,
+    itemId: string
+  ): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/media/${mediaId}/item/${itemId}`;
+    return this.http.delete<IResult<boolean>>(url);
+  }
 }

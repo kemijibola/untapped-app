@@ -13,17 +13,18 @@
     class="col-xl-4 col-lg-4 col-md-4 col-sm-6"
     *ngFor="let image of userImagePreviews; let i = index"
   >
-    <div
-      class="profile-alb-wrapper mb-30"
-      (click)="openModalDialog('gigs-modal', image._id)"
-    >
+    <div class="profile-alb-wrapper mb-30">
       <div class="alb-image">
-        <img src="{{ image.albumCover }}" alt="" />
+        <img
+          src="{{ image.albumCover }}"
+          (click)="openModalDialog('gigs-modal', image._id)"
+          alt=""
+        />
 
-        <div class="edit">
+        <!-- <div class="edit" (click)="onEdit()">
           <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
+        </div> -->
+        <div class="delete" (click)="onDelete(image._id)">
           <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
         </div>
         <span class="alb-counter">{{ image.activityCount }}</span>
@@ -35,49 +36,3 @@
     </div>
   </div>
 </div>
-
-<!-- <app-modals [id]="'gigs-modal'">
-  <div class="pop-icon-bar pop-talent" navigate>
-    <div class="slide-arrow">
-      <a class="left"><i class="far fa-angle-left"></i></a>
-      <a class="right"><i class="far fa-angle-right"></i></a>
-    </div>
-    <button
-      type="button"
-      class="close"
-      (click)="closeModalDialog('gigs-modal')"
-      aria-label="Close"
-    >
-      <span aria-hidden="true"><i class="far fa-times"></i></span>
-    </button>
-  </div>
-
-  <app-portfolio-modal-content
-    body
-    [data]="data"
-    [viewMode]="viewMode"
-  ></app-portfolio-modal-content>
-</app-modals> -->
-
-<!-- <app-modals [id]="'gigs-modal'">
-  <div class="pop-icon-bar pop-talent" navigate>
-    <div class="slide-arrow">
-      <a class="left"><i class="far fa-angle-left"></i></a>
-      <a class="right"><i class="far fa-angle-right"></i></a>
-    </div>
-    <button
-      type="button"
-      class="close"
-      (click)="closeModalDialog('gigs-modal')"
-      aria-label="Close"
-    >
-      <span aria-hidden="true"><i class="far fa-times"></i></span>
-    </button>
-  </div>
-
-  <app-portfolio-modal-content
-    body
-    [mediaType]="selectedMediaType"
-    [viewMode]="viewMode"
-  ></app-portfolio-modal-content>
-</app-modals> -->

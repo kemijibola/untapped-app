@@ -20,10 +20,10 @@
       <div class="alb-image">
         <img src="{{ item.artCover }}" alt="" />
 
-        <div class="edit">
+        <!-- <div class="edit">
           <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-        </div>
-        <div class="delete">
+        </div> -->
+        <div class="delete" (click)="onDelete(item._id)">
           <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
         </div>
         <span class="alb-counter">{{ item.activityCount }}</span>

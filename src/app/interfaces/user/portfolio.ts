@@ -51,6 +51,7 @@ export enum MediaUploadType {
 
 export interface IMediaItem {
   id?: string;
+  key?: string;
   path: string;
   likedBy?: string[];
   uploadDate?: Date;
@@ -94,12 +95,13 @@ export interface UploadedItems {
 
 export interface MediaItem {
   _id?: string;
+  key?: string;
   path: string;
   type?: string;
   likedBy?: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  isDeleted?: Date;
+  isDeleted?: boolean;
 }
 
 export interface OtherMedia {

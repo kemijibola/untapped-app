@@ -1,4 +1,7 @@
-import { selectUserAudioPreviewList } from "./../../store/portfolio/portfolio.selectors";
+import {
+  selectUserAudioPreviewList,
+  selectAudioDeleteSuccess
+} from "./../../store/portfolio/portfolio.selectors";
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -33,6 +36,7 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
   userAudiosLength = 0;
   modal: AppModal;
   modalToActivate: IModal;
+  mediaIdToDelete: string;
   constructor(
     public store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>
@@ -60,6 +64,28 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
           this.setAlbumCovers();
         }
       });
+
+    this.userStore
+      .pipe(select(selectAudioDeleteSuccess))
+      .subscribe((deleted: boolean) => {
+        if (deleted) {
+          this.userAudioPreviews = this.userAudioPreviews.filter(
+            item => item._id !== this.mediaIdToDelete
+          );
+
+          console.log(this.userAudioPreviews);
+
+          this.userStore.dispatch(
+            new PortfolioActions.ResetDeleteAudioByIdSucess()
+          );
+          // TODO:: show snackback for success delete
+        }
+      });
+  }
+
+  onDelete(id: string) {
+    this.mediaIdToDelete = id;
+    this.userStore.dispatch(new PortfolioActions.DeleteAudioById(id));
   }
 
   setAlbumCovers() {
@@ -91,9 +117,6 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
   }
 
   closeModalDialog(modalId: string) {
-    // set activeModal to null
-    // this.store.dispatch(new ModalsActions.ResetCurrentModal());
-
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
     this.modalToActivate.display = ModalDisplay.none;
     this.modalToActivate.data = null;
