@@ -15,7 +15,6 @@ import {
 import { map } from 'rxjs/operators';
 import { switchMap } from 'rxjs-compat/operator/switchMap';
 import { pipe, of } from 'rxjs';
-import { ErrorEffects } from '../error/error-effects';
 
 @Injectable()
 export class InitEffects {
@@ -33,8 +32,7 @@ export class InitEffects {
           type: InitActions.SET_BASE_URL,
           payload: res
         };
-      }),
-      catchError(error => of(new ErrorEffects(error)))
+      })
     );
 
   constructor(private actions$: Actions, private http: HttpClient) {}

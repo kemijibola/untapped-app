@@ -1,141 +1,37 @@
-<div class="row" *ngIf="userAudiosLength > 0">
+<div class="row mb-50" *ngIf="userAudiosLength > 0">
   <div class="col-xl-12">
     <div class="profile-alb-head">
       <h4>
-        General Audio<span>({{ userAudiosLength }} audios)</span>
+        Audio Portfolio<span
+          >({{ userAudiosLength }} album<i *ngIf="userAudiosLength > 1">s</i
+          >)</span
+        >
       </h4>
     </div>
   </div>
-  <div class="col-xl-6 col-lg-6 col-md-6" *ngFor="let item of userAudios">
-    <div class="audio-wrapper mb-30">
-      <div class="audio-img">
-        <img src="assets/img/prff.jpg" alt="" />
-        <div class="plays">
-          <a href="#"><img src="assets/img/profile/play.svg" alt=""/></a>
+  <div
+    class="col-xl-4 col-lg-4 col-md-4 col-sm-6"
+    *ngFor="let item of userAudioPreviews; let i = index"
+  >
+    <div
+      class="profile-alb-wrapper mb-30"
+      (click)="openModalDialog('gigs-modal', item._id)"
+    >
+      <div class="alb-image">
+        <img src="{{ item.artCover }}" alt="" />
+
+        <!-- <div class="edit">
+          <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
+        </div> -->
+        <div class="delete" (click)="onDelete(item._id)">
+          <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
         </div>
-        <div class="cros">
-          <a><img src="assets/img/profile/cross.svg" alt=""/></a>
-        </div>
+        <span class="alb-counter">{{ item.activityCount }}</span>
       </div>
-      <div class="audio-content">
-        <div class="content-head">
-          <span class="audio-hd">{{ item.title }} </span>
-          <div class="edit">
-            <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-          </div>
-        </div>
-        <p>The quick, brown fox jumps over a lazy dog</p>
-      </div>
-    </div>
-  </div>
-  <!-- <div class="col-xl-6 col-lg-6 col-md-6">
-    <div class="audio-wrapper mb-30">
-      <div class="audio-img">
-        <img src="assets/img/profile/audio-1.jpg" alt="" />
-        <div class="plays">
-          <a href="#"><img src="assets/img/profile/play.svg" alt=""/></a>
-        </div>
-        <div class="cros">
-          <a><img src="assets/img/profile/cross.svg" alt=""/></a>
-        </div>
-      </div>
-      <div class="audio-content">
-        <div class="content-head">
-          <span class="audio-hd">Proin imperdiet </span>
-          <div class="edit">
-            <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-          </div>
-        </div>
-        <p>The quick, brown fox jumps over a lazy dog</p>
+      <div class="alb-content">
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.shortDescription }}</p>
       </div>
     </div>
   </div>
-  <div class="col-xl-6 col-lg-6 col-md-6">
-    <div class="audio-wrapper mb-30">
-      <div class="audio-img">
-        <img src="assets/img/profile/audio-1.jpg" alt="" />
-        <div class="plays">
-          <a href="#"><img src="assets/img/profile/play.svg" alt=""/></a>
-        </div>
-        <div class="cros">
-          <a><img src="assets/img/profile/cross.svg" alt=""/></a>
-        </div>
-      </div>
-      <div class="audio-content">
-        <div class="content-head">
-          <span class="audio-hd">Proin imperdiet </span>
-          <div class="edit">
-            <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-          </div>
-        </div>
-        <p>The quick, brown fox jumps over a lazy dog</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-6 col-lg-6 col-md-6">
-    <div class="audio-wrapper mb-30">
-      <div class="audio-img">
-        <img src="assets/img/profile/audio-1.jpg" alt="" />
-        <div class="plays">
-          <a href="#"><img src="assets/img/profile/play.svg" alt=""/></a>
-        </div>
-        <div class="cros">
-          <a><img src="assets/img/profile/cross.svg" alt=""/></a>
-        </div>
-      </div>
-      <div class="audio-content">
-        <div class="content-head">
-          <span class="audio-hd">Proin imperdiet </span>
-          <div class="edit">
-            <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-          </div>
-        </div>
-        <p>The quick, brown fox jumps over a lazy dog</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-6 col-lg-6 col-md-6">
-    <div class="audio-wrapper mb-30">
-      <div class="audio-img">
-        <img src="assets/img/profile/audio-1.jpg" alt="" />
-        <div class="plays">
-          <a href="#"><img src="assets/img/profile/play.svg" alt=""/></a>
-        </div>
-        <div class="cros">
-          <a><img src="assets/img/profile/cross.svg" alt=""/></a>
-        </div>
-      </div>
-      <div class="audio-content">
-        <div class="content-head">
-          <span class="audio-hd">Proin imperdiet </span>
-          <div class="edit">
-            <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-          </div>
-        </div>
-        <p>The quick, brown fox jumps over a lazy dog</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-6 col-lg-6 col-md-6">
-    <div class="audio-wrapper mb-30">
-      <div class="audio-img">
-        <img src="assets/img/profile/audio-1.jpg" alt="" />
-        <div class="plays">
-          <a href="#"><img src="assets/img/profile/play.svg" alt=""/></a>
-        </div>
-        <div class="cros">
-          <a><img src="assets/img/profile/cross.svg" alt=""/></a>
-        </div>
-      </div>
-      <div class="audio-content">
-        <div class="content-head">
-          <span class="audio-hd">Proin imperdiet </span>
-          <div class="edit">
-            <a><img src="assets/img/profile/edit.svg" alt="" />Edit</a>
-          </div>
-        </div>
-        <p>The quick, brown fox jumps over a lazy dog</p>
-      </div>
-    </div>
-  </div> -->
 </div>

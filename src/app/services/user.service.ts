@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { IResult, IUser } from '../interfaces';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { IResult, IUser } from "../interfaces";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
+import { ImageEditRequest } from "../interfaces/media/image";
 
 @Injectable()
 export class UserService {
-  private BASE_URI = '';
+  private BASE_URI = "";
 
   constructor(private http: HttpClient) {
-    this.BASE_URI = 'http://127.0.0.1:8900/v1';
+    this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
   findUserById(id: string): Observable<IResult<IUser>> {
@@ -26,11 +28,16 @@ export class UserService {
     return this.http.put<IResult<IUser>>(url, item);
   }
 
-  updateUserProfileImage(
-    _id: string,
-    imagePath: string
-  ): Observable<IResult<IUser>> {
-    const url = `${this.BASE_URI}/users/${_id}`;
+  fetchUserProfile(
+    key: string,
+    params: ImageEditRequest
+  ): Observable<IResult<string>> {
+    const url = `${this.BASE_URI}/users/profile/picture`;
+    return this.http.post<IResult<string>>(url, { key, editParams: params });
+  }
+
+  updateUserProfileImage(imagePath: string): Observable<IResult<IUser>> {
+    const url = `${this.BASE_URI}/users/`;
     return this.http.patch<IResult<IUser>>(url, {
       profileImagePath: imagePath
     });

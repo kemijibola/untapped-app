@@ -6,3 +6,15 @@ export interface IRole {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IUserType {
+  _id: string;
+  name: string;
+  description: string;
+}
+
+export interface IPermission {
+  _id: string;
+  name: string;
+  role: string;
+}

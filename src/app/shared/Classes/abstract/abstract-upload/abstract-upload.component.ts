@@ -3,13 +3,14 @@ import {
   IPresignRequest,
   IFileModel,
   UPLOADOPERATIONS,
-  IFileMetaData
-} from 'src/app/interfaces';
-import { OnInit } from '@angular/core';
-import * as fromApp from '../../../../store/app.reducers';
-import { Store, select } from '@ngrx/store';
-import { selectFilesToUpload } from '../../../../shared/store/upload/upload.selectors';
-import * as UploadActions from '../../../../shared/store/upload/upload.actions';
+  IFileMetaData,
+  MediaType
+} from "src/app/interfaces";
+import { OnInit } from "@angular/core";
+import * as fromApp from "../../../../store/app.reducers";
+import { Store, select } from "@ngrx/store";
+import { selectFilesToUpload } from "../../../../shared/store/upload/upload.selectors";
+import * as UploadActions from "../../../../shared/store/upload/upload.actions";
 
 export abstract class AbstractUploadComponent implements OnInit {
   private file: IPresignRequest;
@@ -32,8 +33,8 @@ export abstract class AbstractUploadComponent implements OnInit {
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
                 const fileData = {
-                  file: file['data'].name,
-                  file_type: file['data'].type
+                  file: file["data"].name,
+                  file_type: file["data"].type
                 };
                 arr = [...arr, fileData];
                 return arr;
@@ -41,7 +42,9 @@ export abstract class AbstractUploadComponent implements OnInit {
               []
             );
 
+            var fileType = files[0].file_type.split("/");
             this.file = {
+              mediaType: fileType[0],
               action: val.action,
               files: [...files]
             };

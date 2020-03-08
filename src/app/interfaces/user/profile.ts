@@ -1,13 +1,26 @@
-import { ICategory } from '../index';
-import { IPhysicalAttribute } from '../index';
+import { ICategory, SocialMedia } from "../index";
+import { IPhysicalAttribute } from "../index";
+
+interface IUserSocialMedia {
+  type: SocialMedia;
+  handle: string;
+}
 
 export interface IProfile {
-  stage_name: string;
+  _id?: string;
+  name?: string;
+  rcNumber?: string;
   location: string;
-  phone_number: string;
-  short_bio: string;
-  categories: ICategory['name'][];
-  social_media: string[];
-  profile_picture: string;
-  physical_stats: IPhysicalAttribute;
+  phoneNumbers?: string[];
+  fullName?: string;
+  tapCount?: number;
+  shortBio?: string;
+  categories?: ICategory["_id"][];
+  twitter?: string;
+  facebook?: string;
+  instagram?: string;
+  youtube?: string;
+  additionalSocial?: string[];
+  physicalStats?: IPhysicalAttribute;
+  bannerImagePath?: string;
 }

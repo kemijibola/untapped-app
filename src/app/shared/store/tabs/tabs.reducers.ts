@@ -1,5 +1,5 @@
-import { IAppTab, ITab } from 'src/app/interfaces';
-import * as TabsAction from './tabs.actions';
+import { IAppTab } from "src/app/interfaces";
+import * as TabsAction from "./tabs.actions";
 
 export interface State {
   tabs: IAppTab[];

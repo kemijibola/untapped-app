@@ -1,0 +1,27 @@
+<li *ngFor="let item of (userTypeState | async).userTypes; let i = index">
+  <div
+    class="community-wrp"
+    [formGroup]="userTypeForm"
+    style="cursor:pointer"
+    (click)="onClick(item._id)"
+  >
+    <label class="round">
+      <input
+        type="radio"
+        name="typeOfUser"
+        formControlName="typeOfUser"
+        [value]="item._id"
+        (click)="onClick(item._id)"
+        required
+      />
+      <span class="checkmark"></span>
+    </label>
+    <div class="right-wrp">
+      <div class="talent-sign-up">
+        <span class="iconn"><img src="{{ icons[item.name] }}" alt=""/></span>
+        <h4>{{ item.name }}</h4>
+      </div>
+      <p>{{ item.description }}</p>
+    </div>
+  </div>
+</li>

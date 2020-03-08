@@ -1,30 +1,39 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { HomeComponent } from './core/home/home.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
+import { HomeComponent } from "./core/home/home.component";
+import { AuthGuard } from "./guard-services/auth-guard.service";
+import { CompleteProfile } from "./guard-services/complete-profile.guard.service";
+import { CompleteProfileComponent } from "./user/complete-profile/complete-profile.component";
+import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'auth', loadChildren: './account/auth.module#AuthModule' },
+  { path: "", canActivate: [CompleteProfile], component: HomeComponent },
   {
-    path: 'talents',
-    loadChildren: './talents/talents.module#TalentsModule'
+    path: "account",
+    loadChildren: "./account/auth.module#AuthModule"
   },
   {
-    path: 'contests',
-    loadChildren: './contests/contests.module#ContestsModule'
+    path: "talents",
+    loadChildren: "./talents/talents.module#TalentsModule"
   },
   {
-    path: 'user',
-    loadChildren: './user-contest/user-contest.module#UserContestModule'
+    path: "contests",
+    canActivate: [AuthGuard, CompleteProfile],
+    loadChildren: "./contests/contests.module#ContestsModule"
   },
   {
-    path: 'professionals',
-    loadChildren: './professionals/professionals.module#ProfessionalsModule'
+    path: "user",
+    canActivate: [AuthGuard, CompleteProfile],
+    loadChildren: "./user-contest/user-contest.module#UserContestModule"
+  },
+  {
+    path: "professionals",
+    loadChildren: "./professionals/professionals.module#ProfessionalsModule"
   },
 
   {
-    path: '',
-    loadChildren: './user/user.module#UserModule'
+    path: "",
+    loadChildren: "./user/user.module#UserModule"
   }
 
   // {

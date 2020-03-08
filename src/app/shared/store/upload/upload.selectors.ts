@@ -1,12 +1,14 @@
-import { createSelector } from '@ngrx/store';
-import * as fromUpload from './upload.reducers';
-import * as fromApp from '../../../store/app.reducers';
+import { createSelector } from "@ngrx/store";
+import * as fromUpload from "./upload.reducers";
+import * as fromApp from "../../../store/app.reducers";
 
 const upload = (state: fromApp.AppState) => state.upload;
 const fileInput = (state: fromApp.AppState) => state.upload;
 const currentUploadAction = (state: fromApp.AppState) => state.upload;
 const fileToUpload = (state: fromApp.AppState) => state.upload;
 const presignedUrls = (state: fromApp.AppState) => state.upload;
+const uploadSuccess = (state: fromApp.AppState) => state.upload;
+const uploadedItems = (state: fromApp.AppState) => state.upload;
 
 export const selectUploadActionState = createSelector(
   upload,
@@ -31,4 +33,14 @@ export const selectFilesToUpload = createSelector(
 export const selectPresignedUrls = createSelector(
   presignedUrls,
   (state: fromUpload.State) => state.preSignedUrls
+);
+
+export const selectUploadSuccess = createSelector(
+  uploadSuccess,
+  (state: fromUpload.State) => state.uploadSuccessful
+);
+
+export const selectUploadedItems = createSelector(
+  uploadedItems,
+  (state: fromUpload.State) => state.uploadedItems
 );

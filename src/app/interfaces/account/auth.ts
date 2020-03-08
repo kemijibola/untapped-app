@@ -1,13 +1,16 @@
 export interface IRegister {
-  username: string;
+  fullName: string;
   email: string;
   password: string;
   roles: string[];
-  audience: string;
 }
 
 export interface ILogin {
   email: string;
   password: string;
-  audience: string;
+}
+
+export interface IConfirmEmail {
+  email: string;
+  token: string;
 }

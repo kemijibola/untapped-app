@@ -56,6 +56,25 @@ textarea:focus {
   src:  url('../fonts/AvenirNextLTProMedium.otf');
 }
 
+.error-snackbar {
+	background-color: red !important;
+	color: white !important;
+}
+
+.error-snackbar button {
+	background-color:orangered;
+	color: white;
+}
+
+.success-snackbar {
+	background-color: green !important;
+	color: white !important;
+}
+
+.success-snackbar button {
+	background-color:white;
+	color: green;
+}
 
 .selector-for-some-widget {
   -webkit-box-sizing: content-box;
@@ -509,6 +528,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efcf00', end
 footer {
 	background: #222;
 	padding: 100px 0;
+	position: fixed;
 }
 footer {
 	color: #fff;

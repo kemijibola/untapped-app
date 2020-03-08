@@ -1,0 +1,87 @@
+<!-- Profile Area Start -->
+<div class="profile-area fx-padding pt-120 pb-100">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-6">
+        <div class="profile-img mb-30">
+          <img src="assets/img/profile/profile-1.jpg" alt="" />
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6">
+        <div class="form">
+          <div class="head text-left mb-35">
+            <span>Welcome {{ userName }}!</span>
+            <h3>
+              Please complete your profile to make it visible it take only few
+              minutes
+            </h3>
+          </div>
+          <!-- talent display -->
+          <ul class="profile-details" *ngIf="!isProfssional">
+            <li class="mb-35">
+              <div class="content-wrapper">
+                <div class="profile-link">
+                  <a href="#"
+                    ><img src="assets/img/profile/profile-link.png" alt=""
+                  /></a>
+                </div>
+                <div class="content">
+                  <h4>1 Add your personal details</h4>
+                  <p class="first">
+                    Fill your profile with your personal details, contact
+                    detail, talents, location and social media handles.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="content-wrapper">
+                <div class="profile-link">
+                  <a href="#"
+                    ><img src="assets/img/profile/profile-link-2.png" alt=""
+                  /></a>
+                </div>
+                <div class="content">
+                  <h4>2 Add your files</h4>
+                  <p class="second">
+                    Add videos, audio and pictures of your talent or of you
+                    performing your talent to showcase to the word.
+                  </p>
+                  <button
+                    class="box-btn profile-submit"
+                    type="submit"
+                    (click)="onBtnStartedClick()"
+                  >
+                    LETS GET STARTED
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <!-- professional display -->
+
+          <ul class="profile-details" *ngIf="isProfssional">
+            <li class="mb-35">
+              <div class="content-wrapper">
+                <div class="profile-link">
+                  <a href="#"
+                    ><img src="assets/img/profile/profile-link.png" alt=""
+                  /></a>
+                </div>
+                <div class="content">
+                  <h4>1 Add your business details</h4>
+                  <p class="first">
+                    Fill your profile with your business details, contact
+                    detail, interests, location and social media handles.
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Profile Area End -->

@@ -21,7 +21,9 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/assets/css/all.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.css"
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
+              "node_modules/angular2-multiselect-dropdown/themes/default.theme.css",
+              "node_modules/videogular2/fonts/videogular.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

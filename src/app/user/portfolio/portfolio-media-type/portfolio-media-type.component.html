@@ -1,20 +1,20 @@
-<app-modals>
-  <div class="slide-arrow" navigate>
-    <a
-      class="left"
-      style="font-size: 22px; color: #000; display: inline-block;cursor: pointer;"
-      ><i class="far fa-angle-left"></i
-    ></a>
-    <a
-      class="right"
-      style="font-size: 22px; color: #000; display: inline-block;cursor: pointer;"
-      ><i class="far fa-angle-right"></i
-    ></a>
+<app-modals [id]="'gigs-modal'">
+  <div class="pop-icon-bar pop-talent" navigate>
+    <div class="slide-arrow">
+      <a class="left"><i class="far fa-angle-left"></i></a>
+      <a class="right"><i class="far fa-angle-right"></i></a>
+    </div>
+    <button
+      type="button"
+      class="close"
+      (click)="closeModalDialog('gigs-modal')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true"><i class="far fa-times"></i></span>
+    </button>
   </div>
-  <app-portfolio-modal-content
-    body
-    [mediaType]="selectedMediaType"
-  ></app-portfolio-modal-content>
+
+  <app-portfolio-modal-content body></app-portfolio-modal-content>
 </app-modals>
 
 <div class="row">
@@ -87,15 +87,9 @@
         </span>
       </div>
     </div>
-    <div
-      class="social-media prot"
-      (click)="onClickAddUploadBtn()"
-      data-toggle="modal"
-      data-target="#portfolio-modal"
-    >
-      <a style="color: #06a9b0">+ Add new uploads</a>
-    </div>
-
-    <button class="box-btn profile-save">SAVE CHANGES</button>
   </div>
+</div>
+
+<div class="social-media prot" (click)="openModalDialog('gigs-modal')">
+  <a (click)="openModalDialog('gigs-modal')">+ Add new uploads</a>
 </div>

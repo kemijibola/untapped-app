@@ -84,8 +84,8 @@
       <div class="col-lg-3 col-12 text-right">
         <div class="before-login" *ngIf="!isAuthenticated">
           <div class="menu-btn">
-            <a routerLink="auth/signin" routerLinkActive="">login</a>
-            <a class="box-btn" routerLink="auth/signup" routerLinkActive=""
+            <a routerLink="account/signin" routerLinkActive="">login</a>
+            <a class="box-btn" routerLink="account/signup" routerLinkActive=""
               >signup</a
             >
           </div>
@@ -109,7 +109,7 @@
                     <ul class="bot">
                       <li>
                         <a
-                          routerLink="./{{ userPreEmailAdress }}"
+                          routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'profile' }"
@@ -118,7 +118,7 @@
                       </li>
                       <li>
                         <a
-                          routerLink="./{{ userPreEmailAdress }}"
+                          routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'portfolio' }"

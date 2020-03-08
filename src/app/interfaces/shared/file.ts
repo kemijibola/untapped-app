@@ -1,15 +1,17 @@
+import { MediaType } from "../user/portfolio";
+
 export enum UPLOADOPERATIONS {
-  ProfileImage = 'ProfileImage',
-  Portfolio = 'Portfolio',
-  Entries = 'Entries',
-  ContestBanner = 'ContestBanner',
-  Default = 'Default'
+  ProfileImage = "ProfileImage",
+  Portfolio = "Portfolio",
+  Entries = "Entries",
+  ContestBanner = "ContestBanner",
+  Default = "Default"
 }
 
 export enum MediaAcceptType {
-  IMAGE = 'image/*',
-  VIDEO = 'video/*',
-  AUDIO = 'audio/*'
+  IMAGE = "image/*",
+  VIDEO = "video/*",
+  AUDIO = "audio/*"
 }
 export interface IFileUploadModel {
   inProgress?: boolean;
@@ -24,6 +26,7 @@ export interface IFileModel extends IFileUploadModel {
 }
 
 export interface IPresignRequest {
+  mediaType: string;
   action: UPLOADOPERATIONS;
   files: IFileMetaData[];
 }

@@ -1,13 +1,14 @@
 import { createSelector } from '@ngrx/store';
 import * as fromAuth from './auth.reducers';
+import * as fromError from '../../store/global/error/error.reducers';
 import * as fromApp from '../../store/app.reducers';
 
-const errorMessage = (state: fromApp.AppState) => state.auth;
+const errorData = (state: fromApp.AppState) => state.error;
 const userData = (state: fromApp.AppState) => state.auth;
 
 export const selectErrorMessage = createSelector(
-  errorMessage,
-  (state: fromAuth.State) => state.errorMessage
+  errorData,
+  (state: fromError.State) => state.data
 );
 
 export const selectUserData = createSelector(

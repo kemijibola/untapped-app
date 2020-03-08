@@ -1,45 +1,45 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from "@angular/core";
 import {
   trigger,
   state,
   transition,
   style,
   animate
-} from '@angular/animations';
-import { DOCUMENT } from '@angular/common';
-import { Store, select } from '@ngrx/store';
-import * as fromApp from './store/app.reducers';
-import * as RoleActions from './role/store/role.actions';
-import * as AuthActions from './account/store/auth.actions';
-import { selectUserData } from './account/store/auth.selectors';
-import * as fromRole from './role/store/role.reducers';
-import { IAuthData } from './interfaces';
+} from "@angular/animations";
+import { DOCUMENT } from "@angular/common";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "./store/app.reducers";
+import * as UserTypeActions from "./user-type/store/user-type.actions";
+import * as CategoryTypeActions from "./shared/store/category-type/category-type.actions";
+import * as AuthActions from "./account/store/auth.actions";
+import { selectUserData } from "./account/store/auth.selectors";
+import * as fromUserType from "./user-type/store/user-type.reducers";
+import { IAuthData } from "./interfaces";
+import * as fromUser from "./user/user.reducers";
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
   animations: [
-    trigger('fade', [
-      state('void', style({ opacity: 0 })),
-      transition(':enter', [animate(300)]),
-      transition(':leave', [animate(500)])
+    trigger("fade", [
+      state("void", style({ opacity: 0 })),
+      transition(":enter", [animate(300)]),
+      transition(":leave", [animate(500)])
     ])
   ]
 })
 export class AppComponent implements OnInit {
-  title = 'untapped-app';
+  title = "untapped-app";
   isAuthenticated = false;
+
   ngOnInit() {
-    this.onFetchUserTypes();
+    this.store.dispatch(new CategoryTypeActions.FetchCategories());
   }
   constructor(
     @Inject(DOCUMENT) document,
     private store: Store<fromApp.AppState>
   ) {}
-
-  onFetchUserTypes() {
-    this.store.dispatch(new RoleActions.FetchRoles());
-  }
 
   // @HostListener('window:scroll', ['$event'])
   // onWindowScroll() {

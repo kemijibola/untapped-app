@@ -4,9 +4,11 @@ import {
   IUploadedFiles,
   UPLOADOPERATIONS,
   PresignedUrl,
-  SignedUrl
-} from 'src/app/interfaces';
-import * as UploadActions from './upload.actions';
+  SignedUrl,
+  UploadedItems,
+  MediaType
+} from "src/app/interfaces";
+import * as UploadActions from "./upload.actions";
 
 export interface State {
   fileInput: IFileInputModel;
@@ -14,6 +16,8 @@ export interface State {
   preSignedUrls: SignedUrl;
   isReadyForUpload: boolean;
   uploadAction: UPLOADOPERATIONS;
+  uploadSuccessful: boolean;
+  uploadedItems: UploadedItems;
 }
 
 const initialState: State = {
@@ -21,7 +25,7 @@ const initialState: State = {
     state: false,
     process: UPLOADOPERATIONS.Default,
     multiple: false,
-    accept: ''
+    accept: ""
   },
   file: {
     files: [],
@@ -32,7 +36,15 @@ const initialState: State = {
     presignedUrl: []
   },
   isReadyForUpload: false,
-  uploadAction: UPLOADOPERATIONS.Default
+  uploadAction: UPLOADOPERATIONS.Default,
+  uploadSuccessful: false,
+  uploadedItems: {
+    _id: "",
+    title: "",
+    shortDescription: "",
+    type: MediaType.AUDIO,
+    items: []
+  }
 };
 
 export function UploadReducers(
@@ -52,7 +64,7 @@ export function UploadReducers(
           state: false,
           process: UPLOADOPERATIONS.Default,
           multiple: false,
-          accept: ''
+          accept: ""
         },
         file: {
           files: [],
@@ -63,7 +75,8 @@ export function UploadReducers(
           presignedUrl: []
         },
         isReadyForUpload: false,
-        uploadAction: UPLOADOPERATIONS.Default
+        uploadAction: UPLOADOPERATIONS.Default,
+        uploadSuccessful: true
       };
     case UploadActions.RESET_FILE_INPUT:
       return {
@@ -72,8 +85,9 @@ export function UploadReducers(
           state: false,
           process: UPLOADOPERATIONS.Default,
           multiple: false,
-          accept: ''
-        }
+          accept: ""
+        },
+        uploadSuccessful: false
       };
     case UploadActions.FILE_TOUPLOAD:
       return {
@@ -83,12 +97,23 @@ export function UploadReducers(
     case UploadActions.SET_PRESIGNED_URL:
       return {
         ...state,
-        preSignedUrls: action.payload.signedUrl
+        preSignedUrls: { ...action.payload }
       };
     case UploadActions.SET_APPUPLOAD_OPERATION:
       return {
         ...state,
         uploadAction: action.payload.uploadOperation
+      };
+    case UploadActions.SET_UPLOADED_ITEMS:
+      console.log("uploaded items");
+      return {
+        ...state,
+        uploadedItems: { ...action.payload }
+      };
+    case UploadActions.RESET_UPLOADED_ITEMS:
+      return {
+        ...state,
+        uploadedItems: initialState.uploadedItems
       };
     default:
       return state;

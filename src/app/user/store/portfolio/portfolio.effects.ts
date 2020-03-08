@@ -1,140 +1,178 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../../../store/app.reducers';
-import { PortfolioService } from 'src/app/services/portfolio.service';
-import * as PortfolioActions from './portfolio.actions';
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Store } from "@ngrx/store";
+import * as fromApp from "../../../store/app.reducers";
+import { PortfolioService } from "src/app/services/portfolio.service";
+import * as PortfolioActions from "./portfolio.actions";
+import * as UploadActions from "../../../shared/store/upload/upload.actions";
+import { map, mergeMap } from "rxjs/operators";
 import {
   IResult,
   IAudio,
   IVideo,
   IImage,
-  IGeneralMedia
-} from 'src/app/interfaces';
+  IGeneralMedia,
+  IMedia,
+  MediaPreview
+} from "src/app/interfaces";
 
 @Injectable()
 export class PortfolioEffect {
   @Effect()
-  fetchUserPortfolioAudios = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_AUDIOS))
-    .switchMap((action: PortfolioActions.FetchPortfolioAudios) => {
-      return this.portfolioService.fetchUserPortfolioMedias(action.payload);
+  createPortfolioMedia = this.action$
+    .pipe(ofType(PortfolioActions.CREATE_PORTFOLIO_MEDIA))
+    .switchMap((action: PortfolioActions.CreatePortfolioMedia) => {
+      const { uploadType, data } = action.payload;
+      return this.portfolioService.createPortfolioMedia(uploadType, data);
     })
     .pipe(
-      map((resp: IResult<IAudio[]>) => {
+      mergeMap((resp: IResult<IMedia>) => {
+        return [
+          {
+            type: PortfolioActions.CREATE_PORTFOLIO_MEDIA_SUCCESS,
+            payload: resp.data
+          },
+          {
+            type: UploadActions.RESET_UPLOADED_ITEMS
+          }
+        ];
+      })
+    );
+
+  @Effect()
+  updatePortfolioMedia = this.action$
+    .pipe(ofType(PortfolioActions.UPDATE_PORTFOLIO_MEDIA))
+    .switchMap((action: PortfolioActions.UpdatePortfolioMedia) => {
+      const { uploadType, data } = action.payload;
+      return this.portfolioService.updatePortfolioMedia(uploadType, data);
+    })
+    .pipe(
+      map((resp: IResult<IMedia>) => {
         return {
-          type: PortfolioActions.SET_PORTFOLIO_AUDIOS,
+          type: PortfolioActions.UPDATE_PORTFOLIO_MEDIA_SUCCESS,
           payload: resp.data
         };
       })
     );
 
   @Effect()
-  fetchUserPortfolioVideos = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_VIDEOS))
-    .switchMap((action: PortfolioActions.FetchPortfolioVideos) => {
-      return this.portfolioService.fetchUserPortfolioMedias(action.payload);
+  fetchUserPortfolioPreviewList = this.action$
+    .pipe(ofType(PortfolioActions.FETCH_USER_MEDIA_LIST_PREVIEW))
+    .switchMap((action: PortfolioActions.FetchUserMediaListPreview) => {
+      return this.portfolioService.fetchUserPortfolioPreviewList(
+        action.payload
+      );
     })
     .pipe(
-      map((resp: IResult<IVideo[]>) => {
+      map((resp: IResult<MediaPreview[]>) => {
         return {
-          type: PortfolioActions.SET_PORTFOLIO_VIDEOS,
+          type: PortfolioActions.SET_USER_MEDIA_LIST_PREVIEW,
           payload: resp.data
         };
       })
     );
 
   @Effect()
-  fetchUserPortfolioImages = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_IMAGES))
-    .switchMap((action: PortfolioActions.FetchPortfolioImages) => {
-      return this.portfolioService.fetchUserPortfolioMedias(action.payload);
+  fetchUserPortfolioList = this.action$
+    .pipe(ofType(PortfolioActions.FETCH_USER_MEDIA_LIST))
+    .switchMap((action: PortfolioActions.FetchUserMediaList) => {
+      return this.portfolioService.fetchUserPortfolioList(action.payload);
     })
     .pipe(
-      map((resp: IResult<IImage[]>) => {
+      map((resp: IResult<IMedia[]>) => {
         return {
-          type: PortfolioActions.SET_PORTFOLIO_IMAGES,
+          type: PortfolioActions.SET_USER_MEDIA_LIST,
           payload: resp.data
         };
       })
     );
 
   @Effect()
-  fetchUserPortfolioItems = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_GENERALS))
-    .switchMap((action: PortfolioActions.FetchPortfolioGenerals) => {
-      return this.portfolioService.fetchUserPortfolioItems(action.payload);
+  deleteMediaItem = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_MEDIA_ITEM_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteMediaItemById) => {
+      const { id, itemId } = action.payload;
+      return this.portfolioService.deleteMediaItem(id, itemId);
     })
     .pipe(
-      map((resp: IResult<IGeneralMedia[]>) => {
+      map((resp: IResult<boolean>) => {
         return {
-          type: PortfolioActions.SET_PORTFOLIO_GENERALS,
+          type: PortfolioActions.DELETE_MEDIA_ITEM_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
+  deleteImage = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_IMAGE_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteImageById) => {
+      return this.portfolioService.deleteMedia(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<boolean>) => {
+        return {
+          type: PortfolioActions.DELETE_IMAGE_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
+  deleteAudio = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_AUDIO_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteAudioById) => {
+      return this.portfolioService.deleteMedia(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<boolean>) => {
+        return {
+          type: PortfolioActions.DELETE_AUDIO_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
+  deleteVideo = this.action$
+    .pipe(ofType(PortfolioActions.DELETE_VIDEO_BY_ID))
+    .switchMap((action: PortfolioActions.DeleteVideoById) => {
+      return this.portfolioService.deleteMedia(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<boolean>) => {
+        return {
+          type: PortfolioActions.DELETE_VIDEO_BY_ID_SUCCESS
+        };
+      })
+    );
+
+  @Effect()
+  fetchMedia = this.action$
+    .pipe(ofType(PortfolioActions.FETCH_MEDIA_BY_ID))
+    .switchMap((action: PortfolioActions.FetchMediaById) => {
+      return this.portfolioService.fetchPortfolioMedia(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<IMedia>) => {
+        return {
+          type: PortfolioActions.SET_MEDIA_BY_ID,
           payload: resp.data
         };
       })
     );
 
   @Effect()
-  fetchUserPortfolioAudio = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_AUDIO))
-    .switchMap((action: PortfolioActions.FetchPortfolioAudio) => {
-      return this.portfolioService.fetchUserPortfolioMedia(action.payload.id);
+  fetchAllPortfolioList = this.action$
+    .pipe(ofType(PortfolioActions.FETCH_ALL_MEDIA))
+    .switchMap((action: PortfolioActions.FetchAllMedia) => {
+      return this.portfolioService.fetchPortfolioList(action.payload);
     })
     .pipe(
-      map((resp: IResult<IAudio>) => {
+      map((resp: IResult<IMedia[]>) => {
         return {
-          type: PortfolioActions.SET_PORTFOLIO_AUDIO,
+          type: PortfolioActions.SET_ALL_MEDIA,
           payload: resp.data
         };
       })
     );
-
-  @Effect()
-  fetchUserPortfolioVideo = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_VIDEO))
-    .switchMap((action: PortfolioActions.FetchPortfolioVideo) => {
-      return this.portfolioService.fetchUserPortfolioMedia(action.payload.id);
-    })
-    .pipe(
-      map((resp: IResult<IVideo>) => {
-        return {
-          type: PortfolioActions.SET_PORTFOLIO_VIDEO,
-          payload: resp.data
-        };
-      })
-    );
-
-  @Effect()
-  fetchUserPortfolioImage = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_IMAGE))
-    .switchMap((action: PortfolioActions.FetchPortfolioImage) => {
-      return this.portfolioService.fetchUserPortfolioMedia(action.payload.id);
-    })
-    .pipe(
-      map((resp: IResult<IImage>) => {
-        return {
-          type: PortfolioActions.SET_PORTFOLIO_IMAGE,
-          payload: resp.data
-        };
-      })
-    );
-
-  @Effect()
-  fetchUserPortfolioItem = this.action$
-    .pipe(ofType(PortfolioActions.FETCH_PORTFOLIO_GENERAL))
-    .switchMap((action: PortfolioActions.FetchPortfolioGeneral) => {
-      return this.portfolioService.fetchUserPortfolioItem(action.payload.id);
-    })
-    .pipe(
-      map((resp: IResult<IGeneralMedia>) => {
-        return {
-          type: PortfolioActions.SET_PORTFOLIO_GENERAL,
-          payload: resp.data
-        };
-      })
-    );
-
   constructor(
     private action$: Actions,
     private portfolioService: PortfolioService,

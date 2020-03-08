@@ -1,33 +1,33 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import {
   IResult,
   SignedUrl,
   PresignedUrl,
   CloudUploadParams
-} from '../interfaces';
-import { Observable } from 'rxjs';
-import { IPresignRequest } from '../interfaces';
+} from "../interfaces";
+import { Observable, of, forkJoin } from "rxjs";
+import { IPresignRequest } from "../interfaces";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class UploadService {
-  private BASE_URI = '';
+  private BASE_URI = "";
   constructor(private http: HttpClient) {
-    this.BASE_URI = 'http://127.0.0.1:8900/v1';
+    this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
-  s3Upload(data: CloudUploadParams): Observable<IResult<string>> {
-    return this.http.put<IResult<string>>(data.url, data.file, {
-      headers: {
-        'Content-Type': data.file.type
-      }
+  s3Upload(data: CloudUploadParams[]): Observable<any> {
+    let responses = [];
+    data.map(x => {
+      responses = [...responses, this.http.put(x.url, x.file)];
     });
+    return forkJoin(responses);
   }
+
   getPresignedUrl(data: IPresignRequest): Observable<IResult<SignedUrl>> {
+    console.log(data);
     const url = `${this.BASE_URI}/uploads`;
     return this.http.post<IResult<SignedUrl>>(url, data);
   }
-  // uploadFiles(data): Observable<true> {
-  //     return this.http.put(data.url, data)
-  // }
 }

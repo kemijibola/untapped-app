@@ -1,29 +1,47 @@
-import { IRole } from './role';
+import { IRole, IPermission } from "./role";
 
 export enum SocialMedia {
-  FACEBOOK = 'FACEBOOK',
-  TWITTER = 'TWITTER',
-  INSTAGRAM = 'INSTAGRAM',
-  OTHER = 'OTHER'
+  FACEBOOK = "FACEBOOK",
+  TWITTER = "TWITTER",
+  INSTAGRAM = "INSTAGRAM",
+  YOUTUBE = "YOUTUBE",
+  OTHER = "OTHER"
 }
 
+export enum UserTypes {
+  Talent = "Talent",
+  Audience = "Audience",
+  Professional = "Professional"
+}
 export interface IUserSocialMedia {
   type: SocialMedia;
-  handles: string[];
+  handle: string;
 }
 export interface IAuthData {
-  _id: string;
-  token: string;
-  email: string;
-  fullName: string;
-  roles: IRole['name'][];
+  access_token: string;
+  permissions: IPermission[];
+  user_data: IUserData;
   authenticated: boolean;
 }
 
+interface IUserData {
+  _id: string;
+  full_name: string;
+  email: string;
+  profile_is_completed: boolean;
+  profile_image_path: string;
+  userType: UserType;
+}
+
+interface UserType {
+  _id: string;
+  name: string;
+}
+
 enum AccountStatus {
-  ACTIVATED = 'ACTIVATED',
-  SUSPENDED = 'SUSPENDED',
-  DELETED = 'DELETED'
+  ACTIVATED = "ACTIVATED",
+  SUSPENDED = "SUSPENDED",
+  DELETED = "DELETED"
 }
 export interface IUserAccountStatus {
   status: AccountStatus;
@@ -44,7 +62,7 @@ export interface IUser {
   profileVisibility?: boolean;
   loginCount?: number;
   status?: IUserAccountStatus;
-  roles?: IRole['_id'][];
+  roles?: IRole["_id"][];
   lastLogin?: Date;
   createdAt?: Date;
 }

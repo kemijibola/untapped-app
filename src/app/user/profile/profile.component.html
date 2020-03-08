@@ -14,30 +14,42 @@
       </div>
     </div>
     <div class="col-xl-12">
-      <app-user-profile-picture></app-user-profile-picture>
+      <app-change-profile-picture></app-change-profile-picture>
+    </div>
+    <div class="col-xl-12" *ngIf="!isTalent">
+      <app-change-professional-banner></app-change-professional-banner>
     </div>
   </div>
-  <form [formGroup]="profileForm">
+  <div [formGroup]="profileForm">
     <div class="row">
-      <div class="col-xl-3">
-        <label for="">Stage Name</label>
-        <input class="input-design" type="text" />
-      </div>
-      <div class="col-xl-3">
-        <label for="">rcNumber</label>
-        <input class="input-design" type="text" />
-      </div>
       <div class="col-xl-6">
-        <label for="">Location</label>
-        <input class="input-design" type="text" />
+        <label for="" *ngIf="isTalent">Stage Name</label>
+        <label for="" *ngIf="!isTalent">Business Name</label>
+        <input class="input-design" formControlName="name" type="text" />
+      </div>
+      <div class="col-xl-3" *ngIf="!isTalent">
+        <label for="">rcNumber</label>
+        <input class="input-design" formControlName="rcNumber" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Full Name</label>
-        <input class="input-design" type="text" />
+        <input class="input-design" formControlName="fullName" type="text" />
+      </div>
+      <div class="col-xl-6">
+        <label for="">Location</label>
+        <input class="input-design" formControlName="location" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Email Address</label>
-        <input class="input-design" type="email" />
+        <input
+          class="input-design"
+          formControlName="emailAddress"
+          type="text"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="">Mobile Number</label>
+        <input class="input-design" formControlName="phoneNumber" type="text" />
       </div>
       <div class="col-xl-12">
         <div class="bio">
@@ -52,62 +64,72 @@
           id=""
           cols="30"
           rows="10"
+          formControlName="shortBio"
         ></textarea>
       </div>
       <div class="col-xl-12">
         <h4 class="profile-ctg">Add your talent</h4>
-        <div class="category">
-          <span>Acting</span>
-          <span>Drumming</span>
-          <span>Contortion</span>
-          <a href="#"
-            ><span><i class="fas fa-plus"></i></span
-          ></a>
-          <div class="type-appears">
-            <input
-              type="text"
-              placeholder="Start typing to search / appears after clicking plus"
-            />
-            <div class="search-result-bar">
-              <ul>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-                <li>Result item bar</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <app-talent-categories></app-talent-categories>
       </div>
       <div class="col-xl-6">
         <label for="">Instagram profile link</label>
-        <input class="input-design" type="text" />
+        <input class="input-design" formControlName="instagram" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Facebook profile link</label>
-        <input class="input-design" type="text" />
+        <input class="input-design" formControlName="facebook" type="text" />
       </div>
       <div class="col-xl-6">
         <label for="">Twitter Profile link</label>
-        <input class="input-design last" type="text" />
+        <input
+          class="input-design last"
+          formControlName="twitter"
+          type="text"
+        />
       </div>
       <div class="col-xl-6">
         <label for="">Youtube profile link</label>
-        <input class="input-design last" type="text" />
+        <input
+          class="input-design last"
+          formControlName="youtube"
+          type="text"
+        />
       </div>
-      <div class="col-xl-6">
-        <label for="">Profile link</label>
-        <input class="input-design last" type="text" />
+      <div class="col-xl-12" formArrayName="additionalSocial">
+        <div
+          class="row"
+          *ngFor="
+            let otherSocialCtr of profileForm.get('additionalSocial').controls;
+            let i = index
+          "
+          [formGroupName]="i"
+        >
+          <div class="col-xl-6">
+            <label for="">Profile link</label>
+            <input
+              class="input-design last"
+              formControlName="social"
+              type="text"
+            />
+          </div>
+          <div class="col-xl-2">
+            <button class="btn btn-danger">X</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <div class="social-media">
+          <a (click)="onAddAdditionalSocial()"
+            >+ Add another social media profile link</a
+          >
+        </div>
       </div>
 
       <div class="col-xl-12">
-        <div class="social-media">
-          <a href="#">+ Add another social media profile link</a>
-        </div>
-        <button class="box-btn profile-save">SAVE CHANGES</button>
+        <button class="box-btn profile-save" (click)="onUpdateProfile()">
+          SAVE CHANGES
+        </button>
       </div>
     </div>
-  </form>
+  </div>
 </div>

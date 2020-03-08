@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import * as AuthActions from '../store/auth.actions';
-import { AuthService } from 'src/app/services/auth.service';
-import { IResult, IRegister, IAuthData, ILogin } from 'src/app/interfaces';
-import { map, mergeMap, catchError, tap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { LocalStorage } from '@ngx-pwa/local-storage';
-import { Router } from '@angular/router';
-import * as ErrorActions from '../../store/global/error/error.actions';
-import 'rxjs/add/operator/do';
-import { Store } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducers';
+import { Injectable } from "@angular/core";
+import { Actions, Effect, ofType } from "@ngrx/effects";
+import * as AuthActions from "../store/auth.actions";
+import { AuthService } from "src/app/services/auth.service";
+import { IResult, IRegister, IAuthData, ILogin } from "src/app/interfaces";
+import { map, mergeMap, catchError, tap, switchMap } from "rxjs/operators";
+import { of } from "rxjs";
+import { Router } from "@angular/router";
+import * as ErrorActions from "../../store/global/error/error.actions";
+import "rxjs/add/operator/do";
+import { Store } from "@ngrx/store";
+import * as fromApp from "../../store/app.reducers";
 
 @Injectable()
 export class AuthEffects {
@@ -19,31 +18,33 @@ export class AuthEffects {
     .pipe(ofType(AuthActions.DO_SIGNUP))
     .switchMap((action: AuthActions.DoSignUp) => {
       const newUser: IRegister = {
-        username: action.payload.register.username,
+        fullName: action.payload.register.fullName,
         email: action.payload.register.email,
         password: action.payload.register.password,
-        roles: action.payload.register.roles,
-        audience: action.payload.register.audience
+        roles: action.payload.register.roles
       };
       return this.authService.signUp(newUser);
     })
     .pipe(
       map((res: IResult<boolean>) => {
-        if (res.error) {
-          return {
-            type: AuthActions.SIGNIN_FAILURE,
-            payload: res.error
-          };
-        }
         return {
           type: AuthActions.SIGNUP_SUCCESS
         };
-      }),
-      catchError(error => {
-        return of({
-          type: ErrorActions.EXCEPTION_OCCURED,
-          payload: error
-        });
+      })
+    );
+
+  @Effect()
+  doEmailConfirmation = this.actions$
+    .pipe(ofType(AuthActions.DO_EMAIL_CONFIRMATION))
+    .switchMap((action: AuthActions.DoEmailConfirmation) => {
+      return this.authService.confirmEmail(action.payload);
+    })
+    .pipe(
+      map((resp: IResult<string>) => {
+        return {
+          type: AuthActions.SUCCESS_EMAIL_CONFIRMATION,
+          payload: resp.data
+        };
       })
     );
 
@@ -51,32 +52,15 @@ export class AuthEffects {
   authSignIn = this.actions$
     .pipe(ofType(AuthActions.DO_SIGNIN))
     .switchMap((action: AuthActions.DoSignIn) => {
-      const { email, password, audience } = action.payload.loginParam;
-      return this.authService.signin({ email, password, audience });
+      const { email, password } = action.payload.loginParam;
+      return this.authService.signin({ email, password });
     })
     .pipe(
-      mergeMap((resp: IResult<IAuthData>) => {
-        if (!resp.error) {
-          return [
-            {
-              type: AuthActions.SIGNIN_SUCCESS,
-              payload: resp.data
-            },
-            {
-              type: AuthActions.FETCH_AUTHDATA
-            }
-          ];
-        }
-        return [
-          {
-            type: AuthActions.SIGNIN_FAILURE,
-            payload: resp.error
-          }
-        ];
-      }),
-      catchError((error, caught) => {
-        this.store.dispatch(new ErrorActions.ExceptionOccurred(error));
-        return caught;
+      map((resp: IResult<IAuthData>) => {
+        return {
+          type: AuthActions.SIGNIN_SUCCESS,
+          payload: resp.data
+        };
       })
     );
 
@@ -84,29 +68,26 @@ export class AuthEffects {
   fetchAuthData = this.actions$
     .pipe(ofType(AuthActions.FETCH_AUTHDATA))
     .switchMap((action: AuthActions.FetchAuthData) => {
-      return this.authService.fetchUserAuthData('authData');
+      return this.authService.fetchItem("authData");
     })
     .map((resp: IAuthData) => {
-      if (resp !== null) {
-        return {
-          type: AuthActions.SET_AUTHDATA,
-          payload: resp
-        };
-      } else {
-        const defaultUserData: IAuthData = {
-          _id: '',
-          token: '',
-          email: '',
-          fullName: '',
-          roles: [],
-          authenticated: false
-        };
-        return {
-          type: AuthActions.SET_AUTHDATA,
-          payload: defaultUserData
-        };
-      }
+      return {
+        type: AuthActions.SET_AUTHDATA,
+        payload: resp
+      };
     });
+
+  @Effect({ dispatch: false })
+  signupSuccess = this.actions$.pipe(
+    ofType(AuthActions.SIGNUP_SUCCESS),
+    tap(() => this.router.navigate(["/account/confirm-email"]))
+  );
+
+  @Effect({ dispatch: false })
+  confirmEmailSuccess = this.actions$.pipe(
+    ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
+    tap(() => this.router.navigate(["/account/signin"]))
+  );
 
   @Effect({ dispatch: false })
   signInSuccess = this.actions$.pipe(
@@ -116,10 +97,11 @@ export class AuthEffects {
       return action.payload;
     }),
     map((authData: IAuthData) => {
-      return this.authService.setItem('authData', authData);
+      this.store.dispatch(new AuthActions.SetAuthData(authData));
+      this.authService.setItem("authData", authData);
     }),
     tap(() => {
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     })
   );
 
@@ -139,11 +121,12 @@ export class AuthEffects {
   logOut = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     switchMap(() => {
-      return this.authService.removeUserAuthData('authData');
+      return this.authService.removeItem("authData");
     }),
     tap((isDeleted: boolean) => {
       if (isDeleted) {
-        this.router.navigate(['/']);
+        this.store.dispatch(new AuthActions.DeleteAutData());
+        this.router.navigate(["/"]);
       }
     })
   );
@@ -152,7 +135,6 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private store: Store<fromApp.AppState>,
-    protected localStorage: LocalStorage,
     private router: Router
   ) {}
 }

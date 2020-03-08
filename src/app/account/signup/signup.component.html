@@ -9,7 +9,7 @@
             <h3>Join the Community</h3>
           </div>
           <!-- Type of user list -->
-          <app-role-list></app-role-list>
+          <app-user-type-list></app-user-type-list>
           <!-- Type of user list -->
         </div>
       </div>
@@ -17,7 +17,7 @@
         class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
         [formGroup]="signupForm"
       >
-        <div class="login-form mt-40" action="#">
+        <div class="login-form mt-40">
           <label for="">
             <span
               class="error-block"
@@ -56,7 +56,7 @@
           <input
             class="input-design mb-45"
             formControlName="email"
-            type="email"
+            type="text"
           />
           <label for="">
             <span
@@ -76,11 +76,17 @@
             type="password"
           />
           <label class="form round">
-            <input type="checkbox" formControlName="terms" />
+            <input formControlName="terms" type="checkbox" />
             I agree to everything, so help me God amen.
             <span class="checkmark"></span>
           </label>
-          <button class="box-btn login-btn mt-50" (click)="onSubmit()">
+          <button
+            class="box-btn login-btn mt-50"
+            (click)="onSubmit()"
+            [disabled]="
+              !signupForm.valid && signupForm.touched && signupForm.dirty
+            "
+          >
             SignUp
           </button>
         </div>

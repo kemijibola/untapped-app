@@ -1,7 +1,7 @@
-<div class="tab-content fix" id="myTabContent">
-  <app-tabs [appTabName]="componentName" [activeTab]="activeTab">
+<app-tabs [appTabName]="componentName">
+  <div class="tab-content fix" id="myTabContent">
     <app-profile *ngIf="activeTab.tag === tab.tabs[0].tag"></app-profile>
     <app-portfolio *ngIf="activeTab.tag === tab.tabs[1].tag"></app-portfolio>
     <app-settings *ngIf="activeTab.tag === tab.tabs[2].tag"></app-settings>
-  </app-tabs>
-</div>
+  </div>
+</app-tabs>
