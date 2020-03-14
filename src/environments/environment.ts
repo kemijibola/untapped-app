@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   clientId: "ADMINWEB",
   TALENT_DEFAULT_IMG: "assets/img/profile/talent_default_img.png",
+  NO_MEDIA_IMG: "assets/img/no-media.png",
   BASE_URL: "http://127.0.0.1:8900/v1",
   IMAGE_BUCKET: "untapped-pool-image-bucket",
   CLOUD_FORMATION_API: "https://d7olhgwoyl909.cloudfront.net",

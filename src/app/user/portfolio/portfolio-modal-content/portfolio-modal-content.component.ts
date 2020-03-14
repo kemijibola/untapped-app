@@ -38,7 +38,8 @@ import {
   fetchAudioArt,
   fetchAudioItemFullPath,
   fetchVideoArt,
-  fetchVideoItemFullPath
+  fetchVideoItemFullPath,
+  fetchNoMediaDefaultImage
 } from "src/app/lib/Helper";
 import * as _ from "underscore";
 import * as fromUser from "../../user.reducers";
@@ -212,6 +213,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
           val.shortDescription
         );
         this.setMedia(this.uploadedItems);
+        this.itemToUpdate = { ...this.uploadedItems };
       }
     });
 
@@ -299,8 +301,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   onDeleteMediaItem(mediaItem: MediaItem) {
-    this.itemToUpdate = { ...this.uploadedItems };
-
     this.itemToUpdate.items = this.itemToUpdate.items.filter(
       x => x.path !== mediaItem.key
     );
@@ -312,8 +312,12 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
         })
       );
     }
-
-    this.setMedia(this.itemToUpdate);
+    if (this.itemToUpdate.items.length <= 0) {
+      // close modal
+      this.closeGigsModal();
+    } else {
+      this.setMedia(this.itemToUpdate);
+    }
   }
 
   setDefaultAudioCover() {
@@ -363,7 +367,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       var currentVideo = media.items[this.currentVideoIndex];
       this.setDefaultVideo(currentVideo);
       this.setOtherVideo(media.items);
-    } else {
+    } else if (media.items.length === 1) {
       // single video
       if (this.pageViewMode === "edit") {
         this.isMultipleVideo = true;
@@ -373,6 +377,9 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       this.defaultVideoSet = true;
       this.setDefaultAudio(currentVideo);
       this.setOtherAudio(media.items);
+    } else if (media.items.length <= 0 && this.pageViewMode === "edit") {
+      this.isMultipleVideo = true;
+      // this.defaultImagePath = fetchNoMediaDefaultImage();
     }
   }
 
@@ -385,7 +392,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       var currentItem = media.items[this.currentAudioIndex];
       this.setDefaultAudio(currentItem);
       this.setOtherAudio(media.items);
-    } else {
+    } else if (media.items.length === 1) {
       // single upload
       if (this.pageViewMode === "edit") {
         this.isMultipleAudio = true;
@@ -395,6 +402,12 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       this.defaultAudioSet = true;
       this.setDefaultAudio(currentItem);
       this.setOtherAudio(media.items);
+    } else if (media.items.length <= 0 && this.pageViewMode === "edit") {
+      this.isMultipleAudio = true;
+      // this.defaultAudioSet = true;
+      // this.isMultipleAudio = true;
+      // this.defaultImagePath = fetchNoMediaDefaultImage();
+      // this.defaultImagePath = fetchNoMediaDefaultImage();
     }
   }
 
@@ -452,7 +465,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       this.defaultImageSet = true;
       this.setDefaultImage(media.items[0].path);
       this.setOtherImages(media.items);
-    } else {
+    } else if (media.items.length === 1) {
       // single upload
       if (this.pageViewMode === "edit") {
         this.isMultipleImage = true;
@@ -462,6 +475,10 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       this.defaultImageSet = true;
       this.setDefaultImage(media.items[0].path);
       this.setOtherImages(media.items);
+    } else if (media.items.length <= 0 && this.pageViewMode === "edit") {
+      this.defaultImageSet = true;
+      this.isMultipleImage = true;
+      this.defaultImagePath = fetchNoMediaDefaultImage();
     }
   }
 
@@ -494,6 +511,10 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     }
 
     // TODO:: show success pop-up before toggling modal
+    this.closeGigsModal();
+  }
+
+  private closeGigsModal() {
     const modalToClose: IModal = {
       index: 0,
       name: "gigs-modal",
