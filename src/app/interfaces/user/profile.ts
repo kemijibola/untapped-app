@@ -1,5 +1,6 @@
 import { ICategory, SocialMedia } from "../index";
 import { IPhysicalAttribute } from "../index";
+import { CategoryType } from "../shared/TalentCategory";
 
 interface IUserSocialMedia {
   type: SocialMedia;
@@ -15,7 +16,7 @@ export interface IProfile {
   fullName?: string;
   tapCount?: number;
   shortBio?: string;
-  categories?: ICategory["_id"][];
+  categoryTypes?: CategoryType["_id"][];
   twitter?: string;
   facebook?: string;
   instagram?: string;

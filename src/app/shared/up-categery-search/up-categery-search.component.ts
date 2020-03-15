@@ -10,11 +10,27 @@ import { ICategory } from "src/app/interfaces";
   styleUrls: ["./up-categery-search.component.css"]
 })
 export class UpCategerySearchComponent implements OnInit {
+  categories: ICategory[] = [];
+  orderedCategories: ICategory[] = [];
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store.pipe(select(selectCategories)).subscribe((val: ICategory[]) => {
-      console.log(val);
+      this.reOrderCategories(val);
+    });
+  }
+
+  onNext() {
+    this.store.pipe(select(selectCategories)).subscribe((val: ICategory[]) => {
+      var shiftedArr = val.shift();
+      val.push(shiftedArr);
+      this.reOrderCategories(val);
+    });
+  }
+
+  reOrderCategories(categories: ICategory[]) {
+    this.orderedCategories = categories.filter((x, i) => {
+      return i < 3;
     });
   }
 }
