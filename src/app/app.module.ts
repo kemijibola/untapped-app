@@ -25,6 +25,7 @@ import { GlobalErrorHandler } from "./interceptors/GlobalErrorHandler";
 import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
 import { UserTypeEffects } from "./user-type/store/user-type.effects";
 import { CategoryTypeEffects } from "./shared/store/category-type/category-type.effects";
+import { CategoryEffect } from "./shared/store/category/category.effect";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -46,7 +47,8 @@ import { CategoryTypeEffects } from "./shared/store/category-type/category-type.
       UploadEffect,
       ServiceEffects,
       UserProfileImageEffects,
-      CategoryTypeEffects
+      CategoryTypeEffects,
+      CategoryEffect
     ]),
     CoreModule,
     StoreRouterConnectingModule,

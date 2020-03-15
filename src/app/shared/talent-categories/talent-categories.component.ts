@@ -85,7 +85,7 @@ export class TalentCategoriesComponent implements OnInit {
     this.setSelectedCategory();
 
     this.store.dispatch(
-      new CategoryTypeActions.SetSelectedCategories(this.selectCategoryIds)
+      new CategoryTypeActions.SetSelectedCategoryType(this.selectCategoryIds)
     );
   }
 
@@ -120,7 +120,7 @@ export class TalentCategoriesComponent implements OnInit {
 
     this.setSelectedCategory();
     this.store.dispatch(
-      new CategoryTypeActions.SetSelectedCategories(this.selectCategoryIds)
+      new CategoryTypeActions.SetSelectedCategoryType(this.selectCategoryIds)
     );
   }
   onSelectAll(items: any) {

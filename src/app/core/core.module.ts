@@ -31,6 +31,7 @@ import { AuthInterceptor } from "../interceptors/AuthInterceptor";
 import { CategoryTypeService } from "../services/category-type.service";
 import { LoggingService } from "./../services/LoggingService";
 import { ErrorInterceptor } from "../interceptors/ErrorInterceptor";
+import { CategoryService } from "../services/category.service";
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ErrorInterceptor } from "../interceptors/ErrorInterceptor";
     ErrorService,
     LoggingService,
     CategoryTypeService,
+    CategoryService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]

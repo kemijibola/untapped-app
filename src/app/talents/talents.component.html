@@ -5,13 +5,19 @@
     <div class="row no-gutters">
       <div class="col-xl-4 col-lg-4 col-md-4 col-12">
         <div class="left-talent-wrp pt-30">
-          <!-- <div class="head text-left">
-            <span>Sign Up to</span>
+          <div class="head text-left" *ngIf="!isAuthenticated">
+            <span (click)="onSignUpClicked()" style="cursor:pointer"
+              >Sign Up </span
+            ><span>to</span>
             <h3>Join the Community</h3>
-          </div> -->
-          <!-- <app-app-user-search-categories></app-app-user-search-categories> -->
-          <app-talents-sort-by-categories></app-talents-sort-by-categories>
-          <!-- <app-talents-with-most-tap></app-talents-with-most-tap> -->
+          </div>
+          <app-up-search
+            [placeholderText]="searchPlaceHolderText"
+          ></app-up-search>
+          <app-up-categery-search> </app-up-categery-search>
+
+          <!-- talent filter -->
+          <app-up-user-filter-result></app-up-user-filter-result>
         </div>
       </div>
       <div class="col-xl-4 col-lg-4 col-md-4 col-12">

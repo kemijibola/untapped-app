@@ -11,6 +11,7 @@ import { Store, select } from "@ngrx/store";
 import * as fromApp from "./store/app.reducers";
 import * as UserTypeActions from "./user-type/store/user-type.actions";
 import * as CategoryTypeActions from "./shared/store/category-type/category-type.actions";
+import * as CategoryActions from "./shared/store/category/category.action";
 import * as AuthActions from "./account/store/auth.actions";
 import { selectUserData } from "./account/store/auth.selectors";
 import * as fromUserType from "./user-type/store/user-type.reducers";
@@ -34,7 +35,8 @@ export class AppComponent implements OnInit {
   isAuthenticated = false;
 
   ngOnInit() {
-    this.store.dispatch(new CategoryTypeActions.FetchCategories());
+    this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
+    this.store.dispatch(new CategoryActions.FetchCategories());
   }
   constructor(
     @Inject(DOCUMENT) document,

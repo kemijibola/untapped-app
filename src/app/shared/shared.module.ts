@@ -12,6 +12,9 @@ import { TalentCategoriesComponent } from "./talent-categories/talent-categories
 import { MaterialModule } from "../material.module";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { ModalComponent } from "./modal/modal.component";
+import { UpSearchComponent } from "./up-search/up-search.component";
+import { UpCategerySearchComponent } from "./up-categery-search/up-categery-search.component";
+import { UpUserFilterResultComponent } from "./up-user-filter-result/up-user-filter-result.component";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
 
 @NgModule({
@@ -31,7 +34,10 @@ import { ModalComponent } from "./modal/modal.component";
     ModalsComponent,
     ModalComponent,
     SlideToggleComponent,
-    TalentCategoriesComponent
+    TalentCategoriesComponent,
+    UpSearchComponent,
+    UpCategerySearchComponent,
+    UpUserFilterResultComponent
   ],
   declarations: [
     UploadComponent,
@@ -40,7 +46,10 @@ import { ModalComponent } from "./modal/modal.component";
     ModalsComponent,
     SlideToggleComponent,
     TalentCategoriesComponent,
-    ModalComponent
+    ModalComponent,
+    UpSearchComponent,
+    UpCategerySearchComponent,
+    UpUserFilterResultComponent
   ]
 })
 export class SharedModule {}
