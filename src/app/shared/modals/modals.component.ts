@@ -33,6 +33,7 @@ export class ModalsComponent implements OnInit {
     index: 0,
     name: "",
     display: ModalDisplay.none,
+    modalCss: "",
     modalDialogCss: ""
   };
   constructor(private store: Store<fromApp.AppState>) {}

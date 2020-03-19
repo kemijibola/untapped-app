@@ -21,6 +21,7 @@ const initialState: State = {
     viewMode: ModalViewModel.none,
     contentType: "",
     data: null,
+    modalCss: "",
     modalDialogCss: ""
   }
 };

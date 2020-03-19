@@ -27,6 +27,7 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
           index: 0,
           name: "album-modal",
           display: ModalDisplay.none,
+          modalCss: "",
           modalDialogCss: ""
         }
       ]
@@ -39,6 +40,7 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
     this.modalToActivate.display = ModalDisplay.table;
     this.modalToActivate.viewMode = ModalViewModel.new;
+    this.modalToActivate.modalCss = "modal aligned-modal";
     this.modalToActivate.modalDialogCss = "modal-dialog-album-view";
     this.store.dispatch(
       new ModalsActions.ToggleModal({

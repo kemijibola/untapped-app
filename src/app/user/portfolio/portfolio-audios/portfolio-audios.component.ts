@@ -49,6 +49,7 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
           index: 0,
           name: "gigs-modal",
           display: ModalDisplay.none,
+          modalCss: "",
           modalDialogCss: ""
         }
       ]
@@ -106,6 +107,7 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
     this.modalToActivate.display = ModalDisplay.table;
     this.modalToActivate.viewMode = ModalViewModel.edit;
+    this.modalToActivate.modalCss = "modal aligned-modal-small";
     this.modalToActivate.modalDialogCss = "modal-dialog";
     // use id of clicked Item to fetch
     this.fetchAudio(itemId);

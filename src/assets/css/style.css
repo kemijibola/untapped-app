@@ -1320,7 +1320,7 @@ html::-webkit-scrollbar {
   justify-content: space-between;
 }
 .p-like-reply span {
-  font-size: 14px;
+  font-size: 12px;
   color: #6c6b6b;
   display: inline-block;
 }
@@ -1610,17 +1610,35 @@ html::-webkit-scrollbar {
 }
 .drag-section p {
   margin: 0;
+  font-size: 23px;
 }
 .drag-section p span {
-  background: #06a9b0;
-  width: 119px;
+  background: #fafafa;
+  border: 1px dashed #c4c4c4;
   text-align: center;
-  padding: 5px;
-  color: #fff;
+  padding: 15px 60px;
+  color: #00000069;
   display: inline-block;
   border-radius: 3px;
   font-size: 13px;
-  margin-left: 59px;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: blue !important;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: #566dbe8a !important;
+}
+
+.mat-slide-toggle-bar {
+  background-color: #f7f7f7 !important;
+}
+
+.drag-section p span:hover {
+  background: #06a9b0;
+  color: #fff;
+  border: 1px dashed #06a9b0;
 }
 .option-seclect {
   margin-bottom: 37px;
@@ -5101,8 +5119,8 @@ button.close-btn {
 }
 
 .popup-content-wrap.pp {
-  max-height: 200px;
-  overflow: scroll;
+  max-height: 240px;
+  overflow-y: scroll;
 }
 .bbbtn span:hover {
   background: #06a9b0;
@@ -5135,8 +5153,18 @@ button.close-btn {
 
 .add-img-blk .drag-section {
   margin: 0 auto;
+  padding: 20px;
   margin-bottom: 25px;
+  text-align: center;
+  height: 400px;
   margin-top: 10px;
+  display: table;
+}
+
+.drag-section p {
+  font-size: 18px;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .popup-img.pp {

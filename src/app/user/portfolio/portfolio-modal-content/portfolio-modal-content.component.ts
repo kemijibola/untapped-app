@@ -519,6 +519,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       index: 0,
       name: "gigs-modal",
       display: ModalDisplay.none,
+      modalCss: "",
       modalDialogCss: ""
     };
 

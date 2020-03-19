@@ -10,6 +10,7 @@ export interface IModal {
   viewMode?: ModalViewModel;
   contentType?: string;
   data?: any;
+  modalCss: string;
   modalDialogCss: string;
 }
 export enum ModalDisplay {
