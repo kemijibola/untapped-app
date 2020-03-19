@@ -14,7 +14,10 @@ import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { ModalComponent } from "./modal/modal.component";
 import { UpSearchComponent } from "./up-search/up-search.component";
 import { UpCategerySearchComponent } from "./up-categery-search/up-categery-search.component";
-import { UpUserFilterResultComponent } from "./up-user-filter-result/up-user-filter-result.component";
+import { UpUserFilterContainerComponent } from "./up-user-filter-container/up-user-filter-container.component";
+import { UpUserFilterComponent } from "./up-user-filter/up-user-filter.component";
+import { UpUserFilterItemComponent } from "./up-user-filter/up-user-filter-item/up-user-filter-item.component";
+import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
 
 @NgModule({
@@ -37,7 +40,10 @@ import { UpUserFilterResultComponent } from "./up-user-filter-result/up-user-fil
     TalentCategoriesComponent,
     UpSearchComponent,
     UpCategerySearchComponent,
-    UpUserFilterResultComponent
+    UpUserFilterContainerComponent,
+    UpUserFilterComponent,
+    UpUserFilterItemComponent,
+    TruncateTextPipe
   ],
   declarations: [
     UploadComponent,
@@ -49,7 +55,10 @@ import { UpUserFilterResultComponent } from "./up-user-filter-result/up-user-fil
     ModalComponent,
     UpSearchComponent,
     UpCategerySearchComponent,
-    UpUserFilterResultComponent
+    UpUserFilterContainerComponent,
+    UpUserFilterComponent,
+    UpUserFilterItemComponent,
+    TruncateTextPipe
   ]
 })
 export class SharedModule {}

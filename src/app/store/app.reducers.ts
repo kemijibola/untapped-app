@@ -6,6 +6,7 @@ import * as fromUpload from "../shared/store/upload/upload.reducers";
 import * as fromTab from "../shared/store/tabs/tabs.reducers";
 import * as fromCategoryType from "../shared/store/category-type/category-type.reducers";
 import * as fromCategory from "../shared/store/category/category.reducers";
+import * as fromUserCategory from "../shared/store/filtered-categories/user-category.reducers";
 import * as fromUserProfileImage from "../shared/store/user-profile-image/user-profile-image.reducers";
 import * as fromService from "../shared/store/service/service.reducers";
 import * as fromModal from "../shared/store/modals/modals.reducers";
@@ -26,6 +27,7 @@ export interface AppState {
   toggles: fromToggle.State;
   categoryTypes: fromCategoryType.State;
   categories: fromCategory.State;
+  userCategories: fromUserCategory.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -40,5 +42,6 @@ export const reducers: ActionReducerMap<AppState> = {
   error: fromError.errorReducer,
   toggles: fromToggle.SlideToggleReducers,
   categoryTypes: fromCategoryType.CategoryTypeReducers,
-  categories: fromCategory.CategoryReducers
+  categories: fromCategory.CategoryReducers,
+  userCategories: fromUserCategory.UserCategoryReducers
 };

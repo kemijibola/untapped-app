@@ -1,0 +1,29 @@
+<div class="accordion-content acor-pg-2">
+  <!-- <app-up-user-filter-item
+    *ngFor="let user of filteredUsers; let i = index"
+    [userData]="user"
+  ></app-up-user-filter-item> -->
+
+  <a
+    *ngFor="let user of filteredUsers; let i = index"
+    (click)="onUserSelected(i)"
+    style="cursor: pointer;"
+  >
+    <div
+      class="accor-item"
+      [class.accor-item-active]="filteredUsers[i].isSelected"
+    >
+      <div class="accor-img">
+        <img src="{{ user.displayPhotoFullPath }}" alt="" />
+      </div>
+      <div class="accor-content">
+        <h4>{{ user.aliasName }}</h4>
+        <p>
+          <!-- The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax
+          quiz prog… -->
+          {{ user.shortDescription | truncateText: 80 }}
+        </p>
+      </div>
+    </div>
+  </a>
+</div>

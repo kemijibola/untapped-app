@@ -26,6 +26,7 @@ import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
 import { UserTypeEffects } from "./user-type/store/user-type.effects";
 import { CategoryTypeEffects } from "./shared/store/category-type/category-type.effects";
 import { CategoryEffect } from "./shared/store/category/category.effect";
+import { UserCategoryEffect } from "./shared/store/filtered-categories/user-category.effect";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -48,7 +49,8 @@ import { CategoryEffect } from "./shared/store/category/category.effect";
       ServiceEffects,
       UserProfileImageEffects,
       CategoryTypeEffects,
-      CategoryEffect
+      CategoryEffect,
+      UserCategoryEffect
     ]),
     CoreModule,
     StoreRouterConnectingModule,

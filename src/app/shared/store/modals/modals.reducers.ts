@@ -20,7 +20,8 @@ const initialState: State = {
     display: ModalDisplay.none,
     viewMode: ModalViewModel.none,
     contentType: "",
-    data: null
+    data: null,
+    modalDialogCss: ""
   }
 };
 

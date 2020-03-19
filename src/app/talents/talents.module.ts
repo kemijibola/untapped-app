@@ -10,6 +10,7 @@ import { PortfolioGeneralItemComponent } from "./talent-portfolio-general-items/
 import { TalentsPortfolioAlbumDetailsComponent } from "./talents-portfolio-album-details/talents-portfolio-album-details.component";
 import { SharedModule } from "../shared/shared.module";
 import { TalentsRoutingModule } from "./talents-routing.module";
+import { TalentAlbumModalContentComponent } from './talent-album-modal-content/talent-album-modal-content.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TalentsRoutingModule } from "./talents-routing.module";
     TalentPortfolioAlbumItemComponent,
     TalentPortfolioGeneralItemsComponent,
     PortfolioGeneralItemComponent,
-    TalentsPortfolioAlbumDetailsComponent
+    TalentsPortfolioAlbumDetailsComponent,
+    TalentAlbumModalContentComponent
   ],
   imports: [CommonModule, TalentsRoutingModule, SharedModule],
   exports: []

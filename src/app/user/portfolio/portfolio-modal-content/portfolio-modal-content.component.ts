@@ -518,7 +518,8 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     const modalToClose: IModal = {
       index: 0,
       name: "gigs-modal",
-      display: ModalDisplay.none
+      display: ModalDisplay.none,
+      modalDialogCss: ""
     };
 
     this.store.dispatch(

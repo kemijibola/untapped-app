@@ -19,3 +19,4 @@ export * from "./contests/PrizeType";
 export * from "./contests/Service";
 export * from "./shared/toggle";
 export * from "./shared/TalentCategory";
+export * from "./user/filter-category";

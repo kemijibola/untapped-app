@@ -24,7 +24,7 @@ export enum ImageFit {
 interface Resize {
   width: number;
   height: number;
-  fit: ImageFit;
+  fit?: ImageFit;
 }
 
 interface SmartCrop {
