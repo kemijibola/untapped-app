@@ -14,7 +14,10 @@
       </div>
       <ng-content select="[body]"></ng-content>
     </div>
-    <div style="display: table-cell; width: 100%; text-align: center;">
+    <div
+      style="display: table-cell; width: 100%; text-align: center;"
+      *ngIf="currentModal.showMagnifier"
+    >
       <img
         src="assets/img/talent/pop-talent.jpg"
         style="max-width: 100%"

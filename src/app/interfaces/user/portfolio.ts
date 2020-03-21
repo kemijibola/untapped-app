@@ -136,3 +136,21 @@ export interface MediaPreview {
   shortDescription: string;
   activityCount: number;
 }
+
+export interface AudioPortfolioPreview extends TalentPortfolioPreview {}
+export interface VideoPortfolioPreview extends TalentPortfolioPreview {}
+export interface ImagePortfolioPreview extends TalentPortfolioPreview {}
+
+export interface TalentPortfolioPreview {
+  _id: string;
+  mediaType: string;
+  talent: string;
+  uploadType: string;
+  albumCover: string;
+  defaultImageKey: string;
+  mediaTitle: string;
+  mediaDescription: string;
+  items: IMediaItem[];
+  itemsCount: number;
+  dateCreated: Date;
+}

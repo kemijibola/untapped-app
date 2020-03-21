@@ -49,7 +49,8 @@ export class PortfolioVideosComponent extends AbstractModalComponent {
           name: "gigs-modal",
           display: ModalDisplay.none,
           modalCss: "modal",
-          modalDialogCss: ""
+          modalDialogCss: "",
+          showMagnifier: false
         }
       ]
     };
@@ -108,7 +109,7 @@ export class PortfolioVideosComponent extends AbstractModalComponent {
     this.modalToActivate.modalCss = "modal aligned-modal";
     this.modalToActivate.modalDialogCss = "modal-dialog";
     this.fetchVideo(itemId);
-    this.modalToActivate.data = this.store.dispatch(
+    this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,
         modal: this.modalToActivate

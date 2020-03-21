@@ -1,3 +1,4 @@
+import { MediaUploadType } from "./interfaces/user/portfolio";
 import { Component, HostListener, Inject, OnInit } from "@angular/core";
 import {
   trigger,
@@ -16,8 +17,16 @@ import * as UserCategoryActions from "./shared/store/filtered-categories/user-ca
 import * as AuthActions from "./account/store/auth.actions";
 import { selectUserData } from "./account/store/auth.selectors";
 import * as fromUserType from "./user-type/store/user-type.reducers";
-import { IAuthData, ReportType } from "./interfaces";
+import {
+  IAuthData,
+  ReportType,
+  MediaQueryParams,
+  MediaType,
+  UserFilterCategory
+} from "./interfaces";
 import * as fromUser from "./user/user.reducers";
+import * as TalentsActions from "./shared/store/talents/talents.actions";
+import { selectSelectedUser } from "./shared/store/filtered-categories/user-category.selectors";
 
 @Component({
   selector: "app-root",
@@ -34,8 +43,25 @@ import * as fromUser from "./user/user.reducers";
 export class AppComponent implements OnInit {
   title = "untapped-app";
   isAuthenticated = false;
+  selectedUser: UserFilterCategory;
 
   ngOnInit() {
+    this.loadAll();
+    this.store
+      .pipe(select(selectSelectedUser))
+      .subscribe((val: UserFilterCategory) => {
+        this.selectedUser = { ...val };
+        if (this.selectedUser.user !== undefined) {
+          this.fetchTalentPortfolio(this.selectedUser.user);
+        }
+      });
+  }
+  constructor(
+    @Inject(DOCUMENT) document,
+    private store: Store<fromApp.AppState>
+  ) {}
+
+  loadAll() {
     this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     this.store.dispatch(new CategoryActions.FetchCategories());
     this.store.dispatch(
@@ -44,11 +70,18 @@ export class AppComponent implements OnInit {
       )
     );
   }
-  constructor(
-    @Inject(DOCUMENT) document,
-    private store: Store<fromApp.AppState>
-  ) {}
 
+  fetchTalentPortfolio(userId: string) {
+    const mediaQueryParams: MediaQueryParams = {
+      type: MediaType.ALL,
+      uploadType: MediaUploadType.ALL,
+      user: userId
+    };
+
+    this.store.dispatch(
+      new TalentsActions.FetchTalentPortfolio(mediaQueryParams)
+    );
+  }
   // @HostListener('window:scroll', ['$event'])
   // onWindowScroll() {
   //   if (window.pageYOffset > 0) {

@@ -1,3 +1,5 @@
+import { MediaType } from "../user/portfolio";
+
 export interface AppModal {
   component: string;
   modals: IModal[];
@@ -12,7 +14,9 @@ export interface IModal {
   data?: any;
   modalCss: string;
   modalDialogCss: string;
+  showMagnifier: boolean;
 }
+
 export enum ModalDisplay {
   table = "table",
   none = "none"
@@ -30,4 +34,8 @@ export enum ModalContent {
   video = "video",
   form = "form",
   info = "info"
+}
+export interface NavigationData {
+  currentIndex: number;
+  mediaType: string;
 }

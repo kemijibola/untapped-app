@@ -1057,7 +1057,7 @@ footer p {
   margin-bottom: 6px;
 }
 .slide-arrow a {
-  font-size: 22px;
+  font-size: 42px;
   color: #000;
   display: inline-block;
   cursor: pointer;
@@ -1173,8 +1173,13 @@ footer p {
   height: 8px;
 }
 
+.talent-portfolio-wrapper::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
 html::-webkit-scrollbar-thumb {
-  background-color: blue;
+  background-color: #11868b;
 }
 
 html::-webkit-scrollbar {
@@ -1182,8 +1187,12 @@ html::-webkit-scrollbar {
   height: 8px;
 }
 
+.talent-portfolio-wrapper::-webkit-scrollbar-thumb {
+  background-color: #11868b;
+}
+
 .pop-review-outer-section::-webkit-scrollbar-thumb {
-  background-color: blue;
+  background-color: #11868b;
 }
 
 .comment-acheive .card-body {
@@ -2148,6 +2157,10 @@ html::-webkit-scrollbar {
   margin: 0;
 }
 
+.talent-portfolio-wrapper {
+  height: 400px;
+  overflow-y: auto;
+}
 button.accordion {
   width: 100%;
   border: none;
@@ -2355,7 +2368,9 @@ button.accordion.is-open:after {
 .p-user.p-talent .p-user-img img {
   width: 60px;
   height: 60px;
+  border-radius: 50%;
 }
+
 .desig-up-wrap .designation {
   font-size: 20px;
   color: #272424;

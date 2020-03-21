@@ -2,13 +2,13 @@
   <div class="col-xl-12">
     <div class="p-user p-talent">
       <div class="p-user-img">
-        <img src="assets/img/contest/popup-user.png" alt="" />
+        <img src="{{ selectedUser.displayPhotoFullPath }}" alt="" />
       </div>
       <div class="p-talent-nam">
-        <h5>Oluwa Burna’s</h5>
+        <h5>{{ selectedUser.displayName }}’s</h5>
         <div class="desig-up-wrap">
-          <span class="designation"> Photography Albums</span>
-          <span class="up-date">Uploaded 20th Jan 19</span>
+          <span class="designation"> {{ selectedMedia.mediaType }} album</span>
+          <span class="up-date">{{ selectedMedia.dateCreated | date }}</span>
         </div>
       </div>
     </div>
@@ -17,17 +17,60 @@
     <div class="col-xl-12 album-viewer">
       <div
         class="popup-img d-inline-block"
-        style="display: inline-block; width: 55%; height: 270px"
+        style="display: inline-block; width: 55%; height: 309px"
       >
-        <img src="assets/img/talent/pop-talent.jpg" alt="" />
+        <img src="{{ defaultImagePath }}" alt="" />
+
+        <vg-player
+          style="height: 200px;"
+          (onPlayerReady)="onPlayerReady($event)"
+          *ngIf="defaultAudioSet"
+        >
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+
+            <vg-time-display
+              vgProperty="current"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+
+            <vg-time-display
+              vgProperty="left"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+            <vg-time-display
+              vgProperty="total"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-mute></vg-mute>
+
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+          <audio
+            #media
+            [vgMedia]="media"
+            id="audio_{{ currentAudioItem._id }}"
+            preload="auto"
+          >
+            <source
+              src="{{ currentAudioItem.path }}"
+              [type]="currentAudioItem.type"
+            />
+          </audio>
+        </vg-player>
 
         <div class="user-part">
           <div class="p-user-content p-talent">
-            <h4>Lara&Wale Arabian Wedding</h4>
+            <h4>{{ selectedMedia.mediaTitle }}</h4>
             <p>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam
+              {{ selectedMedia.mediaDescription }}
             </p>
           </div>
         </div>
@@ -36,7 +79,7 @@
       <div class="col-xl-12 d-inline-block" style=" width: 45%">
         <div class="album-popup-content-wrap">
           <div class="collapse cmnt-bx show " id="collapseExample">
-            <div class="card card-body album-card-body" style="">
+            <div class="card card-body album-card-body">
               <textarea
                 name=""
                 id=""

@@ -19,7 +19,6 @@ export class UserCategoryEffect {
     })
     .pipe(
       map((resp: IResult<UserFilterCategory[]>) => {
-        console.log("from effects", resp);
         return {
           type: UserCategoryActions.SET_ALL_TALENT_HIGHEST_COMMENT,
           payload: resp.data

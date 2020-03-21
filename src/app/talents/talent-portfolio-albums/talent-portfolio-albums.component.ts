@@ -1,14 +1,29 @@
 import { Component, OnInit } from "@angular/core";
+import { Store, select } from "@ngrx/store";
+import * as ModalsActions from "../../shared/store/modals/modals.actions";
+import * as fromApp from "../../store/app.reducers";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import {
   AppModal,
-  ModalDisplay,
   IModal,
-  ModalViewModel
+  ImagePortfolioPreview,
+  ModalDisplay,
+  ModalViewModel,
+  AudioPortfolioPreview,
+  VideoPortfolioPreview,
+  TalentPortfolioPreview
 } from "src/app/interfaces";
-import { Store } from "@ngrx/store";
-import * as fromApp from "../../store/app.reducers";
-import * as ModalsActions from "../../shared/store/modals/modals.actions";
+import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import {
+  selectTalentImagePortfolio,
+  selectTalentAudioPortfolio,
+  selectTalentVideoPortfolio
+} from "src/app/shared/store/talents/talents.selectors";
+import {
+  fetchImageObjectFromCloudFormation,
+  fetchAudioArt,
+  fetchVideoArt
+} from "src/app/lib/Helper";
 
 @Component({
   selector: "app-talent-portfolio-albums",
@@ -18,6 +33,26 @@ import * as ModalsActions from "../../shared/store/modals/modals.actions";
 export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
   modal: AppModal;
   modalToActivate: IModal;
+  imageAlbumCount = 0;
+  audioAlbumCount = 0;
+  videoAlbumCount = 0;
+  imageAlbums: ImagePortfolioPreview[] = [];
+  audioAlbums: AudioPortfolioPreview[] = [];
+  videoAlbums: VideoPortfolioPreview[] = [];
+  editParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 418.66,
+        height: 225.13,
+        fit: ImageFit.fill
+      },
+      grayscale: false
+    }
+  };
+  currentIndex = 0;
+  selectedMedia: TalentPortfolioPreview;
+  leftDisabled = false;
+  rightDisabled = false;
   constructor(public store: Store<fromApp.AppState>) {
     super();
     this.modal = {
@@ -28,39 +63,155 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
           name: "album-modal",
           display: ModalDisplay.none,
           modalCss: "",
-          modalDialogCss: ""
+          modalDialogCss: "",
+          showMagnifier: false
         }
       ]
     };
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchTalentImages();
+    this.fetchTalentAudios();
+    this.fetchTalentVideos();
+    this.leftDisabled = true;
 
-  openModalDialog(modalId: string) {
+    // dispatch modal navigateData with currentIndex at 0
+  }
+
+  onPrevious() {
+    this.currentIndex--;
+
+    if (this.currentIndex < this.selectedMedia.items.length - 1) {
+      this.rightDisabled = false;
+    }
+    if (this.currentIndex === 0) {
+      this.leftDisabled = true;
+      this.rightDisabled = false;
+    }
+    this.store.dispatch(
+      new ModalsActions.SetModalNavigationProperties({
+        currentIndex: this.currentIndex,
+        mediaType: this.selectedMedia.mediaType
+      })
+    );
+  }
+
+  onNext() {
+    this.currentIndex++;
+    if (this.currentIndex > 0) {
+      this.leftDisabled = false;
+    }
+
+    if (this.currentIndex === this.selectedMedia.items.length - 1) {
+      this.rightDisabled = true;
+      this.leftDisabled = false;
+    }
+    // if (this.currentIndex === this.selectedMedia.items.length - 1) {
+    //   this.leftDisabled = false;
+    //   this.rightDisabled = true;
+    //   return;
+    // }
+    // this.currentIndex++;
+    this.store.dispatch(
+      new ModalsActions.SetModalNavigationProperties({
+        currentIndex: this.currentIndex,
+        mediaType: this.selectedMedia.mediaType
+      })
+    );
+  }
+
+  openModalDialog(modalId: string, selectedMedia: TalentPortfolioPreview) {
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
     this.modalToActivate.display = ModalDisplay.table;
     this.modalToActivate.viewMode = ModalViewModel.new;
     this.modalToActivate.modalCss = "modal aligned-modal";
     this.modalToActivate.modalDialogCss = "modal-dialog-album-view";
+    this.modalToActivate.data = selectedMedia;
+    this.selectedMedia = { ...this.selectedMedia, ...selectedMedia };
     this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,
         modal: this.modalToActivate
+      })
+    );
+
+    this.store.dispatch(
+      new ModalsActions.SetModalNavigationProperties({
+        currentIndex: this.currentIndex,
+        mediaType: this.selectedMedia.mediaType
       })
     );
   }
 
+  fetchTalentImages() {
+    this.store
+      .pipe(select(selectTalentImagePortfolio))
+      .subscribe((val: ImagePortfolioPreview[]) => {
+        if (val) {
+          this.imageAlbumCount = val.length;
+          this.imageAlbums = [...val];
+          this.setImageAlbumCover();
+        }
+      });
+  }
+
+  fetchTalentAudios() {
+    this.store
+      .pipe(select(selectTalentAudioPortfolio))
+      .subscribe((val: AudioPortfolioPreview[]) => {
+        if (val) {
+          this.audioAlbumCount = val.length;
+          this.audioAlbums = [...val];
+          this.setAudioAlbumCover();
+        }
+      });
+  }
+
+  fetchTalentVideos() {
+    this.store
+      .pipe(select(selectTalentVideoPortfolio))
+      .subscribe((val: VideoPortfolioPreview[]) => {
+        if (val) {
+          this.videoAlbumCount = val.length;
+          this.videoAlbums = [...val];
+          this.setVideoAlbumCover();
+        }
+      });
+  }
+  setImageAlbumCover() {
+    this.imageAlbums.map(x => {
+      x.albumCover = fetchImageObjectFromCloudFormation(
+        x.defaultImageKey,
+        this.editParams
+      );
+    });
+  }
+
+  setAudioAlbumCover() {
+    this.audioAlbums.map(x => {
+      x.albumCover = fetchAudioArt();
+    });
+  }
+
+  setVideoAlbumCover() {
+    this.videoAlbums.map(x => {
+      x.albumCover = fetchVideoArt();
+    });
+  }
+
   closeModalDialog(modalId: string) {
     // set activeModal to null
-
     this.store.dispatch(new ModalsActions.ResetCurrentModal());
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
     this.modalToActivate.display = ModalDisplay.none;
+    this.modalToActivate.data = null;
     this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,
         modal: this.modalToActivate
       })
     );
+    this.currentIndex = 0;
   }
 }

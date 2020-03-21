@@ -179,6 +179,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
 
     this.store.pipe(select(selectUploadSuccess)).subscribe((val: boolean) => {
       if (val) {
+        this.isViewMode = true;
         this.setMedia(this.uploadedItems);
       }
     });
@@ -275,7 +276,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
           this.portfolioForm.controls["title"].setValue("");
           this.portfolioForm.controls["description"].setValue("");
           this.modalContentTitle = "New Album Upload";
-          this.actionText = "ADD TO PORTFOLIO";
+          this.actionText = "ADD TO POR_TFOLIO";
         }
       }
     });
@@ -457,7 +458,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   setImage(media: UploadedItems) {
-    console.log("new media", media);
     this.isImageUpload = true;
     if (media.items.length > 1) {
       // items is greater than 1 means it is multiple upload
@@ -520,7 +520,8 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       name: "gigs-modal",
       display: ModalDisplay.none,
       modalCss: "",
-      modalDialogCss: ""
+      modalDialogCss: "",
+      showMagnifier: false
     };
 
     this.store.dispatch(

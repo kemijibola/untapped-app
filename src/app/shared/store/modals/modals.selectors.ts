@@ -5,6 +5,7 @@ import * as fromApp from "../../../store/app.reducers";
 const modals = (state: fromApp.AppState) => state.modals;
 const activeModal = (state: fromApp.AppState) => state.modals;
 const modal = (state: fromApp.AppState) => state.modals;
+const navigationData = (state: fromApp.AppState) => state.modals;
 
 export const selectModals = createSelector(
   modals,
@@ -14,4 +15,9 @@ export const selectModals = createSelector(
 export const selectActiveModal = createSelector(
   activeModal,
   (state: fromModal.State) => state.activeModal
+);
+
+export const selectNavigationData = createSelector(
+  navigationData,
+  (state: fromModal.State) => state.navigationData
 );

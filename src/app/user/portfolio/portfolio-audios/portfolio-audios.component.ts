@@ -50,7 +50,8 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
           name: "gigs-modal",
           display: ModalDisplay.none,
           modalCss: "",
-          modalDialogCss: ""
+          modalDialogCss: "",
+          showMagnifier: false
         }
       ]
     };
@@ -112,7 +113,7 @@ export class PortfolioAudiosComponent extends AbstractModalComponent {
     // use id of clicked Item to fetch
     this.fetchAudio(itemId);
 
-    this.modalToActivate.data = this.store.dispatch(
+    this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,
         modal: this.modalToActivate

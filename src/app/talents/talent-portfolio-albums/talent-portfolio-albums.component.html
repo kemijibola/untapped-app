@@ -1,8 +1,12 @@
 <app-modals [id]="'album-modal'">
   <div class="pop-icon-bar pop-talent" navigate>
     <div class="slide-arrow">
-      <a class="left"><i class="far fa-angle-left"></i></a>
-      <a class="right"><i class="far fa-angle-right"></i></a>
+      <button class="left" [disabled]="leftDisabled" (click)="onPrevious()">
+        <i class="far fa-angle-left"></i>
+      </button>
+      <button class="right" [disabled]="rightDisabled" (click)="onNext()">
+        <i class="far fa-angle-right"></i>
+      </button>
     </div>
     <button
       type="button"
@@ -15,205 +19,58 @@
   </div>
 
   <app-talent-album-modal-content body></app-talent-album-modal-content>
-  <!-- <app-portfolio-modal-content body></app-portfolio-modal-content> -->
 </app-modals>
+
+<div class="head text-left mb-30" *ngIf="imageAlbumCount > 0">
+  <span>Oluwa Burna’s</span>
+  <h3>Image Albums</h3>
+</div>
+
+<a
+  class="album-img mb-30"
+  (click)="openModalDialog('album-modal', image)"
+  *ngFor="let image of imageAlbums; let i = index"
+>
+  <img src="{{ image.albumCover }}" style="height: 225px" alt="" />
+  <div class="title-content" style="width: 187.83px;">
+    <span class="subject">{{ image.mediaTitle }}</span>
+    <span class="date">{{ image.dateCreated | date }}</span>
+  </div>
+  <span class="number">{{ image.itemsCount }}</span>
+</a>
+
+<div class="head text-left mb-30 mt-45" *ngIf="audioAlbumCount > 0">
+  <span>Oluwa Burna’s</span>
+  <h3>Audio Albums</h3>
+</div>
+
+<a
+  class="album-img mb-30"
+  *ngFor="let audio of audioAlbums; let i = index"
+  (click)="openModalDialog('album-modal', audio)"
+>
+  <img src="{{ audio.albumCover }}" style="height: 225px" alt="" />
+  <div class="title-content" style="width: 187.83px;">
+    <span class="subject">{{ audio.mediaTitle }}</span>
+    <span class="date">{{ audio.dateCreated | date }}</span>
+  </div>
+  <span class="number">{{ audio.itemsCount }}</span>
+</a>
 
 <div class="head text-left mb-30">
   <span>Oluwa Burna’s</span>
-  <h3>Photography Albums</h3>
+  <h3>Video Albums</h3>
 </div>
 
-<!-- <app-talent-portfolio-album-item></app-talent-portfolio-album-item> -->
-
-<a class="album-img mb-30" (click)="openModalDialog('album-modal')">
-  <img src="assets/img/talent/album-1.jpg" alt="" />
-  <div class="title-content">
-    <span class="subject">Wedding Photography</span>
-    <span class="date">22 December 2019</span>
-  </div>
-  <span class="number">6</span>
-</a>
-<a class="album-img" (click)="openModalDialog('album-modal')">
-  <img src="assets/img/talent/album-1.jpg" alt="" />
-  <div class="title-content">
-    <span class="subject">Wedding Photography</span>
-    <span class="date">22 December 2019</span>
-  </div>
-  <span class="number">6</span>
-</a>
-
-<!-- <div
-  class="modal fade"
-  id="talentModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="talentModalLabel"
-  aria-hidden="true"
+<a
+  class="album-img mb-30"
+  *ngFor="let video of videoAlbums; let i = index"
+  (click)="openModalDialog('album-modal', video)"
 >
-  <div class="modal-dialog" role="document">
-    <div class="modal-content contest-d">
-      <div class="row">
-        <div class="col-xl-12">
-          <div class="pop-icon-bar pop-talent">
-            <div class="slide-arrow">
-              <a class="left"><i class="far fa-angle-left"></i></a>
-              <a class="right"><i class="far fa-angle-right"></i></a>
-            </div>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true"><i class="far fa-times"></i></span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="row no-gutters">
-        <div class="col-xl-12">
-          <div class="p-user p-talent">
-            <div class="p-user-img">
-              <img src="assets/img/contest/popup-user.png" alt="" />
-            </div>
-            <div class="p-talent-nam">
-              <h5>Oluwa Burna’s</h5>
-              <div class="desig-up-wrap">
-                <span class="designation"> Photography Albums</span>
-                <span class="up-date">Uploaded 20th Jan 19</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-12">
-          <div class="popup-img">
-            <img src="assets/img/talent/pop-talent.jpg" alt="" />
-          </div>
-        </div>
-        <div class="col-xl-12">
-          <div class="popup-content-wrap">
-            <div class="user-part">
-              <div class="p-user-content p-talent">
-                <h4>Lara&Wale Arabian Wedding</h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                  aliquyam erat, sed diam voluptua. At vero eos et accusam
-                </p>
-              </div>
-            </div>
-            <div class="comment-part p-talent">
-              <div class="comment-acheive">
-                <img src="assets/img/contest/sms.png" alt="" />
-                <a
-                  href="#collapseExample"
-                  data-toggle="collapse"
-                  role="button"
-                  aria-expanded="true"
-                  aria-controls="collapseExample"
-                  class=""
-                  >Add your comment</a
-                >
-              </div>
-            </div>
-            <div class="collapse cmnt-bx " id="collapseExample">
-              <div class="card card-body">
-                <textarea name="" id="" cols="10" rows="5"></textarea>
-                <button type="submit">Send</button>
-              </div>
-            </div>
-            <div class="pop-review-outer-section">
-              <div class="pop-review-section">
-                <div class="p-rv-head">
-                  <div class="p-rev-img">
-                    <img src="assets/img/contest/popup-user.png" alt="" />
-                  </div>
-                  <div class="p-rv-name">
-                    <h5>Oluwaleke Ojo</h5>
-                  </div>
-                  <span class="p-time">20 days ago </span>
-                </div>
-                <div class="p-rv-content">
-                  <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                    diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                    aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                    justo
-                  </p>
-                  <div class="pop-express">
-                    <div class="p-like-reply">
-                      <span class="reply">Reply</span>
-                      <span class="like">Like?</span>
-                    </div>
-                    <span class="react">
-                      20
-                      <img src="assets/img/contest/p-love.png" alt="" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="pop-review-section">
-                <div class="p-rv-head">
-                  <div class="p-rev-img">
-                    <img src="assets/img/contest/popup-user.png" alt="" />
-                  </div>
-                  <div class="p-rv-name">
-                    <h5>Oluwaleke Ojo</h5>
-                  </div>
-                  <span class="p-time">20 days ago </span>
-                </div>
-                <div class="p-rv-content">
-                  <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                    diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                    aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                    justo
-                  </p>
-                  <div class="pop-express">
-                    <div class="p-like-reply">
-                      <span class="reply">Reply</span>
-                      <span class="like">Like?</span>
-                    </div>
-                    <span class="react">
-                      20
-                      <img src="assets/img/contest/p-love.png" alt="" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="pop-review-section">
-                <div class="p-rv-head">
-                  <div class="p-rev-img">
-                    <img src="assets/img/contest/popup-user.png" alt="" />
-                  </div>
-                  <div class="p-rv-name">
-                    <h5>Oluwaleke Ojo</h5>
-                  </div>
-                  <span class="p-time">20 days ago </span>
-                </div>
-                <div class="p-rv-content">
-                  <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                    diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                    aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                    justo
-                  </p>
-                  <div class="pop-express">
-                    <div class="p-like-reply">
-                      <span class="reply">Reply</span>
-                      <span class="like">Like?</span>
-                    </div>
-                    <span class="react">
-                      20
-                      <img src="assets/img/contest/p-love.png" alt="" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <img src="{{ video.albumCover }}" style="height: 225px" alt="" />
+  <div class="title-content" style="width: 187.83px;">
+    <span class="subject">{{ video.mediaTitle }}</span>
+    <span class="date">{{ video.dateCreated | date }}</span>
   </div>
-</div> -->
+  <span class="number">{{ video.itemsCount }}</span>
+</a>

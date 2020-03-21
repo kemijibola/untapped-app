@@ -55,7 +55,8 @@ export class PortfolioMediaTypeComponent extends AbstractModalComponent
           name: "gigs-modal",
           display: ModalDisplay.none,
           modalCss: "",
-          modalDialogCss: ""
+          modalDialogCss: "",
+          showMagnifier: false
         }
       ]
     };

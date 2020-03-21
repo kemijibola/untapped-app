@@ -13,6 +13,7 @@ import * as fromModal from "../shared/store/modals/modals.reducers";
 import * as fromError from "./global/error/error.reducers";
 import * as fromToggle from "../shared/store/slide-toggle/slide-toggle.reducers";
 import * as fromProfile from "../user/store/profile/profile.reducers";
+import * as fromTalents from "../shared/store/talents/talents.reducers";
 
 export interface AppState {
   auth: fromAuth.State;
@@ -28,6 +29,7 @@ export interface AppState {
   categoryTypes: fromCategoryType.State;
   categories: fromCategory.State;
   userCategories: fromUserCategory.State;
+  talents: fromTalents.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -43,5 +45,6 @@ export const reducers: ActionReducerMap<AppState> = {
   toggles: fromToggle.SlideToggleReducers,
   categoryTypes: fromCategoryType.CategoryTypeReducers,
   categories: fromCategory.CategoryReducers,
-  userCategories: fromUserCategory.UserCategoryReducers
+  userCategories: fromUserCategory.UserCategoryReducers,
+  talents: fromTalents.talentsReducer
 };
