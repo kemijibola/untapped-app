@@ -49,7 +49,7 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
       grayscale: false
     }
   };
-  currentIndex = 0;
+  currentIndex = -1;
   selectedMedia: TalentPortfolioPreview;
   leftDisabled = false;
   rightDisabled = false;
@@ -74,7 +74,6 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
     this.fetchTalentImages();
     this.fetchTalentAudios();
     this.fetchTalentVideos();
-    this.leftDisabled = true;
 
     // dispatch modal navigateData with currentIndex at 0
   }
@@ -128,20 +127,22 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
     this.modalToActivate.modalCss = "modal aligned-modal";
     this.modalToActivate.modalDialogCss = "modal-dialog-album-view";
     this.modalToActivate.data = selectedMedia;
-    this.selectedMedia = { ...this.selectedMedia, ...selectedMedia };
+    this.selectedMedia = { ...selectedMedia };
+
     this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,
         modal: this.modalToActivate
       })
     );
-
-    this.store.dispatch(
-      new ModalsActions.SetModalNavigationProperties({
-        currentIndex: this.currentIndex,
-        mediaType: this.selectedMedia.mediaType
-      })
-    );
+    this.leftDisabled = true;
+    this.onNext();
+    // this.store.dispatch(
+    //   new ModalsActions.SetModalNavigationProperties({
+    //     currentIndex: this.currentIndex,
+    //     mediaType: this.selectedMedia.mediaType
+    //   })
+    // );
   }
 
   fetchTalentImages() {
@@ -212,6 +213,6 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
         modal: this.modalToActivate
       })
     );
-    this.currentIndex = 0;
+    this.currentIndex = -1;
   }
 }

@@ -107,6 +107,7 @@ export class TalentAlbumModalContentComponent implements OnInit {
       .pipe(select(selectNavigationData))
       .subscribe((val: NavigationData) => {
         const currentMedia = this.selectedMedia.items[val.currentIndex];
+        console.log(currentMedia);
         this.setMedia(val.mediaType, currentMedia);
       });
   }
