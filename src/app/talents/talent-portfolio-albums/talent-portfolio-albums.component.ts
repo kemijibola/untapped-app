@@ -22,7 +22,8 @@ import {
 import {
   fetchImageObjectFromCloudFormation,
   fetchAudioArt,
-  fetchVideoArt
+  fetchVideoArt,
+  fetchNoMediaDefaultImage
 } from "src/app/lib/Helper";
 
 @Component({
@@ -79,8 +80,8 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
   }
 
   onPrevious() {
+    console.log("prev clicked");
     this.currentIndex--;
-
     if (this.currentIndex < this.selectedMedia.items.length - 1) {
       this.rightDisabled = false;
     }
@@ -97,8 +98,9 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
   }
 
   onNext() {
+    console.log("next clicked");
     this.currentIndex++;
-    if (this.currentIndex > 0) {
+    if (this.currentIndex > 0 && this.selectedMedia.items.length > 1) {
       this.leftDisabled = false;
     }
 
@@ -106,12 +108,6 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
       this.rightDisabled = true;
       this.leftDisabled = false;
     }
-    // if (this.currentIndex === this.selectedMedia.items.length - 1) {
-    //   this.leftDisabled = false;
-    //   this.rightDisabled = true;
-    //   return;
-    // }
-    // this.currentIndex++;
     this.store.dispatch(
       new ModalsActions.SetModalNavigationProperties({
         currentIndex: this.currentIndex,
@@ -126,7 +122,7 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
     this.modalToActivate.viewMode = ModalViewModel.new;
     this.modalToActivate.modalCss = "modal aligned-modal";
     this.modalToActivate.modalDialogCss = "modal-dialog-album-view";
-    this.modalToActivate.data = selectedMedia;
+    this.modalToActivate.data = { ...selectedMedia };
     this.selectedMedia = { ...selectedMedia };
 
     this.store.dispatch(
@@ -135,8 +131,22 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
         modal: this.modalToActivate
       })
     );
-    this.leftDisabled = true;
-    this.onNext();
+
+    if (this.selectedMedia.items.length <= 1) {
+      this.leftDisabled = true;
+      this.rightDisabled = true;
+      this.store.dispatch(
+        new ModalsActions.SetModalNavigationProperties({
+          currentIndex: 0,
+          mediaType: this.selectedMedia.mediaType
+        })
+      );
+    } else {
+      this.leftDisabled = true;
+      this.rightDisabled = false;
+      this.onNext();
+    }
+
     // this.store.dispatch(
     //   new ModalsActions.SetModalNavigationProperties({
     //     currentIndex: this.currentIndex,
@@ -182,10 +192,13 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
   }
   setImageAlbumCover() {
     this.imageAlbums.map(x => {
-      x.albumCover = fetchImageObjectFromCloudFormation(
-        x.defaultImageKey,
-        this.editParams
-      );
+      x.albumCover =
+        x.defaultImageKey !== ""
+          ? fetchImageObjectFromCloudFormation(
+              x.defaultImageKey,
+              this.editParams
+            )
+          : fetchNoMediaDefaultImage();
     });
   }
 

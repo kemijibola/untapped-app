@@ -104,6 +104,10 @@ export interface MediaItem {
   isDeleted?: boolean;
 }
 
+export interface AudioItem extends MediaItem {
+  fullAudioPath?: string;
+}
+
 export interface OtherMedia {
   _id: string;
   path: string;

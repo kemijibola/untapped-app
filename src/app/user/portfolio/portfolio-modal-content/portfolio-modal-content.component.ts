@@ -47,9 +47,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { selectActiveModal } from "src/app/shared/store/modals/modals.selectors";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
 import { UUID } from "angular2-uuid";
-import { BitrateOption, VgAPI, VgMedia } from "videogular2/compiled/core";
-import { Subscription } from "rxjs";
-import { TimerObservable } from "rxjs/observable/TimerObservable";
+import { VgAPI, VgMedia } from "videogular2/compiled/core";
+
 
 @Component({
   selector: "app-portfolio-modal-content",
@@ -225,6 +224,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     item.type = `video/${item.path.split(".").pop()}`;
     this.currentVideoIndex = index;
     this.currentVideoItem = item;
+    console.log(this.api);
     (<VgMedia>this.api.getDefaultMedia()).loadMedia();
   }
 

@@ -12,12 +12,17 @@ import {
   MediaItem,
   NavigationData,
   UploadedItems,
-  MediaType
+  MediaType,
+  AudioItem
 } from "src/app/interfaces";
 import { selectSelectedUser } from "src/app/shared/store/filtered-categories/user-category.selectors";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
-import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
-import { VgAPI } from "videogular2/compiled/core";
+import {
+  fetchImageObjectFromCloudFormation,
+  fetchNoMediaDefaultImage,
+  fetchAudioItemFullPath
+} from "src/app/lib/Helper";
+import { VgAPI, VgMedia } from "videogular2/compiled/core";
 
 @Component({
   selector: "app-talent-album-modal-content",
@@ -50,13 +55,14 @@ export class TalentAlbumModalContentComponent implements OnInit {
       grayscale: false
     }
   };
-  currentAudioItem: MediaItem = {
+  currentAudioItem: AudioItem = {
     _id: "",
     key: "",
     path: "",
-    type: ""
+    type: "",
+    fullAudioPath: ""
   };
-  defaultAudioSet: boolean;
+  defaultAudioSet: boolean = true;
   defaultImageSet: boolean;
   currentIndex = 0;
   mediaItems: MediaItem[] = [];
@@ -71,10 +77,24 @@ export class TalentAlbumModalContentComponent implements OnInit {
     }
   };
   defaultImagePath: string;
+  isCurrentImageSet: boolean;
+  isCurrentAudioSet: boolean;
+  currentAudioIndex = 0;
+  audioItems: MediaItem[] = [];
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.activateModalContent();
+
+    this.store
+      .pipe(select(selectNavigationData))
+      .subscribe((val: NavigationData) => {
+        const currentMedia = this.selectedMedia.items[val.currentIndex];
+        if (currentMedia !== undefined) {
+          currentMedia.key = currentMedia.path;
+        }
+        this.setMedia(val.mediaType, currentMedia);
+      });
   }
 
   onPlayerReady(api: VgAPI) {
@@ -102,28 +122,45 @@ export class TalentAlbumModalContentComponent implements OnInit {
           this.editParams
         );
       });
-
-    this.store
-      .pipe(select(selectNavigationData))
-      .subscribe((val: NavigationData) => {
-        const currentMedia = this.selectedMedia.items[val.currentIndex];
-        console.log(currentMedia);
-        this.setMedia(val.mediaType, currentMedia);
-      });
   }
 
   setCurrentImage(image: MediaItem) {
-    this.defaultImagePath = fetchImageObjectFromCloudFormation(
-      image.path,
-      this.defaultImageParams
-    );
+    this.isCurrentImageSet = true;
+    this.isCurrentAudioSet = false;
+    this.defaultImagePath =
+      image === undefined
+        ? fetchNoMediaDefaultImage()
+        : (this.defaultImagePath = fetchImageObjectFromCloudFormation(
+            image.path,
+            this.defaultImageParams
+          ));
+  }
+
+  // playVideo(api: VgAPI, media: MediaItem) {
+  //   this.api = api;
+  //   console.log("Playing audio . . . ");
+  //   // this.isPlaying = true;
+  //   this.currentAudioItem = media;
+  //   // console.log(this.currentAudioItem);
+  //   // (<VgMedia>this.api.getDefaultMedia()).loadMedia();
+  // }
+
+  setCurrentAudio(audio: AudioItem) {
+    this.isCurrentImageSet = false;
+    this.isCurrentAudioSet = true;
+
+    audio.type = `audio/${audio.path.split(".").pop()}`;
+    audio.fullAudioPath = fetchAudioItemFullPath(audio.path);
+    this.currentAudioItem = audio;
+
+    (<VgMedia>this.api.getDefaultMedia()).loadMedia();
   }
 
   setMedia(type: string, media: MediaItem) {
     const mediaType = type.toUpperCase();
     switch (mediaType) {
       case MediaType.AUDIO:
-        // this.setAudio(media);
+        this.setCurrentAudio(media);
         break;
       case MediaType.IMAGE:
         this.setCurrentImage(media);

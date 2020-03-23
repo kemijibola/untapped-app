@@ -19,7 +19,10 @@ import {
   selectMedia,
   selectImageDeleteSuccess
 } from "../../store/portfolio/portfolio.selectors";
-import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
+import {
+  fetchImageObjectFromCloudFormation,
+  fetchNoMediaDefaultImage
+} from "src/app/lib/Helper";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import {
@@ -115,10 +118,13 @@ export class PortfolioImagesComponent extends AbstractModalComponent
 
   setAlbumCovers() {
     this.userImagePreviews.map(x => {
-      x.albumCover = fetchImageObjectFromCloudFormation(
-        x.defaultMediaPath,
-        this.editParams
-      );
+      x.albumCover =
+        x.defaultMediaPath !== ""
+          ? fetchImageObjectFromCloudFormation(
+              x.defaultMediaPath,
+              this.editParams
+            )
+          : fetchNoMediaDefaultImage();
     });
   }
 

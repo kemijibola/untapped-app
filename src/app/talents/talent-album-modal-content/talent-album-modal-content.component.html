@@ -19,13 +19,14 @@
         class="popup-img d-inline-block"
         style="display: inline-block; width: 55%; height: 309px"
       >
-        <img src="{{ defaultImagePath }}" alt="" />
-
+        <img src="{{ defaultImagePath }}" alt="" *ngIf="defaultImageSet" />
         <vg-player
-          style="height: 200px;"
+          style="height: 302px;"
           (onPlayerReady)="onPlayerReady($event)"
-          *ngIf="defaultAudioSet"
+          *ngIf="isCurrentAudioSet"
         >
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
           <vg-controls>
             <vg-play-pause></vg-play-pause>
             <vg-playback-button></vg-playback-button>
@@ -53,6 +54,9 @@
 
             <vg-fullscreen></vg-fullscreen>
           </vg-controls>
+          <!-- <vg-overlay-play
+            vgFor="audio_{{ currentAudioItem._id }}"
+          ></vg-overlay-play> -->
           <audio
             #media
             [vgMedia]="media"
@@ -60,12 +64,11 @@
             preload="auto"
           >
             <source
-              src="{{ currentAudioItem.path }}"
+              src="{{ currentAudioItem.fullAudioPath }}"
               [type]="currentAudioItem.type"
             />
           </audio>
         </vg-player>
-
         <div class="user-part">
           <div class="p-user-content p-talent">
             <h4>{{ selectedMedia.mediaTitle }}</h4>
