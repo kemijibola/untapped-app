@@ -1,5 +1,5 @@
 import { UserFilterCategory } from "./../../interfaces/user/filter-category";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import {
@@ -13,7 +13,8 @@ import {
   NavigationData,
   UploadedItems,
   MediaType,
-  AudioItem
+  AudioItem,
+  VideoItem
 } from "src/app/interfaces";
 import { selectSelectedUser } from "src/app/shared/store/filtered-categories/user-category.selectors";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
@@ -23,6 +24,8 @@ import {
   fetchAudioItemFullPath
 } from "src/app/lib/Helper";
 import { VgAPI, VgMedia } from "videogular2/compiled/core";
+import * as ModalsActions from "../../shared/store/modals/modals.actions";
+import * as CommentsActions from "../../shared/store/comments/comments.action";
 
 @Component({
   selector: "app-talent-album-modal-content",
@@ -62,8 +65,13 @@ export class TalentAlbumModalContentComponent implements OnInit {
     type: "",
     fullAudioPath: ""
   };
-  defaultAudioSet: boolean = true;
-  defaultImageSet: boolean;
+  currentVideoItem: VideoItem = {
+    _id: "",
+    key: "",
+    path: "",
+    type: "",
+    fullAudioPath: ""
+  };
   currentIndex = 0;
   mediaItems: MediaItem[] = [];
   defaultImageParams: ImageEditRequest = {
@@ -79,8 +87,10 @@ export class TalentAlbumModalContentComponent implements OnInit {
   defaultImagePath: string;
   isCurrentImageSet: boolean;
   isCurrentAudioSet: boolean;
+  isCurrentVideoSet: boolean;
   currentAudioIndex = 0;
   audioItems: MediaItem[] = [];
+  commentsFetched: boolean = false;
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -89,6 +99,7 @@ export class TalentAlbumModalContentComponent implements OnInit {
     this.store
       .pipe(select(selectNavigationData))
       .subscribe((val: NavigationData) => {
+        this.currentIndex = val.currentIndex;
         const currentMedia = this.selectedMedia.items[val.currentIndex];
         if (currentMedia !== undefined) {
           currentMedia.key = currentMedia.path;
@@ -103,16 +114,23 @@ export class TalentAlbumModalContentComponent implements OnInit {
 
   activateModalContent(): void {
     this.store.pipe(select(selectActiveModal)).subscribe((val: IModal) => {
-      this.defaultImageSet = false;
-      this.defaultAudioSet = false;
+      this.isCurrentAudioSet = false;
+      this.isCurrentImageSet = false;
+      this.isCurrentVideoSet = false;
       if (val.name === "album-modal" && val.data !== null) {
         if (val.data !== null) {
           this.selectedMedia = { ...val.data };
+          this.store.dispatch(
+            new CommentsActions.FetchMediaComments(this.selectedMedia._id)
+          );
+        }
+      } else {
+        if (this.api) {
+          (<VgMedia>this.api.getDefaultMedia()).pause();
         }
       }
     });
 
-    // get
     this.store
       .pipe(select(selectSelectedUser))
       .subscribe((val: UserFilterCategory) => {
@@ -127,6 +145,7 @@ export class TalentAlbumModalContentComponent implements OnInit {
   setCurrentImage(image: MediaItem) {
     this.isCurrentImageSet = true;
     this.isCurrentAudioSet = false;
+    this.isCurrentVideoSet = false;
     this.defaultImagePath =
       image === undefined
         ? fetchNoMediaDefaultImage()
@@ -136,18 +155,31 @@ export class TalentAlbumModalContentComponent implements OnInit {
           ));
   }
 
-  // playVideo(api: VgAPI, media: MediaItem) {
-  //   this.api = api;
-  //   console.log("Playing audio . . . ");
-  //   // this.isPlaying = true;
-  //   this.currentAudioItem = media;
-  //   // console.log(this.currentAudioItem);
-  //   // (<VgMedia>this.api.getDefaultMedia()).loadMedia();
-  // }
+  setMagnifiedImage() {
+    this.store.dispatch(new ModalsActions.ToggleMagnifier(true));
+    this.store.dispatch(
+      new ModalsActions.SetMagnifierData({
+        index: this.currentIndex,
+        data: this.selectedMedia.items
+      })
+    );
+  }
 
+  setCurrentVideo(video: VideoItem) {
+    this.isCurrentImageSet = false;
+    this.isCurrentAudioSet = false;
+    this.isCurrentVideoSet = true;
+
+    video.type = `video/${video.path.split(".").pop()}`;
+    video.fullAudioPath = fetchAudioItemFullPath(video.path);
+    this.currentVideoItem = video;
+
+    (<VgMedia>this.api.getDefaultMedia()).loadMedia();
+  }
   setCurrentAudio(audio: AudioItem) {
     this.isCurrentImageSet = false;
     this.isCurrentAudioSet = true;
+    this.isCurrentVideoSet = false;
 
     audio.type = `audio/${audio.path.split(".").pop()}`;
     audio.fullAudioPath = fetchAudioItemFullPath(audio.path);
@@ -158,6 +190,8 @@ export class TalentAlbumModalContentComponent implements OnInit {
 
   setMedia(type: string, media: MediaItem) {
     const mediaType = type.toUpperCase();
+    this.isCurrentImageSet = false;
+    this.isCurrentAudioSet = false;
     switch (mediaType) {
       case MediaType.AUDIO:
         this.setCurrentAudio(media);
@@ -166,7 +200,7 @@ export class TalentAlbumModalContentComponent implements OnInit {
         this.setCurrentImage(media);
         break;
       case MediaType.VIDEO:
-        // this.setVideo(media);
+        this.setCurrentVideo(media);
         break;
       default:
         break;

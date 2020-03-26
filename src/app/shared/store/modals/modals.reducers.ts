@@ -4,19 +4,20 @@ import {
   ModalViewModel,
   ModalContent,
   IModal,
-  NavigationData
+  NavigationData,
+  MagnifierData
 } from "src/app/interfaces/shared/modal";
 import * as ModalsActions from "./modals.actions";
 import { MediaType } from "src/app/interfaces";
 
 export interface State {
-  modals: AppModal[];
   activeModal: IModal;
   navigationData: NavigationData;
+  magnifierData: MagnifierData;
+  showMagnifier: boolean;
 }
 
 const initialState: State = {
-  modals: [],
   activeModal: {
     index: 0,
     name: "",
@@ -31,7 +32,12 @@ const initialState: State = {
   navigationData: {
     currentIndex: 0,
     mediaType: ""
-  }
+  },
+  magnifierData: {
+    index: -1,
+    data: []
+  },
+  showMagnifier: false
 };
 
 export function ModalsReducer(
@@ -40,15 +46,6 @@ export function ModalsReducer(
 ) {
   switch (action.type) {
     case ModalsActions.TOGGLE_MODAL:
-      const componentModal = state.modals.filter(
-        x => x.component === action.payload.component
-      )[0];
-      if (componentModal) {
-        componentModal.modals = [
-          ...componentModal.modals,
-          action.payload.modal
-        ];
-      }
       return {
         ...state,
         activeModal: { ...state.activeModal, ...action.payload.modal }
@@ -62,6 +59,16 @@ export function ModalsReducer(
       return {
         ...state,
         navigationData: { ...state.navigationData, ...action.payload }
+      };
+    case ModalsActions.SET_MAGNIFIER_DATA:
+      return {
+        ...state,
+        magnifierData: { ...action.payload }
+      };
+    case ModalsActions.TOGGLE_MAGNIFIER:
+      return {
+        ...state,
+        showMagnifier: action.payload
       };
     default:
       return state;

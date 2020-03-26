@@ -16,6 +16,8 @@ import { VgControlsModule } from "videogular2/compiled/controls";
 import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
 import { VgBufferingModule } from "videogular2/compiled/buffering";
 import { VgAPI } from "videogular2/compiled/core";
+import { TalentCommentComponent } from "./talent-comment/talent-comment.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -25,12 +27,15 @@ import { VgAPI } from "videogular2/compiled/core";
     TalentPortfolioAlbumItemComponent,
     TalentPortfolioGeneralItemsComponent,
     PortfolioGeneralItemComponent,
-    TalentAlbumModalContentComponent
+    TalentAlbumModalContentComponent,
+    TalentCommentComponent
   ],
   imports: [
     CommonModule,
     TalentsRoutingModule,
     SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,

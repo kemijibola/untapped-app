@@ -1,3 +1,4 @@
+import { selectShowMagnifier } from "./../store/modals/modals.selectors";
 import {
   Component,
   ViewEncapsulation,
@@ -8,18 +9,24 @@ import {
 } from "@angular/core";
 import * as fromApp from "../../store/app.reducers";
 import {
-  selectModals,
-  selectActiveModal
+  selectActiveModal,
+  selectMagnifiedData
 } from "../../shared/store/modals/modals.selectors";
 import { AppModal, IModal } from "src/app/interfaces";
 import {
   ModalDisplay,
   ModalViewModel,
-  ModalContent
+  ModalContent,
+  MagnifierData
 } from "src/app/interfaces/shared/modal";
 import { select, Store } from "@ngrx/store";
 import { ModalService } from "src/app/services/modal.service";
 import { stringify } from "querystring";
+import {
+  fetchNoMediaDefaultImage,
+  fetchOriginalImage
+} from "src/app/lib/Helper";
+import * as ModalsActions from "../../shared/store/modals/modals.actions";
 
 @Component({
   selector: "app-modals",

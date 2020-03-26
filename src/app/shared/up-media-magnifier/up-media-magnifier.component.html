@@ -1,0 +1,24 @@
+<!-- this is only an image maginifier -->
+
+<div
+  style="display: table-cell; width: 100%; text-align: center;"
+  *ngIf="showMagnifier"
+>
+  <img src="{{ imagePath }}" style="max-width: 100%" alt="" />
+  <span
+    (click)="onPrevious()"
+    style="color: #fff; font-size: 30px; position: fixed; left: 80px; top: 50%"
+    >PREV</span
+  >
+  <span
+    (click)="onNext()"
+    style="color: #fff; font-size: 30px; position: fixed; right: 80px; top: 50%"
+    >NEXT</span
+  >
+
+  <span
+    (click)="onClose()"
+    style="color: #fff; font-size: 30px; position:fixed; right: 60px; top: 20px "
+    >Close</span
+  >
+</div>

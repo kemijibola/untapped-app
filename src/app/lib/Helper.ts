@@ -18,6 +18,10 @@ export function fetchImageObjectFromCloudFormation(
 export function fetchNoMediaDefaultImage(): string {
   return environment.NO_MEDIA_IMG;
 }
+
+export function fetchCommenterDefaultImage(): string {
+  return environment.COMMENTER_DEFAULT_IMAGE;
+}
 export function fetchAudioArt(): string {
   return environment.ART_ALBUM_COVER;
 }
@@ -26,6 +30,9 @@ export function fetchVideoArt(): string {
   return environment.ART_ALBUM_COVER;
 }
 
+export function fetchOriginalImage(key): string {
+  return `${environment.S3BUCKET_OBJECT_URL}/${key}`;
+}
 export function fetchAudioItemFullPath(key: string): string {
   return `${environment.AUDIO_ACCELERATE_URL}/${key}`;
 }

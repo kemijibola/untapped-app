@@ -18,7 +18,17 @@ import { UpUserFilterContainerComponent } from "./up-user-filter-container/up-us
 import { UpUserFilterComponent } from "./up-user-filter/up-user-filter.component";
 import { UpUserFilterItemComponent } from "./up-user-filter/up-user-filter-item/up-user-filter-item.component";
 import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
+import { UpImageComponent } from "./up-image/up-image.component";
+import { UpAudioComponent } from "./up-audio/up-audio.component";
+import { UpVideoComponent } from "./up-video/up-video.component";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
+
+import { VgCoreModule } from "videogular2/compiled/core";
+import { VgControlsModule } from "videogular2/compiled/controls";
+import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
+import { VgBufferingModule } from "videogular2/compiled/buffering";
+import { VgAPI } from "videogular2/compiled/core";
+import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifier.component";
 
 @NgModule({
   imports: [
@@ -27,6 +37,10 @@ import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
     AngularMultiSelectModule,
     CommonModule,
     MaterialModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
     RouterModule.forChild([])
   ],
   exports: [
@@ -43,7 +57,11 @@ import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
     UpUserFilterContainerComponent,
     UpUserFilterComponent,
     UpUserFilterItemComponent,
-    TruncateTextPipe
+    TruncateTextPipe,
+    UpImageComponent,
+    UpAudioComponent,
+    UpVideoComponent,
+    UpMediaMagnifierComponent
   ],
   declarations: [
     UploadComponent,
@@ -58,7 +76,12 @@ import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
     UpUserFilterContainerComponent,
     UpUserFilterComponent,
     UpUserFilterItemComponent,
-    TruncateTextPipe
-  ]
+    TruncateTextPipe,
+    UpImageComponent,
+    UpAudioComponent,
+    UpVideoComponent,
+    UpMediaMagnifierComponent
+  ],
+  providers: [VgAPI]
 })
 export class SharedModule {}

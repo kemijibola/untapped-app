@@ -14,29 +14,7 @@
       </div>
       <ng-content select="[body]"></ng-content>
     </div>
-    <div
-      style="display: table-cell; width: 100%; text-align: center;"
-      *ngIf="currentModal.showMagnifier"
-    >
-      <img
-        src="assets/img/talent/pop-talent.jpg"
-        style="max-width: 100%"
-        alt=""
-      />
-      <span
-        style="color: #fff; font-size: 30px; position: fixed; left: 80px; top: 50%"
-        >PREV</span
-      >
-      <span
-        style="color: #fff; font-size: 30px; position: fixed; right: 80px; top: 50%"
-        >NEXT</span
-      >
-
-      <span
-        style="color: #fff; font-size: 30px; position:fixed; right: 60px; top: 20px "
-        >Close</span
-      >
-    </div>
+    <app-up-media-magnifier></app-up-media-magnifier>
   </div>
 </div>
 

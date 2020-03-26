@@ -1,0 +1,127 @@
+<div class="col-xl-12 d-inline-block" style=" width: 45%">
+  <div class="album-popup-content-wrap">
+    <div class="collapse cmnt-bx show " id="collapseExample">
+      <div
+        class="card card-body album-card-body"
+        [formGroup]="mediaCommentForm"
+      >
+        <textarea
+          name=""
+          placeholder="Add your comment here"
+          id=""
+          cols="10"
+          rows="1"
+          formControlName="mediaComment"
+          style="line-height: 20px; padding-right: 50px; padding-top: 5px;"
+        ></textarea>
+        <a
+          style="position: absolute; right: 13px; top: 16px; color:darkcyan !important; cursor: pointer;"
+          *ngIf="isAuthenticated"
+          (click)="onPostComment()"
+          >Post</a
+        >
+        <a
+          style="position: absolute; right: 13px; top: 16px; color:darkcyan !important; cursor: pointer;"
+          *ngIf="!isAuthenticated"
+          (click)="onSignUpClicked()"
+          >Login</a
+        >
+      </div>
+    </div>
+    <div class="pop-review-outer-section" style="height: 297px">
+      <div class="pop-review-section" *ngFor="let item of mediaComments">
+        <div class="p-rv-head">
+          <div class="p-rev-img">
+            <img src="{{ item.user.fullProfileImagePath }}" alt="" />
+          </div>
+          <div class="p-rv-name">
+            <h5>{{ item.user.fullName }}</h5>
+          </div>
+          <span class="p-time">{{ item.createdAt | date }} </span>
+        </div>
+        <div class="p-rv-content">
+          <p>
+            {{ item.comment }}
+          </p>
+          <div class="pop-express">
+            <div class="p-like-reply">
+              <span class="reply">Reply</span>
+              <span class="like">Like?</span>
+            </div>
+            <span class="react">
+              20
+              <img src="assets/img/contest/p-love.png" alt="" />
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pop-review-section" *ngIf="commentsLength < 1">
+        <div class="p-rv-content">
+          <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo
+          </p>
+        </div>
+      </div>
+
+      <!-- <div class="pop-review-section">
+        <div class="p-rv-head">
+          <div class="p-rev-img">
+            <img src="assets/img/contest/popup-user.png" alt="" />
+          </div>
+          <div class="p-rv-name">
+            <h5>Oluwaleke Ojo</h5>
+          </div>
+          <span class="p-time">20 days ago </span>
+        </div>
+        <div class="p-rv-content">
+          <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo
+          </p>
+          <div class="pop-express">
+            <div class="p-like-reply">
+              <span class="reply">Reply</span>
+              <span class="like">Like?</span>
+            </div>
+            <span class="react">
+              20
+              <img src="assets/img/contest/p-love.png" alt="" />
+            </span>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="pop-review-section">
+        <div class="p-rv-head">
+          <div class="p-rev-img">
+            <img src="assets/img/contest/popup-user.png" alt="" />
+          </div>
+          <div class="p-rv-name">
+            <h5>Oluwaleke Ojo</h5>
+          </div>
+          <span class="p-time">20 days ago </span>
+        </div>
+        <div class="p-rv-content">
+          <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo
+          </p>
+          <div class="pop-express">
+            <div class="p-like-reply">
+              <span class="reply">Reply</span>
+              <span class="like">Like?</span>
+            </div>
+            <span class="react">
+              20
+              <img src="assets/img/contest/p-love.png" alt="" />
+            </span>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

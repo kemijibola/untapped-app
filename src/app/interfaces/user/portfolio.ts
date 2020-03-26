@@ -108,6 +108,10 @@ export interface AudioItem extends MediaItem {
   fullAudioPath?: string;
 }
 
+export interface VideoItem extends MediaItem {
+  fullAudioPath?: string;
+}
+
 export interface OtherMedia {
   _id: string;
   path: string;

@@ -28,6 +28,7 @@ import { CategoryTypeEffects } from "./shared/store/category-type/category-type.
 import { CategoryEffect } from "./shared/store/category/category.effect";
 import { UserCategoryEffect } from "./shared/store/filtered-categories/user-category.effect";
 import { TalentsEffect } from "./shared/store/talents/talents.effects";
+import { CommentsEffects } from "./shared/store/comments/comments.effects";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -52,7 +53,8 @@ import { TalentsEffect } from "./shared/store/talents/talents.effects";
       CategoryTypeEffects,
       CategoryEffect,
       UserCategoryEffect,
-      TalentsEffect
+      TalentsEffect,
+      CommentsEffects
     ]),
     CoreModule,
     StoreRouterConnectingModule,

@@ -1,8 +1,13 @@
-import { MediaType } from "../user/portfolio";
+import { MediaType, MediaItem } from "../user/portfolio";
 
 export interface AppModal {
   component: string;
   modals: IModal[];
+}
+
+export interface MagnifierData {
+  index: number;
+  data: MediaItem[];
 }
 
 export interface IModal {

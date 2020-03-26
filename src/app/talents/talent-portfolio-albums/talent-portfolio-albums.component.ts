@@ -147,12 +147,6 @@ export class TalentPortfolioAlbumsComponent extends AbstractModalComponent {
       this.onNext();
     }
 
-    // this.store.dispatch(
-    //   new ModalsActions.SetModalNavigationProperties({
-    //     currentIndex: this.currentIndex,
-    //     mediaType: this.selectedMedia.mediaType
-    //   })
-    // );
   }
 
   fetchTalentImages() {

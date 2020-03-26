@@ -496,6 +496,15 @@ a:hover {
 .contact-txt a i {
   margin-left: 50px;
 }
+
+.footer {
+  background: #222;
+  padding: 100px 0;
+  color: #fff;
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+
 .p-btn {
   margin-bottom: 30px;
 }
@@ -537,6 +546,7 @@ footer {
   padding: 100px 0;
   position: fixed;
 }
+
 footer {
   color: #fff;
   letter-spacing: 1px;
@@ -572,7 +582,7 @@ footer {
   margin-bottom: 7px;
   display: inline-block;
 }
-footer p {
+.footer p {
   font-size: 15px;
 }
 .mainmenu-main ul li a img {
@@ -1297,6 +1307,7 @@ html::-webkit-scrollbar {
 .p-rev-img img {
   height: 30px;
   width: 30px;
+  border-radius: 50%;
 }
 .p-rv-name h5 {
   font-size: 12px;
@@ -1317,6 +1328,7 @@ html::-webkit-scrollbar {
   color: #5a5858;
   margin-bottom: 12px;
 }
+
 .pop-express {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2158,7 +2170,7 @@ html::-webkit-scrollbar {
 }
 
 .talent-portfolio-wrapper {
-  height: 400px;
+  height: 600px;
   overflow-y: auto;
 }
 button.accordion {

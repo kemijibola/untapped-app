@@ -32,6 +32,7 @@ import { ErrorInterceptor } from "../interceptors/ErrorInterceptor";
 import { CategoryService } from "../services/category.service";
 import { UserCategoryService } from "../services/user-category.service";
 import { TalentsService } from "../services/talents.service";
+import { CommentsService } from "../services/comments.service";
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { TalentsService } from "../services/talents.service";
     CategoryService,
     UserCategoryService,
     TalentsService,
+    CommentsService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]

@@ -32,7 +32,6 @@ import {
   IModal,
   AppModal
 } from "src/app/interfaces/shared/modal";
-import { selectModals } from "src/app/shared/store/modals/modals.selectors";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
 
 @Component({

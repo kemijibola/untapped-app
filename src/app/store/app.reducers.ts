@@ -12,8 +12,8 @@ import * as fromService from "../shared/store/service/service.reducers";
 import * as fromModal from "../shared/store/modals/modals.reducers";
 import * as fromError from "./global/error/error.reducers";
 import * as fromToggle from "../shared/store/slide-toggle/slide-toggle.reducers";
-import * as fromProfile from "../user/store/profile/profile.reducers";
 import * as fromTalents from "../shared/store/talents/talents.reducers";
+import * as fromComments from "../shared/store/comments/comments.reducers";
 
 export interface AppState {
   auth: fromAuth.State;
@@ -30,6 +30,7 @@ export interface AppState {
   categories: fromCategory.State;
   userCategories: fromUserCategory.State;
   talents: fromTalents.State;
+  comments: fromComments.State;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -46,5 +47,6 @@ export const reducers: ActionReducerMap<AppState> = {
   categoryTypes: fromCategoryType.CategoryTypeReducers,
   categories: fromCategory.CategoryReducers,
   userCategories: fromUserCategory.UserCategoryReducers,
-  talents: fromTalents.talentsReducer
+  talents: fromTalents.talentsReducer,
+  comments: fromComments.commentsReducer
 };

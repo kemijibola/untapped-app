@@ -8,7 +8,6 @@ import {
 } from "../interfaces";
 import { Observable, of, forkJoin } from "rxjs";
 import { IPresignRequest } from "../interfaces";
-import { environment } from "../../environments/environment";
 
 @Injectable()
 export class UploadService {
@@ -26,7 +25,6 @@ export class UploadService {
   }
 
   getPresignedUrl(data: IPresignRequest): Observable<IResult<SignedUrl>> {
-    console.log(data);
     const url = `${this.BASE_URI}/uploads`;
     return this.http.post<IResult<SignedUrl>>(url, data);
   }

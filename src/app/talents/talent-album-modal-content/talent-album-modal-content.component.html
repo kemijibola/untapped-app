@@ -1,4 +1,4 @@
-<div class="row no-gutters">
+<div class="row no-gutters" body>
   <div class="col-xl-12">
     <div class="p-user p-talent">
       <div class="p-user-img">
@@ -19,11 +19,21 @@
         class="popup-img d-inline-block"
         style="display: inline-block; width: 55%; height: 309px"
       >
-        <img src="{{ defaultImagePath }}" alt="" *ngIf="defaultImageSet" />
+        <img
+          src="{{ defaultImagePath }}"
+          alt=""
+          (click)="setMagnifiedImage()"
+          *ngIf="isCurrentImageSet"
+        />
+        <!-- <app-up-image
+          [defaultImagePath]="defaultImagePath"
+          *ngIf="isCurrentImageSet"
+        ></app-up-image> -->
+
         <vg-player
           style="height: 302px;"
           (onPlayerReady)="onPlayerReady($event)"
-          *ngIf="isCurrentAudioSet"
+          [style.display]="isCurrentAudioSet ? 'block' : 'none'"
         >
           <vg-overlay-play></vg-overlay-play>
           <vg-buffering></vg-buffering>
@@ -69,6 +79,57 @@
             />
           </audio>
         </vg-player>
+
+        <vg-player
+          style="height: 302px;"
+          (onPlayerReady)="onPlayerReady($event)"
+          [style.display]="isCurrentVideoSet ? 'block' : 'none'"
+        >
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+
+            <vg-time-display
+              vgProperty="current"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+
+            <vg-time-display
+              vgProperty="left"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+            <vg-time-display
+              vgProperty="total"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-mute></vg-mute>
+
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+          <!-- <vg-overlay-play
+          vgFor="audio_{{ currentAudioItem._id }}"
+        ></vg-overlay-play> -->
+          <video
+            #media
+            [vgMedia]="media"
+            id="video_{{ currentVideoItem._id }}"
+            preload="auto"
+          >
+            <source
+              src="{{ currentVideoItem.fullAudioPath }}"
+              [type]="currentVideoItem.type"
+            />
+          </video>
+        </vg-player>
+
         <div class="user-part">
           <div class="p-user-content p-talent">
             <h4>{{ selectedMedia.mediaTitle }}</h4>
@@ -78,115 +139,7 @@
           </div>
         </div>
       </div>
-
-      <div class="col-xl-12 d-inline-block" style=" width: 45%">
-        <div class="album-popup-content-wrap">
-          <div class="collapse cmnt-bx show " id="collapseExample">
-            <div class="card card-body album-card-body">
-              <textarea
-                name=""
-                id=""
-                cols="10"
-                rows="1"
-                style="line-height: 20px; padding-right: 50px; padding-top: 5px;"
-              ></textarea>
-              <a href="#" style="position: absolute; right: 13px; top: 16px;"
-                >Post</a
-              >
-              <!-- <button type="submit">Send</button> -->
-            </div>
-          </div>
-          <div class="pop-review-outer-section" style="height: 297px">
-            <div class="pop-review-section">
-              <div class="p-rv-head">
-                <div class="p-rev-img">
-                  <img src="assets/img/contest/popup-user.png" alt="" />
-                </div>
-                <div class="p-rv-name">
-                  <h5>Oluwaleke Ojo</h5>
-                </div>
-                <span class="p-time">20 days ago </span>
-              </div>
-              <div class="p-rv-content">
-                <p>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                  aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                  justo
-                </p>
-                <div class="pop-express">
-                  <div class="p-like-reply">
-                    <span class="reply">Reply</span>
-                    <span class="like">Like?</span>
-                  </div>
-                  <span class="react">
-                    20
-                    <img src="assets/img/contest/p-love.png" alt="" />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="pop-review-section">
-              <div class="p-rv-head">
-                <div class="p-rev-img">
-                  <img src="assets/img/contest/popup-user.png" alt="" />
-                </div>
-                <div class="p-rv-name">
-                  <h5>Oluwaleke Ojo</h5>
-                </div>
-                <span class="p-time">20 days ago </span>
-              </div>
-              <div class="p-rv-content">
-                <p>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                  aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                  justo
-                </p>
-                <div class="pop-express">
-                  <div class="p-like-reply">
-                    <span class="reply">Reply</span>
-                    <span class="like">Like?</span>
-                  </div>
-                  <span class="react">
-                    20
-                    <img src="assets/img/contest/p-love.png" alt="" />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="pop-review-section">
-              <div class="p-rv-head">
-                <div class="p-rev-img">
-                  <img src="assets/img/contest/popup-user.png" alt="" />
-                </div>
-                <div class="p-rv-name">
-                  <h5>Oluwaleke Ojo</h5>
-                </div>
-                <span class="p-time">20 days ago </span>
-              </div>
-              <div class="p-rv-content">
-                <p>
-                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                  aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                  justo
-                </p>
-                <div class="pop-express">
-                  <div class="p-like-reply">
-                    <span class="reply">Reply</span>
-                    <span class="like">Like?</span>
-                  </div>
-                  <span class="react">
-                    20
-                    <img src="assets/img/contest/p-love.png" alt="" />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-talent-comment [mediaId]="selectedMedia._id"></app-talent-comment>
     </div>
   </div>
 </div>
