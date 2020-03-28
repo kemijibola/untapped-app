@@ -13,12 +13,12 @@ export class FetchAllTalentHighestComment implements Action {
 
 export class SetAllTalentHighestComment implements Action {
   readonly type = SET_ALL_TALENT_HIGHEST_COMMENT;
-  constructor(public payload: UserFilterCategory[]) {}
+  constructor(public payload: { talents: UserFilterCategory[] }) {}
 }
 
 export class SetSelectedUser implements Action {
   readonly type = SET_SELECTED_USER;
-  constructor(public payload: UserFilterCategory) {}
+  constructor(public payload: { selectedTalent: UserFilterCategory }) {}
 }
 
 export type UserCategoryActions =

@@ -1,7 +1,7 @@
 import { RouterModule } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import {
   IResult,
   IAuthData,
@@ -60,7 +60,7 @@ export class AuthService {
     return of(true);
   }
 
-  setItem(key: string, data = {}): void {
+  setItem(key: string, data: any): void {
     this.localStorage.setItemSubscribe(key, data);
   }
 

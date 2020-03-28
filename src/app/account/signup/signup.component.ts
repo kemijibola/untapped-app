@@ -14,7 +14,7 @@ import { Subject } from "rxjs";
 import * as AuthActions from "../store/auth.actions";
 import * as fromUserType from "../../user-type/store/user-type.reducers";
 import { takeUntil } from "rxjs/operators";
-import { IRegister } from "src/app/interfaces";
+import { IRegister, IUserType } from "src/app/interfaces";
 import { AUDIENCE } from "src/app/lib/constants";
 import { selectErrorMessage } from "../store/auth.selectors";
 import { NotificationService } from "src/app/services/notification.service";
@@ -28,7 +28,11 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
   signupForm: FormGroup;
   time = 500;
   emailPattern = "^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
-  selectedUserType = "";
+  selectedUserType: IUserType = {
+    _id: "",
+    name: "",
+    description: ""
+  };
   ngDestroyed = new Subject();
   errorMessage = "";
 
@@ -80,9 +84,9 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       fullName: username,
       email: email,
       password: password,
-      roles: [this.selectedUserType]
+      roles: [this.selectedUserType._id]
     };
-    this.store.dispatch(new AuthActions.DoSignUp({ register: payload }));
+    this.store.dispatch(new AuthActions.DoSignUp({ registerData: payload }));
   }
 
   ngOnDestroy() {

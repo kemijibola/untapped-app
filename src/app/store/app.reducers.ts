@@ -14,6 +14,7 @@ import * as fromError from "./global/error/error.reducers";
 import * as fromToggle from "../shared/store/slide-toggle/slide-toggle.reducers";
 import * as fromTalents from "../shared/store/talents/talents.reducers";
 import * as fromComments from "../shared/store/comments/comments.reducers";
+import { EntityState, EntityMap } from "@ngrx/entity";
 
 export interface AppState {
   auth: fromAuth.State;

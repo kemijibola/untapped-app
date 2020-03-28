@@ -55,6 +55,6 @@ export class LoginComponent implements OnInit {
       email,
       password
     };
-    this.store.dispatch(new AuthActions.DoSignIn({ loginParam: payload }));
+    this.store.dispatch(new AuthActions.DoSignIn({ loginData: payload }));
   }
 }

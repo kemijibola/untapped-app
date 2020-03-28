@@ -11,17 +11,17 @@ export const SET_MEDIA_COMMENT = "SET_MEDIA_COMMENT";
 
 export class FetchMediaComments implements Action {
   readonly type = FETCH_MEDIA_COMMENTS;
-  constructor(public payload: string) {}
+  constructor(public payload: { mediaId: string }) {}
 }
 
 export class SuccessPostMediaComment implements Action {
   readonly type = SUCCESS_POST_MEDIA_COMMENT;
-  constructor(public payload: IComment) {}
+  constructor(public payload: { talentMediaComment: IComment }) {}
 }
 
 export class SetMediaComments implements Action {
   readonly type = SET_MEDIA_COMMENTS;
-  constructor(public payload: IComment[]) {}
+  constructor(public payload: { talentMediaComments: IComment[] }) {}
 }
 
 export class PostMediaComment implements Action {

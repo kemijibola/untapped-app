@@ -17,11 +17,8 @@ import * as PortfolioActions from "./portfolio.actions";
 
 export interface State {
   audios: IAudio[];
-  audioPreviews: AudioPreview[];
   vidoes: IVideo[];
-  videoPreviews: VideoPreview[];
   images: IImage[];
-  imagePreviews: ImagePreview[];
   items: IGeneralMedia[];
   media: IMedia;
   allMedia: IMedia[];
@@ -39,9 +36,6 @@ export interface State {
 
 const initialState: State = {
   audios: [],
-  audioPreviews: [],
-  imagePreviews: [],
-  videoPreviews: [],
   vidoes: [],
   images: [],
   items: [],
@@ -65,7 +59,7 @@ const initialState: State = {
 export function portfolioReducer(
   state = initialState,
   action: PortfolioActions.PortfolioActions
-) {
+): State {
   switch (action.type) {
     case PortfolioActions.SET_MEDIA_UPLOAD_TYPE:
       return {
@@ -112,22 +106,6 @@ export function portfolioReducer(
         audios: [...userAudios],
         images: [...userImages],
         vidoes: [...userVideos]
-      };
-    case PortfolioActions.SET_USER_MEDIA_LIST_PREVIEW:
-      const userAudioPreviews = action.payload.filter(
-        x => x.mediaType === MediaType.AUDIO.toLowerCase()
-      );
-      const userImagePreviews = action.payload.filter(
-        x => x.mediaType === MediaType.IMAGE.toLowerCase()
-      );
-      const userVideoPreviews = action.payload.filter(
-        x => x.mediaType === MediaType.VIDEO.toLowerCase()
-      );
-      return {
-        ...state,
-        audioPreviews: [...userAudioPreviews],
-        imagePreviews: [...userImagePreviews],
-        videoPreviews: [...userVideoPreviews]
       };
     case PortfolioActions.SET_MEDIA_BY_ID:
       return {

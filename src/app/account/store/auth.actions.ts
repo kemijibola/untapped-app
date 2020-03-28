@@ -5,6 +5,7 @@ import {
   ILogin,
   IConfirmEmail
 } from "src/app/interfaces";
+import { AppError } from "src/app/store/global/error/error.reducers";
 
 export const DO_SIGNUP = "DO_SIGNUP";
 export const DO_SIGNIN = "DO_SIGNIN";
@@ -26,22 +27,22 @@ export const FAILURE_EMAIL_CONFIRMATION = "FAILURE_EMAIL_CONFIRMATION";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
-  constructor(public payload: { register: IRegister }) {}
+  constructor(public payload: { registerData: IRegister }) {}
 }
 export class DoSignIn implements Action {
   readonly type = DO_SIGNIN;
-  constructor(public payload: { loginParam: ILogin }) {}
+  constructor(public payload: { loginData: ILogin }) {}
 }
 export class SignUpSuccess implements Action {
   readonly type = SIGNUP_SUCCESS;
 }
 export class SignInSuccess implements Action {
   readonly type = SIGNIN_SUCCESS;
-  constructor(public payload: IAuthData) {}
+  constructor(public payload: { userData: IAuthData }) {}
 }
 export class SignUpFailure implements Action {
   readonly type = SIGNUP_FAILURE;
-  constructor(public payload: { error: string }) {}
+  constructor(public payload: { error: AppError }) {}
 }
 export class ResetFailureMessage implements Action {
   readonly type = RESET_FAILURE_MESSAGE;
@@ -51,7 +52,7 @@ export class LogOut implements Action {
 }
 export class SetAuthData implements Action {
   readonly type = SET_AUTHDATA;
-  constructor(public payload: IAuthData) {}
+  constructor(public payload: { authData: IAuthData }) {}
 }
 // this might also work for LogOut Action
 export class DeleteAutData implements Action {
@@ -68,7 +69,7 @@ export class SetNewUserEmail implements Action {
 
 export class SignInFailure implements Action {
   readonly type = SIGNIN_FAILURE;
-  constructor(public payload: string) {}
+  constructor(public payload: AppError) {}
 }
 export class FetchAuthData implements Action {
   readonly type = FETCH_AUTHDATA;
@@ -76,7 +77,7 @@ export class FetchAuthData implements Action {
 
 export class DoEmailConfirmation implements Action {
   readonly type = DO_EMAIL_CONFIRMATION;
-  constructor(public payload: IConfirmEmail) {}
+  constructor(public payload: { confirmEmailData: IConfirmEmail }) {}
 }
 
 export class SuccessEmailConfirmation implements Action {
@@ -85,7 +86,7 @@ export class SuccessEmailConfirmation implements Action {
 
 export class FailureEmailConfirmation implements Action {
   readonly type = FAILURE_EMAIL_CONFIRMATION;
-  constructor(public payload: string) {}
+  constructor(public payload: { error: string }) {}
 }
 
 export type AuthActions =

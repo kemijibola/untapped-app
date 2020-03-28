@@ -42,6 +42,8 @@ export class UpUserFilterItemComponent implements OnInit, OnChanges {
     }
   }
   onUserSelected(data: UserFilterCategory) {
-    this.store.dispatch(new UserCategoryActions.SetSelectedUser(this.userData));
+    this.store.dispatch(
+      new UserCategoryActions.SetSelectedUser({ selectedTalent: this.userData })
+    );
   }
 }

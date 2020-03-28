@@ -40,7 +40,9 @@ export class UpUserFilterComponent implements OnInit {
       });
 
     this.store.dispatch(
-      new UserCategoryActions.SetSelectedUser(this.filteredUsers[0])
+      new UserCategoryActions.SetSelectedUser({
+        selectedTalent: this.filteredUsers[0]
+      })
     );
   }
 
@@ -53,7 +55,7 @@ export class UpUserFilterComponent implements OnInit {
       }
     });
     this.store.dispatch(
-      new UserCategoryActions.SetSelectedUser(this.filteredUsers[index])
+      new UserCategoryActions.SetSelectedUser({selectedTalent: this.filteredUsers[index]})
     );
   }
 

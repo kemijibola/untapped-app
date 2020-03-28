@@ -3,7 +3,9 @@ export interface IComment {
   media: string;
   comment: string;
   user?: CommenterViewModel;
+  likeCount?: number;
   replies?: Reply[];
+  hasLiked?: boolean;
   likedBy?: LikeViewModel[];
   createdAt?: Date;
   updatedAt?: Date;

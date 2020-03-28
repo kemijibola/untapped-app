@@ -11,7 +11,7 @@ export class FetchCategoryTypes implements Action {
 
 export class SetCategoryTypes implements Action {
   readonly type = SET_CATEGORY_TYPES;
-  constructor(public payload: CategoryType[]) {}
+  constructor(public payload: { categoryTypes: CategoryType[] }) {}
 }
 
 export class SetSelectedCategoryType implements Action {

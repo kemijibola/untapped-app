@@ -62,13 +62,13 @@ export class AppComponent implements OnInit {
   ) {}
 
   loadAll() {
-    this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
-    this.store.dispatch(new CategoryActions.FetchCategories());
-    this.store.dispatch(
-      new UserCategoryActions.FetchAllTalentHighestComment(
-        ReportType.highestcomment
-      )
-    );
+    // this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
+    // this.store.dispatch(new CategoryActions.FetchCategories());
+    // this.store.dispatch(
+    //   new UserCategoryActions.FetchAllTalentHighestComment(
+    //     ReportType.highestcomment
+    //   )
+    // );
   }
 
   fetchTalentPortfolio(userId: string) {

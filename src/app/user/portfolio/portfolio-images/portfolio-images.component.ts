@@ -13,9 +13,6 @@ import {
   UploadedItems
 } from "src/app/interfaces";
 import {
-  selectUserImageList,
-  selectUserVideoPreviewList,
-  selectUserImagePreviewList,
   selectMedia,
   selectImageDeleteSuccess
 } from "../../store/portfolio/portfolio.selectors";
@@ -33,6 +30,7 @@ import {
   AppModal
 } from "src/app/interfaces/shared/modal";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
+import { selectUserImagePreviewList } from "../../store/portfolio/media/media-preview.selectors";
 
 @Component({
   selector: "app-portfolio-images",

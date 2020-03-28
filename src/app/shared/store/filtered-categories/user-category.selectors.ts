@@ -12,5 +12,5 @@ export const selectAllTalents = createSelector(
 
 export const selectSelectedUser = createSelector(
   user,
-  (state: fromUserCategory.State) => state.selectedUser
+  (state: fromUserCategory.State) => state.selectedTalent
 );

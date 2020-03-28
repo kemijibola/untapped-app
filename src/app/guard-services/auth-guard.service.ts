@@ -12,7 +12,7 @@ import {
 } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { IAuthData } from "../interfaces";
-import { map, tap } from "rxjs/operators";
+import { map, tap, concatMap } from "rxjs/operators";
 import * as AuthActions from "../account/store/auth.actions";
 import { AuthService } from "../services/auth.service";
 
@@ -25,14 +25,25 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   getUserDataFromStore(): Observable<any> {
-    return this.store
-      .select(selectUserData)
-      .do((val: IAuthData) => {
-        if (!val) {
-          this.store.dispatch(new AuthActions.FetchAuthData());
-        }
-      })
-      .map((val: IAuthData) => val);
+    return this.store.select(selectUserData).pipe(
+      map((val: IAuthData) => (val ? val : new AuthActions.FetchAuthData())),
+      map((data: IAuthData) => data)
+    );
+    // return this.store
+    //   .select(selectUserData)
+    //   .pipe(
+    //     map((val: IAuthData) => {
+    //       if (!val) {
+    //         this.store.dispatch(new AuthActions.FetchAuthData());
+    //       }
+    //     })
+    //   ).pipe
+    //   .do((val: IAuthData) => {
+    //     if (!val) {
+    //       this.store.dispatch(new AuthActions.FetchAuthData());
+    //     }
+    //   })
+    //   .map((val: IAuthData) => val);
   }
 
   canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

@@ -28,7 +28,9 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
         email: keys["email"],
         token: keys["token"]
       };
-      this.store.dispatch(new AuthActions.DoEmailConfirmation(payload));
+      this.store.dispatch(
+        new AuthActions.DoEmailConfirmation({ confirmEmailData: payload })
+      );
     });
 
     // error

@@ -121,7 +121,9 @@ export class TalentAlbumModalContentComponent implements OnInit {
         if (val.data !== null) {
           this.selectedMedia = { ...val.data };
           this.store.dispatch(
-            new CommentsActions.FetchMediaComments(this.selectedMedia._id)
+            new CommentsActions.FetchMediaComments({
+              mediaId: this.selectedMedia._id
+            })
           );
         }
       } else {

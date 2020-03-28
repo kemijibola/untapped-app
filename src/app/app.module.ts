@@ -1,3 +1,4 @@
+import { ErrorEffects } from "./store/global/error/error.effects";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ErrorHandler } from "@angular/core";
 import { OwlModule } from "ngx-owl-carousel";
@@ -29,6 +30,7 @@ import { CategoryEffect } from "./shared/store/category/category.effect";
 import { UserCategoryEffect } from "./shared/store/filtered-categories/user-category.effect";
 import { TalentsEffect } from "./shared/store/talents/talents.effects";
 import { CommentsEffects } from "./shared/store/comments/comments.effects";
+import { MediaPreviewEffect } from "./user/store/portfolio/media/media-preview.effects";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -54,7 +56,9 @@ import { CommentsEffects } from "./shared/store/comments/comments.effects";
       CategoryEffect,
       UserCategoryEffect,
       TalentsEffect,
-      CommentsEffects
+      CommentsEffects,
+      ErrorEffects,
+      MediaPreviewEffect
     ]),
     CoreModule,
     StoreRouterConnectingModule,

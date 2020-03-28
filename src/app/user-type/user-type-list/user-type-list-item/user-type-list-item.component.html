@@ -3,7 +3,7 @@
     class="community-wrp"
     [formGroup]="userTypeForm"
     style="cursor:pointer"
-    (click)="onClick(item._id)"
+    (click)="onClick(item)"
   >
     <label class="round">
       <input
@@ -11,7 +11,7 @@
         name="typeOfUser"
         formControlName="typeOfUser"
         [value]="item._id"
-        (click)="onClick(item._id)"
+        (click)="onClick(item)"
         required
       />
       <span class="checkmark"></span>

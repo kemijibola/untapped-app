@@ -15,7 +15,6 @@ import {
 } from "src/app/interfaces";
 import {
   selectUserVideoList,
-  selectUserVideoPreviewList,
   selectVideoDeleteSuccess
 } from "../../store/portfolio/portfolio.selectors";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
@@ -23,6 +22,7 @@ import { fetchVideoArt } from "src/app/lib/Helper";
 import * as fromApp from "../../../store/app.reducers";
 import * as PortfolioActions from "../../store/portfolio/portfolio.actions";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
+import { selectUserVideoPreviewList } from "../../store/portfolio/media/media-preview.selectors";
 
 @Component({
   selector: "app-portfolio-videos",

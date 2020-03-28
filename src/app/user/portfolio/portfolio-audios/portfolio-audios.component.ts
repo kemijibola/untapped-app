@@ -1,7 +1,4 @@
-import {
-  selectUserAudioPreviewList,
-  selectAudioDeleteSuccess
-} from "./../../store/portfolio/portfolio.selectors";
+import { selectAudioDeleteSuccess } from "./../../store/portfolio/portfolio.selectors";
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -23,6 +20,7 @@ import * as fromUser from "../../user.reducers";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import { fetchAudioArt } from "src/app/lib/Helper";
 import * as PortfolioActions from "../../store/portfolio/portfolio.actions";
+import { selectUserAudioPreviewList } from "../../store/portfolio/media/media-preview.selectors";
 
 @Component({
   selector: "app-portfolio-audios",

@@ -1,27 +1,40 @@
-import { ISettings } from 'src/app/interfaces';
-import * as UserSettingsActions from './settings.actions';
+import { ISettings, AccountStatus } from "src/app/interfaces";
+import * as UserSettingsActions from "./settings.actions";
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 
-export interface State {
+export interface State extends EntityState<ISettings> {
   settings: ISettings;
 }
 
-const initialState: State = {
+export const settingAdapter: EntityAdapter<ISettings> = createEntityAdapter<
+  ISettings
+>();
+
+const initialState: State = settingAdapter.getInitialState({
   settings: null
-};
+});
 
 export function settingsReducer(
   state = initialState,
   action: UserSettingsActions.UserSettingsAction
-) {
+): State {
   switch (action.type) {
     case UserSettingsActions.SET_USERSETTINGS:
-      return {
-        ...state,
-        settings: Object.assign(state.settings, action.payload)
-      };
+      return settingAdapter.setOne(action.payload.userSetting, state);
     case UserSettingsActions.UPDATE_USERSETTINGS:
       // TODO:: work on the update
-      return {};
+      return settingAdapter.setOne(
+        {
+          tapNotification: false,
+          emailNotification: false,
+          profileVisibility: false,
+          status: {
+            status: AccountStatus.DELETED,
+            updatedAt: new Date()
+          }
+        },
+        state
+      );
     default:
       return state;
   }

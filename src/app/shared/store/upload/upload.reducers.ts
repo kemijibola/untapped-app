@@ -105,7 +105,6 @@ export function UploadReducers(
         uploadAction: action.payload.uploadOperation
       };
     case UploadActions.SET_UPLOADED_ITEMS:
-      console.log("uploaded items");
       return {
         ...state,
         uploadedItems: { ...action.payload }

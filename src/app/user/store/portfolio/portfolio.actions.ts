@@ -19,9 +19,6 @@ import {
 export const FETCH_USER_MEDIA_LIST = "FETCH_USER_MEDIA_LIST";
 export const SET_USER_MEDIA_LIST = "SET_USER_MEDIA_LIST";
 
-export const FETCH_USER_MEDIA_LIST_PREVIEW = "FETCH_USER_MEDIA_LIST_PREVIEW";
-export const SET_USER_MEDIA_LIST_PREVIEW = "SET_USER_MEDIA_LIST_PREVIEW";
-
 export const FETCH_MEDIA_BY_ID = "FETCH_MEDIA_BY_ID";
 export const SET_MEDIA_BY_ID = "SET_MEDIA_BY_ID";
 
@@ -186,16 +183,6 @@ export class SetUserMediaList implements Action {
   constructor(public payload: IMedia[]) {}
 }
 
-export class FetchUserMediaListPreview implements Action {
-  readonly type = FETCH_USER_MEDIA_LIST_PREVIEW;
-  constructor(public payload: MediaQueryParams) {}
-}
-
-export class SetUserMediaListPreview implements Action {
-  readonly type = SET_USER_MEDIA_LIST_PREVIEW;
-  constructor(public payload: MediaPreview[]) {}
-}
-
 export class FetchMediaById implements Action {
   readonly type = FETCH_MEDIA_BY_ID;
   constructor(public payload: MediaQueryParams) {}
@@ -231,8 +218,6 @@ export type PortfolioActions =
   | CreatePortfolioMediaSuccess
   | FetchUserMediaList
   | SetUserMediaList
-  | FetchUserMediaListPreview
-  | SetUserMediaListPreview
   | FetchMediaById
   | SetMediaById
   | FetchAllMedia

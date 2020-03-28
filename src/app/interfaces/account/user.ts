@@ -38,7 +38,7 @@ interface UserType {
   name: string;
 }
 
-enum AccountStatus {
+export enum AccountStatus {
   ACTIVATED = "ACTIVATED",
   SUSPENDED = "SUSPENDED",
   DELETED = "DELETED"

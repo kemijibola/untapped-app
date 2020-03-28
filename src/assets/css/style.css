@@ -1344,6 +1344,7 @@ html::-webkit-scrollbar {
   font-size: 12px;
   color: #6c6b6b;
   display: inline-block;
+  cursor: pointer;
 }
 .p-like-reply .reply {
   margin-right: 10px;

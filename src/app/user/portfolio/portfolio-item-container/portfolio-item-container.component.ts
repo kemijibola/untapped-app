@@ -7,6 +7,7 @@ import { Component, OnInit } from "@angular/core";
 import * as fromPortfolio from "../../store/portfolio/portfolio.reducers";
 import * as fromApp from "../../../store/app.reducers";
 import * as PortfolioActions from "../../store/portfolio/portfolio.actions";
+import * as MediaPreviewActions from "../../store/portfolio/media/media-preview.actions";
 import * as AuthActions from "../../../account/store/auth.actions";
 import { Store, select } from "@ngrx/store";
 import { MediaType, IAuthData } from "src/app/interfaces";
@@ -41,7 +42,7 @@ export class PortfolioItemContainerComponent implements OnInit {
       uploadType: MediaUploadType.ALL
     };
     this.userStore.dispatch(
-      new PortfolioActions.FetchUserMediaListPreview(queryParams)
+      new MediaPreviewActions.FetchUserMediaListPreview(queryParams)
     );
   }
 }

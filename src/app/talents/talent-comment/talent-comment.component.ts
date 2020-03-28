@@ -8,7 +8,7 @@ import {
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import { selectUserData } from "src/app/account/store/auth.selectors";
-import { IAuthData, IComment } from "src/app/interfaces";
+import { IAuthData, IComment, LikeViewModel } from "src/app/interfaces";
 import { Router } from "@angular/router";
 import { selectTalentMediaComments } from "src/app/shared/store/comments/comments.selectors";
 import { FormGroup, Validators, FormControl } from "@angular/forms";
@@ -30,7 +30,9 @@ export class TalentCommentComponent implements OnInit, OnChanges {
   selectedMediaId: string = "";
   commentsLength: number = 0;
   mediaComments: IComment[] = [];
+  isDisabled: boolean;
   mediaCommentForm: FormGroup;
+  currentUserId: string = "";
   commenterImageParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -44,18 +46,34 @@ export class TalentCommentComponent implements OnInit, OnChanges {
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
   ngOnInit() {
+    this.isDisabled = false;
     this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
+      console.log(val);
       this.isAuthenticated = val.authenticated;
+      if (val.authenticated) {
+        this.currentUserId = val ? val.user_data._id : "";
+      }
     });
 
     this.store
       .pipe(select(selectTalentMediaComments))
       .subscribe((val: IComment[]) => {
         this.commentsLength = val.length;
-        this.mediaComments = val.sort((a, b) => {
-          return this.getTime(b.createdAt) - this.getTime(a.createdAt);
-        });
-        this.fetchCommenterProfileImage(this.mediaComments);
+        if (this.commentsLength > 0) {
+          this.mediaComments = val.sort((a, b) => {
+            return this.getTime(b.createdAt) - this.getTime(a.createdAt);
+          });
+          this.fetchCommenterProfileImage(this.mediaComments);
+          if (this.currentUserId !== "") {
+            this.checkIfUserHasLikedComment(
+              this.currentUserId,
+              this.mediaComments
+            );
+          }
+        } else {
+          this.mediaComments = [];
+        }
+        console.log("from compo", this.mediaComments);
       });
 
     this.mediaCommentForm = new FormGroup({
@@ -63,6 +81,16 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     });
   }
 
+  onLikeClicked(comment: IComment) {
+    this.store.dispatch(new CommentsActions.PostCommentLike(comment._id));
+
+    // increase likeCount for object
+    // changed hasLiked to true for object
+  }
+
+  onReplyClicked(commentId: string) {
+    console.log("reply comment");
+  }
   fetchCommenterProfileImage(comments: IComment[]) {
     comments.map(x => {
       x.user.fullProfileImagePath =
@@ -80,6 +108,15 @@ export class TalentCommentComponent implements OnInit, OnChanges {
       this.selectedMediaId = this.mediaId;
     }
   }
+
+  checkIfUserHasLikedComment(currentUser: string, comments: IComment[]) {
+    comments.map(x => {
+      const found = x.likedBy.filter(y => x._id === currentUser)[0];
+      x.hasLiked = found ? true : false;
+      x.likeCount = x.likedBy ? x.likedBy.length : 0;
+    });
+  }
+
   onSignUpClicked() {
     this.router.navigate(["/account/signin"]);
   }

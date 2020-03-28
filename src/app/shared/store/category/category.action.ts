@@ -16,7 +16,7 @@ export class SetCategories implements Action {
 
 export class SetSelectedCategory implements Action {
   readonly type = SET_SELECTED_CATEGORY;
-  constructor(public payload: string) {}
+  constructor(public payload: { selectedCategory: string }) {}
 }
 
 export type CategoryActions =

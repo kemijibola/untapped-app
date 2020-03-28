@@ -34,9 +34,8 @@ export class ErrorInterceptor implements HttpInterceptor {
           console.log("No internet connection");
           this.store.dispatch(
             new ErrorActions.AddGlobalError({
-              response_code: 0,
-              response_message:
-                "You are currently not connected to the internet"
+              errorCode: 0,
+              errorMessage: "You are currently not connected to the internet"
             })
           );
         }
@@ -50,7 +49,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
           });
         } else {
-          this.store.dispatch(new ErrorActions.AddGlobalError(error));
+          this.store.dispatch(
+            new ErrorActions.AddGlobalError({ errorCode: 0, errorMessage: "" })
+          );
           return of(undefined);
         }
       })
