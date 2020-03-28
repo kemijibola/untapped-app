@@ -19,7 +19,10 @@ import {
   selectMedia,
   selectImageDeleteSuccess
 } from "../../store/portfolio/portfolio.selectors";
-import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
+import {
+  fetchImageObjectFromCloudFormation,
+  fetchNoMediaDefaultImage
+} from "src/app/lib/Helper";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import {
@@ -29,7 +32,6 @@ import {
   IModal,
   AppModal
 } from "src/app/interfaces/shared/modal";
-import { selectModals } from "src/app/shared/store/modals/modals.selectors";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
 
 @Component({
@@ -70,7 +72,10 @@ export class PortfolioImagesComponent extends AbstractModalComponent
         {
           index: 0,
           name: "gigs-modal",
-          display: ModalDisplay.none
+          display: ModalDisplay.none,
+          modalCss: "",
+          modalDialogCss: "",
+          showMagnifier: false
         }
       ]
     };
@@ -112,21 +117,26 @@ export class PortfolioImagesComponent extends AbstractModalComponent
 
   setAlbumCovers() {
     this.userImagePreviews.map(x => {
-      x.albumCover = fetchImageObjectFromCloudFormation(
-        x.defaultMediaPath,
-        this.editParams
-      );
+      x.albumCover =
+        x.defaultMediaPath !== ""
+          ? fetchImageObjectFromCloudFormation(
+              x.defaultMediaPath,
+              this.editParams
+            )
+          : fetchNoMediaDefaultImage();
     });
   }
 
   openModalDialog(modalId: string, itemId: string) {
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
-    this.modalToActivate.display = ModalDisplay.block;
+    this.modalToActivate.display = ModalDisplay.table;
     this.modalToActivate.viewMode = ModalViewModel.edit;
+    this.modalToActivate.modalCss = "modal aligned-modal";
+    this.modalToActivate.modalDialogCss = "modal-dialog";
     // use id of clicked Item to fetch
     this.fetchImage(itemId);
 
-    this.modalToActivate.data = this.store.dispatch(
+    this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,
         modal: this.modalToActivate

@@ -16,8 +16,6 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ProfileService } from "../services/profile.service";
 import { UploadService } from "../services/upload.service";
-import { AppFileInputDirective } from "../directives/file-multiple.directive";
-import { RoleService } from "../services/role.service";
 import { PortfolioService } from "../services/portfolio.service";
 import { UserService } from "../services/user.service";
 import { ServicesService } from "../services/services.service";
@@ -31,6 +29,10 @@ import { AuthInterceptor } from "../interceptors/AuthInterceptor";
 import { CategoryTypeService } from "../services/category-type.service";
 import { LoggingService } from "./../services/LoggingService";
 import { ErrorInterceptor } from "../interceptors/ErrorInterceptor";
+import { CategoryService } from "../services/category.service";
+import { UserCategoryService } from "../services/user-category.service";
+import { TalentsService } from "../services/talents.service";
+import { CommentsService } from "../services/comments.service";
 
 @NgModule({
   declarations: [
@@ -64,6 +66,10 @@ import { ErrorInterceptor } from "../interceptors/ErrorInterceptor";
     ErrorService,
     LoggingService,
     CategoryTypeService,
+    CategoryService,
+    UserCategoryService,
+    TalentsService,
+    CommentsService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]

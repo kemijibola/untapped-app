@@ -53,7 +53,10 @@ export class PortfolioMediaTypeComponent extends AbstractModalComponent
         {
           index: 0,
           name: "gigs-modal",
-          display: ModalDisplay.none
+          display: ModalDisplay.none,
+          modalCss: "",
+          modalDialogCss: "",
+          showMagnifier: false
         }
       ]
     };
@@ -84,8 +87,10 @@ export class PortfolioMediaTypeComponent extends AbstractModalComponent
 
   openModalDialog(modalId: string) {
     this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
-    this.modalToActivate.display = ModalDisplay.block;
+    this.modalToActivate.display = ModalDisplay.table;
     this.modalToActivate.viewMode = ModalViewModel.new;
+    this.modalToActivate.modalCss = "modal aligned-modal";
+    this.modalToActivate.modalDialogCss = "modal-dialog";
     this.store.dispatch(
       new ModalsActions.ToggleModal({
         component: this.modal.component,

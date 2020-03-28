@@ -1,11 +1,11 @@
 <div
-  class="modal"
+  [class]="currentModal.modalCss"
   tabindex="-1"
   role="dialog"
   id="{{ currentModal.name }}"
   [ngStyle]="{ display: currentModal.display }"
 >
-  <div class="modal-dialog" role="document">
+  <div [class]="currentModal.modalDialogCss" role="document">
     <div class="modal-content contest-d">
       <div class="row">
         <div class="col-xl-12">
@@ -14,6 +14,7 @@
       </div>
       <ng-content select="[body]"></ng-content>
     </div>
+    <app-up-media-magnifier></app-up-media-magnifier>
   </div>
 </div>
 

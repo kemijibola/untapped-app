@@ -2,13 +2,13 @@ import * as CategoryTypeAction from "./category-type.actions";
 import { CategoryType } from "src/app/interfaces";
 
 export interface State {
-  categories: CategoryType[];
-  selectedCategories: string[];
+  categoryTypes: CategoryType[];
+  selectedCategoryTypes: string[];
 }
 
 const initialState: State = {
-  categories: [],
-  selectedCategories: []
+  categoryTypes: [],
+  selectedCategoryTypes: []
 };
 
 export function CategoryTypeReducers(
@@ -16,15 +16,15 @@ export function CategoryTypeReducers(
   action: CategoryTypeAction.CategoryTypeAction
 ) {
   switch (action.type) {
-    case CategoryTypeAction.SET_CATEGORIES:
+    case CategoryTypeAction.SET_CATEGORY_TYPES:
       return {
         ...state,
-        categories: [...action.payload]
+        categoryTypes: [...action.payload]
       };
-    case CategoryTypeAction.SET_SELECTED_CATEGORIES:
+    case CategoryTypeAction.SET_SELECTED_CATEGORY_TYPE:
       return {
         ...state,
-        selectedCategories: [...action.payload]
+        selectedCategoryTypes: [...action.payload]
       };
     default:
       return state;

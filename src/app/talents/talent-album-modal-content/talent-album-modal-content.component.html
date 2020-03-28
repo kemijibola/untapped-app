@@ -1,0 +1,145 @@
+<div class="row no-gutters" body>
+  <div class="col-xl-12">
+    <div class="p-user p-talent">
+      <div class="p-user-img">
+        <img src="{{ selectedUser.displayPhotoFullPath }}" alt="" />
+      </div>
+      <div class="p-talent-nam">
+        <h5>{{ selectedUser.displayName }}’s</h5>
+        <div class="desig-up-wrap">
+          <span class="designation"> {{ selectedMedia.mediaType }} album</span>
+          <span class="up-date">{{ selectedMedia.dateCreated | date }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="col-xl-12 album-viewer">
+      <div
+        class="popup-img d-inline-block"
+        style="display: inline-block; width: 55%; height: 309px"
+      >
+        <img
+          src="{{ defaultImagePath }}"
+          alt=""
+          (click)="setMagnifiedImage()"
+          *ngIf="isCurrentImageSet"
+        />
+        <!-- <app-up-image
+          [defaultImagePath]="defaultImagePath"
+          *ngIf="isCurrentImageSet"
+        ></app-up-image> -->
+
+        <vg-player
+          style="height: 302px;"
+          (onPlayerReady)="onPlayerReady($event)"
+          [style.display]="isCurrentAudioSet ? 'block' : 'none'"
+        >
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+
+            <vg-time-display
+              vgProperty="current"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+
+            <vg-time-display
+              vgProperty="left"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+            <vg-time-display
+              vgProperty="total"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-mute></vg-mute>
+
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+          <!-- <vg-overlay-play
+            vgFor="audio_{{ currentAudioItem._id }}"
+          ></vg-overlay-play> -->
+          <audio
+            #media
+            [vgMedia]="media"
+            id="audio_{{ currentAudioItem._id }}"
+            preload="auto"
+          >
+            <source
+              src="{{ currentAudioItem.fullAudioPath }}"
+              [type]="currentAudioItem.type"
+            />
+          </audio>
+        </vg-player>
+
+        <vg-player
+          style="height: 302px;"
+          (onPlayerReady)="onPlayerReady($event)"
+          [style.display]="isCurrentVideoSet ? 'block' : 'none'"
+        >
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+          <vg-controls>
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+
+            <vg-time-display
+              vgProperty="current"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+            </vg-scrub-bar>
+
+            <vg-time-display
+              vgProperty="left"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+            <vg-time-display
+              vgProperty="total"
+              vgFormat="mm:ss"
+            ></vg-time-display>
+
+            <vg-mute></vg-mute>
+
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+          <!-- <vg-overlay-play
+          vgFor="audio_{{ currentAudioItem._id }}"
+        ></vg-overlay-play> -->
+          <video
+            #media
+            [vgMedia]="media"
+            id="video_{{ currentVideoItem._id }}"
+            preload="auto"
+          >
+            <source
+              src="{{ currentVideoItem.fullAudioPath }}"
+              [type]="currentVideoItem.type"
+            />
+          </video>
+        </vg-player>
+
+        <div class="user-part">
+          <div class="p-user-content p-talent">
+            <h4>{{ selectedMedia.mediaTitle }}</h4>
+            <p>
+              {{ selectedMedia.mediaDescription }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <app-talent-comment [mediaId]="selectedMedia._id"></app-talent-comment>
+    </div>
+  </div>
+</div>

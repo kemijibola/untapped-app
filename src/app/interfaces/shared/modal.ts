@@ -1,6 +1,13 @@
+import { MediaType, MediaItem } from "../user/portfolio";
+
 export interface AppModal {
   component: string;
   modals: IModal[];
+}
+
+export interface MagnifierData {
+  index: number;
+  data: MediaItem[];
 }
 
 export interface IModal {
@@ -10,9 +17,13 @@ export interface IModal {
   viewMode?: ModalViewModel;
   contentType?: string;
   data?: any;
+  modalCss: string;
+  modalDialogCss: string;
+  showMagnifier: boolean;
 }
+
 export enum ModalDisplay {
-  block = "block",
+  table = "table",
   none = "none"
 }
 
@@ -28,4 +39,8 @@ export enum ModalContent {
   video = "video",
   form = "form",
   info = "info"
+}
+export interface NavigationData {
+  currentIndex: number;
+  mediaType: string;
 }

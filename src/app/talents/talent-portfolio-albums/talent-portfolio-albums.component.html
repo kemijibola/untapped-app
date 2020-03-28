@@ -1,6 +1,76 @@
-<div class="head text-left mb-30">
+<app-modals [id]="'album-modal'">
+  <div class="pop-icon-bar pop-talent" navigate>
+    <div class="slide-arrow">
+      <button class="left" [disabled]="leftDisabled" (click)="onPrevious()">
+        <i class="far fa-angle-left"></i>
+      </button>
+      <button class="right" [disabled]="rightDisabled" (click)="onNext()">
+        <i class="far fa-angle-right"></i>
+      </button>
+    </div>
+    <button
+      type="button"
+      class="close"
+      (click)="closeModalDialog('album-modal')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true"><i class="far fa-times"></i></span>
+    </button>
+  </div>
+
+  <app-talent-album-modal-content body></app-talent-album-modal-content>
+</app-modals>
+
+<div class="head text-left mb-30" *ngIf="imageAlbumCount > 0">
   <span>Oluwa Burna’s</span>
-  <h3>Photography Albums</h3>
+  <h3>Image Albums</h3>
 </div>
 
-<app-talent-portfolio-album-item></app-talent-portfolio-album-item>
+<a
+  class="album-img mb-30"
+  (click)="openModalDialog('album-modal', image)"
+  *ngFor="let image of imageAlbums; let i = index"
+>
+  <img src="{{ image.albumCover }}" style="height: 225px" alt="" />
+  <div class="title-content" style="width: 187.83px;">
+    <span class="subject">{{ image.mediaTitle }}</span>
+    <span class="date">{{ image.dateCreated | date }}</span>
+  </div>
+  <span class="number">{{ image.itemsCount }}</span>
+</a>
+
+<div class="head text-left mb-30 mt-45" *ngIf="audioAlbumCount > 0">
+  <span>Oluwa Burna’s</span>
+  <h3>Audio Albums</h3>
+</div>
+
+<a
+  class="album-img mb-30"
+  *ngFor="let audio of audioAlbums; let i = index"
+  (click)="openModalDialog('album-modal', audio)"
+>
+  <img src="{{ audio.albumCover }}" style="height: 225px" alt="" />
+  <div class="title-content" style="width: 187.83px;">
+    <span class="subject">{{ audio.mediaTitle }}</span>
+    <span class="date">{{ audio.dateCreated | date }}</span>
+  </div>
+  <span class="number">{{ audio.itemsCount }}</span>
+</a>
+
+<div class="head text-left mb-30">
+  <span>Oluwa Burna’s</span>
+  <h3>Video Albums</h3>
+</div>
+
+<a
+  class="album-img mb-30"
+  *ngFor="let video of videoAlbums; let i = index"
+  (click)="openModalDialog('album-modal', video)"
+>
+  <img src="{{ video.albumCover }}" style="height: 225px" alt="" />
+  <div class="title-content" style="width: 187.83px;">
+    <span class="subject">{{ video.mediaTitle }}</span>
+    <span class="date">{{ video.dateCreated | date }}</span>
+  </div>
+  <span class="number">{{ video.itemsCount }}</span>
+</a>

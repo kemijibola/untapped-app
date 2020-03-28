@@ -8,7 +8,6 @@ import {
   ModalViewModel,
   ModalContent
 } from "src/app/interfaces/shared/modal";
-import { selectModals } from "../../shared/store/modals/modals.selectors";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import * as fromPortfolio from "../store/portfolio/portfolio.reducers";

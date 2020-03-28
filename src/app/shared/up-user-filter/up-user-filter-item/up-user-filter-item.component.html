@@ -1,0 +1,15 @@
+<a (click)="onUserSelected(userData)" style="cursor: pointer;">
+  <div class="accor-item">
+    <div class="accor-img">
+      <img src="{{ userData.displayPhotoFullPath }}" alt="" />
+    </div>
+    <div class="accor-content">
+      <h4>{{ userData.aliasName }}</h4>
+      <p>
+        <!-- The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax
+        quiz prog… -->
+        {{ userData.shortDescription | truncateText: 80 }}
+      </p>
+    </div>
+  </div>
+</a>

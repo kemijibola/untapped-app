@@ -85,7 +85,7 @@ export class ProfileComponent implements OnInit {
       .subscribe((val: IProfile) => {
         if (_.has(val, "_id")) {
           this.store.dispatch(
-            new CategoryTypeActions.SetSelectedCategories(val.categories)
+            new CategoryTypeActions.SetSelectedCategoryType(val.categoryTypes)
           );
           this._id = val._id;
           this.name = val.name;
@@ -162,7 +162,7 @@ export class ProfileComponent implements OnInit {
       location,
       fullName,
       phoneNumbers: [phoneNumber],
-      categories: [...this.selectedCategories],
+      categoryTypes: [...this.selectedCategories],
       additionalSocial: [...additionalSocials],
       shortBio,
       facebook,

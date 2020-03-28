@@ -1,0 +1,18 @@
+<div aria-label="Page navigation example">
+  <ul class="pagination">
+    <li
+      class="page-item"
+      (click)="onSelectCategory(i)"
+      *ngFor="let category of orderedCategories; let i = index"
+    >
+      <a
+        class="page-link"
+        [class.page-link-active]="orderedCategories[i].selected"
+        >{{ category.name }}</a
+      >
+    </li>
+    <li class="page-item" (click)="onNext()">
+      <a class="page-link"><i class="fas fa-chevron-right"></i></a>
+    </li>
+  </ul>
+</div>

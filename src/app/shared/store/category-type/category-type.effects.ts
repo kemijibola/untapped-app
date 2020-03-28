@@ -11,14 +11,14 @@ import { map } from "rxjs/operators";
 export class CategoryTypeEffects {
   @Effect()
   fetchCategoryTypes = this.actions$
-    .pipe(ofType(CategoryTypeActions.FETCH_CATEGORIES))
-    .switchMap((action: CategoryTypeActions.FetchCategories) => {
+    .pipe(ofType(CategoryTypeActions.FETCH_CATEGORY_TYPES))
+    .switchMap((action: CategoryTypeActions.FetchCategoryTypes) => {
       return this.categoryTypeService.getCategoryTypes();
     })
     .pipe(
       map((res: IResult<CategoryType[]>) => {
         return {
-          type: CategoryTypeActions.SET_CATEGORIES,
+          type: CategoryTypeActions.SET_CATEGORY_TYPES,
           payload: res.data
         };
       })

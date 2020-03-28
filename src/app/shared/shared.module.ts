@@ -12,7 +12,23 @@ import { TalentCategoriesComponent } from "./talent-categories/talent-categories
 import { MaterialModule } from "../material.module";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { ModalComponent } from "./modal/modal.component";
+import { UpSearchComponent } from "./up-search/up-search.component";
+import { UpCategerySearchComponent } from "./up-categery-search/up-categery-search.component";
+import { UpUserFilterContainerComponent } from "./up-user-filter-container/up-user-filter-container.component";
+import { UpUserFilterComponent } from "./up-user-filter/up-user-filter.component";
+import { UpUserFilterItemComponent } from "./up-user-filter/up-user-filter-item/up-user-filter-item.component";
+import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
+import { UpImageComponent } from "./up-image/up-image.component";
+import { UpAudioComponent } from "./up-audio/up-audio.component";
+import { UpVideoComponent } from "./up-video/up-video.component";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
+
+import { VgCoreModule } from "videogular2/compiled/core";
+import { VgControlsModule } from "videogular2/compiled/controls";
+import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
+import { VgBufferingModule } from "videogular2/compiled/buffering";
+import { VgAPI } from "videogular2/compiled/core";
+import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifier.component";
 
 @NgModule({
   imports: [
@@ -21,6 +37,10 @@ import { ModalComponent } from "./modal/modal.component";
     AngularMultiSelectModule,
     CommonModule,
     MaterialModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
     RouterModule.forChild([])
   ],
   exports: [
@@ -31,7 +51,17 @@ import { ModalComponent } from "./modal/modal.component";
     ModalsComponent,
     ModalComponent,
     SlideToggleComponent,
-    TalentCategoriesComponent
+    TalentCategoriesComponent,
+    UpSearchComponent,
+    UpCategerySearchComponent,
+    UpUserFilterContainerComponent,
+    UpUserFilterComponent,
+    UpUserFilterItemComponent,
+    TruncateTextPipe,
+    UpImageComponent,
+    UpAudioComponent,
+    UpVideoComponent,
+    UpMediaMagnifierComponent
   ],
   declarations: [
     UploadComponent,
@@ -40,7 +70,18 @@ import { ModalComponent } from "./modal/modal.component";
     ModalsComponent,
     SlideToggleComponent,
     TalentCategoriesComponent,
-    ModalComponent
-  ]
+    ModalComponent,
+    UpSearchComponent,
+    UpCategerySearchComponent,
+    UpUserFilterContainerComponent,
+    UpUserFilterComponent,
+    UpUserFilterItemComponent,
+    TruncateTextPipe,
+    UpImageComponent,
+    UpAudioComponent,
+    UpVideoComponent,
+    UpMediaMagnifierComponent
+  ],
+  providers: [VgAPI]
 })
 export class SharedModule {}
