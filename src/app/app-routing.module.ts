@@ -10,30 +10,30 @@ const appRoutes: Routes = [
   { path: "", canActivate: [CompleteProfile], component: HomeComponent },
   {
     path: "account",
-    loadChildren: "./account/auth.module#AuthModule"
+    loadChildren: () => import('./account/auth.module').then(m => m.AuthModule)
   },
   {
     path: "talents",
-    loadChildren: "./talents/talents.module#TalentsModule"
+    loadChildren: () => import('./talents/talents.module').then(m => m.TalentsModule)
   },
   {
     path: "contests",
     canActivate: [AuthGuard, CompleteProfile],
-    loadChildren: "./contests/contests.module#ContestsModule"
+    loadChildren: () => import('./contests/contests.module').then(m => m.ContestsModule)
   },
   {
     path: "user",
     canActivate: [AuthGuard, CompleteProfile],
-    loadChildren: "./user-contest/user-contest.module#UserContestModule"
+    loadChildren: () => import('./user-contest/user-contest.module').then(m => m.UserContestModule)
   },
   {
     path: "professionals",
-    loadChildren: "./professionals/professionals.module#ProfessionalsModule"
+    loadChildren: () => import('./professionals/professionals.module').then(m => m.ProfessionalsModule)
   },
 
   {
     path: "",
-    loadChildren: "./user/user.module#UserModule"
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   }
 
   // {
