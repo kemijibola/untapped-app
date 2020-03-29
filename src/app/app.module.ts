@@ -31,6 +31,7 @@ import { UserCategoryEffect } from "./shared/store/filtered-categories/user-cate
 import { TalentsEffect } from "./shared/store/talents/talents.effects";
 import { CommentsEffects } from "./shared/store/comments/comments.effects";
 import { MediaPreviewEffect } from "./user/store/portfolio/media/media-preview.effects";
+import { StorageModule } from '@ngx-pwa/local-storage';
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -62,7 +63,8 @@ import { MediaPreviewEffect } from "./user/store/portfolio/media/media-preview.e
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StorageModule.forRoot({ IDBNoWrap: false })
   ],
   exports: [MaterialModule],
   providers: [],

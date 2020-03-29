@@ -56,16 +56,16 @@ export class AuthService {
     return this.localStorage.getItem(key);
   }
   removeItem(key: string): Observable<boolean> {
-    this.localStorage.removeItemSubscribe(key);
+    this.localStorage.removeItem(key);
     return of(true);
   }
 
   setItem(key: string, data: any): void {
-    this.localStorage.setItemSubscribe(key, data);
+    this.localStorage.setItem(key, data);
   }
 
   updateData(key: string, data: any): void {
     this.localStorage.removeItem(key);
-    this.localStorage.setItemSubscribe(key, data);
+    this.localStorage.setItem(key, data);
   }
 }
