@@ -1,7 +1,7 @@
 import { Router } from "@angular/router";
 import { Injectable, Injector, ErrorHandler } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Effect, Actions, ofType } from "@ngrx/effects";
 import * as GlobalErrorActions from "./error.actions";
 import { AppError } from "./error.reducers";
