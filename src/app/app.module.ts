@@ -3,7 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ErrorHandler } from "@angular/core";
 import { OwlModule } from "ngx-owl-carousel";
 import { StoreModule, Store } from "@ngrx/store";
-import { StoreRouterConnectingModule } from "@ngrx/router-store";
+import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from "@ngrx/router-store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "./../environments/environment";
 import { APP_INITIALIZER } from "@angular/core";
@@ -61,7 +61,7 @@ import { MediaPreviewEffect } from "./user/store/portfolio/media/media-preview.e
       MediaPreviewEffect
     ]),
     CoreModule,
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   exports: [MaterialModule],
