@@ -5,7 +5,7 @@ import { IRole, IResult } from "src/app/interfaces";
 import { ConfigService } from "./config.service";
 import { environment } from "../../environments/environment";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class RoleService {
   private BASE_URI = "http://127.0.0.1:8900/v1";
 

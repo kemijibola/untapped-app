@@ -4,7 +4,7 @@ import { IResult, IAppConfig } from 'src/app/interfaces';
 import { AUDIENCE } from '../lib/constants';
 import { tap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ConfigService {
   private BASE_URI = 'http://127.0.0.1:8900';
   configurations: IAppConfig;

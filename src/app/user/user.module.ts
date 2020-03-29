@@ -28,11 +28,10 @@ import { profileReducer } from "./store/profile/profile.reducers";
 import { ChangeProfessionalBannerComponent } from "./profile/change-professional-banner/change-professional-banner.component";
 import { PortfolioGeneralComponent } from "./portfolio/portfolio-general/portfolio-general.component";
 
-import { VgCoreModule } from "videogular2/compiled/core";
-import { VgControlsModule } from "videogular2/compiled/controls";
-import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
-import { VgBufferingModule } from "videogular2/compiled/buffering";
-import { VgAPI } from "videogular2/compiled/core";
+import { VgCoreModule } from "ngx-videogular";
+import { VgControlsModule } from "ngx-videogular";
+import { VgOverlayPlayModule } from "ngx-videogular";
+import { VgBufferingModule } from "ngx-videogular";
 
 @NgModule({
   declarations: [
@@ -66,7 +65,6 @@ import { VgAPI } from "videogular2/compiled/core";
     StoreModule.forFeature("portfolio", portfolioReducer),
     EffectsModule.forFeature([ProfileEffect, PortfolioEffect])
   ],
-  providers: [VgAPI],
   exports: [UserRoutingModule]
 })
 export class UserModule {}

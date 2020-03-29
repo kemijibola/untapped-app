@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { ImageEditRequest } from "../interfaces/media/image";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class UserService {
   private BASE_URI = "";
 

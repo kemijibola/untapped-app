@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import {
   IResult,
   IContestList,
   IContest,
   IUserContest,
   IContestIssue
-} from '../interfaces';
-import { Observable } from 'rxjs';
-import { IJudge } from '../interfaces/contests/Judge';
+} from "../interfaces";
+import { Observable } from "rxjs";
+import { IJudge } from "../interfaces/contests/Judge";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class ContestService {
-  private BASE_URI = '';
+  private BASE_URI = "";
   constructor(private http: HttpClient) {
-    this.BASE_URI = 'http://127.0.0.1:9000';
+    this.BASE_URI = "http://127.0.0.1:9000";
   }
   fetchContests(): Observable<IResult<IContestList[]>> {
     const url = `${this.BASE_URI}/contests`;

@@ -14,7 +14,7 @@ import { LocalStorage } from "@ngx-pwa/local-storage";
 import { environment } from "../../environments/environment";
 import { of } from "rxjs";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
   private BASE_URI = "";
 

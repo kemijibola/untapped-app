@@ -13,7 +13,7 @@ import {
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class PortfolioService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {

@@ -23,11 +23,17 @@ import { UpAudioComponent } from "./up-audio/up-audio.component";
 import { UpVideoComponent } from "./up-video/up-video.component";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
 
-import { VgCoreModule } from "videogular2/compiled/core";
-import { VgControlsModule } from "videogular2/compiled/controls";
-import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
-import { VgBufferingModule } from "videogular2/compiled/buffering";
-import { VgAPI } from "videogular2/compiled/core";
+// import { VgCoreModule } from "videogular2/compiled/core";
+// import { VgControlsModule } from "videogular2/compiled/controls";
+// import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
+// import { VgBufferingModule } from "videogular2/compiled/buffering";
+// import { VgAPI } from "videogular2/compiled/core";
+
+import { VgCoreModule } from "ngx-videogular";
+import { VgControlsModule } from "ngx-videogular";
+import { VgOverlayPlayModule } from "ngx-videogular";
+import { VgBufferingModule } from "ngx-videogular";
+
 import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifier.component";
 
 @NgModule({
@@ -81,7 +87,6 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     UpAudioComponent,
     UpVideoComponent,
     UpMediaMagnifierComponent
-  ],
-  providers: [VgAPI]
+  ]
 })
 export class SharedModule {}

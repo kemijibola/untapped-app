@@ -4,7 +4,7 @@ import { IProfile, IResult } from "../interfaces";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ProfileService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {

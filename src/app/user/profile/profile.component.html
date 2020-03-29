@@ -99,7 +99,7 @@
         <div
           class="row"
           *ngFor="
-            let otherSocialCtr of profileForm.get('additionalSocial').controls;
+            let otherSocialCtr of profileForm.get('additionalSocial');
             let i = index
           "
           [formGroupName]="i"

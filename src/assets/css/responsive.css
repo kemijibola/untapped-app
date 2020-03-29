@@ -1944,7 +1944,7 @@
 .gig-author .description .talent {
 	-webkit-box-pack: start;
 	-ms-flex-pack: start;
-	justify-content: start;
+	justify-content: flex-start;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;

@@ -47,8 +47,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { selectActiveModal } from "src/app/shared/store/modals/modals.selectors";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
 import { UUID } from "angular2-uuid";
-import { VgAPI, VgMedia } from "videogular2/compiled/core";
-
+import { VgMedia } from "videogular2/compiled/core";
+import { VgAPI } from "ngx-videogular";
 
 @Component({
   selector: "app-portfolio-modal-content",

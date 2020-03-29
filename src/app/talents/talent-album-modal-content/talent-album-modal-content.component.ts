@@ -23,7 +23,9 @@ import {
   fetchNoMediaDefaultImage,
   fetchAudioItemFullPath
 } from "src/app/lib/Helper";
-import { VgAPI, VgMedia } from "videogular2/compiled/core";
+import { VgMedia } from "videogular2/compiled/core";
+import { VgAPI } from "ngx-videogular";
+
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as CommentsActions from "../../shared/store/comments/comments.action";
 

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { UserFilterCategory, IResult, ReportType } from "../interfaces";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class UserCategoryService {
   private BASE_URI = "http://127.0.0.1:8900/v1";
   constructor(private http: HttpClient) {}
