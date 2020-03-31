@@ -28,8 +28,9 @@ export class AuthInterceptor implements HttpInterceptor {
     if (this.useHeader(req.url)) {
       return this.store.select(selectUserData).pipe(
         take(1),
-        switchMap((authState: IAuthData) => {
-          req = this.addToken(req, authState.access_token);
+        switchMap((autData: IAuthData) => {
+          // console.log(autData);
+          req = this.addToken(req, autData.access_token);
           return next.handle(req);
         })
       );

@@ -1,4 +1,4 @@
-<li *ngFor="let item of (userTypeState | async).userTypes; let i = index">
+<li *ngFor="let item of userTypes$ | async; let i = index">
   <div
     class="community-wrp"
     [formGroup]="userTypeForm"

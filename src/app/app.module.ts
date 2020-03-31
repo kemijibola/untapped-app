@@ -3,14 +3,17 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ErrorHandler } from "@angular/core";
 import { OwlModule } from "ngx-owl-carousel";
 import { StoreModule, Store } from "@ngrx/store";
-import { StoreRouterConnectingModule, DefaultRouterStateSerializer } from "@ngrx/router-store";
+import {
+  StoreRouterConnectingModule,
+  DefaultRouterStateSerializer
+} from "@ngrx/router-store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "./../environments/environment";
 import { APP_INITIALIZER } from "@angular/core";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
 import { AppRoutingModule } from "./app-routing.module";
-import { reducers } from "./store/app.reducers";
+import { reducers, metaReducers } from "./store/app.reducers";
 import { EffectsModule } from "@ngrx/effects";
 import { AuthEffects } from "./account/store/auth.effects";
 import { SharedModule } from "./shared/shared.module";
@@ -31,7 +34,8 @@ import { UserCategoryEffect } from "./shared/store/filtered-categories/user-cate
 import { TalentsEffect } from "./shared/store/talents/talents.effects";
 import { CommentsEffects } from "./shared/store/comments/comments.effects";
 import { MediaPreviewEffect } from "./user/store/portfolio/media/media-preview.effects";
-import { StorageModule } from '@ngx-pwa/local-storage';
+import { StorageModule } from "@ngx-pwa/local-storage";
+import { SnackBarEffect } from "./shared/notifications/snackbar/snackbar.effect";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -46,7 +50,7 @@ import { StorageModule } from '@ngx-pwa/local-storage';
     OwlModule,
     SharedModule,
     MaterialModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
       UserTypeEffects,
       AuthEffects,
@@ -59,10 +63,13 @@ import { StorageModule } from '@ngx-pwa/local-storage';
       TalentsEffect,
       CommentsEffects,
       ErrorEffects,
-      MediaPreviewEffect
+      MediaPreviewEffect,
+      SnackBarEffect
     ]),
     CoreModule,
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: DefaultRouterStateSerializer
+    }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StorageModule.forRoot({ IDBNoWrap: false })
   ],

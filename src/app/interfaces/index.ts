@@ -12,6 +12,7 @@ export * from "./user/profile";
 export * from "./shared/config";
 export * from "./AppConfig";
 export * from "./shared/UserProfile";
+export * from "./shared/Notification";
 export * from "./user/portfolio";
 export * from "./user/settings";
 export * from "./contests/Contest";

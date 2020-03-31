@@ -13,18 +13,19 @@ import { UserService } from "src/app/services/user.service";
 import { Subject } from "rxjs";
 import * as AuthActions from "../store/auth.actions";
 import * as fromUserType from "../../user-type/store/user-type.reducers";
-import { takeUntil } from "rxjs/operators";
+import { takeUntil, map } from "rxjs/operators";
 import { IRegister, IUserType } from "src/app/interfaces";
 import { AUDIENCE } from "src/app/lib/constants";
 import { selectErrorMessage } from "../store/auth.selectors";
 import { NotificationService } from "src/app/services/notification.service";
+import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
 
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.component.html",
   styleUrls: ["./signup.component.css"]
 })
-export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
+export class SignupComponent implements OnInit, AfterContentInit {
   signupForm: FormGroup;
   time = 500;
   emailPattern = "^[a-z0-9A-Z._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
@@ -71,11 +72,13 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
 
   ngAfterContentInit() {
     this.store
-      .pipe(select("userTypes"), takeUntil(this.ngDestroyed))
-      .subscribe((userTypeState: fromUserType.State) => {
-        this.selectedUserType = userTypeState.selectedUserType;
+      .select(fromUserTypeReducer.selectCurrentUserType)
+      .subscribe((val: IUserType) => {
+        this.selectedUserType = { ...val };
+        console.log(this.selectedUserType);
       });
   }
+
   onSubmit() {
     const username: string = this.signupForm.controls["name"].value;
     const email: string = this.signupForm.controls["email"].value;
@@ -87,10 +90,5 @@ export class SignupComponent implements OnInit, AfterContentInit, OnDestroy {
       roles: [this.selectedUserType._id]
     };
     this.store.dispatch(new AuthActions.DoSignUp({ registerData: payload }));
-  }
-
-  ngOnDestroy() {
-    this.ngDestroyed.next();
-    this.ngDestroyed.complete();
   }
 }

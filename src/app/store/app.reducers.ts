@@ -1,9 +1,11 @@
-import { ActionReducerMap } from "@ngrx/store";
+import { ActionReducerMap, ActionReducer, MetaReducer } from "@ngrx/store";
 import * as fromAuth from "../account/store/auth.reducers";
 import * as fromUser from "../account/store/user/user.reducers";
 import * as fromUserType from "../user-type/store/user-type.reducers";
+import * as fromUserTypeReducer from "../user-type/store/user-type.reducers";
 import * as fromUpload from "../shared/store/upload/upload.reducers";
 import * as fromTab from "../shared/store/tabs/tabs.reducers";
+import * as fromSnackBar from "../shared/notifications/snackbar/snackbar.reducer";
 import * as fromCategoryType from "../shared/store/category-type/category-type.reducers";
 import * as fromCategory from "../shared/store/category/category.reducers";
 import * as fromUserCategory from "../shared/store/filtered-categories/user-category.reducers";
@@ -15,11 +17,12 @@ import * as fromToggle from "../shared/store/slide-toggle/slide-toggle.reducers"
 import * as fromTalents from "../shared/store/talents/talents.reducers";
 import * as fromComments from "../shared/store/comments/comments.reducers";
 import { EntityState, EntityMap } from "@ngrx/entity";
+import { environment } from "src/environments/environment";
 
 export interface AppState {
   auth: fromAuth.State;
   user: fromUser.State;
-  userTypes: fromUserType.State;
+  userTypeState: fromUserType.UserTypeState;
   upload: fromUpload.State;
   appTabs: fromTab.State;
   userProfileImage: fromUserProfileImage.State;
@@ -32,12 +35,13 @@ export interface AppState {
   userCategories: fromUserCategory.State;
   talents: fromTalents.State;
   comments: fromComments.State;
+  snackBarState: fromSnackBar.SnackBarState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: fromAuth.authReducer,
   user: fromUser.userReducers,
-  userTypes: fromUserType.userTypeReducer,
+  userTypeState: fromUserTypeReducer.reducer,
   upload: fromUpload.UploadReducers,
   appTabs: fromTab.TabsReducers,
   userProfileImage: fromUserProfileImage.UserProfileImageReducers,
@@ -49,5 +53,18 @@ export const reducers: ActionReducerMap<AppState> = {
   categories: fromCategory.CategoryReducers,
   userCategories: fromUserCategory.UserCategoryReducers,
   talents: fromTalents.talentsReducer,
-  comments: fromComments.commentsReducer
+  comments: fromComments.commentsReducer,
+  snackBarState: fromSnackBar.reducer
 };
+
+export function logger(
+  reducer: ActionReducer<AppState>
+): ActionReducer<AppState> {
+  return function(state: AppState, action: any): AppState {
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<AppState>[] = !environment.production
+  ? [logger]
+  : [];
