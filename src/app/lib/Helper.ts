@@ -19,6 +19,10 @@ export function fetchNoMediaDefaultImage(): string {
   return environment.NO_MEDIA_IMG;
 }
 
+export function getTime(date?: Date) {
+  return date != null ? new Date(date).getTime() : 0;
+}
+
 export function fetchCommenterDefaultImage(): string {
   return environment.COMMENTER_DEFAULT_IMAGE;
 }

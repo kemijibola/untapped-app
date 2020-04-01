@@ -11,7 +11,7 @@ import {
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import * as fromPortfolio from "../store/portfolio/portfolio.reducers";
-import { selectUserData } from "../../account/store/auth.selectors";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromUser from "../user.reducers";
 
 @Component({

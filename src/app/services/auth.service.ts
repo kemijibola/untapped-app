@@ -14,11 +14,11 @@ import { LocalStorage } from "@ngx-pwa/local-storage";
 import { environment } from "../../environments/environment";
 import { of } from "rxjs";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: "root" })
 export class AuthService {
   private BASE_URI = "";
 
-  constructor(private http: HttpClient, private localStorage: LocalStorage) {
+  constructor(private http: HttpClient) {
     this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
@@ -52,20 +52,21 @@ export class AuthService {
     );
   }
 
-  fetchItem(key: string): Observable<any> {
-    return this.localStorage.getItem(key);
+  fetchUserData(key: string): Observable<any> {
+    return of(JSON.parse(localStorage.getItem(key)));
   }
+
   removeItem(key: string): Observable<boolean> {
-    this.localStorage.removeItem(key);
+    localStorage.removeItem(key);
     return of(true);
   }
 
-  setItem(key: string, data: any): void {
-    this.localStorage.setItem(key, data);
+  setItem(key: string, data: any) {
+    localStorage.setItem(key, JSON.stringify(data));
   }
 
   updateData(key: string, data: any): void {
-    this.localStorage.removeItem(key);
-    this.localStorage.setItem(key, data);
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(data));
   }
 }

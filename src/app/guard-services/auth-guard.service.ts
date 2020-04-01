@@ -1,4 +1,3 @@
-import { selectUserData } from "./../account/store/auth.selectors";
 import { Injectable } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import "rxjs/add/operator/take";
@@ -25,7 +24,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   getUserDataFromStore(): Observable<any> {
-    return this.store.select(selectUserData).pipe(
+    return this.store.select(fromAuth.selectCurrentUserData).pipe(
       map((val: IAuthData) => (val ? val : new AuthActions.FetchAuthData())),
       map((data: IAuthData) => data)
     );

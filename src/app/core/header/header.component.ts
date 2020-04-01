@@ -2,9 +2,9 @@ import { Component, OnInit, Input, AfterContentInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as AuthActions from "../../account/store/auth.actions";
-import { selectUserData } from "../../account/store/auth.selectors";
 import { IAuthData } from "src/app/interfaces";
 import * as ProfileActions from "../../user/store/profile/profile.actions";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 
 @Component({
   selector: "app-header",
@@ -20,14 +20,15 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   // email address also needed for username
 
   ngOnInit() {
-    this.store.dispatch(new AuthActions.FetchAuthData());
-
-    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      this.isAuthenticated = val.authenticated;
-      if (val.authenticated) {
-        this.userPreEmailAdress = val.user_data.email.split("@")[0];
-      }
-    });
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        console.log(val);
+        this.isAuthenticated = val.authenticated;
+        if (val.authenticated) {
+          this.userPreEmailAdress = val.user_data.email.split("@")[0];
+        }
+      });
   }
 
   onLogOut() {

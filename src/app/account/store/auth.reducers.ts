@@ -2,21 +2,18 @@ import * as AuthActions from "./auth.actions";
 import { IAuthData } from "../../interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import { AppError } from "src/app/store/global/error/error.reducers";
-
-export interface State extends EntityState<IAuthData> {
-  errorMessage: AppError;
-  userData: IAuthData;
-  errorConfirmationMsg: string;
+import * as fromAdapter from "./auth.adapter";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+export interface AuthState extends EntityState<IAuthData> {
+  authError: AppError | null;
+  userData: IAuthData | null;
 }
 
-export const authAdapter: EntityAdapter<IAuthData> = createEntityAdapter<
-  IAuthData
->();
-
-const initialState: State = authAdapter.getInitialState({
+const initialState: AuthState = fromAdapter.adapter.getInitialState({
+  authError: null,
   userData: {
     access_token: "",
-    permissions: [],
+    rolePermissions: [],
     user_data: {
       _id: "",
       full_name: "",
@@ -28,162 +25,54 @@ const initialState: State = authAdapter.getInitialState({
         name: ""
       }
     },
+    token_expires: "",
     authenticated: false
-  },
-  errorMessage: {
-    errorCode: 0,
-    errorMessage: ""
-  },
-  errorConfirmationMsg: ""
+  }
 });
 
-export function authReducer(
+export function reducer(
   state = initialState,
   action: AuthActions.AuthActions
-): State {
+): AuthState {
   switch (action.type) {
-    case AuthActions.SIGNUP_SUCCESS:
-    //   return authAdapter.setOne(
-    //     {
-    //       access_token: "",
-    //       permissions: [],
-    //       user_data: {
-    //         _id: "",
-    //         full_name: "",
-    //         email: "",
-    //         profile_is_completed: false,
-    //         profile_image_path: "",
-    //         userType: {
-    //           _id: "",
-    //           name: ""
-    //         }
-    //       },
-    //       authenticated: false
-    //     },
-    //     state
-    //   );
-    // case AuthActions.SIGNIN_FAILURE:
-    //   console.log("line 66", action.payload);
-    //   return authAdapter.setOne(
-    //     {
-    //       access_token: "",
-    //       permissions: [],
-    //       user_data: {
-    //         _id: "",
-    //         full_name: "",
-    //         email: "",
-    //         profile_is_completed: false,
-    //         profile_image_path: "",
-    //         userType: {
-    //           _id: "",
-    //           name: ""
-    //         }
-    //       },
-    //       authenticated: false
-    //     },
-    //     {
-    //       ...state,
-    //       errorMessage: action.payload
-    //     }
-    //   );
-    // case AuthActions.SET_AUTHDATA:
-    //   action.payload.authData.authenticated = true;
-    //   return authAdapter.setOne(action.payload.authData, state);
-    // case AuthActions.DELETE_AUTHDATA:
-    //   return authAdapter.upsertOne(
-    //     {
-    //       access_token: "",
-    //       permissions: [],
-    //       user_data: {
-    //         _id: "",
-    //         full_name: "",
-    //         email: "",
-    //         profile_is_completed: false,
-    //         profile_image_path: "",
-    //         userType: {
-    //           _id: "",
-    //           name: ""
-    //         }
-    //       },
-    //       authenticated: false
-    //     },
-    //     state
-    //   );
-    // case AuthActions.LOGOUT:
-    //   return authAdapter.upsertOne(
-    //     {
-    //       access_token: "",
-    //       permissions: [],
-    //       user_data: {
-    //         _id: "",
-    //         full_name: "",
-    //         email: "",
-    //         profile_is_completed: false,
-    //         profile_image_path: "",
-    //         userType: {
-    //           _id: "",
-    //           name: ""
-    //         }
-    //       },
-    //       authenticated: false
-    //     },
-    //     state
-    //   );
-    // case AuthActions.SIGNUP_FAILURE:
-    //   return authAdapter.setOne(
-    //     {
-    //       access_token: "",
-    //       permissions: [],
-    //       user_data: {
-    //         _id: "",
-    //         full_name: "",
-    //         email: "",
-    //         profile_is_completed: false,
-    //         profile_image_path: "",
-    //         userType: {
-    //           _id: "",
-    //           name: ""
-    //         }
-    //       },
-    //       authenticated: false
-    //     },
-    //     {
-    //       ...state,
-    //       errorMessage: action.payload.error
-    //     }
-    //   );
-    // case AuthActions.RESET_FAILURE_MESSAGE:
-    //   return {
-    //     ...state,
-    //     errorMessage: {
-    //       errorMessage: "",
-    //       errorCode: 0
-    //     }
-    //   };
-    // case AuthActions.FAILURE_EMAIL_CONFIRMATION:
-    //   return authAdapter.setOne(
-    //     {
-    //       access_token: "",
-    //       permissions: [],
-    //       user_data: {
-    //         _id: "",
-    //         full_name: "",
-    //         email: "",
-    //         profile_is_completed: false,
-    //         profile_image_path: "",
-    //         userType: {
-    //           _id: "",
-    //           name: ""
-    //         }
-    //       },
-    //       authenticated: false
-    //     },
-    //     {
-    //       ...state,
-    //       errorConfirmationMsg: action.payload.error
-    //     }
-    //   );
-    default:
+    case AuthActions.SET_AUTHDATA:
+      return Object.assign({
+        ...state,
+        userData: {
+          access_token: action.payload.access_token,
+          rolePermissions: [...action.payload.rolePermissions],
+          user_data: { ...action.payload.user_data },
+          token_expires: action.payload.token_expires,
+          authenticated: true
+        }
+      });
+    case AuthActions.SIGNIN_FAILURE:
+      return Object.assign({
+        ...state,
+        authError: Object.assign({
+          errorCode: action.payload.errorCode,
+          errorMessage: action.payload.errorMessage
+        })
+      });
+    case AuthActions.DELETE_AUTHDATA:
+      return Object.assign({
+        ...state,
+        userData: Object.assign({})
+      });
+
+    default: {
       return state;
+    }
   }
 }
+export const getSelectedUserAuth = (state: AuthState) => state.userData;
+
+export const getAuthState = createFeatureSelector<AuthState>("authState");
+
+export const getAuthError = (state: AuthState) => state.authError;
+
+export const selectCurrentUserData = createSelector(
+  getAuthState,
+  getSelectedUserAuth
+);
+export const selectAuthError = createSelector(getAuthState, getAuthError);

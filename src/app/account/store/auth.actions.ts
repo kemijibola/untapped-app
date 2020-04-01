@@ -24,6 +24,8 @@ export const SET_NEW_USER_EMAIL = "SET_NEW_USER_EMAIL";
 export const DO_EMAIL_CONFIRMATION = "DO_EMAIL_CONFIRMATION";
 export const SUCCESS_EMAIL_CONFIRMATION = "SUCCESS_EMAIL_CONFIRMATION";
 export const FAILURE_EMAIL_CONFIRMATION = "FAILURE_EMAIL_CONFIRMATION";
+export const CHECK_TOKEN_EXPIRED = "CHECK_TOKEN_EXPIRED";
+export const PROCEED_TO_ROUTE = "PROCEED_TO_ROUTE";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -42,7 +44,7 @@ export class SignInSuccess implements Action {
 }
 export class SignUpFailure implements Action {
   readonly type = SIGNUP_FAILURE;
-  constructor(public payload: { error: AppError }) {}
+  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 export class ResetFailureMessage implements Action {
   readonly type = RESET_FAILURE_MESSAGE;
@@ -52,7 +54,7 @@ export class LogOut implements Action {
 }
 export class SetAuthData implements Action {
   readonly type = SET_AUTHDATA;
-  constructor(public payload: { authData: IAuthData }) {}
+  constructor(public payload: IAuthData) {}
 }
 // this might also work for LogOut Action
 export class DeleteAutData implements Action {
@@ -69,7 +71,7 @@ export class SetNewUserEmail implements Action {
 
 export class SignInFailure implements Action {
   readonly type = SIGNIN_FAILURE;
-  constructor(public payload: AppError) {}
+  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 export class FetchAuthData implements Action {
   readonly type = FETCH_AUTHDATA;
@@ -86,7 +88,16 @@ export class SuccessEmailConfirmation implements Action {
 
 export class FailureEmailConfirmation implements Action {
   readonly type = FAILURE_EMAIL_CONFIRMATION;
-  constructor(public payload: { error: string }) {}
+  constructor(public payload: { errorCode: number; errorMessage: string }) {}
+}
+
+export class CheckTokenExpired implements Action {
+  readonly type = CHECK_TOKEN_EXPIRED;
+  constructor(public payload: { tokenData: IAuthData }) {}
+}
+
+export class ProceedToRoute implements Action {
+  readonly type = PROCEED_TO_ROUTE;
 }
 
 export type AuthActions =
@@ -105,4 +116,6 @@ export type AuthActions =
   | FetchAuthData
   | DoEmailConfirmation
   | SuccessEmailConfirmation
-  | FailureEmailConfirmation;
+  | FailureEmailConfirmation
+  | CheckTokenExpired
+  | ProceedToRoute;

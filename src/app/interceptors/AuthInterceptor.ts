@@ -11,7 +11,6 @@ import { Observable } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "../account/store/auth.reducers";
-import { selectUserData } from "../account/store/auth.selectors";
 import { IAuthData } from "../interfaces";
 import { catchError, take, switchMap } from "rxjs/operators";
 import { environment } from "../../../src/environments/environment.prod";
@@ -26,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (this.useHeader(req.url)) {
-      return this.store.select(selectUserData).pipe(
+      return this.store.select(fromAuth.selectCurrentUserData).pipe(
         take(1),
         switchMap((autData: IAuthData) => {
           // console.log(autData);

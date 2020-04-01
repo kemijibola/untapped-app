@@ -5,7 +5,7 @@ import * as AuthActions from "../store/auth.actions";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { NotificationService } from "src/app/services/notification.service";
 import { IConfirmEmail } from "src/app/interfaces";
-import { selectErrorMessage } from "../store/auth.selectors";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 import { ErrorService } from "src/app/services/ErrorService";
 
 @Component({
@@ -34,12 +34,12 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
     });
 
     // error
-    this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
-      if (val) {
-        const message = this.errorService.getServerErrorMessage(val);
-        this.notificationService.showError(message);
-      }
-    });
+    // this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
+    //   if (val) {
+    //     const message = this.errorService.getServerErrorMessage(val);
+    //     this.notificationService.showError(message);
+    //   }
+    // });
   }
 
   ngOnDestroy() {

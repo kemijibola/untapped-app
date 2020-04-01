@@ -11,7 +11,7 @@ import * as MediaPreviewActions from "../../store/portfolio/media/media-preview.
 import * as AuthActions from "../../../account/store/auth.actions";
 import { Store, select } from "@ngrx/store";
 import { MediaType, IAuthData } from "src/app/interfaces";
-import { selectUserData } from "../../../account/store/auth.selectors";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromUser from "../../user.reducers";
 
 @Component({
@@ -29,9 +29,11 @@ export class PortfolioItemContainerComponent implements OnInit {
 
   ngOnInit() {
     this.selectedMediaType = MediaType.AUDIO;
-    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      this.userId = val.user_data._id;
-    });
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        this.userId = val.user_data._id;
+      });
 
     this.triggerFetchUserMediaList();
   }

@@ -23,8 +23,8 @@ import * as UserProfileImageActions from "../../../shared/store/user-profile-ima
 import { environment } from "src/environments/environment.prod";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
-import { selectUserData } from "src/app/account/store/auth.selectors";
 import { AuthService } from "src/app/services/auth.service";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 
 @Component({
   selector: "app-change-profile-picture",
@@ -101,17 +101,19 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
   }
 
   fetchUserProfile() {
-    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      if (val.authenticated) {
-        this.authData = { ...val };
-        this.imagePath = val.user_data.profile_image_path
-          ? fetchImageObjectFromCloudFormation(
-              val.user_data.profile_image_path,
-              this.editParams
-            )
-          : environment.TALENT_DEFAULT_IMG;
-        this.isDefault = val.user_data.profile_image_path ? false : true;
-      }
-    });
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        if (val.authenticated) {
+          this.authData = { ...val };
+          this.imagePath = val.user_data.profile_image_path
+            ? fetchImageObjectFromCloudFormation(
+                val.user_data.profile_image_path,
+                this.editParams
+              )
+            : environment.TALENT_DEFAULT_IMG;
+          this.isDefault = val.user_data.profile_image_path ? false : true;
+        }
+      });
   }
 }

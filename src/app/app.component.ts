@@ -15,7 +15,6 @@ import * as CategoryTypeActions from "./shared/store/category-type/category-type
 import * as CategoryActions from "./shared/store/category/category.action";
 import * as UserCategoryActions from "./shared/store/filtered-categories/user-category.action";
 import * as AuthActions from "./account/store/auth.actions";
-import { selectUserData } from "./account/store/auth.selectors";
 import * as fromUserType from "./user-type/store/user-type.reducers";
 import {
   IAuthData,
@@ -62,6 +61,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   loadAll() {
+    this.store.dispatch(new AuthActions.FetchAuthData());
     this.store.dispatch(new UserTypeActions.FetchUserTypes());
     // this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     // this.store.dispatch(new CategoryActions.FetchCategories());

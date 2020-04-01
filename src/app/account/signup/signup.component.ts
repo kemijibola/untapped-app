@@ -16,7 +16,6 @@ import * as fromUserType from "../../user-type/store/user-type.reducers";
 import { takeUntil, map } from "rxjs/operators";
 import { IRegister, IUserType } from "src/app/interfaces";
 import { AUDIENCE } from "src/app/lib/constants";
-import { selectErrorMessage } from "../store/auth.selectors";
 import { NotificationService } from "src/app/services/notification.service";
 import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
 
@@ -60,14 +59,14 @@ export class SignupComponent implements OnInit, AfterContentInit {
     });
 
     // subscribe to error
-    this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
-      if (val) {
-        if (!this.signupForm.invalid) {
-          const message = this.errorService.getServerErrorMessage(val);
-          this.notificationService.showError(message);
-        }
-      }
-    });
+    // this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
+    //   if (val) {
+    //     if (!this.signupForm.invalid) {
+    //       const message = this.errorService.getServerErrorMessage(val);
+    //       this.notificationService.showError(message);
+    //     }
+    //   }
+    // });
   }
 
   ngAfterContentInit() {

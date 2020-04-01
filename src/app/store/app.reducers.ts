@@ -1,8 +1,10 @@
 import { ActionReducerMap, ActionReducer, MetaReducer } from "@ngrx/store";
+import * as fromAuthReducer from "../account/store/auth.reducers";
 import * as fromAuth from "../account/store/auth.reducers";
 import * as fromUser from "../account/store/user/user.reducers";
 import * as fromUserType from "../user-type/store/user-type.reducers";
 import * as fromUserTypeReducer from "../user-type/store/user-type.reducers";
+
 import * as fromUpload from "../shared/store/upload/upload.reducers";
 import * as fromTab from "../shared/store/tabs/tabs.reducers";
 import * as fromSnackBar from "../shared/notifications/snackbar/snackbar.reducer";
@@ -20,7 +22,7 @@ import { EntityState, EntityMap } from "@ngrx/entity";
 import { environment } from "src/environments/environment";
 
 export interface AppState {
-  auth: fromAuth.State;
+  authState: fromAuth.AuthState;
   user: fromUser.State;
   userTypeState: fromUserType.UserTypeState;
   upload: fromUpload.State;
@@ -39,7 +41,7 @@ export interface AppState {
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  auth: fromAuth.authReducer,
+  authState: fromAuthReducer.reducer,
   user: fromUser.userReducers,
   userTypeState: fromUserTypeReducer.reducer,
   upload: fromUpload.UploadReducers,

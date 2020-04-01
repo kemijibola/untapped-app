@@ -19,9 +19,10 @@ export interface IUserSocialMedia {
 }
 export interface IAuthData {
   access_token: string;
-  permissions: IPermission[];
+  rolePermissions: IPermission[];
   user_data: IUserData;
   authenticated: boolean;
+  token_expires: string;
 }
 
 interface IUserData {

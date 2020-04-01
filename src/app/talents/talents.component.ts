@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
-import { selectUserData } from "../account/store/auth.selectors";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 import { IAuthData, IModal, ModalDisplay } from "../interfaces";
 import { Router } from "@angular/router";
 import * as ModalsActions from "../shared/store/modals/modals.actions";
@@ -17,9 +17,11 @@ export class TalentsComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
   ngOnInit() {
-    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      this.isAuthenticated = val.authenticated;
-    });
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        this.isAuthenticated = val.authenticated;
+      });
   }
 
   onSignUpClicked() {

@@ -19,7 +19,7 @@ import {
 } from "src/app/interfaces";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
-import { selectUserData } from "src/app/account/store/auth.selectors";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 import { selectUserProfile } from "../store/profile/profile.selectors";
 import * as CategoryTypeActions from "../../shared/store/category-type/category-type.actions";
 import { selectSelectedCategoryTypes } from "src/app/shared/store/category-type/category-type.selectors";
@@ -69,14 +69,17 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      if (val.authenticated) {
-        this.typeOfUser = val.user_data.userType.name;
-        this.isTalent = val.user_data.userType.name === "Talent" ? true : false;
-        this.userEmail = val.user_data.email;
-        this.userFullName = val.user_data.full_name;
-      }
-    });
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        if (val.authenticated) {
+          this.typeOfUser = val.user_data.userType.name;
+          this.isTalent =
+            val.user_data.userType.name === "Talent" ? true : false;
+          this.userEmail = val.user_data.email;
+          this.userFullName = val.user_data.full_name;
+        }
+      });
 
     this.userState.dispatch(new ProfileActions.FetchUserProfile());
 

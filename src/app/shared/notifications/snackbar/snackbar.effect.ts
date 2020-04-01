@@ -22,7 +22,7 @@ export class SnackBarEffect {
       ofType(SnackBarActions.SNACKBAR_OPEN),
       pipe(
         map((action: SnackBarActions.SnackBarOpen) => action.payload.params),
-        tap(payload =>
+        map(payload =>
           this.matSnackBar.open(payload.message, payload.action, payload.config)
         ),
         delay(7000),

@@ -38,7 +38,9 @@ export class UserTypeEffects {
           catchError((respError: HttpErrorResponse) =>
             of(
               new UserTypeActions.FetchUserTypesError({
-                errorCode: 20,
+                errorCode: !navigator.onLine
+                  ? respError.error.response_code
+                  : 0,
                 errorMessage: !navigator.onLine
                   ? respError.error.response_message
                   : "No internet connection. Please connect to the internet and try again."

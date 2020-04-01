@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { selectUserData } from "src/app/account/store/auth.selectors";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 import { IAuthData, IComment, LikeViewModel } from "src/app/interfaces";
 import { Router } from "@angular/router";
 import { selectTalentMediaComments } from "src/app/shared/store/comments/comments.selectors";
@@ -47,13 +47,15 @@ export class TalentCommentComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.isDisabled = false;
-    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      console.log(val);
-      this.isAuthenticated = val.authenticated;
-      if (val.authenticated) {
-        this.currentUserId = val ? val.user_data._id : "";
-      }
-    });
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        console.log(val);
+        this.isAuthenticated = val.authenticated;
+        if (val.authenticated) {
+          this.currentUserId = val ? val.user_data._id : "";
+        }
+      });
 
     this.store
       .pipe(select(selectTalentMediaComments))

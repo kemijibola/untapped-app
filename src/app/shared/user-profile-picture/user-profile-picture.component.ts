@@ -22,7 +22,6 @@ import { AbstractUploadComponent } from "../Classes/abstract/abstract-upload/abs
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as UserProfileImageActions from "../../shared/store/user-profile-image/user-profile-image.actions";
 import { environment } from "src/environments/environment.prod";
-import { selectUserData } from "src/app/account/store/auth.selectors";
 
 @Component({
   selector: "app-user-profile-picture",

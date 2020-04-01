@@ -9,7 +9,6 @@ import { Store } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "../account/store/auth.reducers";
 import { Observable } from "rxjs";
-import { selectUserData } from "../account/store/auth.selectors";
 import { IAuthData, UserTypes } from "../interfaces";
 import { map } from "rxjs/operators";
 
@@ -18,7 +17,9 @@ export class CompleteProfile implements CanActivate {
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
   getCurrentUserData(): Observable<any> {
-    return this.store.select(selectUserData).pipe(map((val: IAuthData) => val));
+    return this.store
+      .select(fromAuth.selectCurrentUserData)
+      .pipe(map((val: IAuthData) => val));
   }
 
   canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
