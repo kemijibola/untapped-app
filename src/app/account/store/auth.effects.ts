@@ -15,13 +15,13 @@ import {
   scan
 } from "rxjs/operators";
 import { of, Observable, throwError, empty, pipe } from "rxjs";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import * as ErrorActions from "../../store/global/error/error.actions";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import * as GlobalErrorActions from "../../store/global/error/error.actions";
 import { HttpErrorResponse } from "@angular/common/http";
 import { isAfter, getTime, getDate } from "date-fns";
+import * as fromAuthReducer from "./auth.reducers";
 
 @Injectable()
 export class AuthEffects {
@@ -130,18 +130,17 @@ export class AuthEffects {
     )
   );
 
-  // proceedToRoute = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(AuthActions.PROCEED_TO_ROUTE),
-  //     pipe(
-  //       tap(() => {
-  //         console.log("mooving on...");
-  //         const routeTo = this.router.url;
-  //         this.router.navigate([routeTo]);
-  //       })
-  //     )
-  //   )
-  // );
+  proceedToRoute = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.PROCEED_TO_ROUTE),
+        pipe(
+          map((action: AuthActions.ProceedToRoute) => action.payload.routeUrl),
+          tap(routeUrl => this.router.navigate([routeUrl]))
+        )
+      ),
+    { dispatch: false }
+  );
 
   tokenExpired = createEffect(() =>
     this.actions$.pipe(
@@ -151,8 +150,8 @@ export class AuthEffects {
           (action: AuthActions.CheckTokenExpired) => action.payload.tokenData
         ),
         map(payload => {
-          let tokenExpiration = 1583070133;
-          // payload !== null ? new Date(payload.token_expires).getTime() : 0;
+          let tokenExpiration =
+            payload !== null ? new Date(payload.token_expires).getTime() : 0;
           if (!isAfter(Date.now(), tokenExpiration)) {
             return {
               type: AuthActions.SET_AUTHDATA,
@@ -180,15 +179,15 @@ export class AuthEffects {
       ofType(AuthActions.FETCH_AUTHDATA),
       pipe(
         switchMap(() =>
-          this.authService
-            .fetchUserData("userData")
-            .pipe(
-              map(resp =>
-                resp !== null
-                  ? new AuthActions.CheckTokenExpired({ tokenData: resp })
-                  : new AuthActions.ProceedToRoute()
-              )
+          this.authService.fetchUserData("userData").pipe(
+            map(resp =>
+              resp !== null
+                ? new AuthActions.CheckTokenExpired({ tokenData: resp })
+                : new AuthActions.ProceedToRoute({
+                    routeUrl: location.pathname
+                  })
             )
+          )
         )
       )
     )

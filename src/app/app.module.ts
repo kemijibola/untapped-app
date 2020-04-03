@@ -36,6 +36,7 @@ import { CommentsEffects } from "./shared/store/comments/comments.effects";
 import { MediaPreviewEffect } from "./user/store/portfolio/media/media-preview.effects";
 import { StorageModule } from "@ngx-pwa/local-storage";
 import { SnackBarEffect } from "./shared/notifications/snackbar/snackbar.effect";
+import { TabsEffect } from "./shared/store/tabs/tabs.effects";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -64,7 +65,8 @@ import { SnackBarEffect } from "./shared/notifications/snackbar/snackbar.effect"
       CommentsEffects,
       ErrorEffects,
       MediaPreviewEffect,
-      SnackBarEffect
+      SnackBarEffect,
+      TabsEffect
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({

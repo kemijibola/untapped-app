@@ -5,6 +5,8 @@ import * as fromApp from "../store/app.reducers";
 import * as AuthActions from "../account/store/auth.actions";
 import { IAppTab, ITab } from "../interfaces";
 import { AbstractTabComponent } from "../shared/Classes/abstract/abstract-tab/abstract-tab.component";
+import { UUID } from "angular2-uuid";
+import * as TabsAction from "../shared/store/tabs/tabs.actions";
 
 @Component({
   selector: "app-user",
@@ -13,10 +15,15 @@ import { AbstractTabComponent } from "../shared/Classes/abstract/abstract-tab/ab
 })
 export class UserComponent extends AbstractTabComponent {
   userId = "";
-  tab: IAppTab;
-  componentName = "Talent";
+  tabPanel: IAppTab = {
+    id: "user-tab",
+    tabs: [
+      { index: 0, title: "Profile", tag: "profile", active: false },
+      { index: 1, title: "Portfolio", tag: "portfolio", active: false },
+      { index: 2, title: "Settings", tag: "settings", active: false }
+    ]
+  };
   queryParam = "profile";
-  //  activeTab: ITab;
   toQueryParam = "profile";
   constructor(
     public store: Store<fromApp.AppState>,
@@ -24,16 +31,22 @@ export class UserComponent extends AbstractTabComponent {
     public route: ActivatedRoute
   ) {
     super();
-    this.store.dispatch(new AuthActions.FetchAuthData());
+    // console.log(this.activeTab);
+    // this.store.dispatch(
+    //   new TabsAction.FetchAppTab({ appTabId: this.tabPanel.id })
+    // );
+    //
+    // this.store.dispatch(new AuthActions.FetchAuthData());
     //this.fetchUserProfile();
-    this.tab = {
-      name: this.componentName,
-      tabs: [
-        { index: 0, title: "Profile", tag: "profile", active: false },
-        { index: 1, title: "Portfolio", tag: "portfolio", active: false },
-        { index: 2, title: "Settings", tag: "settings", active: false }
-      ]
-    };
+    // this.tab = {
+    //   id: UUID.UUID(),
+    //   name: this.componentName,
+    //   tabs: [
+    //     { index: 0, title: "Profile", tag: "profile", active: false },
+    //     { index: 1, title: "Portfolio", tag: "portfolio", active: false },
+    //     { index: 2, title: "Settings", tag: "settings", active: false }
+    //   ]
+    // };
   }
 
   navigate(): void {

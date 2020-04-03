@@ -75,4 +75,5 @@ export const selectCurrentUserData = createSelector(
   getAuthState,
   getSelectedUserAuth
 );
+
 export const selectAuthError = createSelector(getAuthState, getAuthError);

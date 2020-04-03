@@ -98,6 +98,7 @@ export class CheckTokenExpired implements Action {
 
 export class ProceedToRoute implements Action {
   readonly type = PROCEED_TO_ROUTE;
+  constructor(public payload: { routeUrl: string }) {}
 }
 
 export type AuthActions =

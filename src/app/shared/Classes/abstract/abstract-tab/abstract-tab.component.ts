@@ -2,15 +2,16 @@ import { Component, OnInit, AfterContentInit } from "@angular/core";
 import * as fromApp from "../../../../store/app.reducers";
 import * as TabsAction from "../../../../shared/store/tabs/tabs.actions";
 import { IAppTab, ITab } from "src/app/interfaces";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { Router, ActivatedRoute } from "@angular/router";
+import * as fromTabReducer from "../../../store/tabs/tabs.reducers";
+import { Observable } from "rxjs";
 
 export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
   abstract store: Store<fromApp.AppState>;
   abstract router: Router;
   abstract route: ActivatedRoute;
-  abstract tab: IAppTab;
-  abstract componentName: string;
+  abstract tabPanel: IAppTab;
   abstract queryParam: string;
   abstract toQueryParam: string;
   activeTab: ITab;
@@ -19,7 +20,10 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
   constructor() {}
 
   ngOnInit() {
-    this.store.dispatch(new TabsAction.AddTab({ appTab: this.tab }));
+    this.store.dispatch(new TabsAction.AddTab({ tabPanel: this.tabPanel }));
+    this.store.dispatch(
+      new TabsAction.FetchAppTab({ appTabId: this.tabPanel.id })
+    );
   }
 
   ngAfterContentInit() {
@@ -38,7 +42,7 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
   private setActiveTabByQueryParam(): void {
     // This is to check if queryParam matches any of defined tabs
     let matchedQuery = "";
-    for (const item of this.tab.tabs) {
+    for (const item of this.tabPanel.tabs) {
       const escapeTag = this.escapeRegExp(item.tag);
       const regex = new RegExp(escapeTag, "i");
       const queryMatch = this.queryParam.match(regex);
@@ -51,17 +55,22 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
     // if queryParam does not exist
     // set to last known valid query param
     this.queryParam = matchedQuery !== "" ? matchedQuery : this.toQueryParam;
-    const selectedTab = this.tab.tabs.filter(x => x.tag === this.queryParam)[0];
+
     this.store.dispatch(
-      new TabsAction.UpdateTab({
-        updateObj: {
-          name: this.componentName,
-          tabIndex: selectedTab.index
-        }
+      new TabsAction.InitiateTabUpdate({
+        tabPanel: this.tabPanel,
+        tabName: this.queryParam
       })
     );
+
     this.navigate();
-    this.activeTab = selectedTab;
+    this.store
+      .pipe(select(fromTabReducer.selectCurrentTab))
+      .subscribe((val: IAppTab) => {
+        if (val.tabs) {
+          this.activeTab = val.tabs.filter(x => x.active)[0];
+        }
+      });
   }
 
   private escapeRegExp(param: string) {
