@@ -5,7 +5,7 @@ import {
   switchMap,
   concatMap,
   map,
-  tap
+  tap,
 } from "rxjs/operators";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Injectable } from "@angular/core";
@@ -29,21 +29,19 @@ export class UserTypeEffects {
         this.userTypeService.getUserTypes().pipe(
           mergeMap((response: IResult<IUserType[]>) => [
             new UserTypeActions.FetchUserTypesSucess({
-              userTypes: response.data
+              userTypes: response.data,
             }),
             new UserTypeActions.FetchUserType({
-              userTypeId: response.data.filter(x => x.name === "Talent")[0]._id
-            })
+              userTypeId: response.data.filter((x) => x.name === "Talent")[0]
+                ._id,
+            }),
           ]),
           catchError((respError: HttpErrorResponse) =>
             of(
               new UserTypeActions.FetchUserTypesError({
-                errorCode: !navigator.onLine
-                  ? respError.error.response_code
-                  : 0,
-                errorMessage: !navigator.onLine
-                  ? respError.error.response_message
-                  : "No internet connection. Please connect to the internet and try again."
+                errorCode: respError.error.response_code || -1,
+                errorMessage:
+                  respError.error.response_message || "No Internet connection",
               })
             )
           )

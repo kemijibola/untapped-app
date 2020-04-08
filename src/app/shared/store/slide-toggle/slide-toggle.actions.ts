@@ -1,23 +1,35 @@
-import { Action } from '@ngrx/store';
-import { IToggle } from 'src/app/interfaces';
+import { Action } from "@ngrx/store";
+import { IToggle, AppToggle } from "src/app/interfaces";
 
-export const ADD_PAGE_TOGGLES = 'ADD_PAGE_TOGGLES';
-export const UPDATE_TOGGLE = 'UPDATE_TOGGLE';
-export const DESTROY_TOGGLE = 'DESTROY_TOGGLE';
+export const ADD_COMPONENT_TOGGLE = "ADD_COMPONENT_TOGGLE";
+export const INITIATE_TOGGLE = "INITIATE_TOGGLE";
+export const UPSERT_TOGGLE = "UPSERT_TOGGLE";
+export const DESTROY_TOGGLE = "DESTROY_TOGGLE";
+export const FETCH_TOGGLE = "FETCH_TOGGLE";
 
-export class AddPageToggles implements Action {
-    readonly type = ADD_PAGE_TOGGLES;
-    constructor(public payload: { toggles: IToggle[]}) {}
+export class AddComponentToggle implements Action {
+  readonly type = ADD_COMPONENT_TOGGLE;
+  constructor(public payload: { componentToggle: AppToggle }) {}
 }
 
-export class UpdateToggle implements Action {
-    readonly type = UPDATE_TOGGLE;
-    constructor(public payload: { updateObj: IToggle}) {}
+export class FetchToggle implements Action {
+  readonly type = FETCH_TOGGLE;
+  constructor(public payload: { appToggleId: string }) {}
+}
+export class InitiateToggle implements Action {
+  readonly type = INITIATE_TOGGLE;
+  constructor(
+    public payload: { componentToggle: AppToggle; toggle: IToggle }
+  ) {}
 }
 
-export class DestroyToggle implements Action {
-    readonly type = DESTROY_TOGGLE;
-    constructor(public payload: { name: string}) {}
+export class UpsertToggle implements Action {
+  readonly type = UPSERT_TOGGLE;
+  constructor(public payload: AppToggle) {}
 }
 
-export type ToggleStateActions =  AddPageToggles | AddPageToggles | UpdateToggle | DestroyToggle;
+export type ToggleActions =
+  | AddComponentToggle
+  | InitiateToggle
+  | UpsertToggle
+  | FetchToggle;

@@ -31,7 +31,7 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
       ? this.route.snapshot.queryParams["tab"].toLowerCase()
       : this.toQueryParam;
     // subscribing to query param change
-    this.route.queryParams.subscribe(fragement => {
+    this.route.queryParams.subscribe((fragement) => {
       this.queryParam = fragement["tab"]
         ? fragement["tab"].toLowerCase()
         : this.toQueryParam;
@@ -59,7 +59,7 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
     this.store.dispatch(
       new TabsAction.InitiateTabUpdate({
         tabPanel: this.tabPanel,
-        tabName: this.queryParam
+        tabName: this.queryParam,
       })
     );
 
@@ -67,8 +67,8 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
     this.store
       .pipe(select(fromTabReducer.selectCurrentTab))
       .subscribe((val: IAppTab) => {
-        if (val.tabs) {
-          this.activeTab = val.tabs.filter(x => x.active)[0];
+        if (val !== undefined) {
+          this.activeTab = val.tabs.filter((x) => x.active)[0];
         }
       });
   }

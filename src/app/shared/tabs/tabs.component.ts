@@ -5,7 +5,7 @@ import {
   Input,
   OnDestroy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from "@angular/core";
 import { ITab, IAppTab } from "src/app/interfaces";
 import * as TabsAction from "../store/tabs/tabs.actions";
@@ -19,7 +19,7 @@ import * as fromTabReducer from "../../shared/store/tabs/tabs.reducers";
 @Component({
   selector: "app-tabs",
   templateUrl: "./tabs.component.html",
-  styleUrls: ["./tabs.component.css"]
+  styleUrls: ["./tabs.component.css"],
 })
 export class TabsComponent implements OnInit, OnChanges, OnDestroy {
   tab: Observable<IAppTab>;
@@ -39,7 +39,7 @@ export class TabsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log()
+    console.log("dispatching tab");
     this.store.dispatch(new TabsAction.DestroyTab({ id: this.tabId }));
   }
 }

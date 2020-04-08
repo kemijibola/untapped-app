@@ -32,6 +32,8 @@ import { VgCoreModule } from "ngx-videogular";
 import { VgControlsModule } from "ngx-videogular";
 import { VgOverlayPlayModule } from "ngx-videogular";
 import { VgBufferingModule } from "ngx-videogular";
+import { mediaPreviewReducer } from "./store/portfolio/media/media-preview.reducers";
+import { MediaPreviewEffect } from "./store/portfolio/media/media-preview.effects";
 
 @NgModule({
   declarations: [
@@ -50,7 +52,7 @@ import { VgBufferingModule } from "ngx-videogular";
     CompleteProfileComponent,
     ChangeProfilePictureComponent,
     ChangeProfessionalBannerComponent,
-    PortfolioGeneralComponent
+    PortfolioGeneralComponent,
   ],
   imports: [
     SharedModule,
@@ -61,10 +63,15 @@ import { VgBufferingModule } from "ngx-videogular";
     FormsModule,
     ReactiveFormsModule,
     UserRoutingModule,
-    StoreModule.forFeature("profile", profileReducer),
-    StoreModule.forFeature("portfolio", portfolioReducer),
-    EffectsModule.forFeature([ProfileEffect, PortfolioEffect])
+    StoreModule.forFeature("profileState", profileReducer),
+    StoreModule.forFeature("mediaPreviewState", mediaPreviewReducer),
+    StoreModule.forFeature("portfolioState", portfolioReducer),
+    EffectsModule.forFeature([
+      ProfileEffect,
+      PortfolioEffect,
+      MediaPreviewEffect,
+    ]),
   ],
-  exports: [UserRoutingModule]
+  exports: [UserRoutingModule],
 })
 export class UserModule {}

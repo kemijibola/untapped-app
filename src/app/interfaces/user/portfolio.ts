@@ -10,7 +10,7 @@ export interface AppPageState {
 export enum PageViewMode {
   New = "New",
   Edit = "Edit",
-  Null = "Null"
+  Null = "Null",
 }
 export interface PortfolioUploadInputConfig {
   isMultiple: boolean;
@@ -34,23 +34,23 @@ export enum MediaType {
   VIDEO = "VIDEO",
   AUDIO = "AUDIO",
   IMAGE = "IMAGE",
-  ALL = "ALL"
+  ALL = "ALL",
 }
 
 export enum PortfolioOperationType {
   EDIT = "EDIT",
   NEW = "NEW",
-  DEFAULT = "DEFAULT"
+  DEFAULT = "DEFAULT",
 }
 
 export enum MediaUploadType {
   SINGLE = "SINGLE",
   MULTIPLE = "MULTIPLE",
-  ALL = "ALL"
+  ALL = "ALL",
 }
 
 export interface IMediaItem {
-  id?: string;
+  _id?: string;
   key?: string;
   path: string;
   likedBy?: string[];

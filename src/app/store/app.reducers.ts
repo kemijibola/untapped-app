@@ -8,7 +8,7 @@ import * as fromUserTypeReducer from "../user-type/store/user-type.reducers";
 import * as fromUpload from "../shared/store/upload/upload.reducers";
 import * as fromTabReducer from "../shared/store/tabs/tabs.reducers";
 import * as fromSnackBar from "../shared/notifications/snackbar/snackbar.reducer";
-import * as fromCategoryType from "../shared/store/category-type/category-type.reducers";
+import * as fromCategoryTypeReducer from "../shared/store/category-type/category-type.reducers";
 import * as fromCategory from "../shared/store/category/category.reducers";
 import * as fromUserCategory from "../shared/store/filtered-categories/user-category.reducers";
 import * as fromUserProfileImage from "../shared/store/user-profile-image/user-profile-image.reducers";
@@ -25,14 +25,14 @@ export interface AppState {
   authState: fromAuth.AuthState;
   user: fromUser.State;
   userTypeState: fromUserType.UserTypeState;
-  upload: fromUpload.State;
+  uploadState: fromUpload.UploadState;
   tabState: fromTabReducer.TabState;
   userProfileImage: fromUserProfileImage.State;
   service: fromService.State;
-  modals: fromModal.State;
+  modalState: fromModal.ModalState;
   error: fromError.State;
-  toggles: fromToggle.State;
-  categoryTypes: fromCategoryType.State;
+  toggleState: fromToggle.ToggleState;
+  categoryTypeState: fromCategoryTypeReducer.CategoryTypeState;
   categories: fromCategory.State;
   userCategories: fromUserCategory.State;
   talents: fromTalents.State;
@@ -44,25 +44,25 @@ export const reducers: ActionReducerMap<AppState> = {
   authState: fromAuthReducer.reducer,
   user: fromUser.userReducers,
   userTypeState: fromUserTypeReducer.reducer,
-  upload: fromUpload.UploadReducers,
+  uploadState: fromUpload.reducer,
   tabState: fromTabReducer.reducer,
   userProfileImage: fromUserProfileImage.UserProfileImageReducers,
   service: fromService.serviceReducer,
-  modals: fromModal.ModalsReducer,
+  modalState: fromModal.reducer,
   error: fromError.errorReducer,
-  toggles: fromToggle.SlideToggleReducers,
-  categoryTypes: fromCategoryType.CategoryTypeReducers,
+  toggleState: fromToggle.reducer,
+  categoryTypeState: fromCategoryTypeReducer.reducer,
   categories: fromCategory.CategoryReducers,
   userCategories: fromUserCategory.UserCategoryReducers,
   talents: fromTalents.talentsReducer,
   comments: fromComments.commentsReducer,
-  snackBarState: fromSnackBar.reducer
+  snackBarState: fromSnackBar.reducer,
 };
 
 export function logger(
   reducer: ActionReducer<AppState>
 ): ActionReducer<AppState> {
-  return function(state: AppState, action: any): AppState {
+  return function (state: AppState, action: any): AppState {
     return reducer(state, action);
   };
 }

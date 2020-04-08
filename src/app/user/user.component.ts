@@ -11,7 +11,7 @@ import * as TabsAction from "../shared/store/tabs/tabs.actions";
 @Component({
   selector: "app-user",
   templateUrl: "./user.component.html",
-  styleUrls: ["./user.component.css"]
+  styleUrls: ["./user.component.css"],
 })
 export class UserComponent extends AbstractTabComponent {
   userId = "";
@@ -20,8 +20,8 @@ export class UserComponent extends AbstractTabComponent {
     tabs: [
       { index: 0, title: "Profile", tag: "profile", active: false },
       { index: 1, title: "Portfolio", tag: "portfolio", active: false },
-      { index: 2, title: "Settings", tag: "settings", active: false }
-    ]
+      { index: 2, title: "Settings", tag: "settings", active: false },
+    ],
   };
   queryParam = "profile";
   toQueryParam = "profile";
@@ -31,27 +31,11 @@ export class UserComponent extends AbstractTabComponent {
     public route: ActivatedRoute
   ) {
     super();
-    // console.log(this.activeTab);
-    // this.store.dispatch(
-    //   new TabsAction.FetchAppTab({ appTabId: this.tabPanel.id })
-    // );
-    //
-    // this.store.dispatch(new AuthActions.FetchAuthData());
-    //this.fetchUserProfile();
-    // this.tab = {
-    //   id: UUID.UUID(),
-    //   name: this.componentName,
-    //   tabs: [
-    //     { index: 0, title: "Profile", tag: "profile", active: false },
-    //     { index: 1, title: "Portfolio", tag: "portfolio", active: false },
-    //     { index: 2, title: "Settings", tag: "settings", active: false }
-    //   ]
-    // };
   }
 
   navigate(): void {
     this.router.navigate(["/user/", this.route.snapshot.params["username"]], {
-      queryParams: { tab: this.queryParam }
+      queryParams: { tab: this.queryParam },
     });
   }
 }

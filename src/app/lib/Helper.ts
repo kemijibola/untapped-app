@@ -15,6 +15,7 @@ export function fetchImageObjectFromCloudFormation(
   return `${environment.CLOUD_FORMATION_API}/${encryptedRequest}`;
 }
 
+
 export function fetchNoMediaDefaultImage(): string {
   return environment.NO_MEDIA_IMG;
 }

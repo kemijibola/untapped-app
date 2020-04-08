@@ -4,12 +4,12 @@ import {
   IFileModel,
   UPLOADOPERATIONS,
   IFileMetaData,
-  MediaType
+  MediaType,
 } from "src/app/interfaces";
 import { OnInit } from "@angular/core";
 import * as fromApp from "../../../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
-import { selectFilesToUpload } from "../../../../shared/store/upload/upload.selectors";
+import * as fromUpload from "../../../../shared/store/upload/upload.reducers";
 import * as UploadActions from "../../../../shared/store/upload/upload.actions";
 
 export abstract class AbstractUploadComponent implements OnInit {
@@ -25,16 +25,16 @@ export abstract class AbstractUploadComponent implements OnInit {
     this.setUploadedImage();
 
     this.store
-      .pipe(select(selectFilesToUpload))
+      .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
-        if (val.files) {
+        if (val !== null) {
           if (val.action === this.uploadOperation) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
                 const fileData = {
                   file: file["data"].name,
-                  file_type: file["data"].type
+                  file_type: file["data"].type,
                 };
                 arr = [...arr, fileData];
                 return arr;
@@ -46,7 +46,7 @@ export abstract class AbstractUploadComponent implements OnInit {
             this.file = {
               mediaType: fileType[0],
               action: val.action,
-              files: [...files]
+              files: [...files],
             };
             this.store.dispatch(
               new UploadActions.GetPresignedUrl({ preSignRequest: this.file })

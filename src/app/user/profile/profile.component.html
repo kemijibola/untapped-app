@@ -99,7 +99,7 @@
         <div
           class="row"
           *ngFor="
-            let otherSocialCtr of profileForm.get('additionalSocial');
+            let otherSocialCtr of additionalSocial.controls;
             let i = index
           "
           [formGroupName]="i"
@@ -124,6 +124,7 @@
           >
         </div>
       </div>
+      -->
 
       <div class="col-xl-12">
         <button class="box-btn profile-save" (click)="onUpdateProfile()">

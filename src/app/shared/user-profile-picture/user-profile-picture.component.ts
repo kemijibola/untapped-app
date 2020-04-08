@@ -1,7 +1,7 @@
 import {
   CloudUploadParams,
   SignedUrl,
-  MediaAcceptType
+  MediaAcceptType,
 } from "./../../interfaces/shared/file";
 import { Component } from "@angular/core";
 import { Store, select } from "@ngrx/store";
@@ -11,13 +11,13 @@ import {
   UPLOADOPERATIONS,
   IUploadedFiles,
   PresignedUrl,
-  IAuthData
+  IAuthData,
 } from "src/app/interfaces";
 import * as fromUserProfileImage from "../store/user-profile-image/user-profile-image.reducers";
 import * as fromApp from "../../store/app.reducers";
 import { Observable, Subject } from "rxjs";
 import { selectUserProfileImage } from "../../shared/store/user-profile-image/user-profile.selectors";
-import { selectPresignedUrls } from "../../shared/store/upload/upload.selectors";
+import * as fromUpload from "../../shared/store/upload/upload.reducers";
 import { AbstractUploadComponent } from "../Classes/abstract/abstract-upload/abstract-upload.component";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as UserProfileImageActions from "../../shared/store/user-profile-image/user-profile-image.actions";
@@ -26,7 +26,7 @@ import { environment } from "src/environments/environment.prod";
 @Component({
   selector: "app-user-profile-picture",
   templateUrl: "./user-profile-picture.component.html",
-  styleUrls: ["./user-profile-picture.component.css"]
+  styleUrls: ["./user-profile-picture.component.css"],
 })
 export class UserProfilePictureComponent extends AbstractUploadComponent {
   imagePath: string;
@@ -52,24 +52,26 @@ export class UserProfilePictureComponent extends AbstractUploadComponent {
 
   uploadFiles(files: File[]): void {
     let uploadParams: CloudUploadParams[] = [];
-    this.store.pipe(select(selectPresignedUrls)).subscribe((val: SignedUrl) => {
-      if (val) {
-        if (val.action === this.uploadOperation) {
-          const item: CloudUploadParams = {
-            file: files[0]["data"],
-            url: val.presignedUrl[0].url
-          };
-          uploadParams.push(...uploadParams, item);
-          this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
+    this.store
+      .pipe(select(fromUpload.selectPresignedUrls))
+      .subscribe((val: SignedUrl) => {
+        if (val) {
+          if (val.action === this.uploadOperation) {
+            const item: CloudUploadParams = {
+              file: files[0]["data"],
+              url: val.presignedUrl[0].url,
+            };
+            uploadParams.push(...uploadParams, item);
+            this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
-          this.store.dispatch(
-            new UserProfileImageActions.UpdateUserProfileImage({
-              profileImagePath: val.presignedUrl[0].key
-            })
-          );
+            this.store.dispatch(
+              new UserProfileImageActions.UpdateUserProfileImage({
+                profileImagePath: val.presignedUrl[0].key,
+              })
+            );
+          }
         }
-      }
-    });
+      });
   }
 
   onClickUploadImageBtn() {
@@ -77,7 +79,7 @@ export class UserProfilePictureComponent extends AbstractUploadComponent {
       state: true,
       process: this.uploadOperation,
       multiple: false,
-      accept: MediaAcceptType.IMAGE
+      accept: MediaAcceptType.IMAGE,
     };
   }
 }

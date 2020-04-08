@@ -1,17 +1,14 @@
 import { Component, OnInit, ɵConsole } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import {
-  selectCategoryTypes,
-  selectSelectedCategoryTypes
-} from "../store/category-type/category-type.selectors";
+import * as fromCategoryType from "../store/category-type/category-type.reducers";
 import * as CategoryTypeActions from "../store/category-type/category-type.actions";
 import { CategoryType } from "src/app/interfaces";
 
 @Component({
   selector: "app-talent-categories",
   templateUrl: "./talent-categories.component.html",
-  styleUrls: ["./talent-categories.component.css"]
+  styleUrls: ["./talent-categories.component.css"],
 })
 export class TalentCategoriesComponent implements OnInit {
   itemList = [];
@@ -26,18 +23,18 @@ export class TalentCategoriesComponent implements OnInit {
     this.loadCategories();
 
     this.store
-      .pipe(select(selectSelectedCategoryTypes))
+      .pipe(select(fromCategoryType.selectSelectedCategoryTypes))
       .subscribe((val: string[]) => {
-        if (val) {
+        if (val.length > 0) {
           this.selectedItems = [];
-          val.map(x => {
-            const found = this.itemList.filter(y => y.id === x)[0];
+          val.map((x) => {
+            const found = this.itemList.filter((y) => y.id === x)[0];
             this.selectedItems = [
               ...this.selectedItems,
               {
                 id: found.id,
-                itemName: found.itemName
-              }
+                itemName: found.itemName,
+              },
             ];
           });
         }
@@ -55,14 +52,14 @@ export class TalentCategoriesComponent implements OnInit {
 
   loadCategories() {
     this.store
-      .pipe(select(selectCategoryTypes))
+      .pipe(select(fromCategoryType.selectAllCategoryTypes))
       .subscribe((val: CategoryType[]) => {
         if (val.length > 0) {
-          val.map(x => {
+          val.map((x) => {
             this.itemList.push({
               id: x._id,
               itemName: x.name,
-              category: x.category.name
+              category: x.category.name,
             });
           });
         }
@@ -77,7 +74,7 @@ export class TalentCategoriesComponent implements OnInit {
       enableSearchFilter: true,
       limitSelection: 5,
       badgeShowLimit: 5,
-      groupBy: "category"
+      groupBy: "category",
     };
   }
 
@@ -85,22 +82,24 @@ export class TalentCategoriesComponent implements OnInit {
     this.setSelectedCategory();
 
     this.store.dispatch(
-      new CategoryTypeActions.SetSelectedCategoryType(this.selectCategoryIds)
+      new CategoryTypeActions.SetSelectedCategoryType({
+        selectedCategoryType: this.selectCategoryIds,
+      })
     );
   }
 
   setPreselectedCategories() {
     this.store
-      .pipe(select(selectSelectedCategoryTypes))
+      .pipe(select(fromCategoryType.selectSelectedCategoryTypes))
       .subscribe((val: string[]) => {
         if (val) {
           for (let id of val) {
-            const found = this.itemList.filter(x => x.id === id)[0];
+            const found = this.itemList.filter((x) => x.id === id)[0];
             if (found) {
               this.selectedItems.push({
                 id: found.id,
                 itemName: found.itemName,
-                category: found.category
+                category: found.category,
               });
             }
           }
@@ -120,7 +119,9 @@ export class TalentCategoriesComponent implements OnInit {
 
     this.setSelectedCategory();
     this.store.dispatch(
-      new CategoryTypeActions.SetSelectedCategoryType(this.selectCategoryIds)
+      new CategoryTypeActions.SetSelectedCategoryType({
+        selectedCategoryType: this.selectCategoryIds,
+      })
     );
   }
   onSelectAll(items: any) {

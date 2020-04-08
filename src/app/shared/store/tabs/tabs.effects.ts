@@ -10,15 +10,14 @@ import { IUpdateTab, ITab, IAppTab } from "src/app/interfaces";
 
 @Injectable()
 export class TabsEffect {
-  updateTab = createEffect(() =>
+  initiateUpdateTab = createEffect(() =>
     this.actions$.pipe(
       ofType(TabsAction.INITIATE_TAB_UPDATE),
       map((action: TabsAction.InitiateTabUpdate) => action.payload),
-      map(payload => {
-        let tabToActivate: ITab;
+      map((payload) => {
         let updatedTabPanel: IAppTab = {
           id: payload.tabPanel.id,
-          tabs: []
+          tabs: [],
         };
         updatedTabPanel.tabs = payload.tabPanel.tabs.reduce(
           (theMap: ITab[], theItem: ITab) => {
@@ -27,16 +26,15 @@ export class TabsEffect {
                 index: theItem.index,
                 tag: theItem.tag,
                 title: theItem.title,
-                active: true
+                active: true,
               };
               theMap.push(activeTab);
-              tabToActivate = { ...activeTab };
             } else {
               theMap.push({
                 index: theItem.index,
                 tag: theItem.tag,
                 title: theItem.title,
-                active: false
+                active: false,
               });
             }
             return theMap;
@@ -45,7 +43,7 @@ export class TabsEffect {
         );
         return {
           type: TabsAction.UPSERT_TAB,
-          payload: updatedTabPanel
+          payload: updatedTabPanel,
         };
       })
     )

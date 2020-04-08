@@ -1,7 +1,7 @@
 import {
   MediaUploadType,
   PortfolioQueryParams,
-  MediaQueryParams
+  MediaQueryParams,
 } from "./../../../interfaces/user/portfolio";
 import { Component, OnInit } from "@angular/core";
 import * as fromPortfolio from "../../store/portfolio/portfolio.reducers";
@@ -17,7 +17,7 @@ import * as fromUser from "../../user.reducers";
 @Component({
   selector: "app-portfolio-item-container",
   templateUrl: "./portfolio-item-container.component.html",
-  styleUrls: ["./portfolio-item-container.component.css"]
+  styleUrls: ["./portfolio-item-container.component.css"],
 })
 export class PortfolioItemContainerComponent implements OnInit {
   userId = "";
@@ -28,12 +28,12 @@ export class PortfolioItemContainerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.selectedMediaType = MediaType.AUDIO;
-    this.store
-      .pipe(select(fromAuth.selectCurrentUserData))
-      .subscribe((val: IAuthData) => {
-        this.userId = val.user_data._id;
-      });
+    // this.selectedMediaType = MediaType.AUDIO;
+    // this.store
+    //   .pipe(select(fromAuth.selectCurrentUserData))
+    //   .subscribe((val: IAuthData) => {
+    //     this.userId = val.user_data._id;
+    //   });
 
     this.triggerFetchUserMediaList();
   }
@@ -41,7 +41,7 @@ export class PortfolioItemContainerComponent implements OnInit {
   triggerFetchUserMediaList(): void {
     const queryParams: MediaQueryParams = {
       type: MediaType.ALL,
-      uploadType: MediaUploadType.ALL
+      uploadType: MediaUploadType.ALL,
     };
     this.userStore.dispatch(
       new MediaPreviewActions.FetchUserMediaListPreview(queryParams)

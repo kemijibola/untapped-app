@@ -22,15 +22,12 @@
           </svg>
         </h4>
         <div class="bbbtn" *ngIf="showToggle">
-          <app-slide-toggle
-            title="Multiple Upload"
-            [data]="pageSlideToggles[0]"
-          ></app-slide-toggle>
+          <app-slide-toggle [data]="modalUploadToggle"></app-slide-toggle>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-12" style="padding-right: 0;padding-left: 0;">
+  <div class="col-xl-12" style="padding-right: 0; padding-left: 0;">
     <app-portfolio-browse
       *ngIf="!isViewMode"
       [multiple]="multiple"
@@ -148,10 +145,10 @@
           >
             <img src="assets/img/prff.jpg" alt="" />
             <div class="plays" (click)="onClickPlaylistItem(item, i)">
-              <a><img src="assets/img/profile/play.svg" alt=""/></a>
+              <a><img src="assets/img/profile/play.svg" alt="" /></a>
             </div>
             <div class="cros" (click)="onDeleteMediaItem(item)">
-              <a><img src="assets/img/profile/cross.svg" alt=""/></a>
+              <a><img src="assets/img/profile/cross.svg" alt="" /></a>
             </div>
           </div>
 
@@ -171,10 +168,10 @@
           >
             <img src="assets/img/prff.jpg" alt="" />
             <div class="plays" (click)="onClickPlaylistVideo(item, i)">
-              <a><img src="assets/img/profile/play.svg" alt=""/></a>
+              <a><img src="assets/img/profile/play.svg" alt="" /></a>
             </div>
             <div class="cros" (click)="onDeleteMediaItem(item)">
-              <a><img src="assets/img/profile/cross.svg" alt=""/></a>
+              <a><img src="assets/img/profile/cross.svg" alt="" /></a>
             </div>
           </div>
 

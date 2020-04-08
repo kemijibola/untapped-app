@@ -5,7 +5,7 @@ import {
   state,
   transition,
   style,
-  animate
+  animate,
 } from "@angular/animations";
 import { DOCUMENT } from "@angular/common";
 import { Store, select } from "@ngrx/store";
@@ -21,7 +21,7 @@ import {
   ReportType,
   MediaQueryParams,
   MediaType,
-  UserFilterCategory
+  UserFilterCategory,
 } from "./interfaces";
 import * as fromUser from "./user/user.reducers";
 import * as TalentsActions from "./shared/store/talents/talents.actions";
@@ -35,9 +35,9 @@ import { selectSelectedUser } from "./shared/store/filtered-categories/user-cate
     trigger("fade", [
       state("void", style({ opacity: 0 })),
       transition(":enter", [animate(300)]),
-      transition(":leave", [animate(500)])
-    ])
-  ]
+      transition(":leave", [animate(500)]),
+    ]),
+  ],
 })
 export class AppComponent implements OnInit {
   title = "untapped-app";
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
   loadAll() {
     this.store.dispatch(new AuthActions.FetchAuthData());
     this.store.dispatch(new UserTypeActions.FetchUserTypes());
-    // this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
+    this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     // this.store.dispatch(new CategoryActions.FetchCategories());
     // this.store.dispatch(
     //   new UserCategoryActions.FetchAllTalentHighestComment(
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
     const mediaQueryParams: MediaQueryParams = {
       type: MediaType.ALL,
       uploadType: MediaUploadType.ALL,
-      user: userId
+      user: userId,
     };
 
     this.store.dispatch(

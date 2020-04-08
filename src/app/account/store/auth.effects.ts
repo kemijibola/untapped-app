@@ -12,7 +12,7 @@ import {
   finalize,
   concatMap,
   take,
-  scan
+  scan,
 } from "rxjs/operators";
 import { of, Observable, throwError, empty, pipe } from "rxjs";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -34,21 +34,21 @@ export class AuthEffects {
             fullName: action.payload.registerData.fullName,
             email: action.payload.registerData.email,
             password: action.payload.registerData.password,
-            roles: action.payload.registerData.roles
+            roles: action.payload.registerData.roles,
           })
           .pipe(
             map((res: IResult<boolean>) => {
               return {
-                type: AuthActions.SIGNUP_SUCCESS
+                type: AuthActions.SIGNUP_SUCCESS,
               };
             }),
             catchError((respError: HttpErrorResponse) =>
               of(
                 new AuthActions.SignUpFailure({
-                  errorCode: respError.error.response_code,
-                  errorMessage: !navigator.onLine
-                    ? respError.error.response_message
-                    : "No internet connection. Please connect to the internet and try again."
+                  errorCode: respError.error.response_code || -1,
+                  errorMessage:
+                    respError.error.response_message ||
+                    "No Internet connection",
                 })
               )
             )
@@ -65,16 +65,15 @@ export class AuthEffects {
           map((resp: IResult<string>) => {
             return {
               type: AuthActions.SUCCESS_EMAIL_CONFIRMATION,
-              payload: resp.data
+              payload: resp.data,
             };
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
               new AuthActions.FailureEmailConfirmation({
-                errorCode: respError.error.response_message,
-                errorMessage: !navigator.onLine
-                  ? respError.error.response_message
-                  : "No internet connection. Please connect to the internet and try again."
+                errorCode: respError.error.response_code || -1,
+                errorMessage:
+                  respError.error.response_message || "No Internet connection",
               })
             )
           )
@@ -90,23 +89,23 @@ export class AuthEffects {
         this.authService
           .signin({
             email: action.payload.loginData.email,
-            password: action.payload.loginData.password
+            password: action.payload.loginData.password,
           })
           .pipe(
             map(
               (resp: IResult<IAuthData>) =>
                 new AuthActions.SetAuthData(resp.data)
             ),
-            tap(data => this.authService.setItem("userData", data.payload)),
+            tap((data) => this.authService.setItem("userData", data.payload)),
             tap(
               () => this.router.navigate(["/"]),
               catchError((respError: HttpErrorResponse) =>
                 of(
                   new AuthActions.SignInFailure({
-                    errorCode: respError.error.response_message,
-                    errorMessage: !navigator.onLine
-                      ? respError.error.response_message
-                      : "No internet connection. Please connect to the internet and try again."
+                    errorCode: respError.error.response_code || -1,
+                    errorMessage:
+                      respError.error.response_message ||
+                      "No Internet connection",
                   })
                 )
               )
@@ -136,7 +135,7 @@ export class AuthEffects {
         ofType(AuthActions.PROCEED_TO_ROUTE),
         pipe(
           map((action: AuthActions.ProceedToRoute) => action.payload.routeUrl),
-          tap(routeUrl => this.router.navigate([routeUrl]))
+          tap((routeUrl) => this.router.navigate([routeUrl]))
         )
       ),
     { dispatch: false }
@@ -149,25 +148,25 @@ export class AuthEffects {
         map(
           (action: AuthActions.CheckTokenExpired) => action.payload.tokenData
         ),
-        map(payload => {
+        map((payload) => {
           let tokenExpiration =
             payload !== null ? new Date(payload.token_expires).getTime() : 0;
           if (!isAfter(Date.now(), tokenExpiration)) {
             return {
               type: AuthActions.SET_AUTHDATA,
-              payload: payload
+              payload: payload,
             };
           }
           // show pop up to
           this.store.dispatch(
             new AuthActions.SignInFailure({
               errorCode: 10,
-              errorMessage: "Session expired. Please login to app to continue."
+              errorMessage: "Session expired. Please login to app to continue.",
             })
           );
 
           return {
-            type: AuthActions.LOGOUT
+            type: AuthActions.LOGOUT,
           };
         })
       )
@@ -180,11 +179,11 @@ export class AuthEffects {
       pipe(
         switchMap(() =>
           this.authService.fetchUserData("userData").pipe(
-            map(resp =>
+            map((resp) =>
               resp !== null
                 ? new AuthActions.CheckTokenExpired({ tokenData: resp })
                 : new AuthActions.ProceedToRoute({
-                    routeUrl: location.pathname
+                    routeUrl: location.pathname,
                   })
             )
           )
@@ -199,7 +198,7 @@ export class AuthEffects {
       pipe(
         switchMap(() =>
           this.authService.removeItem("userData").pipe(
-            map(isDeleted =>
+            map((isDeleted) =>
               isDeleted === true
                 ? new AuthActions.DeleteAutData()
                 : new AuthActions.LogOut()

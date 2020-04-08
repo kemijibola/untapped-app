@@ -3,7 +3,7 @@ import {
   createReducer,
   on,
   createFeatureSelector,
-  createSelector
+  createSelector,
 } from "@ngrx/store";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import { IUserType } from "../../interfaces";
@@ -18,7 +18,7 @@ export interface UserTypeState extends EntityState<IUserType> {
 
 const initialState: UserTypeState = fromAdapter.adapter.getInitialState({
   selectedUserTypeId: null,
-  userTypeError: null
+  userTypeError: null,
 });
 
 export function reducer(
@@ -31,15 +31,15 @@ export function reducer(
     case UserTypeActions.FETCH_USER_TYPE:
       return Object.assign({
         ...state,
-        selectedUserTypeId: action.payload.userTypeId
+        selectedUserTypeId: action.payload.userTypeId,
       });
     case UserTypeActions.FETCH_USER_TYPES_ERROR:
       return Object.assign({
         ...state,
         userTypeError: Object.assign({
           errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage
-        })
+          errorMessage: action.payload.errorMessage,
+        }),
       });
     default: {
       return state;
@@ -47,10 +47,10 @@ export function reducer(
   }
 }
 
-export const getSelectedUserTypeId = (state: UserTypeState) =>
+const getSelectedUserTypeId = (state: UserTypeState) =>
   state.selectedUserTypeId;
 
-export const getUserTypeError = (state: UserTypeState) => state.userTypeError;
+const getUserTypeError = (state: UserTypeState) => state.userTypeError;
 
 export const getUserTypeState = createFeatureSelector<UserTypeState>(
   "userTypeState"
@@ -60,10 +60,12 @@ export const selectUserTypeIds = createSelector(
   getUserTypeState,
   fromAdapter.selectUserTypeIds
 );
+
 export const selectUserTypeEntities = createSelector(
   getUserTypeState,
   fromAdapter.selectUserTpeEntities
 );
+
 export const selectAllUserTypes = createSelector(
   getUserTypeState,
   fromAdapter.selectAllUserTypes

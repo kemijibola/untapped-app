@@ -10,15 +10,12 @@ import {
   MediaPreview,
   ImagePreview,
   MediaQueryParams,
-  UploadedItems
+  UploadedItems,
+  SnackBarData,
 } from "src/app/interfaces";
 import {
-  selectMedia,
-  selectImageDeleteSuccess
-} from "../../store/portfolio/portfolio.selectors";
-import {
   fetchImageObjectFromCloudFormation,
-  fetchNoMediaDefaultImage
+  fetchNoMediaDefaultImage,
 } from "src/app/lib/Helper";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
@@ -27,18 +24,20 @@ import {
   ModalViewModel,
   ModalContent,
   IModal,
-  AppModal
+  AppModal,
 } from "src/app/interfaces/shared/modal";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
-import { selectUserImagePreviewList } from "../../store/portfolio/media/media-preview.selectors";
+import * as fromMediaPreview from "../../store/portfolio/media/media-preview.reducers";
+import * as MediaPreviewActions from "../../store/portfolio/media/media-preview.actions";
+import * as fromModal from "../../../shared/store/modals/modals.reducers";
+import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
 
 @Component({
   selector: "app-portfolio-images",
   templateUrl: "./portfolio-images.component.html",
-  styleUrls: ["./portfolio-images.component.css"]
+  styleUrls: ["./portfolio-images.component.css"],
 })
-export class PortfolioImagesComponent extends AbstractModalComponent
-  implements OnInit {
+export class PortfolioImagesComponent implements OnInit {
   userImagePreviews: ImagePreview[] = [];
   userImagesLength = 0;
   editParams: ImageEditRequest = {
@@ -46,42 +45,51 @@ export class PortfolioImagesComponent extends AbstractModalComponent
       resize: {
         width: 320,
         height: 168,
-        fit: ImageFit.fill
+        fit: ImageFit.fill,
       },
-      grayscale: false
-    }
+      grayscale: false,
+    },
   };
-  modal: AppModal;
-  modalToActivate: IModal;
+  componentModal: AppModal;
   data: IMedia;
   uploadedItems: UploadedItems;
   viewMode: ModalViewModel = ModalViewModel.none;
-  mediaIdToDelete: string;
 
   constructor(
     private userStore: Store<fromUser.UserState>,
     public store: Store<fromApp.AppState>
-  ) {
-    super();
-    // current component modal by component name
-    this.modal = {
-      component: "portfolio",
-      modals: [
-        {
-          index: 0,
-          name: "gigs-modal",
-          display: ModalDisplay.none,
-          modalCss: "",
-          modalDialogCss: "",
-          showMagnifier: false
-        }
-      ]
-    };
-  }
+  ) {}
 
   ngOnInit() {
+    this.store
+      .pipe(select(fromModal.selectCurrentModal))
+      .subscribe((val: AppModal) => {
+        if (val) {
+          this.componentModal = { ...val };
+        }
+      });
+
     this.userStore
-      .pipe(select(selectUserImagePreviewList))
+      .pipe(select(fromMediaPreview.selectMediaPreviewError))
+      .subscribe((val) => {
+        if (val !== null) {
+          const snackBarConfig: SnackBarData = {
+            message: val.errorMessage,
+            action: "X",
+            config: {
+              panelClass: ["error-snackbar"],
+              horizontalPosition: "right",
+              verticalPosition: "top",
+              duration: 5000,
+            },
+          };
+          this.store.dispatch(
+            new SnackBarActions.SnackBarOpen({ params: snackBarConfig })
+          );
+        }
+      });
+    this.userStore
+      .pipe(select(fromMediaPreview.selectUserImagePreviews))
       .subscribe((val: ImagePreview[]) => {
         this.userImagePreviews = val;
         this.userImagesLength = val.length;
@@ -90,74 +98,103 @@ export class PortfolioImagesComponent extends AbstractModalComponent
         }
       });
 
-    this.userStore
-      .pipe(select(selectImageDeleteSuccess))
-      .subscribe((deleted: boolean) => {
-        if (deleted) {
-          this.userImagePreviews = this.userImagePreviews.filter(
-            item => item._id !== this.mediaIdToDelete
-          );
+    // this.userStore
+    //   .pipe(select(selectImageDeleteSuccess))
+    //   .subscribe((deleted: boolean) => {
+    //     if (deleted) {
+    //       this.userImagePreviews = this.userImagePreviews.filter(
+    //         (item) => item._id !== this.mediaIdToDelete
+    //       );
 
-          console.log(this.userImagePreviews);
+    //       console.log(this.userImagePreviews);
 
-          this.userStore.dispatch(
-            new PortfolioActions.ResetDeleteImageByIdSucess()
-          );
-          // TODO:: show snackback for success delete
-        }
-      });
+    //       this.userStore.dispatch(
+    //         new PortfolioActions.ResetDeleteImageByIdSucess()
+    //       );
+    //       // TODO:: show snackback for success delete
+    //     }
+    //   });
   }
 
   onDelete(id: string) {
-    this.mediaIdToDelete = id;
-    this.userStore.dispatch(new PortfolioActions.DeleteImageById(id));
+    this.userStore.dispatch(
+      new MediaPreviewActions.DeleteImageListById({ imageId: id })
+    );
   }
 
   setAlbumCovers() {
-    this.userImagePreviews.map(x => {
-      x.albumCover =
-        x.defaultMediaPath !== ""
-          ? fetchImageObjectFromCloudFormation(
-              x.defaultMediaPath,
-              this.editParams
-            )
-          : fetchNoMediaDefaultImage();
+    this.userImagePreviews = this.userImagePreviews.map((x) => {
+      return Object.assign({}, x, {
+        albumCover:
+          x.defaultMediaPath !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.defaultMediaPath,
+                this.editParams
+              )
+            : fetchNoMediaDefaultImage(),
+      });
     });
   }
 
   openModalDialog(modalId: string, itemId: string) {
-    this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
-    this.modalToActivate.display = ModalDisplay.table;
-    this.modalToActivate.viewMode = ModalViewModel.edit;
-    this.modalToActivate.modalCss = "modal aligned-modal";
-    this.modalToActivate.modalDialogCss = "modal-dialog";
-    // use id of clicked Item to fetch
-    this.fetchImage(itemId);
-
     this.store.dispatch(
-      new ModalsActions.ToggleModal({
-        component: this.modal.component,
-        modal: this.modalToActivate
-      })
+      new ModalsActions.FetchAppModal({ appModalId: "portfolio" })
     );
+
+    if (this.componentModal) {
+      const modalToActivate = this.componentModal.modals.filter(
+        (x) => x.name === modalId
+      )[0];
+      const modalToOpen: IModal = {
+        index: modalToActivate.index,
+        name: modalToActivate.name,
+        display: ModalDisplay.table,
+        viewMode: ModalViewModel.edit,
+        contentType: modalToActivate.contentType,
+        data: modalToActivate.data,
+        modalCss: "modal aligned-modal",
+        modalDialogCss: "modal-dialog",
+        showMagnifier: false,
+      };
+      this.fetchImage(itemId);
+
+      this.store.dispatch(
+        new ModalsActions.ToggleModal({
+          appModal: this.componentModal,
+          modal: modalToOpen,
+        })
+      );
+    }
   }
 
   fetchImage(imageId: string): void {
-    const queryParams: MediaQueryParams = {
-      id: imageId
-    };
-    this.userStore.dispatch(new PortfolioActions.FetchMediaById(queryParams));
+    this.userStore.dispatch(
+      new PortfolioActions.FetchMediaById({ mediaId: imageId })
+    );
   }
 
   closeModalDialog(modalId: string) {
-    this.modalToActivate = this.modal.modals.filter(x => x.name === modalId)[0];
-    this.modalToActivate.display = ModalDisplay.none;
-    this.modalToActivate.data = null;
-    this.store.dispatch(
-      new ModalsActions.ToggleModal({
-        component: this.modal.component,
-        modal: this.modalToActivate
-      })
-    );
+    if (this.componentModal) {
+      const modalToDeActivate = this.componentModal.modals.filter(
+        (x) => x.name === modalId
+      )[0];
+      const modalToClose: IModal = {
+        index: modalToDeActivate.index,
+        name: modalToDeActivate.name,
+        display: ModalDisplay.none,
+        viewMode: ModalViewModel.none,
+        contentType: "",
+        data: null,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      };
+      this.store.dispatch(
+        new ModalsActions.ToggleModal({
+          appModal: this.componentModal,
+          modal: modalToClose,
+        })
+      );
+    }
   }
 }

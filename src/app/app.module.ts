@@ -5,7 +5,7 @@ import { OwlModule } from "ngx-owl-carousel";
 import { StoreModule, Store } from "@ngrx/store";
 import {
   StoreRouterConnectingModule,
-  DefaultRouterStateSerializer
+  DefaultRouterStateSerializer,
 } from "@ngrx/router-store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "./../environments/environment";
@@ -33,10 +33,11 @@ import { CategoryEffect } from "./shared/store/category/category.effect";
 import { UserCategoryEffect } from "./shared/store/filtered-categories/user-category.effect";
 import { TalentsEffect } from "./shared/store/talents/talents.effects";
 import { CommentsEffects } from "./shared/store/comments/comments.effects";
-import { MediaPreviewEffect } from "./user/store/portfolio/media/media-preview.effects";
 import { StorageModule } from "@ngx-pwa/local-storage";
 import { SnackBarEffect } from "./shared/notifications/snackbar/snackbar.effect";
 import { TabsEffect } from "./shared/store/tabs/tabs.effects";
+import { ModalsEffect } from "./shared/store/modals/modals.effect";
+import { SlideToggleEffect } from "./shared/store/slide-toggle/slide-toggle.effect";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -64,16 +65,17 @@ import { TabsEffect } from "./shared/store/tabs/tabs.effects";
       TalentsEffect,
       CommentsEffects,
       ErrorEffects,
-      MediaPreviewEffect,
       SnackBarEffect,
-      TabsEffect
+      TabsEffect,
+      ModalsEffect,
+      SlideToggleEffect,
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({
-      serializer: DefaultRouterStateSerializer
+      serializer: DefaultRouterStateSerializer,
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StorageModule.forRoot({ IDBNoWrap: false })
+    StorageModule.forRoot({ IDBNoWrap: false }),
   ],
   exports: [MaterialModule],
   providers: [],
@@ -86,6 +88,6 @@ import { TabsEffect } from "./shared/store/tabs/tabs.effects";
   //     multi: true
   //   }
   // ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
