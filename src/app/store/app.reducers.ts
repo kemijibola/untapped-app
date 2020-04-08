@@ -33,7 +33,7 @@ export interface AppState {
   error: fromError.State;
   toggleState: fromToggle.ToggleState;
   categoryTypeState: fromCategoryTypeReducer.CategoryTypeState;
-  categories: fromCategory.State;
+  categoryState: fromCategory.CategoryState;
   userCategories: fromUserCategory.State;
   talents: fromTalents.State;
   comments: fromComments.State;
@@ -52,7 +52,7 @@ export const reducers: ActionReducerMap<AppState> = {
   error: fromError.errorReducer,
   toggleState: fromToggle.reducer,
   categoryTypeState: fromCategoryTypeReducer.reducer,
-  categories: fromCategory.CategoryReducers,
+  categoryState: fromCategory.reducer,
   userCategories: fromUserCategory.UserCategoryReducers,
   talents: fromTalents.talentsReducer,
   comments: fromComments.commentsReducer,

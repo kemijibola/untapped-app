@@ -47,7 +47,7 @@ export function reducer(
   }
 }
 
-const getSelectedUserTypeId = (state: UserTypeState) =>
+export const getSelectedUserTypeId = (state: UserTypeState) =>
   state.selectedUserTypeId;
 
 const getUserTypeError = (state: UserTypeState) => state.userTypeError;

@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new AuthActions.FetchAuthData());
     this.store.dispatch(new UserTypeActions.FetchUserTypes());
     this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
-    // this.store.dispatch(new CategoryActions.FetchCategories());
+    this.store.dispatch(new CategoryActions.FetchCategories());
     // this.store.dispatch(
     //   new UserCategoryActions.FetchAllTalentHighestComment(
     //     ReportType.highestcomment
