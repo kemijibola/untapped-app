@@ -1,35 +1,66 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { TalentsService } from "src/app/services/talents.service";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as TalentsActions from "./talents.actions";
-import { IResult, TalentPortfolioPreview } from "src/app/interfaces";
-import { map, switchMap, catchError } from "rxjs/operators";
+import { IResult, TalentPortfolioPreview, MediaType } from "src/app/interfaces";
+import {
+  map,
+  switchMap,
+  catchError,
+  concatMap,
+  mergeMap,
+} from "rxjs/operators";
 import { of } from "rxjs";
 import * as GlobalErrorActions from "../../../store/global/error/error.actions";
+import * as TalentAudioPreviewActions from "./audio-preview/audio-preview.action";
+import * as TalentImagePreviewActions from "./image-preview/image-preview.action";
+import * as TalentVideoPreviewActions from "./video-preview/video-preview.action";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable()
 export class TalentsEffect {
-  @Effect()
-  fetchUserPortfolioPreviewList = this.action$.pipe(
-    ofType(TalentsActions.FETCH_TALENT_PORTFOLIO),
-    switchMap((action: TalentsActions.FetchTalentPortfolio) =>
-      this.talentsService.fetchTalentsPortfolioPreviewList(action.payload).pipe(
-        map((resp: IResult<TalentPortfolioPreview[]>) => {
-          return {
-            type: TalentsActions.SET_TALENT_PORTFOLIO,
-            payload: resp.data
-          };
-        }),
-        catchError(error =>
-          of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
-            })
+  fetchUserPortfolioPreviewList = createEffect(() =>
+    this.action$.pipe(
+      ofType(TalentsActions.FETCH_TALENT_PORTFOLIO),
+      concatMap((action: TalentsActions.FetchTalentPortfolio) =>
+        this.talentsService
+          .fetchTalentsPortfolioPreviewList(action.payload)
+          .pipe(
+            mergeMap((resp: IResult<TalentPortfolioPreview[]>) => {
+              const audioPortfolio = resp.data.filter(
+                (x) => x.mediaType === MediaType.AUDIO.toLowerCase()
+              );
+              const imagePortfolio = resp.data.filter(
+                (x) => x.mediaType === MediaType.IMAGE.toLowerCase()
+              );
+              const videoPortfolio = resp.data.filter(
+                (x) => x.mediaType === MediaType.VIDEO.toLowerCase()
+              );
+              return [
+                new TalentAudioPreviewActions.FetchTalentAudioPortfolioPreviewsSuccess(
+                  { audioPreviews: audioPortfolio }
+                ),
+                new TalentImagePreviewActions.FetchTalentImagePortfolioPreviewsSuccess(
+                  { imagePreviews: imagePortfolio }
+                ),
+                new TalentVideoPreviewActions.FetchTalentVideoPortfolioPreviewsSuccess(
+                  { videoPreviews: videoPortfolio }
+                ),
+              ];
+            }),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new TalentsActions.FetchTalentPortfolioError({
+                  errorCode: respError.error.response_code || -1,
+                  errorMessage:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
           )
-        )
       )
     )
   );

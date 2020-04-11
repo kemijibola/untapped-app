@@ -21,6 +21,8 @@ export class UserComponent extends AbstractTabComponent {
       { index: 0, title: "Profile", tag: "profile", active: false },
       { index: 1, title: "Portfolio", tag: "portfolio", active: false },
       { index: 2, title: "Settings", tag: "settings", active: false },
+      ,
+      { index: 3, title: "Contests", tag: "contests", active: false },
     ],
   };
   queryParam = "profile";

@@ -16,9 +16,20 @@ import * as _ from "underscore";
 export class TalentsComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean;
   searchPlaceHolderText = "Talents";
-  appModal: AppModal;
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
-
+  componentModal: AppModal = {
+    id: "talent-portfolio",
+    modals: [
+      {
+        index: 0,
+        name: "album-modal",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      },
+    ],
+  };
   ngOnInit() {
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
@@ -26,13 +37,11 @@ export class TalentsComponent implements OnInit, OnDestroy {
         this.isAuthenticated = val.authenticated;
       });
 
-    this.store
-      .pipe(select(fromModal.selectCurrentModal))
-      .subscribe((val: AppModal) => {
-        if (val) {
-          this.appModal = { ...val };
-        }
-      });
+    this.store.dispatch(
+      new ModalsActions.AddComponentModal({
+        componentModal: this.componentModal,
+      })
+    );
   }
 
   onSignUpClicked() {
@@ -40,21 +49,21 @@ export class TalentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (_.has(this.appModal, "id")) {
-      const modalToClose: IModal = {
-        index: 0,
-        name: "album-modal",
-        display: ModalDisplay.none,
-        modalCss: "",
-        modalDialogCss: "",
-        showMagnifier: false,
-      };
-      this.store.dispatch(
-        new ModalsActions.ToggleModal({
-          appModal: this.appModal,
-          modal: modalToClose,
-        })
-      );
-    }
+    // if (_.has(this.componentModal, "id")) {
+    //   const modalToClose: IModal = {
+    //     index: 0,
+    //     name: "album-modal",
+    //     display: ModalDisplay.none,
+    //     modalCss: "",
+    //     modalDialogCss: "",
+    //     showMagnifier: false,
+    //   };
+    //   this.store.dispatch(
+    //     new ModalsActions.ToggleModal({
+    //       appModal: this.componentModal,
+    //       modal: modalToClose,
+    //     })
+    //   );
+    // }
   }
 }

@@ -3,19 +3,19 @@ import {
   OnInit,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from "@angular/core";
 import { UserFilterCategory } from "src/app/interfaces";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import * as fromApp from "../../../store/app.reducers";
-import * as UserCategoryActions from "../../store/filtered-categories/user-category.action";
 import { Store } from "@ngrx/store";
+import * as TalentCategoryActions from "../../store/filtered-categories/talent-category.action";
 
 @Component({
   selector: "app-up-user-filter-item",
   templateUrl: "./up-user-filter-item.component.html",
-  styleUrls: ["./up-user-filter-item.component.css"]
+  styleUrls: ["./up-user-filter-item.component.css"],
 })
 export class UpUserFilterItemComponent implements OnInit, OnChanges {
   @Input() userData: UserFilterCategory;
@@ -24,10 +24,10 @@ export class UpUserFilterItemComponent implements OnInit, OnChanges {
     edits: {
       resize: {
         width: 187,
-        height: 114
+        height: 114,
       },
-      grayscale: false
-    }
+      grayscale: false,
+    },
   };
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -43,7 +43,9 @@ export class UpUserFilterItemComponent implements OnInit, OnChanges {
   }
   onUserSelected(data: UserFilterCategory) {
     this.store.dispatch(
-      new UserCategoryActions.SetSelectedUser({ selectedTalent: this.userData })
+      new TalentCategoryActions.FetchTalentWithHighestComment({
+        id: this.userData._id,
+      })
     );
   }
 }

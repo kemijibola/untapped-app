@@ -15,16 +15,15 @@ import {
 } from "src/app/interfaces";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import {
-  selectTalentImagePortfolio,
-  selectTalentAudioPortfolio,
-  selectTalentVideoPortfolio,
-} from "src/app/shared/store/talents/talents.selectors";
-import {
   fetchImageObjectFromCloudFormation,
   fetchAudioArt,
   fetchVideoArt,
   fetchNoMediaDefaultImage,
 } from "src/app/lib/Helper";
+import * as fromModal from "../../shared/store/modals/modals.reducers";
+import * as fromTalentAudioPortfolio from "src/app/shared/store/talents/audio-preview/audio-preview.reducer";
+import * as fromTalentImagePortfolio from "src/app/shared/store/talents/image-preview/image-preview.reducer";
+import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-preview/video-preview.reducer";
 
 @Component({
   selector: "app-talent-portfolio-albums",
@@ -62,6 +61,14 @@ export class TalentPortfolioAlbumsComponent {
     this.fetchTalentVideos();
 
     // dispatch modal navigateData with currentIndex at 0
+
+    this.store
+      .pipe(select(fromModal.selectCurrentModal))
+      .subscribe((val: AppModal) => {
+        if (val) {
+          this.componentModal = { ...val };
+        }
+      });
   }
 
   onPrevious() {
@@ -102,6 +109,8 @@ export class TalentPortfolioAlbumsComponent {
   }
 
   openModalDialog(modalId: string, selectedMedia: TalentPortfolioPreview) {
+    console.log(selectedMedia);
+
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "talent-portfolio" })
     );
@@ -110,6 +119,7 @@ export class TalentPortfolioAlbumsComponent {
       const modalToActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];
+
       const modalToOpen: IModal = {
         index: modalToActivate.index,
         name: modalToActivate.name,
@@ -148,7 +158,7 @@ export class TalentPortfolioAlbumsComponent {
 
   fetchTalentImages() {
     this.store
-      .pipe(select(selectTalentImagePortfolio))
+      .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
       .subscribe((val: ImagePortfolioPreview[]) => {
         if (val) {
           this.imageAlbumCount = val.length;
@@ -160,7 +170,7 @@ export class TalentPortfolioAlbumsComponent {
 
   fetchTalentAudios() {
     this.store
-      .pipe(select(selectTalentAudioPortfolio))
+      .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
       .subscribe((val: AudioPortfolioPreview[]) => {
         if (val) {
           this.audioAlbumCount = val.length;
@@ -172,7 +182,7 @@ export class TalentPortfolioAlbumsComponent {
 
   fetchTalentVideos() {
     this.store
-      .pipe(select(selectTalentVideoPortfolio))
+      .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
       .subscribe((val: VideoPortfolioPreview[]) => {
         if (val) {
           this.videoAlbumCount = val.length;
@@ -182,26 +192,28 @@ export class TalentPortfolioAlbumsComponent {
       });
   }
   setImageAlbumCover() {
-    this.imageAlbums.map((x) => {
-      x.albumCover =
-        x.defaultImageKey !== ""
-          ? fetchImageObjectFromCloudFormation(
-              x.defaultImageKey,
-              this.editParams
-            )
-          : fetchNoMediaDefaultImage();
+    this.imageAlbums = this.imageAlbums.map((x) => {
+      return Object.assign({}, x, {
+        albumCover:
+          x.defaultImageKey !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.defaultImageKey,
+                this.editParams
+              )
+            : fetchNoMediaDefaultImage(),
+      });
     });
   }
 
   setAudioAlbumCover() {
-    this.audioAlbums.map((x) => {
-      x.albumCover = fetchAudioArt();
+    this.audioAlbums = this.audioAlbums.map((x) => {
+      return Object.assign({}, x, { albumCover: fetchAudioArt() });
     });
   }
 
   setVideoAlbumCover() {
-    this.videoAlbums.map((x) => {
-      x.albumCover = fetchVideoArt();
+    this.videoAlbums = this.videoAlbums.map((x) => {
+      return Object.assign({}, x, { albumCover: fetchVideoArt() });
     });
   }
 

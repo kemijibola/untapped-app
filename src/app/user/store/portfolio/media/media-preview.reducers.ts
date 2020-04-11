@@ -34,7 +34,8 @@ export function mediaPreviewReducer(
 ): MediaPreviewState {
   switch (action.type) {
     case MediaPreviewActions.DELETE_VIDEO_LIST_BY_ID_SUCCESS:
-      let newVideoPreviews = state.imagePreviews.reduce(
+      let newVideoPreviews = [...state.imagePreviews];
+      newVideoPreviews = newVideoPreviews.reduce(
         (x: VideoPreview[], y: VideoPreview) => {
           if (y._id != action.payload) {
             x.push(y);
@@ -48,7 +49,8 @@ export function mediaPreviewReducer(
         videoPreviews: newVideoPreviews,
       });
     case MediaPreviewActions.DELETE_AUDIO_LIST_BY_ID_SUCCESS:
-      let newAudioPreviews = state.imagePreviews.reduce(
+      let newAudioPreviews = [...state.audioPreviews];
+      newAudioPreviews = newAudioPreviews.reduce(
         (x: AudioPreview[], y: AudioPreview) => {
           if (y._id != action.payload) {
             x.push(y);
@@ -62,7 +64,8 @@ export function mediaPreviewReducer(
         audioPreviews: newAudioPreviews,
       });
     case MediaPreviewActions.DELETE_IMAGE_LIST_BY_ID_SUCCESS:
-      let newImagePreviews = state.imagePreviews.reduce(
+      let newImagePreviews = [...state.imagePreviews];
+      newImagePreviews = newImagePreviews.reduce(
         (x: ImagePreview[], y: ImagePreview) => {
           if (y._id != action.payload) {
             x.push(y);

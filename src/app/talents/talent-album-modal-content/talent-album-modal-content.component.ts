@@ -12,7 +12,6 @@ import {
   AudioItem,
   VideoItem,
 } from "src/app/interfaces";
-import { selectSelectedUser } from "src/app/shared/store/filtered-categories/user-category.selectors";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import {
   fetchImageObjectFromCloudFormation,
@@ -25,6 +24,8 @@ import { VgAPI } from "ngx-videogular";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
 import * as CommentsActions from "../../shared/store/comments/comments.action";
+import * as fromTalentFilter from "src/app/shared/store/filtered-categories/talent-category.reducers";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-talent-album-modal-content",
@@ -98,12 +99,15 @@ export class TalentAlbumModalContentComponent implements OnInit {
     this.store
       .pipe(select(fromModal.selectCurrentNavigationData))
       .subscribe((val: NavigationData) => {
-        this.currentIndex = val.currentIndex;
-        const currentMedia = this.selectedMedia.items[val.currentIndex];
-        if (currentMedia !== undefined) {
-          currentMedia.key = currentMedia.path;
+        if (val !== null) {
+          this.currentIndex = val.currentIndex;
+          const currentMedia = this.selectedMedia.items[val.currentIndex];
+          if (currentMedia !== undefined) {
+            Object.assign({}, currentMedia, { key: currentMedia.path });
+            // currentMedia.key = currentMedia.path;
+          }
+          this.setMedia(val.mediaType, currentMedia);
         }
-        this.setMedia(val.mediaType, currentMedia);
       });
   }
 
@@ -115,33 +119,38 @@ export class TalentAlbumModalContentComponent implements OnInit {
     this.store
       .pipe(select(fromModal.selectCurrentActiveModal))
       .subscribe((val: IModal) => {
-        this.isCurrentAudioSet = false;
-        this.isCurrentImageSet = false;
-        this.isCurrentVideoSet = false;
-        if (val.name === "album-modal" && val.data !== null) {
-          if (val.data !== null) {
-            this.selectedMedia = { ...val.data };
-            this.store.dispatch(
-              new CommentsActions.FetchMediaComments({
-                mediaId: this.selectedMedia._id,
-              })
-            );
-          }
-        } else {
-          if (this.api) {
-            (<VgMedia>this.api.getDefaultMedia()).pause();
+        if (val !== null) {
+          this.isCurrentAudioSet = false;
+          this.isCurrentImageSet = false;
+          this.isCurrentVideoSet = false;
+          if (val.name === "album-modal" && val.data !== null) {
+            if (val.data !== null) {
+              this.selectedMedia = { ...val.data };
+              this.store.dispatch(
+                new CommentsActions.FetchMediaComments({
+                  mediaId: this.selectedMedia._id,
+                })
+              );
+            }
+          } else {
+            if (this.api) {
+              (<VgMedia>this.api.getDefaultMedia()).pause();
+            }
           }
         }
       });
 
     this.store
-      .pipe(select(selectSelectedUser))
+      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
         this.selectedUser = { ...val };
-        this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
-          val.displayPhoto,
-          this.editParams
-        );
+        console.log(this.selectedUser);
+        this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")
+          ? fetchImageObjectFromCloudFormation(
+              val.displayPhoto,
+              this.editParams
+            )
+          : null;
       });
   }
 

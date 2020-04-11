@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { selectSelectedUser } from "src/app/shared/store/filtered-categories/user-category.selectors";
 import { UserFilterCategory } from "src/app/interfaces";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import * as fromTalentFilter from "src/app/shared/store/filtered-categories/talent-category.reducers";
 
 @Component({
   selector: "app-talent-biodata",
   templateUrl: "./talent-biodata.component.html",
-  styleUrls: ["./talent-biodata.component.css"]
+  styleUrls: ["./talent-biodata.component.css"],
 })
 export class TalentBiodataComponent implements OnInit {
   selectedUser: UserFilterCategory;
@@ -18,17 +18,17 @@ export class TalentBiodataComponent implements OnInit {
       resize: {
         width: 437.66,
         height: 416.16,
-        fit: ImageFit.fill
+        fit: ImageFit.fill,
       },
-      grayscale: false
-    }
+      grayscale: false,
+    },
   };
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store
-      .pipe(select(selectSelectedUser))
+      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
         this.selectedUser = { ...val };
         this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(

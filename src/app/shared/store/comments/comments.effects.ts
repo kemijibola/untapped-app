@@ -1,104 +1,124 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { CommentsService } from "src/app/services/comments.service";
 import * as CommentsAction from "./comments.action";
-import { map, switchMap, catchError } from "rxjs/operators";
+import {
+  map,
+  switchMap,
+  catchError,
+  concatMap,
+  mergeMap,
+} from "rxjs/operators";
 import { IResult, IComment } from "src/app/interfaces";
 import { of } from "rxjs";
 import * as GlobalErrorActions from "../../../store/global/error/error.actions";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable()
 export class CommentsEffects {
-  @Effect()
-  fetchMediaComments = this.action$.pipe(
-    ofType(CommentsAction.FETCH_MEDIA_COMMENTS),
-    switchMap((action: CommentsAction.FetchMediaComments) =>
-      this.commentsService.fetchMediaComments(action.payload.mediaId).pipe(
-        map((resp: IResult<IComment[]>) => {
-          return {
-            type: CommentsAction.SET_MEDIA_COMMENTS,
-            payload: resp.data
-          };
-        }),
-        catchError(error =>
-          of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
-            })
-          )
-        )
-      )
-    )
-  );
-
-  @Effect()
-  postMediaComment = this.action$.pipe(
-    ofType(CommentsAction.POST_MEDIA_COMMENT),
-    switchMap((action: CommentsAction.PostMediaComment) =>
-      this.commentsService.postMediaComment(action.payload).pipe(
-        map((res: IResult<IComment>) => {
-          return {
-            type: CommentsAction.SUCCESS_POST_MEDIA_COMMENT,
-            payload: res.data
-          };
-        }),
-        catchError(error =>
-          of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
-            })
-          )
-        )
-      )
-    )
-  );
-
-  @Effect()
-  postCommentReply = this.action$.pipe(
-    ofType(CommentsAction.POST_COMMENT_REPLY),
-    switchMap((action: CommentsAction.PostCommentReply) =>
-      this.commentsService
-        .postCommentReply(action.payload.commentId, action.payload.reply)
-        .pipe(
-          map((res: IResult<IComment>) => {
-            return {
-              type: CommentsAction.SET_MEDIA_COMMENT,
-              payload: res.data
-            };
-          }),
-          catchError(error =>
+  fetchMediaComments = createEffect(() =>
+    this.action$.pipe(
+      ofType(CommentsAction.FETCH_MEDIA_COMMENTS),
+      concatMap((action: CommentsAction.FetchMediaComments) =>
+        this.commentsService.fetchMediaComments(action.payload.mediaId).pipe(
+          map(
+            (resp: IResult<IComment[]>) =>
+              new CommentsAction.FetchMediaCommentsSuccess({
+                mediaComments: resp.data,
+              })
+          ),
+          catchError((respError: HttpErrorResponse) =>
             of(
-              new GlobalErrorActions.AddGlobalError({
-                errorMessage: error.response_message,
-                errorCode: error.response_code
+              new CommentsAction.FetchMediaCommentsError({
+                errorCode: respError.error.response_code || -1,
+                errorMessage:
+                  respError.error.response_message || "No Internet connection",
               })
             )
           )
         )
+      )
     )
   );
 
-  @Effect()
-  postCommentLike = this.action$.pipe(
-    ofType(CommentsAction.POST_COMMENT_LIKE),
-    switchMap((action: CommentsAction.PostCommentLike) =>
-      this.commentsService.postCommentLike(action.payload).pipe(
-        map((res: IResult<IComment>) => {
-          return {
-            type: CommentsAction.SET_MEDIA_COMMENT,
-            payload: res.data
-          };
-        }),
-        catchError(error =>
-          of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
-            })
+  postMediaComment = createEffect(() =>
+    this.action$.pipe(
+      ofType(CommentsAction.ADD_MEDIA_COMMENT),
+      concatMap((action: CommentsAction.AddMediaComment) =>
+        this.commentsService.postMediaComment(action.payload.mediaComment).pipe(
+          mergeMap((resp: IResult<IComment>) => {
+            return [
+              new CommentsAction.AddMediaCommentSuccess({
+                key: action.payload.mediaComment._id,
+              }),
+              new CommentsAction.UpdateMediaComment({ comment: resp.data }),
+            ];
+          }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new CommentsAction.AddMediaCommentError({
+                key: action.payload.mediaComment._id,
+                errorCode: respError.error.response_code || -1,
+                errorMessage:
+                  respError.error.response_message || "No Internet connection",
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  postCommentReply = createEffect(() =>
+    this.action$.pipe(
+      ofType(CommentsAction.ADD_COMMENT_REPLY),
+      concatMap((action: CommentsAction.AddCommentReply) =>
+        this.commentsService
+          .postCommentReply(action.payload.commentId, action.payload.reply)
+          .pipe(
+            map(() => new CommentsAction.AddCommentReplySuccess()),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new CommentsAction.AddCommentReplyError({
+                  errorCode: respError.error.response_code || -1,
+                  errorMessage:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  postCommentLike = createEffect(() =>
+    this.action$.pipe(
+      ofType(CommentsAction.ADD_COMMENT_LIKE),
+      concatMap((action: CommentsAction.AddCommentLike) =>
+        this.commentsService.postCommentLike(action.payload.comment._id).pipe(
+          mergeMap((resp: IResult<IComment>) => {
+            const commentObj = { ...action.payload.comment };
+            commentObj.likedBy = commentObj.likedBy.filter(
+              (x) => x._id !== action.payload.likedBy._id
+            );
+            console.log("removing optimistic update from store", commentObj);
+            return [
+              new CommentsAction.AddCommentLikeSuccess({
+                comment: commentObj,
+              }),
+              new CommentsAction.UpdateCommentLike({ comment: resp.data }),
+            ];
+          }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new CommentsAction.AddCommentLikeError({
+                comment: action.payload.comment,
+                likedBy: action.payload.likedBy,
+              })
+            )
           )
         )
       )

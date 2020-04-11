@@ -3,26 +3,33 @@ import {
   OnInit,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
-import { IAuthData, IComment, LikeViewModel } from "src/app/interfaces";
+import {
+  IAuthData,
+  IComment,
+  LikeViewModel,
+  CommenterViewModel,
+  IUserData,
+} from "src/app/interfaces";
 import { Router } from "@angular/router";
-import { selectTalentMediaComments } from "src/app/shared/store/comments/comments.selectors";
 import { FormGroup, Validators, FormControl } from "@angular/forms";
 import * as CommentsActions from "../../shared/store/comments/comments.action";
 import {
   fetchCommenterDefaultImage,
-  fetchImageObjectFromCloudFormation
+  fetchImageObjectFromCloudFormation,
 } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import { UUID } from "angular2-uuid";
+import * as fromComment from "src/app/shared/store/comments/comments.reducers";
 
 @Component({
   selector: "app-talent-comment",
   templateUrl: "./talent-comment.component.html",
-  styleUrls: ["./talent-comment.component.css"]
+  styleUrls: ["./talent-comment.component.css"],
 })
 export class TalentCommentComponent implements OnInit, OnChanges {
   isAuthenticated: boolean = false;
@@ -32,16 +39,16 @@ export class TalentCommentComponent implements OnInit, OnChanges {
   mediaComments: IComment[] = [];
   isDisabled: boolean;
   mediaCommentForm: FormGroup;
-  currentUserId: string = "";
+  currentUser: IUserData;
   commenterImageParams: ImageEditRequest = {
     edits: {
       resize: {
         width: 30,
         height: 30,
-        fit: ImageFit.cover
+        fit: ImageFit.cover,
       },
-      grayscale: false
-    }
+      grayscale: false,
+    },
   };
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
@@ -53,55 +60,64 @@ export class TalentCommentComponent implements OnInit, OnChanges {
         console.log(val);
         this.isAuthenticated = val.authenticated;
         if (val.authenticated) {
-          this.currentUserId = val ? val.user_data._id : "";
+          this.currentUser = { ...val.user_data };
         }
       });
 
     this.store
-      .pipe(select(selectTalentMediaComments))
+      .pipe(select(fromComment.selectAllComments))
       .subscribe((val: IComment[]) => {
+        // console.log("comments from component", val);
         this.commentsLength = val.length;
         if (this.commentsLength > 0) {
-          this.mediaComments = val.sort((a, b) => {
-            return this.getTime(b.createdAt) - this.getTime(a.createdAt);
-          });
-          this.fetchCommenterProfileImage(this.mediaComments);
-          if (this.currentUserId !== "") {
+          this.mediaComments = this.sortCommentsByNewest(val);
+          this.mediaComments = this.fetchCommenterProfileImage(val);
+          if (this.currentUser._id !== "") {
             this.checkIfUserHasLikedComment(
-              this.currentUserId,
+              this.currentUser._id,
               this.mediaComments
             );
           }
         } else {
           this.mediaComments = [];
         }
-        console.log("from compo", this.mediaComments);
       });
 
     this.mediaCommentForm = new FormGroup({
-      mediaComment: new FormControl("", Validators.required)
+      mediaComment: new FormControl("", Validators.required),
     });
   }
 
   onLikeClicked(comment: IComment) {
-    this.store.dispatch(new CommentsActions.PostCommentLike(comment._id));
-
-    // increase likeCount for object
-    // changed hasLiked to true for object
+    const likedBy: LikeViewModel = {
+      user: this.currentUser._id,
+    };
+    this.store.dispatch(
+      new CommentsActions.AddCommentLike({ comment, likedBy })
+    );
   }
 
   onReplyClicked(commentId: string) {
     console.log("reply comment");
   }
-  fetchCommenterProfileImage(comments: IComment[]) {
-    comments.map(x => {
-      x.user.fullProfileImagePath =
-        x.user.profileImagePath === undefined
-          ? fetchCommenterDefaultImage()
-          : fetchImageObjectFromCloudFormation(
-              x.user.profileImagePath,
-              this.commenterImageParams
-            );
+
+  sortCommentsByNewest(comments: IComment[]): IComment[] {
+    return comments.sort((a, b) => {
+      return this.getTime(b.createdAt) - this.getTime(a.createdAt);
+    });
+  }
+
+  fetchCommenterProfileImage(comments: IComment[]): IComment[] {
+    return comments.map((x) => {
+      return Object.assign({}, x, {
+        commenterfullProfileImagePath:
+          x.user.profileImagePath === undefined
+            ? fetchCommenterDefaultImage()
+            : fetchImageObjectFromCloudFormation(
+                x.user.profileImagePath,
+                this.commenterImageParams
+              ),
+      });
     });
   }
 
@@ -112,8 +128,10 @@ export class TalentCommentComponent implements OnInit, OnChanges {
   }
 
   checkIfUserHasLikedComment(currentUser: string, comments: IComment[]) {
-    comments.map(x => {
-      const found = x.likedBy.filter(y => x._id === currentUser)[0];
+    comments.map((x) => {
+      // console.log(x);
+      const found = x.likedBy.filter((y) => y.user === currentUser)[0];
+      // console.log(found);
       x.hasLiked = found ? true : false;
       x.likeCount = x.likedBy ? x.likedBy.length : 0;
     });
@@ -126,12 +144,23 @@ export class TalentCommentComponent implements OnInit, OnChanges {
   onPostComment() {
     const mediaComment: string = this.mediaCommentForm.controls["mediaComment"]
       .value;
+
     const commentObj: IComment = {
+      _id: UUID.UUID(),
       comment: mediaComment,
-      media: this.selectedMediaId
+      media: this.selectedMediaId,
+      user: {
+        _id: this.currentUser._id,
+        fullName: this.currentUser.full_name,
+        profileImagePath: this.currentUser.profile_image_path,
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
-    this.store.dispatch(new CommentsActions.PostMediaComment(commentObj));
+    this.store.dispatch(
+      new CommentsActions.AddMediaComment({ mediaComment: commentObj })
+    );
     this.mediaCommentForm.controls["mediaComment"].setValue("");
   }
 

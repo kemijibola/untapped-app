@@ -6,7 +6,6 @@ import {
   VideoPreview,
 } from "src/app/interfaces";
 import { Action } from "@ngrx/store";
-import { DeleteAudioByIdError } from "../portfolio.actions";
 
 export const FETCH_USER_MEDIA_LIST_PREVIEW = "FETCH_USER_MEDIA_LIST_PREVIEW";
 export const FETCH_USER_MEDIA_LIST_PREVIEW_ERROR =

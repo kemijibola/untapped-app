@@ -26,12 +26,9 @@ export class CategoryTypeEffects {
           catchError((respError: HttpErrorResponse) =>
             of(
               new CategoryTypeActions.FetchCategoryTypeError({
-                errorCode: !navigator.onLine
-                  ? respError.error.response_code
-                  : 0,
-                errorMessage: !navigator.onLine
-                  ? respError.error.response_message
-                  : "We were unable to fetch category types. Please connect to the internet and try again.",
+                errorCode: respError.error.response_code || -1,
+                errorMessage:
+                  respError.error.response_message || "No Internet connection",
               })
             )
           )

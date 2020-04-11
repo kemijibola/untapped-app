@@ -1,51 +1,52 @@
+import { createFeatureSelector, createSelector } from "@ngrx/store";
 import {
   AudioPortfolioPreview,
   ImagePortfolioPreview,
   VideoPortfolioPreview,
   MediaType,
-  TalentPortfolioPreview
+  TalentPortfolioPreview,
 } from "src/app/interfaces";
 import * as TalentsAction from "./talents.actions";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import * as fromAdapter from "./talents.adapter";
+import { AppError } from "src/app/store/global/error/error.reducers";
 
-export interface State extends EntityState<TalentPortfolioPreview> {
-  audioPortfolioPreview: AudioPortfolioPreview[];
-  imagePortfolioPreview: ImagePortfolioPreview[];
-  videoPortfolioPreview: VideoPortfolioPreview[];
+export interface TalentPortfolioState
+  extends EntityState<TalentPortfolioPreview> {
+  talentPorfolioPreviewError: AppError | null;
 }
 
-export const talentPortfolioPreviewAdapter: EntityAdapter<TalentPortfolioPreview> = createEntityAdapter<
-  TalentPortfolioPreview
->();
-
-const initialState: State = talentPortfolioPreviewAdapter.getInitialState({
-  audioPortfolioPreview: [],
-  imagePortfolioPreview: [],
-  videoPortfolioPreview: []
+const initialState: TalentPortfolioState = fromAdapter.adapter.getInitialState({
+  talentPorfolioPreviewError: null,
 });
 
-export function talentsReducer(
+export function reducer(
   state = initialState,
   action: TalentsAction.TalentsAction
-): State {
+): TalentPortfolioState {
   switch (action.type) {
-    case TalentsAction.SET_TALENT_PORTFOLIO:
-      const audioPortfolio = action.payload.filter(
-        x => x.mediaType === MediaType.AUDIO.toLowerCase()
-      );
-      const imagePortfolio = action.payload.filter(
-        x => x.mediaType === MediaType.IMAGE.toLowerCase()
-      );
-      const videoPortfolio = action.payload.filter(
-        x => x.mediaType === MediaType.VIDEO.toLowerCase()
-      );
-      return talentPortfolioPreviewAdapter.setAll(action.payload, {
+    case TalentsAction.FETCH_TALENT_PORTFOLIO_ERROR:
+      return Object.assign({
         ...state,
-        audioPortfolioPreview: audioPortfolio,
-        videoPortfolioPreview: videoPortfolio,
-        imagePortfolioPreview: imagePortfolio
+        talentPorfolioPreviewError: Object.assign({
+          errorCode: action.payload.errorCode,
+          errorMessage: action.payload.errorMessage,
+        }),
       });
-    default:
+    default: {
       return state;
+    }
   }
 }
+
+const getTalentPortfolioPreviewError = (state: TalentPortfolioState) =>
+  state.talentPorfolioPreviewError;
+
+export const getTalentPortfolioState = createFeatureSelector<
+  TalentPortfolioState
+>("talentPortfolioState");
+
+export const selectTalentPortfolioPreviewError = createSelector(
+  getTalentPortfolioState,
+  getTalentPortfolioPreviewError
+);

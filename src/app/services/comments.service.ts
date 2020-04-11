@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
 import { IResult } from "../interfaces";
 import { HttpClient } from "@angular/common/http";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: "root" })
 export class CommentsService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {
@@ -17,11 +17,11 @@ export class CommentsService {
   }
 
   postMediaComment(data: IComment): Observable<IResult<IComment>> {
-    console.log(data);
+    console.log("calling service to add comment");
     const url = `${this.BASE_URI}/comments`;
     return this.http.post<IResult<IComment>>(url, {
       media: data.media,
-      comment: data.comment
+      comment: data.comment,
     });
   }
 

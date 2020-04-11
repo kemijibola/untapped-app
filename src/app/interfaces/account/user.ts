@@ -5,13 +5,13 @@ export enum SocialMedia {
   TWITTER = "TWITTER",
   INSTAGRAM = "INSTAGRAM",
   YOUTUBE = "YOUTUBE",
-  OTHER = "OTHER"
+  OTHER = "OTHER",
 }
 
 export enum UserTypes {
   Talent = "Talent",
   Audience = "Audience",
-  Professional = "Professional"
+  Professional = "Professional",
 }
 export interface IUserSocialMedia {
   type: SocialMedia;
@@ -25,7 +25,7 @@ export interface IAuthData {
   token_expires: string;
 }
 
-interface IUserData {
+export interface IUserData {
   _id: string;
   full_name: string;
   email: string;
@@ -42,7 +42,7 @@ interface UserType {
 export enum AccountStatus {
   ACTIVATED = "ACTIVATED",
   SUSPENDED = "SUSPENDED",
-  DELETED = "DELETED"
+  DELETED = "DELETED",
 }
 export interface IUserAccountStatus {
   status: AccountStatus;

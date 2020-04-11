@@ -1,6 +1,6 @@
-<div class="col-xl-12 d-inline-block" style=" width: 45%">
+<div class="col-xl-12 d-inline-block" style="width: 45%;">
   <div class="album-popup-content-wrap">
-    <div class="collapse cmnt-bx show " id="collapseExample">
+    <div class="collapse cmnt-bx show" id="collapseExample">
       <div
         class="card card-body album-card-body"
         [formGroup]="mediaCommentForm"
@@ -16,24 +16,36 @@
         ></textarea>
         <a
           [class.disabled]="true"
-          style="position: absolute; right: 13px; top: 16px; color:darkcyan !important; cursor: pointer;"
+          style="
+            position: absolute;
+            right: 13px;
+            top: 16px;
+            color: darkcyan !important;
+            cursor: pointer;
+          "
           *ngIf="isAuthenticated"
           (click)="onPostComment()"
           >Post</a
         >
         <a
-          style="position: absolute; right: 13px; top: 16px; color:darkcyan !important; cursor: pointer;"
+          style="
+            position: absolute;
+            right: 13px;
+            top: 16px;
+            color: darkcyan !important;
+            cursor: pointer;
+          "
           *ngIf="!isAuthenticated"
           (click)="onSignUpClicked()"
           >Login</a
         >
       </div>
     </div>
-    <div class="pop-review-outer-section" style="height: 297px">
+    <div class="pop-review-outer-section" style="height: 297px;">
       <div class="pop-review-section" *ngFor="let item of mediaComments">
         <div class="p-rv-head">
           <div class="p-rev-img">
-            <img src="{{ item.user.fullProfileImagePath }}" alt="" />
+            <img src="{{ item.commenterfullProfileImagePath }}" alt="" />
           </div>
           <div class="p-rv-name">
             <h5>{{ item.user.fullName }}</h5>
@@ -55,7 +67,11 @@
                 (click)="onLikeClicked(item)"
                 >Like</span
               >
-              <span class="like" *ngIf="item.hasLiked">Liked</span>
+              <span
+                class="like"
+                *ngIf="item.hasLiked"
+                >UnLike</span
+              >
             </div>
             <span class="react">
               {{ item.likeCount }}
