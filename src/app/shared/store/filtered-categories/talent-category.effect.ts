@@ -5,10 +5,14 @@ import * as fromApp from "../../../store/app.reducers";
 import * as TalentCategoryActions from "./talent-category.action";
 import { UserCategoryService } from "src/app/services/user-category.service";
 import { map, switchMap, catchError, concatMap } from "rxjs/operators";
-import { IResult, UserFilterCategory } from "src/app/interfaces";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
+import {
+  IResult,
+  UserFilterCategory,
+  AppNotificationKey,
+} from "src/app/interfaces";
 import { of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class UserCategoryEffect {
@@ -27,9 +31,10 @@ export class UserCategoryEffect {
             ),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new TalentCategoryActions.FetchAllTalentHighestCommentError({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })

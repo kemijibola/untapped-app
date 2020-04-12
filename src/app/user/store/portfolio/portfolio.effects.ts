@@ -23,11 +23,12 @@ import {
   IMedia,
   MediaPreview,
   MediaType,
+  AppNotificationKey,
 } from "src/app/interfaces";
 import { of, Observable } from "rxjs";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as fromPortfolio from "./portfolio.reducers";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class PortfolioEffect {
@@ -51,9 +52,10 @@ export class PortfolioEffect {
             }),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new PortfolioActions.CreatePortfolioMediaError({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })
@@ -79,9 +81,10 @@ export class PortfolioEffect {
             }),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new PortfolioActions.UpdatePorfolioMediaError({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })
@@ -128,9 +131,10 @@ export class PortfolioEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new PortfolioActions.FetchUserMediaListError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -155,9 +159,10 @@ export class PortfolioEffect {
             ),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new PortfolioActions.DeleteMediaItemByIdError({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })
@@ -186,9 +191,10 @@ export class PortfolioEffect {
           ),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new PortfolioActions.FetchMediaByIdError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -211,9 +217,10 @@ export class PortfolioEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new PortfolioActions.FetchAllMediaError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )

@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import * as ProfileActions from "./profile.actions";
-import { IProfile, IResult } from "src/app/interfaces";
+import { IProfile, IResult, AppNotificationKey } from "src/app/interfaces";
 import { ProfileService } from "src/app/services/profile.service";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import { of } from "rxjs";
 import { map, switchMap, catchError } from "rxjs/operators";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class ProfileEffect {
@@ -25,9 +25,10 @@ export class ProfileEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new ProfileActions.FetchUserProfileError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -50,9 +51,10 @@ export class ProfileEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new ProfileActions.CreateUserProfileError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -75,9 +77,10 @@ export class ProfileEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new ProfileActions.UpdateUserProfileError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )

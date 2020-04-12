@@ -1,6 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./video-preview.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as TalentVideoPreviewActions from "./video-preview.action";
 import { VideoPortfolioPreview } from "src/app/interfaces";

@@ -9,14 +9,12 @@ import {
 import * as MediaPreviewActions from "./media-preview.actions";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./media-preview.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface MediaPreviewState extends EntityState<MediaPreview> {
   audioPreviews: AudioPreview[];
   videoPreviews: VideoPreview[];
   imagePreviews: ImagePreview[];
-  mediaPreviewError: AppError | null;
   selectedMediaPreviewId: string | number | null;
 }
 
@@ -25,7 +23,6 @@ const initialState: MediaPreviewState = fromAdapter.adapter.getInitialState({
   imagePreviews: [],
   videoPreviews: [],
   selectedMediaPreviewId: null,
-  mediaPreviewError: null,
 });
 
 export function mediaPreviewReducer(
@@ -117,14 +114,6 @@ export function mediaPreviewReducer(
         ...state,
         videoPreviews: action.payload,
       });
-    case MediaPreviewActions.FETCH_USER_MEDIA_LIST_PREVIEW_ERROR:
-      return Object.assign({
-        ...state,
-        mediaPreviewError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
     default: {
       return state;
     }
@@ -133,9 +122,6 @@ export function mediaPreviewReducer(
 
 const getSelectedMediaPreviewId = (state: MediaPreviewState) =>
   state.selectedMediaPreviewId;
-
-const getMediaPreviewError = (state: MediaPreviewState) =>
-  state.mediaPreviewError;
 
 const getAudioPreviews = (state: MediaPreviewState) => state.audioPreviews;
 
@@ -169,11 +155,6 @@ export const mediaPreviewCount = createSelector(
 export const selectCurrentMediaPreviewId = createSelector(
   getMediaPreviewState,
   getSelectedMediaPreviewId
-);
-
-export const selectMediaPreviewError = createSelector(
-  getMediaPreviewState,
-  getMediaPreviewError
 );
 
 export const selectUserAudioPreviews = createSelector(

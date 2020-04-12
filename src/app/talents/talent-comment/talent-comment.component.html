@@ -69,6 +69,7 @@
               >
               <span
                 class="like"
+                (click)="onUnLikeClicked(item)"
                 *ngIf="item.hasLiked"
                 >UnLike</span
               >

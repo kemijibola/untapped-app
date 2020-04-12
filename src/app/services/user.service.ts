@@ -39,7 +39,14 @@ export class UserService {
   updateUserProfileImage(imagePath: string): Observable<IResult<IUser>> {
     const url = `${this.BASE_URI}/users/`;
     return this.http.patch<IResult<IUser>>(url, {
-      profileImagePath: imagePath
+      profileImagePath: imagePath,
+    });
+  }
+
+  updateUserBannerImage(imagePath: string): Observable<IResult<IUser>> {
+    const url = `${this.BASE_URI}/users/`;
+    return this.http.patch<IResult<IUser>>(url, {
+      bannerImagePath: imagePath,
     });
   }
 }

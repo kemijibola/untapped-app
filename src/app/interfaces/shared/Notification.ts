@@ -6,3 +6,14 @@ export interface SnackBarData {
   action?: string;
   config?: MatSnackBarConfig;
 }
+export interface AppNotification {
+  key: AppNotificationKey;
+  code: number;
+  message: string;
+}
+
+export enum AppNotificationKey {
+  error = "error",
+  info = "info",
+  success = "success",
+}

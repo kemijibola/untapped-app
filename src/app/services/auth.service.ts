@@ -8,7 +8,7 @@ import {
   IRegister,
   ILogin,
   IUser,
-  IConfirmEmail
+  IConfirmEmail,
 } from "../interfaces";
 import { LocalStorage } from "@ngx-pwa/local-storage";
 import { environment } from "../../environments/environment";
@@ -25,20 +25,21 @@ export class AuthService {
   confirmEmail(req: IConfirmEmail): Observable<IResult<string>> {
     const { email, token } = req;
     const url = `${this.BASE_URI}/account/verify`;
+    console.log(req);
     return this.http.post<IResult<string>>(url, {
       email,
-      token
+      token,
     });
   }
 
   signUp(newUser: IRegister): Observable<IResult<boolean>> {
-    const { fullName, email, password, roles } = newUser;
+    const { fullName, email, password, userType } = newUser;
     const url = `${this.BASE_URI}/account/signup`;
     return this.http.post<IResult<boolean>>(url, {
       fullName,
       email,
       password,
-      roles
+      userType,
     });
   }
 

@@ -1,4 +1,3 @@
-import { selectUserProfileImage } from "./../../../shared/store/user-profile-image/user-profile.selectors";
 import { Component, OnInit } from "@angular/core";
 import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component";
 import {
@@ -6,6 +5,7 @@ import {
   IUserImage,
   IFileInputModel,
   IAuthData,
+  SnackBarData,
 } from "src/app/interfaces";
 import {
   CloudUploadParams,
@@ -16,12 +16,15 @@ import { select, Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as fromUpload from "../../../shared/store/upload/upload.reducers";
 import * as UploadActions from "../../../shared/store/upload/upload.actions";
-import * as UserProfileImageActions from "../../../shared/store/user-profile-image/user-profile-image.actions";
+import * as UserImageActions from "../../../shared/store/user-image/user-image.action";
 import { environment } from "src/environments/environment.prod";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { AuthService } from "src/app/services/auth.service";
 import * as fromAuth from "src/app/account/store/auth.reducers";
+import * as fromUserImage from "../../../shared/store/user-image/user-image.reducer";
+import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-change-profile-picture",
@@ -59,8 +62,6 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
         if (val) {
-          this.authService.removeItem("authData");
-          this.authService.setItem("authData", this.authData);
           this.fetchUserProfile();
         }
       });
@@ -84,10 +85,12 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
             this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
             this.store.dispatch(
-              new UserProfileImageActions.UpdateUserProfileImage({
-                profileImagePath: val.presignedUrl[0].key,
+              new UserImageActions.UpdateUserProfileImage({
+                imageKey: val.presignedUrl[0].key,
               })
             );
+
+            // set uploaded
           }
         }
       });
@@ -100,6 +103,8 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
       multiple: false,
       accept: MediaAcceptType.IMAGE,
     };
+
+    // this.store.dispatch(new UploadActions.UploadFilesError({}));
   }
 
   fetchUserProfile() {

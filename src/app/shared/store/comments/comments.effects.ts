@@ -11,9 +11,9 @@ import {
   concatMap,
   mergeMap,
 } from "rxjs/operators";
-import { IResult, IComment } from "src/app/interfaces";
+import { IResult, IComment, AppNotificationKey } from "src/app/interfaces";
 import { of } from "rxjs";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable()
@@ -31,9 +31,10 @@ export class CommentsEffects {
           ),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new CommentsAction.FetchMediaCommentsError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -60,9 +61,6 @@ export class CommentsEffects {
             of(
               new CommentsAction.AddMediaCommentError({
                 key: action.payload.mediaComment._id,
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
-                  respError.error.response_message || "No Internet connection",
               })
             )
           )
@@ -81,15 +79,48 @@ export class CommentsEffects {
             map(() => new CommentsAction.AddCommentReplySuccess()),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new CommentsAction.AddCommentReplyError({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })
               )
             )
           )
+      )
+    )
+  );
+
+  postCommentUnLike = createEffect(() =>
+    this.action$.pipe(
+      ofType(CommentsAction.REMOVE_COMMENT_LIKE),
+      concatMap((action: CommentsAction.RemoveCommentLike) =>
+        this.commentsService.postCommentUnLike(action.payload.comment._id).pipe(
+          mergeMap((resp: IResult<IComment>) => {
+            const commentObj = { ...action.payload.comment };
+            commentObj.likedBy = commentObj.likedBy.filter(
+              (x) => x.user !== action.payload.unLikedBy.user
+            );
+            return [
+              new CommentsAction.RemoveCommentLikeSuccess({
+                comment: commentObj,
+              }),
+              new CommentsAction.UpdateRemoveCommentLike({
+                comment: resp.data,
+              }),
+            ];
+          }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new CommentsAction.RemoveCommentLikeError({
+                comment: action.payload.comment,
+                likedBy: action.payload.unLikedBy,
+              })
+            )
+          )
+        )
       )
     )
   );
@@ -102,7 +133,7 @@ export class CommentsEffects {
           mergeMap((resp: IResult<IComment>) => {
             const commentObj = { ...action.payload.comment };
             commentObj.likedBy = commentObj.likedBy.filter(
-              (x) => x._id !== action.payload.likedBy._id
+              (x) => x.user !== action.payload.likedBy.user
             );
             console.log("removing optimistic update from store", commentObj);
             return [

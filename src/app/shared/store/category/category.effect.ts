@@ -5,10 +5,10 @@ import * as CategoryActions from "./category.action";
 import * as fromApp from "../../../store/app.reducers";
 import { CategoryService } from "src/app/services/category.service";
 import { of } from "rxjs";
-import { IResult, ICategory } from "src/app/interfaces";
+import { IResult, ICategory, AppNotificationKey } from "src/app/interfaces";
 import { map, switchMap, catchError, concatMap } from "rxjs/operators";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
 import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class CategoryEffect {
@@ -25,9 +25,10 @@ export class CategoryEffect {
           ),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new CategoryActions.FetchCategoriesError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )

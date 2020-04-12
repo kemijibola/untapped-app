@@ -31,6 +31,7 @@ export interface IUserData {
   email: string;
   profile_is_completed: boolean;
   profile_image_path: string;
+  banner_image_path: string;
   userType: UserType;
 }
 
@@ -54,6 +55,7 @@ export interface IUser {
   email?: string;
   name?: string;
   profileImagePath?: string;
+  bannerImagePath?: string;
   password?: string;
   isEmailConfirmed?: boolean;
   isPhoneConfirmed?: boolean;
@@ -66,4 +68,10 @@ export interface IUser {
   roles?: IRole["_id"][];
   lastLogin?: Date;
   createdAt?: Date;
+}
+
+export enum AppUserType {
+  Talent = "Talent",
+  Professional = "Professional",
+  Audience = "Audience",
 }

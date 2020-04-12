@@ -10,15 +10,14 @@ import {
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Injectable } from "@angular/core";
 import * as UserTypeActions from "./user-type.actions";
-import { IUserType, IResult } from "src/app/interfaces";
+import { IUserType, IResult, AppNotificationKey } from "src/app/interfaces";
 import { UserTypeService } from "../../services/user-type.service";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
 import { of } from "rxjs";
 import { Observable } from "rxjs";
-import * as GlobalErrorActions from "../../store/global/error/error.actions";
 import { HttpErrorResponse } from "@angular/common/http";
-import { AppError } from "src/app/store/global/error/error.reducers";
+import * as NotificationActions from "../../store/global/notification/notification.action";
 
 @Injectable()
 export class UserTypeEffects {
@@ -38,9 +37,10 @@ export class UserTypeEffects {
           ]),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new UserTypeActions.FetchUserTypesError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )

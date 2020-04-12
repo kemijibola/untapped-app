@@ -70,25 +70,6 @@ export class PortfolioImagesComponent implements OnInit {
       });
 
     this.userStore
-      .pipe(select(fromMediaPreview.selectMediaPreviewError))
-      .subscribe((val) => {
-        if (val !== null) {
-          const snackBarConfig: SnackBarData = {
-            message: val.errorMessage,
-            action: "X",
-            config: {
-              panelClass: ["error-snackbar"],
-              horizontalPosition: "right",
-              verticalPosition: "top",
-              duration: 5000,
-            },
-          };
-          this.store.dispatch(
-            new SnackBarActions.SnackBarOpen({ params: snackBarConfig })
-          );
-        }
-      });
-    this.userStore
       .pipe(select(fromMediaPreview.selectUserImagePreviews))
       .subscribe((val: ImagePreview[]) => {
         this.userImagePreviews = val;

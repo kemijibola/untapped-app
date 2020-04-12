@@ -17,7 +17,12 @@ export abstract class AbstractUploadComponent implements OnInit {
   private filesToUpload: File[];
   abstract uploadOperation: UPLOADOPERATIONS;
   abstract store: Store<fromApp.AppState>;
-  abstract fileConfig: IFileInputModel;
+  abstract fileConfig: IFileInputModel = {
+    state: false,
+    process: UPLOADOPERATIONS.Default,
+    multiple: false,
+    accept: "",
+  };
   abstract setUploadedImage(): void;
   abstract uploadFiles(files: File[]): void;
 
@@ -48,9 +53,12 @@ export abstract class AbstractUploadComponent implements OnInit {
               action: val.action,
               files: [...files],
             };
-            this.store.dispatch(
-              new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
-            );
+            if (this.fileConfig.state) {
+              this.store.dispatch(
+                new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
+              );
+            }
+
             this.store.dispatch(new UploadActions.ResetFileInput());
 
             // perform actual upload to cloud

@@ -5,10 +5,15 @@ import * as fromApp from "../../../../store/app.reducers";
 import { PortfolioService } from "src/app/services/portfolio.service";
 import * as MediaPreviewActions from "./media-preview.actions";
 import { map, switchMap, catchError, mergeMap } from "rxjs/operators";
-import { IResult, MediaPreview, MediaType } from "src/app/interfaces";
+import {
+  IResult,
+  MediaPreview,
+  MediaType,
+  AppNotificationKey,
+} from "src/app/interfaces";
 import { of } from "rxjs";
-import * as GlobalErrorActions from "../../../../store/global/error/error.actions";
 import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../../store/global/notification/notification.action";
 
 @Injectable()
 export class MediaPreviewEffect {
@@ -50,9 +55,10 @@ export class MediaPreviewEffect {
             }),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new MediaPreviewActions.FetchUserMediaListPreviewError({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })
@@ -76,9 +82,10 @@ export class MediaPreviewEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new MediaPreviewActions.DeleteImageListByIdError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -101,9 +108,10 @@ export class MediaPreviewEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new MediaPreviewActions.DeleteAudioListByIdError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -126,9 +134,10 @@ export class MediaPreviewEffect {
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new MediaPreviewActions.DeleteVideoListByIdError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )

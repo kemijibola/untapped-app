@@ -2,13 +2,18 @@ import { Injectable } from "@angular/core";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import * as AuthActions from "../store/auth.actions";
 import { AuthService } from "src/app/services/auth.service";
-import { IResult, IRegister, IAuthData, ILogin } from "src/app/interfaces";
+import {
+  IResult,
+  IRegister,
+  IAuthData,
+  ILogin,
+  AppNotificationKey,
+} from "src/app/interfaces";
 import {
   map,
   mergeMap,
   catchError,
   tap,
-  switchMap,
   finalize,
   concatMap,
   take,
@@ -16,37 +21,34 @@ import {
 } from "rxjs/operators";
 import { of, Observable, throwError, empty, pipe } from "rxjs";
 import { Router, ActivatedRoute } from "@angular/router";
-import * as ErrorActions from "../../store/global/error/error.actions";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import { HttpErrorResponse } from "@angular/common/http";
 import { isAfter, getTime, getDate } from "date-fns";
 import * as fromAuthReducer from "./auth.reducers";
+import * as NotificationActions from "../../store/global/notification/notification.action";
 
 @Injectable()
 export class AuthEffects {
   authSignUp = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.DO_SIGNUP),
-      switchMap((action: AuthActions.DoSignUp) =>
+      concatMap((action: AuthActions.DoSignUp) =>
         this.authService
           .signUp({
             fullName: action.payload.registerData.fullName,
             email: action.payload.registerData.email,
             password: action.payload.registerData.password,
-            roles: action.payload.registerData.roles,
+            userType: action.payload.registerData.userType,
           })
           .pipe(
-            map((res: IResult<boolean>) => {
-              return {
-                type: AuthActions.SIGNUP_SUCCESS,
-              };
-            }),
+            map((res: IResult<boolean>) => new AuthActions.SignUpSuccess()),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new AuthActions.SignUpFailure({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })
@@ -60,19 +62,18 @@ export class AuthEffects {
   doEmailConfirmation = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.DO_EMAIL_CONFIRMATION),
-      switchMap((action: AuthActions.DoEmailConfirmation) =>
+      concatMap((action: AuthActions.DoEmailConfirmation) =>
         this.authService.confirmEmail(action.payload.confirmEmailData).pipe(
-          map((resp: IResult<string>) => {
-            return {
-              type: AuthActions.SUCCESS_EMAIL_CONFIRMATION,
-              payload: resp.data,
-            };
-          }),
+          map(
+            (resp: IResult<string>) =>
+              new AuthActions.SuccessEmailConfirmation({ response: resp.data })
+          ),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new AuthActions.FailureEmailConfirmation({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -97,17 +98,16 @@ export class AuthEffects {
                 new AuthActions.SetAuthData(resp.data)
             ),
             tap((data) => this.authService.setItem("userData", data.payload)),
-            tap(
-              () => this.router.navigate(["/"]),
-              catchError((respError: HttpErrorResponse) =>
-                of(
-                  new AuthActions.SignInFailure({
-                    errorCode: respError.error.response_code || -1,
-                    errorMessage:
-                      respError.error.response_message ||
-                      "No Internet connection",
-                  })
-                )
+            tap(() => this.router.navigate(["/"])),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
               )
             )
           )
@@ -115,18 +115,22 @@ export class AuthEffects {
     )
   );
 
-  signupSuccess = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.SIGNUP_SUCCESS),
-      pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
-    )
+  signupSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.SIGNUP_SUCCESS),
+        pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
+      ),
+    { dispatch: false }
   );
 
-  confirmEmailSuccess = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
-      pipe(tap(() => this.router.navigate(["/account/signin"])))
-    )
+  confirmEmailSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
+        pipe(tap(() => this.router.navigate(["/account/signin"])))
+      ),
+    { dispatch: false }
   );
 
   proceedToRoute = createEffect(
@@ -159,9 +163,10 @@ export class AuthEffects {
           }
           // show pop up to
           this.store.dispatch(
-            new AuthActions.SignInFailure({
-              errorCode: 10,
-              errorMessage: "Session expired. Please login to app to continue.",
+            new NotificationActions.AddError({
+              key: AppNotificationKey.error,
+              code: 400,
+              message: "Session expired. Please login to app to continue.",
             })
           );
 
@@ -177,7 +182,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.FETCH_AUTHDATA),
       pipe(
-        switchMap(() =>
+        concatMap(() =>
           this.authService.fetchUserData("userData").pipe(
             map((resp) =>
               resp !== null
@@ -196,7 +201,7 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.LOGOUT),
       pipe(
-        switchMap(() =>
+        concatMap(() =>
           this.authService.removeItem("userData").pipe(
             map((isDeleted) =>
               isDeleted === true

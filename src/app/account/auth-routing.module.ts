@@ -13,9 +13,9 @@ const authRoutes: Routes = [
   // ]
   { path: "confirm-email", component: ConfirmEmailComponent },
   {
-    path: "confirmation",
-    component: ConfirmationComponent
-  }
+    path: "confirmation/:email/:token",
+    component: ConfirmationComponent,
+  },
   // {
   //   path: 'confirmation?:email=email&:token=token',
   //   component: ConfirmationComponent,
@@ -28,6 +28,6 @@ const authRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(authRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AuthRoutingModule {}

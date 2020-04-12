@@ -88,12 +88,24 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     });
   }
 
-  onLikeClicked(comment: IComment) {
+  onLikeClicked(commentToLike: IComment) {
     const likedBy: LikeViewModel = {
       user: this.currentUser._id,
     };
     this.store.dispatch(
-      new CommentsActions.AddCommentLike({ comment, likedBy })
+      new CommentsActions.AddCommentLike({ comment: commentToLike, likedBy })
+    );
+  }
+
+  onUnLikeClicked(commentToUnLike: IComment) {
+    const unLikedBy: LikeViewModel = {
+      user: this.currentUser._id,
+    };
+    this.store.dispatch(
+      new CommentsActions.RemoveCommentLike({
+        comment: commentToUnLike,
+        unLikedBy,
+      })
     );
   }
 

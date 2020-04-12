@@ -1,20 +1,17 @@
 import * as CategoryActions from "./category.action";
 import { ICategory } from "src/app/interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import * as fromAdapter from "./category.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CategoryState extends EntityState<ICategory> {
   categories: ICategory[] | null;
   selectedCategoryId: string | null;
-  categoryError: AppError | null;
 }
 
 const initialState: CategoryState = fromAdapter.adapter.getInitialState({
   categories: null,
   selectedCategoryId: "",
-  categoryError: null,
 });
 
 export function reducer(
@@ -29,14 +26,6 @@ export function reducer(
         ...state,
         selectedCategoryId: action.payload.categoryId,
       });
-    case CategoryActions.FETCH_CATEGORIES_ERROR:
-      return Object.assign({
-        ...state,
-        categoryError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
     default: {
       return state;
     }
@@ -45,8 +34,6 @@ export function reducer(
 
 export const getSelectedCategoryId = (state: CategoryState) =>
   state.selectedCategoryId;
-
-const getCategoryError = (state: CategoryState) => state.categoryError;
 
 export const getCategoryState = createFeatureSelector<CategoryState>(
   "categoryState"
@@ -76,10 +63,6 @@ export const selectCurrentCategoryId = createSelector(
   getSelectedCategoryId
 );
 
-export const selectUserTypeError = createSelector(
-  getCategoryState,
-  getCategoryError
-);
 export const selectCurrentCategory = createSelector(
   selectCategoryEntities,
   selectCurrentCategoryId,

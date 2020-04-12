@@ -1,4 +1,3 @@
-import { ErrorEffects } from "./store/global/error/error.effects";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ErrorHandler } from "@angular/core";
 import { OwlModule } from "ngx-owl-carousel";
@@ -19,11 +18,9 @@ import { AuthEffects } from "./account/store/auth.effects";
 import { SharedModule } from "./shared/shared.module";
 import { ConfigService } from "./services/config.service";
 import { UploadEffect } from "./shared/store/upload/upload.effects";
-import { UserProfileImageEffects } from "./shared/store/user-profile-image/user-profile-image.effects";
 import { ServiceEffects } from "./shared/store/service/service.effects";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { ErrorInterceptor } from "./interceptors/ErrorInterceptor";
 import { MaterialModule } from "./material.module";
 import { GlobalErrorHandler } from "./interceptors/GlobalErrorHandler";
 import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
@@ -38,6 +35,8 @@ import { SnackBarEffect } from "./shared/notifications/snackbar/snackbar.effect"
 import { TabsEffect } from "./shared/store/tabs/tabs.effects";
 import { ModalsEffect } from "./shared/store/modals/modals.effect";
 import { SlideToggleEffect } from "./shared/store/slide-toggle/slide-toggle.effect";
+import { UserImageEffect } from "./shared/store/user-image/user-image.effect";
+import { NotificationEffect } from "./store/global/notification/notification.effect";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -58,13 +57,13 @@ import { SlideToggleEffect } from "./shared/store/slide-toggle/slide-toggle.effe
       AuthEffects,
       UploadEffect,
       ServiceEffects,
-      UserProfileImageEffects,
+      UserImageEffect,
       CategoryTypeEffects,
       CategoryEffect,
       UserCategoryEffect,
       TalentsEffect,
       CommentsEffects,
-      ErrorEffects,
+      NotificationEffect,
       SnackBarEffect,
       TabsEffect,
       ModalsEffect,

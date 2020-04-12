@@ -1,22 +1,21 @@
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
-import * as ErrorActions from "./../../../store/global/error/error.actions";
-import { switchMap, map, catchError } from "rxjs/operators/";
+import { switchMap, map, catchError, concatMap } from "rxjs/operators/";
 import { Injectable } from "@angular/core";
 import { UploadService } from "src/app/services/upload.service";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as UploadActions from "./upload.actions";
-import { IResult, SignedUrl } from "src/app/interfaces";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
+import { IResult, SignedUrl, AppNotificationKey } from "src/app/interfaces";
 import { of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class UploadEffect {
   getPresignedUrl = createEffect(() =>
     this.actions$.pipe(
       ofType(UploadActions.GET_PRESIGNED_URL),
-      switchMap((action: UploadActions.GetPresignedUrl) =>
+      concatMap((action: UploadActions.GetPresignedUrl) =>
         this.uploadService.getPresignedUrl(action.payload.preSignRequest).pipe(
           map(
             (res: IResult<SignedUrl>) =>
@@ -24,9 +23,10 @@ export class UploadEffect {
           ),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new UploadActions.GetPresignedUrlError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )
@@ -44,9 +44,10 @@ export class UploadEffect {
           map((val: any) => new UploadActions.CloudUploadSuccess()),
           catchError((respError: HttpErrorResponse) =>
             of(
-              new UploadActions.UploadFilesError({
-                errorCode: respError.error.response_code || -1,
-                errorMessage:
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
                   respError.error.response_message || "No Internet connection",
               })
             )

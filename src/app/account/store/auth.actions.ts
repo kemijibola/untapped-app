@@ -3,9 +3,8 @@ import {
   IAuthData,
   IRegister,
   ILogin,
-  IConfirmEmail
+  IConfirmEmail,
 } from "src/app/interfaces";
-import { AppError } from "src/app/store/global/error/error.reducers";
 
 export const DO_SIGNUP = "DO_SIGNUP";
 export const DO_SIGNIN = "DO_SIGNIN";
@@ -84,6 +83,7 @@ export class DoEmailConfirmation implements Action {
 
 export class SuccessEmailConfirmation implements Action {
   readonly type = SUCCESS_EMAIL_CONFIRMATION;
+  constructor(public payload: { response: string }) {}
 }
 
 export class FailureEmailConfirmation implements Action {

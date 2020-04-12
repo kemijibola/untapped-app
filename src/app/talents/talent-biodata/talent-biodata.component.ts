@@ -30,11 +30,13 @@ export class TalentBiodataComponent implements OnInit {
     this.store
       .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
-        this.selectedUser = { ...val };
-        this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
-          val.displayPhoto,
-          this.editParams
-        );
+        if (val) {
+          this.selectedUser = { ...val };
+          this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
+            val.displayPhoto,
+            this.editParams
+          );
+        }
       });
   }
 }

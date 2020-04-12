@@ -20,9 +20,6 @@ import {
   IFileModel,
   UPLOADOPERATIONS,
 } from "src/app/interfaces";
-import * as fromUpload from "../../shared/store/upload/upload.reducers";
-
-const noop = () => {};
 
 @Component({
   selector: "app-upload",
@@ -44,19 +41,14 @@ export class UploadComponent
   accept: string;
   operationType: UPLOADOPERATIONS;
   state: boolean;
-  private onChange: Function;
-  private onTouchedCallback: Function;
-  @ViewChild("fileInput") fileInput: ElementRef<HTMLInputElement>;
+  @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
     private store: Store<fromApp.AppState>,
     private renderer: Renderer2
-  ) {
-    this.onTouchedCallback = noop;
-    this.onChange = noop;
-  }
+  ) {}
   ngOnInit() {}
 
   ngOnChanges(simple: SimpleChanges) {
@@ -75,12 +67,13 @@ export class UploadComponent
     }
   }
   private triggerFileInput(): void {
-    let child;
-    child = this.fileInput.nativeElement;
-    const event = new MouseEvent("click", { bubbles: true });
-    this.renderer.setProperty(child, "multiple", this.multiple);
-    this.renderer.setProperty(child, "accept", this.accept);
-    this.fileInput.nativeElement.dispatchEvent(event);
+    // let child;
+    const fileUpload = this.fileInput.nativeElement;
+    // const event = new MouseEvent("click", { bubbles: true });
+    this.renderer.setProperty(fileUpload, "multiple", this.multiple);
+    this.renderer.setProperty(fileUpload, "accept", this.accept);
+    fileUpload.click();
+    // this.fileInput.nativeElement.dispatchEvent(event);
   }
 
   @HostListener("change", ["$event.target.files"]) emitFiles(files: FileList) {
@@ -95,21 +88,22 @@ export class UploadComponent
       action: this.operationType,
       files: [...fileArray],
     };
-    this.onChange(this.file);
+    // this.onChange(this.file);
     this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
+
+    this.writeValue(null);
   }
 
   writeValue(value: null) {
     // clear file input
-    this.host.nativeElement.value = "" || value;
-    this.file.files = [];
+    this.fileInput.nativeElement.value = "" || value;
   }
 
   registerOnChange(fn: Function) {
-    this.onChange = fn;
+    // this.onChange = fn;
   }
 
   registerOnTouched(fn: Function) {
-    this.onTouchedCallback = fn;
+    // this.onTouchedCallback = fn;
   }
 }

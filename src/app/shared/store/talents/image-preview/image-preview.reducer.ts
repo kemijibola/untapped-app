@@ -1,6 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./image-preview.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as TalentImagePreviewActions from "./image-preview.action";
 import { ImagePortfolioPreview } from "src/app/interfaces";

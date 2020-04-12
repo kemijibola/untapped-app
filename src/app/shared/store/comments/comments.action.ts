@@ -19,6 +19,11 @@ export const ADD_COMMENT_LIKE_SUCCESS = "ADD_COMMENT_LIKE_SUCCESS";
 export const ADD_COMMENT_LIKE_ERROR = "ADD_COMMENT_LIKE_ERROR";
 export const UPDATE_COMMENT_LIKE = "UPDATE_COMMENT_LIKE";
 
+export const REMOVE_COMMENT_LIKE = "REMOVE_COMMENT_LIKE";
+export const REMOVE_COMMENT_LIKE_SUCCESS = "REMOVE_COMMENT_LIKE_SUCCESS";
+export const REMOVE_COMMENT_LIKE_ERROR = "REMOVE_COMMENT_LIKE_ERROR";
+export const UPDATE_REMOVE_COMMENT_LIKE = "UPDATE_REMOVE_COMMENT_LIKE";
+
 export class FetchMediaComments implements Action {
   readonly type = FETCH_MEDIA_COMMENTS;
   constructor(public payload: { mediaId: string }) {}
@@ -58,9 +63,36 @@ export class AddCommentLikeError implements Action {
   readonly type = ADD_COMMENT_LIKE_ERROR;
   constructor(
     public payload: {
-      comment: IComment; likedBy: LikeViewModel
+      comment: IComment;
+      likedBy: LikeViewModel;
     }
   ) {}
+}
+
+export class RemoveCommentLike implements Action {
+  readonly type = REMOVE_COMMENT_LIKE;
+  constructor(
+    public payload: { comment: IComment; unLikedBy: LikeViewModel }
+  ) {}
+}
+
+export class RemoveCommentLikeSuccess implements Action {
+  readonly type = REMOVE_COMMENT_LIKE_SUCCESS;
+  constructor(public payload: { comment: IComment }) {}
+}
+
+export class RemoveCommentLikeError implements Action {
+  readonly type = REMOVE_COMMENT_LIKE_ERROR;
+  constructor(
+    public payload: {
+      comment: IComment;
+      likedBy: LikeViewModel;
+    }
+  ) {}
+}
+export class UpdateRemoveCommentLike implements Action {
+  readonly type = UPDATE_REMOVE_COMMENT_LIKE;
+  constructor(public payload: { comment: IComment }) {}
 }
 
 export class AddCommentReplySuccess implements Action {
@@ -89,9 +121,7 @@ export class UpdateCommentLike implements Action {
 
 export class AddMediaCommentError implements Action {
   readonly type = ADD_MEDIA_COMMENT_ERROR;
-  constructor(
-    public payload: { errorCode: number; errorMessage: string; key: string }
-  ) {}
+  constructor(public payload: { key: string }) {}
 }
 
 export type CommentsActions =
@@ -108,4 +138,8 @@ export type CommentsActions =
   | AddMediaCommentSuccess
   | AddMediaCommentError
   | UpdateMediaComment
-  | UpdateCommentLike;
+  | UpdateCommentLike
+  | RemoveCommentLike
+  | RemoveCommentLikeSuccess
+  | RemoveCommentLikeError
+  | UpdateRemoveCommentLike;

@@ -1,6 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./audio-preview.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as TalentAudioPreviewActions from "./audio-preview.action";
 import { AudioPortfolioPreview } from "src/app/interfaces";

@@ -29,6 +29,8 @@ export const CLOUD_UPLOAD_SUCCESS = "CLOUD_UPLOAD_SUCCESS";
 export const SET_UPLOADED_ITEMS = "SET_UPLOADED_ITEMS";
 export const RESET_UPLOADED_ITEMS = "RESET_UPLOADED_ITEMS";
 
+// export const UPLOAD_FILES_ERROR_RESET = "UPLOAD_FILES_ERROR_RESET";
+
 export class SetUploadedItems implements Action {
   readonly type = SET_UPLOADED_ITEMS;
   constructor(public payload: { uploadedItems: UploadedItems }) {}

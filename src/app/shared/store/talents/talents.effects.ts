@@ -4,7 +4,12 @@ import { TalentsService } from "src/app/services/talents.service";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as TalentsActions from "./talents.actions";
-import { IResult, TalentPortfolioPreview, MediaType } from "src/app/interfaces";
+import {
+  IResult,
+  TalentPortfolioPreview,
+  MediaType,
+  AppNotificationKey,
+} from "src/app/interfaces";
 import {
   map,
   switchMap,
@@ -13,11 +18,11 @@ import {
   mergeMap,
 } from "rxjs/operators";
 import { of } from "rxjs";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
 import * as TalentAudioPreviewActions from "./audio-preview/audio-preview.action";
 import * as TalentImagePreviewActions from "./image-preview/image-preview.action";
 import * as TalentVideoPreviewActions from "./video-preview/video-preview.action";
 import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class TalentsEffect {
@@ -52,9 +57,10 @@ export class TalentsEffect {
             }),
             catchError((respError: HttpErrorResponse) =>
               of(
-                new TalentsActions.FetchTalentPortfolioError({
-                  errorCode: respError.error.response_code || -1,
-                  errorMessage:
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
                     respError.error.response_message ||
                     "No Internet connection",
                 })

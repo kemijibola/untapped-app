@@ -59,6 +59,7 @@ export class ProfileComponent implements OnInit {
   bannerImagePath?: string;
   typeOfUser: string;
   selectedCategories: string[] = [];
+  userType: string = "";
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -72,9 +73,11 @@ export class ProfileComponent implements OnInit {
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
         if (val.authenticated) {
+          console.log(val);
           this.typeOfUser = val.user_data.userType.name;
-          this.isTalent =
-            val.user_data.userType.name === "Talent" ? true : false;
+          // this.isTalent =
+          //   val.user_data.userType.name === "Talent" ? true : false;
+          this.userType = val.user_data.userType.name;
           this.userEmail = val.user_data.email;
           this.userFullName = val.user_data.full_name;
         }
@@ -117,9 +120,6 @@ export class ProfileComponent implements OnInit {
       .subscribe((val: string[]) => {
         this.selectedCategories = [...val];
       });
-
-    this.displayProfileError();
-    this.displayFetchCategoryError();
   }
 
   private initForm() {
@@ -142,48 +142,6 @@ export class ProfileComponent implements OnInit {
 
   get additionalSocial(): FormArray {
     return this.profileForm.get("additionalSocial") as FormArray;
-  }
-
-  displayFetchCategoryError() {
-    this.userStore
-      .pipe(select(fromCategoryType.selectCategoryTypeError))
-      .subscribe((val) => {
-        if (val !== null) {
-          const snackBarConfig: SnackBarData = {
-            message: val.errorMessage,
-            action: "X",
-            config: {
-              panelClass: ["error-snackbar"],
-              horizontalPosition: "right",
-              verticalPosition: "top",
-              duration: 5000,
-            },
-          };
-          this.store.dispatch(
-            new SnackBarActions.SnackBarOpen({ params: snackBarConfig })
-          );
-        }
-      });
-  }
-
-  displayProfileError() {
-    this.store.select(fromProfile.selectFetchProfileError).subscribe((val) => {
-      if (val !== null) {
-        const snackBarConfig: SnackBarData = {
-          message: val.errorMessage,
-          action: "X",
-          config: {
-            panelClass: ["error-snackbar"],
-            horizontalPosition: "right",
-            verticalPosition: "top",
-            duration: 5000,
-          },
-        };
-        this.store.dispatch(
-          new SnackBarActions.SnackBarOpen({ params: snackBarConfig })
-        );
-      }
-    });
   }
 
   onAddAdditionalSocial() {

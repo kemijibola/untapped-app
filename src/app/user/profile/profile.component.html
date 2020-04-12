@@ -6,17 +6,23 @@
 >
   <div class="row">
     <div class="col-xl-12">
-      <div class="profile-des">
+      <div class="profile-des" *ngIf="typeOfUser === 'Talent'">
         <p>
           Fill your details; your personal details, contact detail, talents,
           location and social media handles.
+        </p>
+      </div>
+      <div class="profile-des" *ngIf="typeOfUser === 'Professional'">
+        <p>
+          Fill your details; business, personal, contact detail, interests,
+          office location and social media handles.
         </p>
       </div>
     </div>
     <div class="col-xl-12">
       <app-change-profile-picture></app-change-profile-picture>
     </div>
-    <div class="col-xl-12" *ngIf="!isTalent">
+    <div class="col-xl-12" *ngIf="typeOfUser === 'Professional'">
       <app-change-professional-banner></app-change-professional-banner>
     </div>
   </div>

@@ -8,17 +8,14 @@ import {
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import { IUserType } from "../../interfaces";
 import * as UserTypeActions from "./user-type.actions";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import * as fromAdapter from "./user-type.adapter";
 
 export interface UserTypeState extends EntityState<IUserType> {
   selectedUserTypeId: string | number | null;
-  userTypeError: AppError | null;
 }
 
 const initialState: UserTypeState = fromAdapter.adapter.getInitialState({
   selectedUserTypeId: null,
-  userTypeError: null,
 });
 
 export function reducer(
@@ -50,8 +47,6 @@ export function reducer(
 export const getSelectedUserTypeId = (state: UserTypeState) =>
   state.selectedUserTypeId;
 
-const getUserTypeError = (state: UserTypeState) => state.userTypeError;
-
 export const getUserTypeState = createFeatureSelector<UserTypeState>(
   "userTypeState"
 );
@@ -80,10 +75,6 @@ export const selectCurrentUserTypeId = createSelector(
   getSelectedUserTypeId
 );
 
-export const selectUserTypeError = createSelector(
-  getUserTypeState,
-  getUserTypeError
-);
 export const selectCurrentUserType = createSelector(
   selectUserTypeEntities,
   selectCurrentUserTypeId,

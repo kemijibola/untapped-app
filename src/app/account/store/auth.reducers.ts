@@ -1,16 +1,15 @@
 import * as AuthActions from "./auth.actions";
 import { IAuthData } from "../../interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import * as fromAdapter from "./auth.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 export interface AuthState extends EntityState<IAuthData> {
-  authError: AppError | null;
   userData: IAuthData | null;
+  confirmationResponse: string | null;
 }
 
 const initialState: AuthState = fromAdapter.adapter.getInitialState({
-  authError: null,
+  confirmationResponse: null,
   userData: {
     access_token: "",
     rolePermissions: [],
@@ -20,14 +19,15 @@ const initialState: AuthState = fromAdapter.adapter.getInitialState({
       email: "",
       profile_is_completed: false,
       profile_image_path: "",
+      banner_image_path: "",
       userType: {
         _id: "",
-        name: ""
-      }
+        name: "",
+      },
     },
     token_expires: "",
-    authenticated: false
-  }
+    authenticated: false,
+  },
 });
 
 export function reducer(
@@ -43,23 +43,20 @@ export function reducer(
           rolePermissions: [...action.payload.rolePermissions],
           user_data: { ...action.payload.user_data },
           token_expires: action.payload.token_expires,
-          authenticated: true
-        }
-      });
-    case AuthActions.SIGNIN_FAILURE:
-      return Object.assign({
-        ...state,
-        authError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage
-        })
+          authenticated: true,
+        },
       });
     case AuthActions.DELETE_AUTHDATA:
       return Object.assign({
         ...state,
-        userData: Object.assign({})
+        userData: Object.assign({}),
       });
 
+    case AuthActions.SUCCESS_EMAIL_CONFIRMATION:
+      return Object.assign({
+        ...state,
+        confirmationResponse: action.payload.response,
+      });
     default: {
       return state;
     }
@@ -69,11 +66,15 @@ export const getSelectedUserAuth = (state: AuthState) => state.userData;
 
 export const getAuthState = createFeatureSelector<AuthState>("authState");
 
-export const getAuthError = (state: AuthState) => state.authError;
-
 export const selectCurrentUserData = createSelector(
   getAuthState,
   getSelectedUserAuth
 );
 
-export const selectAuthError = createSelector(getAuthState, getAuthError);
+const getConfirmationSuccessMessage = (state: AuthState) =>
+  state.confirmationResponse;
+
+export const selectConfirmationMessage = createSelector(
+  getAuthState,
+  getConfirmationSuccessMessage
+);

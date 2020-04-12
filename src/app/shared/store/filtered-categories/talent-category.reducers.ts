@@ -2,17 +2,14 @@ import * as TalentCategoryActions from "./talent-category.action";
 import { UserFilterCategory } from "src/app/interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./talent-category.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface TalentFilterState extends EntityState<UserFilterCategory> {
   selectedTalentFilterId: string | number | null;
-  talentCategoryError: AppError | null;
 }
 
 const initialState: TalentFilterState = fromAdapter.adapter.getInitialState({
   selectedTalentFilterId: null,
-  talentCategoryError: null,
 });
 
 export function reducer(
@@ -36,9 +33,6 @@ export function reducer(
 export const getselectedTalentWithHighestCommentId = (
   state: TalentFilterState
 ) => state.selectedTalentFilterId;
-
-const getTalentWithHighestCommentsError = (state: TalentFilterState) =>
-  state.talentCategoryError;
 
 export const getTalentWithHighestCommentState = createFeatureSelector<
   TalentFilterState
@@ -68,10 +62,6 @@ export const selectCurrentTalentWithHighestCommentId = createSelector(
   getselectedTalentWithHighestCommentId
 );
 
-export const selectTalentWithHighestCommentError = createSelector(
-  getTalentWithHighestCommentState,
-  getTalentWithHighestCommentsError
-);
 export const selectCurrentTalentWithHighestComment = createSelector(
   selectTalentWithHighestCommentEntities,
   selectCurrentTalentWithHighestCommentId,

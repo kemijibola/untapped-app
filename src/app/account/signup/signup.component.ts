@@ -4,7 +4,7 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  FormBuilder
+  FormBuilder,
 } from "@angular/forms";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
@@ -22,7 +22,7 @@ import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.component.html",
-  styleUrls: ["./signup.component.css"]
+  styleUrls: ["./signup.component.css"],
 })
 export class SignupComponent implements OnInit, AfterContentInit {
   signupForm: FormGroup;
@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
   selectedUserType: IUserType = {
     _id: "",
     name: "",
-    description: ""
+    description: "",
   };
   ngDestroyed = new Subject();
   errorMessage = "";
@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
         null,
         Validators.compose([Validators.required, Validators.minLength(6)])
       ),
-      terms: new FormControl(null, Validators.required)
+      terms: new FormControl(null, Validators.required),
     });
 
     // subscribe to error
@@ -74,7 +74,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
       .select(fromUserTypeReducer.selectCurrentUserType)
       .subscribe((val: IUserType) => {
         this.selectedUserType = { ...val };
-        console.log(this.selectedUserType);
+        //console.log(this.selectedUserType);
       });
   }
 
@@ -86,7 +86,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
       fullName: username,
       email: email,
       password: password,
-      roles: [this.selectedUserType._id]
+      userType: this.selectedUserType._id,
     };
     this.store.dispatch(new AuthActions.DoSignUp({ registerData: payload }));
   }

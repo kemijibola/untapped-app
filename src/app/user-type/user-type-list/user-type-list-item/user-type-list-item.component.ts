@@ -10,14 +10,13 @@ import * as UserTypeActions from "../../store/user-type.actions";
 import * as fromApp from "../../../store/app.reducers";
 import * as fromUserType from "../../store/user-type.reducers";
 import * as fromUserTypeReducer from "../../store/user-type.reducers";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
 import { SnackBarData } from "src/app/interfaces";
 
 @Component({
   selector: "app-user-type-list-item",
   templateUrl: "./user-type-list-item.component.html",
-  styleUrls: ["./user-type-list-item.component.css"]
+  styleUrls: ["./user-type-list-item.component.css"],
 })
 export class UserTypeListItemComponent implements OnInit, OnDestroy {
   selectedUserType$: Observable<IUserType>;
@@ -27,7 +26,7 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
   icons = {
     Talent: "assets/img/i2.svg",
     Professional: "assets/img/i3.svg",
-    Audience: "assets/img/audience.svg"
+    Audience: "assets/img/audience.svg",
   };
 
   constructor(private store: Store<fromApp.AppState>) {}
@@ -40,35 +39,11 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
         this.selectedUserType = { ...val };
       });
 
-    this.store
-      .select(fromUserTypeReducer.selectUserTypeError)
-      .subscribe(val => {
-        if (val !== null) {
-          console.log("error sighted");
-          const snackBarConfig: SnackBarData = {
-            message: val.errorMessage,
-            action: "X",
-            config: {
-              panelClass: ["error-snackbar"],
-              horizontalPosition: "right",
-              verticalPosition: "top",
-              duration: 5000
-            }
-          };
-          this.store.dispatch(
-            new SnackBarActions.SnackBarOpen({ params: snackBarConfig })
-          );
-        }
-        // if (val.errorCode === 0) {
-        //   console.log("error not sighted");
-        // }
-      });
-
     this.userTypeForm = new FormGroup({
       typeOfUser: new FormControl(
         this.selectedUserType._id,
         Validators.required
-      )
+      ),
     });
   }
 
@@ -83,7 +58,7 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     // set selected user type to default select
     this.store.dispatch(
       new UserTypeActions.FetchUserType({
-        userTypeId: this.selectedUserType._id
+        userTypeId: this.selectedUserType._id,
       })
     );
   }

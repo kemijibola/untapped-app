@@ -37,4 +37,8 @@ export class CommentsService {
     const url = `${this.BASE_URI}/comments/${commentId}/like`;
     return this.http.put<IResult<IComment>>(url, {});
   }
+  postCommentUnLike(commentId: string): Observable<IResult<IComment>> {
+    const url = `${this.BASE_URI}/comments/${commentId}/unLike`;
+    return this.http.put<IResult<IComment>>(url, {});
+  }
 }

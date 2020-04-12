@@ -1,18 +1,15 @@
 import { IComment } from "src/app/interfaces";
 import * as CommentsActions from "./comments.action";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import * as fromAdapter from "./comments.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CommentState extends EntityState<IComment> {
   selectedCommentId: string | number | null;
-  commentError: AppError | null;
 }
 
 const initialState: CommentState = fromAdapter.adapter.getInitialState({
   selectedCommentId: null,
-  commentError: null,
 });
 
 export function reducer(
@@ -30,10 +27,16 @@ export function reducer(
       return fromAdapter.adapter.upsertOne(action.payload.comment, state);
     case CommentsActions.ADD_COMMENT_LIKE_SUCCESS:
       return fromAdapter.adapter.upsertOne(action.payload.comment, state);
+    case CommentsActions.REMOVE_COMMENT_LIKE:
+      const commentToRemoveLike = { ...action.payload.comment };
+      commentToRemoveLike.likedBy = commentToRemoveLike.likedBy.filter(
+        (x) => x.user !== action.payload.unLikedBy.user
+      );
+      return fromAdapter.adapter.upsertOne(commentToRemoveLike, state);
     case CommentsActions.ADD_COMMENT_LIKE_ERROR:
       const commentToUpdate = { ...action.payload.comment };
       commentToUpdate.likedBy = commentToUpdate.likedBy.filter(
-        (x) => x._id !== action.payload.likedBy._id
+        (x) => x.user !== action.payload.likedBy.user
       );
       return fromAdapter.adapter.upsertOne(commentToUpdate, state);
     case CommentsActions.ADD_MEDIA_COMMENT_SUCCESS:
@@ -45,14 +48,6 @@ export function reducer(
       return fromAdapter.adapter.setAll(action.payload.mediaComments, state);
     case CommentsActions.ADD_MEDIA_COMMENT_ERROR:
       return fromAdapter.adapter.removeOne(action.payload.key, state);
-    case CommentsActions.FETCH_MEDIA_COMMENTS_ERROR:
-      return Object.assign({
-        ...state,
-        commentError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
     default: {
       return state;
     }
@@ -60,8 +55,6 @@ export function reducer(
 }
 
 const getSelectedCommentId = (state: CommentState) => state.selectedCommentId;
-
-const getCommentError = (state: CommentState) => state.commentError;
 
 export const getCommentState = createFeatureSelector<CommentState>(
   "commentState"
@@ -89,11 +82,6 @@ export const commentCount = createSelector(
 export const selectCurrentCommentId = createSelector(
   getCommentState,
   getSelectedCommentId
-);
-
-export const selectCommentError = createSelector(
-  getCommentState,
-  getCommentError
 );
 
 export const selectCurrentComment = createSelector(

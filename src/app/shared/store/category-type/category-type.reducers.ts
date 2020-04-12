@@ -2,19 +2,16 @@ import * as CategoryTypeAction from "./category-type.actions";
 import { CategoryType } from "src/app/interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./category-type.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CategoryTypeState extends EntityState<CategoryType> {
   selectedCategoryTypes: string[];
   selectedCategoryTypeId: string | number | null;
-  categoryTypeError: AppError | null;
 }
 
 const initialState: CategoryTypeState = fromAdapter.adapter.getInitialState({
   selectedCategoryTypes: [],
   selectedCategoryTypeId: null,
-  categoryTypeError: null,
 });
 
 export function reducer(
@@ -34,14 +31,6 @@ export function reducer(
         ...state,
         selectedCategoryTypeId: action.payload.categoryTypeId,
       });
-    case CategoryTypeAction.FETCH_CATEGORY_TYPES_ERROR:
-      return Object.assign({
-        ...state,
-        categoryTypeError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
     default:
       return state;
   }
@@ -49,9 +38,6 @@ export function reducer(
 
 const getSelectedCategoryTypeId = (state: CategoryTypeState) =>
   state.selectedCategoryTypeId;
-
-const getCategoryTypeError = (state: CategoryTypeState) =>
-  state.categoryTypeError;
 
 const getSelectedCategoryTypes = (state: CategoryTypeState) =>
   state.selectedCategoryTypes;
@@ -82,11 +68,6 @@ export const categoryTypeCount = createSelector(
 export const selectCurrentCategoryTypeId = createSelector(
   getCategoryTypeState,
   getSelectedCategoryTypeId
-);
-
-export const selectCategoryTypeError = createSelector(
-  getCategoryTypeState,
-  getCategoryTypeError
 );
 
 export const selectSelectedCategoryTypes = createSelector(

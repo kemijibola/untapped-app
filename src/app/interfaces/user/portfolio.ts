@@ -162,3 +162,19 @@ export interface TalentPortfolioPreview {
   itemsCount: number;
   dateCreated: Date;
 }
+
+export enum AppUserImageKey {
+  profileimage = "profileimage",
+  bannerimage = "bannerimage",
+  profileimagesmall = "profileimagesmall",
+}
+
+export interface UserImage {
+  key: string;
+  imagePath: string;
+}
+
+export interface CacheKeyValue {
+  key: string;
+  value: string;
+}

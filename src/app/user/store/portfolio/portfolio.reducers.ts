@@ -1,6 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./portfolio.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import {
   IAudio,
@@ -36,7 +35,6 @@ export interface PortfolioState extends EntityState<IMedia> {
   audioDeleted: boolean;
   videoDeleted: boolean;
   mediaItemDeleted: boolean;
-  portfolioError: AppError | null;
   selectedMediaId: string | number | null;
 }
 
@@ -60,7 +58,6 @@ const initialState: PortfolioState = fromAdapter.adapter.getInitialState({
   audioDeleted: false,
   videoDeleted: false,
   mediaItemDeleted: false,
-  portfolioError: null,
   selectedMediaId: null,
 });
 
@@ -140,14 +137,6 @@ export function portfolioReducer(
         media: newMedia,
       });
 
-    case PortfolioActions.DELETE_MEDIA_ITEM_BY_ID_ERROR:
-      return Object.assign({
-        ...state,
-        portfolioError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
     case PortfolioActions.UPDATE_PORTFOLIO_MEDIA_SUCCESS:
       return Object.assign({
         ...state,
@@ -161,8 +150,6 @@ export function portfolioReducer(
 
 export const getSelectedMediaId = (state: PortfolioState) =>
   state.selectedMediaId;
-
-const getPortfolioError = (state: PortfolioState) => state.portfolioError;
 
 const getAudios = (state: PortfolioState) => state.audios;
 
@@ -215,11 +202,6 @@ export const selectSelectedMedia = createSelector(
 export const selectCurrentMediaId = createSelector(
   getPortfolioState,
   getSelectedMediaId
-);
-
-export const selectPortfolioError = createSelector(
-  getPortfolioState,
-  getPortfolioError
 );
 
 export const selectUserMediaType = createSelector(

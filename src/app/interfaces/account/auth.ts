@@ -2,7 +2,7 @@ export interface IRegister {
   fullName: string;
   email: string;
   password: string;
-  roles: string[];
+  userType: string;
 }
 
 export interface ILogin {

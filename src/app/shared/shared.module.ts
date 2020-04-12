@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { UploadComponent } from "./upload/upload.component";
-import { UserProfilePictureComponent } from "./user-profile-picture/user-profile-picture.component";
 import { TabsComponent } from "./tabs/tabs.component";
 import { RouterModule } from "@angular/router";
 import { ModalsComponent } from "./modals/modals.component";
@@ -47,12 +46,11 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    RouterModule.forChild([])
+    RouterModule.forChild([]),
   ],
   exports: [
     CommonModule,
     UploadComponent,
-    UserProfilePictureComponent,
     TabsComponent,
     ModalsComponent,
     ModalComponent,
@@ -67,11 +65,10 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     UpImageComponent,
     UpAudioComponent,
     UpVideoComponent,
-    UpMediaMagnifierComponent
+    UpMediaMagnifierComponent,
   ],
   declarations: [
     UploadComponent,
-    UserProfilePictureComponent,
     TabsComponent,
     ModalsComponent,
     SlideToggleComponent,
@@ -86,7 +83,7 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     UpImageComponent,
     UpAudioComponent,
     UpVideoComponent,
-    UpMediaMagnifierComponent
-  ]
+    UpMediaMagnifierComponent,
+  ],
 })
 export class SharedModule {}

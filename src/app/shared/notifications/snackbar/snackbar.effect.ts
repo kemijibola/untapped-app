@@ -21,8 +21,8 @@ export class SnackBarEffect {
     this.actions$.pipe(
       ofType(SnackBarActions.SNACKBAR_OPEN),
       pipe(
-        map((action: SnackBarActions.SnackBarOpen) => action.payload.params),
-        map(payload =>
+        map((action: SnackBarActions.SnackBarOpen) => action.payload),
+        map((payload) =>
           this.matSnackBar.open(payload.message, payload.action, payload.config)
         ),
         delay(7000),

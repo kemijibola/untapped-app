@@ -38,7 +38,6 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
         select(fromTalentWithHighestComment.selectTalentWithHighestComments)
       )
       .subscribe((val: UserFilterCategory[]) => {
-        console.log(val);
         if (val.length > 0) {
           this.filteredUsers = val;
 

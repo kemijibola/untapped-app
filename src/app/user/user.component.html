@@ -1,9 +1,15 @@
 <app-tabs [tabId]="tabPanel.id">
   <div class="tab-content fix" id="myTabContent">
     <app-profile *ngIf="activeTab.tag === tabPanel.tabs[0].tag"></app-profile>
-    <app-portfolio
-      *ngIf="activeTab.tag === tabPanel.tabs[1].tag"
-    ></app-portfolio>
-    <app-settings *ngIf="activeTab.tag === tabPanel.tabs[2].tag"></app-settings>
+    <div>
+      <app-portfolio
+        *ngIf="activeTab.tag === tabPanel.tabs[1].tag"
+      ></app-portfolio>
+    </div>
+    <div>
+      <app-settings
+        *ngIf="activeTab.tag === tabPanel.tabs[2].tag"
+      ></app-settings>
+    </div>
   </div>
 </app-tabs>

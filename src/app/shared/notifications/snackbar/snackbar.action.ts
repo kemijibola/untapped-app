@@ -6,7 +6,7 @@ export const SNACKBAR_CLOSE = "SNACKBAR_CLOSE";
 
 export class SnackBarOpen implements Action {
   readonly type = SNACKBAR_OPEN;
-  constructor(public payload: { params: SnackBarData }) {}
+  constructor(public payload: SnackBarData) {}
 }
 
 export class SnackBarClose implements Action {

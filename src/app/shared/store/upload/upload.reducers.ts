@@ -12,7 +12,6 @@ import * as UploadActions from "./upload.actions";
 import { EntityState } from "@ngrx/entity";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromAdapter from "./upload.adapter";
-import { AppError } from "src/app/store/global/error/error.reducers";
 
 export interface UploadState extends EntityState<any> {
   fileInput: IFileInputModel | null;
@@ -23,7 +22,6 @@ export interface UploadState extends EntityState<any> {
   uploadSuccessful: boolean;
   // uploadedItems: UploadedItems;
   selectedUploadedItemId: string | number | null;
-  uploadError: AppError | null;
   uploadedItems: UploadedItems | null;
 }
 
@@ -36,7 +34,6 @@ const initialState: UploadState = fromAdapter.adapter.getInitialState({
   uploadSuccessful: false,
   uploadedItems: null,
   selectedUploadedItemId: null,
-  uploadError: null,
 });
 
 export function reducer(
@@ -63,6 +60,7 @@ export function reducer(
       return Object.assign({
         ...state,
         fileInput: null,
+        file: null,
         uploadSuccessful: false,
       });
     case UploadActions.FILE_TOUPLOAD:
@@ -101,8 +99,6 @@ export function reducer(
 
 export const getselectedUploadedItemId = (state: UploadState) =>
   state.selectedUploadedItemId;
-
-const getUploadError = (state: UploadState) => state.uploadError;
 
 const getUploadActionState = (state: UploadState) => state.isReadyForUpload;
 
@@ -148,8 +144,6 @@ export const selectCurrentUploadedItem = createSelector(
   getUploadState,
   getUploadedItems
 );
-
-export const selectUploadError = createSelector(getUploadState, getUploadError);
 
 export const selectUploadActionState = createSelector(
   getUploadState,
