@@ -24,7 +24,12 @@ import * as fromTabReducer from "../../shared/store/tabs/tabs.reducers";
 export class TabsComponent implements OnInit, OnChanges, OnDestroy {
   tab: Observable<IAppTab>;
   @Input() tabId: string;
+  @Input() divClass: string;
+  @Input() navClass: string;
   ngDestroyed = new Subject();
+
+  divCss = "";
+  navCss = "";
 
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -35,6 +40,12 @@ export class TabsComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(simple: SimpleChanges) {
     if (simple["tabId"]) {
       this.store.dispatch(new TabsAction.FetchAppTab({ appTabId: this.tabId }));
+    }
+    if (simple["divClass"]) {
+      this.divCss = this.divClass;
+    }
+    if (simple["navClass"]) {
+      this.navCss = this.navClass;
     }
   }
 

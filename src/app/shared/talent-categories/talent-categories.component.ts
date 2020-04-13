@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵConsole } from "@angular/core";
+import { Component, OnInit, ɵConsole, Input } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as fromCategoryType from "../store/category-type/category-type.reducers";
@@ -16,6 +16,8 @@ export class TalentCategoriesComponent implements OnInit {
   settings = {};
   selectCategoryIds: string[];
   preSelectedIds: string[];
+  @Input() text: string = "";
+  @Input() placeholderText: string = "";
 
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -69,8 +71,8 @@ export class TalentCategoriesComponent implements OnInit {
   applySettings() {
     this.settings = {
       singleSelection: false,
-      text: "Select Category",
-      searchPlaceholderText: "Search Category",
+      text: this.text,
+      searchPlaceholderText: this.placeholderText,
       enableSearchFilter: true,
       limitSelection: 5,
       badgeShowLimit: 5,

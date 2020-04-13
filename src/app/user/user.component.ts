@@ -15,11 +15,12 @@ import * as fromAuth from "src/app/account/store/auth.reducers";
   styleUrls: ["./user.component.css"],
 })
 export class UserComponent extends AbstractTabComponent {
-  userId = "";
   typeOfUser: string;
   tabPanel: IAppTab;
   queryParam = "profile";
   toQueryParam = "profile";
+  divClass = "profile-area fx-padding-2 pt-80 pb-105";
+  navClass = "nav nav-tabs mb-30 all-tablinks";
   constructor(
     public store: Store<fromApp.AppState>,
     public router: Router,

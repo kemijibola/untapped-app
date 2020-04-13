@@ -20,7 +20,7 @@ export function profileReducer(
     case ProfileActions.SET_USERPROFILE:
       return Object.assign({
         ...state,
-        userProfile: action.payload,
+        userProfile: { ...action.payload },
       });
     default:
       return state;

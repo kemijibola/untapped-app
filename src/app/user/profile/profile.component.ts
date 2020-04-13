@@ -16,6 +16,7 @@ import {
   ICategory,
   SocialMedia,
   SnackBarData,
+  AppUserType,
 } from "src/app/interfaces";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
@@ -24,6 +25,7 @@ import * as CategoryTypeActions from "../../shared/store/category-type/category-
 import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
 import * as _ from "underscore";
 import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.action";
+import { PHONE_REGEX } from "src/app/lib/constants";
 
 @Component({
   selector: "app-profile",
@@ -33,8 +35,6 @@ import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.a
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   userProfileState: Observable<fromProfile.ProfileState>;
-  isTalent: boolean;
-  isProfessional: boolean;
   ngDestroyed = new Subject();
   fileConfig: IFileInputModel;
   fileUploadOperation: UPLOADOPERATIONS;
@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
   isNewProfile: boolean = false;
   // physicalStats?: IPhysicalStatistics;
   bannerImagePath?: string;
-  typeOfUser: string;
+  typeOfUser: AppUserType;
   selectedCategories: string[] = [];
   userType: string = "";
 
@@ -73,10 +73,7 @@ export class ProfileComponent implements OnInit {
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
         if (val.authenticated) {
-          console.log(val);
-          this.typeOfUser = val.user_data.userType.name;
-          // this.isTalent =
-          //   val.user_data.userType.name === "Talent" ? true : false;
+          this.typeOfUser = AppUserType[val.user_data.userType.name];
           this.userType = val.user_data.userType.name;
           this.userEmail = val.user_data.email;
           this.userFullName = val.user_data.full_name;
@@ -88,7 +85,6 @@ export class ProfileComponent implements OnInit {
     this.userStore
       .pipe(select(fromProfile.selectCurrentUserProfile))
       .subscribe((val: IProfile) => {
-        console.log("user data", val);
         if (_.has(val, "_id")) {
           this.store.dispatch(
             new CategoryTypeActions.SetSelectedCategoryType({
@@ -130,8 +126,14 @@ export class ProfileComponent implements OnInit {
       location: new FormControl(this.location, Validators.required),
       fullName: new FormControl(this.userFullName, Validators.required),
       emailAddress: new FormControl(this.userEmail, Validators.required),
-      phoneNumber: new FormControl(this.phoneNumber, Validators.required),
-      shortBio: new FormControl(this.shortBio),
+      phoneNumber: new FormControl(
+        this.phoneNumber,
+        Validators.pattern(PHONE_REGEX)
+      ),
+      shortBio: new FormControl(this.shortBio, [
+        Validators.minLength(80),
+        Validators.maxLength(1200),
+      ]),
       facebook: new FormControl(this.facebook),
       instagram: new FormControl(this.instagram),
       twitter: new FormControl(this.twitter),
@@ -189,6 +191,23 @@ export class ProfileComponent implements OnInit {
     } else {
       this.userStore.dispatch(new ProfileActions.CreateUserProfile(profileObj));
       this.isNewProfile = false;
+    }
+
+    this.name = name;
+    this.rcNumber = rcNumber;
+    this.location = location;
+    this.phoneNumber = phoneNumber;
+    this.shortBio = shortBio;
+    this.twitter = twitter;
+    this.facebook = facebook;
+    this.instagram = instagram;
+    this.youtube = youtube;
+    if (additionalSocials) {
+      for (let socialMedia of additionalSocials) {
+        this.otherSocialMedias.push(
+          new FormGroup({ social: new FormControl(socialMedia) })
+        );
+      }
     }
   }
 }

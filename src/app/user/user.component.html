@@ -1,4 +1,4 @@
-<app-tabs [tabId]="tabPanel.id">
+<app-tabs [tabId]="tabPanel.id" [divClass]="" [navClass]="">
   <div class="tab-content fix" id="myTabContent">
     <app-profile *ngIf="activeTab.tag === tabPanel.tabs[0].tag"></app-profile>
     <div>

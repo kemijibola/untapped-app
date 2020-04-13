@@ -1734,6 +1734,7 @@ html::-webkit-scrollbar {
   padding: 15px 80px !important;
   display: inline-block;
   margin-top: 80px;
+  cursor: pointer;
 }
 .sidebar-img {
   margin-bottom: 35px;
@@ -3769,9 +3770,10 @@ button.accordion.is-open:after {
   margin-right: 40px;
 }
 
-.on-of-radion-button {
+/* .on-of-radion-button {
   border-bottom: 1px solid #878787;
-}
+} */
+
 .online-offline-blk {
   margin-top: 30px;
 }

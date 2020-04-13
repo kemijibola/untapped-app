@@ -1,14 +1,14 @@
 export const SOCIAL_MEDIAS = {
-  TWITTER: 'TWITTER',
-  FACEBOOK: 'FACEBOOK',
-  INSTAGRAM: 'INSTAGRAM',
-  YOUTUBE: 'YOUTUBE'
+  TWITTER: "TWITTER",
+  FACEBOOK: "FACEBOOK",
+  INSTAGRAM: "INSTAGRAM",
+  YOUTUBE: "YOUTUBE",
 };
 
 export enum ServiceTypes {
-  Contest = 'Contest',
-  Vote = 'Vote',
-  ContactDetails = 'ContactDetails'
+  Contest = "Contest",
+  Vote = "Vote",
+  ContactDetails = "ContactDetails",
 }
 
-export const AUDIENCE = 'http://localhost:4200';
+export const PHONE_REGEX = /^\+?([0-9]+)\)?[-. ]?([0-9]+)\)?[-. ]?([0-9]+)[-. ]?([0-9]+)$/;

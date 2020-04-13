@@ -15,7 +15,6 @@ import * as AuthActions from "../store/auth.actions";
 import * as fromUserType from "../../user-type/store/user-type.reducers";
 import { takeUntil, map } from "rxjs/operators";
 import { IRegister, IUserType } from "src/app/interfaces";
-import { AUDIENCE } from "src/app/lib/constants";
 import { NotificationService } from "src/app/services/notification.service";
 import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
 
