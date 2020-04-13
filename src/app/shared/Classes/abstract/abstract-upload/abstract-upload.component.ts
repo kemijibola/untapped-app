@@ -23,11 +23,11 @@ export abstract class AbstractUploadComponent implements OnInit {
     multiple: false,
     accept: "",
   };
-  abstract setUploadedImage(): void;
+  // abstract setUploadedImage(): void;
   abstract uploadFiles(files: File[]): void;
 
   ngOnInit() {
-    this.setUploadedImage();
+    // this.setUploadedImage();
 
     this.store
       .pipe(select(fromUpload.selectFilesToUpload))

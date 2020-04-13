@@ -5,7 +5,13 @@ import { ProfileService } from "src/app/services/profile.service";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import { of } from "rxjs";
-import { map, switchMap, catchError } from "rxjs/operators";
+import {
+  map,
+  switchMap,
+  catchError,
+  mergeMap,
+  concatMap,
+} from "rxjs/operators";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../store/global/notification/notification.action";
@@ -41,13 +47,17 @@ export class ProfileEffect {
   createProfile = createEffect(() =>
     this.action$.pipe(
       ofType(ProfileActions.CREATE_USERPROFILE),
-      switchMap((action: ProfileActions.CreateUserProfile) =>
+      concatMap((action: ProfileActions.CreateUserProfile) =>
         this.profileService.createProfile(action.payload).pipe(
-          map((res: IResult<IProfile>) => {
-            return {
-              type: ProfileActions.SET_USERPROFILE,
-              payload: res.data,
-            };
+          mergeMap((resp: IResult<IProfile>) => {
+            return [
+              new ProfileActions.SetUserProfile({ userProfile: resp.data }),
+              new NotificationActions.AddSuccess({
+                key: AppNotificationKey.success,
+                code: 200,
+                message: "Profile successfully updated",
+              }),
+            ];
           }),
           catchError((respError: HttpErrorResponse) =>
             of(
@@ -67,13 +77,17 @@ export class ProfileEffect {
   updateProfile = createEffect(() =>
     this.action$.pipe(
       ofType(ProfileActions.UPDATE_USERPROFILE),
-      switchMap((action: ProfileActions.UpdateUserProfile) =>
+      concatMap((action: ProfileActions.UpdateUserProfile) =>
         this.profileService.updateProfile(action.payload).pipe(
-          map((res: IResult<IProfile>) => {
-            return {
-              type: ProfileActions.SET_USERPROFILE,
-              payload: res.data,
-            };
+          mergeMap((resp: IResult<IProfile>) => {
+            return [
+              new ProfileActions.SetUserProfile({ userProfile: resp.data }),
+              new NotificationActions.AddSuccess({
+                key: AppNotificationKey.success,
+                code: 200,
+                message: "Profile successfully updated",
+              }),
+            ];
           }),
           catchError((respError: HttpErrorResponse) =>
             of(

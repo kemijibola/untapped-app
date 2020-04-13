@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   updateData(key: string, data: any): void {
-    localStorage.removeItem(key);
+    this.removeItem(key);
     localStorage.setItem(key, JSON.stringify(data));
   }
 }

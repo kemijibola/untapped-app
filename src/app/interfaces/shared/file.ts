@@ -5,13 +5,14 @@ export enum UPLOADOPERATIONS {
   Portfolio = "Portfolio",
   Entries = "Entries",
   ContestBanner = "ContestBanner",
-  Default = "Default"
+  BannerImage = "BannerImage",
+  Default = "Default",
 }
 
 export enum MediaAcceptType {
   IMAGE = "image/*",
   VIDEO = "video/*",
-  AUDIO = "audio/*"
+  AUDIO = "audio/*",
 }
 export interface IFileUploadModel {
   inProgress?: boolean;

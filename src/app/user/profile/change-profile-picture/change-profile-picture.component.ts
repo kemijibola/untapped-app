@@ -1,3 +1,4 @@
+import { IFileMetaData } from "./../../../interfaces/shared/file";
 import { Component, OnInit } from "@angular/core";
 import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component";
 import {
@@ -11,6 +12,8 @@ import {
   CloudUploadParams,
   SignedUrl,
   MediaAcceptType,
+  IPresignRequest,
+  IFileModel,
 } from "../../../interfaces/shared/file";
 import { select, Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
@@ -20,7 +23,6 @@ import * as UserImageActions from "../../../shared/store/user-image/user-image.a
 import { environment } from "src/environments/environment.prod";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
-import { AuthService } from "src/app/services/auth.service";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromUserImage from "../../../shared/store/user-image/user-image.reducer";
 import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
@@ -31,13 +33,13 @@ import * as _ from "underscore";
   templateUrl: "./change-profile-picture.component.html",
   styleUrls: ["./change-profile-picture.component.css"],
 })
-export class ChangeProfilePictureComponent extends AbstractUploadComponent {
+export class ChangeProfilePictureComponent implements OnInit {
   imagePath: string;
   isDefault: boolean;
+  private filesToUpload: File[];
+  private file: IPresignRequest;
   fileConfig: IFileInputModel;
   uploadOperation = UPLOADOPERATIONS.ProfileImage;
-  currentUserId: string;
-  key: string;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -48,21 +50,66 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
       grayscale: false,
     },
   };
-  authData: IAuthData;
-  constructor(
-    public store: Store<fromApp.AppState>,
-    public authService: AuthService
-  ) {
-    super();
-  }
-
-  setUploadedImage(): void {
-    this.fetchUserProfile();
+  constructor(public store: Store<fromApp.AppState>) {
+    this.fetchUserProfileImage();
     this.store
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
         if (val) {
-          this.fetchUserProfile();
+          this.fetchUserProfileImage();
+        }
+      });
+  }
+
+  ngOnInit() {
+    this.store
+      .pipe(select(fromUpload.selectFilesToUpload))
+      .subscribe((val: IFileModel) => {
+        if (val !== null) {
+          if (val.action === this.uploadOperation) {
+            this.filesToUpload = val.files;
+            const files: IFileMetaData[] = val.files.reduce(
+              (arr: IFileMetaData[], file) => {
+                const fileData = {
+                  file: file["data"].name,
+                  file_type: file["data"].type,
+                };
+                arr = [...arr, fileData];
+                return arr;
+              },
+              []
+            );
+
+            var fileType = files[0].file_type.split("/");
+            this.file = {
+              mediaType: fileType[0],
+              action: val.action,
+              files: [...files],
+            };
+            if (this.fileConfig.state) {
+              this.store.dispatch(
+                new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
+              );
+            }
+
+            this.store.dispatch(new UploadActions.ResetFileInput());
+
+            // perform actual upload to cloud
+            if (this.filesToUpload.length > 0) {
+              this.uploadFiles(this.filesToUpload);
+            }
+          }
+        }
+      });
+  }
+
+  setUploadedImage(): void {
+    this.fetchUserProfileImage();
+    this.store
+      .pipe(select(fromUpload.selectUploadStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.fetchUserProfileImage();
         }
       });
   }
@@ -74,9 +121,6 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
       .subscribe((val: SignedUrl) => {
         if (val) {
           if (val.action === this.uploadOperation) {
-            this.key = val.presignedUrl[0].key;
-            this.authData.user_data.profile_image_path =
-              val.presignedUrl[0].key;
             const item: CloudUploadParams = {
               file: files[0]["data"],
               url: val.presignedUrl[0].url,
@@ -89,8 +133,6 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
                 imageKey: val.presignedUrl[0].key,
               })
             );
-
-            // set uploaded
           }
         }
       });
@@ -103,16 +145,13 @@ export class ChangeProfilePictureComponent extends AbstractUploadComponent {
       multiple: false,
       accept: MediaAcceptType.IMAGE,
     };
-
-    // this.store.dispatch(new UploadActions.UploadFilesError({}));
   }
 
-  fetchUserProfile() {
+  fetchUserProfileImage() {
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
         if (val.authenticated) {
-          this.authData = { ...val };
           this.imagePath = val.user_data.profile_image_path
             ? fetchImageObjectFromCloudFormation(
                 val.user_data.profile_image_path,

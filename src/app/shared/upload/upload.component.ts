@@ -21,6 +21,8 @@ import {
   UPLOADOPERATIONS,
 } from "src/app/interfaces";
 
+const noop = () => {};
+
 @Component({
   selector: "app-upload",
   templateUrl: "./upload.component.html",
@@ -41,6 +43,8 @@ export class UploadComponent
   accept: string;
   operationType: UPLOADOPERATIONS;
   state: boolean;
+  private onChange: Function;
+  private onTouchedCallback: Function;
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
 
@@ -48,7 +52,10 @@ export class UploadComponent
     private host: ElementRef<HTMLInputElement>,
     private store: Store<fromApp.AppState>,
     private renderer: Renderer2
-  ) {}
+  ) {
+    this.onTouchedCallback = noop;
+    this.onChange = noop;
+  }
   ngOnInit() {}
 
   ngOnChanges(simple: SimpleChanges) {
@@ -88,7 +95,7 @@ export class UploadComponent
       action: this.operationType,
       files: [...fileArray],
     };
-    // this.onChange(this.file);
+    this.onChange(this.file);
     this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
 
     this.writeValue(null);
@@ -100,10 +107,10 @@ export class UploadComponent
   }
 
   registerOnChange(fn: Function) {
-    // this.onChange = fn;
+    this.onChange = fn;
   }
 
   registerOnTouched(fn: Function) {
-    // this.onTouchedCallback = fn;
+    this.onTouchedCallback = fn;
   }
 }

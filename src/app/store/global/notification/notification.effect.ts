@@ -29,7 +29,7 @@ export class NotificationEffect {
                 duration: 7000,
               },
             };
-            
+
             return {
               type: SnackBarActions.SNACKBAR_OPEN,
               payload: snackBarConfig,
@@ -57,11 +57,11 @@ export class NotificationEffect {
         map((action: NotificationActions.AddSuccess) => action.payload),
         map((payload) => {
           const snackBarConfig: SnackBarData = {
-            message: payload.message,
+            message: payload["message"],
             action: "X",
             config: {
               panelClass: ["success-snackbar"],
-              horizontalPosition: "right",
+              horizontalPosition: "center",
               verticalPosition: "top",
               duration: 7000,
             },

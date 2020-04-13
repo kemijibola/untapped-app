@@ -80,6 +80,7 @@ export class UserImageEffect {
           this.authService.fetchUserData("userData").pipe(
             map((resp: IAuthData) => {
               resp.user_data.profile_image_path = action.payload.value;
+              this.authService.updateData("userData", resp);
               return {
                 type: AuthActions.SET_AUTHDATA,
                 payload: resp,
@@ -99,6 +100,7 @@ export class UserImageEffect {
           this.authService.fetchUserData("userData").pipe(
             map((resp: IAuthData) => {
               resp.user_data.banner_image_path = action.payload.value;
+              this.authService.updateData("userData", resp);
               return {
                 type: AuthActions.SET_AUTHDATA,
                 payload: resp,

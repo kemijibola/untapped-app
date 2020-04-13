@@ -88,6 +88,7 @@ export class ProfileComponent implements OnInit {
     this.userStore
       .pipe(select(fromProfile.selectCurrentUserProfile))
       .subscribe((val: IProfile) => {
+        console.log("user data", val);
         if (_.has(val, "_id")) {
           this.store.dispatch(
             new CategoryTypeActions.SetSelectedCategoryType({
