@@ -1,23 +1,24 @@
-import { IUser } from 'src/app/interfaces';
-import * as UserActions from './user.actions';
+import { IUser } from "src/app/interfaces";
+import * as UserActions from "./user.actions";
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 
-export interface State {
+export interface State extends EntityState<IUser> {
   user: IUser;
 }
-const initialState: State = {
-  user: {}
-};
+
+export const userAdapter: EntityAdapter<IUser> = createEntityAdapter<IUser>();
+
+const initialState: State = userAdapter.getInitialState({
+  user: Object.assign({})
+});
 
 export function userReducers(
   state = initialState,
   action: UserActions.UserActions
-) {
+): State {
   switch (action.type) {
     case UserActions.SET_USER:
-      return {
-        ...state,
-        user: Object.assign(state.user, action.payload.user)
-      };
+      return userAdapter.setOne(action.payload.user, state);
     default:
       return state;
   }

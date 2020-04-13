@@ -1,5 +1,5 @@
 export interface IAppTab {
-  name: string;
+  id: string;
   tabs: ITab[];
 }
 
@@ -11,6 +11,6 @@ export interface ITab {
 }
 
 export interface IUpdateTab {
-  name: string;
-  tabIndex: number;
+  appTabId: string;
+  tab: IAppTab;
 }

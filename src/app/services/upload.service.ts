@@ -9,7 +9,7 @@ import {
 import { Observable, of, forkJoin } from "rxjs";
 import { IPresignRequest } from "../interfaces";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class UploadService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {

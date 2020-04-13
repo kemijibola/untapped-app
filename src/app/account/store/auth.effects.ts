@@ -1,134 +1,218 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
+import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import * as AuthActions from "../store/auth.actions";
 import { AuthService } from "src/app/services/auth.service";
-import { IResult, IRegister, IAuthData, ILogin } from "src/app/interfaces";
-import { map, mergeMap, catchError, tap, switchMap } from "rxjs/operators";
-import { of } from "rxjs";
-import { Router } from "@angular/router";
-import * as ErrorActions from "../../store/global/error/error.actions";
-import "rxjs/add/operator/do";
-import { Store } from "@ngrx/store";
+import {
+  IResult,
+  IRegister,
+  IAuthData,
+  ILogin,
+  AppNotificationKey,
+} from "src/app/interfaces";
+import {
+  map,
+  mergeMap,
+  catchError,
+  tap,
+  finalize,
+  concatMap,
+  take,
+  scan,
+} from "rxjs/operators";
+import { of, Observable, throwError, empty, pipe } from "rxjs";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
+import { HttpErrorResponse } from "@angular/common/http";
+import { isAfter, getTime, getDate } from "date-fns";
+import * as fromAuthReducer from "./auth.reducers";
+import * as NotificationActions from "../../store/global/notification/notification.action";
 
 @Injectable()
 export class AuthEffects {
-  @Effect()
-  authSignUp = this.actions$
-    .pipe(ofType(AuthActions.DO_SIGNUP))
-    .switchMap((action: AuthActions.DoSignUp) => {
-      const newUser: IRegister = {
-        fullName: action.payload.register.fullName,
-        email: action.payload.register.email,
-        password: action.payload.register.password,
-        roles: action.payload.register.roles
-      };
-      return this.authService.signUp(newUser);
-    })
-    .pipe(
-      map((res: IResult<boolean>) => {
-        return {
-          type: AuthActions.SIGNUP_SUCCESS
-        };
-      })
-    );
-
-  @Effect()
-  doEmailConfirmation = this.actions$
-    .pipe(ofType(AuthActions.DO_EMAIL_CONFIRMATION))
-    .switchMap((action: AuthActions.DoEmailConfirmation) => {
-      return this.authService.confirmEmail(action.payload);
-    })
-    .pipe(
-      map((resp: IResult<string>) => {
-        return {
-          type: AuthActions.SUCCESS_EMAIL_CONFIRMATION,
-          payload: resp.data
-        };
-      })
-    );
-
-  @Effect()
-  authSignIn = this.actions$
-    .pipe(ofType(AuthActions.DO_SIGNIN))
-    .switchMap((action: AuthActions.DoSignIn) => {
-      const { email, password } = action.payload.loginParam;
-      return this.authService.signin({ email, password });
-    })
-    .pipe(
-      map((resp: IResult<IAuthData>) => {
-        return {
-          type: AuthActions.SIGNIN_SUCCESS,
-          payload: resp.data
-        };
-      })
-    );
-
-  @Effect()
-  fetchAuthData = this.actions$
-    .pipe(ofType(AuthActions.FETCH_AUTHDATA))
-    .switchMap((action: AuthActions.FetchAuthData) => {
-      return this.authService.fetchItem("authData");
-    })
-    .map((resp: IAuthData) => {
-      return {
-        type: AuthActions.SET_AUTHDATA,
-        payload: resp
-      };
-    });
-
-  @Effect({ dispatch: false })
-  signupSuccess = this.actions$.pipe(
-    ofType(AuthActions.SIGNUP_SUCCESS),
-    tap(() => this.router.navigate(["/account/confirm-email"]))
+  authSignUp = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.DO_SIGNUP),
+      concatMap((action: AuthActions.DoSignUp) =>
+        this.authService
+          .signUp({
+            fullName: action.payload.registerData.fullName,
+            email: action.payload.registerData.email,
+            password: action.payload.registerData.password,
+            userType: action.payload.registerData.userType,
+          })
+          .pipe(
+            map((res: IResult<boolean>) => new AuthActions.SignUpSuccess()),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
   );
 
-  @Effect({ dispatch: false })
-  confirmEmailSuccess = this.actions$.pipe(
-    ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
-    tap(() => this.router.navigate(["/account/signin"]))
+  doEmailConfirmation = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.DO_EMAIL_CONFIRMATION),
+      concatMap((action: AuthActions.DoEmailConfirmation) =>
+        this.authService.confirmEmail(action.payload.confirmEmailData).pipe(
+          map(
+            (resp: IResult<string>) =>
+              new AuthActions.SuccessEmailConfirmation({ response: resp.data })
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              })
+            )
+          )
+        )
+      )
+    )
   );
 
-  @Effect({ dispatch: false })
-  signInSuccess = this.actions$.pipe(
-    ofType(AuthActions.SIGNIN_SUCCESS),
-    map((action: AuthActions.SignInSuccess) => {
-      action.payload.authenticated = true;
-      return action.payload;
-    }),
-    map((authData: IAuthData) => {
-      this.store.dispatch(new AuthActions.SetAuthData(authData));
-      this.authService.setItem("authData", authData);
-    }),
-    tap(() => {
-      this.router.navigate(["/"]);
-    })
+  authSignIn = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.DO_SIGNIN),
+      concatMap((action: AuthActions.DoSignIn) =>
+        this.authService
+          .signin({
+            email: action.payload.loginData.email,
+            password: action.payload.loginData.password,
+          })
+          .pipe(
+            map(
+              (resp: IResult<IAuthData>) =>
+                new AuthActions.SetAuthData(resp.data)
+            ),
+            tap((data) => this.authService.setItem("userData", data.payload)),
+            tap(() => this.router.navigate(["/"])),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
   );
 
-  // @Effect()
-  // signInSuccess = this.actions$.pipe(ofType(AuthActions.SIGNIN_SUCCESS)).pipe(
-  //   map((action: AuthActions.SignInSuccess) => {
-  //     action.payload.authenticated = true;
-  //     return action.payload;
-  //   }),
-  //   tap((authData: IAuthData) => {
-  //     this.localStorage.setItem('authData', authData);
-  //     this.router.navigate(['/']);
-  //   })
-  // );
+  signupSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.SIGNUP_SUCCESS),
+        pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
+      ),
+    { dispatch: false }
+  );
 
-  @Effect({ dispatch: false })
-  logOut = this.actions$.pipe(
-    ofType(AuthActions.LOGOUT),
-    switchMap(() => {
-      return this.authService.removeItem("authData");
-    }),
-    tap((isDeleted: boolean) => {
-      if (isDeleted) {
-        this.store.dispatch(new AuthActions.DeleteAutData());
-        this.router.navigate(["/"]);
-      }
-    })
+  confirmEmailSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
+        pipe(tap(() => this.router.navigate(["/account/signin"])))
+      ),
+    { dispatch: false }
+  );
+
+  proceedToRoute = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.PROCEED_TO_ROUTE),
+        pipe(
+          map((action: AuthActions.ProceedToRoute) => action.payload.routeUrl),
+          tap((routeUrl) => this.router.navigate([routeUrl]))
+        )
+      ),
+    { dispatch: false }
+  );
+
+  tokenExpired = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.CHECK_TOKEN_EXPIRED),
+      pipe(
+        map(
+          (action: AuthActions.CheckTokenExpired) => action.payload.tokenData
+        ),
+        map((payload) => {
+          let tokenExpiration =
+            payload !== null ? new Date(payload.token_expires).getTime() : 0;
+          if (!isAfter(Date.now(), tokenExpiration)) {
+            return {
+              type: AuthActions.SET_AUTHDATA,
+              payload: payload,
+            };
+          }
+          // show pop up to
+          this.store.dispatch(
+            new NotificationActions.AddError({
+              key: AppNotificationKey.error,
+              code: 400,
+              message: "Session expired. Please login to app to continue.",
+            })
+          );
+
+          return {
+            type: AuthActions.LOGOUT,
+          };
+        })
+      )
+    )
+  );
+
+  fetchAuthData = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.FETCH_AUTHDATA),
+      pipe(
+        concatMap(() =>
+          this.authService.fetchUserData("userData").pipe(
+            map((resp) =>
+              resp !== null
+                ? new AuthActions.CheckTokenExpired({ tokenData: resp })
+                : new AuthActions.ProceedToRoute({
+                    routeUrl: location.pathname,
+                  })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  logOut = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.LOGOUT),
+      pipe(
+        concatMap(() =>
+          this.authService.removeItem("userData").pipe(
+            map((isDeleted) =>
+              isDeleted === true
+                ? new AuthActions.DeleteAutData()
+                : new AuthActions.LogOut()
+            ),
+            tap(() => this.router.navigate(["/account/signin"]))
+          )
+        )
+      )
+    )
   );
 
   constructor(

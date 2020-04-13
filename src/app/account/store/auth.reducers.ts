@@ -1,155 +1,80 @@
 import * as AuthActions from "./auth.actions";
 import { IAuthData } from "../../interfaces";
-
-export interface State {
-  errorMessage: string;
-  userData: IAuthData;
-  errorConfirmationMsg: string;
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import * as fromAdapter from "./auth.adapter";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
+export interface AuthState extends EntityState<IAuthData> {
+  userData: IAuthData | null;
+  confirmationResponse: string | null;
 }
-const initialState: State = {
+
+const initialState: AuthState = fromAdapter.adapter.getInitialState({
+  confirmationResponse: null,
   userData: {
     access_token: "",
-    permissions: [],
+    rolePermissions: [],
     user_data: {
       _id: "",
       full_name: "",
       email: "",
       profile_is_completed: false,
       profile_image_path: "",
+      banner_image_path: "",
       userType: {
         _id: "",
-        name: ""
-      }
+        name: "",
+      },
     },
-    authenticated: false
+    token_expires: "",
+    authenticated: false,
   },
-  errorMessage: "",
-  errorConfirmationMsg: ""
-};
-export function authReducer(
+});
+
+export function reducer(
   state = initialState,
   action: AuthActions.AuthActions
-) {
+): AuthState {
   switch (action.type) {
-    case AuthActions.SIGNUP_SUCCESS:
-      return {
-        ...state,
-        userData: {
-          access_token: "",
-          permissions: [],
-          user_data: {
-            _id: "",
-            full_name: "",
-            email: "",
-            profile_is_completed: false,
-            profile_image_path: "",
-            userType: {
-              _id: "",
-              name: ""
-            }
-          },
-          authenticated: false
-        },
-        errorMessage: ""
-      };
-    case AuthActions.SIGNIN_FAILURE:
-      return {
-        ...state,
-        errorMessage: action.payload,
-        userData: {
-          access_token: "",
-          permissions: [],
-          user_data: {
-            _id: "",
-            full_name: "",
-            email: "",
-            profile_is_completed: false,
-            profile_image_path: "",
-            userType: {
-              _id: "",
-              name: ""
-            }
-          },
-          authenticated: false
-        }
-      };
     case AuthActions.SET_AUTHDATA:
-      return {
-        ...state,
-        userData: { ...action.payload }
-      };
-    case AuthActions.DELETE_AUTHDATA:
-      return {
+      return Object.assign({
         ...state,
         userData: {
-          access_token: "",
-          permissions: [],
-          user_data: {
-            _id: "",
-            full_name: "",
-            email: "",
-            profile_is_completed: false,
-            profile_image_path: "",
-            userType: {
-              _id: "",
-              name: ""
-            }
-          },
-          authenticated: false
-        }
-      };
-    case AuthActions.LOGOUT:
-      return {
-        ...state,
-        userData: {
-          access_token: "",
-          permissions: [],
-          user_data: {
-            _id: "",
-            full_name: "",
-            email: "",
-            profile_is_completed: false,
-            profile_image_path: "",
-            userType: {
-              _id: "",
-              name: ""
-            }
-          },
-          authenticated: false
-        }
-      };
-    case AuthActions.SIGNUP_FAILURE:
-      return {
-        ...state,
-        userData: {
-          access_token: "",
-          permissions: [],
-          user_data: {
-            _id: "",
-            full_name: "",
-            email: "",
-            profile_is_completed: false,
-            profile_image_path: "",
-            userType: {
-              _id: "",
-              name: ""
-            }
-          },
-          authenticated: false
+          access_token: action.payload.access_token,
+          rolePermissions: [...action.payload.rolePermissions],
+          user_data: { ...action.payload.user_data },
+          token_expires: action.payload.token_expires,
+          authenticated: true,
         },
-        errorMessage: action.payload.error
-      };
-    case AuthActions.RESET_FAILURE_MESSAGE:
-      return {
+      });
+    case AuthActions.DELETE_AUTHDATA:
+      return Object.assign({
         ...state,
-        errorMessage: ""
-      };
-    case AuthActions.FAILURE_EMAIL_CONFIRMATION:
-      return {
+        userData: Object.assign({}),
+      });
+
+    case AuthActions.SUCCESS_EMAIL_CONFIRMATION:
+      return Object.assign({
         ...state,
-        errorConfirmationMsg: action.payload
-      };
-    default:
+        confirmationResponse: action.payload.response,
+      });
+    default: {
       return state;
+    }
   }
 }
+export const getSelectedUserAuth = (state: AuthState) => state.userData;
+
+export const getAuthState = createFeatureSelector<AuthState>("authState");
+
+export const selectCurrentUserData = createSelector(
+  getAuthState,
+  getSelectedUserAuth
+);
+
+const getConfirmationSuccessMessage = (state: AuthState) =>
+  state.confirmationResponse;
+
+export const selectConfirmationMessage = createSelector(
+  getAuthState,
+  getConfirmationSuccessMessage
+);

@@ -70,6 +70,7 @@
               </li>
               <li>
                 <a
+                  *ngIf="typeOfUser === 'Professional'"
                   routerLink="/contests"
                   [routerLinkActiveOptions]="{ exact: true }"
                   routerLinkActive="visited"
@@ -99,16 +100,26 @@
                 </li>
                 <li class="user">
                   <img src="assets/img/contest/user.png" alt="" />
-                  <span>Oluwakemi</span>
+                  <span>{{ userFullName }}</span>
                   <div class="drpdown">
                     <ul class="top">
-                      <li><a href="#">Contests</a></li>
+                      <li>
+                        <a
+                          *ngIf="typeOfUser === 'Professional'"
+                          routerLink="user/contest/page"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
+                          [queryParams]="{ tab: 'all' }"
+                          >Contests</a
+                        >
+                      </li>
                       <li><a href="#">Gigs</a></li>
                       <li><a href="#">New Portfolio Upload</a></li>
                     </ul>
                     <ul class="bot">
                       <li>
                         <a
+                          *ngIf="typeOfUser !== 'Audience'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
@@ -118,6 +129,7 @@
                       </li>
                       <li>
                         <a
+                          *ngIf="typeOfUser === 'Talent'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
@@ -127,11 +139,20 @@
                       </li>
                       <li>
                         <a
-                          routerLink="./{{ userPreEmailAdress }}"
+                          routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'settings' }"
                           >Settings</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          routerLink="./user/{{ userPreEmailAdress }}"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
+                          [queryParams]="{ tab: 'managevotes' }"
+                          >Manage Votes</a
                         >
                       </li>
                       <li><a (click)="onLogOut()">Logout</a></li>

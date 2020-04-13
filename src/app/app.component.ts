@@ -5,7 +5,7 @@ import {
   state,
   transition,
   style,
-  animate
+  animate,
 } from "@angular/animations";
 import { DOCUMENT } from "@angular/common";
 import { Store, select } from "@ngrx/store";
@@ -13,20 +13,20 @@ import * as fromApp from "./store/app.reducers";
 import * as UserTypeActions from "./user-type/store/user-type.actions";
 import * as CategoryTypeActions from "./shared/store/category-type/category-type.actions";
 import * as CategoryActions from "./shared/store/category/category.action";
-import * as UserCategoryActions from "./shared/store/filtered-categories/user-category.action";
+import * as UserCategoryActions from "./shared/store/filtered-categories/talent-category.action";
 import * as AuthActions from "./account/store/auth.actions";
-import { selectUserData } from "./account/store/auth.selectors";
 import * as fromUserType from "./user-type/store/user-type.reducers";
 import {
   IAuthData,
   ReportType,
   MediaQueryParams,
   MediaType,
-  UserFilterCategory
+  UserFilterCategory,
 } from "./interfaces";
 import * as fromUser from "./user/user.reducers";
 import * as TalentsActions from "./shared/store/talents/talents.actions";
-import { selectSelectedUser } from "./shared/store/filtered-categories/user-category.selectors";
+import * as fromTalentFilter from "./shared/store/filtered-categories/talent-category.reducers";
+import * as TalentCategoryActions from "./shared/store/filtered-categories/talent-category.action";
 
 @Component({
   selector: "app-root",
@@ -36,9 +36,9 @@ import { selectSelectedUser } from "./shared/store/filtered-categories/user-cate
     trigger("fade", [
       state("void", style({ opacity: 0 })),
       transition(":enter", [animate(300)]),
-      transition(":leave", [animate(500)])
-    ])
-  ]
+      transition(":leave", [animate(500)]),
+    ]),
+  ],
 })
 export class AppComponent implements OnInit {
   title = "untapped-app";
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.loadAll();
     this.store
-      .pipe(select(selectSelectedUser))
+      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
         this.selectedUser = { ...val };
         if (this.selectedUser.user !== undefined) {
@@ -62,10 +62,12 @@ export class AppComponent implements OnInit {
   ) {}
 
   loadAll() {
+    this.store.dispatch(new AuthActions.FetchAuthData());
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
     this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     this.store.dispatch(new CategoryActions.FetchCategories());
     this.store.dispatch(
-      new UserCategoryActions.FetchAllTalentHighestComment(
+      new TalentCategoryActions.FetchAllTalentHighestComment(
         ReportType.highestcomment
       )
     );
@@ -75,7 +77,7 @@ export class AppComponent implements OnInit {
     const mediaQueryParams: MediaQueryParams = {
       type: MediaType.ALL,
       uploadType: MediaUploadType.ALL,
-      user: userId
+      user: userId,
     };
 
     this.store.dispatch(

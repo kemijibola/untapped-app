@@ -3,8 +3,9 @@
     <div class="profile-alb-head">
       <h4>
         Video Portfolio<span
-          >({{ userVideosLength }} album<i *ngIf="userVideosLength > 1">s</i
-          >)</span
+          >({{ userVideosLength }} album
+          <h4 *ngIf="userVideosLength > 1">s</h4>
+          )</span
         >
       </h4>
     </div>

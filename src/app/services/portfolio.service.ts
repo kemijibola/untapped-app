@@ -8,12 +8,12 @@ import {
   UploadedItems,
   MediaUploadType,
   MediaQueryParams,
-  MediaPreview
+  MediaPreview,
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class PortfolioService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {
@@ -30,7 +30,7 @@ export class PortfolioService {
       items: data.items,
       uploadType: mediaUploadType,
       mediaType: data.type,
-      shortDescription: data.shortDescription
+      shortDescription: data.shortDescription,
     });
   }
 
@@ -45,7 +45,7 @@ export class PortfolioService {
       items: data.items,
       uploadType: mediaUploadType,
       mediaType: data.type,
-      shortDescription: data.shortDescription
+      shortDescription: data.shortDescription,
     });
   }
 
@@ -59,6 +59,7 @@ export class PortfolioService {
   fetchUserPortfolioPreviewList(
     queryParams: MediaQueryParams
   ): Observable<IResult<MediaPreview[]>> {
+    // console.log(queryParams);
     const url = `${this.BASE_URI}/media/me/preview?mediaType=${queryParams.type}&uploadType=${queryParams.uploadType}`;
     return this.http.get<IResult<MediaPreview[]>>(url);
   }
@@ -70,10 +71,8 @@ export class PortfolioService {
     return this.http.get<IResult<IMedia[]>>(url);
   }
 
-  fetchPortfolioMedia(
-    queryParams: MediaQueryParams
-  ): Observable<IResult<IMedia>> {
-    const url = `${this.BASE_URI}/media/${queryParams.id}`;
+  fetchPortfolioMedia(id: string | number): Observable<IResult<IMedia>> {
+    const url = `${this.BASE_URI}/media/${id}`;
     return this.http.get<IResult<IMedia>>(url);
   }
 
@@ -86,6 +85,7 @@ export class PortfolioService {
     mediaId: string,
     itemId: string
   ): Observable<IResult<boolean>> {
+    console.log("delete called");
     const url = `${this.BASE_URI}/media/${mediaId}/item/${itemId}`;
     return this.http.delete<IResult<boolean>>(url);
   }

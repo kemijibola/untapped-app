@@ -15,8 +15,13 @@ export function fetchImageObjectFromCloudFormation(
   return `${environment.CLOUD_FORMATION_API}/${encryptedRequest}`;
 }
 
+
 export function fetchNoMediaDefaultImage(): string {
   return environment.NO_MEDIA_IMG;
+}
+
+export function getTime(date?: Date) {
+  return date != null ? new Date(date).getTime() : 0;
 }
 
 export function fetchCommenterDefaultImage(): string {

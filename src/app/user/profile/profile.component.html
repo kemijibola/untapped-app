@@ -6,28 +6,36 @@
 >
   <div class="row">
     <div class="col-xl-12">
-      <div class="profile-des">
+      <div class="profile-des" *ngIf="typeOfUser === 'Talent'">
         <p>
           Fill your details; your personal details, contact detail, talents,
           location and social media handles.
+        </p>
+      </div>
+      <div class="profile-des" *ngIf="typeOfUser === 'Professional'">
+        <p>
+          Fill your details; business, personal, contact detail, interests,
+          office location and social media handles.
         </p>
       </div>
     </div>
     <div class="col-xl-12">
       <app-change-profile-picture></app-change-profile-picture>
     </div>
-    <div class="col-xl-12" *ngIf="!isTalent">
+    <div class="col-xl-12" *ngIf="typeOfUser === 'Professional'">
       <app-change-professional-banner></app-change-professional-banner>
     </div>
   </div>
   <div [formGroup]="profileForm">
     <div class="row">
       <div class="col-xl-6">
-        <label for="" *ngIf="isTalent">Stage Name</label>
-        <label for="" *ngIf="!isTalent">Business Name</label>
+        <label for="" *ngIf="typeOfUser === 'Talent'">Stage Name</label>
+        <label for="" *ngIf="typeOfUser === 'Professional'"
+          >Business Name</label
+        >
         <input class="input-design" formControlName="name" type="text" />
       </div>
-      <div class="col-xl-3" *ngIf="!isTalent">
+      <div class="col-xl-3" *ngIf="typeOfUser === 'Professional'">
         <label for="">rcNumber</label>
         <input class="input-design" formControlName="rcNumber" type="text" />
       </div>
@@ -68,8 +76,16 @@
         ></textarea>
       </div>
       <div class="col-xl-12">
-        <h4 class="profile-ctg">Add your talent</h4>
-        <app-talent-categories></app-talent-categories>
+        <h4 class="profile-ctg" *ngIf="typeOfUser === 'Talent'">
+          Add your talent(s)
+        </h4>
+        <h4 class="profile-ctg" *ngIf="typeOfUser === 'Professional'">
+          Add your interest(s)
+        </h4>
+        <app-talent-categories
+          [text]="'Select your talents/interest'"
+          [placeholderText]="'Select talent/interest'"
+        ></app-talent-categories>
       </div>
       <div class="col-xl-6">
         <label for="">Instagram profile link</label>
@@ -99,7 +115,7 @@
         <div
           class="row"
           *ngFor="
-            let otherSocialCtr of profileForm.get('additionalSocial').controls;
+            let otherSocialCtr of additionalSocial.controls;
             let i = index
           "
           [formGroupName]="i"
@@ -124,6 +140,7 @@
           >
         </div>
       </div>
+      -->
 
       <div class="col-xl-12">
         <button class="box-btn profile-save" (click)="onUpdateProfile()">

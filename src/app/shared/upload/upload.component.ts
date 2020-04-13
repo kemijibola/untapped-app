@@ -8,33 +8,32 @@ import {
   OnDestroy,
   OnChanges,
   SimpleChanges,
-  Renderer2
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducers';
-import { Subject } from 'rxjs';
-import * as UploadActions from '../store/upload/upload.actions';
+  Renderer2,
+} from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../../store/app.reducers";
+import { Subject } from "rxjs";
+import * as UploadActions from "../store/upload/upload.actions";
 import {
   IFileInputModel,
   IFileModel,
-  UPLOADOPERATIONS
-} from 'src/app/interfaces';
-import { selectFileInput } from '../../shared/store/upload/upload.selectors';
+  UPLOADOPERATIONS,
+} from "src/app/interfaces";
 
 const noop = () => {};
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.css'],
+  selector: "app-upload",
+  templateUrl: "./upload.component.html",
+  styleUrls: ["./upload.component.css"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: UploadComponent,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class UploadComponent
   implements ControlValueAccessor, OnInit, OnChanges {
@@ -46,7 +45,7 @@ export class UploadComponent
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;
-  @ViewChild('fileInput') fileInput: ElementRef<HTMLInputElement>;
+  @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
 
   constructor(
@@ -60,7 +59,7 @@ export class UploadComponent
   ngOnInit() {}
 
   ngOnChanges(simple: SimpleChanges) {
-    if (simple['fileConfig']) {
+    if (simple["fileConfig"]) {
       if (this.fileConfig) {
         if (this.fileConfig.process !== UPLOADOPERATIONS.Default) {
           this.multiple = this.fileConfig.multiple;
@@ -75,34 +74,36 @@ export class UploadComponent
     }
   }
   private triggerFileInput(): void {
-    let child;
-    child = this.fileInput.nativeElement;
-    const event = new MouseEvent('click', { bubbles: true });
-    this.renderer.setProperty(child, 'multiple', this.multiple);
-    this.renderer.setProperty(child, 'accept', this.accept);
-    this.fileInput.nativeElement.dispatchEvent(event);
+    // let child;
+    const fileUpload = this.fileInput.nativeElement;
+    // const event = new MouseEvent("click", { bubbles: true });
+    this.renderer.setProperty(fileUpload, "multiple", this.multiple);
+    this.renderer.setProperty(fileUpload, "accept", this.accept);
+    fileUpload.click();
+    // this.fileInput.nativeElement.dispatchEvent(event);
   }
 
-  @HostListener('change', ['$event.target.files']) emitFiles(files: FileList) {
+  @HostListener("change", ["$event.target.files"]) emitFiles(files: FileList) {
     const fileArray = [];
     for (let index = 0; index < files.length; index++) {
       const fileToUpload = files[index];
       fileArray.push({
-        data: fileToUpload
+        data: fileToUpload,
       });
     }
     this.file = {
       action: this.operationType,
-      files: [...fileArray]
+      files: [...fileArray],
     };
     this.onChange(this.file);
     this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
+
+    this.writeValue(null);
   }
 
   writeValue(value: null) {
     // clear file input
-    this.host.nativeElement.value = '' || value;
-    this.file.files = [];
+    this.fileInput.nativeElement.value = "" || value;
   }
 
   registerOnChange(fn: Function) {

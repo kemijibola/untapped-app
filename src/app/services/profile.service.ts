@@ -4,7 +4,7 @@ import { IProfile, IResult } from "../interfaces";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class ProfileService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {
@@ -17,11 +17,13 @@ export class ProfileService {
   }
 
   createProfile(data: IProfile): Observable<IResult<IProfile>> {
+    console.log("create called");
     const url = `${this.BASE_URI}/profiles`;
     return this.http.post<IResult<IProfile>>(url, data);
   }
 
   updateProfile(data: IProfile): Observable<IResult<IProfile>> {
+    console.log("update called");
     const url = `${this.BASE_URI}/profiles/${data._id}`;
     return this.http.put<IResult<IProfile>>(url, data);
   }

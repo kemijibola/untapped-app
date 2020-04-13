@@ -3,38 +3,54 @@ import {
   OnInit,
   AfterContentInit,
   Input,
-  OnDestroy
+  OnDestroy,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import { ITab, IAppTab } from "src/app/interfaces";
 import * as TabsAction from "../store/tabs/tabs.actions";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { Subject } from "rxjs";
+import { Subject, Observable } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { selectTabList } from "../../shared/store/tabs/tabs.selectors";
+// import { selectTabList } from "../../shared/store/tabs/tabs.selectors";
+import * as fromTabReducer from "../../shared/store/tabs/tabs.reducers";
 
 @Component({
   selector: "app-tabs",
   templateUrl: "./tabs.component.html",
-  styleUrls: ["./tabs.component.css"]
+  styleUrls: ["./tabs.component.css"],
 })
-export class TabsComponent implements OnInit, OnDestroy {
-  appTab: IAppTab;
-  @Input() appTabName: string;
+export class TabsComponent implements OnInit, OnChanges, OnDestroy {
+  tab: Observable<IAppTab>;
+  @Input() tabId: string;
+  @Input() divClass: string;
+  @Input() navClass: string;
   ngDestroyed = new Subject();
+
+  divCss = "";
+  navCss = "";
+
   constructor(private store: Store<fromApp.AppState>) {}
 
-  ngOnInit() { 
-    this.store
-      .pipe(select(selectTabList), takeUntil(this.ngDestroyed))
-      .subscribe((val: IAppTab[]) => {
-        this.appTab = val.filter(x => x.name === this.appTabName)[0];
-      });
+  ngOnInit() {
+    this.tab = this.store.pipe(select(fromTabReducer.selectCurrentTab));
+  }
+
+  ngOnChanges(simple: SimpleChanges) {
+    if (simple["tabId"]) {
+      this.store.dispatch(new TabsAction.FetchAppTab({ appTabId: this.tabId }));
+    }
+    if (simple["divClass"]) {
+      this.divCss = this.divClass;
+    }
+    if (simple["navClass"]) {
+      this.navCss = this.navClass;
+    }
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new TabsAction.DestroyTab({ name: this.appTabName }));
-    this.ngDestroyed.next();
-    this.ngDestroyed.complete();
+    console.log("dispatching tab");
+    this.store.dispatch(new TabsAction.DestroyTab({ id: this.tabId }));
   }
 }

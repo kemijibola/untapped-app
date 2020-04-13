@@ -6,7 +6,6 @@ import * as ProfileActions from "../store/profile/profile.actions";
 import * as fromUser from "../user.reducers";
 import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
-import { selectUploadAction } from "../../shared/store/upload/upload.selectors";
 import { takeUntil, take } from "rxjs/operators";
 import {
   UPLOADOPERATIONS,
@@ -15,26 +14,27 @@ import {
   IProfile,
   IUserSocialMedia,
   ICategory,
-  SocialMedia
+  SocialMedia,
+  SnackBarData,
+  AppUserType,
 } from "src/app/interfaces";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
-import { selectUserData } from "src/app/account/store/auth.selectors";
-import { selectUserProfile } from "../store/profile/profile.selectors";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as CategoryTypeActions from "../../shared/store/category-type/category-type.actions";
-import { selectSelectedCategoryTypes } from "src/app/shared/store/category-type/category-type.selectors";
+import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
 import * as _ from "underscore";
+import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.action";
+import { PHONE_REGEX } from "src/app/lib/constants";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
-  styleUrls: ["./profile.component.css"]
+  styleUrls: ["./profile.component.css"],
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
-  userProfileState: Observable<fromProfile.State>;
-  isTalent: boolean;
-  isProfessional: boolean;
+  userProfileState: Observable<fromProfile.ProfileState>;
   ngDestroyed = new Subject();
   fileConfig: IFileInputModel;
   fileUploadOperation: UPLOADOPERATIONS;
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   userFullName: string;
   profileData: IProfile;
 
-  private _id: string;
+  private _id: string = "";
   name: string = "";
   rcNumber: string = "";
   location: string = "";
@@ -54,38 +54,42 @@ export class ProfileComponent implements OnInit {
   twitter: string = "";
   youtube: string = "";
   otherSocialMedias: FormArray = new FormArray([]);
-  isNewProfile: boolean;
+  isNewProfile: boolean = false;
   // physicalStats?: IPhysicalStatistics;
   bannerImagePath?: string;
-  typeOfUser: string;
-
+  typeOfUser: AppUserType;
   selectedCategories: string[] = [];
+  userType: string = "";
 
   constructor(
-    private userState: Store<fromUser.UserState>,
+    private userStore: Store<fromUser.UserState>,
     private store: Store<fromApp.AppState>
   ) {
     this.isNewProfile = false;
   }
 
   ngOnInit() {
-    this.store.pipe(select(selectUserData)).subscribe((val: IAuthData) => {
-      if (val.authenticated) {
-        this.typeOfUser = val.user_data.userType.name;
-        this.isTalent = val.user_data.userType.name === "Talent" ? true : false;
-        this.userEmail = val.user_data.email;
-        this.userFullName = val.user_data.full_name;
-      }
-    });
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        if (val.authenticated) {
+          this.typeOfUser = AppUserType[val.user_data.userType.name];
+          this.userType = val.user_data.userType.name;
+          this.userEmail = val.user_data.email;
+          this.userFullName = val.user_data.full_name;
+        }
+      });
 
-    this.userState.dispatch(new ProfileActions.FetchUserProfile());
+    this.userStore.dispatch(new ProfileActions.FetchUserProfile());
 
-    this.userState
-      .pipe(select(selectUserProfile), take(2))
+    this.userStore
+      .pipe(select(fromProfile.selectCurrentUserProfile))
       .subscribe((val: IProfile) => {
         if (_.has(val, "_id")) {
           this.store.dispatch(
-            new CategoryTypeActions.SetSelectedCategoryType(val.categoryTypes)
+            new CategoryTypeActions.SetSelectedCategoryType({
+              selectedCategoryType: val.categoryTypes,
+            })
           );
           this._id = val._id;
           this.name = val.name;
@@ -104,14 +108,12 @@ export class ProfileComponent implements OnInit {
               );
             }
           }
-        } else {
-          this.isNewProfile = true;
         }
         this.initForm();
       });
 
     this.store
-      .pipe(select(selectSelectedCategoryTypes))
+      .pipe(select(fromCategoryType.selectSelectedCategoryTypes))
       .subscribe((val: string[]) => {
         this.selectedCategories = [...val];
       });
@@ -124,21 +126,31 @@ export class ProfileComponent implements OnInit {
       location: new FormControl(this.location, Validators.required),
       fullName: new FormControl(this.userFullName, Validators.required),
       emailAddress: new FormControl(this.userEmail, Validators.required),
-      phoneNumber: new FormControl(this.phoneNumber, Validators.required),
-      shortBio: new FormControl(this.shortBio),
+      phoneNumber: new FormControl(
+        this.phoneNumber,
+        Validators.pattern(PHONE_REGEX)
+      ),
+      shortBio: new FormControl(this.shortBio, [
+        Validators.minLength(80),
+        Validators.maxLength(1200),
+      ]),
       facebook: new FormControl(this.facebook),
       instagram: new FormControl(this.instagram),
       twitter: new FormControl(this.twitter),
       youtube: new FormControl(this.youtube),
-      additionalSocial: this.otherSocialMedias
+      additionalSocial: this.otherSocialMedias,
     });
     this.profileForm.controls["emailAddress"].disable();
+  }
+
+  get additionalSocial(): FormArray {
+    return this.profileForm.get("additionalSocial") as FormArray;
   }
 
   onAddAdditionalSocial() {
     (<FormArray>this.profileForm.get("additionalSocial")).push(
       new FormGroup({
-        social: new FormControl()
+        social: new FormControl(),
       })
     );
   }
@@ -168,16 +180,34 @@ export class ProfileComponent implements OnInit {
       facebook,
       twitter,
       instagram,
-      youtube
+      youtube,
     };
 
+    this.isNewProfile = this._id === "" ? true : false;
     if (!this.isNewProfile) {
       profileObj._id = this._id;
-      this.userState.dispatch(new ProfileActions.UpdateUserProfile(profileObj));
+      this.userStore.dispatch(new ProfileActions.UpdateUserProfile(profileObj));
       this.isNewProfile = false;
     } else {
-      this.userState.dispatch(new ProfileActions.CreateUserProfile(profileObj));
+      this.userStore.dispatch(new ProfileActions.CreateUserProfile(profileObj));
       this.isNewProfile = false;
+    }
+
+    this.name = name;
+    this.rcNumber = rcNumber;
+    this.location = location;
+    this.phoneNumber = phoneNumber;
+    this.shortBio = shortBio;
+    this.twitter = twitter;
+    this.facebook = facebook;
+    this.instagram = instagram;
+    this.youtube = youtube;
+    if (additionalSocials) {
+      for (let socialMedia of additionalSocials) {
+        this.otherSocialMedias.push(
+          new FormGroup({ social: new FormControl(socialMedia) })
+        );
+      }
     }
   }
 }

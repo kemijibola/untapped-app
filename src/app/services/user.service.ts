@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { ImageEditRequest } from "../interfaces/media/image";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class UserService {
   private BASE_URI = "";
 
@@ -39,7 +39,15 @@ export class UserService {
   updateUserProfileImage(imagePath: string): Observable<IResult<IUser>> {
     const url = `${this.BASE_URI}/users/`;
     return this.http.patch<IResult<IUser>>(url, {
-      profileImagePath: imagePath
+      profileImagePath: imagePath,
+    });
+  }
+
+  updateUserBannerImage(imagePath: string): Observable<IResult<IUser>> {
+    console.log(imagePath);
+    const url = `${this.BASE_URI}/users/`;
+    return this.http.patch<IResult<IUser>>(url, {
+      bannerImagePath: imagePath,
     });
   }
 }

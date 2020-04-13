@@ -6,7 +6,8 @@ import {
   SimpleChanges
 } from "@angular/core";
 import { AudioItem } from "src/app/interfaces";
-import { VgAPI, VgMedia } from "videogular2/compiled/core";
+import { VgMedia } from "videogular2/compiled/core";
+import { VgAPI } from "ngx-videogular";
 
 @Component({
   selector: "app-up-audio",
@@ -31,9 +32,7 @@ export class UpAudioComponent implements OnInit, OnChanges {
     if (simple["currentAudioItem"]) {
       this.audio = { ...this.currentAudioItem };
       if (this.audio !== undefined) {
-
       }
-
     }
   }
 

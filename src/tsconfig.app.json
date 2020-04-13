@@ -4,9 +4,12 @@
     "outDir": "../out-tsc/app",
     "types": []
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
+  "baseUrl": "../node_modules",
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ],
-  "baseUrl": "../node_modules"
+  "include": [
+    "src/**/*.d.ts"
+  ]
 }

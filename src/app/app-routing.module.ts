@@ -10,31 +10,40 @@ const appRoutes: Routes = [
   { path: "", canActivate: [CompleteProfile], component: HomeComponent },
   {
     path: "account",
-    loadChildren: "./account/auth.module#AuthModule"
+    loadChildren: () =>
+      import("./account/auth.module").then((m) => m.AuthModule),
   },
   {
     path: "talents",
-    loadChildren: "./talents/talents.module#TalentsModule"
+    loadChildren: () =>
+      import("./talents/talents.module").then((m) => m.TalentsModule),
   },
   {
     path: "contests",
     canActivate: [AuthGuard, CompleteProfile],
-    loadChildren: "./contests/contests.module#ContestsModule"
+    loadChildren: () =>
+      import("./contests/contests.module").then((m) => m.ContestsModule),
   },
   {
-    path: "user",
+    path: "user/contest",
     canActivate: [AuthGuard, CompleteProfile],
-    loadChildren: "./user-contest/user-contest.module#UserContestModule"
+    loadChildren: () =>
+      import("./user-contest/user-contest.module").then(
+        (m) => m.UserContestModule
+      ),
   },
   {
     path: "professionals",
-    loadChildren: "./professionals/professionals.module#ProfessionalsModule"
+    loadChildren: () =>
+      import("./professionals/professionals.module").then(
+        (m) => m.ProfessionalsModule
+      ),
   },
 
   {
     path: "",
-    loadChildren: "./user/user.module#UserModule"
-  }
+    loadChildren: () => import("./user/user.module").then((m) => m.UserModule),
+  },
 
   // {
   //   path: 'app',
@@ -59,8 +68,8 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

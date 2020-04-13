@@ -1,4 +1,6 @@
-import { ImagePreview } from "./../../../interfaces/user/portfolio";
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import * as fromAdapter from "./portfolio.adapter";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
 import {
   IAudio,
   IVideo,
@@ -11,17 +13,15 @@ import {
   PortfolioOperationType,
   IMedia,
   AudioPreview,
-  VideoPreview
+  VideoPreview,
+  IMediaItem,
 } from "src/app/interfaces";
 import * as PortfolioActions from "./portfolio.actions";
 
-export interface State {
+export interface PortfolioState extends EntityState<IMedia> {
   audios: IAudio[];
-  audioPreviews: AudioPreview[];
   vidoes: IVideo[];
-  videoPreviews: VideoPreview[];
   images: IImage[];
-  imagePreviews: ImagePreview[];
   items: IGeneralMedia[];
   media: IMedia;
   allMedia: IMedia[];
@@ -35,13 +35,11 @@ export interface State {
   audioDeleted: boolean;
   videoDeleted: boolean;
   mediaItemDeleted: boolean;
+  selectedMediaId: string | number | null;
 }
 
-const initialState: State = {
+const initialState: PortfolioState = fromAdapter.adapter.getInitialState({
   audios: [],
-  audioPreviews: [],
-  imagePreviews: [],
-  videoPreviews: [],
   vidoes: [],
   images: [],
   items: [],
@@ -52,129 +50,174 @@ const initialState: State = {
   selectedMediaType: MediaType.AUDIO,
   uploadConfig: {
     isMultiple: false,
-    mediaAccept: MediaAcceptType.IMAGE
+    mediaAccept: MediaAcceptType.IMAGE,
   },
   operationType: PortfolioOperationType.DEFAULT,
   accept: "",
   imageDeleted: false,
   audioDeleted: false,
   videoDeleted: false,
-  mediaItemDeleted: false
-};
+  mediaItemDeleted: false,
+  selectedMediaId: null,
+});
 
 export function portfolioReducer(
   state = initialState,
   action: PortfolioActions.PortfolioActions
-) {
+): PortfolioState {
   switch (action.type) {
-    case PortfolioActions.SET_MEDIA_UPLOAD_TYPE:
-      return {
-        ...state,
-        selectedMediaUploadType: action.payload
-      };
-    case PortfolioActions.RESET_MEDIA_UPLOAD_TYPE:
-      return {
-        ...state,
-        selectedMediaUploadType: MediaUploadType.SINGLE
-      };
-    case PortfolioActions.SET_PORTFOLIO_UPDATE_INPUT_CONFIG:
-      return {
-        ...state,
-        uploadConfig: Object.assign(state.uploadConfig, action.paylod)
-      };
-    case PortfolioActions.SET_SELECTED_MEDIA_TYPE:
-      return {
-        ...state,
-        selectedMediaType: action.payload
-      };
-    case PortfolioActions.SET_PORTFOLIO_OPERATION_TYPE:
-      return {
-        ...state,
-        operationType: action.payload
-      };
-    case PortfolioActions.SET_PORTFOLIO_SELECTED_ACCEPT_TYPE:
-      return {
-        ...state,
-        accept: action.payload
-      };
     case PortfolioActions.SET_USER_MEDIA_LIST:
-      const userAudios = action.payload.filter(
-        x => x.mediaType === MediaType.AUDIO.toLowerCase()
-      );
-      const userImages = action.payload.filter(
-        x => x.mediaType === MediaType.IMAGE.toLowerCase()
-      );
-      const userVideos = action.payload.filter(
-        x => x.mediaType === MediaType.VIDEO.toLowerCase()
-      );
-      return {
+      return fromAdapter.adapter.setAll(action.payload.userMedia, state);
+    case PortfolioActions.SET_USER_AUDIO_LIST:
+      return Object.assign({
         ...state,
-        audios: [...userAudios],
-        images: [...userImages],
-        vidoes: [...userVideos]
-      };
-    case PortfolioActions.SET_USER_MEDIA_LIST_PREVIEW:
-      const userAudioPreviews = action.payload.filter(
-        x => x.mediaType === MediaType.AUDIO.toLowerCase()
-      );
-      const userImagePreviews = action.payload.filter(
-        x => x.mediaType === MediaType.IMAGE.toLowerCase()
-      );
-      const userVideoPreviews = action.payload.filter(
-        x => x.mediaType === MediaType.VIDEO.toLowerCase()
-      );
-      return {
-        ...state,
-        audioPreviews: [...userAudioPreviews],
-        imagePreviews: [...userImagePreviews],
-        videoPreviews: [...userVideoPreviews]
-      };
+        audios: action.payload,
+      });
     case PortfolioActions.SET_MEDIA_BY_ID:
-      return {
+      return Object.assign({
         ...state,
-        media: { ...state.media, ...action.payload }
-      };
-    case PortfolioActions.DELETE_IMAGE_BY_ID_SUCCESS:
-      return {
+        media: { ...action.payload },
+      });
+    case PortfolioActions.SET_USER_IMAGE_LIST:
+      return Object.assign({
         ...state,
-        imageDeleted: !state.imageDeleted
-      };
-    case PortfolioActions.RESET_DELETE_IMAGE_BY_ID_SUCCESS:
-      return {
+        images: action.payload,
+      });
+    case PortfolioActions.SET_USER_VIDEO_LIST:
+      return Object.assign({
         ...state,
-        imageDeleted: !state.imageDeleted
-      };
-    case PortfolioActions.DELETE_AUDIO_BY_ID_SUCCESS:
-      return {
+        vidoes: action.payload,
+      });
+    case PortfolioActions.FETCH_MEDIA_BY_ID:
+      return Object.assign({
         ...state,
-        audioDeleted: !state.audioDeleted
-      };
-    case PortfolioActions.RESET_DELETE_AUDIO_BY_ID_SUCCESS:
-      return {
+        selectedMediaId: action.payload.mediaId,
+      });
+    case PortfolioActions.SET_MEDIA_UPLOAD_TYPE:
+      return Object.assign({
         ...state,
-        audioDeleted: !state.audioDeleted
-      };
-    case PortfolioActions.DELETE_VIDEO_BY_ID_SUCCESS:
-      return {
+        selectedMediaUploadType: action.payload.mediaUpload,
+      });
+    case PortfolioActions.SET_PORTFOLIO_UPDATE_INPUT_CONFIG:
+      return Object.assign({
         ...state,
-        videoDeleted: !state.videoDeleted
-      };
-    case PortfolioActions.RESET_DELETE_IMAGE_BY_ID_SUCCESS:
-      return {
+        uploadConfig: Object.assign({
+          isMultiple: action.payload.isMultiple,
+          mediaAccept: action.payload.mediaAccept,
+        }),
+      });
+    case PortfolioActions.SET_SELECTED_MEDIA_TYPE:
+      return Object.assign({
         ...state,
-        videoDeleted: !state.videoDeleted
-      };
+        selectedMediaType: action.payload.mediaType,
+      });
+    case PortfolioActions.SET_PORTFOLIO_OPERATION_TYPE:
+      return Object.assign({
+        ...state,
+        operationType: action.payload.operationType,
+      });
+    case PortfolioActions.SET_PORTFOLIO_SELECTED_ACCEPT_TYPE:
+      return Object.assign({
+        ...state,
+        accept: action.payload.acceptType,
+      });
     case PortfolioActions.DELETE_MEDIA_ITEM_BY_ID_SUCCESS:
-      return {
+      let newMedia: IMedia = { ...state.media };
+      newMedia.items = state.media.items.reduce(
+        (x: IMediaItem[], y: IMediaItem) => {
+          if (y._id !== action.payload.itemId) {
+            x.push(y);
+          }
+          return x;
+        },
+        []
+      );
+      return Object.assign({
         ...state,
-        mediaItemDeleted: !state.mediaItemDeleted
-      };
-    case PortfolioActions.RESET_DELETE_MEDIA_ITEM_BY_ID_SUCCESS:
-      return {
+        media: newMedia,
+      });
+
+    case PortfolioActions.UPDATE_PORTFOLIO_MEDIA_SUCCESS:
+      return Object.assign({
         ...state,
-        mediaItemDeleted: !state.mediaItemDeleted
-      };
-    default:
+        media: { ...newMedia },
+      });
+    default: {
       return state;
+    }
   }
 }
+
+export const getSelectedMediaId = (state: PortfolioState) =>
+  state.selectedMediaId;
+
+const getAudios = (state: PortfolioState) => state.audios;
+
+const getImages = (state: PortfolioState) => state.images;
+
+const getVideos = (state: PortfolioState) => state.vidoes;
+
+const getMediaType = (state: PortfolioState) => state.selectedMediaType;
+
+const getOperationType = (state: PortfolioState) => state.operationType;
+
+const getAccept = (state: PortfolioState) => state.accept;
+
+const getUserSelectedMedia = (state: PortfolioState) => state.media;
+
+export const getPortfolioState = createFeatureSelector<PortfolioState>(
+  "portfolioState"
+);
+
+export const selectMediaIds = createSelector(
+  getPortfolioState,
+  fromAdapter.selectMediaIds
+);
+
+export const selectMediaEntities = createSelector(
+  getPortfolioState,
+  fromAdapter.selectMediaEntities
+);
+
+export const selectAllMedias = createSelector(
+  getPortfolioState,
+  fromAdapter.selectAllMedias
+);
+export const mediaCount = createSelector(
+  getPortfolioState,
+  fromAdapter.mediaCount
+);
+
+export const selectUserAudios = createSelector(getPortfolioState, getAudios);
+
+export const selectUserImages = createSelector(getPortfolioState, getImages);
+
+export const selectUserVideos = createSelector(getPortfolioState, getVideos);
+
+export const selectSelectedMedia = createSelector(
+  getPortfolioState,
+  getUserSelectedMedia
+);
+
+export const selectCurrentMediaId = createSelector(
+  getPortfolioState,
+  getSelectedMediaId
+);
+
+export const selectUserMediaType = createSelector(
+  getPortfolioState,
+  getMediaType
+);
+
+export const selectUserOperationType = createSelector(
+  getPortfolioState,
+  getOperationType
+);
+
+export const selectUserAccept = createSelector(getPortfolioState, getAccept);
+
+export const selectCurrentMedia = createSelector(
+  selectMediaEntities,
+  selectCurrentMediaId,
+  (mediaEntities, mediaId) => mediaEntities[mediaId]
+);

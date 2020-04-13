@@ -1,47 +1,83 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { selectAllTalents } from "./../store/filtered-categories/user-category.selectors";
 import { UserFilterCategory } from "src/app/interfaces";
-import * as UserCategoryActions from "../store/filtered-categories/user-category.action";
+import * as UserCategoryActions from "../store/filtered-categories/talent-category.action";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
+import * as TalentCategoryActions from "../store/filtered-categories/talent-category.action";
+import * as fromTalentWithHighestComment from "../store/filtered-categories/talent-category.reducers";
 
 @Component({
   selector: "app-up-user-filter",
   templateUrl: "./up-user-filter.component.html",
-  styleUrls: ["./up-user-filter.component.css"]
+  styleUrls: ["./up-user-filter.component.css"],
 })
-export class UpUserFilterComponent implements OnInit {
-  filteredUsers: UserFilterCategory[] = [];
+export class UpUserFilterComponent implements OnInit, OnChanges {
+  @Input() filteredUsers: UserFilterCategory[] = [];
   editParams: ImageEditRequest = {
     edits: {
       resize: {
         width: 187,
-        height: 114
+        height: 114,
       },
-      grayscale: false
-    }
+      grayscale: false,
+    },
   };
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store
-      .pipe(select(selectAllTalents))
+      .pipe(
+        select(fromTalentWithHighestComment.selectTalentWithHighestComments)
+      )
       .subscribe((val: UserFilterCategory[]) => {
-        this.filteredUsers = val;
-        this.filteredUsers.map(x => {
-          x.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
+        if (val.length > 0) {
+          this.filteredUsers = val;
+
+          this.filteredUsers = this.filteredUsers.map((x) => {
+            return Object.assign({}, x, {
+              displayPhotoFullPath: fetchImageObjectFromCloudFormation(
+                x.displayPhoto,
+                this.editParams
+              ),
+            });
+          });
+          this.filteredUsers[0].isSelected = true;
+
+          this.store.dispatch(
+            new TalentCategoryActions.FetchTalentWithHighestComment({
+              id: this.filteredUsers[0]._id,
+            })
+          );
+        }
+      });
+  }
+
+  ngOnChanges(simple: SimpleChanges) {
+    if (simple["filteredUsers"]) {
+      this.filteredUsers = this.filteredUsers.map((x) => {
+        return Object.assign({}, x, {
+          displayPhotoFullPath: fetchImageObjectFromCloudFormation(
             x.displayPhoto,
             this.editParams
-          );
+          ),
         });
         this.filteredUsers[0].isSelected = true;
       });
 
-    this.store.dispatch(
-      new UserCategoryActions.SetSelectedUser(this.filteredUsers[0])
-    );
+      this.store.dispatch(
+        new TalentCategoryActions.FetchTalentWithHighestComment({
+          id: this.filteredUsers[0]._id,
+        })
+      );
+    }
   }
 
   onUserSelected(index: number) {
@@ -53,7 +89,9 @@ export class UpUserFilterComponent implements OnInit {
       }
     });
     this.store.dispatch(
-      new UserCategoryActions.SetSelectedUser(this.filteredUsers[index])
+      new TalentCategoryActions.FetchTalentWithHighestComment({
+        id: this.filteredUsers[index]._id,
+      })
     );
   }
 

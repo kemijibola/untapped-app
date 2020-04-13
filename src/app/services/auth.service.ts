@@ -1,44 +1,45 @@
 import { RouterModule } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import {
   IResult,
   IAuthData,
   IRegister,
   ILogin,
   IUser,
-  IConfirmEmail
+  IConfirmEmail,
 } from "../interfaces";
 import { LocalStorage } from "@ngx-pwa/local-storage";
 import { environment } from "../../environments/environment";
 import { of } from "rxjs";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class AuthService {
   private BASE_URI = "";
 
-  constructor(private http: HttpClient, private localStorage: LocalStorage) {
+  constructor(private http: HttpClient) {
     this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
   confirmEmail(req: IConfirmEmail): Observable<IResult<string>> {
     const { email, token } = req;
     const url = `${this.BASE_URI}/account/verify`;
+    console.log(req);
     return this.http.post<IResult<string>>(url, {
       email,
-      token
+      token,
     });
   }
 
   signUp(newUser: IRegister): Observable<IResult<boolean>> {
-    const { fullName, email, password, roles } = newUser;
+    const { fullName, email, password, userType } = newUser;
     const url = `${this.BASE_URI}/account/signup`;
     return this.http.post<IResult<boolean>>(url, {
       fullName,
       email,
       password,
-      roles
+      userType,
     });
   }
 
@@ -52,20 +53,21 @@ export class AuthService {
     );
   }
 
-  fetchItem(key: string): Observable<any> {
-    return this.localStorage.getItem(key);
+  fetchUserData(key: string): Observable<any> {
+    return of(JSON.parse(localStorage.getItem(key)));
   }
+
   removeItem(key: string): Observable<boolean> {
-    this.localStorage.removeItemSubscribe(key);
+    localStorage.removeItem(key);
     return of(true);
   }
 
-  setItem(key: string, data = {}): void {
-    this.localStorage.setItemSubscribe(key, data);
+  setItem(key: string, data: any) {
+    localStorage.setItem(key, JSON.stringify(data));
   }
 
   updateData(key: string, data: any): void {
-    this.localStorage.removeItem(key);
-    this.localStorage.setItemSubscribe(key, data);
+    this.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(data));
   }
 }

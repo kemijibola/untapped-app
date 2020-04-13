@@ -1,29 +1,20 @@
 import { Action } from "@ngrx/store";
 import {
   TalentPortfolioPreview,
-  MediaQueryParams
+  MediaQueryParams,
 } from "src/app/interfaces/user/portfolio";
 
 export const FETCH_TALENT_PORTFOLIO = "FETCH_TALENT_PORTFOLIO";
-export const SET_TALENT_PORTFOLIO = "SET_TALENT_PORTFOLIO";
-export const SET_SELECTED_TALENT_PORTFOLIO = "SET_SELECTED_TALENT_PORTFOLIO";
+export const FETCH_TALENT_PORTFOLIO_ERROR = "FETCH_TALENT_PORTFOLIO_ERROR";
 
 export class FetchTalentPortfolio implements Action {
   readonly type = FETCH_TALENT_PORTFOLIO;
   constructor(public payload: MediaQueryParams) {}
 }
 
-export class SetTalentPortfolio implements Action {
-  readonly type = SET_TALENT_PORTFOLIO;
-  constructor(public payload: TalentPortfolioPreview[]) {}
+export class FetchTalentPortfolioError implements Action {
+  readonly type = FETCH_TALENT_PORTFOLIO_ERROR;
+  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 
-export class SetSelectedTalentPortfolio implements Action {
-  readonly type = SET_SELECTED_TALENT_PORTFOLIO;
-  constructor(public payload: TalentPortfolioPreview) {}
-}
-
-export type TalentsAction =
-  | FetchTalentPortfolio
-  | SetTalentPortfolio
-  | SetSelectedTalentPortfolio;
+export type TalentsAction = FetchTalentPortfolio | FetchTalentPortfolioError;

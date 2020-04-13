@@ -1,47 +1,61 @@
-import { Actions, ofType, Effect } from "@ngrx/effects";
-import * as ErrorActions from "./../../../store/global/error/error.actions";
-import { switchMap, map, catchError } from "rxjs/operators/";
+import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
+import { switchMap, map, catchError, concatMap } from "rxjs/operators/";
 import { Injectable } from "@angular/core";
 import { UploadService } from "src/app/services/upload.service";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as UploadActions from "./upload.actions";
-import { IResult, SignedUrl } from "src/app/interfaces";
+import { IResult, SignedUrl, AppNotificationKey } from "src/app/interfaces";
+import { of } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class UploadEffect {
-  @Effect()
-  getPresignedUrl = this.actions$
-    .pipe(ofType(UploadActions.GET_PRESIGNED_URL))
-    .switchMap((action: UploadActions.GetPresignedUrl) => {
-      return this.uploadService.getPresignedUrl(action.payload.preSignRequest);
-    })
-    .pipe(
-      map((res: IResult<SignedUrl>) => {
-        return {
-          type: UploadActions.SET_PRESIGNED_URL,
-          payload: {
-            action: res.data.action,
-            presignedUrl: res.data.presignedUrl
-          }
-        };
-      })
-    );
+  getPresignedUrl = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UploadActions.GET_PRESIGNED_URL),
+      concatMap((action: UploadActions.GetPresignedUrl) =>
+        this.uploadService.getPresignedUrl(action.payload.preSignRequest).pipe(
+          map(
+            (res: IResult<SignedUrl>) =>
+              new UploadActions.SetPresignedUrl(res.data)
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 
-  @Effect()
-  uploadFiles = this.actions$
-    .pipe(ofType(UploadActions.UPLOAD_FILES))
-    .switchMap((action: UploadActions.UploadFiles) => {
-      return this.uploadService.s3Upload(action.payload);
-    })
-    .pipe(
-      map((val: any) => {
-        console.log("upload complete", val);
-        return {
-          type: UploadActions.CLOUD_UPLOAD_SUCCESS
-        };
-      })
-    );
+  uploadFiles = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UploadActions.UPLOAD_FILES),
+      switchMap((action: UploadActions.UploadFiles) =>
+        this.uploadService.s3Upload(action.payload).pipe(
+          map((val: any) => new UploadActions.CloudUploadSuccess()),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 
   constructor(
     private actions$: Actions,

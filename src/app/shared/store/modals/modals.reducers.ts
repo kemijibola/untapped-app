@@ -5,72 +5,142 @@ import {
   ModalContent,
   IModal,
   NavigationData,
-  MagnifierData
+  MagnifierData,
 } from "src/app/interfaces/shared/modal";
 import * as ModalsActions from "./modals.actions";
 import { MediaType } from "src/app/interfaces";
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import * as fromAdapter from "./modals.adapter";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
 
-export interface State {
-  activeModal: IModal;
-  navigationData: NavigationData;
-  magnifierData: MagnifierData;
-  showMagnifier: boolean;
+export interface ModalState extends EntityState<AppModal> {
+  activeModal: IModal | null;
+  navigationData: NavigationData | null;
+  magnifierData: MagnifierData | null;
+  showMagnifier: boolean | null;
+  selectAppModalId: string | number | null;
 }
 
-const initialState: State = {
-  activeModal: {
-    index: 0,
-    name: "",
-    display: ModalDisplay.none,
-    viewMode: ModalViewModel.none,
-    contentType: "",
-    data: null,
-    modalCss: "",
-    modalDialogCss: "",
-    showMagnifier: false
-  },
-  navigationData: {
-    currentIndex: 0,
-    mediaType: ""
-  },
-  magnifierData: {
-    index: -1,
-    data: []
-  },
-  showMagnifier: false
-};
+const initialState: ModalState = fromAdapter.adapter.getInitialState({
+  activeModal: null,
+  navigationData: null,
+  magnifierData: null,
+  showMagnifier: null,
+  selectAppModalId: null,
+});
 
-export function ModalsReducer(
+export function reducer(
   state = initialState,
   action: ModalsActions.ModalsActions
-) {
+): ModalState {
   switch (action.type) {
-    case ModalsActions.TOGGLE_MODAL:
-      return {
+    case ModalsActions.ADD_COMPONENT_MODAL:
+      return fromAdapter.adapter.setOne(action.payload.componentModal, state);
+    case ModalsActions.UPSERT_MODAL:
+      return fromAdapter.adapter.upsertOne(action.payload, state);
+    case ModalsActions.FETCH_APP_MODAL:
+      return Object.assign({
         ...state,
-        activeModal: { ...state.activeModal, ...action.payload.modal }
-      };
-    case ModalsActions.RESET_CURRENT_MODAL:
-      return {
+        selectAppModalId: action.payload.appModalId,
+      });
+    case ModalsActions.DESTROY_MODAL:
+      return fromAdapter.adapter.removeOne(action.payload.id, state);
+    case ModalsActions.DESTROY_MODALS:
+      return fromAdapter.adapter.removeMany(action.payload.ids, state);
+    case ModalsActions.DESTROY_ALL:
+      return fromAdapter.adapter.removeAll({
         ...state,
-        activeModal: Object.assign({})
-      };
+        selectAppModalId: null,
+      });
+    case ModalsActions.SET_CURRENT_MODAL:
+      return Object.assign({
+        ...state,
+        activeModal: { ...state.activeModal, ...action.payload },
+      });
     case ModalsActions.SET_NAVIGATION_PROPERTIES:
-      return {
+      return Object.assign({
         ...state,
-        navigationData: { ...state.navigationData, ...action.payload }
-      };
+        navigationData: { ...action.payload },
+      });
     case ModalsActions.SET_MAGNIFIER_DATA:
-      return {
+      return Object.assign({
         ...state,
-        magnifierData: { ...action.payload }
-      };
+        magnifierData: { ...action.payload },
+      });
     case ModalsActions.TOGGLE_MAGNIFIER:
-      return {
+      return Object.assign({
         ...state,
-        showMagnifier: action.payload
-      };
-    default:
+        showMagnifier: action.payload,
+      });
+    case ModalsActions.RESET_CURRENT_MODAL:
+      return Object.assign({
+        ...state,
+        activeModal: null,
+      });
+    default: {
       return state;
+    }
   }
 }
+
+const getSelectedAppModalId = (state: ModalState) => state.selectAppModalId;
+
+const getSelectedActiveModal = (state: ModalState) => state.activeModal;
+
+const getSelectedMagnifiedData = (state: ModalState) => state.magnifierData;
+
+const getSelectedNavigationData = (state: ModalState) => state.navigationData;
+
+const getSelectedShowMagnifier = (state: ModalState) => state.showMagnifier;
+
+export const getAppModalState = createFeatureSelector<ModalState>("modalState");
+
+export const selectAppModalsIds = createSelector(
+  getAppModalState,
+  fromAdapter.selectAppModalsIds
+);
+
+export const selectAppModalEntities = createSelector(
+  getAppModalState,
+  fromAdapter.selectAppModalsEntities
+);
+
+export const selectAllAppabs = createSelector(
+  getAppModalState,
+  fromAdapter.selectAllAppModals
+);
+export const appTabCount = createSelector(
+  getAppModalState,
+  fromAdapter.appModalCount
+);
+
+export const selectCurrentAppModalId = createSelector(
+  getAppModalState,
+  getSelectedAppModalId
+);
+
+export const selectCurrentActiveModal = createSelector(
+  getAppModalState,
+  getSelectedActiveModal
+);
+
+export const selectCurrentNavigationData = createSelector(
+  getAppModalState,
+  getSelectedNavigationData
+);
+
+export const selectCurrentMagnifiedData = createSelector(
+  getAppModalState,
+  getSelectedMagnifiedData
+);
+
+export const selectCurrentShowMagnifier = createSelector(
+  getAppModalState,
+  getSelectedShowMagnifier
+);
+
+export const selectCurrentModal = createSelector(
+  selectAppModalEntities,
+  selectCurrentAppModalId,
+  (appModalEntities, appModalId) => appModalEntities[appModalId]
+);

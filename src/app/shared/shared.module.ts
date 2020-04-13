@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { UploadComponent } from "./upload/upload.component";
-import { UserProfilePictureComponent } from "./user-profile-picture/user-profile-picture.component";
 import { TabsComponent } from "./tabs/tabs.component";
 import { RouterModule } from "@angular/router";
 import { ModalsComponent } from "./modals/modals.component";
@@ -23,11 +22,17 @@ import { UpAudioComponent } from "./up-audio/up-audio.component";
 import { UpVideoComponent } from "./up-video/up-video.component";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
 
-import { VgCoreModule } from "videogular2/compiled/core";
-import { VgControlsModule } from "videogular2/compiled/controls";
-import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
-import { VgBufferingModule } from "videogular2/compiled/buffering";
-import { VgAPI } from "videogular2/compiled/core";
+// import { VgCoreModule } from "videogular2/compiled/core";
+// import { VgControlsModule } from "videogular2/compiled/controls";
+// import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
+// import { VgBufferingModule } from "videogular2/compiled/buffering";
+// import { VgAPI } from "videogular2/compiled/core";
+
+import { VgCoreModule } from "ngx-videogular";
+import { VgControlsModule } from "ngx-videogular";
+import { VgOverlayPlayModule } from "ngx-videogular";
+import { VgBufferingModule } from "ngx-videogular";
+
 import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifier.component";
 
 @NgModule({
@@ -41,12 +46,11 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    RouterModule.forChild([])
+    RouterModule.forChild([]),
   ],
   exports: [
     CommonModule,
     UploadComponent,
-    UserProfilePictureComponent,
     TabsComponent,
     ModalsComponent,
     ModalComponent,
@@ -61,11 +65,10 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     UpImageComponent,
     UpAudioComponent,
     UpVideoComponent,
-    UpMediaMagnifierComponent
+    UpMediaMagnifierComponent,
   ],
   declarations: [
     UploadComponent,
-    UserProfilePictureComponent,
     TabsComponent,
     ModalsComponent,
     SlideToggleComponent,
@@ -80,8 +83,7 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     UpImageComponent,
     UpAudioComponent,
     UpVideoComponent,
-    UpMediaMagnifierComponent
+    UpMediaMagnifierComponent,
   ],
-  providers: [VgAPI]
 })
 export class SharedModule {}

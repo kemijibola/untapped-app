@@ -3,7 +3,7 @@ import {
   IAuthData,
   IRegister,
   ILogin,
-  IConfirmEmail
+  IConfirmEmail,
 } from "src/app/interfaces";
 
 export const DO_SIGNUP = "DO_SIGNUP";
@@ -23,25 +23,27 @@ export const SET_NEW_USER_EMAIL = "SET_NEW_USER_EMAIL";
 export const DO_EMAIL_CONFIRMATION = "DO_EMAIL_CONFIRMATION";
 export const SUCCESS_EMAIL_CONFIRMATION = "SUCCESS_EMAIL_CONFIRMATION";
 export const FAILURE_EMAIL_CONFIRMATION = "FAILURE_EMAIL_CONFIRMATION";
+export const CHECK_TOKEN_EXPIRED = "CHECK_TOKEN_EXPIRED";
+export const PROCEED_TO_ROUTE = "PROCEED_TO_ROUTE";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
-  constructor(public payload: { register: IRegister }) {}
+  constructor(public payload: { registerData: IRegister }) {}
 }
 export class DoSignIn implements Action {
   readonly type = DO_SIGNIN;
-  constructor(public payload: { loginParam: ILogin }) {}
+  constructor(public payload: { loginData: ILogin }) {}
 }
 export class SignUpSuccess implements Action {
   readonly type = SIGNUP_SUCCESS;
 }
 export class SignInSuccess implements Action {
   readonly type = SIGNIN_SUCCESS;
-  constructor(public payload: IAuthData) {}
+  constructor(public payload: { userData: IAuthData }) {}
 }
 export class SignUpFailure implements Action {
   readonly type = SIGNUP_FAILURE;
-  constructor(public payload: { error: string }) {}
+  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 export class ResetFailureMessage implements Action {
   readonly type = RESET_FAILURE_MESSAGE;
@@ -68,7 +70,7 @@ export class SetNewUserEmail implements Action {
 
 export class SignInFailure implements Action {
   readonly type = SIGNIN_FAILURE;
-  constructor(public payload: string) {}
+  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 export class FetchAuthData implements Action {
   readonly type = FETCH_AUTHDATA;
@@ -76,16 +78,27 @@ export class FetchAuthData implements Action {
 
 export class DoEmailConfirmation implements Action {
   readonly type = DO_EMAIL_CONFIRMATION;
-  constructor(public payload: IConfirmEmail) {}
+  constructor(public payload: { confirmEmailData: IConfirmEmail }) {}
 }
 
 export class SuccessEmailConfirmation implements Action {
   readonly type = SUCCESS_EMAIL_CONFIRMATION;
+  constructor(public payload: { response: string }) {}
 }
 
 export class FailureEmailConfirmation implements Action {
   readonly type = FAILURE_EMAIL_CONFIRMATION;
-  constructor(public payload: string) {}
+  constructor(public payload: { errorCode: number; errorMessage: string }) {}
+}
+
+export class CheckTokenExpired implements Action {
+  readonly type = CHECK_TOKEN_EXPIRED;
+  constructor(public payload: { tokenData: IAuthData }) {}
+}
+
+export class ProceedToRoute implements Action {
+  readonly type = PROCEED_TO_ROUTE;
+  constructor(public payload: { routeUrl: string }) {}
 }
 
 export type AuthActions =
@@ -104,4 +117,6 @@ export type AuthActions =
   | FetchAuthData
   | DoEmailConfirmation
   | SuccessEmailConfirmation
-  | FailureEmailConfirmation;
+  | FailureEmailConfirmation
+  | CheckTokenExpired
+  | ProceedToRoute;

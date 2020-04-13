@@ -11,11 +11,11 @@ import { SharedModule } from "../shared/shared.module";
 import { TalentsRoutingModule } from "./talents-routing.module";
 import { TalentAlbumModalContentComponent } from "./talent-album-modal-content/talent-album-modal-content.component";
 
-import { VgCoreModule } from "videogular2/compiled/core";
-import { VgControlsModule } from "videogular2/compiled/controls";
-import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
-import { VgBufferingModule } from "videogular2/compiled/buffering";
-import { VgAPI } from "videogular2/compiled/core";
+import { VgCoreModule } from "ngx-videogular";
+import { VgControlsModule } from "ngx-videogular";
+import { VgOverlayPlayModule } from "ngx-videogular";
+import { VgBufferingModule } from "ngx-videogular";
+
 import { TalentCommentComponent } from "./talent-comment/talent-comment.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -41,7 +41,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     VgOverlayPlayModule,
     VgBufferingModule
   ],
-  providers: [VgAPI],
   exports: []
 })
 export class TalentsModule {}

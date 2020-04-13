@@ -28,7 +28,6 @@ import { CompleteProfile } from "../guard-services/complete-profile.guard.servic
 import { AuthInterceptor } from "../interceptors/AuthInterceptor";
 import { CategoryTypeService } from "../services/category-type.service";
 import { LoggingService } from "./../services/LoggingService";
-import { ErrorInterceptor } from "../interceptors/ErrorInterceptor";
 import { CategoryService } from "../services/category.service";
 import { UserCategoryService } from "../services/user-category.service";
 import { TalentsService } from "../services/talents.service";
@@ -41,13 +40,13 @@ import { CommentsService } from "../services/comments.service";
     SlideMenuComponent,
     FooterComponent,
     DropDownComponent,
-    AddOrRemoveClassDirective
+    AddOrRemoveClassDirective,
   ],
   imports: [
     CommonModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   exports: [AppRoutingModule, HeaderComponent, FooterComponent],
   providers: [
@@ -71,7 +70,7 @@ import { CommentsService } from "../services/comments.service";
     TalentsService,
     CommentsService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-  ]
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
 })
 export class CoreModule {}

@@ -1,45 +1,33 @@
+import { createFeatureSelector, createSelector } from "@ngrx/store";
 import {
   AudioPortfolioPreview,
   ImagePortfolioPreview,
   VideoPortfolioPreview,
-  MediaType
+  MediaType,
+  TalentPortfolioPreview,
 } from "src/app/interfaces";
 import * as TalentsAction from "./talents.actions";
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import * as fromAdapter from "./talents.adapter";
 
-export interface State {
-  audioPortfolioPreview: AudioPortfolioPreview[];
-  imagePortfolioPreview: ImagePortfolioPreview[];
-  videoPortfolioPreview: VideoPortfolioPreview[];
-}
+export interface TalentPortfolioState
+  extends EntityState<TalentPortfolioPreview> {}
 
-const initialState: State = {
-  audioPortfolioPreview: [],
-  imagePortfolioPreview: [],
-  videoPortfolioPreview: []
-};
+const initialState: TalentPortfolioState = fromAdapter.adapter.getInitialState(
+  {}
+);
 
-export function talentsReducer(
+export function reducer(
   state = initialState,
   action: TalentsAction.TalentsAction
-) {
+): TalentPortfolioState {
   switch (action.type) {
-    case TalentsAction.SET_TALENT_PORTFOLIO:
-      const audioPortfolio = action.payload.filter(
-        x => x.mediaType === MediaType.AUDIO.toLowerCase()
-      );
-      const imagePortfolio = action.payload.filter(
-        x => x.mediaType === MediaType.IMAGE.toLowerCase()
-      );
-      const videoPortfolio = action.payload.filter(
-        x => x.mediaType === MediaType.VIDEO.toLowerCase()
-      );
-      return {
-        ...state,
-        audioPortfolioPreview: [...audioPortfolio],
-        imagePortfolioPreview: [...imagePortfolio],
-        videoPortfolioPreview: [...videoPortfolio]
-      };
-    default:
+    default: {
       return state;
+    }
   }
 }
+
+export const getTalentPortfolioState = createFeatureSelector<
+  TalentPortfolioState
+>("talentPortfolioState");

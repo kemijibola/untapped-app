@@ -28,11 +28,12 @@ import { profileReducer } from "./store/profile/profile.reducers";
 import { ChangeProfessionalBannerComponent } from "./profile/change-professional-banner/change-professional-banner.component";
 import { PortfolioGeneralComponent } from "./portfolio/portfolio-general/portfolio-general.component";
 
-import { VgCoreModule } from "videogular2/compiled/core";
-import { VgControlsModule } from "videogular2/compiled/controls";
-import { VgOverlayPlayModule } from "videogular2/compiled/overlay-play";
-import { VgBufferingModule } from "videogular2/compiled/buffering";
-import { VgAPI } from "videogular2/compiled/core";
+import { VgCoreModule } from "ngx-videogular";
+import { VgControlsModule } from "ngx-videogular";
+import { VgOverlayPlayModule } from "ngx-videogular";
+import { VgBufferingModule } from "ngx-videogular";
+import { mediaPreviewReducer } from "./store/portfolio/media/media-preview.reducers";
+import { MediaPreviewEffect } from "./store/portfolio/media/media-preview.effects";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { VgAPI } from "videogular2/compiled/core";
     CompleteProfileComponent,
     ChangeProfilePictureComponent,
     ChangeProfessionalBannerComponent,
-    PortfolioGeneralComponent
+    PortfolioGeneralComponent,
   ],
   imports: [
     SharedModule,
@@ -62,11 +63,15 @@ import { VgAPI } from "videogular2/compiled/core";
     FormsModule,
     ReactiveFormsModule,
     UserRoutingModule,
-    StoreModule.forFeature("profile", profileReducer),
-    StoreModule.forFeature("portfolio", portfolioReducer),
-    EffectsModule.forFeature([ProfileEffect, PortfolioEffect])
+    StoreModule.forFeature("profileState", profileReducer),
+    StoreModule.forFeature("mediaPreviewState", mediaPreviewReducer),
+    StoreModule.forFeature("portfolioState", portfolioReducer),
+    EffectsModule.forFeature([
+      ProfileEffect,
+      PortfolioEffect,
+      MediaPreviewEffect,
+    ]),
   ],
-  providers: [VgAPI],
-  exports: [UserRoutingModule]
+  exports: [UserRoutingModule],
 })
 export class UserModule {}

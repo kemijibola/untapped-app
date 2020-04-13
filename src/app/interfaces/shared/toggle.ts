@@ -1,9 +1,15 @@
 export interface IToggle {
-    index: number;
-    name: string;
-    state: boolean;
+  index: number;
+  name: string;
+  title: string;
+  state: boolean;
+}
+
+export interface AppToggle {
+  id: string;
+  toggles: IToggle[];
 }
 
 export enum ToggleList {
-    UploadTypeToggle = 'UploadTypeToggle'
+  modaluploadtoggle = "modal-upload-toggle",
 }
