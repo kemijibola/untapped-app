@@ -1,5 +1,7 @@
 export interface IAppTab {
   id: string;
+  divClass: string;
+  navClass: string;
   tabs: ITab[];
 }
 

@@ -37,10 +37,27 @@ import { ModalsEffect } from "./shared/store/modals/modals.effect";
 import { SlideToggleEffect } from "./shared/store/slide-toggle/slide-toggle.effect";
 import { UserImageEffect } from "./shared/store/user-image/user-image.effect";
 import { NotificationEffect } from "./store/global/notification/notification.effect";
+import { NgxCurrencyModule } from "ngx-currency";
+import { 
+  OwlDateTimeModule, 
+  OwlNativeDateTimeModule 
+} from 'ng-pick-datetime';
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
 // }
+
+export const customCurrencyMaskConfig = {
+  align: "right",
+  allowNegative: true,
+  allowZero: true,
+  decimal: ",",
+  precision: 2,
+  prefix: "N# ",
+  suffix: "",
+  thousands: ".",
+  nullable: true,
+};
 
 @NgModule({
   declarations: [AppComponent, NotLoggedInComponent],
@@ -51,6 +68,9 @@ import { NotificationEffect } from "./store/global/notification/notification.eff
     OwlModule,
     SharedModule,
     MaterialModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
       UserTypeEffects,

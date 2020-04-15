@@ -1,21 +1,21 @@
-import { ICategory } from '../shared/category';
-import { IPrizeType } from './PrizeType';
-import { IUser } from '../account/user';
+import { ICategory } from "../shared/category";
+import { IPrizeType } from "./PrizeType";
+import { IUser } from "../account/user";
 
 export enum PaymentStatus {
-  Completed = 'Completed',
-  Failed = 'Failed',
-  Pending = 'Pending',
-  UnPaid = 'UnPaid'
+  Completed = "Completed",
+  Failed = "Failed",
+  Pending = "Pending",
+  UnPaid = "UnPaid",
 }
 
 export enum ContestType {
-  Online = 'Online',
-  OnlineOffline = 'OnlineOffline'
+  Online = "Online",
+  OnlineOffline = "OnlineOffline",
 }
 
 export interface IRedeemable {
-  prizeType: IPrizeType['_id'];
+  prizeType: IPrizeType["_id"];
   prizes: any[];
 }
 
@@ -38,18 +38,31 @@ export interface IContestList {
 export interface IContest {
   _id?: string;
   title: string;
+  code: string;
   information: string;
   bannerImage: string;
-  eligibleCategories: ICategory['_id'][];
+  entryMediaType: string;
+  eligibleCategories: Category[];
   eligibilityInfo: string;
   submissionRules: string;
   startDate: Date;
   endDate: Date;
+  views: number;
+  likes: number;
+  createdBy: string;
   redeemable: IRedeemable;
-  contestType: ContestType;
-  createdBy: IUser['_id'];
   paymentStatus: PaymentStatus;
   issues?: IContestIssue[];
+}
+
+export interface IRedeemable {
+  name: string;
+  prizeCash: number;
+}
+
+export interface Category {
+  _id: string;
+  name: string;
 }
 
 export interface IContestIssue {
@@ -60,12 +73,12 @@ export interface IContestIssue {
 }
 
 export enum ComplaintStatus {
-  Opened = 'Opened',
-  Resolved = 'Resolved'
+  Opened = "Opened",
+  Resolved = "Resolved",
 }
 
 export interface CreateContest {
-  user: IUser['_id'];
-  contest: IContest['_id'];
+  user: IUser["_id"];
+  contest: IContest["_id"];
   submissionPath: string;
 }

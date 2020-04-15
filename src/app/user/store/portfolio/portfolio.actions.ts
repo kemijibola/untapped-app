@@ -132,26 +132,26 @@ export class SetPortfolioSelectedAcceptType implements Action {
 }
 
 export class UpdatePortfolioMedia implements Action {
-  readonly type = "UPDATE_PORTFOLIO_MEDIA";
+  readonly type = UPDATE_PORTFOLIO_MEDIA;
   constructor(
     public payload: { uploadType: MediaUploadType; data: UploadedItems }
   ) {}
 }
 
 export class CreatePortfolioMedia implements Action {
-  readonly type = "CREATE_PORTFOLIO_MEDIA";
+  readonly type = CREATE_PORTFOLIO_MEDIA;
   constructor(
     public payload: { uploadType: MediaUploadType; data: UploadedItems }
   ) {}
 }
 
 export class UpdatePortfolioMediaSuccess implements Action {
-  readonly type = "UPDATE_PORTFOLIO_MEDIA_SUCCESS";
+  readonly type = UPDATE_PORTFOLIO_MEDIA_SUCCESS;
   constructor(public payload: IMedia) {}
 }
 
 export class CreatePortfolioMediaSuccess implements Action {
-  readonly type = "CREATE_PORTFOLIO_MEDIA_SUCCESS";
+  readonly type = CREATE_PORTFOLIO_MEDIA_SUCCESS;
   constructor(public payload: IMedia) {}
 }
 

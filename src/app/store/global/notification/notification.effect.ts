@@ -91,7 +91,7 @@ export class NotificationEffect {
             message: payload.message,
             action: "X",
             config: {
-              panelClass: ["success-snackbar"],
+              panelClass: ["info-snackbar"],
               horizontalPosition: "center",
               verticalPosition: "top",
               duration: 7000,

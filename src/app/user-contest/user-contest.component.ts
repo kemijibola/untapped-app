@@ -19,6 +19,8 @@ export class UserContestComponent extends AbstractTabComponent {
   navClass = "nav nav-tabs mb-50 all-tablinks";
   tabPanel: IAppTab = {
     id: "user-contest",
+    divClass: "all-contest-area pt-40 pb-60 pl-130",
+    navClass: "nav nav-tabs mb-50 all-tablinks",
     tabs: [
       { index: 0, title: "Contest", tag: "all", active: false },
       { index: 1, title: "New Contest", tag: "new", active: false },

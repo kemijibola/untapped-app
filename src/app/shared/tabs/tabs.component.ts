@@ -21,36 +21,21 @@ import * as fromTabReducer from "../../shared/store/tabs/tabs.reducers";
   templateUrl: "./tabs.component.html",
   styleUrls: ["./tabs.component.css"],
 })
-export class TabsComponent implements OnInit, OnChanges, OnDestroy {
-  tab: Observable<IAppTab>;
-  @Input() tabId: string;
-  @Input() divClass: string;
-  @Input() navClass: string;
+export class TabsComponent implements OnInit, OnDestroy {
+  tab: IAppTab;
   ngDestroyed = new Subject();
-
-  divCss = "";
-  navCss = "";
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    this.tab = this.store.pipe(select(fromTabReducer.selectCurrentTab));
-  }
-
-  ngOnChanges(simple: SimpleChanges) {
-    if (simple["tabId"]) {
-      this.store.dispatch(new TabsAction.FetchAppTab({ appTabId: this.tabId }));
-    }
-    if (simple["divClass"]) {
-      this.divCss = this.divClass;
-    }
-    if (simple["navClass"]) {
-      this.navCss = this.navClass;
-    }
+    this.store
+      .pipe(select(fromTabReducer.selectCurrentTab))
+      .subscribe((val: IAppTab) => {
+        this.tab = { ...val };
+      });
   }
 
   ngOnDestroy() {
-    console.log("dispatching tab");
-    this.store.dispatch(new TabsAction.DestroyTab({ id: this.tabId }));
+    this.store.dispatch(new TabsAction.DestroyTab({ id: this.tab.id }));
   }
 }

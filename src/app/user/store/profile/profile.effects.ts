@@ -21,7 +21,7 @@ export class ProfileEffect {
   fetchUserProfile = createEffect(() =>
     this.action$.pipe(
       ofType(ProfileActions.FETCH_USERPROFILE),
-      switchMap(() =>
+      concatMap(() =>
         this.profileService.fetchUserProfile().pipe(
           map((resp: IResult<IProfile>) => {
             return {

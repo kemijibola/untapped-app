@@ -2,8 +2,17 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 import * as fromApp from "../../store/app.reducers";
-import { Store } from "@ngrx/store";
-import { AppNotificationKey } from "src/app/interfaces";
+import { Store, select } from "@ngrx/store";
+import {
+  AppNotificationKey,
+  IFileInputModel,
+  UPLOADOPERATIONS,
+  MediaAcceptType,
+} from "src/app/interfaces";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { contestTitleAsyncValidator } from "src/app/lib/Helper";
+import { ContestService } from "src/app/services/contest.service";
+import * as fromUpload from "../../shared/store/upload/upload.reducers";
 
 @Component({
   selector: "app-new-contest",
@@ -17,6 +26,9 @@ export class NewContestComponent implements OnInit {
   eligibityRule = "";
   submissionRule = "";
   contestDays = 1;
+  contestDuration = "";
+  evaluations: string[] = [];
+  fileConfig: IFileInputModel;
   // rewardArray: FormArray = new FormArray([]);
   formatLabel(value: number = 3) {
     if (value >= 1) {
@@ -24,70 +36,122 @@ export class NewContestComponent implements OnInit {
     }
     return value;
   }
-  PrizeTypes = [
-    { id: 1, name: "Cash", selected: true },
-    { id: 2, name: "Other", selected: false },
+  mediaTypes = [
+    { id: 0, name: "Audio", selected: true },
+    { id: 1, name: "Video", selected: false },
+    { id: 2, name: "Image", selected: false },
   ];
 
-  constructor(public store: Store<fromApp.AppState>) {}
+  constructor(
+    public store: Store<fromApp.AppState>,
+    private contestService: ContestService
+  ) {
+    this.fetchContestBanner();
+    this.store
+      .pipe(select(fromUpload.selectUploadStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.fetchContestBanner();
+        }
+      });
+  }
 
   ngOnInit() {
-    // TODO:: get current index at array, set show text to true, show textarea
-    (<FormArray>this.contestForm.get("contestRewards")).at;
-
     this.contestForm = new FormGroup({
-      title: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(1),
-      ]),
+      title: new FormControl(
+        null,
+        [Validators.required, Validators.minLength(1)],
+        contestTitleAsyncValidator(500, this.contestService).bind(this)
+      ),
       basicInfo: new FormControl(null, [
         Validators.required,
         Validators.minLength(20),
       ]),
       eligibityRule: new FormControl(null),
       submissionRule: new FormControl(null),
-      noOfContestDays: new FormControl(1, [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(14),
-      ]),
+      contestDuration: new FormControl(null),
       contestRewards: new FormArray([
         new FormGroup({
           reward: new FormControl("", Validators.required),
-          prizeType: new FormControl("", Validators.required),
         }),
       ]),
+      entryMedia: new FormControl(null),
+      evaluation: new FormControl(null),
     });
+
+    // const formArray = <FormArray>this.contestForm.get("contestRewards");
+    // formArray.controls.forEach((control) => {
+    //   control.valueChanges.subscribe((val) => console.log(control));
+    // });
+  }
+
+  onAddEvaluation() {
+    const evaluation: string = this.contestForm.controls["evaluation"].value;
+    if (this.evaluations.length > 4) {
+      this.store.dispatch(
+        new NotificationActions.AddInfo({
+          key: AppNotificationKey.error,
+          message: "You can only add maximum 5 Evaluation criteria at once",
+          code: 400,
+        })
+      );
+    } else {
+      if (evaluation !== "") {
+        const foundEvaluation = this.evaluations.filter(
+          (x) => x === evaluation.toLowerCase()
+        )[0];
+        if (!foundEvaluation) {
+          this.evaluations.push(evaluation.toLowerCase());
+          this.contestForm.controls["evaluation"].setValue("");
+        } else {
+          this.store.dispatch(
+            new NotificationActions.AddInfo({
+              key: AppNotificationKey.error,
+              message: `${evaluation} has already been added to evaluation list`,
+              code: 400,
+            })
+          );
+        }
+      }
+    }
   }
 
   get contestRewards(): FormArray {
     return this.contestForm.get("contestRewards") as FormArray;
   }
 
+  onClickBrowseBtn() {
+    this.fileConfig = {
+      state: true,
+      process: UPLOADOPERATIONS.ContestBanner,
+      multiple: false,
+      accept: MediaAcceptType.IMAGE,
+    };
+  }
   deleteReward(index: number) {
     if ((<FormArray>this.contestForm.get("contestRewards")).length !== 1) {
       (<FormArray>this.contestForm.get("contestRewards")).removeAt(index);
     }
   }
 
+  fetchContestBanner() {}
+  deleteEvaluation() {}
   onAddReward() {
     console.log((<FormArray>this.contestForm.get("contestRewards")).length);
     if ((<FormArray>this.contestForm.get("contestRewards")).length < 2) {
       (<FormArray>this.contestForm.get("contestRewards")).push(
         new FormGroup({
           reward: new FormControl("", Validators.required),
-          prizeType: new FormControl("", Validators.required),
         })
       );
     } else {
       this.store.dispatch(
-        new NotificationActions.AddError({
+        new NotificationActions.AddInfo({
           key: AppNotificationKey.error,
-          message: "You can only add 3 winners at once",
+          message: "You can only add 2 winners at once",
           code: 400,
         })
       );
-      // window.alert("you have reached max number of reward");
     }
   }
 

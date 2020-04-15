@@ -17,6 +17,8 @@ export class TabsEffect {
       map((payload) => {
         let updatedTabPanel: IAppTab = {
           id: payload.tabPanel.id,
+          divClass: payload.tabPanel.divClass,
+          navClass: payload.tabPanel.navClass,
           tabs: [],
         };
         updatedTabPanel.tabs = payload.tabPanel.tabs.reduce(

@@ -12,6 +12,8 @@ import { ContestServiceComponent } from "./contest-overview/contest-service/cont
 import { AllContestItemComponent } from "./all-contest/all-contest-item/all-contest-item.component";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatSelectModule } from "@angular/material/select";
+import { NgxCurrencyModule } from "ngx-currency";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,9 @@ import { MatSelectModule } from "@angular/material/select";
     FormsModule,
     ReactiveFormsModule,
     UserContestRoutingModule,
+    NgxCurrencyModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   exports: [UserContestRoutingModule],
 })
