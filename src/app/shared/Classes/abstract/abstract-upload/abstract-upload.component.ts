@@ -22,6 +22,8 @@ export abstract class AbstractUploadComponent implements OnInit {
     process: UPLOADOPERATIONS.Default,
     multiple: false,
     accept: "",
+    minWidth: 0,
+    minHeight: 0,
   };
   // abstract setUploadedImage(): void;
   abstract uploadFiles(files: File[]): void;

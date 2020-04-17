@@ -14,6 +14,12 @@ import { MatSliderModule } from "@angular/material/slider";
 import { MatSelectModule } from "@angular/material/select";
 import { NgxCurrencyModule } from "ngx-currency";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+import { StoreModule } from "@ngrx/store";
+import { allContestReducer } from "./store/all-contest/all-contest.reducers";
+import { newContestReducer } from "./store/new-contest/new-contest.reducers";
+import { EffectsModule } from "@ngrx/effects";
+import { NewUserContestEffect } from "./store/new-contest/new-contest.effects";
+import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
 
 @NgModule({
   declarations: [
@@ -36,6 +42,9 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
     NgxCurrencyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    StoreModule.forFeature("allContestState", allContestReducer),
+    StoreModule.forFeature("newUserContestState", newContestReducer),
+    EffectsModule.forFeature([NewUserContestEffect, AllUserContestEffect]),
   ],
   exports: [UserContestRoutingModule],
 })

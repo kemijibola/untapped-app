@@ -18,7 +18,7 @@ export class NotificationEffect {
       pipe(
         map((action: NotificationActions.AddError) => action.payload),
         map((payload: AppNotification) => {
-          if ([400, 403, 404, 409, 422].includes(payload.code)) {
+          if ([400, 403, 404, 409, 422, 401].includes(payload.code)) {
             const snackBarConfig: SnackBarData = {
               message: payload["message"],
               action: "X",

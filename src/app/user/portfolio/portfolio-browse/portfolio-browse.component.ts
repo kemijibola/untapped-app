@@ -151,6 +151,8 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
       process: this.uploadOperation,
       multiple: this.isMultiple,
       accept: this.mediaAccept,
+      minHeight: 199,
+      minWidth: 299,
     };
   }
 }

@@ -36,6 +36,8 @@ export interface IFileInputModel {
   process: UPLOADOPERATIONS;
   multiple: boolean;
   accept: string;
+  minHeight: number;
+  minWidth: number;
 }
 export interface IFileMetaData {
   file: string;

@@ -15,8 +15,6 @@ export class UserContestComponent extends AbstractTabComponent {
   queryParam = "all";
   activeTab: ITab;
   toQueryParam = "all";
-  divClass = "all-contest-area pt-40 pb-60 pl-130";
-  navClass = "nav nav-tabs mb-50 all-tablinks";
   tabPanel: IAppTab = {
     id: "user-contest",
     divClass: "all-contest-area pt-40 pb-60 pl-130",

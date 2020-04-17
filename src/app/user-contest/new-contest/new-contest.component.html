@@ -13,7 +13,18 @@
             location and social media handles.
           </p>
           <div class="input-1">
-            <label for="">Contest Title</label>
+            <label for="">
+              <span
+                class="error-block"
+                *ngIf="
+                  !contestForm.get('title').valid &&
+                  contestForm.get('title').touched
+                "
+              >
+                Please provide provide
+              </span>
+              Contest Title</label
+            >
             <input
               type="text"
               formControlName="title"
@@ -21,7 +32,18 @@
             />
           </div>
           <div class="input-1">
-            <label for="">Contest Information</label>
+            <label for="">
+              <span
+                class="error-block"
+                *ngIf="
+                  !contestForm.get('basicInfo').valid &&
+                  contestForm.get('basicInfo').touched
+                "
+              >
+                Please provide provide
+              </span>
+              Contest Information</label
+            >
             <textarea
               placeholder="Tell us more about your contest"
               formControlName="basicInfo"
@@ -163,7 +185,9 @@
               </div>
             </div>
           </div>
-          <a class="box-btn create-btn">CREATE CONTEST</a>
+          <a class="box-btn create-btn" (click)="onClickCreateButton()"
+            >CREATE CONTEST</a
+          >
         </div>
       </div>
     </div>

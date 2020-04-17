@@ -85,6 +85,10 @@ export class NewContestComponent implements OnInit {
     // });
   }
 
+  onClickCreateButton() {
+    console.log("clicked");
+  }
+
   onAddEvaluation() {
     const evaluation: string = this.contestForm.controls["evaluation"].value;
     if (this.evaluations.length > 4) {
@@ -126,6 +130,8 @@ export class NewContestComponent implements OnInit {
       process: UPLOADOPERATIONS.ContestBanner,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
+      minHeight: 300,
+      minWidth: 500,
     };
   }
   deleteReward(index: number) {
