@@ -38,10 +38,7 @@ import { SlideToggleEffect } from "./shared/store/slide-toggle/slide-toggle.effe
 import { UserImageEffect } from "./shared/store/user-image/user-image.effect";
 import { NotificationEffect } from "./store/global/notification/notification.effect";
 import { NgxCurrencyModule } from "ngx-currency";
-import { 
-  OwlDateTimeModule, 
-  OwlNativeDateTimeModule 
-} from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();

@@ -18,27 +18,38 @@ export class NotificationEffect {
       pipe(
         map((action: NotificationActions.AddError) => action.payload),
         map((payload: AppNotification) => {
-          if ([400, 403, 404, 409, 422, 401].includes(payload.code)) {
-            const snackBarConfig: SnackBarData = {
-              message: payload["message"],
-              action: "X",
-              config: {
-                panelClass: ["error-snackbar"],
-                horizontalPosition: "center",
-                verticalPosition: "top",
-                duration: 7000,
-              },
-            };
+          const snackBarConfig: SnackBarData = {
+            message: payload["message"],
+            action: "X",
+            config: {
+              panelClass: ["error-snackbar"],
+              horizontalPosition: "center",
+              verticalPosition: "top",
+              duration: 7000,
+            },
+          };
 
-            return {
-              type: SnackBarActions.SNACKBAR_OPEN,
-              payload: snackBarConfig,
-            };
-          }
-          if (payload.code === 500) {
-            // navigate to internal server error page
-            console.log("internal server error");
-          }
+          return {
+            type: SnackBarActions.SNACKBAR_OPEN,
+            payload: snackBarConfig,
+          };
+          // if ([400, 403, 404, 409, 422, 401].includes(payload.code)) {
+          //   const snackBarConfig: SnackBarData = {
+          //     message: payload["message"],
+          //     action: "X",
+          //     config: {
+          //       panelClass: ["error-snackbar"],
+          //       horizontalPosition: "center",
+          //       verticalPosition: "top",
+          //       duration: 7000,
+          //     },
+          //   };
+
+          //   return {
+          //     type: SnackBarActions.SNACKBAR_OPEN,
+          //     payload: snackBarConfig,
+          //   };
+          // }
         })
         // map(
         //   () =>

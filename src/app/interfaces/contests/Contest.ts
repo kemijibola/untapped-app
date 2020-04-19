@@ -1,4 +1,4 @@
-import { ICategory } from "../shared/category";
+import { CategoryType } from "./../shared/TalentCategory";
 import { IPrizeType } from "./PrizeType";
 import { IUser } from "../account/user";
 
@@ -12,11 +12,6 @@ export enum PaymentStatus {
 export enum ContestType {
   Online = "Online",
   OnlineOffline = "OnlineOffline",
-}
-
-export interface IRedeemable {
-  prizeType: IPrizeType["_id"];
-  prizes: any[];
 }
 
 export interface IUserContest {
@@ -38,20 +33,20 @@ export interface IContestList {
 export interface IContest {
   _id?: string;
   title: string;
-  code: string;
+  code?: string;
   information: string;
   bannerImage: string;
   entryMediaType: string;
-  eligibleCategories: Category[];
-  eligibilityInfo: string;
-  submissionRules: string;
+  eligibleCategories?: CategoryType["_id"][];
+  eligibilityInfo?: string;
+  submissionRules?: string;
   startDate: Date;
   endDate: Date;
-  views: number;
-  likes: number;
-  createdBy: string;
-  redeemable: IRedeemable;
-  paymentStatus: PaymentStatus;
+  views?: number;
+  likes?: number;
+  createdBy?: string;
+  redeemable: IRedeemable[];
+  paymentStatus?: PaymentStatus;
   issues?: IContestIssue[];
 }
 

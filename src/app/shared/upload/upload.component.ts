@@ -13,13 +13,15 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { Subject } from "rxjs";
+import { Subject, Observable, fromEvent, forkJoin } from "rxjs";
 import * as UploadActions from "../store/upload/upload.actions";
 import {
   IFileInputModel,
   IFileModel,
   UPLOADOPERATIONS,
   AppNotificationKey,
+  ISize,
+  MediaAcceptType,
 } from "src/app/interfaces";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 
@@ -39,7 +41,10 @@ const noop = () => {};
 })
 export class UploadComponent
   implements ControlValueAccessor, OnInit, OnChanges {
-  private file: IFileModel;
+  private file: IFileModel = {
+    action: UPLOADOPERATIONS.ContestBanner,
+    files: [],
+  };
   ngDestroyed = new Subject();
   multiple: boolean;
   accept: string;
@@ -47,6 +52,7 @@ export class UploadComponent
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;
+  fileArray = [];
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
 
@@ -82,29 +88,69 @@ export class UploadComponent
     fileUpload.click();
   }
 
-  @HostListener("change", ["$event.target.files"]) emitFiles(files: FileList) {
-    const fileArray = [];
-    for (let index = 0; index < files.length; index++) {
-      var image = new Image();
-      const fileToUpload = files[index];
-      console.log(this.validateImageSize(fileToUpload));
-      // if (this.validateImageSize(fileToUpload)) {
-      //   console.log("proceeded");
-      //   fileArray.push({
-      //     data: fileToUpload,
-      //   });
-      // }
+  async onInputChanged(data: any) {
+    const fileList: FileList = data.target.files;
+    for (let index = 0; index < fileList.length; index++) {
+      const file = fileList[index];
+      if (this.fileConfig.accept === MediaAcceptType.IMAGE) {
+        const URL = window.URL || window.webkitURL;
+        const imageSrc = URL.createObjectURL(file);
+        const fileDimension = await this.getImageSize(imageSrc);
+        if (this.validateImageDimension(fileDimension)) {
+          this.fileArray.push({ data: file });
+        }
+      } else {
+        this.fileArray.push({
+          data: file,
+        });
+      }
     }
     this.file = {
       action: this.operationType,
-      files: [...fileArray],
+      files: [...this.fileArray],
     };
-    if (this.file.files.length === files.length) {
-      console.log("about to upload file");
+
+    if (this.file.files.length === fileList.length) {
       this.onChange(this.file);
-      // this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
+      this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
       this.writeValue(null);
+    } else {
+      this.store.dispatch(
+        new NotificationActions.AddError({
+          key: AppNotificationKey.error,
+          message: `Upload image with minimum dimentions ${this.fileConfig.minHeight}px x ${this.fileConfig.minWidth}px`,
+          code: 400,
+        })
+      );
     }
+  }
+
+  validateImageDimension(size: ISize): boolean {
+    if (
+      this.fileConfig.minWidth > size.width ||
+      this.fileConfig.minHeight > size.height
+    )
+      return false;
+    return true;
+  }
+
+  getImageSize(imageSrc: string): Promise<ISize> {
+    return new Promise((resolve, reject) => {
+      let mapLoadedImage = (event: any): ISize => {
+        return {
+          width: event.target.width,
+          height: event.target.height,
+        };
+      };
+      var image = new Image();
+      fromEvent(image, "load")
+        .take(1)
+        .map(mapLoadedImage)
+        .subscribe((val: ISize) => {
+          resolve(val);
+        });
+      image.src = imageSrc;
+    });
   }
 
   writeValue(value: null) {
@@ -118,41 +164,5 @@ export class UploadComponent
 
   registerOnTouched(fn: Function) {
     this.onTouchedCallback = fn;
-  }
-
-  validateImageSize(file: File): boolean {
-    let canProceed = true;
-    const URL = window.URL || window.webkitURL;
-    const Img = new Image();
-
-    Img.src = URL.createObjectURL(file);
-
-    Img.onload = (e: any) => {
-      const height = e.path[0].height;
-      const width = e.path[0].width;
-      // console.log(height, width);
-      if (height < this.fileConfig.minHeight) {
-        canProceed = false;
-        // this.store.dispatch(
-        //   new NotificationActions.AddError({
-        //     key: AppNotificationKey.error,
-        //     message: `Please upload an image of size ${this.fileConfig.minWidth}px by ${this.fileConfig.minHeight}px`,
-        //     code: 400,
-        //   })
-        // );
-      }
-      if (width < this.fileConfig.minWidth) {
-        canProceed = false;
-        // this.store.dispatch(
-        //   new NotificationActions.AddError({
-        //     key: AppNotificationKey.error,
-        //     message: `Please upload an image of size ${this.fileConfig.minWidth}px by ${this.fileConfig.minHeight}px`,
-        //     code: 400,
-        //   })
-        // );
-      }
-    };
-    console.log(canProceed);
-    return canProceed;
   }
 }

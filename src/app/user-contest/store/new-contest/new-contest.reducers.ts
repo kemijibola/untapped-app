@@ -29,15 +29,32 @@ export function newContestReducer(
         contest: { ...action.payload.contest },
       });
     case NewContestActions.SET_CONTEST_BANNER:
+      console.log(action.payload.bannerKey);
       return Object.assign({
         ...state,
         bannerImageKey: action.payload.bannerKey,
       });
-    default:
+    default: {
       return state;
+    }
   }
 }
 
+const getSelectContest = (state: NewContestState) => state.contest;
+
+const getSelectbannerImageKey = (state: NewContestState) =>
+  state.bannerImageKey;
+
 export const getNewUserContestState = createFeatureSelector<NewContestState>(
   "newUserContestState"
+);
+
+export const selectCurrentContest = createSelector(
+  getNewUserContestState,
+  getSelectContest
+);
+
+export const selectCurrentBannerKey = createSelector(
+  getNewUserContestState,
+  getSelectbannerImageKey
 );

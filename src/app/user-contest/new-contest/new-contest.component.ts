@@ -8,11 +8,27 @@ import {
   IFileInputModel,
   UPLOADOPERATIONS,
   MediaAcceptType,
+  IPresignRequest,
+  IFileMetaData,
+  CloudUploadParams,
+  SignedUrl,
+  IFileModel,
+  IContest,
+  IRedeemable,
 } from "src/app/interfaces";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import { contestTitleAsyncValidator } from "src/app/lib/Helper";
+import {
+  contestTitleAsyncValidator,
+  fetchImageObjectFromCloudFormation,
+} from "src/app/lib/Helper";
 import { ContestService } from "src/app/services/contest.service";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
+import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import * as UploadActions from "../../shared/store/upload/upload.actions";
+import * as fromNewContestActions from "../../user-contest/store/new-contest/new-contest.actions";
+import * as fromUserContest from "../../user-contest/user-contest.reducers";
+import * as fromNewContest from "../../user-contest/store/new-contest/new-contest.reducers";
+import { environment } from "src/environments/environment.dev";
+import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
 
 @Component({
   selector: "app-new-contest",
@@ -21,6 +37,7 @@ import * as fromUpload from "../../shared/store/upload/upload.reducers";
 })
 export class NewContestComponent implements OnInit {
   contestForm: FormGroup;
+  bannerImage: string;
   title = "";
   basicInfo = "";
   eligibityRule = "";
@@ -29,6 +46,21 @@ export class NewContestComponent implements OnInit {
   contestDuration = "";
   evaluations: string[] = [];
   fileConfig: IFileInputModel;
+  private presignRequest: IPresignRequest;
+  uploadOperation = UPLOADOPERATIONS.ContestBanner;
+  editParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 482.91,
+        height: 395.66,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+  private filesToUpload: File[];
+  selectedCategories: string[] = [];
+  bannerImageKey: string | null;
   // rewardArray: FormArray = new FormArray([]);
   formatLabel(value: number = 3) {
     if (value >= 1) {
@@ -44,6 +76,7 @@ export class NewContestComponent implements OnInit {
 
   constructor(
     public store: Store<fromApp.AppState>,
+    private userContestStore: Store<fromUserContest.UserContestState>,
     private contestService: ContestService
   ) {
     this.fetchContestBanner();
@@ -83,10 +116,136 @@ export class NewContestComponent implements OnInit {
     // formArray.controls.forEach((control) => {
     //   control.valueChanges.subscribe((val) => console.log(control));
     // });
+
+    this.store
+      .pipe(select(fromUpload.selectFilesToUpload))
+      .subscribe((val: IFileModel) => {
+        if (val !== null) {
+          if (val.action === this.uploadOperation) {
+            this.filesToUpload = val.files;
+            const files: IFileMetaData[] = val.files.reduce(
+              (arr: IFileMetaData[], file) => {
+                const fileData = {
+                  file: file["data"].name,
+                  file_type: file["data"].type,
+                };
+                arr = [...arr, fileData];
+                return arr;
+              },
+              []
+            );
+
+            var fileType = files[0].file_type.split("/");
+            this.presignRequest = {
+              mediaType: fileType[0],
+              action: val.action,
+              files: [...files],
+            };
+            if (this.fileConfig.state) {
+              this.store.dispatch(
+                new UploadActions.GetPresignedUrl({
+                  preSignRequest: this.presignRequest,
+                })
+              );
+            }
+
+            this.store.dispatch(new UploadActions.ResetFileInput());
+
+            // perform actual upload to cloud
+            if (this.filesToUpload.length > 0) {
+              this.uploadFiles(this.filesToUpload);
+            }
+          }
+        }
+      });
+
+    this.store
+      .pipe(select(fromCategoryType.selectSelectedCategoryTypes))
+      .subscribe((val: string[]) => {
+        this.selectedCategories = [...val];
+      });
   }
 
+  uploadFiles(files: File[]): void {
+    let uploadParams: CloudUploadParams[] = [];
+    this.store
+      .pipe(select(fromUpload.selectPresignedUrls))
+      .subscribe((val: SignedUrl) => {
+        if (val) {
+          if (val.action === this.uploadOperation) {
+            const item: CloudUploadParams = {
+              file: files[0]["data"],
+              url: val.presignedUrl[0].url,
+            };
+            uploadParams = [...uploadParams, item];
+            this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
+
+            // update store with contest banner
+
+            this.userContestStore.dispatch(
+              new fromNewContestActions.SetContestBanner({
+                bannerKey: val.presignedUrl[0].key,
+              })
+            );
+
+            // this.store.dispatch(
+            //   new UserImageActions.UpdateUserProfileImage({
+            //     imageKey: val.presignedUrl[0].key,
+            //   })
+            // );
+          }
+        }
+      });
+  }
+
+  // onFormSubmit(): void {
+  //   for (let i = 0; i < this.names.length; i++) {
+  //     console.log(this.names.at(i).value);
+  //   }
+  // }
+
+  // const formArray = <FormArray>this.contestForm.get("contestRewards");
+  // formArray.controls.forEach((control) => {
+  //   control.valueChanges.subscribe((val) => console.log(control));
+  // });
+
   onClickCreateButton() {
-    console.log("clicked");
+    // console.log("clicked");
+    const formArray = <FormArray>this.contestForm.get("contestRewards");
+    const duration = this.contestForm.controls["contestDuration"].value;
+    const redeemable: IRedeemable[] = [];
+    for (let i = 0; i < formArray.length; i++) {
+      const redeemable = {
+        name: 
+      }
+      // redeemable.push({
+      //   name: `Winner ${i}`,
+      //   prizeCash: (<FormArray>this.contestForm.get("contestRewards")).at(i).value,
+      // });
+    }
+
+    const title: string = this.contestForm.controls["title"].value;
+    const basicInfo: string = this.contestForm.controls["basicInfo"].value;
+    const eligibityRule: string = this.contestForm.controls["eligibityRule"]
+      .value;
+    const submissionRule: string = this.contestForm.controls["submissionRule"]
+      .value;
+    const entryMedia: string = this.contestForm.controls["entryMedia"].value;
+
+    const contestObj: IContest = {
+      title,
+      information: basicInfo,
+      bannerImage: this.bannerImageKey === null ? this.bannerImageKey : "",
+      eligibleCategories: [...this.selectedCategories],
+      eligibilityInfo: eligibityRule,
+      entryMediaType: entryMedia,
+      submissionRules: submissionRule,
+      startDate: new Date(duration[0]),
+      endDate: new Date(duration[1]),
+      redeemable: [...redeemable],
+    };
+
+    console.log(contestObj);
   }
 
   onAddEvaluation() {
@@ -130,8 +289,8 @@ export class NewContestComponent implements OnInit {
       process: UPLOADOPERATIONS.ContestBanner,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
-      minHeight: 300,
-      minWidth: 500,
+      minHeight: 150,
+      minWidth: 100,
     };
   }
   deleteReward(index: number) {
@@ -140,10 +299,21 @@ export class NewContestComponent implements OnInit {
     }
   }
 
-  fetchContestBanner() {}
+  fetchContestBanner() {
+    this.userContestStore
+      .pipe(select(fromNewContest.selectCurrentBannerKey))
+      .subscribe((val: string) => {
+        this.bannerImageKey = val;
+        this.bannerImage =
+          val !== null
+            ? fetchImageObjectFromCloudFormation(val, this.editParams)
+            : environment.CONTEST_BANNER_DEFAULT;
+        console.log(this.bannerImage);
+      });
+  }
+
   deleteEvaluation() {}
   onAddReward() {
-    console.log((<FormArray>this.contestForm.get("contestRewards")).length);
     if ((<FormArray>this.contestForm.get("contestRewards")).length < 2) {
       (<FormArray>this.contestForm.get("contestRewards")).push(
         new FormGroup({

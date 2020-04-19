@@ -54,7 +54,7 @@
           <div class="upload">
             <div class="head">
               <label for="">+ Upload contest banner</label>
-              <span>Banner size 200px by 200px</span>
+              <!-- <span>Banner size 200px by 200px</span> -->
             </div>
             <div class="upload-fld">
               <input
@@ -118,8 +118,15 @@
                 [formGroupName]="i"
               >
                 <div class="single-winner-blk">
-                  <label for="">Winner {{ i + 1 }}:</label>
-
+                  <label for="">
+                    <span
+                      class="error-block"
+                      *ngIf="!contestRewards.valid && contestRewards.touched"
+                    >
+                      Please provide provide
+                    </span>
+                    Winner {{ i + 1 }}:</label
+                  >
                   <input
                     placeholder="N40,000"
                     currencyMask
@@ -149,7 +156,18 @@
             <div class="online-offline-blk">
               <div class="of-line">
                 <div class="contest-number">
-                  <label for="">Entry Media Type</label>
+                  <label for="">
+                    <span
+                      class="error-block"
+                      *ngIf="
+                        !contestForm.get('entryMedia').valid &&
+                        contestForm.get('entryMedia').touched
+                      "
+                    >
+                      Please provide provide
+                    </span>
+                    Entry Media Type</label
+                  >
                   <mat-form-field>
                     <mat-label>Prize type</mat-label>
                     <mat-select
@@ -195,7 +213,7 @@
       <div class="right-wrapper">
         <div class="details-content">
           <div class="sidebar-img">
-            <img src="assets/img/contest/sidebar-img.jpg" alt="" />
+            <img src="{{ bannerImage }}" alt="" />
           </div>
           <!-- <div class="heading mb-10">
             <h2>{{ title }}</h2>
