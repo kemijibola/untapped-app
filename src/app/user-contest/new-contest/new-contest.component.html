@@ -203,9 +203,14 @@
               </div>
             </div>
           </div>
-          <a class="box-btn create-btn" (click)="onClickCreateButton()"
-            >CREATE CONTEST</a
+          <button
+            class="box-btn create-btn"
+            [disabled]="!contestForm.valid"
+            type="button"
+            (click)="onClickCreateButton()"
           >
+            CREATE CONTEST
+          </button>
         </div>
       </div>
     </div>
@@ -213,7 +218,11 @@
       <div class="right-wrapper">
         <div class="details-content">
           <div class="sidebar-img">
-            <img src="{{ bannerImage }}" alt="" />
+            <img
+              style="width: 482px; height: 395px;"
+              src="{{ bannerImage }}"
+              alt=""
+            />
           </div>
           <!-- <div class="heading mb-10">
             <h2>{{ title }}</h2>

@@ -20,6 +20,8 @@ import { newContestReducer } from "./store/new-contest/new-contest.reducers";
 import { EffectsModule } from "@ngrx/effects";
 import { NewUserContestEffect } from "./store/new-contest/new-contest.effects";
 import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
+import { NewContestOverviewComponent } from "./new-contest/new-contest-overview/new-contest-overview.component";
+// import { DatePipe } from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
     ContestOverviewComponent,
     ContestServiceComponent,
     AllContestItemComponent,
+    NewContestOverviewComponent,
   ],
   imports: [
     SharedModule,
@@ -46,6 +49,7 @@ import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
     StoreModule.forFeature("newUserContestState", newContestReducer),
     EffectsModule.forFeature([NewUserContestEffect, AllUserContestEffect]),
   ],
+  providers: [],
   exports: [UserContestRoutingModule],
 })
 export class UserContestModule {}

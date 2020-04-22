@@ -1,0 +1,130 @@
+<!-- Over view area start -->
+
+<div class="over-view-area">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-7">
+        <div class="over-view-all-content">
+          <h3>Overview</h3>
+          <h1>{{ contestInEdit.title }}</h1>
+          <div class="single-over-view-contnet-blk">
+            <h4>Contest information</h4>
+            <p>
+              {{ contestInEdit.information }}
+            </p>
+          </div>
+          <div class="single-over-view-contnet-blk">
+            <h4>Eligible category</h4>
+            <p>{{ eligibleCategories }}</p>
+          </div>
+          <div
+            class="single-over-view-contnet-blk"
+            *ngIf="contestInEdit.eligibilityInfo !== null"
+          >
+            <h4>Eligibility</h4>
+            <p>
+              {{ contestInEdit.eligibilityInfo }}
+            </p>
+          </div>
+          <div
+            class="single-over-view-contnet-blk"
+            *ngIf="contestInEdit.submissionRules !== null"
+          >
+            <h4>Submission rules</h4>
+            <p>
+              {{ contestInEdit.submissionRules }}
+            </p>
+          </div>
+          <div class="single-over-view-contnet-blk">
+            <h4>Contest duration</h4>
+            <p>
+              {{ contestInEdit.startDate | date }} -
+              {{ contestInEdit.endDate | date }}
+              ({{ differenceInDays }})
+            </p>
+          </div>
+          <div class="single-over-view-contnet-blk">
+            <h4>Prize/Prizes</h4>
+            <span *ngFor="let prize of contestInEdit.redeemable">
+              {{ prize.name }} -
+              {{ prize.prizeCash | currency: "NGN":true:"2.2-4" }}
+            </span>
+          </div>
+          <div class="single-over-view-contnet-blk">
+            <h4>Submission Media Type</h4>
+            <p>{{ contestInEdit.entryMediaType | uppercase }}</p>
+          </div>
+          <!-- <div class="single-over-view-contnet-blk">
+            <h4>Max no of Contestants</h4>
+            <p>20 Contestants</p>
+          </div> -->
+          <div
+            class="single-over-view-contnet-blk"
+            *ngIf="contestInEdit.evaluations"
+          >
+            <h4>Evaluation</h4>
+            <p *ngFor="let evaluation of contestInEdit.evaluations">
+              {{ evaluation }}
+            </p>
+          </div>
+
+          <div class="btns">
+            <a href="">EDIT CONTEST</a>
+            <angular4-paystack
+              [key]="paystackClientKey"
+              [email]="userEmail"
+              [amount]="1050"
+              [ref]="refKey"
+              [channels]="['card', 'bank']"
+              [class]="'box-btn create-btn'"
+              (close)="paymentCancel()"
+              (callback)="paymentDone($event)"
+              >PROCEED TO PAYMENT</angular4-paystack
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="side-img">
+          <img
+            style="width: 482px; height: 395px;"
+            src="{{ bannerImage }}"
+            alt=""
+          />
+        </div>
+
+        <div class="payment-blk">
+          <div class="payment-blk-inner">
+            <div class="sm-top-blk">
+              <h3>Summary</h3>
+              <div class="sm-sng-blk">
+                <p>Subtotal <span>NGN 250</span></p>
+                <p>Service fee <span>NGN 250</span></p>
+                <p>Service fee <span>NGN 250</span></p>
+                <p>Contest Prize fee <span>NGN 250</span></p>
+                <h4>Total <span>$26.50</span></h4>
+              </div>
+              <div class="sm-sng-blk btm-blk">
+                <p>Delivery Time <span>5 Days</span></p>
+              </div>
+              <div class="sm-btm">
+                <a class="order-btn" href="">Order now</a>
+                <p>You won't be changed yet</p>
+              </div>
+            </div>
+
+            <div class="box-bottom-blk">
+              <img src="assets/img/pm-btn.png" alt="" />
+              <h3>
+                <span><i class="fas fa-lock"></i>SSL</span> SECURED PAYMENT
+              </h3>
+              <p>Your information is protected by 256-bit SSL enoryption</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Over view area end -->

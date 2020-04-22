@@ -10,7 +10,7 @@ export interface NewContestState extends EntityState<IContest> {
 }
 const initialState: NewContestState = fromAdapter.adapter.getInitialState({
   contest: null,
-  bannerImageKey: null,
+bannerImageKey: null,
 });
 
 export function newContestReducer(
@@ -18,6 +18,11 @@ export function newContestReducer(
   action: NewContestActions.NewContestActions
 ) {
   switch (action.type) {
+    case NewContestActions.CREATE_CONTEST:
+      return Object.assign({
+        ...state,
+        contest: { ...action.payload.newContest },
+      });
     case NewContestActions.SET_CONTEST_IN_EDIT_MODE:
       return Object.assign({
         ...state,
@@ -29,7 +34,6 @@ export function newContestReducer(
         contest: { ...action.payload.contest },
       });
     case NewContestActions.SET_CONTEST_BANNER:
-      console.log(action.payload.bannerKey);
       return Object.assign({
         ...state,
         bannerImageKey: action.payload.bannerKey,

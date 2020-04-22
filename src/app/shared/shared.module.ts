@@ -35,6 +35,8 @@ import { VgBufferingModule } from "ngx-videogular";
 
 import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifier.component";
 
+import { Angular4PaystackModule } from "angular4-paystack";
+
 @NgModule({
   imports: [
     FormsModule,
@@ -46,6 +48,7 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    Angular4PaystackModule,
     RouterModule.forChild([]),
   ],
   exports: [
@@ -66,6 +69,7 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
     UpAudioComponent,
     UpVideoComponent,
     UpMediaMagnifierComponent,
+    Angular4PaystackModule,
   ],
   declarations: [
     UploadComponent,

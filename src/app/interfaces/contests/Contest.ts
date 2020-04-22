@@ -38,6 +38,7 @@ export interface IContest {
   bannerImage: string;
   entryMediaType: string;
   eligibleCategories?: CategoryType["_id"][];
+  evaluations?: string[];
   eligibilityInfo?: string;
   submissionRules?: string;
   startDate: Date;

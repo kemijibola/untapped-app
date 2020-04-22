@@ -33,6 +33,7 @@
     "angular-animations": "0.0.9",
     "angular2-multiselect-dropdown": "^4.6.3",
     "angular2-uuid": "^1.1.1",
+    "angular4-paystack": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.0.0",
     "core-js": "^2.5.4",

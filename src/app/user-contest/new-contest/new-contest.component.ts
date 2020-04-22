@@ -24,7 +24,7 @@ import { ContestService } from "src/app/services/contest.service";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
-import * as fromNewContestActions from "../../user-contest/store/new-contest/new-contest.actions";
+import * as NewContestActions from "../../user-contest/store/new-contest/new-contest.actions";
 import * as fromUserContest from "../../user-contest/user-contest.reducers";
 import * as fromNewContest from "../../user-contest/store/new-contest/new-contest.reducers";
 import { environment } from "src/environments/environment.dev";
@@ -37,7 +37,7 @@ import * as fromCategoryType from "src/app/shared/store/category-type/category-t
 })
 export class NewContestComponent implements OnInit {
   contestForm: FormGroup;
-  bannerImage: string;
+  bannerImage: string = environment.CONTEST_BANNER_DEFAULT;
   title = "";
   basicInfo = "";
   eligibityRule = "";
@@ -61,7 +61,7 @@ export class NewContestComponent implements OnInit {
   private filesToUpload: File[];
   selectedCategories: string[] = [];
   bannerImageKey: string | null;
-  // rewardArray: FormArray = new FormArray([]);
+
   formatLabel(value: number = 3) {
     if (value >= 1) {
       return Math.round(value / 1) + "d";
@@ -79,7 +79,7 @@ export class NewContestComponent implements OnInit {
     private userContestStore: Store<fromUserContest.UserContestState>,
     private contestService: ContestService
   ) {
-    this.fetchContestBanner();
+    // this.bannerImage = environment.CONTEST_BANNER_DEFAULT;
     this.store
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
@@ -111,11 +111,6 @@ export class NewContestComponent implements OnInit {
       entryMedia: new FormControl(null),
       evaluation: new FormControl(null),
     });
-
-    // const formArray = <FormArray>this.contestForm.get("contestRewards");
-    // formArray.controls.forEach((control) => {
-    //   control.valueChanges.subscribe((val) => console.log(control));
-    // });
 
     this.store
       .pipe(select(fromUpload.selectFilesToUpload))
@@ -183,45 +178,28 @@ export class NewContestComponent implements OnInit {
             // update store with contest banner
 
             this.userContestStore.dispatch(
-              new fromNewContestActions.SetContestBanner({
+              new NewContestActions.SetContestBanner({
                 bannerKey: val.presignedUrl[0].key,
               })
             );
-
-            // this.store.dispatch(
-            //   new UserImageActions.UpdateUserProfileImage({
-            //     imageKey: val.presignedUrl[0].key,
-            //   })
-            // );
           }
         }
       });
   }
 
-  // onFormSubmit(): void {
-  //   for (let i = 0; i < this.names.length; i++) {
-  //     console.log(this.names.at(i).value);
-  //   }
-  // }
-
-  // const formArray = <FormArray>this.contestForm.get("contestRewards");
-  // formArray.controls.forEach((control) => {
-  //   control.valueChanges.subscribe((val) => console.log(control));
-  // });
-
   onClickCreateButton() {
-    // console.log("clicked");
+    console.log("clicked");
     const formArray = <FormArray>this.contestForm.get("contestRewards");
     const duration = this.contestForm.controls["contestDuration"].value;
-    const redeemable: IRedeemable[] = [];
+    let redeemables: IRedeemable[] = [];
     for (let i = 0; i < formArray.length; i++) {
-      const redeemable = {
-        name: 
-      }
-      // redeemable.push({
-      //   name: `Winner ${i}`,
-      //   prizeCash: (<FormArray>this.contestForm.get("contestRewards")).at(i).value,
-      // });
+      const reward: string = (<FormArray>(
+        this.contestForm.get("contestRewards")
+      )).at(i).value;
+      redeemables.push({
+        name: `Winner ${i + 1}`,
+        prizeCash: reward["reward"],
+      });
     }
 
     const title: string = this.contestForm.controls["title"].value;
@@ -230,22 +208,26 @@ export class NewContestComponent implements OnInit {
       .value;
     const submissionRule: string = this.contestForm.controls["submissionRule"]
       .value;
-    const entryMedia: string = this.contestForm.controls["entryMedia"].value;
+    const entryMedia: number = this.contestForm.controls["entryMedia"].value;
 
     const contestObj: IContest = {
       title,
       information: basicInfo,
-      bannerImage: this.bannerImageKey === null ? this.bannerImageKey : "",
+      bannerImage: this.bannerImageKey,
       eligibleCategories: [...this.selectedCategories],
       eligibilityInfo: eligibityRule,
-      entryMediaType: entryMedia,
+      entryMediaType: this.mediaTypes.filter((x) => x.id === entryMedia)[0]
+        .name,
       submissionRules: submissionRule,
       startDate: new Date(duration[0]),
       endDate: new Date(duration[1]),
-      redeemable: [...redeemable],
+      redeemable: [...redeemables],
+      evaluations: [...this.evaluations],
     };
 
-    console.log(contestObj);
+    this.userContestStore.dispatch(
+      new NewContestActions.CreateContest({ newContest: contestObj })
+    );
   }
 
   onAddEvaluation() {
@@ -303,7 +285,8 @@ export class NewContestComponent implements OnInit {
     this.userContestStore
       .pipe(select(fromNewContest.selectCurrentBannerKey))
       .subscribe((val: string) => {
-        this.bannerImageKey = val;
+        this.bannerImageKey = val || "";
+
         this.bannerImage =
           val !== null
             ? fetchImageObjectFromCloudFormation(val, this.editParams)
@@ -324,7 +307,7 @@ export class NewContestComponent implements OnInit {
       this.store.dispatch(
         new NotificationActions.AddInfo({
           key: AppNotificationKey.error,
-          message: "You can only add 2 winners at once",
+          message: "You can only add 3 winners at once",
           code: 400,
         })
       );
