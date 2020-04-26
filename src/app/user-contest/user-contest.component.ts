@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { Router, ActivatedRoute } from "@angular/router";
-import * as fromTabs from "../store/app.reducers";
-import { IAppTab, ITab } from "../interfaces";
+import * as fromApp from "../store/app.reducers";
+import { IAppTab, ITab, IService } from "../interfaces";
 import { AbstractTabComponent } from "../shared/Classes/abstract/abstract-tab/abstract-tab.component";
 import { UUID } from "angular2-uuid";
+import * as fromService from "../shared/store/service/service.reducers";
+import * as ServiceActions from "../shared/store/service/service.actions";
 
 @Component({
   selector: "app-user-contest",
@@ -15,6 +17,7 @@ export class UserContestComponent extends AbstractTabComponent {
   queryParam = "all";
   activeTab: ITab;
   toQueryParam = "all";
+  contest: IService;
   tabPanel: IAppTab = {
     id: "user-contest",
     divClass: "all-contest-area pt-40 pb-60 pl-130",
@@ -26,11 +29,23 @@ export class UserContestComponent extends AbstractTabComponent {
     ],
   };
   constructor(
-    public store: Store<fromTabs.AppState>,
+    public store: Store<fromApp.AppState>,
     public router: Router,
     public route: ActivatedRoute
   ) {
     super();
+    this.store
+      .pipe(select(fromService.selectAllServices))
+      .subscribe((val: IService[]) => {
+        this.contest = val.filter((x) => x.name === "Contest Setup")[0];
+        if (this.contest) {
+          this.store.dispatch(
+            new ServiceActions.FetchService({
+              serviceId: this.contest._id,
+            })
+          );
+        }
+      });
   }
 
   navigate(): void {

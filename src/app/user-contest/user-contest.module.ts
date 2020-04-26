@@ -7,8 +7,6 @@ import { AllContestComponent } from "./all-contest/all-contest.component";
 import { NewContestComponent } from "./new-contest/new-contest.component";
 import { SettingComponent } from "./setting/setting.component";
 import { NewContestBannerComponent } from "./new-contest/new-contest-banner/new-contest-banner.component";
-import { ContestOverviewComponent } from "./contest-overview/contest-overview.component";
-import { ContestServiceComponent } from "./contest-overview/contest-service/contest-service.component";
 import { AllContestItemComponent } from "./all-contest/all-contest-item/all-contest-item.component";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatSelectModule } from "@angular/material/select";
@@ -21,6 +19,7 @@ import { EffectsModule } from "@ngrx/effects";
 import { NewUserContestEffect } from "./store/new-contest/new-contest.effects";
 import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
 import { NewContestOverviewComponent } from "./new-contest/new-contest-overview/new-contest-overview.component";
+import { NewContestSuccessComponent } from './new-contest/new-contest-success/new-contest-success.component';
 // import { DatePipe } from "@angular/common";
 
 @NgModule({
@@ -30,10 +29,9 @@ import { NewContestOverviewComponent } from "./new-contest/new-contest-overview/
     SettingComponent,
     UserContestComponent,
     NewContestBannerComponent,
-    ContestOverviewComponent,
-    ContestServiceComponent,
     AllContestItemComponent,
     NewContestOverviewComponent,
+    NewContestSuccessComponent,
   ],
   imports: [
     SharedModule,

@@ -24,7 +24,7 @@ export class UserTypeEffects {
   fetchUserTypes = createEffect(() =>
     this.actions$.pipe(
       ofType(UserTypeActions.FETCH_USER_TYPES),
-      switchMap(() =>
+      concatMap(() =>
         this.userTypeService.getUserTypes().pipe(
           mergeMap((response: IResult<IUserType[]>) => [
             new UserTypeActions.FetchUserTypesSucess({

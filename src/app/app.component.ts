@@ -14,6 +14,7 @@ import * as UserTypeActions from "./user-type/store/user-type.actions";
 import * as CategoryTypeActions from "./shared/store/category-type/category-type.actions";
 import * as CategoryActions from "./shared/store/category/category.action";
 import * as UserCategoryActions from "./shared/store/filtered-categories/talent-category.action";
+import * as ServiceActions from "./shared/store/service/service.actions";
 import * as AuthActions from "./account/store/auth.actions";
 import * as fromUserType from "./user-type/store/user-type.reducers";
 import {
@@ -71,6 +72,7 @@ export class AppComponent implements OnInit {
         ReportType.highestcomment
       )
     );
+    this.store.dispatch(new ServiceActions.FetchServices());
   }
 
   fetchTalentPortfolio(userId: string) {

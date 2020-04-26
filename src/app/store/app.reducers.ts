@@ -21,6 +21,7 @@ import * as fromTalentPorfolio from "../shared/store/talents/talents.reducers";
 import * as fromTalentAudioPortfolio from "../shared/store/talents/audio-preview/audio-preview.reducer";
 import * as fromTalentVideoPorfolio from "../shared/store/talents/video-preview/video-preview.reducer";
 import * as fromTalentImagePorfolio from "../shared/store/talents/image-preview/image-preview.reducer";
+import * as fromOrder from "../shared/store/order/order.reducers";
 
 export interface AppState {
   authState: fromAuth.AuthState;
@@ -29,7 +30,7 @@ export interface AppState {
   uploadState: fromUpload.UploadState;
   tabState: fromTabReducer.TabState;
   userImageState: fromUserImage.UserImageState;
-  service: fromService.State;
+  serviceState: fromService.ServiceState;
   modalState: fromModal.ModalState;
   toggleState: fromToggle.ToggleState;
   categoryTypeState: fromCategoryTypeReducer.CategoryTypeState;
@@ -42,6 +43,7 @@ export interface AppState {
   commentState: fromComments.CommentState;
   snackBarState: fromSnackBar.SnackBarState;
   notificationState: fromNotification.NotificationState;
+  orderState: fromOrder.OrderState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -51,7 +53,7 @@ export const reducers: ActionReducerMap<AppState> = {
   uploadState: fromUpload.reducer,
   tabState: fromTabReducer.reducer,
   userImageState: fromUserImage.reducer,
-  service: fromService.serviceReducer,
+  serviceState: fromService.reducer,
   modalState: fromModal.reducer,
   toggleState: fromToggle.reducer,
   categoryTypeState: fromCategoryTypeReducer.reducer,
@@ -64,6 +66,7 @@ export const reducers: ActionReducerMap<AppState> = {
   commentState: fromComments.reducer,
   snackBarState: fromSnackBar.reducer,
   notificationState: fromNotification.reducer,
+  orderState: fromOrder.reducer,
 };
 
 export function logger(

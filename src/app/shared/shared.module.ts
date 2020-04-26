@@ -36,6 +36,7 @@ import { VgBufferingModule } from "ngx-videogular";
 import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifier.component";
 
 import { Angular4PaystackModule } from "angular4-paystack";
+import { environment } from "src/environments/environment";
 
 @NgModule({
   imports: [
@@ -48,7 +49,7 @@ import { Angular4PaystackModule } from "angular4-paystack";
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    Angular4PaystackModule,
+    Angular4PaystackModule.forRoot(environment.PAYSTACK_CLIENT_KEY),
     RouterModule.forChild([]),
   ],
   exports: [

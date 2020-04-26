@@ -30,14 +30,6 @@ export function reducer(
         ...state,
         selectedUserTypeId: action.payload.userTypeId,
       });
-    case UserTypeActions.FETCH_USER_TYPES_ERROR:
-      return Object.assign({
-        ...state,
-        userTypeError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
     default: {
       return state;
     }
@@ -58,7 +50,7 @@ export const selectUserTypeIds = createSelector(
 
 export const selectUserTypeEntities = createSelector(
   getUserTypeState,
-  fromAdapter.selectUserTpeEntities
+  fromAdapter.selectUserTypeEntities
 );
 
 export const selectAllUserTypes = createSelector(

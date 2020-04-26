@@ -10,8 +10,8 @@ export class ServicesService {
 
   constructor(private http: HttpClient) {}
 
-  getServices(name: ServiceTypes): Observable<IResult<IService>> {
-    const url = `${this.BASE_URI}/services?servicename=${name}`;
-    return this.http.get<IResult<IService>>(url);
+  getServices(): Observable<IResult<IService[]>> {
+    const url = `${this.BASE_URI}/services`;
+    return this.http.get<IResult<IService[]>>(url);
   }
 }

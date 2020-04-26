@@ -71,9 +71,9 @@
           <div class="btns">
             <a href="">EDIT CONTEST</a>
             <angular4-paystack
-              [key]="paystackClientKey"
               [email]="userEmail"
-              [amount]="1050"
+              (click)="createOrder('paystack')"
+              [amount]="totalAmount * 100"
               [ref]="refKey"
               [channels]="['card', 'bank']"
               [class]="'box-btn create-btn'"
@@ -98,17 +98,42 @@
             <div class="sm-top-blk">
               <h3>Summary</h3>
               <div class="sm-sng-blk">
-                <p>Subtotal <span>NGN 250</span></p>
-                <p>Service fee <span>NGN 250</span></p>
-                <p>Service fee <span>NGN 250</span></p>
-                <p>Contest Prize fee <span>NGN 250</span></p>
-                <h4>Total <span>$26.50</span></h4>
+                <p>
+                  Contest prize
+                  <small>
+                    <i>x {{ winnerCount }} </i></small
+                  >
+                  <span>
+                    {{ totalRewardFund | currency: "NGN":true:"2.2-4" }}</span
+                  >
+                </p>
+                <p>
+                  Contest setup fee
+                  <span>{{
+                    currentService.price | currency: "NGN":true:"2.2-4"
+                  }}</span>
+                </p>
+                <h4>
+                  Total
+                  <span>{{ totalAmount | currency: "NGN":true:"2.2-4" }}</span>
+                </h4>
               </div>
-              <div class="sm-sng-blk btm-blk">
+              <!-- <div class="sm-sng-blk btm-blk">
                 <p>Delivery Time <span>5 Days</span></p>
-              </div>
+              </div> -->
               <div class="sm-btm">
-                <a class="order-btn" href="">Order now</a>
+                <!-- <a class="order-btn" href="">Order now</a> -->
+                <!-- <angular4-paystack
+                  [key]="paystackClientKey"
+                  [email]="userEmail"
+                  [amount]="1050"
+                  [ref]="refKey"
+                  [channels]="['card', 'bank']"
+                  [class]="'order-btn'"
+                  (close)="paymentCancel()"
+                  (callback)="paymentDone($event)"
+                  >PAY NOW</angular4-paystack
+                > -->
                 <p>You won't be changed yet</p>
               </div>
             </div>

@@ -12,13 +12,13 @@ export function selectUserTypeId(a: IUserType): string {
 export const adapter: EntityAdapter<IUserType> = createEntityAdapter<IUserType>(
   {
     selectId: selectUserTypeId,
-    sortComparer: sortByName
+    sortComparer: sortByName,
   }
 );
 
 export const {
   selectIds: selectUserTypeIds,
-  selectEntities: selectUserTpeEntities,
+  selectEntities: selectUserTypeEntities,
   selectAll: selectAllUserTypes,
-  selectTotal: userTypeCount
+  selectTotal: userTypeCount,
 } = adapter.getSelectors();
