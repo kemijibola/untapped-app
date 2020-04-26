@@ -61,6 +61,8 @@ export class UserComponent extends AbstractTabComponent {
   loadTalentTabs() {
     this.tabPanel = {
       id: "user-tab",
+      divClass: "profile-area fx-padding-2 pt-80 pb-105",
+      navClass: "nav nav-tabs mb-30 all-tablinks",
       tabs: [
         { index: 0, title: "Profile", tag: "profile", active: false },
         { index: 1, title: "Portfolio", tag: "portfolio", active: false },
@@ -79,6 +81,8 @@ export class UserComponent extends AbstractTabComponent {
   loadProfessionalTabs() {
     this.tabPanel = {
       id: "user-tab",
+      divClass: "profile-area fx-padding-2 pt-80 pb-105",
+      navClass: "nav nav-tabs mb-30 all-tablinks",
       tabs: [
         { index: 0, title: "Profile", tag: "profile", active: false },
         { index: 1, title: "Settings", tag: "settings", active: false },
@@ -95,6 +99,8 @@ export class UserComponent extends AbstractTabComponent {
   loadAudienceTab() {
     this.tabPanel = {
       id: "user-tab",
+      divClass: "profile-area fx-padding-2 pt-80 pb-105",
+      navClass: "nav nav-tabs mb-30 all-tablinks",
       tabs: [
         { index: 0, title: "Settings", tag: "settings", active: false },
         { index: 1, title: "Contests", tag: "contests", active: false },

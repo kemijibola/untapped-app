@@ -1,3 +1,4 @@
+import { NewContestOverviewComponent } from "./new-contest/new-contest-overview/new-contest-overview.component";
 import { Routes, RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { UserContestComponent } from "./user-contest.component";
@@ -8,6 +9,11 @@ const userContestRouting: Routes = [
     path: "page",
     canActivate: [CompleteProfile],
     component: UserContestComponent,
+  },
+  {
+    path: "new/overview",
+    canActivate: [CompleteProfile],
+    component: NewContestOverviewComponent,
   },
 ];
 

@@ -1,22 +1,17 @@
-import { ICategory } from '../shared/category';
-import { IPrizeType } from './PrizeType';
-import { IUser } from '../account/user';
+import { CategoryType } from "./../shared/TalentCategory";
+import { IPrizeType } from "./PrizeType";
+import { IUser } from "../account/user";
 
 export enum PaymentStatus {
-  Completed = 'Completed',
-  Failed = 'Failed',
-  Pending = 'Pending',
-  UnPaid = 'UnPaid'
+  Completed = "Completed",
+  Failed = "Failed",
+  Pending = "Pending",
+  UnPaid = "UnPaid",
 }
 
 export enum ContestType {
-  Online = 'Online',
-  OnlineOffline = 'OnlineOffline'
-}
-
-export interface IRedeemable {
-  prizeType: IPrizeType['_id'];
-  prizes: any[];
+  Online = "Online",
+  OnlineOffline = "OnlineOffline",
 }
 
 export interface IUserContest {
@@ -38,18 +33,32 @@ export interface IContestList {
 export interface IContest {
   _id?: string;
   title: string;
+  code?: string;
   information: string;
   bannerImage: string;
-  eligibleCategories: ICategory['_id'][];
-  eligibilityInfo: string;
-  submissionRules: string;
+  entryMediaType: string;
+  eligibleCategories?: CategoryType["_id"][];
+  evaluations?: string[];
+  eligibilityInfo?: string;
+  submissionRules?: string;
   startDate: Date;
   endDate: Date;
-  redeemable: IRedeemable;
-  contestType: ContestType;
-  createdBy: IUser['_id'];
-  paymentStatus: PaymentStatus;
+  views?: number;
+  likes?: number;
+  createdBy?: string;
+  redeemable: IRedeemable[];
+  paymentStatus?: PaymentStatus;
   issues?: IContestIssue[];
+}
+
+export interface IRedeemable {
+  name: string;
+  prizeCash: number;
+}
+
+export interface Category {
+  _id: string;
+  name: string;
 }
 
 export interface IContestIssue {
@@ -60,12 +69,12 @@ export interface IContestIssue {
 }
 
 export enum ComplaintStatus {
-  Opened = 'Opened',
-  Resolved = 'Resolved'
+  Opened = "Opened",
+  Resolved = "Resolved",
 }
 
 export interface CreateContest {
-  user: IUser['_id'];
-  contest: IContest['_id'];
+  user: IUser["_id"];
+  contest: IContest["_id"];
   submissionPath: string;
 }

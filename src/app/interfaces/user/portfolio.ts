@@ -17,6 +17,11 @@ export interface PortfolioUploadInputConfig {
   mediaAccept: string;
 }
 
+export interface ISize {
+  width: number;
+  height: number;
+}
+
 export interface PortfolioQueryParams {
   id: string;
   type: MediaType;

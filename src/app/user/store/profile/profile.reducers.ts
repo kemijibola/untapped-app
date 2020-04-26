@@ -22,8 +22,9 @@ export function profileReducer(
         ...state,
         userProfile: { ...action.payload },
       });
-    default:
+    default: {
       return state;
+    }
   }
 }
 

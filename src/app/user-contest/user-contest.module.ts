@@ -7,11 +7,20 @@ import { AllContestComponent } from "./all-contest/all-contest.component";
 import { NewContestComponent } from "./new-contest/new-contest.component";
 import { SettingComponent } from "./setting/setting.component";
 import { NewContestBannerComponent } from "./new-contest/new-contest-banner/new-contest-banner.component";
-import { ContestOverviewComponent } from "./contest-overview/contest-overview.component";
-import { ContestServiceComponent } from "./contest-overview/contest-service/contest-service.component";
 import { AllContestItemComponent } from "./all-contest/all-contest-item/all-contest-item.component";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatSelectModule } from "@angular/material/select";
+import { NgxCurrencyModule } from "ngx-currency";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+import { StoreModule } from "@ngrx/store";
+import { allContestReducer } from "./store/all-contest/all-contest.reducers";
+import { newContestReducer } from "./store/new-contest/new-contest.reducers";
+import { EffectsModule } from "@ngrx/effects";
+import { NewUserContestEffect } from "./store/new-contest/new-contest.effects";
+import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
+import { NewContestOverviewComponent } from "./new-contest/new-contest-overview/new-contest-overview.component";
+import { NewContestSuccessComponent } from './new-contest/new-contest-success/new-contest-success.component';
+// import { DatePipe } from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -20,9 +29,9 @@ import { MatSelectModule } from "@angular/material/select";
     SettingComponent,
     UserContestComponent,
     NewContestBannerComponent,
-    ContestOverviewComponent,
-    ContestServiceComponent,
     AllContestItemComponent,
+    NewContestOverviewComponent,
+    NewContestSuccessComponent,
   ],
   imports: [
     SharedModule,
@@ -31,7 +40,14 @@ import { MatSelectModule } from "@angular/material/select";
     FormsModule,
     ReactiveFormsModule,
     UserContestRoutingModule,
+    NgxCurrencyModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    StoreModule.forFeature("allContestState", allContestReducer),
+    StoreModule.forFeature("newUserContestState", newContestReducer),
+    EffectsModule.forFeature([NewUserContestEffect, AllUserContestEffect]),
   ],
+  providers: [],
   exports: [UserContestRoutingModule],
 })
 export class UserContestModule {}

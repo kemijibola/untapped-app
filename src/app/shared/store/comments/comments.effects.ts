@@ -101,7 +101,7 @@ export class CommentsEffects {
           mergeMap((resp: IResult<IComment>) => {
             const commentObj = { ...action.payload.comment };
             commentObj.likedBy = commentObj.likedBy.filter(
-              (x) => x.user !== action.payload.unLikedBy.user
+              (x) => x._id !== action.payload.unLikedBy._id
             );
             return [
               new CommentsAction.RemoveCommentLikeSuccess({
@@ -133,7 +133,7 @@ export class CommentsEffects {
           mergeMap((resp: IResult<IComment>) => {
             const commentObj = { ...action.payload.comment };
             commentObj.likedBy = commentObj.likedBy.filter(
-              (x) => x.user !== action.payload.likedBy.user
+              (x) => x._id !== action.payload.likedBy._id
             );
             console.log("removing optimistic update from store", commentObj);
             return [

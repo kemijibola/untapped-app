@@ -32,6 +32,8 @@ import { CategoryService } from "../services/category.service";
 import { UserCategoryService } from "../services/user-category.service";
 import { TalentsService } from "../services/talents.service";
 import { CommentsService } from "../services/comments.service";
+import { ContestService } from "../services/contest.service";
+import { OrderService } from "../services/order.service";
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { CommentsService } from "../services/comments.service";
     UserCategoryService,
     TalentsService,
     CommentsService,
+    ContestService,
+    OrderService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

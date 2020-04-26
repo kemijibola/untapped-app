@@ -13,20 +13,40 @@
             location and social media handles.
           </p>
           <div class="input-1">
-            <label for="">Contest Title</label>
+            <label for="">
+              <span
+                class="error-block"
+                *ngIf="
+                  !contestForm.get('title').valid &&
+                  contestForm.get('title').touched
+                "
+              >
+                Please provide provide
+              </span>
+              Contest Title</label
+            >
             <input
               type="text"
               formControlName="title"
-              [(ngModel)]="title"
               placeholder="Some fancy title for your contest"
             />
           </div>
           <div class="input-1">
-            <label for="">Contest Information</label>
+            <label for="">
+              <span
+                class="error-block"
+                *ngIf="
+                  !contestForm.get('basicInfo').valid &&
+                  contestForm.get('basicInfo').touched
+                "
+              >
+                Please provide provide
+              </span>
+              Contest Information</label
+            >
             <textarea
               placeholder="Tell us more about your contest"
               formControlName="basicInfo"
-              [(ngModel)]="basicInfo"
               cols="30"
               rows="10"
             ></textarea>
@@ -34,14 +54,17 @@
           <div class="upload">
             <div class="head">
               <label for="">+ Upload contest banner</label>
-              <span>Banner size 200px by 200px</span>
+              <!-- <span>Banner size 200px by 200px</span> -->
             </div>
             <div class="upload-fld">
               <input
                 type="text"
                 placeholder="Drag and drop file to upload or"
               />
-              <button>BROWSE</button>
+              <button (click)="onClickBrowseBtn()">BROWSE</button>
+              <!-- upload component goes here -->
+              <app-upload [fileConfig]="fileConfig"> </app-upload>
+              <!-- upload component goes here -->
             </div>
             <div class="input-1">
               <label for="">Eligble categories</label>
@@ -56,7 +79,6 @@
               <textarea
                 formControlName="eligibityRule"
                 placeholder="Who is eligible to participate in your contest"
-                [(ngModel)]="eligibityRule"
                 value=""
                 cols="30"
                 rows="10"
@@ -67,7 +89,6 @@
               <textarea
                 formControlName="submissionRule"
                 placeholder="What rules binds the people who participate in your contest"
-                [(ngModel)]="submissionRule"
                 cols="30"
                 rows="10"
               ></textarea>
@@ -75,21 +96,13 @@
             <div class="duration">
               <label for="">Contest duration</label>
               <div class="duration-inner">
-                <input type="date" placeholder="start date" />
-
-                <mat-slider
-                  formControlName="noOfContestDays"
-                  thumbLabel
-                  [displayWith]="formatLabel"
-                  tickInterval="1"
-                  min="1"
-                  max="14"
-                ></mat-slider>
-                <!-- <select name="" id="#">
-                  <option value="">Select</option>
-                  <option value="">Select 1</option>
-                  <option value="">Select 2</option>
-                </select> -->
+                <input
+                  formControlName="contestDuration"
+                  [owlDateTimeTrigger]="dt10"
+                  [owlDateTime]="dt10"
+                  [selectMode]="'range'"
+                />
+                <owl-date-time #dt10></owl-date-time>
               </div>
             </div>
             <div class="prize">
@@ -105,47 +118,28 @@
                 [formGroupName]="i"
               >
                 <div class="single-winner-blk">
-                  <label for="">Winner {{ i + 1 }}:</label>
+                  <label for="">
+                    <span
+                      class="error-block"
+                      *ngIf="!contestRewards.valid && contestRewards.touched"
+                    >
+                      Please provide provide
+                    </span>
+                    Winner {{ i + 1 }}:</label
+                  >
                   <input
-                    type="text"
-                    formControlName="reward"
                     placeholder="N40,000"
+                    currencyMask
+                    formControlName="reward"
+                    [options]="{
+                      prefix: 'N ',
+                      thousands: ',',
+                      decimal: '.',
+                      nullable: false
+                    }"
                   />
                 </div>
-                <div class="single-winner-blk" *ngIf>
-                  <textarea
-                    name=""
-                    id=""
-                    cols="30"
-                    rows="10"
-                    placeholder="Grand finale location (optional)"
-                  ></textarea>
-                </div>
                 <div class="prize-inner">
-                  <!-- <select
-                    formControlName="prizeType"
-                    placeholder="Prize type"
-                  >
-                    <option
-                      *ngFor="let prize of PrizeTypes"
-                      [value]="prize.id"
-                      >{{ prize.name }}</option
-                    >
-                  </select> -->
-                  <mat-form-field>
-                    <mat-label>Prize type</mat-label>
-                    <mat-select
-                      placeholder="Prize type"
-                      formControlName="prizeType"
-                    >
-                      <mat-option
-                        *ngFor="let prize of PrizeTypes"
-                        [value]="prize.id"
-                      >
-                        {{ prize.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
                   <div class="col-xl-2">
                     <button class="btn btn-danger" (click)="deleteReward(i)">
                       X
@@ -159,61 +153,64 @@
                 >
               </div>
             </div>
-
             <div class="online-offline-blk">
-              <div class="on-of-radion-button">
-                <label class="container-rd"
-                  >Online
-                  <input type="radio" checked="checked" name="radio" />
-                  <span class="checkmark-ed"></span>
-                </label>
-                <label class="container-rd"
-                  >Online & Offline
-                  <input type="radio" name="radio" />
-                  <span class="checkmark-ed"></span>
-                </label>
-              </div>
               <div class="of-line">
-                <div class="ant-row">
-                  <div class="s-angl-item-wrp">
-                    <label for="">Grand finale Date number</label>
-                    <div class="s-angl-item cl-ico">
-                      <i class="far fa-calendar-alt"></i>
-                      <input type="text" placeholder="Grand finale date" />
-                    </div>
-                  </div>
-                  <div class="s-angl-item-wrp">
-                    <label for="">Grand Finale location</label>
-                    <div class="s-angl-item">
-                      <textarea
-                        name=""
-                        id=""
-                        cols="30"
-                        rows="10"
-                        placeholder="Grand finale location (optional)"
-                      ></textarea>
-                    </div>
-                  </div>
+                <div class="contest-number">
+                  <label for="">
+                    <span
+                      class="error-block"
+                      *ngIf="
+                        !contestForm.get('entryMedia').valid &&
+                        contestForm.get('entryMedia').touched
+                      "
+                    >
+                      Please provide provide
+                    </span>
+                    Entry Media Type</label
+                  >
+                  <mat-form-field>
+                    <mat-label>Prize type</mat-label>
+                    <mat-select
+                      placeholder="Media type"
+                      formControlName="entryMedia"
+                    >
+                      <mat-option
+                        *ngFor="let media of mediaTypes"
+                        [value]="media.id"
+                      >
+                        {{ media.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
                 <div class="contest-number">
-                  <label for="">Max no of Contestants</label>
-                  <input type="number" value="1" />
-                </div>
-                <div class="contest-number">
-                  <label for="">Evaluation</label>
-                  <button>Dancing<i class="fal fa-times"></i></button>
-                  <button>Vocal<i class="fal fa-times"></i></button>
+                  <label for="">Evaluation Criteria</label>
+                  <button *ngFor="let eval of evaluations">
+                    {{ eval
+                    }}<i class="fal fa-times" (click)="deleteEvaluation()"></i>
+                  </button>
                 </div>
                 <div class="vocal-row">
-                  <input type="text" placeholder="Vocal" />
-                  <div class="add-more-blk">
-                    <a href=""><i class="fal fa-plus"></i>Add Evaluation</a>
+                  <input
+                    type="text"
+                    formControlName="evaluation"
+                    placeholder="Vocal"
+                  />
+                  <div class="add-more-blk" (click)="onAddEvaluation()">
+                    <a><i class="fal fa-plus"></i>Add Evaluation</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <a class="box-btn create-btn">CREATE CONTEST</a>
+          <button
+            class="box-btn create-btn"
+            [disabled]="!contestForm.valid"
+            type="button"
+            (click)="onClickCreateButton()"
+          >
+            CREATE CONTEST
+          </button>
         </div>
       </div>
     </div>
@@ -221,9 +218,13 @@
       <div class="right-wrapper">
         <div class="details-content">
           <div class="sidebar-img">
-            <img src="assets/img/contest/sidebar-img.jpg" alt="" />
+            <img
+              style="width: 482px; height: 395px;"
+              src="{{ bannerImage }}"
+              alt=""
+            />
           </div>
-          <div class="heading mb-10">
+          <!-- <div class="heading mb-10">
             <h2>{{ title }}</h2>
           </div>
           <div class="content-block">
@@ -264,7 +265,8 @@
             <span>Voting:</span>March 11 → March 20 (10 days) Midnignt PST
           </li>
           <li><span>Winner announced:</span>March 21!</li>
-        </ul>
+        </ul> -->
+        </div>
       </div>
     </div>
   </div>

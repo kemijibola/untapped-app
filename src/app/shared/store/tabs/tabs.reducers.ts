@@ -1,4 +1,3 @@
-import { State } from "./../service/service.reducers";
 import { IAppTab, IUpdateTab, ITab } from "src/app/interfaces";
 import * as TabsAction from "./tabs.actions";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";

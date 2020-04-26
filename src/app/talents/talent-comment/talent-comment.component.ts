@@ -57,7 +57,6 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
-        console.log(val);
         this.isAuthenticated = val.authenticated;
         if (val.authenticated) {
           this.currentUser = { ...val.user_data };
@@ -67,7 +66,6 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     this.store
       .pipe(select(fromComment.selectAllComments))
       .subscribe((val: IComment[]) => {
-        // console.log("comments from component", val);
         this.commentsLength = val.length;
         if (this.commentsLength > 0) {
           this.mediaComments = this.sortCommentsByNewest(val);
@@ -90,7 +88,8 @@ export class TalentCommentComponent implements OnInit, OnChanges {
 
   onLikeClicked(commentToLike: IComment) {
     const likedBy: LikeViewModel = {
-      user: this.currentUser._id,
+      _id: this.currentUser._id,
+      fullName: this.currentUser.full_name,
     };
     this.store.dispatch(
       new CommentsActions.AddCommentLike({ comment: commentToLike, likedBy })
@@ -99,7 +98,8 @@ export class TalentCommentComponent implements OnInit, OnChanges {
 
   onUnLikeClicked(commentToUnLike: IComment) {
     const unLikedBy: LikeViewModel = {
-      user: this.currentUser._id,
+      _id: this.currentUser._id,
+      fullName: this.currentUser.full_name,
     };
     this.store.dispatch(
       new CommentsActions.RemoveCommentLike({
@@ -141,9 +141,7 @@ export class TalentCommentComponent implements OnInit, OnChanges {
 
   checkIfUserHasLikedComment(currentUser: string, comments: IComment[]) {
     comments.map((x) => {
-      // console.log(x);
-      const found = x.likedBy.filter((y) => y.user === currentUser)[0];
-      // console.log(found);
+      const found = x.likedBy.filter((y) => y._id === currentUser)[0];
       x.hasLiked = found ? true : false;
       x.likeCount = x.likedBy ? x.likedBy.length : 0;
     });

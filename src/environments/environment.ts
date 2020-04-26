@@ -20,6 +20,8 @@ export const environment = {
   VIDEO_ACCELERATE_URL:
     "https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com",
   PROFESSIONAL_BANNER_IMAGE_DEFAULT: "assets/img/profile/profile-3.jpg",
+  CONTEST_BANNER_DEFAULT: "assets/img/contest/sidebar-img.jpg",
+  PAYSTACK_CLIENT_KEY: "pk_test_59348c251942c0500c9bf1058fdbd9956cadc060",
 };
 
 /*

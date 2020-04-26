@@ -144,6 +144,8 @@ export class ChangeProfilePictureComponent implements OnInit {
       process: this.uploadOperation,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
+      minHeight: 300,
+      minWidth: 400,
     };
   }
 

@@ -13,13 +13,17 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { Subject } from "rxjs";
+import { Subject, Observable, fromEvent, forkJoin } from "rxjs";
 import * as UploadActions from "../store/upload/upload.actions";
 import {
   IFileInputModel,
   IFileModel,
   UPLOADOPERATIONS,
+  AppNotificationKey,
+  ISize,
+  MediaAcceptType,
 } from "src/app/interfaces";
+import * as NotificationActions from "../../store/global/notification/notification.action";
 
 const noop = () => {};
 
@@ -37,7 +41,10 @@ const noop = () => {};
 })
 export class UploadComponent
   implements ControlValueAccessor, OnInit, OnChanges {
-  private file: IFileModel;
+  private file: IFileModel = {
+    action: UPLOADOPERATIONS.ContestBanner,
+    files: [],
+  };
   ngDestroyed = new Subject();
   multiple: boolean;
   accept: string;
@@ -45,6 +52,7 @@ export class UploadComponent
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;
+  fileArray = [];
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
 
@@ -74,31 +82,75 @@ export class UploadComponent
     }
   }
   private triggerFileInput(): void {
-    // let child;
     const fileUpload = this.fileInput.nativeElement;
-    // const event = new MouseEvent("click", { bubbles: true });
     this.renderer.setProperty(fileUpload, "multiple", this.multiple);
     this.renderer.setProperty(fileUpload, "accept", this.accept);
     fileUpload.click();
-    // this.fileInput.nativeElement.dispatchEvent(event);
   }
 
-  @HostListener("change", ["$event.target.files"]) emitFiles(files: FileList) {
-    const fileArray = [];
-    for (let index = 0; index < files.length; index++) {
-      const fileToUpload = files[index];
-      fileArray.push({
-        data: fileToUpload,
-      });
+  async onInputChanged(data: any) {
+    const fileList: FileList = data.target.files;
+    for (let index = 0; index < fileList.length; index++) {
+      const file = fileList[index];
+      if (this.fileConfig.accept === MediaAcceptType.IMAGE) {
+        const URL = window.URL || window.webkitURL;
+        const imageSrc = URL.createObjectURL(file);
+        const fileDimension = await this.getImageSize(imageSrc);
+        if (this.validateImageDimension(fileDimension)) {
+          this.fileArray.push({ data: file });
+        }
+      } else {
+        this.fileArray.push({
+          data: file,
+        });
+      }
     }
     this.file = {
       action: this.operationType,
-      files: [...fileArray],
+      files: [...this.fileArray],
     };
-    this.onChange(this.file);
-    this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
 
-    this.writeValue(null);
+    if (this.file.files.length === fileList.length) {
+      this.onChange(this.file);
+      this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
+      this.writeValue(null);
+    } else {
+      this.store.dispatch(
+        new NotificationActions.AddError({
+          key: AppNotificationKey.error,
+          message: `Upload image with minimum dimentions ${this.fileConfig.minHeight}px x ${this.fileConfig.minWidth}px`,
+          code: 400,
+        })
+      );
+    }
+  }
+
+  validateImageDimension(size: ISize): boolean {
+    if (
+      this.fileConfig.minWidth > size.width ||
+      this.fileConfig.minHeight > size.height
+    )
+      return false;
+    return true;
+  }
+
+  getImageSize(imageSrc: string): Promise<ISize> {
+    return new Promise((resolve, reject) => {
+      let mapLoadedImage = (event: any): ISize => {
+        return {
+          width: event.target.width,
+          height: event.target.height,
+        };
+      };
+      var image = new Image();
+      fromEvent(image, "load")
+        .take(1)
+        .map(mapLoadedImage)
+        .subscribe((val: ISize) => {
+          resolve(val);
+        });
+      image.src = imageSrc;
+    });
   }
 
   writeValue(value: null) {

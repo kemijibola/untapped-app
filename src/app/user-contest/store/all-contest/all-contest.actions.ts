@@ -1,18 +1,26 @@
-import { Action } from '@ngrx/store';
-import { IUserContest } from '../../../interfaces';
+import { Action } from "@ngrx/store";
+import { IUserContest } from "../../../interfaces";
 
-export const FETCH_USER_CONTESTS = 'FETCH_USER_CONTESTS';
-export const SET_USER_CONTESTS = 'SET_USER_CONTESTS';
+export const FETCH_USER_CONTEST_LIST = "FETCH_USER_CONTEST_LIST";
+export const FETCH_USER_CONTEST_LIST_SUCCESS =
+  "FETCH_USER_CONTEST_LIST_SUCCESS";
+export const FETCH_USER_CONTEST_BY_ID = "FETCH_USER_CONTEST_BY_ID";
 
-export class FetchUserContests implements Action {
-  readonly type = FETCH_USER_CONTESTS;
-  // payload is current user Id
-  constructor(public payload: { id: string }) {}
+export class FetchUserContestList implements Action {
+  readonly type = FETCH_USER_CONTEST_LIST;
 }
 
-export class SetUserContests implements Action {
-  readonly type = SET_USER_CONTESTS;
-  constructor(public payload: { userContest: IUserContest[] }) {}
+export class FetchUserContestListSuccess implements Action {
+  readonly type = FETCH_USER_CONTEST_LIST_SUCCESS;
+  constructor(public payload: { userContests: IUserContest[] }) {}
 }
 
-export type AllContestActions = FetchUserContests | SetUserContests;
+export class FetchUserContestById implements Action {
+  readonly type = FETCH_USER_CONTEST_BY_ID;
+  constructor(public payload: { contestId: string }) {}
+}
+
+export type AllContestActions =
+  | FetchUserContestList
+  | FetchUserContestListSuccess
+  | FetchUserContestById;

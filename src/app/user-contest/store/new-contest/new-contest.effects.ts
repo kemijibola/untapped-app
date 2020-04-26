@@ -1,67 +1,69 @@
 import { Injectable } from "@angular/core";
-import { Effect, Actions, ofType } from "@ngrx/effects";
+import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as NewContestActions from "./new-contest.actions";
 import { ContestService } from "src/app/services/contest.service";
-import { map, switchMap, mergeMap, catchError } from "rxjs/operators";
-import { IResult, IUserContest, IContest } from "src/app/interfaces";
+import {
+  map,
+  switchMap,
+  mergeMap,
+  catchError,
+  concatMap,
+  tap,
+} from "rxjs/operators";
+import {
+  IResult,
+  IUserContest,
+  IContest,
+  AppNotificationKey,
+} from "src/app/interfaces";
 import { Router } from "@angular/router";
-import { of } from "rxjs";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
+import { of, pipe } from "rxjs";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Injectable()
-export class UserContestEffect {
-  @Effect()
-  createContest = this.action$.pipe(
-    ofType(NewContestActions.CREATE_CONTEST),
-    switchMap((action: NewContestActions.CreateContest) =>
-      this.contestsService.createContest(action.payload).pipe(
-        mergeMap((resp: IResult<IContest>) => {
-          return [
-            {
-              type: NewContestActions.SET_CONTEST_SUCCESS
-            },
-            {
-              type: NewContestActions.SET_NEW_CONTEST,
-              payload: resp.data
-            }
-          ];
-        }),
-        catchError(error =>
-          of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
-            })
+export class NewUserContestEffect {
+  createContest = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NewContestActions.CREATE_CONTEST),
+      concatMap((action: NewContestActions.CreateContest) =>
+        this.contestsService.createContest(action.payload.newContest).pipe(
+          mergeMap((resp: IResult<IContest>) => {
+            return [
+              new NewContestActions.SetContest({
+                contest: resp.data,
+              }),
+              new NewContestActions.CreateContestSuccess(),
+            ];
+          }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              })
+            )
           )
         )
       )
     )
   );
 
-  // @Effect({ dispatch: false })
-  // createContestSuccess = this.action$
-  //   .pipe(ofType(NewContestActions.SET_CONTEST_SUCCESS))
-  //   .do((action: NewContestActions.SetContestSuccess) => {
-  //     this.router.navigate(["/new-contest/success/overview"]);
-  //   });
-
-  // @Effect()
-  // updateContestJudge = this.action$
-  //   .pipe(ofType(NewContestActions.ADD_CONTEST_JUDGE))
-  //   .switchMap((action: NewContestActions.AddContestJudge) => {
-  //     const { _id, judges } = action.payload;
-  //     return this.contestsService.updateContestWithJudge(_id, judges);
-  //   })
-  //   .pipe(
-  //     map((resp: IResult<IContest>) => {
-  //       // TODO:: on success, navigate to user/contest?tab=all
-  //     })
-  //   );
+  createContestSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(NewContestActions.CREATE_CONTEST_SUCCESS),
+        pipe(tap(() => this.router.navigate(["/user/contest/new/overview"])))
+      ),
+    { dispatch: false }
+  );
 
   constructor(
-    private action$: Actions,
+    private actions$: Actions,
     private router: Router,
     private contestsService: ContestService,
     private store: Store<fromApp.AppState>

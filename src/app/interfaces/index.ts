@@ -7,6 +7,7 @@ export * from "./shared/tab";
 export * from "./shared/modal";
 export * from "./shared/file";
 export * from "./shared/category";
+export * from "./shared/Order";
 export * from "./user/physical-attributes";
 export * from "./user/profile";
 export * from "./shared/config";

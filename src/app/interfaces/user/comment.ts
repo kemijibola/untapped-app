@@ -22,7 +22,7 @@ export interface Reply {
 
 export interface LikeViewModel {
   _id?: string;
-  user: string;
+  fullName: string;
 }
 
 export interface CommenterViewModel {

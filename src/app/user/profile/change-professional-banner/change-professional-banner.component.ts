@@ -127,6 +127,8 @@ export class ChangeProfessionalBannerComponent implements OnInit {
       process: this.uploadOperation,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
+      minHeight: 100,
+      minWidth: 100,
     };
   }
 

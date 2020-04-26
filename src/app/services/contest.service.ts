@@ -5,7 +5,7 @@ import {
   IContestList,
   IContest,
   IUserContest,
-  IContestIssue
+  IContestIssue,
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
@@ -14,7 +14,7 @@ import { IJudge } from "../interfaces/contests/Judge";
 export class ContestService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {
-    this.BASE_URI = "http://127.0.0.1:9000";
+    this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
   fetchContests(): Observable<IResult<IContestList[]>> {
     const url = `${this.BASE_URI}/contests`;
@@ -24,9 +24,14 @@ export class ContestService {
     const url = `${this.BASE_URI}/contests/${_id}`;
     return this.http.get<IResult<IContest>>(url);
   }
-  fetchUserContests(_id: string): Observable<IResult<IUserContest[]>> {
-    const url = `${this.BASE_URI}/contests?user=${_id}`;
+  fetchUserContests(): Observable<IResult<IUserContest[]>> {
+    const url = `${this.BASE_URI}/contests`;
     return this.http.get<IResult<IUserContest[]>>(url);
+  }
+
+  findContestByTitle(title: string): Observable<IResult<IContest[]>> {
+    const url = `${this.BASE_URI}/contests`;
+    return this.http.get<IResult<IContest[]>>(`${url}?title=${title}`);
   }
   createContest(item: IContest): Observable<IResult<IContest>> {
     const url = `${this.BASE_URI}/contests`;
@@ -42,7 +47,7 @@ export class ContestService {
   ): Observable<IResult<IContest>> {
     const url = `${this.BASE_URI}/contests/${_id}`;
     return this.http.patch<IResult<IContest>>(url, {
-      judges: judges
+      judges: judges,
     });
   }
 }

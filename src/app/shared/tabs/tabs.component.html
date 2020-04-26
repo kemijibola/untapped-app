@@ -1,11 +1,11 @@
 <!-- Header bar section complate -->
 <!-- Profile Area Start -->
-<div [class]="divCss">
+<div [class]="tab.divClass">
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-12">
-        <ul [class]="navCss" id="myTab" role="tablist">
-          <li class="nav-item" *ngFor="let activeTab of (tab | async).tabs">
+        <ul [class]="tab.navClass" id="myTab" role="tablist">
+          <li class="nav-item" *ngFor="let activeTab of tab.tabs">
             <a
               class="nav-link active"
               [class.active]="activeTab.active"
