@@ -39,7 +39,7 @@
     "core-js": "^2.5.4",
     "date-fns": "^2.11.1",
     "fstream": "^1.0.12",
-    "jquery": "^1.12.4",
+    "jquery": "^3.4.0",
     "ng-pick-datetime": "^7.0.0",
     "ngx-currency": "^2.2.3",
     "ngx-owl-carousel": "^2.0.7",
