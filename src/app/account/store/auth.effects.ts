@@ -153,7 +153,8 @@ export class AuthEffects {
           (action: AuthActions.CheckTokenExpired) => action.payload.tokenData
         ),
         map((payload) => {
-          pa
+          let tokenExpiration =
+            payload !== null ? new Date(payload.token_expires).getTime() : 0;
           if (!isAfter(Date.now(), tokenExpiration)) {
             return {
               type: AuthActions.SET_AUTHDATA,
