@@ -1,63 +1,49 @@
 import { Injectable } from "@angular/core";
-import { Effect, Actions, ofType } from "@ngrx/effects";
+import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as ContestsActions from "./contests.action";
 import { ContestService } from "src/app/services/contest.service";
-import { map, switchMap, tap, catchError } from "rxjs/operators";
+import { map, switchMap, catchError, mergeMap } from "rxjs/operators";
 import {
   IResult,
   IContestList,
   IUserContest,
-  IContest
+  IContest,
+  AppNotificationKey,
 } from "src/app/interfaces";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
-import * as GlobalErrorActions from "../../store/global/error/error.actions";
+import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../store/global/notification/notification.action";
 
 @Injectable()
 export class ContestsEffect {
-  @Effect()
-  fetchAllContests = this.action$.pipe(
-    ofType(ContestsActions.FETCH_CONTESTS),
-    switchMap((action: ContestsActions.FetchContests) =>
-      this.contestsService.fetchContests().pipe(
-        map((resp: IResult<IContestList[]>) => {
-          return {
-            type: ContestsActions.SET_CONTESTS,
-            data: resp.data
-          };
-        }),
-        catchError(error =>
-          of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
-            })
+  fetchAllContests = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestsActions.FETCH_CONTESTS_PREVIEW),
+      switchMap((action: ContestsActions.FetchContestsPreview) =>
+        this.contestsService
+          .fetchContestPreviews(action.payload.page, action.payload.perPage)
+          .pipe(
+            map(
+              (resp: IResult<IContestList[]>) =>
+                new ContestsActions.FetchContestsPreviewSuccess({
+                  runningContests: resp.data,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection.",
+                })
+              )
+            )
           )
-        )
-      )
-    )
-  );
-
-  fetchContest = this.action$.pipe(
-    ofType(ContestsActions.FETCH_CONTEST),
-    switchMap((action: ContestsActions.FetchContest) =>
-      this.contestsService.fetchContest(action.payload).pipe(
-        map((resp: IResult<IContest>) => {
-          return {
-            type: ContestsActions.SET_CONTEST,
-            payload: resp.data
-          };
-        }),
-        catchError(error =>
-          of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
-            })
-          )
-        )
       )
     )
   );

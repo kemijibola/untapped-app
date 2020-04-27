@@ -60,7 +60,7 @@ export class MediaPreviewEffect {
                   code: respError.error.response_code || -1,
                   message:
                     respError.error.response_message ||
-                    "No Internet connection",
+                    "No Internet connection.",
                 })
               )
             )

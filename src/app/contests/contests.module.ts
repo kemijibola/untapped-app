@@ -6,6 +6,7 @@ import { ContestsRoutingModule } from './contests-routing.module';
 import { ContestEntryComponent } from './contest-entry/contest-entry.component';
 import { ContestComponent } from './contest/contest.component';
 import { ContestDetailsModalComponent } from './contest-details-modal/contest-details-modal.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { ContestDetailsModalComponent } from './contest-details-modal/contest-de
     ContestComponent,
     ContestDetailsModalComponent
   ],
-  imports: [SharedModule, ContestsRoutingModule],
+  imports: [SharedModule, InfiniteScrollModule, ContestsRoutingModule],
   exports: [ContestsRoutingModule]
 })
 export class ContestsModule {}

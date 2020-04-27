@@ -21,164 +21,47 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-9 col-lg-9 col-md-9 col-12">
-        <div class="row">
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <app-contest></app-contest>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+        <div
+          class="row"
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="50"
+          (scrolled)="onScroll()"
+        >
+          <div
+            class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12"
+            style="cursor: pointer;"
+            *ngFor="let contest of contests$ | async; let i = index"
+          >
             <div class="contest-wrapper mb-30">
               <div class="contest-img">
-                <a href="#"
+                <a
+                  [routerLink]="['./', 'd8u4848d48d884djd4']"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  routerLinkActive="visited"
                   ><img src="assets/img/contest/contest-1.jpg" alt=""
                 /></a>
                 <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
+                  <span class="ent-num"> {{ contest.entryCount }} Entries</span>
                 </div>
               </div>
               <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
+                <h4>{{ contest.title }}</h4>
                 <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div class="contest-wrapper mb-30">
-              <div class="contest-img">
-                <a href="#"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
-                /></a>
-                <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
-                </div>
-              </div>
-              <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
-                <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div class="contest-wrapper mb-30">
-              <div class="contest-img">
-                <a href="#"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
-                /></a>
-                <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
-                </div>
-              </div>
-              <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
-                <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div class="contest-wrapper mb-30">
-              <div class="contest-img">
-                <a href="#"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
-                /></a>
-                <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
-                </div>
-              </div>
-              <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
-                <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div class="contest-wrapper mb-30">
-              <div class="contest-img">
-                <a href="#"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
-                /></a>
-                <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
-                </div>
-              </div>
-              <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
-                <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div class="contest-wrapper mb-30">
-              <div class="contest-img">
-                <a href="#"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
-                /></a>
-                <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
-                </div>
-              </div>
-              <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
-                <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div class="contest-wrapper mb-30">
-              <div class="contest-img">
-                <a href="#"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
-                /></a>
-                <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
-                </div>
-              </div>
-              <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
-                <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div class="contest-wrapper mb-30">
-              <div class="contest-img">
-                <a href="#"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
-                /></a>
-                <div class="entries-content all-ent contest">
-                  <span class="ent-num">200 Entries</span>
-                </div>
-              </div>
-              <div class="contesst-img-content">
-                <h4>Top Lagos singer challenge</h4>
-                <div class="i-text">
-                  <p><img src="assets/img/eye.svg" alt="" /> 2,030</p>
-                  <p><img src="assets/img/grid.svg" alt="" /> 400 Entries</p>
+                  <p>
+                    <img src="assets/img/eye.svg" alt="" />
+                    {{ contest.viewCount }}
+                  </p>
+                  <p>
+                    <img src="assets/img/grid.svg" alt="" />
+                    {{ contest.startDate | date }}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12">
             <nav
               class="contest-pagination"
@@ -201,7 +84,15 @@
               </ul>
             </nav>
           </div>
-        </div>
+        </div> -->
+
+        <!-- <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+          <mat-grid-list cols="2" rowHeight="2:1">
+              <mat-grid-tile *ngFor='let p of photoUrls'>
+                  <img [src]='p' class="tile-image" >
+              </mat-grid-tile>
+          </mat-grid-list>
+      </div> -->
       </div>
       <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <div class="contest-sidebar">

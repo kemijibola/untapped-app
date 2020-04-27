@@ -42,6 +42,7 @@
     "jquery": "^1.12.4",
     "ng-pick-datetime": "^7.0.0",
     "ngx-currency": "^2.2.3",
+    "ngx-infinite-scroll": "^8.0.2",
     "ngx-owl-carousel": "^2.0.7",
     "ngx-plyr": "^3.0.1",
     "ngx-videogular": "^9.0.1",

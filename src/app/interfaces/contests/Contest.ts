@@ -27,7 +27,7 @@ export interface IContestList {
   entryCount: number;
   viewCount: number;
   bannerImage: string;
-  contestDateDistanceInWords: string;
+  startDate: Date;
 }
 
 export interface IContest {
