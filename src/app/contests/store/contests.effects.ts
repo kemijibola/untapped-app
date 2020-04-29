@@ -11,6 +11,7 @@ import {
   IUserContest,
   IContest,
   AppNotificationKey,
+  ContestData,
 } from "src/app/interfaces";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
@@ -44,6 +45,32 @@ export class ContestsEffect {
               )
             )
           )
+      )
+    )
+  );
+
+  fetchContestDetailsById = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestsActions.FETCH_CONTEST_BY_ID),
+      switchMap((action: ContestsActions.FetchContestById) =>
+        this.contestsService.fetchContest(action.payload.id).pipe(
+          map(
+            (resp: IResult<ContestData>) =>
+              new ContestsActions.FetchContestByIdSuccess({
+                contest: resp.data,
+              })
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection.",
+              })
+            )
+          )
+        )
       )
     )
   );

@@ -122,7 +122,6 @@ export class NewContestOverviewComponent implements OnInit {
           );
           this.differenceInDays =
             difference > 1 ? `${difference} days` : `${difference} day`;
-          console.log(this.differenceInDays);
           if (val.eligibleCategories.length > 0) {
             this.mapSelectedCategories();
           }

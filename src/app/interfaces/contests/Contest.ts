@@ -38,7 +38,7 @@ export interface IContest {
   information: string;
   bannerImage: string;
   entryMediaType: string;
-  eligibleCategories?: CategoryType["_id"][];
+  eligibleCategories?: string[];
   evaluations?: string[];
   eligibilityInfo?: string;
   submissionRules?: string;
@@ -75,7 +75,25 @@ export enum ComplaintStatus {
 }
 
 export interface CreateContest {
-  user: IUser["_id"];
-  contest: IContest["_id"];
+  user: string;
+  contest: string;
   submissionPath: string;
+}
+
+export interface IContestEntry {
+  user: string;
+  contest: string;
+  likedBy: string[];
+  contestantCode: string;
+  entry: string;
+}
+
+export interface ContestData {
+  contest: IContest;
+  submissions: IEntries[];
+}
+
+export interface IEntries {
+  entry: IContestEntry;
+  commentCount: number;
 }

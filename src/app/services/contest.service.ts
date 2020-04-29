@@ -6,6 +6,7 @@ import {
   IContest,
   IUserContest,
   IContestIssue,
+  ContestData,
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
@@ -24,9 +25,9 @@ export class ContestService {
     return this.http.get<IResult<IContestList[]>>(url);
   }
 
-  fetchContest(_id: string): Observable<IResult<IContest>> {
+  fetchContest(_id: string): Observable<IResult<ContestData>> {
     const url = `${this.BASE_URI}/contests/${_id}`;
-    return this.http.get<IResult<IContest>>(url);
+    return this.http.get<IResult<ContestData>>(url);
   }
 
   fetchUserContests(): Observable<IResult<IUserContest[]>> {
