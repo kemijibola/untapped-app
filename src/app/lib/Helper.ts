@@ -24,6 +24,10 @@ export function fetchNoMediaDefaultImage(): string {
   return environment.NO_MEDIA_IMG;
 }
 
+export function fetchDefaultContestBanner(): string {
+  return environment.CONTEST_BANNER_DEFAULT;
+}
+
 export function getTime(date?: Date) {
   return date != null ? new Date(date).getTime() : 0;
 }

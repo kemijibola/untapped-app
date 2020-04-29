@@ -166,7 +166,7 @@ export class AuthEffects {
             new NotificationActions.AddError({
               key: AppNotificationKey.error,
               code: 400,
-              message: "Session expired. Please login to app to continue.",
+              message: "You have been logged out. Please login to continue.",
             })
           );
 

@@ -31,7 +31,7 @@
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12"
             style="cursor: pointer;"
-            *ngFor="let contest of contests$ | async; let i = index"
+            *ngFor="let contest of contests; let i = index"
           >
             <div class="contest-wrapper mb-30">
               <div class="contest-img">
@@ -39,7 +39,10 @@
                   [routerLink]="['./', 'd8u4848d48d884djd4']"
                   [routerLinkActiveOptions]="{ exact: true }"
                   routerLinkActive="visited"
-                  ><img src="assets/img/contest/contest-1.jpg" alt=""
+                  ><img
+                    style="height: 162.83px;"
+                    src="{{ contest.fullBannerImage }}"
+                    alt=""
                 /></a>
                 <div class="entries-content all-ent contest">
                   <span class="ent-num"> {{ contest.entryCount }} Entries</span>

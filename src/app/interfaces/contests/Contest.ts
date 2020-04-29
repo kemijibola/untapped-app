@@ -27,6 +27,7 @@ export interface IContestList {
   entryCount: number;
   viewCount: number;
   bannerImage: string;
+  fullBannerImage?: string;
   startDate: Date;
 }
 
