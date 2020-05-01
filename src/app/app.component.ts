@@ -23,12 +23,15 @@ import {
   MediaQueryParams,
   MediaType,
   UserFilterCategory,
+  ModalDisplay,
+  AppModal,
 } from "./interfaces";
 import * as fromUser from "./user/user.reducers";
 import * as TalentsActions from "./shared/store/talents/talents.actions";
 import * as fromTalentFilter from "./shared/store/filtered-categories/talent-category.reducers";
 import * as TalentCategoryActions from "./shared/store/filtered-categories/talent-category.action";
 import * as ContestsAction from "./contests/store/contests.action";
+import * as ModalsActions from "./shared/store/modals/modals.actions";
 
 @Component({
   selector: "app-root",
@@ -46,6 +49,27 @@ export class AppComponent implements OnInit {
   title = "untapped-app";
   isAuthenticated = false;
   selectedUser: UserFilterCategory;
+  componentModal: AppModal = {
+    id: "contest",
+    modals: [
+      {
+        index: 0,
+        name: "new-entry",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      },
+      {
+        index: 1,
+        name: "talent-entry-details",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      },
+    ],
+  };
 
   ngOnInit() {
     this.loadAll();
@@ -61,7 +85,13 @@ export class AppComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) document,
     private store: Store<fromApp.AppState>
-  ) {}
+  ) {
+    this.store.dispatch(
+      new ModalsActions.AddComponentModal({
+        componentModal: this.componentModal,
+      })
+    );
+  }
 
   loadAll() {
     this.store.dispatch(new AuthActions.FetchAuthData());

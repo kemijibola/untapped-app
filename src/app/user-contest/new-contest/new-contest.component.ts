@@ -44,7 +44,7 @@ export class NewContestComponent implements OnInit {
   submissionRule = "";
   contestDays = 1;
   contestDuration = "";
-  evaluations: string[] = [];
+  // evaluations: string[] = [];
   fileConfig: IFileInputModel;
   private presignRequest: IPresignRequest;
   uploadOperation = UPLOADOPERATIONS.ContestBanner;
@@ -222,7 +222,6 @@ export class NewContestComponent implements OnInit {
       startDate: new Date(duration[0]),
       endDate: new Date(duration[1]),
       redeemable: [...redeemables],
-      evaluations: [...this.evaluations],
     };
 
     this.userContestStore.dispatch(
@@ -230,36 +229,36 @@ export class NewContestComponent implements OnInit {
     );
   }
 
-  onAddEvaluation() {
-    const evaluation: string = this.contestForm.controls["evaluation"].value;
-    if (this.evaluations.length > 4) {
-      this.store.dispatch(
-        new NotificationActions.AddInfo({
-          key: AppNotificationKey.error,
-          message: "You can only add maximum 5 Evaluation criteria at once",
-          code: 400,
-        })
-      );
-    } else {
-      if (evaluation !== "") {
-        const foundEvaluation = this.evaluations.filter(
-          (x) => x === evaluation.toLowerCase()
-        )[0];
-        if (!foundEvaluation) {
-          this.evaluations.push(evaluation.toLowerCase());
-          this.contestForm.controls["evaluation"].setValue("");
-        } else {
-          this.store.dispatch(
-            new NotificationActions.AddInfo({
-              key: AppNotificationKey.error,
-              message: `${evaluation} has already been added to evaluation list`,
-              code: 400,
-            })
-          );
-        }
-      }
-    }
-  }
+  // onAddEvaluation() {
+  //   const evaluation: string = this.contestForm.controls["evaluation"].value;
+  //   if (this.evaluations.length > 4) {
+  //     this.store.dispatch(
+  //       new NotificationActions.AddInfo({
+  //         key: AppNotificationKey.error,
+  //         message: "You can only add maximum 5 Evaluation criteria at once",
+  //         code: 400,
+  //       })
+  //     );
+  //   } else {
+  //     if (evaluation !== "") {
+  //       const foundEvaluation = this.evaluations.filter(
+  //         (x) => x === evaluation.toLowerCase()
+  //       )[0];
+  //       if (!foundEvaluation) {
+  //         this.evaluations.push(evaluation.toLowerCase());
+  //         this.contestForm.controls["evaluation"].setValue("");
+  //       } else {
+  //         this.store.dispatch(
+  //           new NotificationActions.AddInfo({
+  //             key: AppNotificationKey.error,
+  //             message: `${evaluation} has already been added to evaluation list`,
+  //             code: 400,
+  //           })
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 
   get contestRewards(): FormArray {
     return this.contestForm.get("contestRewards") as FormArray;

@@ -34,6 +34,8 @@ export function reducer(
   action: ModalsActions.ModalsActions
 ): ModalState {
   switch (action.type) {
+    case ModalsActions.ADD_COMPONENT_MODALS:
+      return fromAdapter.adapter.setAll(action.payload.appModals, state);
     case ModalsActions.ADD_COMPONENT_MODAL:
       return fromAdapter.adapter.setOne(action.payload.componentModal, state);
     case ModalsActions.UPSERT_MODAL:

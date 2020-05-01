@@ -1,24 +1,33 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
 import * as fromContest from "../store/contests.reducers";
 import * as ContestsAction from "../store/contests.action";
-import { ContestData, CategoryType } from "src/app/interfaces";
+import {
+  ContestData,
+  CategoryType,
+  ModalDisplay,
+  ModalViewModel,
+  AppModal,
+  IModal,
+} from "src/app/interfaces";
 import * as fromCategoryType from "../../shared/store/category-type/category-type.reducers";
-import { differenceInDays, isPast } from "date-fns";
+import { differenceInDays, isPast, getTime, isAfter } from "date-fns";
 import {
   fetchImageObjectFromCloudFormation,
   fetchDefaultContestBanner,
 } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import * as ModalsActions from "../../shared/store/modals/modals.actions";
+import * as fromModal from "../../shared/store/modals/modals.reducers";
 
 @Component({
   selector: "app-contest-details",
   templateUrl: "./contest-details.component.html",
   styleUrls: ["./contest-details.component.css"],
 })
-export class ContestDetailsComponent implements OnInit {
+export class ContestDetailsComponent implements OnInit, OnDestroy {
   contestId: string | null;
   eligibleCategories: string = "";
   differenceInDays: string = "";
@@ -47,46 +56,62 @@ export class ContestDetailsComponent implements OnInit {
       grayscale: false,
     },
   };
+  componentModal: AppModal;
   constructor(
     private router: Router,
     private store: Store<fromApp.AppState>,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    // this.hasEnded = false;
+
+    this.store
+      .pipe(select(fromModal.selectCurrentModal))
+      .subscribe((val: AppModal) => {
+        if (val) {
+          this.componentModal = { ...val };
+        }
+      });
+
+    this.store
+      .pipe(select(fromContest.selectCurrentContestDetails))
+      .subscribe((val: ContestData) => {
+        if (val !== null) {
+          this.setContestBannerImage(val.contest.bannerImage);
+          this.entriesCount = val.submissions.length;
+          this.contestDetails = { ...val };
+          if (
+            isAfter(Date.now(), new Date(this.contestDetails.contest.endDate))
+          ) {
+            this.hasEnded = true;
+          } else {
+            this.hasEnded = false;
+          }
+          const difference: number = differenceInDays(
+            new Date(val.contest.endDate),
+            new Date(val.contest.startDate)
+          );
+          this.differenceInDays =
+            difference > 1 ? `${difference} days` : `${difference} day`;
+          if (val.contest.eligibleCategories.length > 0) {
+            this.mapSelectedCategories();
+          }
+        }
+      });
+  }
 
   ngOnInit(): void {
     this.contestId = this.route.snapshot.params.id;
     if (this.contestId !== null) {
+      this.fullBannerImage = fetchDefaultContestBanner();
       this.store.dispatch(
         new ContestsAction.FetchContestById({ id: this.contestId })
       );
-
-      this.setContestBannerImage("");
-
-      this.store
-        .pipe(select(fromContest.selectCurrentContestDetails))
-        .subscribe((val: ContestData) => {
-          if (val !== null) {
-            this.entriesCount = val.submissions.length;
-            this.setContestBannerImage(val.contest.bannerImage);
-            if (isPast(new Date(val.contest.endDate))) this.hasEnded = true;
-            this.contestDetails = { ...val };
-            const difference: number = differenceInDays(
-              new Date(val.contest.endDate),
-              new Date(val.contest.startDate)
-            );
-            this.differenceInDays =
-              difference > 1 ? `${difference} days` : `${difference} day`;
-            if (val.contest.eligibleCategories.length > 0) {
-              this.mapSelectedCategories();
-            }
-          }
-        });
     }
   }
 
   setContestBannerImage(bannerImageKey: string) {
     this.fullBannerImage =
-      bannerImageKey === ""
+      bannerImageKey !== undefined
         ? fetchImageObjectFromCloudFormation(bannerImageKey, this.editParams)
         : fetchDefaultContestBanner();
   }
@@ -117,5 +142,64 @@ export class ContestDetailsComponent implements OnInit {
           }
         }
       });
+  }
+
+  closeModalDialog(modalId: string) {
+    if (this.componentModal) {
+      const modalToDeActivate = this.componentModal.modals.filter(
+        (x) => x.name === modalId
+      )[0];
+      const modalToClose: IModal = {
+        index: modalToDeActivate.index,
+        name: modalToDeActivate.name,
+        display: ModalDisplay.none,
+        viewMode: ModalViewModel.none,
+        contentType: "",
+        data: null,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      };
+      this.store.dispatch(
+        new ModalsActions.ToggleModal({
+          appModal: this.componentModal,
+          modal: modalToClose,
+        })
+      );
+    }
+  }
+
+  openModalDialog(modalId: string) {
+    console.log("clicked");
+    this.store.dispatch(
+      new ModalsActions.FetchAppModal({ appModalId: "contest" })
+    );
+
+    if (this.componentModal) {
+      const modalToActivate = this.componentModal.modals.filter(
+        (x) => x.name === modalId
+      )[0];
+      const modalToOpen: IModal = {
+        index: modalToActivate.index,
+        name: modalToActivate.name,
+        display: ModalDisplay.table,
+        viewMode: ModalViewModel.new,
+        contentType: "",
+        data: null,
+        modalCss: "modal aligned-modal",
+        modalDialogCss: "modal-dialog",
+        showMagnifier: false,
+      };
+      this.store.dispatch(
+        new ModalsActions.ToggleModal({
+          appModal: this.componentModal,
+          modal: modalToOpen,
+        })
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    // this.hasEnded = false;
   }
 }

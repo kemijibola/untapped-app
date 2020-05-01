@@ -18,17 +18,30 @@ export class NotificationEffect {
       pipe(
         map((action: NotificationActions.AddError) => action.payload),
         map((payload: AppNotification) => {
-          const snackBarConfig: SnackBarData = {
-            message: payload["message"],
-            action: "X",
-            config: {
-              panelClass: ["error-snackbar"],
-              horizontalPosition: "center",
-              verticalPosition: "top",
-              duration: 7000,
-            },
-          };
-
+          let snackBarConfig: SnackBarData;
+          if ([401].includes(payload.code)) {
+            snackBarConfig = {
+              message: "You have been logged out. Please log back in",
+              action: "X",
+              config: {
+                panelClass: ["error-snackbar"],
+                horizontalPosition: "center",
+                verticalPosition: "top",
+                duration: 7000,
+              },
+            };
+          } else {
+            snackBarConfig = {
+              message: payload["message"],
+              action: "X",
+              config: {
+                panelClass: ["error-snackbar"],
+                horizontalPosition: "center",
+                verticalPosition: "top",
+                duration: 7000,
+              },
+            };
+          }
           return {
             type: SnackBarActions.SNACKBAR_OPEN,
             payload: snackBarConfig,

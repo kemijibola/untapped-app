@@ -25,7 +25,13 @@
         <div class="details-content">
           <div class="heading mb-10">
             <h2>{{ contestDetails.contest.title }}</h2>
-            <a class="box-btn details-btn" *ngIf="!hasEnded">Enter Contest</a>
+            <a
+              class="box-btn details-btn"
+              style="cursor: pointer;"
+              *ngIf="!hasEnded"
+              (click)="openModalDialog('new-entry')"
+              >Enter Contest</a
+            >
           </div>
           <div class="content-block">
             <div class="content-inner-block">
@@ -65,8 +71,9 @@
               <h4>Prize</h4>
               <div class="prz-list">
                 <li *ngFor="let prize of contestDetails.contest.redeemable">
-                  {{ prize.name }} -
-                  {{ prize.prizeCash | currency: "NGN":true:"2.2-4" }}
+                  {{ prize.name }}
+                  :
+                  {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
                 </li>
               </div>
             </div>
@@ -87,7 +94,7 @@
         </ul>
       </div>
     </div>
-    <div class="row" *ngIf="contestDetails.submissions.length > 0">
+    <div class="row">
       <div class="col-xl-12">
         <div class="entries-header">
           <span>Vote and comment on</span>
@@ -95,6 +102,20 @@
         </div>
       </div>
     </div>
+
+    <app-modals [id]="'new-entry'">
+      <div class="pop-icon-bar pop-talent" navigate>
+        <button
+          type="button"
+          class="close"
+          (click)="closeModalDialog('new-entry')"
+          aria-label="Close"
+        >
+          <span aria-hidden="true"><i class="far fa-times"></i></span>
+        </button>
+      </div>
+      <app-contest-entry body></app-contest-entry>
+    </app-modals>
 
     <div
       class="modal fade"
@@ -375,6 +396,10 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="row" *ngIf="contestDetails.submissions.length === 0">
+      <span> No Entries</span>
     </div>
   </div>
 </div>

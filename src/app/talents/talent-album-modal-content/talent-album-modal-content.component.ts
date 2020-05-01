@@ -32,7 +32,7 @@ import * as _ from "underscore";
   templateUrl: "./talent-album-modal-content.component.html",
   styleUrls: ["./talent-album-modal-content.component.css"],
 })
-export class TalentAlbumModalContentComponent implements OnInit {
+export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   api: VgAPI;
   selectedUser: UserFilterCategory;
   selectedMedia: TalentPortfolioPreview = {
@@ -132,11 +132,13 @@ export class TalentAlbumModalContentComponent implements OnInit {
                 })
               );
             }
-          } else {
-            if (this.api) {
-              (<VgMedia>this.api.getDefaultMedia()).pause();
-            }
           }
+          // else {
+          //   console.log(this.api);
+          //   if (this.api !== null) {
+          //     (<VgMedia>this.api.getDefaultMedia()).pause();
+          //   }
+          // }
         }
       });
 
@@ -217,5 +219,10 @@ export class TalentAlbumModalContentComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  ngOnDestroy() {
+    // (<VgMedia>this.api.getDefaultMedia()).pause();
+    this.api = null;
   }
 }

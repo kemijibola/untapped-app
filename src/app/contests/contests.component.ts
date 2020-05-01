@@ -4,13 +4,15 @@ import * as fromContests from "../contests/store/contests.reducers";
 import * as ContestsAction from "../contests/store/contests.action";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
-import { IContestList } from "../interfaces";
+import { IContestList, AppModal, ModalDisplay } from "../interfaces";
 import { Observable } from "rxjs";
 import {
   fetchImageObjectFromCloudFormation,
   fetchDefaultContestBanner,
 } from "../lib/Helper";
 import { ImageEditRequest } from "../interfaces/media/image";
+import { Router } from "@angular/router";
+import { take } from "rxjs/operators";
 
 @Component({
   selector: "app-contests",
@@ -31,13 +33,8 @@ export class ContestsComponent implements OnInit, OnDestroy {
       grayscale: false,
     },
   };
-  // contests$: Observable<IContestList[]> = this.store.pipe(
-  //   select(fromContests.selectAllContestsPreviews)
-  // );
-  constructor(public store: Store<fromApp.AppState>) {
-    // TODO:: on each image, instead of entries at the top
-    // change it to start Date
-  }
+
+  constructor(public store: Store<fromApp.AppState>, public router: Router) {}
 
   ngOnInit() {
     this.store
@@ -46,7 +43,6 @@ export class ContestsComponent implements OnInit, OnDestroy {
         this.contests = [...val];
         this.setContestBannerImage();
       });
-
     this.fetchRunningContests();
   }
 
@@ -67,13 +63,16 @@ export class ContestsComponent implements OnInit, OnDestroy {
 
   fetchRunningContests() {
     this.page++;
-    console.log(this.page);
     this.store.dispatch(
       new ContestsAction.FetchContestsPreview({
         perPage: this.perPage,
         page: this.page,
       })
     );
+  }
+
+  navigateToDetail(contestId: string): void {
+    this.router.navigate(["/contests/", contestId]);
   }
 
   ngOnDestroy() {

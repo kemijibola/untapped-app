@@ -33,7 +33,10 @@
             style="cursor: pointer;"
             *ngFor="let contest of contests; let i = index"
           >
-            <div class="contest-wrapper mb-30">
+            <div
+              class="contest-wrapper mb-30"
+              (click)="navigateToDetail(contest._id)"
+            >
               <div class="contest-img">
                 <a
                   [routerLink]="['./', contest._id]"
