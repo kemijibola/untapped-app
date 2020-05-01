@@ -3,7 +3,7 @@ import { environment } from "../../../src/environments/environment.prod";
 import { ContestService } from "../services/contest.service";
 import { FormControl } from "@angular/forms";
 import { timer, Observable } from "rxjs";
-import { switchMap, map } from "rxjs/operators";
+import { map, concatMap } from "rxjs/operators";
 import { IContest, IResult } from "../interfaces";
 
 export function fetchImageObjectFromCloudFormation(
@@ -60,7 +60,7 @@ export function contestTitleAsyncValidator(
 ) {
   return (input: FormControl): Observable<any> | Promise<any> => {
     return timer(time).pipe(
-      switchMap(() => contestService.findContestByTitle(input.value)),
+      concatMap(() => contestService.findContestByTitle(input.value)),
       map((res: IResult<IContest[]>) => {
         return res.data.length === 0 ? null : { titleExist: true };
       })

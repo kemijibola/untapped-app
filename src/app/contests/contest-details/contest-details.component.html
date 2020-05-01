@@ -114,7 +114,10 @@
           <span aria-hidden="true"><i class="far fa-times"></i></span>
         </button>
       </div>
-      <app-contest-entry body></app-contest-entry>
+      <app-contest-entry
+        [selectedContest]="contestDetails"
+        body
+      ></app-contest-entry>
     </app-modals>
 
     <div

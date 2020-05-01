@@ -4,14 +4,7 @@ import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as NewContestActions from "./new-contest.actions";
 import { ContestService } from "src/app/services/contest.service";
-import {
-  map,
-  switchMap,
-  mergeMap,
-  catchError,
-  concatMap,
-  tap,
-} from "rxjs/operators";
+import { map, mergeMap, catchError, concatMap, tap } from "rxjs/operators";
 import {
   IResult,
   IUserContest,

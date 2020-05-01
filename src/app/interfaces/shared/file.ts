@@ -1,12 +1,12 @@
 import { MediaType } from "../user/portfolio";
 
 export enum UPLOADOPERATIONS {
-  ProfileImage = "ProfileImage",
-  Portfolio = "Portfolio",
-  Entries = "Entries",
-  ContestBanner = "ContestBanner",
-  BannerImage = "BannerImage",
-  Default = "Default",
+  profileimage = "profileimage",
+  portfolio = "portfolio",
+  contestentry = "contestentry",
+  contestbanner = "contestbanner",
+  bannerimage = "bannerimage",
+  default = "default",
 }
 
 export enum MediaAcceptType {

@@ -1,30 +1,33 @@
-import { map, switchMap, catchError } from "rxjs/operators";
+import { map, concatMap, catchError } from "rxjs/operators";
 import { Effect, Actions, ofType } from "@ngrx/effects";
 import { Injectable } from "@angular/core";
 import * as UserActions from "./user.actions";
 import { UserService } from "src/app/services/user.service";
-import { IResult, IUser } from "src/app/interfaces";
+import { IResult, IUser, AppNotificationKey } from "src/app/interfaces";
 import { of } from "rxjs";
-import * as GlobalErrorActions from "../../../store/global/error/error.actions";
+import { HttpErrorResponse } from "@angular/common/http";
+import * as NotificationActions from "../../../store/global/notification/notification.action";
 
 @Injectable()
 export class UserEffects {
   @Effect()
   fetchUser = this.actions$.pipe(
     ofType(UserActions.FETCH_USER),
-    switchMap((action: UserActions.FetchUser) =>
+    concatMap((action: UserActions.FetchUser) =>
       this.userService.findUserById(action.payload.id).pipe(
         map((resp: IResult<IUser>) => {
           return {
             type: UserActions.SET_USER,
-            payload: resp.data
+            payload: resp.data,
           };
         }),
-        catchError(error =>
+        catchError((respError: HttpErrorResponse) =>
           of(
-            new GlobalErrorActions.AddGlobalError({
-              errorMessage: error.response_message,
-              errorCode: error.response_code
+            new NotificationActions.AddError({
+              key: AppNotificationKey.error,
+              code: respError.error.response_code || -1,
+              message:
+                respError.error.response_message || "No Internet connection.",
             })
           )
         )

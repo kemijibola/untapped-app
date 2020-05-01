@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Store, select } from "@ngrx/store";
 import { Observable, pipe } from "rxjs";
 import { Subject } from "rxjs";
-import { takeUntil, map, switchMap, withLatestFrom } from "rxjs/operators";
+import { takeUntil, map, withLatestFrom } from "rxjs/operators";
 import * as UserTypeActions from "../../store/user-type.actions";
 import * as fromApp from "../../../store/app.reducers";
 import * as fromUserType from "../../store/user-type.reducers";

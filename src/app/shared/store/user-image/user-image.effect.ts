@@ -4,7 +4,7 @@ import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import * as fromApp from "../../../store/app.reducers";
 import { UserService } from "src/app/services/user.service";
 import * as UserImageActions from "./user-image.action";
-import { concatMap, switchMap, tap, map, catchError } from "rxjs/operators";
+import { concatMap, tap, map, catchError } from "rxjs/operators";
 import {
   IResult,
   IAuthData,

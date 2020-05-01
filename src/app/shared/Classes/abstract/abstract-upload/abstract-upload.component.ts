@@ -19,7 +19,7 @@ export abstract class AbstractUploadComponent implements OnInit {
   abstract store: Store<fromApp.AppState>;
   abstract fileConfig: IFileInputModel = {
     state: false,
-    process: UPLOADOPERATIONS.Default,
+    process: UPLOADOPERATIONS.default,
     multiple: false,
     accept: "",
     minWidth: 0,

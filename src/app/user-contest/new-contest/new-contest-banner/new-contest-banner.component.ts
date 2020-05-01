@@ -14,7 +14,7 @@ export class NewContestBannerComponent extends AbstractUploadComponent {
   imagePath: string;
   isDefault: boolean;
   fileConfig: IFileInputModel;
-  uploadOperation = UPLOADOPERATIONS.ContestBanner;
+  uploadOperation = UPLOADOPERATIONS.contestbanner;
   constructor(public store: Store<fromApp.AppState>) {
     super();
   }
@@ -26,7 +26,7 @@ export class NewContestBannerComponent extends AbstractUploadComponent {
   onClickUploadImageBtn() {
     this.fileConfig = {
       state: true,
-      process: UPLOADOPERATIONS.ContestBanner,
+      process: this.uploadOperation,
       multiple: false,
       accept: "image/*",
       minWidth: 200,

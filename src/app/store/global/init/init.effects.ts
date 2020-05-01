@@ -9,11 +9,10 @@ import {
   withLatestFrom,
   filter,
   catchError,
-  mergeMap
+  mergeMap,
 } from "rxjs/operators";
 // import { map } from 'rxjs/operator/map';
 import { map } from "rxjs/operators";
-import { switchMap } from "rxjs-compat/operator/switchMap";
 import { pipe, of } from "rxjs";
 
 @Injectable()

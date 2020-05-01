@@ -53,7 +53,7 @@ export function reducer(
         file: null,
         preSignedUrls: null,
         isReadyForUpload: false,
-        uploadAction: UPLOADOPERATIONS.Default,
+        uploadAction: UPLOADOPERATIONS.default,
         uploadSuccessful: true,
       });
     case UploadActions.RESET_FILE_INPUT:

@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import * as fromApp from "../../../../store/app.reducers";
 import { PortfolioService } from "src/app/services/portfolio.service";
 import * as MediaPreviewActions from "./media-preview.actions";
-import { map, switchMap, catchError, mergeMap } from "rxjs/operators";
+import { map, catchError, mergeMap, concatMap } from "rxjs/operators";
 import {
   IResult,
   MediaPreview,
@@ -20,7 +20,7 @@ export class MediaPreviewEffect {
   fetchUserPortfolioPreviewList = createEffect(() =>
     this.action$.pipe(
       ofType(MediaPreviewActions.FETCH_USER_MEDIA_LIST_PREVIEW),
-      switchMap((action: MediaPreviewActions.FetchUserMediaListPreview) =>
+      concatMap((action: MediaPreviewActions.FetchUserMediaListPreview) =>
         this.portfolioService
           .fetchUserPortfolioPreviewList(action.payload)
           .pipe(
@@ -72,7 +72,7 @@ export class MediaPreviewEffect {
   deleteImage = createEffect(() =>
     this.action$.pipe(
       ofType(MediaPreviewActions.DELETE_IMAGE_LIST_BY_ID),
-      switchMap((action: MediaPreviewActions.DeleteImageListById) =>
+      concatMap((action: MediaPreviewActions.DeleteImageListById) =>
         this.portfolioService.deleteMedia(action.payload.imageId).pipe(
           map(() => {
             return {
@@ -98,7 +98,7 @@ export class MediaPreviewEffect {
   deleteAudio = createEffect(() =>
     this.action$.pipe(
       ofType(MediaPreviewActions.DELETE_AUDIO_LIST_BY_ID),
-      switchMap((action: MediaPreviewActions.DeleteAudioListById) =>
+      concatMap((action: MediaPreviewActions.DeleteAudioListById) =>
         this.portfolioService.deleteMedia(action.payload.audioId).pipe(
           map(() => {
             return {
@@ -124,7 +124,7 @@ export class MediaPreviewEffect {
   deleteVideo = createEffect(() =>
     this.action$.pipe(
       ofType(MediaPreviewActions.DELETE_VIDEO_LIST_BY_ID),
-      switchMap((action: MediaPreviewActions.DeleteVideoListById) =>
+      concatMap((action: MediaPreviewActions.DeleteVideoListById) =>
         this.portfolioService.deleteMedia(action.payload.videoId).pipe(
           map(() => {
             return {

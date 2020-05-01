@@ -81,10 +81,13 @@ export interface CreateContest {
 }
 
 export interface IContestEntry {
-  user: string;
+  _id?: string;
+  user?: string;
   contest: string;
-  likedBy: string[];
-  contestantCode: string;
+  likedBy?: string[];
+  title: string;
+  additionalInfo?: string;
+  contestantCode?: string;
   entry: string;
 }
 

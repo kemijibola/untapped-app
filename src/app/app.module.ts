@@ -41,6 +41,7 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { OrderEffect } from "./shared/store/order/order.effects";
 import { ContestsEffect } from "./contests/store/contests.effects";
+import { ContestEntryEffect } from "./contests/store/contest-entry/contest-entry.effects";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -90,6 +91,7 @@ export const customCurrencyMaskConfig = {
       ServiceEffects,
       OrderEffect,
       ContestsEffect,
+      ContestEntryEffect,
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({

@@ -43,7 +43,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   @Input() accept = "";
   isMultiple: boolean;
   mediaAccept: string;
-  uploadOperation = UPLOADOPERATIONS.Portfolio;
+  uploadOperation = UPLOADOPERATIONS.portfolio;
   uploadedItems: UploadedItems;
   canSetUploadedImage: boolean;
 

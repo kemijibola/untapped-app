@@ -4,13 +4,7 @@ import * as fromApp from "../../../store/app.reducers";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { CommentsService } from "src/app/services/comments.service";
 import * as CommentsAction from "./comments.action";
-import {
-  map,
-  switchMap,
-  catchError,
-  concatMap,
-  mergeMap,
-} from "rxjs/operators";
+import { map, catchError, concatMap, mergeMap } from "rxjs/operators";
 import { IResult, IComment, AppNotificationKey } from "src/app/interfaces";
 import { of } from "rxjs";
 import * as NotificationActions from "../../../store/global/notification/notification.action";

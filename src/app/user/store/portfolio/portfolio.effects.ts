@@ -7,7 +7,6 @@ import * as PortfolioActions from "./portfolio.actions";
 import * as UploadActions from "../../../shared/store/upload/upload.actions";
 import {
   map,
-  switchMap,
   catchError,
   mergeMap,
   withLatestFrom,
@@ -35,7 +34,7 @@ export class PortfolioEffect {
   createPortfolioMedia = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.CREATE_PORTFOLIO_MEDIA),
-      switchMap((action: PortfolioActions.CreatePortfolioMedia) =>
+      concatMap((action: PortfolioActions.CreatePortfolioMedia) =>
         this.portfolioService
           .createPortfolioMedia(action.payload.uploadType, action.payload.data)
           .pipe(
@@ -69,7 +68,7 @@ export class PortfolioEffect {
   updatePortfolioMedia = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.UPDATE_PORTFOLIO_MEDIA),
-      switchMap((action: PortfolioActions.UpdatePortfolioMedia) =>
+      concatMap((action: PortfolioActions.UpdatePortfolioMedia) =>
         this.portfolioService
           .updatePortfolioMedia(action.payload.uploadType, action.payload.data)
           .pipe(
@@ -98,7 +97,7 @@ export class PortfolioEffect {
   fetchUserPortfolioList = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.FETCH_USER_MEDIA_LIST),
-      switchMap((action: PortfolioActions.FetchUserMediaList) =>
+      concatMap((action: PortfolioActions.FetchUserMediaList) =>
         this.portfolioService.fetchUserPortfolioList(action.payload).pipe(
           mergeMap((resp: IResult<IMedia[]>) => {
             const userAudios = resp.data.filter(
@@ -147,7 +146,7 @@ export class PortfolioEffect {
   deleteMediaItem = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.DELETE_MEDIA_ITEM_BY_ID),
-      switchMap((action: PortfolioActions.DeleteMediaItemById) =>
+      concatMap((action: PortfolioActions.DeleteMediaItemById) =>
         this.portfolioService
           .deleteMediaItem(action.payload.id, action.payload.itemId)
           .pipe(
@@ -183,7 +182,7 @@ export class PortfolioEffect {
           )
         )
       ),
-      switchMap(([action, id]) =>
+      concatMap(([action, id]) =>
         this.portfolioService.fetchPortfolioMedia(id).pipe(
           map(
             (resp: IResult<IMedia>) =>
@@ -207,7 +206,7 @@ export class PortfolioEffect {
   fetchAllPortfolioList = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.FETCH_ALL_MEDIA),
-      switchMap((action: PortfolioActions.FetchAllMedia) =>
+      concatMap((action: PortfolioActions.FetchAllMedia) =>
         this.portfolioService.fetchPortfolioList(action.payload).pipe(
           map((resp: IResult<IMedia[]>) => {
             return {

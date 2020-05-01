@@ -6,7 +6,7 @@ import * as fromApp from "../../../store/app.reducers";
 import { CategoryService } from "src/app/services/category.service";
 import { of } from "rxjs";
 import { IResult, ICategory, AppNotificationKey } from "src/app/interfaces";
-import { map, switchMap, catchError, concatMap } from "rxjs/operators";
+import { map, catchError, concatMap } from "rxjs/operators";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../store/global/notification/notification.action";
 

@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as ContestsActions from "./contests.action";
 import { ContestService } from "src/app/services/contest.service";
-import { map, switchMap, catchError, mergeMap } from "rxjs/operators";
+import { map, catchError, mergeMap, concatMap } from "rxjs/operators";
 import {
   IResult,
   IContestList,
@@ -23,7 +23,7 @@ export class ContestsEffect {
   fetchAllContests = createEffect(() =>
     this.action$.pipe(
       ofType(ContestsActions.FETCH_CONTESTS_PREVIEW),
-      switchMap((action: ContestsActions.FetchContestsPreview) =>
+      concatMap((action: ContestsActions.FetchContestsPreview) =>
         this.contestsService
           .fetchContestPreviews(action.payload.page, action.payload.perPage)
           .pipe(
@@ -52,7 +52,7 @@ export class ContestsEffect {
   fetchContestDetailsById = createEffect(() =>
     this.action$.pipe(
       ofType(ContestsActions.FETCH_CONTEST_BY_ID),
-      switchMap((action: ContestsActions.FetchContestById) =>
+      concatMap((action: ContestsActions.FetchContestById) =>
         this.contestsService.fetchContest(action.payload.id).pipe(
           map(
             (resp: IResult<ContestData>) =>

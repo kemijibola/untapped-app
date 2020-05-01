@@ -1,5 +1,5 @@
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
-import { switchMap, map, catchError, concatMap } from "rxjs/operators/";
+import { map, catchError, concatMap } from "rxjs/operators/";
 import { Injectable } from "@angular/core";
 import { UploadService } from "src/app/services/upload.service";
 import { Store } from "@ngrx/store";
@@ -39,7 +39,7 @@ export class UploadEffect {
   uploadFiles = createEffect(() =>
     this.actions$.pipe(
       ofType(UploadActions.UPLOAD_FILES),
-      switchMap((action: UploadActions.UploadFiles) =>
+      concatMap((action: UploadActions.UploadFiles) =>
         this.uploadService.s3Upload(action.payload).pipe(
           map((val: any) => new UploadActions.CloudUploadSuccess()),
           catchError((respError: HttpErrorResponse) =>

@@ -5,13 +5,7 @@ import { ProfileService } from "src/app/services/profile.service";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import { of } from "rxjs";
-import {
-  map,
-  switchMap,
-  catchError,
-  mergeMap,
-  concatMap,
-} from "rxjs/operators";
+import { map, catchError, mergeMap, concatMap } from "rxjs/operators";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../store/global/notification/notification.action";

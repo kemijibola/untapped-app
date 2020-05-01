@@ -39,7 +39,7 @@ export class ChangeProfilePictureComponent implements OnInit {
   private filesToUpload: File[];
   private file: IPresignRequest;
   fileConfig: IFileInputModel;
-  uploadOperation = UPLOADOPERATIONS.ProfileImage;
+  uploadOperation = UPLOADOPERATIONS.profileimage;
   editParams: ImageEditRequest = {
     edits: {
       resize: {

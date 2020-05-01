@@ -24,6 +24,7 @@ import {
   MediaAcceptType,
 } from "src/app/interfaces";
 import * as NotificationActions from "../../store/global/notification/notification.action";
+import { map } from "rxjs/operators";
 
 const noop = () => {};
 
@@ -42,7 +43,7 @@ const noop = () => {};
 export class UploadComponent
   implements ControlValueAccessor, OnInit, OnChanges {
   private file: IFileModel = {
-    action: UPLOADOPERATIONS.ContestBanner,
+    action: UPLOADOPERATIONS.contestbanner,
     files: [],
   };
   ngDestroyed = new Subject();
@@ -69,7 +70,7 @@ export class UploadComponent
   ngOnChanges(simple: SimpleChanges) {
     if (simple["fileConfig"]) {
       if (this.fileConfig) {
-        if (this.fileConfig.process !== UPLOADOPERATIONS.Default) {
+        if (this.fileConfig.process !== UPLOADOPERATIONS.default) {
           this.multiple = this.fileConfig.multiple;
           this.operationType = this.fileConfig.process;
           this.state = this.fileConfig.state;
@@ -145,7 +146,7 @@ export class UploadComponent
       var image = new Image();
       fromEvent(image, "load")
         .take(1)
-        .map(mapLoadedImage)
+        .pipe(map(mapLoadedImage))
         .subscribe((val: ISize) => {
           resolve(val);
         });

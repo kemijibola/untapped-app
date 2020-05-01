@@ -47,7 +47,7 @@ export class NewContestComponent implements OnInit {
   // evaluations: string[] = [];
   fileConfig: IFileInputModel;
   private presignRequest: IPresignRequest;
-  uploadOperation = UPLOADOPERATIONS.ContestBanner;
+  uploadOperation = UPLOADOPERATIONS.contestbanner;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -267,7 +267,7 @@ export class NewContestComponent implements OnInit {
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
-      process: UPLOADOPERATIONS.ContestBanner,
+      process: this.uploadOperation,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
       minHeight: 150,

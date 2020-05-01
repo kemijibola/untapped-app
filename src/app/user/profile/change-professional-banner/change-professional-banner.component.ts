@@ -31,7 +31,7 @@ export class ChangeProfessionalBannerComponent implements OnInit {
   private file: IPresignRequest;
   imagePath: string;
   fileConfig: IFileInputModel;
-  uploadOperation = UPLOADOPERATIONS.BannerImage;
+  uploadOperation = UPLOADOPERATIONS.bannerimage;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
