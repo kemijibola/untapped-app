@@ -47,7 +47,8 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   @Input() selectedContest: ContestData;
   uploadedItems: UploadedItems;
   cloudItems: UploadedItems;
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(private store: Store<fromApp.AppState>) {
+  }
 
   ngOnInit() {
     this.store

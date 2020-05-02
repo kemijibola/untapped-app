@@ -12,6 +12,7 @@ import {
   IContest,
   AppNotificationKey,
   ContestData,
+  ContestEligibilityData,
 } from "src/app/interfaces";
 import { Router } from "@angular/router";
 import { of } from "rxjs";

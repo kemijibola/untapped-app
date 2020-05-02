@@ -48,7 +48,10 @@
                     alt=""
                 /></a>
                 <div class="entries-content all-ent contest">
-                  <span class="ent-num"> {{ contest.entryCount }} Entries</span>
+                  <span class="ent-num">
+                    {{ contest.entryCount }}
+                    {{ contest.entryCount > 1 ? "Entries" : "Entry" }}</span
+                  >
                 </div>
               </div>
               <div class="contesst-img-content">
@@ -60,7 +63,7 @@
                   </p>
                   <p>
                     <img src="assets/img/grid.svg" alt="" />
-                    {{ contest.startDate | date }}
+                    {{ contest.endDate | date: "medium" }}
                   </p>
                 </div>
               </div>

@@ -82,10 +82,7 @@ export class AppComponent implements OnInit {
         }
       });
   }
-  constructor(
-    @Inject(DOCUMENT) document,
-    private store: Store<fromApp.AppState>
-  ) {
+  constructor(private store: Store<fromApp.AppState>) {
     this.store.dispatch(
       new ModalsActions.AddComponentModal({
         componentModal: this.componentModal,
@@ -117,14 +114,15 @@ export class AppComponent implements OnInit {
       new TalentsActions.FetchTalentPortfolio(mediaQueryParams)
     );
   }
-  // @HostListener('window:scroll', ['$event'])
+
+  // @HostListener("window:scroll", ["$event"])
   // onWindowScroll() {
   //   if (window.pageYOffset > 0) {
-  //     const element = document.getElementById('top-header');
-  //     element.classList.add('sticky');
+  //     const element = document.getElementById("top-header");
+  //     element.classList.add("sticky");
   //   } else {
-  //     const element = document.getElementById('top-header');
-  //     element.classList.remove('sticky');
+  //     const element = document.getElementById("top-header");
+  //     element.classList.remove("sticky");
   //   }
   // }
 }

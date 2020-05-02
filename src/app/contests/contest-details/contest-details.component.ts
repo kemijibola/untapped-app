@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterContentInit,
+  AfterViewInit,
+} from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
@@ -11,6 +17,8 @@ import {
   ModalViewModel,
   AppModal,
   IModal,
+  ContestEligibilityData,
+  EligibilityStatus,
 } from "src/app/interfaces";
 import * as fromCategoryType from "../../shared/store/category-type/category-type.reducers";
 import { differenceInDays, isPast, getTime, isAfter } from "date-fns";
@@ -21,19 +29,24 @@ import {
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
+import { withLatestFrom, tap, takeLast } from "rxjs/operators";
+import { take } from "rxjs-compat/operator/take";
+import * as ContestAction from "../store/contest/contest.action";
 
 @Component({
   selector: "app-contest-details",
   templateUrl: "./contest-details.component.html",
   styleUrls: ["./contest-details.component.css"],
 })
-export class ContestDetailsComponent implements OnInit, OnDestroy {
+export class ContestDetailsComponent implements OnInit {
   contestId: string | null;
   eligibleCategories: string = "";
   differenceInDays: string = "";
   hasEnded: boolean = false;
+  isEligible: boolean = true;
   fullBannerImage: string = "";
   entriesCount: number = 0;
+  enterContestBtnText: string = "";
   contestDetails: ContestData = {
     contest: {
       title: "",
@@ -63,6 +76,23 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     // this.hasEnded = false;
+    // this.store.dispatch(new ContestsAction.ResetContestData());
+  }
+
+  ngOnInit(): void {
+    this.contestId = this.route.snapshot.params.id;
+    if (this.contestId !== null) {
+      this.fullBannerImage = fetchDefaultContestBanner();
+      this.store.dispatch(
+        new ContestsAction.FetchContestById({ id: this.contestId })
+      );
+
+      this.store.dispatch(
+        new ContestsAction.CheckUserEligibility({
+          contestId: this.contestId,
+        })
+      );
+    }
 
     this.store
       .pipe(select(fromModal.selectCurrentModal))
@@ -74,7 +104,9 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
 
     this.store
       .pipe(select(fromContest.selectCurrentContestDetails))
+      .take(2)
       .subscribe((val: ContestData) => {
+        console.log(val);
         if (val !== null) {
           this.setContestBannerImage(val.contest.bannerImage);
           this.entriesCount = val.submissions.length;
@@ -85,6 +117,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
             this.hasEnded = true;
           } else {
             this.hasEnded = false;
+            this.checkCurrentUserEligibleStatus();
           }
           const difference: number = differenceInDays(
             new Date(val.contest.endDate),
@@ -99,14 +132,18 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit(): void {
-    this.contestId = this.route.snapshot.params.id;
-    if (this.contestId !== null) {
-      this.fullBannerImage = fetchDefaultContestBanner();
-      this.store.dispatch(
-        new ContestsAction.FetchContestById({ id: this.contestId })
-      );
-    }
+  checkCurrentUserEligibleStatus() {
+    this.store
+      .pipe(select(fromContest.selectCurrentUserEligibility))
+      .subscribe((val: ContestEligibilityData) => {
+        if (val !== null) {
+          if (val.status) {
+            this.isEligible = true;
+          } else {
+            this.isEligible = false;
+          }
+        }
+      });
   }
 
   setContestBannerImage(bannerImageKey: string) {
@@ -201,5 +238,6 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // this.hasEnded = false;
+    // this.store.dispatch(new ContestsAction.ResetContestData());
   }
 }

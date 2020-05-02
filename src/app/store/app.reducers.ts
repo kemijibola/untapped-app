@@ -24,6 +24,7 @@ import * as fromTalentImagePorfolio from "../shared/store/talents/image-preview/
 import * as fromOrder from "../shared/store/order/order.reducers";
 import * as fromContests from "../contests/store/contests.reducers";
 import * as fromContestEntry from "../contests/store/contest-entry/contest-entry.reducer";
+import * as fromContest from "../contests/store/contest/contest.reducer";
 
 export interface AppState {
   authState: fromAuth.AuthState;
@@ -48,6 +49,7 @@ export interface AppState {
   orderState: fromOrder.OrderState;
   contestsState: fromContests.ContestsState;
   contestEntryState: fromContestEntry.ContestEntryState;
+  contestState: fromContest.ContestState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -73,6 +75,7 @@ export const reducers: ActionReducerMap<AppState> = {
   orderState: fromOrder.reducer,
   contestsState: fromContests.reducer,
   contestEntryState: fromContestEntry.reducer,
+  contestState: fromContest.reducer,
 };
 
 export function logger(

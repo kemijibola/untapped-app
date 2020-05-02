@@ -28,9 +28,16 @@
             <a
               class="box-btn details-btn"
               style="cursor: pointer;"
-              *ngIf="!hasEnded"
+              *ngIf="!hasEnded && isEligible"
               (click)="openModalDialog('new-entry')"
-              >Enter Contest</a
+            >
+              Enter Contest</a
+            >
+            <a
+              class="box-btn details-btn"
+              style="cursor: pointer;"
+              *ngIf="!isEligible"
+              >View Vote Analysis</a
             >
           </div>
           <div class="content-block">

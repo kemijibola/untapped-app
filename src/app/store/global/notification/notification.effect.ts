@@ -25,7 +25,7 @@ export class NotificationEffect {
               action: "X",
               config: {
                 panelClass: ["error-snackbar"],
-                horizontalPosition: "center",
+                horizontalPosition: "right",
                 verticalPosition: "top",
                 duration: 7000,
               },
@@ -36,7 +36,7 @@ export class NotificationEffect {
               action: "X",
               config: {
                 panelClass: ["error-snackbar"],
-                horizontalPosition: "center",
+                horizontalPosition: "right",
                 verticalPosition: "top",
                 duration: 7000,
               },
@@ -85,7 +85,7 @@ export class NotificationEffect {
             action: "X",
             config: {
               panelClass: ["success-snackbar"],
-              horizontalPosition: "center",
+              horizontalPosition: "right",
               verticalPosition: "top",
               duration: 7000,
             },
@@ -116,7 +116,7 @@ export class NotificationEffect {
             action: "X",
             config: {
               panelClass: ["info-snackbar"],
-              horizontalPosition: "center",
+              horizontalPosition: "right",
               verticalPosition: "top",
               duration: 7000,
             },

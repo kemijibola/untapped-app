@@ -28,7 +28,7 @@ export interface IContestList {
   viewCount: number;
   bannerImage: string;
   fullBannerImage?: string;
-  startDate: Date;
+  endDate: Date;
 }
 
 export interface IContest {
@@ -99,4 +99,16 @@ export interface ContestData {
 export interface IEntries {
   entry: IContestEntry;
   commentCount: number;
+}
+
+export enum EligibilityStatus {
+  entered = "entered",
+  noteligible = "noteligible",
+  eligible = "eligible",
+  default = "default",
+}
+export interface ContestEligibilityData {
+  status: boolean;
+  eligibility: EligibilityStatus;
+  message?: string;
 }

@@ -8,6 +8,7 @@ import {
   IContestIssue,
   ContestData,
   IContestEntry,
+  ContestEligibilityData,
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
@@ -29,6 +30,14 @@ export class ContestService {
   fetchContest(_id: string): Observable<IResult<ContestData>> {
     const url = `${this.BASE_URI}/contests/${_id}`;
     return this.http.get<IResult<ContestData>>(url);
+  }
+
+  checkUserEligibility(
+    contestId: string
+  ): Observable<IResult<ContestEligibilityData>> {
+    console.log("network service");
+    const url = `${this.BASE_URI}/contest-entries/${contestId}/user`;
+    return this.http.get<IResult<ContestEligibilityData>>(url);
   }
 
   fetchUserContests(): Observable<IResult<IUserContest[]>> {

@@ -54,7 +54,7 @@ export abstract class AbstractTabComponent implements OnInit, AfterContentInit {
     }
     // if queryParam does not exist
     // set to last known valid query param
-    this.queryParam = matchedQuery !== "" ? matchedQuery : this.toQueryParam;
+    this.queryParam = matchedQuery !== "" ? matchedQuery : "contests";
 
     this.store.dispatch(
       new TabsAction.InitiateTabUpdate({
