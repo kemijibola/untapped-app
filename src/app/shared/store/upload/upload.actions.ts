@@ -4,11 +4,11 @@ import {
   IFileModel,
   IPresignRequest,
   IUploadedFiles,
-  UPLOADOPERATIONS,
   PresignedUrl,
   SignedUrl,
   CloudUploadParams,
   UploadedItems,
+  UPLOADCOMPONENT,
 } from "src/app/interfaces";
 
 export const FILE_INPUT_CONFIG = "FILE_INPUT_CONFIG";
@@ -60,7 +60,7 @@ export class CloudUploadSuccess implements Action {
 
 export class SetAppUploadOperation implements Action {
   readonly type = SET_APPUPLOAD_OPERATION;
-  constructor(public payload: { uploadOperation: UPLOADOPERATIONS }) {}
+  constructor(public payload: { uploadOperation: UPLOADCOMPONENT }) {}
 }
 export class ResetFileInput implements Action {
   readonly type = RESET_FILE_INPUT;

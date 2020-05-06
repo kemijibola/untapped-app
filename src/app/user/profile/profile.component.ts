@@ -8,7 +8,6 @@ import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
 import { takeUntil, take } from "rxjs/operators";
 import {
-  UPLOADOPERATIONS,
   IFileInputModel,
   IAuthData,
   IProfile,
@@ -37,7 +36,6 @@ export class ProfileComponent implements OnInit {
   userProfileState: Observable<fromProfile.ProfileState>;
   ngDestroyed = new Subject();
   fileConfig: IFileInputModel;
-  fileUploadOperation: UPLOADOPERATIONS;
   userEmail: string;
   userFullName: string;
   profileData: IProfile;
@@ -60,6 +58,12 @@ export class ProfileComponent implements OnInit {
   typeOfUser: AppUserType;
   selectedCategories: string[] = [];
   userType: string = "";
+  userSettings: any = {
+    showCurrentLocation: false,
+    resOnSearchButtonClickOnly: false,
+    // inputPlaceholderText: 'Type anything and you will get a location',
+    recentStorageName: "componentData3",
+  };
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -117,6 +121,10 @@ export class ProfileComponent implements OnInit {
       .subscribe((val: string[]) => {
         this.selectedCategories = [...val];
       });
+  }
+
+  autoCompleteCallback1(selectedData: any) {
+    console.log(selectedData);
   }
 
   private initForm() {
@@ -182,6 +190,8 @@ export class ProfileComponent implements OnInit {
       instagram,
       youtube,
     };
+
+    console.log(profileObj);
 
     this.isNewProfile = this._id === "" ? true : false;
     if (!this.isNewProfile) {

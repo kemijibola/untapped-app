@@ -18,10 +18,11 @@ import * as UploadActions from "../store/upload/upload.actions";
 import {
   IFileInputModel,
   IFileModel,
-  UPLOADOPERATIONS,
   AppNotificationKey,
   ISize,
   MediaAcceptType,
+  UPLOADCOMPONENT,
+  UPLOADACTION,
 } from "src/app/interfaces";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 import { map } from "rxjs/operators";
@@ -43,13 +44,13 @@ const noop = () => {};
 export class UploadComponent
   implements ControlValueAccessor, OnInit, OnChanges {
   private file: IFileModel = {
-    action: UPLOADOPERATIONS.contestbanner,
+    action: UPLOADACTION.default,
     files: [],
   };
   ngDestroyed = new Subject();
   multiple: boolean;
   accept: string;
-  operationType: UPLOADOPERATIONS;
+  operationType: UPLOADACTION;
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;
@@ -70,9 +71,9 @@ export class UploadComponent
   ngOnChanges(simple: SimpleChanges) {
     if (simple["fileConfig"]) {
       if (this.fileConfig) {
-        if (this.fileConfig.process !== UPLOADOPERATIONS.default) {
+        if (this.fileConfig.action !== UPLOADACTION.default) {
           this.multiple = this.fileConfig.multiple;
-          this.operationType = this.fileConfig.process;
+          this.operationType = this.fileConfig.action;
           this.state = this.fileConfig.state;
           this.accept = this.fileConfig.accept;
           if (this.state) {

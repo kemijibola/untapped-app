@@ -25,6 +25,7 @@ import * as fromOrder from "../shared/store/order/order.reducers";
 import * as fromContests from "../contests/store/contests.reducers";
 import * as fromContestEntry from "../contests/store/contest-entry/contest-entry.reducer";
 import * as fromContest from "../contests/store/contest/contest.reducer";
+import * as fromProfessionalFilter from "../shared/store/filtered-categories/professional-category/professional-category.reducer";
 
 export interface AppState {
   authState: fromAuth.AuthState;
@@ -50,6 +51,7 @@ export interface AppState {
   contestsState: fromContests.ContestsState;
   contestEntryState: fromContestEntry.ContestEntryState;
   contestState: fromContest.ContestState;
+  professionalFilterState: fromProfessionalFilter.ProfessionalFilterState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -76,6 +78,7 @@ export const reducers: ActionReducerMap<AppState> = {
   contestsState: fromContests.reducer,
   contestEntryState: fromContestEntry.reducer,
   contestState: fromContest.reducer,
+  professionalFilterState: fromProfessionalFilter.reducer,
 };
 
 export function logger(

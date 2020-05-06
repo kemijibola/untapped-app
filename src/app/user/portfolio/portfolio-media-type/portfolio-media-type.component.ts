@@ -99,7 +99,6 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
   }
 
   closeModalDialog(modalId: string) {
-    console.log("click");
     if (this.componentModal) {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId

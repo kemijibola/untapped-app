@@ -32,6 +32,7 @@ import * as fromTalentFilter from "./shared/store/filtered-categories/talent-cat
 import * as TalentCategoryActions from "./shared/store/filtered-categories/talent-category.action";
 import * as ContestsAction from "./contests/store/contests.action";
 import * as ModalsActions from "./shared/store/modals/modals.actions";
+import * as ProfessionalCategoryActions from "./shared/store/filtered-categories/professional-category/professional-category.actions";
 
 @Component({
   selector: "app-root",
@@ -100,13 +101,18 @@ export class AppComponent implements OnInit {
         ReportType.highestcomment
       )
     );
+    this.store.dispatch(
+      new ProfessionalCategoryActions.FetchAllProfessional(
+        ReportType.allprofessionals
+      )
+    );
     this.store.dispatch(new ServiceActions.FetchServices());
   }
 
   fetchTalentPortfolio(userId: string) {
     const mediaQueryParams: MediaQueryParams = {
       type: MediaType.ALL,
-      uploadType: MediaUploadType.ALL,
+      uploadType: MediaUploadType.all,
       user: userId,
     };
 

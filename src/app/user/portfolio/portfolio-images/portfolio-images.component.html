@@ -3,7 +3,7 @@
     <div class="profile-alb-head">
       <h4>
         Picture Portfolio<span
-          >({{ userImagesLength }} album 
+          >({{ userImagesLength }} album
           <small *ngIf="userImagesLength > 1">s</small>
           )</span
         >
@@ -29,11 +29,11 @@
         <div class="delete" (click)="onDelete(image._id)">
           <a><img src="assets/img/profile/cross.svg" alt="" />Delete</a>
         </div>
-        <span class="alb-counter">{{ image.activityCount }}</span>
+        <span class="alb-counter">{{ image.itemCount }}</span>
       </div>
       <div class="alb-content">
         <h4>{{ image.title }}</h4>
-        <p>{{ image.shortDescription }}</p>
+        <p>{{ image.shortDescription | truncateText: 140 }}</p>
       </div>
     </div>
   </div>

@@ -30,7 +30,6 @@ export class UserComponent extends AbstractTabComponent {
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
-        console.log(val.user_data.userType.name);
         if (val.authenticated) {
           this.setUpAppUserTab(val.user_data.userType.name);
         }

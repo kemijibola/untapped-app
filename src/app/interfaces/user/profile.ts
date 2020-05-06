@@ -7,6 +7,11 @@ interface IUserSocialMedia {
   handle: string;
 }
 
+export interface ILocation {
+  location: string;
+  formattedAddres: string;
+}
+
 export interface IProfile {
   _id?: string;
   name?: string;

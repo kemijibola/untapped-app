@@ -51,6 +51,10 @@ export class MediaPreviewEffect {
                   type: MediaPreviewActions.SET_USER_MEDIA_LIST_PREVIEW,
                   payload: resp.data,
                 },
+                {
+                  type: MediaPreviewActions.USER_MEDIA_LIST_COUNT,
+                  payload: resp.data.length,
+                },
               ];
             }),
             catchError((respError: HttpErrorResponse) =>

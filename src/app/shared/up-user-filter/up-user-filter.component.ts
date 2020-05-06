@@ -21,6 +21,7 @@ import * as fromTalentWithHighestComment from "../store/filtered-categories/tale
 })
 export class UpUserFilterComponent implements OnInit, OnChanges {
   @Input() filteredUsers: UserFilterCategory[] = [];
+  @Input() typeOfFilter: string = "";
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -33,50 +34,50 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    this.store
-      .pipe(
-        select(fromTalentWithHighestComment.selectTalentWithHighestComments)
-      )
-      .subscribe((val: UserFilterCategory[]) => {
-        if (val.length > 0) {
-          this.filteredUsers = val;
-
-          this.filteredUsers = this.filteredUsers.map((x) => {
-            return Object.assign({}, x, {
-              displayPhotoFullPath: fetchImageObjectFromCloudFormation(
-                x.displayPhoto,
-                this.editParams
-              ),
-            });
-          });
-          this.filteredUsers[0].isSelected = true;
-
-          this.store.dispatch(
-            new TalentCategoryActions.FetchTalentWithHighestComment({
-              id: this.filteredUsers[0]._id,
-            })
-          );
-        }
-      });
+    // this.store
+    //   .pipe(
+    //     select(fromTalentWithHighestComment.selectTalentWithHighestComments)
+    //   )
+    //   .subscribe((val: UserFilterCategory[]) => {
+    //     if (val.length > 0) {
+    //       this.filteredUsers = val;
+    //       this.filteredUsers = this.filteredUsers.map((x) => {
+    //         return Object.assign({}, x, {
+    //           displayPhotoFullPath: fetchImageObjectFromCloudFormation(
+    //             x.displayPhoto,
+    //             this.editParams
+    //           ),
+    //         });
+    //       });
+    //       this.filteredUsers[0].isSelected = true;
+    //       this.store.dispatch(
+    //         new TalentCategoryActions.FetchTalentWithHighestComment({
+    //           id: this.filteredUsers[0]._id,
+    //         })
+    //       );
+    //     }
+    //   });
   }
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["filteredUsers"]) {
-      this.filteredUsers = this.filteredUsers.map((x) => {
-        return Object.assign({}, x, {
-          displayPhotoFullPath: fetchImageObjectFromCloudFormation(
-            x.displayPhoto,
-            this.editParams
-          ),
+      if (this.filteredUsers.length > 0) {
+        this.filteredUsers = this.filteredUsers.map((x) => {
+          return Object.assign({}, x, {
+            displayPhotoFullPath: fetchImageObjectFromCloudFormation(
+              x.displayPhoto,
+              this.editParams
+            ),
+          });
         });
         this.filteredUsers[0].isSelected = true;
-      });
 
-      this.store.dispatch(
-        new TalentCategoryActions.FetchTalentWithHighestComment({
-          id: this.filteredUsers[0]._id,
-        })
-      );
+        this.store.dispatch(
+          new TalentCategoryActions.FetchTalentWithHighestComment({
+            id: this.filteredUsers[0]._id,
+          })
+        );
+      }
     }
   }
 

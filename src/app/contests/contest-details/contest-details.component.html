@@ -6,7 +6,8 @@
       <div class="col-xl-12">
         <div class="back-btn">
           <a
-            routerLink="/contests"
+            style="cursor: pointer;"
+            (click)="navigateToPrevious()"
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="visited"
             ><i class="fas fa-long-arrow-alt-left"></i>Back</a
@@ -33,10 +34,7 @@
             >
               Enter Contest</a
             >
-            <a
-              class="box-btn details-btn"
-              style="cursor: pointer;"
-              *ngIf="!isEligible"
+            <a class="box-btn details-btn" style="cursor: pointer;"
               >View Vote Analysis</a
             >
           </div>

@@ -75,7 +75,7 @@ export class ContestDetailsComponent implements OnInit {
     private store: Store<fromApp.AppState>,
     private route: ActivatedRoute
   ) {
-    // this.hasEnded = false;
+    this.hasEnded = true;
     // this.store.dispatch(new ContestsAction.ResetContestData());
   }
 
@@ -92,6 +92,20 @@ export class ContestDetailsComponent implements OnInit {
           contestId: this.contestId,
         })
       );
+
+      this.store
+        .pipe(select(fromContest.selectCurrentUserEligibility))
+        .take(2)
+        .subscribe((val: ContestEligibilityData) => {
+          console.log(val);
+          if (val !== null) {
+            if (val.status) {
+              this.isEligible = true;
+            } else {
+              this.isEligible = false;
+            }
+          }
+        });
     }
 
     this.store
@@ -106,7 +120,6 @@ export class ContestDetailsComponent implements OnInit {
       .pipe(select(fromContest.selectCurrentContestDetails))
       .take(2)
       .subscribe((val: ContestData) => {
-        console.log(val);
         if (val !== null) {
           this.setContestBannerImage(val.contest.bannerImage);
           this.entriesCount = val.submissions.length;
@@ -117,7 +130,6 @@ export class ContestDetailsComponent implements OnInit {
             this.hasEnded = true;
           } else {
             this.hasEnded = false;
-            this.checkCurrentUserEligibleStatus();
           }
           const difference: number = differenceInDays(
             new Date(val.contest.endDate),
@@ -127,20 +139,6 @@ export class ContestDetailsComponent implements OnInit {
             difference > 1 ? `${difference} days` : `${difference} day`;
           if (val.contest.eligibleCategories.length > 0) {
             this.mapSelectedCategories();
-          }
-        }
-      });
-  }
-
-  checkCurrentUserEligibleStatus() {
-    this.store
-      .pipe(select(fromContest.selectCurrentUserEligibility))
-      .subscribe((val: ContestEligibilityData) => {
-        if (val !== null) {
-          if (val.status) {
-            this.isEligible = true;
-          } else {
-            this.isEligible = false;
           }
         }
       });
@@ -179,6 +177,12 @@ export class ContestDetailsComponent implements OnInit {
           }
         }
       });
+  }
+
+  navigateToPrevious() {
+    this.store.dispatch(new ContestsAction.ResetContestData());
+    this.store.dispatch(new ContestsAction.ResetUserEligibilityStatus());
+    this.router.navigate(["/contests/"]);
   }
 
   closeModalDialog(modalId: string) {

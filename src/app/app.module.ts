@@ -44,6 +44,7 @@ import { ContestsEffect } from "./contests/store/contests.effects";
 import { ContestEntryEffect } from "./contests/store/contest-entry/contest-entry.effects";
 import { StickyModule } from "ng2-sticky-kit";
 import { ContestEffect } from "./contests/store/contest/contest.effects";
+import { ProfessionalCategoryEffect } from "./shared/store/filtered-categories/professional-category/professional-category.effects";
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -96,6 +97,7 @@ export const customCurrencyMaskConfig = {
       ContestsEffect,
       ContestEntryEffect,
       ContestEffect,
+      ProfessionalCategoryEffect,
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({

@@ -1,15 +1,11 @@
 <app-tabs>
   <div class="tab-content fix" id="myTabContent">
-    <app-profile *ngIf="activeTab.tag === tabPanel.tabs[0].tag"></app-profile>
+    <app-profile *ngIf="activeTab.tag === 'profile'"></app-profile>
     <div>
-      <app-portfolio
-        *ngIf="activeTab.tag === tabPanel.tabs[1].tag"
-      ></app-portfolio>
+      <app-portfolio *ngIf="activeTab.tag === 'portfolio'"></app-portfolio>
     </div>
     <div>
-      <app-settings
-        *ngIf="activeTab.tag === tabPanel.tabs[2].tag"
-      ></app-settings>
+      <app-settings *ngIf="activeTab.tag === 'settings'"></app-settings>
     </div>
   </div>
 </app-tabs>

@@ -19,6 +19,7 @@ export const FETCH_CONTEST_BY_ID_SUCCESS = "FETCH_CONTEST_BY_ID_SUCCESS";
 export const CHECK_USER_ELIGIBILITY = "CHECK_USER_ELIGIBILITY";
 export const CHECK_USER_ELIGIBILITY_SUCCESS = "CHECK_USER_ELIGIBILITY_SUCCESS";
 export const RESET_CONTEST_DATA = "RESET_CONTEST_DATA";
+export const RESET_USER_ELIGIBILITY_STATUS = "RESET_USER_ELIGIBILITY_STATUS";
 
 export class FetchContestById implements Action {
   readonly type = FETCH_CONTEST_BY_ID;
@@ -58,7 +59,9 @@ export class ResetContestsPreviewToDefault implements Action {
 export class ResetContestData implements Action {
   readonly type = RESET_CONTEST_DATA;
 }
-
+export class ResetUserEligibilityStatus implements Action {
+  readonly type = RESET_USER_ELIGIBILITY_STATUS;
+}
 export type ContestsAction =
   | FetchContestById
   | FetchContestsPreview
@@ -68,4 +71,5 @@ export type ContestsAction =
   | FetchContestByIdSuccess
   | CheckUserEligibility
   | CheckUserEligibilitySuccess
-  | ResetContestData;
+  | ResetContestData
+  | ResetUserEligibilityStatus;

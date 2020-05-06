@@ -1,3 +1,4 @@
+import { UPLOADACTION } from "./../../../interfaces/shared/file";
 import {
   Component,
   OnInit,
@@ -8,7 +9,6 @@ import {
 import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component";
 import {
   IFileInputModel,
-  UPLOADOPERATIONS,
   PortfolioUploadInputConfig,
   SignedUrl,
   CloudUploadParams,
@@ -19,6 +19,8 @@ import {
   IPresignRequest,
   IFileModel,
   IFileMetaData,
+  UPLOADCOMPONENT,
+  MediaUploadType,
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
@@ -43,7 +45,8 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   @Input() accept = "";
   isMultiple: boolean;
   mediaAccept: string;
-  uploadOperation = UPLOADOPERATIONS.portfolio;
+  uploadComponent = UPLOADCOMPONENT.portfolio;
+  uploadAction = UPLOADACTION.createportfolio;
   uploadedItems: UploadedItems;
   canSetUploadedImage: boolean;
 
@@ -56,7 +59,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
@@ -73,14 +76,13 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
             var fileType = files[0].file_type.split("/");
             this.file = {
               mediaType: fileType[0],
-              action: val.action,
+              component: UPLOADCOMPONENT.portfolio,
               files: [...files],
             };
-            if (this.fileConfig.state) {
-              this.store.dispatch(
-                new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
-              );
-            }
+
+            this.store.dispatch(
+              new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
+            );
 
             this.store.dispatch(new UploadActions.ResetFileInput());
 
@@ -102,15 +104,16 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   }
 
   uploadFiles(files: File[]): void {
+    const uploadType: string = this.isMultiple ? "single" : "multiple";
     let uploadParams: CloudUploadParams[] = [];
     this.store
       .pipe(select(fromUpload.selectPresignedUrls))
       .subscribe((val: SignedUrl) => {
-        console.log(val);
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.component === this.uploadComponent) {
             this.uploadedItems = {
               type: MediaType.AUDIO,
+              uploadType: MediaUploadType[uploadType],
               items: [],
             };
             for (let i = 0; i < files.length; i++) {
@@ -148,7 +151,8 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
-      process: this.uploadOperation,
+      component: this.uploadComponent,
+      action: this.uploadAction,
       multiple: this.isMultiple,
       accept: this.mediaAccept,
       minHeight: 199,

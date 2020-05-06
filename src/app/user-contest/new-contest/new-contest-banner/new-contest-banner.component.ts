@@ -3,7 +3,7 @@ import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstrac
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import { Observable } from "rxjs";
-import { IFileInputModel, UPLOADOPERATIONS } from "src/app/interfaces";
+import { IFileInputModel } from "src/app/interfaces";
 
 @Component({
   selector: "app-new-contest-banner",
@@ -14,7 +14,6 @@ export class NewContestBannerComponent extends AbstractUploadComponent {
   imagePath: string;
   isDefault: boolean;
   fileConfig: IFileInputModel;
-  uploadOperation = UPLOADOPERATIONS.contestbanner;
   constructor(public store: Store<fromApp.AppState>) {
     super();
   }
@@ -24,13 +23,13 @@ export class NewContestBannerComponent extends AbstractUploadComponent {
   uploadFiles(files: File[]): void {}
 
   onClickUploadImageBtn() {
-    this.fileConfig = {
-      state: true,
-      process: this.uploadOperation,
-      multiple: false,
-      accept: "image/*",
-      minWidth: 200,
-      minHeight: 200,
-    };
+    // this.fileConfig = {
+    //   state: true,
+    //   process: this.uploadOperation,
+    //   multiple: false,
+    //   accept: "image/*",
+    //   minWidth: 200,
+    //   minHeight: 200,
+    // };
   }
 }

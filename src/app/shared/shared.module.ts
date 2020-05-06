@@ -37,6 +37,7 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
 
 import { Angular4PaystackModule } from "angular4-paystack";
 import { environment } from "src/environments/environment";
+import { GooglePlacesComponent } from "./google-places/google-places.component";
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { environment } from "src/environments/environment";
     UpVideoComponent,
     UpMediaMagnifierComponent,
     Angular4PaystackModule,
+    GooglePlacesComponent,
   ],
   declarations: [
     UploadComponent,
@@ -89,6 +91,7 @@ import { environment } from "src/environments/environment";
     UpAudioComponent,
     UpVideoComponent,
     UpMediaMagnifierComponent,
+    GooglePlacesComponent,
   ],
 })
 export class SharedModule {}

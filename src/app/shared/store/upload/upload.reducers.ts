@@ -2,11 +2,11 @@ import {
   IFileInputModel,
   IFileModel,
   IUploadedFiles,
-  UPLOADOPERATIONS,
   PresignedUrl,
   SignedUrl,
   UploadedItems,
   MediaType,
+  UPLOADCOMPONENT,
 } from "src/app/interfaces";
 import * as UploadActions from "./upload.actions";
 import { EntityState } from "@ngrx/entity";
@@ -18,7 +18,7 @@ export interface UploadState extends EntityState<any> {
   file: IFileModel | null;
   preSignedUrls: SignedUrl | null;
   isReadyForUpload: boolean;
-  uploadAction: UPLOADOPERATIONS | null;
+  uploadAction: UPLOADCOMPONENT | null;
   uploadSuccessful: boolean;
   // uploadedItems: UploadedItems;
   selectedUploadedItemId: string | number | null;
@@ -53,7 +53,7 @@ export function reducer(
         file: null,
         preSignedUrls: null,
         isReadyForUpload: false,
-        uploadAction: UPLOADOPERATIONS.default,
+        uploadAction: UPLOADCOMPONENT.default,
         uploadSuccessful: true,
       });
     case UploadActions.RESET_FILE_INPUT:
@@ -72,7 +72,7 @@ export function reducer(
       return Object.assign({
         ...state,
         preSignedUrls: Object.assign({
-          action: action.payload.action,
+          component: action.payload.component,
           presignedUrl: action.payload.presignedUrl,
         }),
       });

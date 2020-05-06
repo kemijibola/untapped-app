@@ -54,6 +54,11 @@ export function reducer(
         ...state,
         selectedContest: null,
       });
+    case ContestsActions.RESET_USER_ELIGIBILITY_STATUS:
+      return Object.assign({
+        ...state,
+        userEligibilityStatus: null,
+      });
     default: {
       return state;
     }

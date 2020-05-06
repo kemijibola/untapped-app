@@ -8,7 +8,7 @@ export class UserCategoryService {
   private BASE_URI = "http://127.0.0.1:8900/v1";
   constructor(private http: HttpClient) {}
 
-  getAllTalentsByHighestComment(
+  getUserFilterCategoryByReportType(
     type: ReportType
   ): Observable<IResult<UserFilterCategory[]>> {
     const url = `${this.BASE_URI}/user-categories?reportType=${type}`;

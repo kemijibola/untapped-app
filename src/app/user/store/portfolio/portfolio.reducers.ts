@@ -46,7 +46,7 @@ const initialState: PortfolioState = fromAdapter.adapter.getInitialState({
   allMedia: [],
   media: null,
   item: null,
-  selectedMediaUploadType: MediaUploadType.SINGLE,
+  selectedMediaUploadType: MediaUploadType.single,
   selectedMediaType: MediaType.AUDIO,
   uploadConfig: {
     isMultiple: false,
@@ -140,7 +140,7 @@ export function portfolioReducer(
     case PortfolioActions.UPDATE_PORTFOLIO_MEDIA_SUCCESS:
       return Object.assign({
         ...state,
-        media: { ...newMedia },
+        media: action.payload,
       });
     default: {
       return state;

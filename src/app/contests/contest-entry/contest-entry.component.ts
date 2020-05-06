@@ -1,13 +1,14 @@
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import {
   IFileInputModel,
-  UPLOADOPERATIONS,
   MediaAcceptType,
   IFileModel,
   IFileMetaData,
   CloudUploadParams,
   SignedUrl,
   IPresignRequest,
+  UPLOADCOMPONENT,
+  UPLOADACTION,
 } from "./../../interfaces/shared/file";
 import {
   Component,
@@ -23,6 +24,7 @@ import {
   IMediaItem,
   MediaType,
   AppNotificationKey,
+  MediaUploadType,
 } from "src/app/interfaces";
 import * as fromApp from "../../store/app.reducers";
 import * as fromContest from "../store/contests.reducers";
@@ -41,14 +43,14 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   fileConfig: IFileInputModel;
   private filesToUpload: File[];
   private file: IPresignRequest;
-  uploadOperation = UPLOADOPERATIONS.contestentry;
+  uploadComponent = UPLOADCOMPONENT.contestentry;
+  uploadAction = UPLOADACTION.updateimagealbum;
   mediaAccept: string;
   contestEntryForm: FormGroup;
   @Input() selectedContest: ContestData;
   uploadedItems: UploadedItems;
   cloudItems: UploadedItems;
-  constructor(private store: Store<fromApp.AppState>) {
-  }
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store
@@ -61,7 +63,7 @@ export class ContestEntryComponent implements OnInit, OnChanges {
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
@@ -78,14 +80,13 @@ export class ContestEntryComponent implements OnInit, OnChanges {
             var fileType = files[0].file_type.split("/");
             this.file = {
               mediaType: fileType[0],
-              action: val.action,
+              component: UPLOADCOMPONENT.contestentry,
               files: [...files],
             };
-            if (this.fileConfig.state) {
-              this.store.dispatch(
-                new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
-              );
-            }
+
+            this.store.dispatch(
+              new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
+            );
 
             this.store.dispatch(new UploadActions.ResetFileInput());
 
@@ -109,9 +110,10 @@ export class ContestEntryComponent implements OnInit, OnChanges {
       .pipe(select(fromUpload.selectPresignedUrls))
       .subscribe((val: SignedUrl) => {
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.component === this.uploadComponent) {
             this.uploadedItems = {
               type: MediaType.IMAGE,
+              uploadType: MediaUploadType.single,
               items: [],
             };
             for (let i = 0; i < files.length; i++) {
@@ -157,7 +159,8 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
-      process: this.uploadOperation,
+      component: this.uploadComponent,
+      action: this.uploadAction,
       multiple: false,
       accept: this.mediaAccept,
       minHeight: 100,

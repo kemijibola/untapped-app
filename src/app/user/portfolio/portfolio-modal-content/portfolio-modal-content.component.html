@@ -128,10 +128,10 @@
               ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
             /></a>
           </div>
-
-          <div class="demo-upload-plus pp" *ngIf="isMultipleImage">
-            <a href="#"><i class="fal fa-plus"></i></a>
-          </div>
+          <app-add-more-image
+            *ngIf="isMultipleImage"
+            [imageAlbumId]="uploadedItems._id"
+          ></app-add-more-image>
         </div>
       </div>
 
@@ -152,9 +152,10 @@
             </div>
           </div>
 
-          <div class="demo-upload-plus pp" *ngIf="isMultipleAudio">
-            <a href="#"><i class="fal fa-plus"></i></a>
-          </div>
+          <app-add-more-audio
+            *ngIf="isMultipleAudio"
+            [audioAlbumId]="uploadedItems._id"
+          ></app-add-more-audio>
         </div>
       </div>
 
@@ -174,10 +175,10 @@
               <a><img src="assets/img/profile/cross.svg" alt="" /></a>
             </div>
           </div>
-
-          <div class="demo-upload-plus pp" *ngIf="isMultipleVideo">
-            <a href="#"><i class="fal fa-plus"></i></a>
-          </div>
+          <app-add-more-video
+            [videoAlbumId]="uploadedItems._id"
+            *ngIf="isMultipleVideo"
+          ></app-add-more-video>
         </div>
       </div>
 

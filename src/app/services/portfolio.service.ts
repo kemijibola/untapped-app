@@ -34,6 +34,14 @@ export class PortfolioService {
     });
   }
 
+  patchPortfolioMedia(
+    mediaId: string,
+    data: UploadedItems
+  ): Observable<IResult<IMedia>> {
+    const url = `${this.BASE_URI}/media/${mediaId}`;
+    return this.http.patch<IResult<IMedia>>(url, data);
+  }
+
   updatePortfolioMedia(
     mediaUploadType: MediaUploadType,
     data: UploadedItems

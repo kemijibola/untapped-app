@@ -72,6 +72,8 @@ export const UPDATE_PORTFOLIO_MEDIA = "UPDATE_PORTFOLIO_MEDIA";
 export const UPDATE_PORTFOLIO_MEDIA_SUCCESS = "UPDATE_PORTFOLIO_MEDIA_SUCCESS";
 export const UPDATE_PORTFOLIO_MEDIA_ERROR = "UPDATE_PORTFOLIO_MEDIA_ERROR";
 
+export const PATCH_MEDIA_BY_ID = "PATCH_MEDIA_BY_ID";
+
 export class DeleteMediaItemById implements Action {
   readonly type = DELETE_MEDIA_ITEM_BY_ID;
   constructor(public payload: { id: string; itemId: string }) {}
@@ -228,6 +230,10 @@ export class SetAllMedia implements Action {
   readonly type = SET_ALL_MEDIA;
   constructor(public payload: IMedia[]) {}
 }
+export class PatchMediaById implements Action {
+  readonly type = PATCH_MEDIA_BY_ID;
+  constructor(public payload: { mediaId: string; updateItem: UploadedItems }) {}
+}
 
 export type PortfolioActions =
   | SetMediaUploadType
@@ -261,4 +267,5 @@ export type PortfolioActions =
   | DeleteAudioByIdError
   | DeleteVideoByIdError
   | FetchAllMediaError
-  | SetUserMediaList;
+  | SetUserMediaList
+  | PatchMediaById;

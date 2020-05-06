@@ -6,7 +6,6 @@ import { Store, select } from "@ngrx/store";
 import {
   AppNotificationKey,
   IFileInputModel,
-  UPLOADOPERATIONS,
   MediaAcceptType,
   IPresignRequest,
   IFileMetaData,
@@ -15,6 +14,8 @@ import {
   IFileModel,
   IContest,
   IRedeemable,
+  UPLOADCOMPONENT,
+  UPLOADACTION,
 } from "src/app/interfaces";
 import {
   contestTitleAsyncValidator,
@@ -47,7 +48,8 @@ export class NewContestComponent implements OnInit {
   // evaluations: string[] = [];
   fileConfig: IFileInputModel;
   private presignRequest: IPresignRequest;
-  uploadOperation = UPLOADOPERATIONS.contestbanner;
+  uploadComponent = UPLOADCOMPONENT.contestbanner;
+  uploadAction = UPLOADACTION.uploadcontestbanner;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -116,7 +118,7 @@ export class NewContestComponent implements OnInit {
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
@@ -133,16 +135,15 @@ export class NewContestComponent implements OnInit {
             var fileType = files[0].file_type.split("/");
             this.presignRequest = {
               mediaType: fileType[0],
-              action: val.action,
+              component: this.uploadComponent,
               files: [...files],
             };
-            if (this.fileConfig.state) {
-              this.store.dispatch(
-                new UploadActions.GetPresignedUrl({
-                  preSignRequest: this.presignRequest,
-                })
-              );
-            }
+
+            this.store.dispatch(
+              new UploadActions.GetPresignedUrl({
+                preSignRequest: this.presignRequest,
+              })
+            );
 
             this.store.dispatch(new UploadActions.ResetFileInput());
 
@@ -167,7 +168,7 @@ export class NewContestComponent implements OnInit {
       .pipe(select(fromUpload.selectPresignedUrls))
       .subscribe((val: SignedUrl) => {
         if (val) {
-          if (val.action === this.uploadOperation) {
+          if (val.component === this.uploadComponent) {
             const item: CloudUploadParams = {
               file: files[0]["data"],
               url: val.presignedUrl[0].url,
@@ -267,7 +268,8 @@ export class NewContestComponent implements OnInit {
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
-      process: this.uploadOperation,
+      component: this.uploadComponent,
+      action: this.uploadAction,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
       minHeight: 150,

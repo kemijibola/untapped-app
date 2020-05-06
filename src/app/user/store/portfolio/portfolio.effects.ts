@@ -40,13 +40,50 @@ export class PortfolioEffect {
           .pipe(
             mergeMap((resp: IResult<IMedia>) => {
               return [
-                {
-                  type: PortfolioActions.CREATE_PORTFOLIO_MEDIA_SUCCESS,
-                  payload: resp.data,
-                },
-                {
-                  type: UploadActions.RESET_UPLOADED_ITEMS,
-                },
+                new PortfolioActions.CreatePortfolioMediaSuccess(resp.data),
+                new UploadActions.ResetUploadedItems({
+                  uploadedItemId: resp.data._id,
+                }),
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Album media submitted for approval.",
+                }),
+              ];
+            }),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  patchPortfolioMedia = createEffect(() =>
+    this.action$.pipe(
+      ofType(PortfolioActions.PATCH_MEDIA_BY_ID),
+      concatMap((action: PortfolioActions.PatchMediaById) =>
+        this.portfolioService
+          .patchPortfolioMedia(
+            action.payload.mediaId,
+            action.payload.updateItem
+          )
+          .pipe(
+            mergeMap((resp: IResult<IMedia>) => {
+              return [
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Album media submitted for approval.",
+                }),
               ];
             }),
             catchError((respError: HttpErrorResponse) =>
@@ -72,11 +109,15 @@ export class PortfolioEffect {
         this.portfolioService
           .updatePortfolioMedia(action.payload.uploadType, action.payload.data)
           .pipe(
-            map(() => {
-              return {
-                type: PortfolioActions.UPDATE_PORTFOLIO_MEDIA_SUCCESS,
-                payload: action.payload.data,
-              };
+            mergeMap((resp: IResult<IMedia>) => {
+              return [
+                new PortfolioActions.UpdatePortfolioMediaSuccess(resp.data),
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Album updated successfully.",
+                }),
+              ];
             }),
             catchError((respError: HttpErrorResponse) =>
               of(
