@@ -91,6 +91,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   currentAudioIndex = 0;
   audioItems: MediaItem[] = [];
   commentsFetched: boolean = false;
+  currentImage: string = "";
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -167,6 +168,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
             image.path,
             this.defaultImageParams
           ));
+    this.currentImage = image.path || fetchNoMediaDefaultImage();
   }
 
   setMagnifiedImage() {

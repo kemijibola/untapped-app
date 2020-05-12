@@ -1,3 +1,4 @@
+import { IUserContestListAnalysis } from "./../../../interfaces/user/filter-category";
 import { Injectable } from "@angular/core";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
@@ -38,6 +39,32 @@ export class ContestEntryEffect {
               }),
             ];
           }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection.",
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  fetchUserParticipatedContests = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestEntryActions.FETCH_USER_PARTICIPATED_CONTEST),
+      concatMap((action: ContestEntryActions.FetchUserParticipatedContest) =>
+        this.contestsService.fetchUserParticipatedContests().pipe(
+          map(
+            (resp: IResult<IUserContestListAnalysis[]>) =>
+              new ContestEntryActions.FetchUserParticipatedContestSuccess({
+                participatedInContests: resp.data,
+              })
+          ),
           catchError((respError: HttpErrorResponse) =>
             of(
               new NotificationActions.AddError({

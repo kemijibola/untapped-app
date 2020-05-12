@@ -117,10 +117,11 @@ export class UploadComponent
       this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
       this.writeValue(null);
     } else {
+      //  CHANGE TO HIEHGT AND WIDTH
       this.store.dispatch(
         new NotificationActions.AddError({
           key: AppNotificationKey.error,
-          message: `Upload image with minimum dimentions ${this.fileConfig.minHeight}px x ${this.fileConfig.minWidth}px`,
+          message: `Upload image with minimum dimensions ${this.fileConfig.minHeight}px x ${this.fileConfig.minWidth}px`,
           code: 400,
         })
       );

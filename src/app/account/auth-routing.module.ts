@@ -4,6 +4,9 @@ import { SignupComponent } from "./signup/signup.component";
 import { LoginComponent } from "./login/login.component";
 import { ConfirmEmailComponent } from "./confirm-email/confirm-email.component";
 import { ConfirmationComponent } from "./confirmation/confirmation.component";
+import { ChangeEmailComponent } from "./change-email/change-email.component";
+import { EmailChangeVerificationComponent } from "./email-change-verification/email-change-verification.component";
+import { AuthGuard } from "../guard-services/auth-guard.service";
 
 const authRoutes: Routes = [
   { path: "signin", component: LoginComponent },
@@ -12,9 +15,15 @@ const authRoutes: Routes = [
   //     { path: 'success',  component: SignupSuccessComponent }
   // ]
   { path: "confirm-email", component: ConfirmEmailComponent },
+  { path: "email/change", component: ChangeEmailComponent },
   {
     path: "confirmation/:email/:token",
     component: ConfirmationComponent,
+  },
+  {
+    path: "email-change/verify/:email/:token",
+    canActivate: [AuthGuard],
+    component: EmailChangeVerificationComponent,
   },
   // {
   //   path: 'confirmation?:email=email&:token=token',

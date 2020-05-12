@@ -6,12 +6,16 @@
   <app-upload [fileConfig]="fileConfig"></app-upload>
 </div> -->
 
-<div class="add-img-blk">
+<div class="add-img-blk" *ngIf="showUpload">
   <div class="drag-section">
     <p>
-      Drag and drop multiple file to upload <br/><br/>
-      or <br/><br/>
-      <span style="margin-left: 0" (click)="onClickBrowseBtn()">BROWSE</span>
+      Drag and drop multiple file to upload <br /><br />
+      or <br /><br />
+      <span
+        style="margin-left: 0; cursor: pointer;"
+        (click)="onClickBrowseBtn()"
+        >BROWSE</span
+      >
     </p>
     <app-upload [fileConfig]="fileConfig"></app-upload>
   </div>

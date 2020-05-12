@@ -28,6 +28,14 @@ export function fetchDefaultContestBanner(): string {
   return environment.CONTEST_BANNER_DEFAULT;
 }
 
+export function fetchProfessionalDefaultDisplayPicture(): string {
+  return environment.PROFESSIONAL_DEFAULT_IMG;
+}
+
+export function fetchProfessionalBiodataBanner(): string {
+  return environment.PROFESSIONAL_BIODATA_BANNER_DEFAULT;
+}
+
 export function getTime(date?: Date) {
   return date != null ? new Date(date).getTime() : 0;
 }

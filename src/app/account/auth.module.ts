@@ -10,6 +10,8 @@ import { UserTypeListComponent } from '../user-type/user-type-list/user-type-lis
 import { UserTypeListItemComponent } from '../user-type/user-type-list/user-type-list-item/user-type-list-item.component';
 // import { RoleItemComponent } from '../role/role-list/role-item/role-item.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { ChangeEmailComponent } from './change-email/change-email.component';
+import { EmailChangeVerificationComponent } from './email-change-verification/email-change-verification.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     ConfirmEmailComponent,
     UserTypeListComponent,
     UserTypeListItemComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    ChangeEmailComponent,
+    EmailChangeVerificationComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, AuthRoutingModule],
   exports: [AuthRoutingModule]

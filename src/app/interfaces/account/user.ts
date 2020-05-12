@@ -1,11 +1,10 @@
 import { IRole, IPermission } from "./role";
 
-export enum SocialMedia {
-  FACEBOOK = "FACEBOOK",
-  TWITTER = "TWITTER",
-  INSTAGRAM = "INSTAGRAM",
-  YOUTUBE = "YOUTUBE",
-  OTHER = "OTHER",
+export enum SocialMediaTypes {
+  facebook = "facebook",
+  twitter = "twitter",
+  instagram = "instagram",
+  youtube = "youtube",
 }
 
 export enum UserTypes {
@@ -14,7 +13,7 @@ export enum UserTypes {
   Professional = "Professional",
 }
 export interface IUserSocialMedia {
-  type: SocialMedia;
+  type: SocialMediaTypes;
   handle: string;
 }
 export interface IAuthData {

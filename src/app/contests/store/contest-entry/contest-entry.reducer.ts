@@ -1,4 +1,4 @@
-import { IContestEntry } from "src/app/interfaces";
+import { IContestEntry, IUserContestListAnalysis } from "src/app/interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./contest-entry.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
@@ -6,10 +6,12 @@ import * as ContestEntryActions from "./contest-entry.action";
 
 export interface ContestEntryState extends EntityState<IContestEntry> {
   selectedContestEntryId: string | number | null;
+  contestsParticipatedIn: IUserContestListAnalysis[] | null;
 }
 
 const initialState: ContestEntryState = fromAdapter.adapter.getInitialState({
   selectedContestEntryId: null,
+  contestsParticipatedIn: null,
 });
 
 export function reducer(
@@ -26,6 +28,11 @@ export function reducer(
         ...state,
         selectedContestEntryId: action.payload.contestEntryId,
       });
+    case ContestEntryActions.FETCH_USER_PARTICIPATED_CONTEST_SUCCESS:
+      return Object.assign({
+        ...state,
+        contestsParticipatedIn: action.payload.participatedInContests,
+      });
     default: {
       return state;
     }
@@ -35,6 +42,8 @@ export function reducer(
 export const getSelectedContestEntryId = (state: ContestEntryState) =>
   state.selectedContestEntryId;
 
+const getContestsUserParticipatedIn = (state: ContestEntryState) =>
+  state.contestsParticipatedIn;
 export const getContestEntryState = createFeatureSelector<ContestEntryState>(
   "contestEntryState"
 );
@@ -47,6 +56,11 @@ export const selectCurrentContestEntryId = createSelector(
 export const selectContestEntryIds = createSelector(
   getContestEntryState,
   fromAdapter.selectContestEntryIds
+);
+
+export const selectContestsUserParticipatedIn = createSelector(
+  getContestEntryState,
+  getContestsUserParticipatedIn
 );
 
 export const selectContestEntryEntities = createSelector(

@@ -8,16 +8,21 @@
     <div class="row">
       <div class="col-xl-12">
         <div class="setting-des">
-          <p>
+          <!-- <p>
             Fill your details; your personal details, contact detail, talents,
             location and social media handles.
-          </p>
+          </p> -->
         </div>
         <div class="setting-item">
           <h4>Your email</h4>
           <div class="setting-content">
-            <p>Ojopeta@gmail.com</p>
-            <a class="setting-btn" href="#">Change</a>
+            <p>{{ userEmail }}</p>
+            <a
+              class="setting-btn"
+              style="cursor: pointer;"
+              (click)="navigateToChangeEmail()"
+              >Change</a
+            >
           </div>
         </div>
         <div class="setting-item">

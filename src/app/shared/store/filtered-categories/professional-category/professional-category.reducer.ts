@@ -25,7 +25,7 @@ export function reducer(
     case ProfessionalCategoryActions.FETCH_PROFESSIONAL:
       return Object.assign({
         ...state,
-        selectedProfessionalFilterId: action.payload,
+        selectedProfessionalFilterId: action.payload.id,
       });
     default: {
       return state;

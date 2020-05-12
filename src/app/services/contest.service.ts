@@ -9,6 +9,7 @@ import {
   ContestData,
   IContestEntry,
   ContestEligibilityData,
+  IUserContestListAnalysis,
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
@@ -50,6 +51,12 @@ export class ContestService {
     return this.http.get<IResult<IContest[]>>(`${url}?title=${title}`);
   }
 
+  fetchUserParticipatedContests(): Observable<
+    IResult<IUserContestListAnalysis[]>
+  > {
+    const url = `${this.BASE_URI}/contest-entries/user`;
+    return this.http.get<IResult<IUserContestListAnalysis[]>>(url);
+  }
   createContest(item: IContest): Observable<IResult<IContest>> {
     const url = `${this.BASE_URI}/contests`;
     return this.http.post<IResult<IContest>>(url, item);

@@ -9,6 +9,7 @@ import {
   CloudUploadParams,
   UploadedItems,
   UPLOADCOMPONENT,
+  UploadStatus,
 } from "src/app/interfaces";
 
 export const FILE_INPUT_CONFIG = "FILE_INPUT_CONFIG";
@@ -21,10 +22,18 @@ export const SET_PRESIGNED_URL = "SET_PRESIGNED_URL";
 
 export const SET_APPUPLOAD_OPERATION = "SET_APPUPLOAD_OPERATION";
 
-export const UPLOAD_FILES = "UPLOAD_FILES";
-export const UPLOAD_FILES_ERROR = "UPLOAD_FILES_ERROR";
+// export const UPLOAD_FILES = "UPLOAD_FILES";
+// export const UPLOAD_FILES_ERROR = "UPLOAD_FILES_ERROR";
+// export const CLOUD_UPLOAD_SUCCESS = "CLOUD_UPLOAD_SUCCESS";
 
-export const CLOUD_UPLOAD_SUCCESS = "CLOUD_UPLOAD_SUCCESS";
+export const UPLOAD_FILES_REQUEST = "UPLOAD_FILES_REQUEST";
+export const UPLOAD_FILES = "UPLOAD_FILES";
+export const UPLOAD_FILES_CANCEL = "UPLOAD_FILES_CANCEL";
+export const UPLOAD_FILES_RESET = "UPLOAD_FILES_RESET";
+export const UPLOAD_FILES_STARTED = "UPLOAD_FILES_STARTED";
+export const UPLOAD_FILES_PROGRESS = "UPLOAD_FILES_PROGRESS";
+export const UPLOAD_FILES_ERROR = "UPLOAD_FILES_ERROR";
+export const UPLOAD_FILES_SUCCESS = "UPLOAD_FILES_SUCCESS";
 
 export const SET_UPLOADED_ITEMS = "SET_UPLOADED_ITEMS";
 export const RESET_UPLOADED_ITEMS = "RESET_UPLOADED_ITEMS";
@@ -34,10 +43,6 @@ export const RESET_UPLOADED_ITEMS = "RESET_UPLOADED_ITEMS";
 export class SetUploadedItems implements Action {
   readonly type = SET_UPLOADED_ITEMS;
   constructor(public payload: { uploadedItems: UploadedItems }) {}
-}
-export class UploadFilesError implements Action {
-  readonly type = UPLOAD_FILES_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 
 export class GetPresignedUrlError implements Action {
@@ -54,9 +59,9 @@ export class FileInputConfig implements Action {
   constructor(public payload: { fileInput: IFileInputModel }) {}
 }
 
-export class CloudUploadSuccess implements Action {
-  readonly type = CLOUD_UPLOAD_SUCCESS;
-}
+// export class CloudUploadSuccess implements Action {
+//   readonly type = CLOUD_UPLOAD_SUCCESS;
+// }
 
 export class SetAppUploadOperation implements Action {
   readonly type = SET_APPUPLOAD_OPERATION;
@@ -85,6 +90,25 @@ export class UploadFiles implements Action {
   readonly type = UPLOAD_FILES;
   constructor(public payload: CloudUploadParams[]) {}
 }
+export class UploadFilesCancel implements Action {
+  readonly type = UPLOAD_FILES_CANCEL;
+}
+export class UploadFilesReset implements Action {
+  readonly type = UPLOAD_FILES_RESET;
+}
+export class UploadFilesStarted implements Action {
+  readonly type = UPLOAD_FILES_STARTED;
+}
+export class UploadFilesError implements Action {
+  readonly type = UPLOAD_FILES_ERROR;
+}
+
+export class UploadFilesSuccess implements Action {
+  readonly type = UPLOAD_FILES_SUCCESS;
+}
+export class UploadFilesRequest implements Action {
+  readonly type = UPLOAD_FILES_REQUEST;
+}
 
 export type UploadActions =
   | FileInputConfig
@@ -94,8 +118,12 @@ export type UploadActions =
   | UploadFiles
   | SetPresignedUrl
   | SetAppUploadOperation
-  | CloudUploadSuccess
   | SetUploadedItems
   | ResetUploadedItems
+  | GetPresignedUrlError
+  | UploadFilesCancel
+  | UploadFilesReset
+  | UploadFilesStarted
+  | UploadFilesSuccess
   | UploadFilesError
-  | GetPresignedUrlError;
+  | UploadFilesRequest;

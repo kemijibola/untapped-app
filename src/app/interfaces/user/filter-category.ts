@@ -1,10 +1,28 @@
+import { IUserSocialMedia } from "../account/user";
+
+export interface IUserContestListAnalysis {
+  contestId: string;
+  contestTitle: string;
+  contestBanner: string;
+  contestViewCount: number;
+  contestLikedByCount: number;
+  commentCount: number;
+  entryCount: number;
+  fullContestBannerImage?: string;
+}
+
 export interface UserFilterCategory {
   _id: string;
   user: string;
   displayName: string;
   displayPhoto: string;
+  bannerPhoto: string;
   displayPhotoFullPath?: string;
+  bannerPhotoFullPath?: string;
+  location: string;
+  userSocials: IUserSocialMedia[];
   categoryTypes: CategoryTypeWithCategory[];
+  contests: IUserContestListAnalysis[];
   shortDescription: string;
   tapCount: number;
   contestCount: number;
@@ -29,5 +47,5 @@ export enum ReportType {
   highestcomment = "highestcomment",
   mostwatchedvideo = "mostwatchedvideo",
   mostplayedsong = "mostplayedsong",
-  mostlikedphoto = "mostlikedphoto"
+  mostlikedphoto = "mostlikedphoto",
 }

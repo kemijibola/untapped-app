@@ -1,13 +1,19 @@
-import { HttpClient } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpEvent,
+  HttpEventType,
+  HttpRequest,
+} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {
   IResult,
   SignedUrl,
   PresignedUrl,
-  CloudUploadParams
+  CloudUploadParams,
 } from "../interfaces";
 import { Observable, of, forkJoin } from "rxjs";
 import { IPresignRequest } from "../interfaces";
+import { map } from "rxjs/operators";
 
 @Injectable({ providedIn: "root" })
 export class UploadService {
@@ -16,12 +22,22 @@ export class UploadService {
     this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
+  // s3Upload(data: CloudUploadParams[]): Observable<any> {
+  //   let responses = [];
+  //   data.map(x => {
+  //     responses = [...responses, this.http.put(x.url, x.file)];
+  //   });
+  //   return forkJoin(responses);
+  // }
+
   s3Upload(data: CloudUploadParams[]): Observable<any> {
-    let responses = [];
-    data.map(x => {
-      responses = [...responses, this.http.put(x.url, x.file)];
+    console.log("called");
+    let requests = [];
+
+    data.map((x) => {
+      requests = [...requests, this.http.put(x.url, x.file)];
     });
-    return forkJoin(responses);
+    return forkJoin(requests);
   }
 
   getPresignedUrl(data: IPresignRequest): Observable<IResult<SignedUrl>> {

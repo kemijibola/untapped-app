@@ -53,6 +53,7 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
+    console.log("entry modal");
     this.store
       .pipe(select(fromUpload.selectCurrentUploadedItem))
       .subscribe((val: UploadedItems) => {

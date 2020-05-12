@@ -7,6 +7,9 @@ import { ContestEntryComponent } from "./contest-entry/contest-entry.component";
 import { ContestDetailsModalComponent } from "./contest-details-modal/contest-details-modal.component";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { EntryListComponent } from './contest-details/entry-list/entry-list.component';
+import { ContestEntryModalContentComponent } from './contest-details/contest-entry-modal-content/contest-entry-modal-content.component';
+import { EntryCommentComponent } from './contest-details/entry-comment/entry-comment.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +17,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ContestDetailsComponent,
     ContestEntryComponent,
     ContestDetailsModalComponent,
+    EntryListComponent,
+    ContestEntryModalContentComponent,
+    EntryCommentComponent,
   ],
   imports: [
     SharedModule,

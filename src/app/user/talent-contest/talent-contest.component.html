@@ -1,0 +1,87 @@
+<div
+  class="tab-pane fade show active row tab1"
+  id="home"
+  role="tabpanel"
+  aria-labelledby="home-tab"
+>
+  <div
+    class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+    *ngFor="let contest of userContests"
+  >
+    <div class="entries-img mb-20">
+      <a href="#"><img src="assets/img/contest/all-contest-1.jpg" alt="" /></a>
+      <div class="entries-content all-ent">
+        <span class="ent-num"
+          >{{ contest.entryCount }}
+          {{ contest.entryCount > 1 ? "Entries" : "Entry" }}</span
+        >
+      </div>
+      <div class="entries-bot-cont">
+        <h5>{{ contest.contestTitle }}</h5>
+        <div class="action">
+          <span
+            ><img src="assets/img/gigs/eye.svg" alt="" />{{
+              contest.contestViewCount
+            }}</span
+          >
+          <span
+            ><img src="assets/img/gigs/heart.svg" alt="" />{{
+              contest.contestLikedByCount
+            }}</span
+          >
+          <span
+            ><img src="assets/img/message-icon.svg" alt="" />{{
+              contest.commentCount
+            }}</span
+          >
+        </div>
+      </div>
+
+      <!-- <div class="dropdown">
+        <button
+          class="dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <img src="assets/img/rnd-grp-img.svg" alt="" />
+        </button>
+        <div
+          class="dropdown-menu"
+          aria-labelledby="dropdownMenuButton"
+          x-placement="bottom-start"
+          style="
+            position: absolute;
+            transform: translate3d(0px, 19px, 0px);
+            top: 0px;
+            left: 0px;
+            will-change: transform;
+          "
+        >
+          <a class="dropdown-item" href="#"
+            ><i><img src="assets/img/message-iucon.svg" alt="" /></i>Send
+            message</a
+          >
+          <a class="dropdown-item" href="#"
+            ><i><img src="assets/img/appoinment-icon.svg" alt="" /></i>Set
+            Appointment</a
+          >
+          <a class="dropdown-item" href="#"
+            ><i><img src="assets/img/delet-icon.svg" alt="" /></i>Delete</a
+          >
+          <a class="dropdown-item" href="#"
+            ><i><img src="assets/img/block-icon.svg" alt="" /></i>Block</a
+          >
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="info-xt" *ngIf="userContests.length < 1">
+    <span
+      >You have not participated in any contest. Click <a>here</a> to
+      participate</span
+    >
+  </div>
+</div>

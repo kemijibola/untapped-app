@@ -49,12 +49,21 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   uploadAction = UPLOADACTION.createportfolio;
   uploadedItems: UploadedItems;
   canSetUploadedImage: boolean;
+  showUpload: boolean = true;
 
   constructor(public store: Store<fromApp.AppState>) {
     this.canSetUploadedImage = false;
   }
 
   ngOnInit() {
+    this.store
+      .pipe(select(fromUpload.selectCurrentUploadStatus))
+      .subscribe((val: boolean) => {
+        console.log(val);
+        if (val) {
+          this.showUpload = false;
+        }
+      });
     this.store
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
@@ -131,6 +140,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
                 mediaItem,
               ];
             }
+            console.log("go here", uploadParams);
             this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
             const uploadExtension = this.uploadedItems.items[0].path

@@ -45,7 +45,10 @@
       </div>
       <div class="col-xl-6">
         <label for="">Location</label>
-        <app-google-places [addressType]="'address'"></app-google-places>
+        <app-google-places
+          [addressType]="'address'"
+          [autocompleteInputText]="location"
+        ></app-google-places>
       </div>
       <div class="col-xl-6">
         <label for="">Email Address</label>

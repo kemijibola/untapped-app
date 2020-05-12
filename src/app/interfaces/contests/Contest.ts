@@ -93,12 +93,13 @@ export interface IContestEntry {
 
 export interface ContestData {
   contest: IContest;
-  submissions: IEntries[];
+  submissions: IEntryData[];
 }
 
-export interface IEntries {
+export interface IEntryData {
   entry: IContestEntry;
   commentCount: number;
+  fullUserProfileImage?: string;
 }
 
 export enum EligibilityStatus {

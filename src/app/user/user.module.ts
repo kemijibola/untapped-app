@@ -38,6 +38,7 @@ import { AddMoreImageComponent } from "./portfolio/add-more-image/add-more-image
 import { AddMoreAudioComponent } from "./portfolio/add-more-audio/add-more-audio.component";
 import { AddMoreVideoComponent } from "./portfolio/add-more-video/add-more-video.component";
 import { userLocationReducer } from "../shared/store/user-location/user-location.reducer";
+import { TalentContestComponent } from './talent-contest/talent-contest.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { userLocationReducer } from "../shared/store/user-location/user-location
     AddMoreImageComponent,
     AddMoreAudioComponent,
     AddMoreVideoComponent,
+    TalentContestComponent,
   ],
   imports: [
     SharedModule,

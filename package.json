@@ -51,6 +51,7 @@
     "plyr": "^3.5.10",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
+    "rxjs-toolbox": "^2.2.2",
     "tslib": "^1.10.0",
     "underscore": "^1.9.1",
     "videogular2": "^7.0.1",

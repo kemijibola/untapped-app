@@ -7,5 +7,10 @@
     <div>
       <app-settings *ngIf="activeTab.tag === 'settings'"></app-settings>
     </div>
+    <div>
+      <app-talent-contest
+        *ngIf="activeTab.tag === 'contests'"
+      ></app-talent-contest>
+    </div>
   </div>
 </app-tabs>

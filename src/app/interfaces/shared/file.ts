@@ -75,3 +75,11 @@ export interface CloudUploadParams {
   file: File;
   url: string;
 }
+
+export enum UploadStatus {
+  Ready = "Ready",
+  Requested = "Requested",
+  Started = "Started",
+  Failed = "Failed",
+  Completed = "Completed",
+}

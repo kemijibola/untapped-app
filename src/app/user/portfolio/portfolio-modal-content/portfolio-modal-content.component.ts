@@ -130,8 +130,11 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     path: "",
     type: "",
   };
-  isViewMode: boolean;
+  isViewMode: boolean = false;
   itemToUpdate: UploadedItems;
+  showUploading: boolean = false;
+  showCompleted: boolean = false;
+  showDiv: boolean = false;
 
   constructor(
     private store: Store<fromApp.AppState>,
@@ -144,6 +147,25 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store
+      .pipe(select(fromUpload.selectCurrentUploadStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.showDiv = true;
+          this.showUploading = true;
+          this.showCompleted = false;
+        }
+      });
+
+    this.store
+      .pipe(select(fromUpload.selectUploadCompleted))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.showDiv = true;
+          this.showCompleted = true;
+          this.showUploading = false;
+        }
+      });
     // fetch component toggle here by Id
     this.store.dispatch(
       new ToggleActions.FetchToggle({ appToggleId: "portfolio" })
@@ -180,6 +202,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
+        console.log("uploaded", val);
         if (val) {
           this.isViewMode = true;
           this.setMedia(this.uploadedItems);
@@ -287,6 +310,9 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   setMedia(media: UploadedItems) {
     if (media.items) {
       this.canViewDetails = true;
+      this.showCompleted = false;
+      this.showUploading = false;
+      this.showDiv = false;
       const mediaType = media.type.toUpperCase();
       switch (mediaType) {
         case MediaType.AUDIO:

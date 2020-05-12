@@ -7,12 +7,13 @@ import {
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { UserFilterCategory } from "src/app/interfaces";
+import { UserFilterCategory, AppUserType } from "src/app/interfaces";
 import * as UserCategoryActions from "../store/filtered-categories/talent-category.action";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import * as TalentCategoryActions from "../store/filtered-categories/talent-category.action";
 import * as fromTalentWithHighestComment from "../store/filtered-categories/talent-category.reducers";
+import * as ProfessionalCategoryActions from "../store/filtered-categories/professional-category/professional-category.actions";
 
 @Component({
   selector: "app-up-user-filter",
@@ -22,6 +23,7 @@ import * as fromTalentWithHighestComment from "../store/filtered-categories/tale
 export class UpUserFilterComponent implements OnInit, OnChanges {
   @Input() filteredUsers: UserFilterCategory[] = [];
   @Input() typeOfFilter: string = "";
+  @Input() typeOfUser: AppUserType;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -72,11 +74,21 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
         });
         this.filteredUsers[0].isSelected = true;
 
-        this.store.dispatch(
-          new TalentCategoryActions.FetchTalentWithHighestComment({
-            id: this.filteredUsers[0]._id,
-          })
-        );
+        if (this.typeOfUser === AppUserType.Talent) {
+          console.log(this.typeOfUser);
+          this.store.dispatch(
+            new TalentCategoryActions.FetchTalentWithHighestComment({
+              id: this.filteredUsers[0]._id,
+            })
+          );
+        }
+        if (this.typeOfUser === AppUserType.Professional) {
+          this.store.dispatch(
+            new ProfessionalCategoryActions.FetchProfessional({
+              id: this.filteredUsers[0]._id,
+            })
+          );
+        }
       }
     }
   }

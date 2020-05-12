@@ -25,6 +25,10 @@ export const SUCCESS_EMAIL_CONFIRMATION = "SUCCESS_EMAIL_CONFIRMATION";
 export const FAILURE_EMAIL_CONFIRMATION = "FAILURE_EMAIL_CONFIRMATION";
 export const CHECK_TOKEN_EXPIRED = "CHECK_TOKEN_EXPIRED";
 export const PROCEED_TO_ROUTE = "PROCEED_TO_ROUTE";
+export const CHANGE_EMAIL_ADDRESS = "CHANGE_EMAIL_ADDRESS";
+export const CHANGE_EMAIL_ADDRESS_SUCCESS = "CHANGE_EMAIL_ADDRESS_SUCCESS";
+export const VERIFY_EMAIL_CHANGE = "VERIFY_EMAIL_CHANGE";
+export const VERIFY_EMAIL_CHANGE_SUCCESS = "VERIFY_EMAIL_CHANGE_SUCCESS";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -101,6 +105,27 @@ export class ProceedToRoute implements Action {
   constructor(public payload: { routeUrl: string }) {}
 }
 
+export class ChangeEmailAddress implements Action {
+  readonly type = CHANGE_EMAIL_ADDRESS;
+  constructor(
+    public payload: { newEmail: string; emailChangeVerificationUri: string }
+  ) {}
+}
+
+export class ChangeEmailAddressSuccess implements Action {
+  readonly type = CHANGE_EMAIL_ADDRESS_SUCCESS;
+}
+
+export class VerifyEmailChange implements Action {
+  readonly type = VERIFY_EMAIL_CHANGE;
+  constructor(public payload: { confirmEmailData: IConfirmEmail }) {}
+}
+
+export class VerifyEmailChangeSuccess implements Action {
+  readonly type = VERIFY_EMAIL_CHANGE_SUCCESS;
+  constructor(public payload: { changedEmail: string }) {}
+}
+
 export type AuthActions =
   | SignUpSuccess
   | SignInSuccess
@@ -119,4 +144,8 @@ export type AuthActions =
   | SuccessEmailConfirmation
   | FailureEmailConfirmation
   | CheckTokenExpired
-  | ProceedToRoute;
+  | ProceedToRoute
+  | ChangeEmailAddress
+  | ChangeEmailAddressSuccess
+  | VerifyEmailChange
+  | VerifyEmailChangeSuccess;

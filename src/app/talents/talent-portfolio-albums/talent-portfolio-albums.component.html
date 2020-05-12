@@ -1,3 +1,5 @@
+<!-- <app-up-media-magnifier></app-up-media-magnifier> -->
+
 <app-modals [id]="'album-modal'">
   <div class="pop-icon-bar pop-talent" navigate>
     <div class="slide-arrow">
@@ -31,7 +33,7 @@
   (click)="openModalDialog('album-modal', image)"
   *ngFor="let image of imageAlbums; let i = index"
 >
-  <img src="{{ image.albumCover }}" style="height: 225px" alt="" />
+  <img src="{{ image.albumCover }}" style="height: 225px;" alt="" />
   <div class="title-content" style="width: 187.83px;">
     <span class="subject">{{ image.mediaTitle }}</span>
     <span class="date">{{ image.dateCreated | date }}</span>
@@ -49,7 +51,7 @@
   *ngFor="let audio of audioAlbums; let i = index"
   (click)="openModalDialog('album-modal', audio)"
 >
-  <img src="{{ audio.albumCover }}" style="height: 225px" alt="" />
+  <img src="{{ audio.albumCover }}" style="height: 225px;" alt="" />
   <div class="title-content" style="width: 187.83px;">
     <span class="subject">{{ audio.mediaTitle }}</span>
     <span class="date">{{ audio.dateCreated | date }}</span>
@@ -67,7 +69,7 @@
   *ngFor="let video of videoAlbums; let i = index"
   (click)="openModalDialog('album-modal', video)"
 >
-  <img src="{{ video.albumCover }}" style="height: 225px" alt="" />
+  <img src="{{ video.albumCover }}" style="height: 225px;" alt="" />
   <div class="title-content" style="width: 187.83px;">
     <span class="subject">{{ video.mediaTitle }}</span>
     <span class="date">{{ video.dateCreated | date }}</span>

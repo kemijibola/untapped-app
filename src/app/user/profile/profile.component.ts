@@ -13,9 +13,9 @@ import {
   IProfile,
   IUserSocialMedia,
   ICategory,
-  SocialMedia,
   SnackBarData,
   AppUserType,
+  ILocation,
 } from "src/app/interfaces";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
@@ -25,6 +25,7 @@ import * as fromCategoryType from "src/app/shared/store/category-type/category-t
 import * as _ from "underscore";
 import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.action";
 import { PHONE_REGEX } from "src/app/lib/constants";
+import * as fromUserLocation from "../../shared/store/user-location/user-location.reducer";
 
 @Component({
   selector: "app-profile",
@@ -57,13 +58,11 @@ export class ProfileComponent implements OnInit {
   bannerImagePath?: string;
   typeOfUser: AppUserType;
   selectedCategories: string[] = [];
-  userType: string = "";
-  userSettings: any = {
-    showCurrentLocation: false,
-    resOnSearchButtonClickOnly: false,
-    // inputPlaceholderText: 'Type anything and you will get a location',
-    recentStorageName: "componentData3",
+  userLocation: ILocation = {
+    location: "",
+    formattedAddres: "",
   };
+  userType: string = "";
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -98,7 +97,7 @@ export class ProfileComponent implements OnInit {
           this._id = val._id;
           this.name = val.name;
           this.rcNumber = val.rcNumber;
-          this.location = val.location;
+          this.location = val.formattedAddres;
           this.phoneNumber = val.phoneNumbers[0];
           this.shortBio = val.shortBio;
           this.twitter = val.twitter;
@@ -121,17 +120,20 @@ export class ProfileComponent implements OnInit {
       .subscribe((val: string[]) => {
         this.selectedCategories = [...val];
       });
-  }
 
-  autoCompleteCallback1(selectedData: any) {
-    console.log(selectedData);
+    this.userStore
+      .pipe(select(fromUserLocation.selectCurrentUserLocation))
+      .subscribe((val: ILocation) => {
+        if (val !== null) {
+          this.userLocation = val;
+        }
+      });
   }
 
   private initForm() {
     this.profileForm = new FormGroup({
       name: new FormControl(this.name, Validators.required),
       rcNumber: new FormControl(this.rcNumber),
-      location: new FormControl(this.location, Validators.required),
       fullName: new FormControl(this.userFullName, Validators.required),
       emailAddress: new FormControl(this.userEmail, Validators.required),
       phoneNumber: new FormControl(
@@ -165,7 +167,6 @@ export class ProfileComponent implements OnInit {
   onUpdateProfile() {
     const name: string = this.profileForm.controls["name"].value;
     const rcNumber: string = this.profileForm.controls["rcNumber"].value;
-    const location: string = this.profileForm.controls["location"].value;
     const fullName: string = this.profileForm.controls["fullName"].value;
     const phoneNumber: string = this.profileForm.controls["phoneNumber"].value;
     const shortBio: string = this.profileForm.controls["shortBio"].value;
@@ -179,8 +180,8 @@ export class ProfileComponent implements OnInit {
     const profileObj: IProfile = {
       name,
       rcNumber,
-      location,
       fullName,
+      userAddress: { ...this.userLocation },
       phoneNumbers: [phoneNumber],
       categoryTypes: [...this.selectedCategories],
       additionalSocial: [...additionalSocials],
@@ -190,8 +191,6 @@ export class ProfileComponent implements OnInit {
       instagram,
       youtube,
     };
-
-    console.log(profileObj);
 
     this.isNewProfile = this._id === "" ? true : false;
     if (!this.isNewProfile) {
@@ -205,13 +204,13 @@ export class ProfileComponent implements OnInit {
 
     this.name = name;
     this.rcNumber = rcNumber;
-    this.location = location;
     this.phoneNumber = phoneNumber;
     this.shortBio = shortBio;
     this.twitter = twitter;
     this.facebook = facebook;
     this.instagram = instagram;
     this.youtube = youtube;
+    // this.location = this.userLocation.formattedAddres;
     if (additionalSocials) {
       for (let socialMedia of additionalSocials) {
         this.otherSocialMedias.push(

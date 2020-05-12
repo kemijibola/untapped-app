@@ -8,6 +8,25 @@
   float: right;
   margin-left: 15px;
 }
+.loader-container {
+  display: table;
+  height: calc(100% - 100px);
+  width: 100%;
+  text-align: center;
+}
+.loader-inner-div {
+  display: table-cell;
+  vertical-align: middle;
+}
+.no-gutters {
+  height: inherit;
+}
+.no-gutters-inner {
+  height: inherit;
+}
+.p-complete-p-btn {
+  height: inherit;
+}
 .aligncenter {
   display: block;
   margin: 0 auto 15px;
@@ -2091,16 +2110,65 @@ html::-webkit-scrollbar {
 
 .aligned-modal {
   height: 100% !important;
-  width: 860px;
+  /* width: 860px; */
   margin: 0 auto;
 }
 
-.modal-dialog-album-view {
-  max-width: 860px;
-  min-height: 50px;
-  height: 550px;
-  display: table-cell;
-  vertical-align: middle;
+.aligned-modal,
+.album-modal {
+  height: 100% !important;
+  /* width: 860px; */
+  margin: 0 auto;
+}
+
+.album-modal {
+  /* width: 860px !important; */
+  display: table;
+}
+
+@media screen and (min-width: 769px) {
+  .modal-dialog-album-view {
+    width: 100%;
+    min-height: 50px;
+    height: 550px;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .modal-dialog-album-view .modal-content {
+    width: 860px !important;
+    margin: 0 auto;
+  }
+  .popup-img-mobile {
+    display: inline-block;
+    width: 55% !important;
+    height: 309px !important;
+  }
+  .talent-comment-container {
+    width: 45% !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal-dialog-album-view .modal-content {
+    width: 90%;
+    max-width: 600px;
+  }
+  .popup-img-mobile {
+    width: 100%;
+  }
+  .talent-comment-container {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+.owl-dt-container {
+  font-size: 12px !important;
+}
+
+.pac-logo::after {
+  background-image: none !important;
 }
 
 .head.text-left .pagination {

@@ -15,14 +15,12 @@ import { filter, map } from "rxjs/operators";
   templateUrl: "./confirmation.component.html",
   styleUrls: ["./confirmation.component.css"],
 })
-export class ConfirmationComponent implements OnInit, OnDestroy {
+export class ConfirmationComponent implements OnInit {
   email: string;
   token: string;
   constructor(
     private store: Store<fromApp.AppState>,
-    public route: ActivatedRoute,
-    private errorService: ErrorService,
-    private notificationService: NotificationService
+    public route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -39,17 +37,5 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new AuthActions.DoEmailConfirmation({ confirmEmailData: payload })
     );
-
-    // error
-    // this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
-    //   if (val) {
-    //     const message = this.errorService.getServerErrorMessage(val);
-    //     this.notificationService.showError(message);
-    //   }
-    // });
-  }
-
-  ngOnDestroy() {
-    this.notificationService.showSuccess("Email successfully verified");
   }
 }

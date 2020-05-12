@@ -59,6 +59,40 @@ export class AuthEffects {
     )
   );
 
+  doEmailChange = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.CHANGE_EMAIL_ADDRESS),
+      concatMap((action: AuthActions.ChangeEmailAddress) =>
+        this.authService
+          .changeEmailAddress(
+            action.payload.newEmail,
+            action.payload.emailChangeVerificationUri
+          )
+          .pipe(
+            map(
+              (resp: IResult<boolean>) =>
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: `Verification link has been sent to ${action.payload.newEmail.toLowerCase()}.`,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   doEmailConfirmation = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.DO_EMAIL_CONFIRMATION),
@@ -79,6 +113,35 @@ export class AuthEffects {
             )
           )
         )
+      )
+    )
+  );
+
+  doEmailChangeConfirmation = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.VERIFY_EMAIL_CHANGE),
+      concatMap((action: AuthActions.VerifyEmailChange) =>
+        this.authService
+          .confirmEmailChange(action.payload.confirmEmailData)
+          .pipe(
+            map(
+              (resp: IResult<string>) =>
+                new AuthActions.VerifyEmailChangeSuccess({
+                  changedEmail: action.payload.confirmEmailData.email,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
       )
     )
   );
@@ -119,6 +182,15 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.SIGNUP_SUCCESS),
+        pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
+      ),
+    { dispatch: false }
+  );
+
+  changeEmailSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.CHANGE_EMAIL_ADDRESS_SUCCESS),
         pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
       ),
     { dispatch: false }
@@ -174,6 +246,31 @@ export class AuthEffects {
             type: AuthActions.LOGOUT,
           };
         })
+      )
+    )
+  );
+
+  verifyEmailChangeSuccess = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.VERIFY_EMAIL_CHANGE_SUCCESS),
+      pipe(
+        concatMap((action: AuthActions.VerifyEmailChangeSuccess) =>
+          this.authService.fetchUserData("userData").pipe(
+            map((resp) => {
+              const newAuthData: IAuthData = { ...resp };
+              newAuthData.user_data.email = action.payload.changedEmail;
+              this.authService.updateData("userData", newAuthData);
+              return {
+                type: NotificationActions.ADD_SUCCESS,
+                payload: {
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Email changed successfully",
+                },
+              };
+            })
+          )
+        )
       )
     )
   );

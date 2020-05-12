@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
+import * as fromModals from "../../shared/store/modals/modals.reducers";
 import * as fromApp from "../../store/app.reducers";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import {
@@ -53,6 +54,7 @@ export class TalentPortfolioAlbumsComponent {
   selectedMedia: TalentPortfolioPreview;
   leftDisabled = false;
   rightDisabled = false;
+  showModal: boolean = true;
   constructor(public store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -67,6 +69,14 @@ export class TalentPortfolioAlbumsComponent {
       .subscribe((val: AppModal) => {
         if (val) {
           this.componentModal = { ...val };
+        }
+      });
+
+    this.store
+      .pipe(select(fromModals.selectCurrentShowMagnifier))
+      .subscribe((val: boolean) => {
+        if (val !== null && val) {
+          this.showModal = false;
         }
       });
   }
@@ -127,7 +137,7 @@ export class TalentPortfolioAlbumsComponent {
         viewMode: ModalViewModel.new,
         contentType: modalToActivate.contentType,
         data: { ...selectedMedia },
-        modalCss: "modal aligned-modal",
+        modalCss: "modal aligned-modal album-modal",
         modalDialogCss: "modal-dialog-album-view",
         showMagnifier: false,
       };

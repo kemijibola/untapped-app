@@ -1,5 +1,5 @@
 <div class="row no-gutters" body>
-  <div class="col-xl-12">
+  <div class="col-xl-12 no-gutters-inner">
     <div class="p-complete-p-btn">
       <div class="p-inner">
         <h4>
@@ -25,183 +25,206 @@
           <app-slide-toggle [data]="modalUploadToggle"></app-slide-toggle>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="col-xl-12" style="padding-right: 0; padding-left: 0;">
-    <app-portfolio-browse
-      *ngIf="!isViewMode"
-      [multiple]="multiple"
-      [accept]="accept"
-    ></app-portfolio-browse>
-
-    <div class="popup-img pp" *ngIf="defaultImageSet">
-      <img [src]="defaultImagePath" alt="" />
-    </div>
-
-    <div class="popup-img pp" *ngIf="defaultAudioSet">
-      <vg-player style="height: 200px;" (onPlayerReady)="onPlayerReady($event)">
-        <vg-controls>
-          <vg-play-pause></vg-play-pause>
-          <vg-playback-button></vg-playback-button>
-
-          <vg-time-display
-            vgProperty="current"
-            vgFormat="mm:ss"
-          ></vg-time-display>
-
-          <vg-scrub-bar>
-            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-          </vg-scrub-bar>
-
-          <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-          <vg-time-display
-            vgProperty="total"
-            vgFormat="mm:ss"
-          ></vg-time-display>
-
-          <vg-mute></vg-mute>
-
-          <vg-fullscreen></vg-fullscreen>
-        </vg-controls>
-        <audio
-          #media
-          [vgMedia]="media"
-          id="audio_{{ currentAudioItem._id }}"
-          preload="auto"
-        >
-          <source
-            src="{{ currentAudioItem.path }}"
-            [type]="currentAudioItem.type"
+      <div class="loader-container" *ngIf="showDiv">
+        <div class="loader-inner-div">
+          <img src="assets/loader.gif" *ngIf="showUploading" />
+          <img
+            src="assets/check.gif"
+            *ngIf="showCompleted"
+            style="width: 200px;"
           />
-        </audio>
-      </vg-player>
-    </div>
-
-    <div class="popup-img pp" *ngIf="defaultVideoSet">
-      <vg-player style="height: 200px;" (onPlayerReady)="onPlayerReady($event)">
-        <vg-controls>
-          <vg-play-pause></vg-play-pause>
-          <vg-playback-button></vg-playback-button>
-
-          <vg-time-display
-            vgProperty="current"
-            vgFormat="mm:ss"
-          ></vg-time-display>
-
-          <vg-scrub-bar>
-            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-          </vg-scrub-bar>
-
-          <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-          <vg-time-display
-            vgProperty="total"
-            vgFormat="mm:ss"
-          ></vg-time-display>
-
-          <vg-mute></vg-mute>
-
-          <vg-fullscreen></vg-fullscreen>
-        </vg-controls>
-        <video
-          #media
-          [vgMedia]="media"
-          id="video_{{ currentVideoItem._id }}"
-          preload="auto"
-        >
-          <source
-            src="{{ currentVideoItem.path }}"
-            [type]="currentVideoItem.type"
-          />
-        </video>
-      </vg-player>
-    </div>
-  </div>
-  <div class="col-xl-12" *ngIf="canViewDetails">
-    <div class="popup-content-wrap pp">
-      <div class="upload-scene-demo popup mb-20" *ngIf="isImageUpload">
-        <div class="scene-inner pp">
-          <div class="scene-img" *ngFor="let item of otherImagesPath">
-            <img src="{{ item.path }}" alt="" />
-            <a (click)="onDeleteMediaItem(item)"
-              ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
-            /></a>
-          </div>
-          <app-add-more-image
-            *ngIf="isMultipleImage"
-            [imageAlbumId]="uploadedItems._id"
-          ></app-add-more-image>
         </div>
       </div>
 
-      <div class="upload-scene-demo popup mb-20" *ngIf="isAudioUpload">
-        <div class="scene-inner pp">
-          <div
-            class="scene-img"
-            *ngFor="let item of otherAudioPath; let i = index"
-            (click)="onClickPlaylistItem(item, i)"
-            [class.selected]="item === currentAudioItem"
+      <div class="col-xl-12" style="padding-right: 0; padding-left: 0;">
+        <app-portfolio-browse
+          *ngIf="!isViewMode"
+          [multiple]="multiple"
+          [accept]="accept"
+        ></app-portfolio-browse>
+
+        <div class="popup-img pp" *ngIf="defaultImageSet">
+          <img [src]="defaultImagePath" alt="" />
+        </div>
+
+        <div class="popup-img pp" *ngIf="defaultAudioSet">
+          <vg-player
+            style="height: 200px;"
+            (onPlayerReady)="onPlayerReady($event)"
           >
-            <img src="assets/img/prff.jpg" alt="" />
-            <div class="plays" (click)="onClickPlaylistItem(item, i)">
-              <a><img src="assets/img/profile/play.svg" alt="" /></a>
-            </div>
-            <div class="cros" (click)="onDeleteMediaItem(item)">
-              <a><img src="assets/img/profile/cross.svg" alt="" /></a>
+            <vg-controls>
+              <vg-play-pause></vg-play-pause>
+              <vg-playback-button></vg-playback-button>
+
+              <vg-time-display
+                vgProperty="current"
+                vgFormat="mm:ss"
+              ></vg-time-display>
+
+              <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+              </vg-scrub-bar>
+
+              <vg-time-display
+                vgProperty="left"
+                vgFormat="mm:ss"
+              ></vg-time-display>
+              <vg-time-display
+                vgProperty="total"
+                vgFormat="mm:ss"
+              ></vg-time-display>
+
+              <vg-mute></vg-mute>
+
+              <vg-fullscreen></vg-fullscreen>
+            </vg-controls>
+            <audio
+              #media
+              [vgMedia]="media"
+              id="audio_{{ currentAudioItem._id }}"
+              preload="auto"
+            >
+              <source
+                src="{{ currentAudioItem.path }}"
+                [type]="currentAudioItem.type"
+              />
+            </audio>
+          </vg-player>
+        </div>
+
+        <div class="popup-img pp" *ngIf="defaultVideoSet">
+          <vg-player
+            style="height: 200px;"
+            (onPlayerReady)="onPlayerReady($event)"
+          >
+            <vg-controls>
+              <vg-play-pause></vg-play-pause>
+              <vg-playback-button></vg-playback-button>
+
+              <vg-time-display
+                vgProperty="current"
+                vgFormat="mm:ss"
+              ></vg-time-display>
+
+              <vg-scrub-bar>
+                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+              </vg-scrub-bar>
+
+              <vg-time-display
+                vgProperty="left"
+                vgFormat="mm:ss"
+              ></vg-time-display>
+              <vg-time-display
+                vgProperty="total"
+                vgFormat="mm:ss"
+              ></vg-time-display>
+
+              <vg-mute></vg-mute>
+
+              <vg-fullscreen></vg-fullscreen>
+            </vg-controls>
+            <video
+              #media
+              [vgMedia]="media"
+              id="video_{{ currentVideoItem._id }}"
+              preload="auto"
+            >
+              <source
+                src="{{ currentVideoItem.path }}"
+                [type]="currentVideoItem.type"
+              />
+            </video>
+          </vg-player>
+        </div>
+      </div>
+      <div class="col-xl-12" *ngIf="canViewDetails">
+        <div class="popup-content-wrap pp">
+          <div class="upload-scene-demo popup mb-20" *ngIf="isImageUpload">
+            <div class="scene-inner pp">
+              <div class="scene-img" *ngFor="let item of otherImagesPath">
+                <img src="{{ item.path }}" alt="" />
+                <a (click)="onDeleteMediaItem(item)"
+                  ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
+                /></a>
+              </div>
+              <app-add-more-image
+                *ngIf="isMultipleImage"
+                [imageAlbumId]="uploadedItems._id"
+              ></app-add-more-image>
             </div>
           </div>
 
-          <app-add-more-audio
-            *ngIf="isMultipleAudio"
-            [audioAlbumId]="uploadedItems._id"
-          ></app-add-more-audio>
-        </div>
-      </div>
+          <div class="upload-scene-demo popup mb-20" *ngIf="isAudioUpload">
+            <div class="scene-inner pp">
+              <div
+                class="scene-img"
+                *ngFor="let item of otherAudioPath; let i = index"
+                (click)="onClickPlaylistItem(item, i)"
+                [class.selected]="item === currentAudioItem"
+              >
+                <img src="assets/img/prff.jpg" alt="" />
+                <div class="plays" (click)="onClickPlaylistItem(item, i)">
+                  <a><img src="assets/img/profile/play.svg" alt="" /></a>
+                </div>
+                <div class="cros" (click)="onDeleteMediaItem(item)">
+                  <a><img src="assets/img/profile/cross.svg" alt="" /></a>
+                </div>
+              </div>
 
-      <div class="upload-scene-demo popup mb-20" *ngIf="isVideoUpload">
-        <div class="scene-inner pp">
-          <div
-            class="scene-img"
-            *ngFor="let item of otherVideoPath; let i = index"
-            (click)="onClickPlaylistVideo(item, i)"
-            [class.selected]="item === currentVideoItem"
-          >
-            <img src="assets/img/prff.jpg" alt="" />
-            <div class="plays" (click)="onClickPlaylistVideo(item, i)">
-              <a><img src="assets/img/profile/play.svg" alt="" /></a>
-            </div>
-            <div class="cros" (click)="onDeleteMediaItem(item)">
-              <a><img src="assets/img/profile/cross.svg" alt="" /></a>
+              <app-add-more-audio
+                *ngIf="isMultipleAudio"
+                [audioAlbumId]="uploadedItems._id"
+              ></app-add-more-audio>
             </div>
           </div>
-          <app-add-more-video
-            [videoAlbumId]="uploadedItems._id"
-            *ngIf="isMultipleVideo"
-          ></app-add-more-video>
-        </div>
-      </div>
 
-      <div [formGroup]="portfolioForm">
-        <div class="input-1 pro-page pp">
-          <label for=""> Title</label>
-          <input type="text" formControlName="title" class="input-design" />
-        </div>
-        <div class="input-1 pro-page pp">
-          <label for=""
-            >Description
-            <span><em>(Limited to 150 characters)</em></span></label
-          >
-          <textarea
-            formControlName="description"
-            cols="30"
-            rows="10"
-          ></textarea>
-        </div>
-        <div class="git-btn pp">
-          <button class="box-btn" (click)="onClickOnActionButton()">
-            {{ actionText }}
-          </button>
+          <div class="upload-scene-demo popup mb-20" *ngIf="isVideoUpload">
+            <div class="scene-inner pp">
+              <div
+                class="scene-img"
+                *ngFor="let item of otherVideoPath; let i = index"
+                (click)="onClickPlaylistVideo(item, i)"
+                [class.selected]="item === currentVideoItem"
+              >
+                <img src="assets/img/prff.jpg" alt="" />
+                <div class="plays" (click)="onClickPlaylistVideo(item, i)">
+                  <a><img src="assets/img/profile/play.svg" alt="" /></a>
+                </div>
+                <div class="cros" (click)="onDeleteMediaItem(item)">
+                  <a><img src="assets/img/profile/cross.svg" alt="" /></a>
+                </div>
+              </div>
+              <app-add-more-video
+                [videoAlbumId]="uploadedItems._id"
+                *ngIf="isMultipleVideo"
+              ></app-add-more-video>
+            </div>
+          </div>
+
+          <div [formGroup]="portfolioForm">
+            <div class="input-1 pro-page pp">
+              <label for=""> Title</label>
+              <input type="text" formControlName="title" class="input-design" />
+            </div>
+            <div class="input-1 pro-page pp">
+              <label for=""
+                >Description
+                <span><em>(Limited to 150 characters)</em></span></label
+              >
+              <textarea
+                formControlName="description"
+                cols="30"
+                rows="10"
+              ></textarea>
+            </div>
+            <div class="git-btn pp">
+              <button class="box-btn" (click)="onClickOnActionButton()">
+                {{ actionText }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

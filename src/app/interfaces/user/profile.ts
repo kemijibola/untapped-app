@@ -1,22 +1,21 @@
-import { ICategory, SocialMedia } from "../index";
+import { ICategory } from "../index";
 import { IPhysicalAttribute } from "../index";
 import { CategoryType } from "../shared/TalentCategory";
-
-interface IUserSocialMedia {
-  type: SocialMedia;
-  handle: string;
-}
 
 export interface ILocation {
   location: string;
   formattedAddres: string;
 }
 
-export interface IProfile {
+export interface UserProfileAddress {
+  userAddress?: ILocation;
+}
+export interface IProfile extends UserProfileAddress {
   _id?: string;
   name?: string;
   rcNumber?: string;
-  location: string;
+  location?: string;
+  formattedAddres?: string;
   phoneNumbers?: string[];
   fullName?: string;
   tapCount?: number;

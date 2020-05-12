@@ -21,6 +21,7 @@
 
           <!-- talents filter -->
           <app-up-user-filter
+            [typeOfUser]="'Talent'"
             [filteredUsers]="talents | async"
             [typeOfFilter]="(talents | async).length > 1 ? 'Talents' : 'Talent'"
           ></app-up-user-filter>

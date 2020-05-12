@@ -6,6 +6,8 @@ import {
   Input,
   ViewChild,
   AfterViewInit,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import { ILocation } from "src/app/interfaces";
 import * as fromUser from "../../user/user.reducers";
@@ -17,9 +19,11 @@ import { Store } from "@ngrx/store";
   templateUrl: "./google-places.component.html",
   styleUrls: ["./google-places.component.css"],
 })
-export class GooglePlacesComponent implements OnInit, AfterViewInit {
+export class GooglePlacesComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() addressType: string;
   @ViewChild("addresstext") addresstext: any;
+  @Input() autocompleteInputText: string;
+  selectedAddress: string = "";
   autocompleteInput: string;
 
   constructor(private userStore: Store<fromUser.UserState>) {}
@@ -50,9 +54,14 @@ export class GooglePlacesComponent implements OnInit, AfterViewInit {
         }`,
         formattedAddres: place.formatted_address,
       };
-      console.log(address);
       this.setSelectedUserAddress(address);
     });
+  }
+
+  ngOnChanges(simple: SimpleChanges) {
+    if (simple["autocompleteInputText"]) {
+      this.autocompleteInput = this.autocompleteInputText;
+    }
   }
 
   setSelectedUserAddress(address: ILocation) {

@@ -7,6 +7,7 @@ import { RouterModule } from "@angular/router";
 import { ModalsComponent } from "./modals/modals.component";
 import { SlideToggleComponent } from "./slide-toggle/slide-toggle.component";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { TalentCategoriesComponent } from "./talent-categories/talent-categories.component";
 import { MaterialModule } from "../material.module";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
@@ -43,6 +44,7 @@ import { GooglePlacesComponent } from "./google-places/google-places.component";
   imports: [
     FormsModule,
     MatSlideToggleModule,
+    MatProgressBarModule,
     AngularMultiSelectModule,
     CommonModule,
     MaterialModule,
@@ -73,6 +75,7 @@ import { GooglePlacesComponent } from "./google-places/google-places.component";
     UpMediaMagnifierComponent,
     Angular4PaystackModule,
     GooglePlacesComponent,
+    MatProgressBarModule,
   ],
   declarations: [
     UploadComponent,

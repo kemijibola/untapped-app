@@ -7,6 +7,7 @@ import {
   UploadedItems,
   MediaType,
   UPLOADCOMPONENT,
+  UploadStatus,
 } from "src/app/interfaces";
 import * as UploadActions from "./upload.actions";
 import { EntityState } from "@ngrx/entity";
@@ -23,6 +24,9 @@ export interface UploadState extends EntityState<any> {
   // uploadedItems: UploadedItems;
   selectedUploadedItemId: string | number | null;
   uploadedItems: UploadedItems | null;
+  uploadStarted: boolean;
+  uploadCompleted: boolean;
+  uploadState: UploadStatus;
 }
 
 const initialState: UploadState = fromAdapter.adapter.getInitialState({
@@ -34,6 +38,9 @@ const initialState: UploadState = fromAdapter.adapter.getInitialState({
   uploadSuccessful: false,
   uploadedItems: null,
   selectedUploadedItemId: null,
+  uploadStarted: null,
+  uploadState: null,
+  uploadCompleted: null,
 });
 
 export function reducer(
@@ -46,7 +53,7 @@ export function reducer(
         ...state,
         fileInput: { ...action.payload },
       });
-    case UploadActions.CLOUD_UPLOAD_SUCCESS:
+    case UploadActions.UPLOAD_FILES_SUCCESS:
       return Object.assign({
         ...state,
         fileInput: null,
@@ -55,6 +62,7 @@ export function reducer(
         isReadyForUpload: false,
         uploadAction: UPLOADCOMPONENT.default,
         uploadSuccessful: true,
+        uploadState: UploadStatus.Completed,
       });
     case UploadActions.RESET_FILE_INPUT:
       return Object.assign({
@@ -67,6 +75,7 @@ export function reducer(
       return Object.assign({
         ...state,
         file: { ...action.payload.file },
+        uploadState: UploadStatus.Started,
       });
     case UploadActions.SET_PRESIGNED_URL:
       return Object.assign({
@@ -116,25 +125,21 @@ const getUploadedItems = (state: UploadState) => state.uploadedItems;
 
 export const getUploadState = createFeatureSelector<UploadState>("uploadState");
 
-// export const selectUploadedItemsIds = createSelector(
-//   getUploadState,
-//   fromAdapter.selectUploadedItemIds
-// );
+const getUploadProgressState = (state: UploadState): boolean =>
+  state.uploadState === UploadStatus.Started;
 
-// export const selectUploadedItemEntities = createSelector(
-//   getUploadState,
-//   fromAdapter.selectUploadedItemEntities
-// );
+const getS3UploadSuccess = (state: UploadState): boolean =>
+  state.uploadState === UploadStatus.Completed;
 
-// export const selectAllUploadedItems = createSelector(
-//   getUploadState,
-//   fromAdapter.selectAllUploadedItem
-// );
-// export const mediaCount = createSelector(
-//   getUploadState,
-//   fromAdapter.uploadedItemCount
-// );
+export const selectCurrentUploadStatus = createSelector(
+  getUploadState,
+  getUploadProgressState
+);
 
+export const selectUploadCompleted = createSelector(
+  getUploadState,
+  getS3UploadSuccess
+);
 export const selectCurrentUploadedItemId = createSelector(
   getUploadState,
   getselectedUploadedItemId

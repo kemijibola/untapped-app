@@ -25,11 +25,11 @@ export class TalentBiodataComponent implements OnInit {
   };
 
   constructor(private store: Store<fromApp.AppState>) {}
-
   ngOnInit() {
     this.store
       .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
+        console.log(val);
         if (val) {
           this.selectedUser = { ...val };
           this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(

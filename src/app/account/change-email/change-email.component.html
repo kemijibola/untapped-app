@@ -1,0 +1,58 @@
+<!-- Buy more inner area start -->
+
+<div class="duy-more-section-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="back-btn">
+          <a
+            style="cursor: pointer;"
+            routerLink="/user/{{ userPreEmailAdress }}"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="visited"
+            [queryParams]="{ tab: 'settings' }"
+            ><i class="fas fa-long-arrow-alt-left"></i>Back</a
+          >
+        </div>
+        <div class="login-area reset-pswd pt-75 pb-100">
+          <div class="container-fluid">
+            <div class="login-wrapper">
+              <div class="head text-center mb-30">
+                <span>Change Email</span>
+                <!-- <h3>Type your email to reset</h3> -->
+              </div>
+              <div class="login-form" [formGroup]="changeEmailForm">
+                <label for=""
+                  >New Email Address
+                  <span
+                    class="error-block"
+                    *ngIf="changeEmailForm.get('email').hasError('emailExist')"
+                    class="error-block"
+                  >
+                    is already taken
+                  </span>
+                </label>
+                <input
+                  class="input-design mb-35"
+                  formControlName="email"
+                  type="email"
+                />
+                <button
+                  (click)="onSubmit()"
+                  [disabled]="
+                    !changeEmailForm.valid &&
+                    changeEmailForm.touched &&
+                    changeEmailForm.dirty
+                  "
+                  class="box-btn login-btn reset-pswd mt-50"
+                >
+                  SEND VERIFICATION
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
