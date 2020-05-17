@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { IUserContest } from "../../../interfaces";
+import { IUserContest, IUserContestListAnalysis } from "../../../interfaces";
 
 export const FETCH_USER_CONTEST_LIST = "FETCH_USER_CONTEST_LIST";
 export const FETCH_USER_CONTEST_LIST_SUCCESS =
@@ -12,7 +12,7 @@ export class FetchUserContestList implements Action {
 
 export class FetchUserContestListSuccess implements Action {
   readonly type = FETCH_USER_CONTEST_LIST_SUCCESS;
-  constructor(public payload: { userContests: IUserContest[] }) {}
+  constructor(public payload: { userContests: IUserContestListAnalysis[] }) {}
 }
 
 export class FetchUserContestById implements Action {

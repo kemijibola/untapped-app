@@ -147,7 +147,6 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
       .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
         this.selectedUser = { ...val };
-        console.log(this.selectedUser);
         this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")
           ? fetchImageObjectFromCloudFormation(
               val.displayPhoto,
@@ -158,6 +157,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   }
 
   setCurrentImage(image: MediaItem) {
+    console.log("setting image...");
     this.isCurrentImageSet = true;
     this.isCurrentAudioSet = false;
     this.isCurrentVideoSet = false;

@@ -10,7 +10,7 @@ export interface NewContestState extends EntityState<IContest> {
 }
 const initialState: NewContestState = fromAdapter.adapter.getInitialState({
   contest: null,
-bannerImageKey: null,
+  bannerImageKey: null,
 });
 
 export function newContestReducer(

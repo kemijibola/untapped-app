@@ -1,226 +1,126 @@
-<div
-  class="tab-pane fade show active row tab2"
-  id="profile"
-  role="tabpanel"
-  aria-labelledby="profile-tab"
->
-  <div class="row">
-    <div class="col-xl-7 col-lg-7 col-md-7 col-12 mb-40">
-      <div class="collect-outer-wrapper">
-        <div [formGroup]="contestForm">
-          <p>
-            Fill your details; your personal details, contact detail, talents,
-            location and social media handles.
-          </p>
-          <div class="input-1">
-            <label for="">
-              <span
-                class="error-block"
-                *ngIf="
-                  !contestForm.get('title').valid &&
-                  contestForm.get('title').touched
-                "
+<div [formGroup]="contestForm">
+  <div
+    class="tab-pane fade show active row tab2"
+    id="profile"
+    role="tabpanel"
+    aria-labelledby="profile-tab"
+  >
+    <div class="row">
+      <div class="col-xl-7 col-lg-7 col-md-7 col-12 mb-40">
+        <div class="collect-outer-wrapper">
+          <div>
+            <p>
+              Fill your details; your personal details, contact detail, talents,
+              location and social media handles.
+            </p>
+            <div class="input-1">
+              <label for="">
+                <span
+                  class="error-block"
+                  *ngIf="
+                    !contestForm.get('title').valid &&
+                    contestForm.get('title').touched
+                  "
+                >
+                  Please provide provide
+                </span>
+                Contest Title</label
               >
-                Please provide provide
-              </span>
-              Contest Title</label
-            >
-            <input
-              type="text"
-              formControlName="title"
-              placeholder="Some fancy title for your contest"
-            />
-          </div>
-          <div class="input-1">
-            <label for="">
-              <span
-                class="error-block"
-                *ngIf="
-                  !contestForm.get('basicInfo').valid &&
-                  contestForm.get('basicInfo').touched
-                "
-              >
-                Please provide provide
-              </span>
-              Contest Information</label
-            >
-            <textarea
-              placeholder="Tell us more about your contest"
-              formControlName="basicInfo"
-              cols="30"
-              rows="10"
-            ></textarea>
-          </div>
-          <div class="upload">
-            <div class="head">
-              <label for="">+ Upload contest banner</label>
-              <!-- <span>Banner size 200px by 200px</span> -->
-            </div>
-            <div class="upload-fld">
               <input
                 type="text"
-                placeholder="Drag and drop file to upload or"
+                formControlName="title"
+                placeholder="Some fancy title for your contest"
               />
-              <button (click)="onClickBrowseBtn()">BROWSE</button>
-              <!-- upload component goes here -->
-              <app-upload [fileConfig]="fileConfig"> </app-upload>
-              <!-- upload component goes here -->
             </div>
             <div class="input-1">
-              <label for="">Eligble categories</label>
-              <app-talent-categories
-                [text]="'Select eligible category'"
-                [placeholderText]="'Select category'"
-              >
-              </app-talent-categories>
-            </div>
-            <div class="input-1">
-              <label for="">Eligibility</label>
-              <textarea
-                formControlName="eligibityRule"
-                placeholder="Who is eligible to participate in your contest"
-                value=""
-                cols="30"
-                rows="10"
-              ></textarea>
-            </div>
-            <div class="input-1">
-              <label for="">Submission rules</label>
-              <textarea
-                formControlName="submissionRule"
-                placeholder="What rules binds the people who participate in your contest"
-                cols="30"
-                rows="10"
-              ></textarea>
-            </div>
-            <div class="duration">
-              <label for="">Contest duration</label>
-              <div class="duration-inner">
-                <input
-                  formControlName="contestDuration"
-                  [owlDateTimeTrigger]="dt10"
-                  [owlDateTime]="dt10"
-                  [selectMode]="'range'"
-                />
-                <owl-date-time #dt10></owl-date-time>
-              </div>
-            </div>
-            <div class="prize">
-              <div class="hd">
-                <h4>
-                  Reward/Rewards
-                </h4>
-              </div>
-            </div>
-            <div class="winer-blk" formArrayName="contestRewards">
-              <div
-                *ngFor="let reward of contestRewards.controls; let i = index"
-                [formGroupName]="i"
-              >
-                <div class="single-winner-blk">
-                  <label for="">
-                    <span
-                      class="error-block"
-                      *ngIf="!contestRewards.valid && contestRewards.touched"
-                    >
-                      Please provide provide
-                    </span>
-                    Winner {{ i + 1 }}:</label
-                  >
-                  <input
-                    placeholder="N40,000"
-                    currencyMask
-                    formControlName="reward"
-                    [options]="{
-                      prefix: 'N ',
-                      thousands: ',',
-                      decimal: '.',
-                      nullable: false
-                    }"
-                  />
-                  <button class="btn btn-danger" (click)="deleteReward(i)">
-                    X
-                  </button>
-                </div>
-              </div>
-              <div class="add-more-blk" style="cursor: pointer;">
-                <a (click)="onAddReward()"
-                  ><i class="fal fa-plus"></i>Add More winners</a
+              <label for="">
+                <span
+                  class="error-block"
+                  *ngIf="
+                    !contestForm.get('basicInfo').valid &&
+                    contestForm.get('basicInfo').touched
+                  "
                 >
-              </div>
+                  Please provide provide
+                </span>
+                Contest Information</label
+              >
+              <textarea
+                placeholder="Tell us more about your contest"
+                formControlName="basicInfo"
+                cols="30"
+                rows="10"
+              ></textarea>
             </div>
-            <div class="online-offline-blk">
-              <div class="of-line">
-                <div class="contest-number">
-                  <label for="">
-                    <span
-                      class="error-block"
-                      *ngIf="
-                        !contestForm.get('entryMedia').valid &&
-                        contestForm.get('entryMedia').touched
-                      "
-                    >
-                      Please provide provide
-                    </span>
-                    Entry Media Type</label
-                  >
-                  <mat-form-field>
-                    <mat-label>Prize type</mat-label>
-                    <mat-select
-                      placeholder="Media type"
-                      formControlName="entryMedia"
-                    >
-                      <mat-option
-                        *ngFor="let media of mediaTypes"
-                        [value]="media.id"
-                      >
-                        {{ media.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <!-- <div class="contest-number">
-                  <label for="">Evaluation Criteria</label>
-                  <button *ngFor="let eval of evaluations">
-                    {{ eval
-                    }}<i class="fal fa-times" (click)="deleteEvaluation()"></i>
-                  </button>
-                </div> -->
-                <!-- <div class="vocal-row">
+            <div class="upload">
+              <div class="head">
+                <label for="">+ Upload contest banner</label>
+                <!-- <span>Banner size 200px by 200px</span> -->
+              </div>
+              <div class="upload-fld">
+                <input
+                  type="text"
+                  placeholder="Drag and drop file to upload or"
+                />
+                <button (click)="onClickBrowseBtn()">BROWSE</button>
+                <!-- upload component goes here -->
+                <app-upload [fileConfig]="fileConfig"> </app-upload>
+                <!-- upload component goes here -->
+              </div>
+              <div class="input-1">
+                <label for="">Eligble categories</label>
+                <app-talent-categories
+                  [text]="'Select eligible category'"
+                  [placeholderText]="'Select category'"
+                >
+                </app-talent-categories>
+              </div>
+              <div class="input-1">
+                <label for="">Eligibility</label>
+                <textarea
+                  formControlName="eligibityRule"
+                  placeholder="Who is eligible to participate in your contest"
+                  value=""
+                  cols="30"
+                  rows="10"
+                ></textarea>
+              </div>
+              <div class="input-1">
+                <label for="">Submission rules</label>
+                <textarea
+                  formControlName="submissionRule"
+                  placeholder="What rules binds the people who participate in your contest"
+                  cols="30"
+                  rows="10"
+                ></textarea>
+              </div>
+              <div class="duration">
+                <label for="">Contest duration</label>
+                <div class="duration-inner">
                   <input
-                    type="text"
-                    formControlName="evaluation"
-                    placeholder="Vocal"
+                    formControlName="contestDuration"
+                    [owlDateTimeTrigger]="dt10"
+                    [owlDateTime]="dt10"
+                    [selectMode]="'range'"
                   />
-                  <div class="add-more-blk" (click)="onAddEvaluation()">
-                    <a><i class="fal fa-plus"></i>Add Evaluation</a>
-                  </div>
-                </div> -->
+                  <owl-date-time #dt10></owl-date-time>
+                </div>
               </div>
             </div>
           </div>
-          <button
-            class="box-btn create-btn"
-            [disabled]="!contestForm.valid"
-            type="button"
-            (click)="onClickCreateButton()"
-          >
-            CREATE CONTEST
-          </button>
         </div>
       </div>
-    </div>
-    <div class="col-xl-5 col-lg-5 col-md-5 col-12">
-      <div class="right-wrapper">
-        <div class="details-content">
-          <div class="sidebar-img">
-            <img
-              style="width: 482px; height: 395px;"
-              src="{{ bannerImage }}"
-              alt=""
-            />
-          </div>
-          <!-- <div class="heading mb-10">
+      <div class="col-xl-5 col-lg-5 col-md-5 col-12">
+        <div class="right-wrapper">
+          <div class="details-content">
+            <div class="sidebar-img">
+              <img
+                style="width: 482px; height: 395px;"
+                src="{{ bannerImage }}"
+                alt=""
+              />
+            </div>
+            <!-- <div class="heading mb-10">
             <h2>{{ title }}</h2>
           </div>
           <div class="content-block">
@@ -262,6 +162,124 @@
           </li>
           <li><span>Winner announced:</span>March 21!</li>
         </ul> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="tab-pane fade show active row tab2"
+    id="profile"
+    role="tabpanel"
+    aria-labelledby="profile-tab"
+  >
+    <div class="row">
+      <div class="col-12 mb-40">
+        <div class="collect-outer-wrapper">
+          <div>
+            <div class="upload">
+              <div class="prize">
+                <div class="hd">
+                  <h4>
+                    Reward/Rewards
+                  </h4>
+                </div>
+              </div>
+              <div class="winer-blk" formArrayName="contestRewards">
+                <div
+                  *ngFor="let reward of contestRewards.controls; let i = index"
+                  [formGroupName]="i"
+                >
+                  <div class="single-winner-blk">
+                    <label for="">
+                      <span
+                        class="error-block"
+                        *ngIf="!contestRewards.valid && contestRewards.touched"
+                      >
+                        Please provide provide
+                      </span>
+                      Winner {{ i + 1 }}:</label
+                    >
+                    <input
+                      placeholder="N40,000"
+                      currencyMask
+                      formControlName="reward"
+                      [options]="{
+                        prefix: 'N ',
+                        thousands: ',',
+                        decimal: '.',
+                        nullable: false
+                      }"
+                    />
+                    <button
+                      class="btn btn-danger cancel-winner-btn"
+                      (click)="deleteReward(i)"
+                    >
+                      X
+                    </button>
+                  </div>
+                </div>
+                <div class="add-more-blk" style="cursor: pointer;">
+                  <a (click)="onAddReward()"
+                    ><i class="fal fa-plus"></i>Add More winners</a
+                  >
+                </div>
+              </div>
+              <div class="online-offline-blk">
+                <div class="of-line">
+                  <div class="contest-number">
+                    <label for="">
+                      <span
+                        class="error-block"
+                        *ngIf="
+                          !contestForm.get('entryMedia').valid &&
+                          contestForm.get('entryMedia').touched
+                        "
+                      >
+                        Please provide provide
+                      </span>
+                      Entry Media Type</label
+                    >
+                    <input formControlName="entryMedia" class="input-design dropdown-input"/>
+                    <div class="custom-dropdown-container">
+                      <div
+                        class="custom-dropdown"
+                        *ngFor="let media of mediaTypes"
+                      >
+                        {{ media.name }}
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="contest-number">
+                  <label for="">Evaluation Criteria</label>
+                  <button *ngFor="let eval of evaluations">
+                    {{ eval
+                    }}<i class="fal fa-times" (click)="deleteEvaluation()"></i>
+                  </button>
+                </div> -->
+                  <!-- <div class="vocal-row">
+                  <input
+                    type="text"
+                    formControlName="evaluation"
+                    placeholder="Vocal"
+                  />
+                  <div class="add-more-blk" (click)="onAddEvaluation()">
+                    <a><i class="fal fa-plus"></i>Add Evaluation</a>
+                  </div>
+                </div> -->
+                </div>
+              </div>
+            </div>
+            <button
+              class="box-btn create-btn"
+              [disabled]="!contestForm.valid"
+              type="button"
+              (click)="onClickCreateButton()"
+            >
+              CREATE CONTEST
+            </button>
+          </div>
         </div>
       </div>
     </div>

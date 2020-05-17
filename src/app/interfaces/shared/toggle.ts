@@ -12,4 +12,7 @@ export interface AppToggle {
 
 export enum ToggleList {
   modaluploadtoggle = "modal-upload-toggle",
+  settingstapnotification = "settings-tap-notification",
+  settingsemailnotification = "settings-email-notification",
+  settingsprofilevisibility = "settingsprofilevisibility",
 }

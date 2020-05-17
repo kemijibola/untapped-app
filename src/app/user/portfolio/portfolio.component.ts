@@ -9,7 +9,6 @@ import {
   ModalContent,
 } from "src/app/interfaces/shared/modal";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
-import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import * as fromPortfolio from "../store/portfolio/portfolio.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
@@ -22,17 +21,6 @@ import { AppToggle } from "src/app/interfaces";
   styleUrls: ["./portfolio.component.css"],
 })
 export class PortfolioComponent {
-  componentToggle: AppToggle = {
-    id: "portfolio",
-    toggles: [
-      {
-        index: 0,
-        name: "modal-upload-toggle",
-        title: "Multiple Upload",
-        state: false,
-      },
-    ],
-  };
   componentModal: AppModal = {
     id: "portfolio",
     modals: [
@@ -55,13 +43,6 @@ export class PortfolioComponent {
     this.store.dispatch(
       new ModalsActions.AddComponentModal({
         componentModal: this.componentModal,
-      })
-    );
-
-    // setup all component slide-toggles here
-    this.store.dispatch(
-      new ToggleActions.AddComponentToggle({
-        componentToggle: this.componentToggle,
       })
     );
   }

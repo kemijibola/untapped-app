@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as fromSlideToggle from "../../../shared/store/slide-toggle/slide-toggle.reducers";
 import * as fromModal from "../../../shared/store/modals/modals.reducers";
@@ -102,6 +108,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     _id: "",
     type: MediaType.AUDIO,
     uploadType: MediaUploadType.all,
+    albumCover: "",
     items: [],
     title: "",
     shortDescription: "",
@@ -157,15 +164,15 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store
-      .pipe(select(fromUpload.selectUploadCompleted))
-      .subscribe((val: boolean) => {
-        if (val) {
-          this.showDiv = true;
-          this.showCompleted = true;
-          this.showUploading = false;
-        }
-      });
+    // this.store
+    //   .pipe(select(fromUpload.selectUploadCompleted))
+    //   .subscribe((val: boolean) => {
+    //     if (val) {
+    //       this.showDiv = true;
+    //       this.showCompleted = true;
+    //       this.showUploading = false;
+    //     }
+    //   });
     // fetch component toggle here by Id
     this.store.dispatch(
       new ToggleActions.FetchToggle({ appToggleId: "portfolio" })
@@ -202,10 +209,11 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
-        console.log("uploaded", val);
         if (val) {
-          this.isViewMode = true;
-          this.setMedia(this.uploadedItems);
+          this.showDiv = true;
+          this.showCompleted = true;
+          this.showUploading = false;
+          this.triggerTimer();
         }
       });
 
@@ -239,6 +247,13 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       });
 
     this.activateModalContent();
+  }
+
+  triggerTimer() {
+    setTimeout(() => {
+      this.isViewMode = true;
+      this.setMedia(this.uploadedItems);
+    }, 1000);
   }
 
   onClickPlaylistVideo(item: MediaItem, index: number) {
@@ -433,7 +448,10 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       path: fetchVideoItemFullPath(video.path),
       type: `video/${video.path.split(".").pop()}`,
     };
+
+    //this.capture();
   }
+
   setDefaultAudio(audio: MediaItem) {
     this.currentAudioItem = {
       _id: audio._id,

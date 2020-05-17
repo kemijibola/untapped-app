@@ -18,6 +18,7 @@ export function reducer(
 ): ToggleState {
   switch (action.type) {
     case ToggleActions.ADD_COMPONENT_TOGGLE:
+      console.log(action.payload.componentToggle);
       return fromAdapter.adapter.setOne(action.payload.componentToggle, state);
     case ToggleActions.FETCH_TOGGLE:
       return Object.assign({

@@ -54,9 +54,17 @@ export class UploadComponent
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;
+
   fileArray = [];
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
+
+  @ViewChild("video")
+  video: ElementRef;
+
+  @ViewChild("canvas")
+  canvas: ElementRef;
+  videoSrc: string = "";
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
@@ -102,6 +110,10 @@ export class UploadComponent
           this.fileArray.push({ data: file });
         }
       } else {
+        if (this.fileConfig.accept === MediaAcceptType.VIDEO) {
+          this.video.nativeElement.src = window.URL.createObjectURL(file);
+          this.capture();
+        }
         this.fileArray.push({
           data: file,
         });
@@ -125,7 +137,14 @@ export class UploadComponent
           code: 400,
         })
       );
-    }
+    }  
+  }
+
+  public capture() {
+    var context = this.canvas.nativeElement
+      .getContext("2d")
+      .drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    console.log(this.canvas.nativeElement.toDataURL("image/png"));
   }
 
   validateImageDimension(size: ISize): boolean {

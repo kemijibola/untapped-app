@@ -54,14 +54,18 @@ export class ChangeProfilePictureComponent implements OnInit {
     },
   };
   constructor(public store: Store<fromApp.AppState>) {
-    this.fetchUserProfileImage();
-    this.store
-      .pipe(select(fromUpload.selectUploadStatus))
-      .subscribe((val: boolean) => {
-        if (val) {
-          this.fetchUserProfileImage();
-        }
-      });
+    if (window.ononline) {
+      this.fetchUserProfileImage();
+      this.store
+        .pipe(select(fromUpload.selectUploadStatus))
+        .subscribe((val: boolean) => {
+          if (val) {
+            this.fetchUserProfileImage();
+          }
+        });
+    } else {
+      this.imagePath = environment.TALENT_DEFAULT_IMG;
+    }
   }
 
   ngOnInit() {

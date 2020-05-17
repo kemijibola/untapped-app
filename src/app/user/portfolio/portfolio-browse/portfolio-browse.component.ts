@@ -135,12 +135,13 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
               const mediaItem: IMediaItem = {
                 path: val.presignedUrl[i].key,
               };
+
               this.uploadedItems.items = [
                 ...this.uploadedItems.items,
                 mediaItem,
               ];
             }
-            console.log("go here", uploadParams);
+
             this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
             const uploadExtension = this.uploadedItems.items[0].path

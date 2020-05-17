@@ -35,27 +35,29 @@ export class GooglePlacesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private getPlaceAutocomplete() {
-    const autocomplete = new google.maps.places.Autocomplete(
-      this.addresstext.nativeElement,
-      {
-        componentRestrictions: { country: ["NG", "UK"] },
-        types: [this.addressType], // 'establishment' / 'address' / 'geocode'
-      }
-    );
-    google.maps.event.addListener(autocomplete, "place_changed", () => {
-      const place = autocomplete.getPlace();
-      const address: ILocation = {
-        location: `${
-          place.address_components[place.address_components.length - 2]
-            .long_name
-        }, ${
-          place.address_components[place.address_components.length - 1]
-            .long_name
-        }`,
-        formattedAddres: place.formatted_address,
-      };
-      this.setSelectedUserAddress(address);
-    });
+    if (window.ononline) {
+      const autocomplete = new google.maps.places.Autocomplete(
+        this.addresstext.nativeElement,
+        {
+          componentRestrictions: { country: ["NG", "UK"] },
+          types: [this.addressType], // 'establishment' / 'address' / 'geocode'
+        }
+      );
+      google.maps.event.addListener(autocomplete, "place_changed", () => {
+        const place = autocomplete.getPlace();
+        const address: ILocation = {
+          location: `${
+            place.address_components[place.address_components.length - 2]
+              .long_name
+          }, ${
+            place.address_components[place.address_components.length - 1]
+              .long_name
+          }`,
+          formattedAddres: place.formatted_address,
+        };
+        this.setSelectedUserAddress(address);
+      });
+    }
   }
 
   ngOnChanges(simple: SimpleChanges) {

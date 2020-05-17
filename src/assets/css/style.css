@@ -1170,9 +1170,9 @@ footer {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  border-bottom: 1px solid #e0e0e0;
+  /* border-bottom: 1px solid #e0e0e0; */
   padding-bottom: 15px;
-  margin-bottom: 35px;
+  margin-bottom: px;
 }
 .comment-part .comment-num {
   color: #272424;
@@ -1271,18 +1271,18 @@ html::-webkit-scrollbar {
 
 ::-webkit-scrollbar-track {
   background: red;
- 
+
 }
- 
+
 
 ::-webkit-scrollbar-thumb {
-  background: #000; 
-  
+  background: #000;
+
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
-  background: green; 
+  background: green;
 }
 
 ::-moz-scrollbar {
@@ -1292,18 +1292,18 @@ html::-webkit-scrollbar {
 
 ::-moz-scrollbar-track {
   background: red;
- 
+
 }
- 
+
 
 ::-moz-scrollbar-thumb {
-  background: #000; 
-  
+  background: #000;
+
 }
 
 
 ::-moz-scrollbar-thumb:hover {
-  background: green; 
+  background: green;
 }
 */
 
@@ -1666,17 +1666,70 @@ html::-webkit-scrollbar {
   font-size: 13px;
 }
 
-.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
-  background-color: blue !important;
+.custom-dropdown {
+  border-bottom: 1px solid #dcdbdb40;
+  line-height: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
-.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
-  background-color: #566dbe8a !important;
+.custom-dropdown:hover {
+  background-color: green;
+}
+
+.dropdown-input {
+  width: 100% !important;
+}
+
+.custom-dropdown-container {
+  background-color: #fbfbfb;
+  border: 1px solid #dcdbdb40;
+}
+.cancel-winner-btn {
+  position: relative;
+  top: -26px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: 12px;
 }
 
 .mat-slide-toggle-bar {
-  background-color: #f7f7f7 !important;
+  width: 60px !important;
+  height: 30px !important;
+  background-color: #e0e0e0 !important;
+  border-radius: 30px !important;
+  padding: 2px !important;
 }
+
+.mat-slide-toggle-thumb {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50%;
+  background-color: #fff !important;
+  transition: 0.3s !important;
+}
+
+/* .mat-slide-toggle-bar {
+  position: relative;
+  width: 36px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 8px;
+} */
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: #17a2b8 !important;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: #cdeeef !important;
+}
+/* 
+.mat-slide-toggle-bar {
+  background-color: #f7f7f7 !important;
+}  */
 
 .drag-section p span:hover {
   background: #06a9b0;
@@ -1696,7 +1749,7 @@ html::-webkit-scrollbar {
   background: #fafafa;
   border: 1px solid #e0e0e0;
   padding: 15px;
-  width: 46%;
+  width: 100%;
   border-radius: 5px;
 }
 .prize .hd h4 span {
@@ -1757,10 +1810,16 @@ html::-webkit-scrollbar {
   display: inline-block;
   margin-top: 80px;
   cursor: pointer;
+  border: none;
 }
 .sidebar-img {
   margin-bottom: 35px;
 }
+
+.contest-settings .row {
+  width: 100%;
+}
+
 .setting-area .input-1 select {
   width: 100%;
   height: 50px;
@@ -2216,6 +2275,10 @@ html::-webkit-scrollbar {
 }
 .talent-one-area .pagination .page-item {
   margin-right: 12px;
+}
+.page-item-right {
+  float: right;
+  margin-right: 0px;
 }
 .talent-one-area .pagination .page-link {
   position: relative;
@@ -2991,6 +3054,19 @@ button.accordion.is-open:after {
   cursor: pointer;
   color: #fff;
 }
+.contest-header {
+  color: #fff !important;
+  font-size: 30px !important;
+}
+.contest-name {
+  color: #bbc826 !important;
+  font-size: 50px !important;
+}
+.general-img-uploads img {
+  height: 208px;
+  width: 100%;
+  resize-image: "cover";
+}
 .footer-menu ul li a:hover {
   color: #3db483;
 }
@@ -3006,7 +3082,6 @@ button.accordion.is-open:after {
 /* Pro Search Page Css Start */
 .pro-search-right.middle-outer-wrp {
   padding: 50px;
-  padding-top: 0;
 }
 .pro-little-img {
   margin-top: -77px;
@@ -3628,6 +3703,14 @@ button.accordion.is-open:after {
 
 .modal-content {
   height: 550px !important;
+}
+
+.contest-entry .modal-dialog {
+  width: 700px;
+}
+
+.entries-container {
+  padding: 15px;
 }
 .new-port-up-wrp {
   display: -webkit-box;
@@ -5121,14 +5204,13 @@ button.close-btn {
 .info-xt {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: contexts;
 }
-.info-xt {
+
+.info-xt>:first-child {
+  margin-left: 0;
 }
-.info-xt p {
-  margin: 0;
-  font-size: 11px;
-}
+
 .info-xt a {
   font-size: 11px;
   border-left: 1px solid #5c5859;
@@ -5142,7 +5224,7 @@ button.close-btn {
   margin: 0 10px;
 }
 .info-xt {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .sm-top-blk {

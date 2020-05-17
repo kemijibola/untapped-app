@@ -95,6 +95,7 @@ export interface UploadedItems {
   uploadType: MediaUploadType;
   items: MediaItem[];
   title?: string;
+  albumCover?: string;
   shortDescription?: string;
 }
 

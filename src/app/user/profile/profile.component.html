@@ -35,10 +35,10 @@
         >
         <input class="input-design" formControlName="name" type="text" />
       </div>
-      <div class="col-xl-3" *ngIf="typeOfUser === 'Professional'">
+      <!-- <div class="col-xl-3" *ngIf="typeOfUser === 'Professional'">
         <label for="">rcNumber</label>
         <input class="input-design" formControlName="rcNumber" type="text" />
-      </div>
+      </div> -->
       <div class="col-xl-6">
         <label for="">Full Name</label>
         <input class="input-design" formControlName="fullName" type="text" />
@@ -65,9 +65,7 @@
       <div class="col-xl-12">
         <div class="bio">
           <h4>Short Bio</h4>
-          <span class="condition"
-            >Word length restriction from the backend</span
-          >
+          <span class="condition">{{ shortbioCount }}</span>
         </div>
         <textarea
           class="text-area"

@@ -16,6 +16,7 @@ export const FILE_INPUT_CONFIG = "FILE_INPUT_CONFIG";
 export const RESET_FILE_INPUT = "RESET_FILE_INPUT";
 
 export const FILE_TOUPLOAD = "FILE_TOUPLOAD";
+export const SET_MEDIA_THUMBNAIL = "SET_MEDIA_THUMBNAIL";
 export const GET_PRESIGNED_URL = "GET_PRESIGNED_URL";
 export const GET_PRESIGNED_URL_ERROR = "GET_PRESIGNED_URL_ERROR";
 export const SET_PRESIGNED_URL = "SET_PRESIGNED_URL";
@@ -45,6 +46,11 @@ export class SetUploadedItems implements Action {
   constructor(public payload: { uploadedItems: UploadedItems }) {}
 }
 
+//MEDIA_THUMBNAIL
+// export class SetMediaThumbnail implements Action {
+//   readonly type = SET_MEDIA_THUMBNAIL;
+//   constructor(public payload: {   })
+// }
 export class GetPresignedUrlError implements Action {
   readonly type = GET_PRESIGNED_URL_ERROR;
   constructor(public payload: { errorCode: number; errorMessage: string }) {}

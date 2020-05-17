@@ -1,12 +1,12 @@
-import { IUserContest } from "src/app/interfaces";
+import { IUserContest, IUserContestListAnalysis } from "src/app/interfaces";
 import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
 
-export function selectUserContestId(a: IUserContest): string {
-  return a._id;
+export function selectUserContestId(a: IUserContestListAnalysis): string {
+  return a.contestId;
 }
 
-export const adapter: EntityAdapter<IUserContest> = createEntityAdapter<
-  IUserContest
+export const adapter: EntityAdapter<IUserContestListAnalysis> = createEntityAdapter<
+  IUserContestListAnalysis
 >({
   selectId: selectUserContestId,
 });

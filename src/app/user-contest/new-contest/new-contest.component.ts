@@ -298,7 +298,7 @@ export class NewContestComponent implements OnInit {
 
   deleteEvaluation() {}
   onAddReward() {
-    if ((<FormArray>this.contestForm.get("contestRewards")).length < 2) {
+    if ((<FormArray>this.contestForm.get("contestRewards")).length < 3) {
       (<FormArray>this.contestForm.get("contestRewards")).push(
         new FormGroup({
           reward: new FormControl("", Validators.required),

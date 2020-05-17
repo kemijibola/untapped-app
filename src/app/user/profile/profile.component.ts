@@ -63,6 +63,7 @@ export class ProfileComponent implements OnInit {
     formattedAddres: "",
   };
   userType: string = "";
+  shortbioCount: number = 0;
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -96,7 +97,7 @@ export class ProfileComponent implements OnInit {
           );
           this._id = val._id;
           this.name = val.name;
-          this.rcNumber = val.rcNumber;
+          // this.rcNumber = val.rcNumber;
           this.location = val.formattedAddres;
           this.phoneNumber = val.phoneNumbers[0];
           this.shortBio = val.shortBio;
@@ -133,7 +134,7 @@ export class ProfileComponent implements OnInit {
   private initForm() {
     this.profileForm = new FormGroup({
       name: new FormControl(this.name, Validators.required),
-      rcNumber: new FormControl(this.rcNumber),
+      // rcNumber: new FormControl(this.rcNumber),
       fullName: new FormControl(this.userFullName, Validators.required),
       emailAddress: new FormControl(this.userEmail, Validators.required),
       phoneNumber: new FormControl(
@@ -166,7 +167,7 @@ export class ProfileComponent implements OnInit {
   }
   onUpdateProfile() {
     const name: string = this.profileForm.controls["name"].value;
-    const rcNumber: string = this.profileForm.controls["rcNumber"].value;
+    // const rcNumber: string = this.profileForm.controls["rcNumber"].value;
     const fullName: string = this.profileForm.controls["fullName"].value;
     const phoneNumber: string = this.profileForm.controls["phoneNumber"].value;
     const shortBio: string = this.profileForm.controls["shortBio"].value;
@@ -179,7 +180,7 @@ export class ProfileComponent implements OnInit {
     ].value;
     const profileObj: IProfile = {
       name,
-      rcNumber,
+      // rcNumber,
       fullName,
       userAddress: { ...this.userLocation },
       phoneNumbers: [phoneNumber],
@@ -203,7 +204,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.name = name;
-    this.rcNumber = rcNumber;
+    // this.rcNumber = rcNumber;
     this.phoneNumber = phoneNumber;
     this.shortBio = shortBio;
     this.twitter = twitter;

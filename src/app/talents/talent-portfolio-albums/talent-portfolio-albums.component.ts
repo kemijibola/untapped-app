@@ -82,7 +82,6 @@ export class TalentPortfolioAlbumsComponent {
   }
 
   onPrevious() {
-    console.log("prev clicked");
     this.currentIndex--;
     if (this.currentIndex < this.selectedMedia.items.length - 1) {
       this.rightDisabled = false;
@@ -100,7 +99,6 @@ export class TalentPortfolioAlbumsComponent {
   }
 
   onNext() {
-    console.log("next clicked");
     this.currentIndex++;
     if (this.currentIndex > 0 && this.selectedMedia.items.length > 1) {
       this.leftDisabled = false;
@@ -119,7 +117,7 @@ export class TalentPortfolioAlbumsComponent {
   }
 
   openModalDialog(modalId: string, selectedMedia: TalentPortfolioPreview) {
-    console.log(selectedMedia);
+
 
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "talent-portfolio" })

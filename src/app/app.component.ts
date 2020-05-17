@@ -25,6 +25,7 @@ import {
   UserFilterCategory,
   ModalDisplay,
   AppModal,
+  AppToggle,
 } from "./interfaces";
 import * as fromUser from "./user/user.reducers";
 import * as TalentsActions from "./shared/store/talents/talents.actions";
@@ -33,7 +34,7 @@ import * as TalentCategoryActions from "./shared/store/filtered-categories/talen
 import * as ContestsAction from "./contests/store/contests.action";
 import * as ModalsActions from "./shared/store/modals/modals.actions";
 import * as ProfessionalCategoryActions from "./shared/store/filtered-categories/professional-category/professional-category.actions";
-
+import * as ToggleActions from "./shared/store/slide-toggle/slide-toggle.actions";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -50,6 +51,35 @@ export class AppComponent implements OnInit {
   title = "untapped-app";
   isAuthenticated = false;
   selectedUser: UserFilterCategory;
+  componentToggle: AppToggle = {
+    id: "app",
+    toggles: [
+      {
+        index: 0,
+        name: "modal-upload-toggle",
+        title: "Multiple Upload",
+        state: false,
+      },
+      {
+        index: 1,
+        name: "settings-tap-notification",
+        title: "",
+        state: false,
+      },
+      {
+        index: 2,
+        name: "settings-email-notification",
+        title: "",
+        state: false,
+      },
+      {
+        index: 3,
+        name: "settings-profile-visibility",
+        title: "",
+        state: false,
+      },
+    ],
+  };
   componentModal: AppModal = {
     id: "contest",
     modals: [
@@ -87,6 +117,13 @@ export class AppComponent implements OnInit {
     this.store.dispatch(
       new ModalsActions.AddComponentModal({
         componentModal: this.componentModal,
+      })
+    );
+
+    // setup all component slide-toggles here
+    this.store.dispatch(
+      new ToggleActions.AddComponentToggle({
+        componentToggle: this.componentToggle,
       })
     );
   }

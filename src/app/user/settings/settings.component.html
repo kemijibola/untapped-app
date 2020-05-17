@@ -30,9 +30,13 @@
           <div class="setting-content">
             <p>Notifications when someone taps you or likes your upload</p>
             <div class="toggle-btn">
-              <div class="toggle-outer">
+              <app-slide-toggle
+                [id]="'app'"
+                [data]="modalUploadToggle"
+              ></app-slide-toggle>
+              <!-- <div class="toggle-outer">
                 <div class="toggle-inner"></div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -47,50 +51,7 @@
             </div>
           </div>
         </div>
-        <div class="setting-item">
-          <h4>Add Facebook</h4>
-          <div class="setting-content">
-            <p>
-              We will never post to Facebook or message your friends without
-              your permission.
-            </p>
-            <div class="setting-bttn">
-              <a class="setting-btn" href="#"
-                ><img src="assets/img/profile/fb.svg" alt="" /> Add Facebook</a
-              >
-            </div>
-          </div>
-        </div>
-        <div class="setting-item">
-          <h4>Add Instagram</h4>
-          <div class="setting-content">
-            <p>
-              We will never post to Instagram or message your friends without
-              your permission.
-            </p>
-            <div class="setting-bttn">
-              <a class="setting-btn" href="#"
-                ><img src="assets/img/profile/instagram.svg" alt="" /> Add
-                Facebook</a
-              >
-            </div>
-          </div>
-        </div>
-        <div class="setting-item">
-          <h4>Add Twitter</h4>
-          <div class="setting-content">
-            <p>
-              We will never post to Instagram or message your friends without
-              your permission.
-            </p>
-            <div class="setting-bttn">
-              <a class="setting-btn" href="#"
-                ><img src="assets/img/profile/twitter.svg" alt="" /> Add
-                Facebook</a
-              >
-            </div>
-          </div>
-        </div>
+
         <div class="setting-item">
           <h4>Profile search visibility</h4>
           <div class="setting-content">
@@ -102,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div class="setting-item">
+        <!-- <div class="setting-item">
           <h4>Blocked users</h4>
           <div class="setting-content">
             <p>See a list of all the users you’ve blocked.</p>
@@ -110,7 +71,7 @@
               <a class="setting-btn" href="#">Manage block list</a>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="setting-item">
           <h4>Suspend Account</h4>
           <div class="setting-content d">
