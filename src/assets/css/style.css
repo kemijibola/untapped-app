@@ -3059,7 +3059,7 @@ button.accordion.is-open:after {
   font-size: 30px !important;
 }
 .contest-name {
-  color: #bbc826 !important;
+  color: #d3cb14 !important;
   font-size: 50px !important;
 }
 .general-img-uploads img {
@@ -5207,7 +5207,7 @@ button.close-btn {
   display: contexts;
 }
 
-.info-xt>:first-child {
+.info-xt > :first-child {
   margin-left: 0;
 }
 

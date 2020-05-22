@@ -4,6 +4,7 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
+  Renderer2,
 } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as fromSlideToggle from "../../../shared/store/slide-toggle/slide-toggle.reducers";
@@ -28,6 +29,7 @@ import {
   ModalDisplay,
   AppModal,
   AppToggle,
+  UPLOADACTION,
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
 import { map } from "rxjs/operators";
@@ -142,12 +144,18 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   showUploading: boolean = false;
   showCompleted: boolean = false;
   showDiv: boolean = false;
+  @ViewChild("video", { static: true })
+  video: ElementRef;
+
+  @ViewChild("canvas", { static: true })
+  canvas: ElementRef;
 
   constructor(
     private store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private renderer: Renderer2
   ) {}
   onPlayerReady(api: VgAPI) {
     this.api = api;
@@ -448,8 +456,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       path: fetchVideoItemFullPath(video.path),
       type: `video/${video.path.split(".").pop()}`,
     };
-
-    //this.capture();
   }
 
   setDefaultAudio(audio: MediaItem) {
@@ -471,6 +477,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
         });
         return theMap;
       },
+
       []
     );
   }

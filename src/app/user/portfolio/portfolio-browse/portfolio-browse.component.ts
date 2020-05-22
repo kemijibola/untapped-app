@@ -53,17 +53,53 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
 
   constructor(public store: Store<fromApp.AppState>) {
     this.canSetUploadedImage = false;
+    this.store
+      .select(fromUpload.selectMediaThumbnailFile)
+      .subscribe((val: IFileModel) => {
+        if (val !== null) {
+          const file: IPresignRequest = {
+            mediaType: "image",
+            component: UPLOADCOMPONENT.thumbnail,
+            files: [
+              ...[
+                {
+                  file: val.files[0].name,
+                  file_type: val.files[0].type,
+                },
+              ],
+            ],
+          };
+          this.store.dispatch(
+            new UploadActions.GetThumbnailPresignedUrl({
+              preSignRequest: file,
+            })
+          );
+
+          this.store
+            .pipe(select(fromUpload.selectThumbnailPresignedUrl))
+            .subscribe((signedUrl: SignedUrl) => {
+              if (signedUrl !== null) {
+                const item: CloudUploadParams = {
+                  file: val.files[0],
+                  url: signedUrl.presignedUrl[0].url,
+                  key: signedUrl.presignedUrl[0].key,
+                };
+                this.store.dispatch(new UploadActions.UploadThumbnail([item]));
+              }
+            });
+        }
+      });
   }
 
   ngOnInit() {
     this.store
       .pipe(select(fromUpload.selectCurrentUploadStatus))
       .subscribe((val: boolean) => {
-        console.log(val);
         if (val) {
           this.showUpload = false;
         }
       });
+
     this.store
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
@@ -160,6 +196,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   }
 
   onClickBrowseBtn() {
+    this.store.dispatch(new UploadActions.ResetFileInput());
     this.fileConfig = {
       state: true,
       component: this.uploadComponent,

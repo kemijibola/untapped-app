@@ -9,6 +9,7 @@ import {
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "./../environments/environment";
 import { APP_INITIALIZER } from "@angular/core";
+import { LazyLoadImageModule } from "ng-lazyload-image";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
 import { AppRoutingModule } from "./app-routing.module";
@@ -45,6 +46,7 @@ import { ContestEntryEffect } from "./contests/store/contest-entry/contest-entry
 import { StickyModule } from "ng2-sticky-kit";
 import { ContestEffect } from "./contests/store/contest/contest.effects";
 import { ProfessionalCategoryEffect } from "./shared/store/filtered-categories/professional-category/professional-category.effects";
+
 // import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -74,6 +76,7 @@ export const customCurrencyMaskConfig = {
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     StickyModule,
+    LazyLoadImageModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([

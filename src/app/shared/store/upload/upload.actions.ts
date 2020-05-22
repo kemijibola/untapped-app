@@ -16,7 +16,6 @@ export const FILE_INPUT_CONFIG = "FILE_INPUT_CONFIG";
 export const RESET_FILE_INPUT = "RESET_FILE_INPUT";
 
 export const FILE_TOUPLOAD = "FILE_TOUPLOAD";
-export const SET_MEDIA_THUMBNAIL = "SET_MEDIA_THUMBNAIL";
 export const GET_PRESIGNED_URL = "GET_PRESIGNED_URL";
 export const GET_PRESIGNED_URL_ERROR = "GET_PRESIGNED_URL_ERROR";
 export const SET_PRESIGNED_URL = "SET_PRESIGNED_URL";
@@ -36,6 +35,16 @@ export const UPLOAD_FILES_PROGRESS = "UPLOAD_FILES_PROGRESS";
 export const UPLOAD_FILES_ERROR = "UPLOAD_FILES_ERROR";
 export const UPLOAD_FILES_SUCCESS = "UPLOAD_FILES_SUCCESS";
 
+export const GET_THUMBNAIL_PRESIGNED_URL = "GET_THUMBNAIL_PRESIGNED_URL";
+export const SET_THUMBNAIL_PRESIGNED_URL = "SET_THUMBNAIL_PRESIGNED_URL";
+export const SET_MEDIA_THUMBNAIL = "SET_MEDIA_THUMBNAIL";
+export const UPLOAD_THUMBNAIL = "UPLOAD_THUMBNAIL";
+export const UPLOAD_THUMBNAIL_SUCCESS = "UPLOAD_THUMBNAIL_SUCCESS";
+export const UPLOAD_THUMBNAIL_ERROR = "UPLOAD_THUMBNAIL_ERROR";
+// export const GET_THUMBNAIL_URL = "GET_THUMBNAIL_URL";
+// export const GET_THUMBNAIL_URL_SUCCESS = "GET_THUMBNAIL_URL_SUCCESS";
+// export const GET_THUMBNAIL_URL_ERROR = "GET_THUMBNAIL_URL_ERROR";
+
 export const SET_UPLOADED_ITEMS = "SET_UPLOADED_ITEMS";
 export const RESET_UPLOADED_ITEMS = "RESET_UPLOADED_ITEMS";
 
@@ -45,12 +54,10 @@ export class SetUploadedItems implements Action {
   readonly type = SET_UPLOADED_ITEMS;
   constructor(public payload: { uploadedItems: UploadedItems }) {}
 }
-
-//MEDIA_THUMBNAIL
-// export class SetMediaThumbnail implements Action {
-//   readonly type = SET_MEDIA_THUMBNAIL;
-//   constructor(public payload: {   })
-// }
+export class SetMediaThumbnail implements Action {
+  readonly type = SET_MEDIA_THUMBNAIL;
+  constructor(public payload: { thumbnail: IFileModel }) {}
+}
 export class GetPresignedUrlError implements Action {
   readonly type = GET_PRESIGNED_URL_ERROR;
   constructor(public payload: { errorCode: number; errorMessage: string }) {}
@@ -81,17 +88,36 @@ export class FileToUpload implements Action {
   readonly type = FILE_TOUPLOAD;
   constructor(public payload: { file: IFileModel }) {}
 }
-
+export class GetThumbnailPresignedUrl implements Action {
+  readonly type = GET_THUMBNAIL_PRESIGNED_URL;
+  constructor(public payload: { preSignRequest: IPresignRequest }) {}
+}
 export class GetPresignedUrl implements Action {
   readonly type = GET_PRESIGNED_URL;
   constructor(public payload: { preSignRequest: IPresignRequest }) {}
 }
 
+export class SetThumbnailPresignedUrl implements Action {
+  readonly type = SET_THUMBNAIL_PRESIGNED_URL;
+  constructor(public payload: SignedUrl) {}
+}
 export class SetPresignedUrl implements Action {
   readonly type = SET_PRESIGNED_URL;
   constructor(public payload: SignedUrl) {}
 }
 
+export class UploadThumbnail implements Action {
+  readonly type = UPLOAD_THUMBNAIL;
+  constructor(public payload: CloudUploadParams[]) {}
+}
+export class UploadThumbnailSuccess implements Action {
+  readonly type = UPLOAD_THUMBNAIL_SUCCESS;
+  constructor(public payload: { thumbnailUrl: string }) {}
+}
+
+export class UploadThumbnailError implements Action {
+  readonly type = UPLOAD_THUMBNAIL_ERROR;
+}
 export class UploadFiles implements Action {
   readonly type = UPLOAD_FILES;
   constructor(public payload: CloudUploadParams[]) {}
@@ -132,4 +158,10 @@ export type UploadActions =
   | UploadFilesStarted
   | UploadFilesSuccess
   | UploadFilesError
-  | UploadFilesRequest;
+  | UploadFilesRequest
+  | SetMediaThumbnail
+  | UploadThumbnail
+  | UploadThumbnailSuccess
+  | UploadThumbnailError
+  | GetThumbnailPresignedUrl
+  | SetThumbnailPresignedUrl;

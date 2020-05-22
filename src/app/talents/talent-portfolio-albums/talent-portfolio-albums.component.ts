@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModals from "../../shared/store/modals/modals.reducers";
@@ -40,11 +40,21 @@ export class TalentPortfolioAlbumsComponent {
   imageAlbums: ImagePortfolioPreview[] = [];
   audioAlbums: AudioPortfolioPreview[] = [];
   videoAlbums: VideoPortfolioPreview[] = [];
+  defaultEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
   editParams: ImageEditRequest = {
     edits: {
       resize: {
-        width: 418.66,
-        height: 225.13,
+        width: 413,
+        height: 225,
         fit: ImageFit.fill,
       },
       grayscale: false,
@@ -55,7 +65,11 @@ export class TalentPortfolioAlbumsComponent {
   leftDisabled = false;
   rightDisabled = false;
   showModal: boolean = true;
-  constructor(public store: Store<fromApp.AppState>) {}
+  showImage: boolean = false;
+  constructor(
+    public store: Store<fromApp.AppState>,
+    public element: ElementRef
+  ) {}
 
   ngOnInit() {
     this.fetchTalentImages();
@@ -117,8 +131,6 @@ export class TalentPortfolioAlbumsComponent {
   }
 
   openModalDialog(modalId: string, selectedMedia: TalentPortfolioPreview) {
-
-
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "talent-portfolio" })
     );
@@ -187,7 +199,10 @@ export class TalentPortfolioAlbumsComponent {
         }
       });
   }
-
+  // loadeddone(data: any, i: number) {
+  //   console.log(i);
+  //   this.imageAlbums[i].defaultLoaded = true;
+  // }
   fetchTalentVideos() {
     this.store
       .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
@@ -199,6 +214,7 @@ export class TalentPortfolioAlbumsComponent {
         }
       });
   }
+
   setImageAlbumCover() {
     this.imageAlbums = this.imageAlbums.map((x) => {
       return Object.assign({}, x, {
@@ -209,8 +225,28 @@ export class TalentPortfolioAlbumsComponent {
                 this.editParams
               )
             : fetchNoMediaDefaultImage(),
+        defaultAlbumCover:
+          x.defaultImageKey !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.defaultImageKey,
+                this.defaultEditParams
+              )
+            : fetchNoMediaDefaultImage(),
+        defaultLoaded: false,
       });
     });
+
+    // this.triggerTimer();
+  }
+
+  triggerTimer() {
+    setTimeout(() => {
+      this.triggerImageShow();
+    }, 5000);
+  }
+
+  triggerImageShow() {
+    this.showImage = true;
   }
 
   setAudioAlbumCover() {

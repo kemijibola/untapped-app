@@ -39,6 +39,8 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
 import { Angular4PaystackModule } from "angular4-paystack";
 import { environment } from "src/environments/environment";
 import { GooglePlacesComponent } from "./google-places/google-places.component";
+import { LatestContestLandingComponent } from "./latest-contest-landing/latest-contest-landing.component";
+import { NguiInViewComponent } from "./ngui-in-view.component";
 
 @NgModule({
   imports: [
@@ -76,6 +78,8 @@ import { GooglePlacesComponent } from "./google-places/google-places.component";
     Angular4PaystackModule,
     GooglePlacesComponent,
     MatProgressBarModule,
+    LatestContestLandingComponent,
+    NguiInViewComponent,
   ],
   declarations: [
     UploadComponent,
@@ -95,6 +99,8 @@ import { GooglePlacesComponent } from "./google-places/google-places.component";
     UpVideoComponent,
     UpMediaMagnifierComponent,
     GooglePlacesComponent,
+    LatestContestLandingComponent,
+    NguiInViewComponent,
   ],
 })
 export class SharedModule {}

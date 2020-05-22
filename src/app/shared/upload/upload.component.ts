@@ -23,9 +23,12 @@ import {
   MediaAcceptType,
   UPLOADCOMPONENT,
   UPLOADACTION,
+  IPresignRequest,
 } from "src/app/interfaces";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 import { map } from "rxjs/operators";
+import { getDate } from "date-fns";
+import { getMetadata, getThumbnails } from "video-metadata-thumbnails";
 
 const noop = () => {};
 
@@ -43,10 +46,6 @@ const noop = () => {};
 })
 export class UploadComponent
   implements ControlValueAccessor, OnInit, OnChanges {
-  private file: IFileModel = {
-    action: UPLOADACTION.default,
-    files: [],
-  };
   ngDestroyed = new Subject();
   multiple: boolean;
   accept: string;
@@ -54,6 +53,8 @@ export class UploadComponent
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;
+  private file: IFileModel;
+  private thumbnailFile: IPresignRequest;
 
   fileArray = [];
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
@@ -111,8 +112,26 @@ export class UploadComponent
         }
       } else {
         if (this.fileConfig.accept === MediaAcceptType.VIDEO) {
-          this.video.nativeElement.src = window.URL.createObjectURL(file);
-          this.capture();
+          const base64 = await this.getBase64(file);
+          var videoBlob = this.dataURItoBlob(base64);
+          const thumbnails = await getThumbnails(videoBlob, {
+            start: 0,
+            end: 1,
+            quality: 0.7,
+            interval: 1,
+            scale: 0.7,
+          });
+
+          const imageFile = new File([thumbnails[0].blob], "thumbnail.jpeg", {
+            type: "image/jpeg",
+          });
+          const mediaThumbnail: IFileModel = {
+            action: UPLOADACTION.uploadthumbnail,
+            files: [imageFile],
+          };
+          this.store.dispatch(
+            new UploadActions.SetMediaThumbnail({ thumbnail: mediaThumbnail })
+          );
         }
         this.fileArray.push({
           data: file,
@@ -137,14 +156,27 @@ export class UploadComponent
           code: 400,
         })
       );
-    }  
+    }
   }
 
-  public capture() {
-    var context = this.canvas.nativeElement
-      .getContext("2d")
-      .drawImage(this.video.nativeElement, 0, 0, 640, 480);
-    console.log(this.canvas.nativeElement.toDataURL("image/png"));
+  getBase64(file: File): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+  
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = window.atob(dataURI.split(",")[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: "image/png" });
+    return blob;
   }
 
   validateImageDimension(size: ISize): boolean {

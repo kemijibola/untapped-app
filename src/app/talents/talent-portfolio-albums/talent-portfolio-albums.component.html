@@ -28,60 +28,73 @@
   <h3>Image Albums</h3>
 </div>
 
-<div
-  class="album-img mb-30"
-  style="display: table; height: 225px; width: 100%; background: lightgray;"
->
-  <div style="display: table-cell; text-align: center; vertical-align: middle;">
-    Image is here
-  </div>
-</div>
+<div>
+  <a
+    class="album-img mb-30"
+    (click)="openModalDialog('album-modal', image)"
+    *ngFor="let image of imageAlbums; let i = index"
+  >
+    <img
+      [defaultImage]="image.defaultAlbumCover"
+      [lazyLoad]="image.albumCover"
+      style="height: 225px; background: lightgray;"
+    />
+    <!-- <div
+      *ngIf="!image.defaultLoaded"
+      class="album-img mb-30"
+      style="display: table; height: 225px; width: 100%; background: lightgray;"
+    >
+      <div
+        style="display: table-cell; text-align: center; vertical-align: middle;"
+      >
+        image
+      </div>
+    </div> -->
 
-<a
-  class="album-img mb-30"
-  (click)="openModalDialog('album-modal', image)"
-  *ngFor="let image of imageAlbums; let i = index"
->
-  <img src="{{ image.albumCover }}" style="height: 225px;" alt="" />
-  <div class="title-content" style="width: 187.83px;">
-    <span class="subject">{{ image.mediaTitle }}</span>
-    <span class="date">{{ image.dateCreated | date }}</span>
-  </div>
-  <span class="number">{{ image.itemsCount }}</span>
-</a>
+    <div class="title-content" style="width: 187.83px;">
+      <span class="subject">{{ image.mediaTitle }}</span>
+      <span class="date">{{ image.dateCreated | date }}</span>
+    </div>
+    <span class="number">{{ image.itemsCount }}</span>
+  </a>
+</div>
 
 <div class="head text-left mb-30 mt-45" *ngIf="audioAlbumCount > 0">
   <span>Oluwa Burna’s</span>
   <h3>Audio Albums</h3>
 </div>
 
-<a
-  class="album-img mb-30"
-  *ngFor="let audio of audioAlbums; let i = index"
-  (click)="openModalDialog('album-modal', audio)"
->
-  <img src="{{ audio.albumCover }}" style="height: 225px;" alt="" />
-  <div class="title-content" style="width: 187.83px;">
-    <span class="subject">{{ audio.mediaTitle }}</span>
-    <span class="date">{{ audio.dateCreated | date }}</span>
-  </div>
-  <span class="number">{{ audio.itemsCount }}</span>
-</a>
+<div *ngIf="">
+  <a
+    class="album-img mb-30"
+    *ngFor="let audio of audioAlbums; let i = index"
+    (click)="openModalDialog('album-modal', audio)"
+  >
+    <img src="{{ audio.albumCover }}" style="height: 225px;" alt="" />
+    <div class="title-content" style="width: 187.83px;">
+      <span class="subject">{{ audio.mediaTitle }}</span>
+      <span class="date">{{ audio.dateCreated | date }}</span>
+    </div>
+    <span class="number">{{ audio.itemsCount }}</span>
+  </a>
+</div>
 
 <div class="head text-left mb-30">
   <span>Oluwa Burna’s</span>
   <h3>Video Albums</h3>
 </div>
 
-<a
-  class="album-img mb-30"
-  *ngFor="let video of videoAlbums; let i = index"
-  (click)="openModalDialog('album-modal', video)"
->
-  <img src="{{ video.albumCover }}" style="height: 225px;" alt="" />
-  <div class="title-content" style="width: 187.83px;">
-    <span class="subject">{{ video.mediaTitle }}</span>
-    <span class="date">{{ video.dateCreated | date }}</span>
-  </div>
-  <span class="number">{{ video.itemsCount }}</span>
-</a>
+<div *ngIf="">
+  <a
+    class="album-img mb-30"
+    *ngFor="let video of videoAlbums; let i = index"
+    (click)="openModalDialog('album-modal', video)"
+  >
+    <img src="{{ video.albumCover }}" style="height: 225px;" alt="" />
+    <div class="title-content" style="width: 187.83px;">
+      <span class="subject">{{ video.mediaTitle }}</span>
+      <span class="date">{{ video.dateCreated | date }}</span>
+    </div>
+    <span class="number">{{ video.itemsCount }}</span>
+  </a>
+</div>

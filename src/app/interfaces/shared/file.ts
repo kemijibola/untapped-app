@@ -6,6 +6,7 @@ export enum UPLOADCOMPONENT {
   contestentry = "contestentry",
   contestbanner = "contestbanner",
   bannerimage = "bannerimage",
+  thumbnail = "thumbnail",
   default = "default",
 }
 
@@ -18,6 +19,7 @@ export enum UPLOADACTION {
   uploadcontestbanner = "addcontestbanner",
   uploadcontestentry = "uploadcontestentry",
   updatebannerimage = "updatebannerimage",
+  uploadthumbnail = "uploadthumbnail",
   default = "default",
 }
 
@@ -74,6 +76,7 @@ export interface IUploadedFiles {
 export interface CloudUploadParams {
   file: File;
   url: string;
+  key?: string;
 }
 
 export enum UploadStatus {

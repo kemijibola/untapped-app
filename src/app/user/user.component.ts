@@ -81,12 +81,6 @@ export class UserComponent extends AbstractTabComponent {
       tabs: [
         { index: 0, title: "Profile", tag: "profile", active: false },
         { index: 1, title: "Settings", tag: "settings", active: false },
-        {
-          index: 2,
-          title: "Manage Votes",
-          tag: "managevotes",
-          active: false,
-        },
       ],
     };
   }
@@ -99,12 +93,6 @@ export class UserComponent extends AbstractTabComponent {
       tabs: [
         { index: 0, title: "Settings", tag: "settings", active: false },
         { index: 1, title: "Contests", tag: "contests", active: false },
-        {
-          index: 2,
-          title: "Manage Votes",
-          tag: "managevotes",
-          active: false,
-        },
       ],
     };
   }

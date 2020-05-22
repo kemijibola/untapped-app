@@ -18,6 +18,7 @@ export interface UploadState extends EntityState<any> {
   fileInput: IFileInputModel | null;
   file: IFileModel | null;
   preSignedUrls: SignedUrl | null;
+  thumbnailPresignedUrl: SignedUrl | null;
   isReadyForUpload: boolean;
   uploadAction: UPLOADCOMPONENT | null;
   uploadSuccessful: boolean;
@@ -27,6 +28,8 @@ export interface UploadState extends EntityState<any> {
   uploadStarted: boolean;
   uploadCompleted: boolean;
   uploadState: UploadStatus;
+  mediaThumbnail: IFileModel | null;
+  thumbnailUrl: string | null;
 }
 
 const initialState: UploadState = fromAdapter.adapter.getInitialState({
@@ -41,6 +44,9 @@ const initialState: UploadState = fromAdapter.adapter.getInitialState({
   uploadStarted: null,
   uploadState: null,
   uploadCompleted: null,
+  mediaThumbnail: null,
+  thumbnailPresignedUrl: null,
+  thumbnailUrl: null,
 });
 
 export function reducer(
@@ -59,16 +65,27 @@ export function reducer(
         fileInput: null,
         file: null,
         preSignedUrls: null,
+        thumbnailUrl: null,
+        thumbnailPresignedUrl: null,
+        mediaThumbnail: null,
         isReadyForUpload: false,
         uploadAction: UPLOADCOMPONENT.default,
         uploadSuccessful: true,
         uploadState: UploadStatus.Completed,
+      });
+    case UploadActions.UPLOAD_THUMBNAIL_SUCCESS:
+      return Object.assign({
+        ...state,
+        thumbnailUrl: action.payload.thumbnailUrl,
       });
     case UploadActions.RESET_FILE_INPUT:
       return Object.assign({
         ...state,
         fileInput: null,
         file: null,
+        thumbnailUrl: null,
+        thumbnailPresignedUrl: null,
+        mediaThumbnail: null,
         uploadSuccessful: false,
       });
     case UploadActions.FILE_TOUPLOAD:
@@ -76,6 +93,12 @@ export function reducer(
         ...state,
         file: { ...action.payload.file },
         uploadState: UploadStatus.Started,
+      });
+    case UploadActions.SET_THUMBNAIL_PRESIGNED_URL:
+      console.log(action.payload);
+      return Object.assign({
+        ...state,
+        thumbnailPresignedUrl: { ...action.payload },
       });
     case UploadActions.SET_PRESIGNED_URL:
       return Object.assign({
@@ -94,6 +117,11 @@ export function reducer(
       return Object.assign({
         ...state,
         uploadedItems: { ...action.payload.uploadedItems },
+      });
+    case UploadActions.SET_MEDIA_THUMBNAIL:
+      return Object.assign({
+        ...state,
+        mediaThumbnail: { ...action.payload.thumbnail },
       });
     case UploadActions.RESET_UPLOADED_ITEMS:
       return Object.assign({
@@ -117,11 +145,18 @@ const getUploadAction = (state: UploadState) => state.uploadAction;
 
 const getPresignedUrls = (state: UploadState) => state.preSignedUrls;
 
+const getThumbnailUrl = (state: UploadState) => state.thumbnailUrl;
+
+const getThumbnailPresignedUrl = (state: UploadState) =>
+  state.thumbnailPresignedUrl;
+
 const getFilesToUpload = (state: UploadState) => state.file;
 
 const getUploadStatus = (state: UploadState) => state.uploadSuccessful;
 
 const getUploadedItems = (state: UploadState) => state.uploadedItems;
+
+const getMediaThumbnail = (state: UploadState) => state.mediaThumbnail;
 
 export const getUploadState = createFeatureSelector<UploadState>("uploadState");
 
@@ -136,6 +171,15 @@ export const selectCurrentUploadStatus = createSelector(
   getUploadProgressState
 );
 
+export const selectThumbnailUrl = createSelector(
+  getUploadState,
+  getThumbnailUrl
+);
+
+export const selectMediaThumbnailFile = createSelector(
+  getUploadState,
+  getMediaThumbnail
+);
 export const selectUploadCompleted = createSelector(
   getUploadState,
   getS3UploadSuccess
@@ -173,6 +217,11 @@ export const selectUploadAction = createSelector(
 export const selectPresignedUrls = createSelector(
   getUploadState,
   getPresignedUrls
+);
+
+export const selectThumbnailPresignedUrl = createSelector(
+  getUploadState,
+  getThumbnailPresignedUrl
 );
 
 export const selectFilesToUpload = createSelector(

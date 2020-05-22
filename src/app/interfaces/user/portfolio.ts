@@ -161,6 +161,8 @@ export interface TalentPortfolioPreview {
   talent: string;
   uploadType: string;
   albumCover: string;
+  defaultAlbumCover?: string;
+  defaultLoaded?: boolean;
   defaultImageKey: string;
   mediaTitle: string;
   mediaDescription: string;

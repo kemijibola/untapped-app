@@ -47,6 +47,16 @@
           <img [src]="defaultImagePath" alt="" />
         </div>
 
+        <canvas
+          #canvas
+          id="canvas"
+          width="640"
+          height="480"
+          style="display: none;"
+        ></canvas>
+        <div>
+          <video #video id="video" style="display: none;" autoplay></video>
+        </div>
         <div class="popup-img pp" *ngIf="defaultAudioSet">
           <vg-player
             style="height: 200px;"
@@ -139,6 +149,7 @@
           </vg-player>
         </div>
       </div>
+
       <div class="col-xl-12" *ngIf="canViewDetails">
         <div class="popup-content-wrap pp">
           <div class="upload-scene-demo popup mb-20" *ngIf="isImageUpload">
@@ -230,4 +241,3 @@
     </div>
   </div>
 </div>
-

@@ -31,7 +31,7 @@ export class UploadService {
   // }
 
   s3Upload(data: CloudUploadParams[]): Observable<any> {
-    console.log("called");
+    console.log(data[0].file);
     let requests = [];
 
     data.map((x) => {
@@ -43,5 +43,12 @@ export class UploadService {
   getPresignedUrl(data: IPresignRequest): Observable<IResult<SignedUrl>> {
     const url = `${this.BASE_URI}/uploads`;
     return this.http.post<IResult<SignedUrl>>(url, data);
+  }
+
+  getThumbnailUrl(encodedImage: string): Observable<IResult<SignedUrl>> {
+    const url = `${this.BASE_URI}/uploads/thumbnail`;
+    return this.http.post<IResult<SignedUrl>>(url, {
+      encodedImage: encodedImage,
+    });
   }
 }

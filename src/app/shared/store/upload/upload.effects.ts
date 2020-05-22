@@ -26,6 +26,42 @@ export class UploadEffect {
               new UploadActions.SetPresignedUrl(res.data)
           ),
           catchError((respError: HttpErrorResponse) =>
+            of(new UploadActions.UploadThumbnailError())
+          )
+        )
+      )
+    )
+  );
+
+  getThumbnailPresignedUrl = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UploadActions.GET_THUMBNAIL_PRESIGNED_URL),
+      concatMap((action: UploadActions.GetThumbnailPresignedUrl) =>
+        this.uploadService.getPresignedUrl(action.payload.preSignRequest).pipe(
+          map(
+            (res: IResult<SignedUrl>) =>
+              new UploadActions.SetThumbnailPresignedUrl(res.data)
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(new UploadActions.UploadThumbnailError())
+          )
+        )
+      )
+    )
+  );
+
+  uploadThumbnailRequestEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UploadActions.UPLOAD_THUMBNAIL),
+      concatMap((action: UploadActions.UploadThumbnail) =>
+        this.uploadService.s3Upload(action.payload).pipe(
+          map(
+            (res: any) =>
+              new UploadActions.UploadThumbnailSuccess({
+                thumbnailUrl: action.payload[0].key,
+              })
+          ),
+          catchError((respError: HttpErrorResponse) =>
             of(
               new NotificationActions.AddError({
                 key: AppNotificationKey.error,
@@ -39,27 +75,6 @@ export class UploadEffect {
       )
     )
   );
-
-  //   uploadFiles = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(UploadActions.UPLOAD_FILES),
-  //     switchMap((action: UploadActions.UploadFiles) =>
-  //       this.uploadService.s3Upload(action.payload).pipe(
-  //         map((val: any) => new UploadActions.UploadFilesSuccess()),
-  //         catchError((respError: HttpErrorResponse) =>
-  //           of(
-  //             new NotificationActions.AddError({
-  //               key: AppNotificationKey.error,
-  //               code: respError.error.response_code || -1,
-  //               message:
-  //                 respError.error.response_message || "No Internet connection",
-  //             })
-  //           )
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
 
   uploadRequestEffect$ = createEffect(() =>
     this.actions$.pipe(

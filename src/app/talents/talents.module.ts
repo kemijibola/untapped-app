@@ -18,6 +18,7 @@ import { VgBufferingModule } from "ngx-videogular";
 
 import { TalentCommentComponent } from "./talent-comment/talent-comment.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { LazyLoadImageModule } from "ng-lazyload-image";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     TalentPortfolioGeneralItemsComponent,
     PortfolioGeneralItemComponent,
     TalentAlbumModalContentComponent,
-    TalentCommentComponent
+    TalentCommentComponent,
   ],
   imports: [
     CommonModule,
@@ -39,8 +40,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
-    VgBufferingModule
+    VgBufferingModule,
+    LazyLoadImageModule,
   ],
-  exports: []
+  exports: [],
 })
 export class TalentsModule {}
