@@ -29,7 +29,10 @@ export interface IUserData {
   full_name: string;
   email: string;
   profile_is_completed: boolean;
+  email_notification: boolean;
+  profile_visibility: boolean;
   profile_image_path: string;
+  tap_notification: string;
   banner_image_path: string;
   userType: UserType;
 }

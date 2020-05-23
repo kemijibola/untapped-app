@@ -1,15 +1,13 @@
-import { AppToggle } from "src/app/interfaces";
+import { IToggle } from "src/app/interfaces";
 import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
 
-export function selectAppToggleId(a: AppToggle): string {
-  return a.id;
+export function selectAppToggleId(a: IToggle): string {
+  return a.name;
 }
 
-export const adapter: EntityAdapter<AppToggle> = createEntityAdapter<AppToggle>(
-  {
-    selectId: selectAppToggleId,
-  }
-);
+export const adapter: EntityAdapter<IToggle> = createEntityAdapter<IToggle>({
+  selectId: selectAppToggleId,
+});
 
 export const {
   selectIds: selectAppToggleIds,

@@ -257,7 +257,23 @@ export class TalentPortfolioAlbumsComponent {
 
   setVideoAlbumCover() {
     this.videoAlbums = this.videoAlbums.map((x) => {
-      return Object.assign({}, x, { albumCover: fetchVideoArt() });
+      return Object.assign({}, x, {
+        albumCover:
+          x.albumCoverKey !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.albumCoverKey,
+                this.editParams
+              )
+            : fetchVideoArt(),
+        defaultAlbumCover:
+          x.albumCoverKey !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.albumCoverKey,
+                this.defaultEditParams
+              )
+            : fetchVideoArt(),
+        defaultLoaded: false,
+      });
     });
   }
 

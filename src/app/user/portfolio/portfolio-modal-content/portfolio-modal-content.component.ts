@@ -28,7 +28,6 @@ import {
   OtherMedia,
   ModalDisplay,
   AppModal,
-  AppToggle,
   UPLOADACTION,
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
@@ -144,11 +143,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   showUploading: boolean = false;
   showCompleted: boolean = false;
   showDiv: boolean = false;
-  @ViewChild("video", { static: true })
-  video: ElementRef;
-
-  @ViewChild("canvas", { static: true })
-  canvas: ElementRef;
+  thumbnailUrl: string = "";
 
   constructor(
     private store: Store<fromApp.AppState>,
@@ -181,19 +176,15 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     //       this.showUploading = false;
     //     }
     //   });
-    // fetch component toggle here by Id
-    this.store.dispatch(
-      new ToggleActions.FetchToggle({ appToggleId: "portfolio" })
-    );
     // use filter to get toggle
     this.store
       .pipe(select(fromSlideToggle.selectCurrentSlideToggle))
-      .subscribe((val: AppToggle) => {
-        if (val) {
-          this.modalUploadToggle = val.toggles.filter(
-            (x) => x.name === ToggleList.modaluploadtoggle
-          )[0];
-          this.multiple = this.modalUploadToggle.state;
+      .subscribe((val: IToggle) => {
+        console.log(val);
+        if (val !== undefined) {
+          
+          this.modalUploadToggle = { ...val };
+          this.multiple = val.state;
           this.uploadType = this.multiple
             ? MediaUploadType.multiple
             : MediaUploadType.single;
@@ -226,6 +217,14 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       });
 
     this.store
+      .pipe(select(fromUpload.selectThumbnailUrl))
+      .subscribe((val: string) => {
+        if (val !== null) {
+          this.thumbnailUrl = val;
+        }
+      });
+
+    this.store
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
@@ -241,6 +240,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
             _id: val._id,
             type: val.mediaType,
             uploadType: val.uploadType,
+            albumCover: val.albumCover,
             items: val.items,
             title: val.title,
             shortDescription: val.shortDescription,

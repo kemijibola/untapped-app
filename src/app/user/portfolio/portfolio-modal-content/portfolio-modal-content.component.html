@@ -47,16 +47,6 @@
           <img [src]="defaultImagePath" alt="" />
         </div>
 
-        <canvas
-          #canvas
-          id="canvas"
-          width="640"
-          height="480"
-          style="display: none;"
-        ></canvas>
-        <div>
-          <video #video id="video" style="display: none;" autoplay></video>
-        </div>
         <div class="popup-img pp" *ngIf="defaultAudioSet">
           <vg-player
             style="height: 200px;"

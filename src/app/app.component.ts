@@ -25,7 +25,7 @@ import {
   UserFilterCategory,
   ModalDisplay,
   AppModal,
-  AppToggle,
+  IToggle,
 } from "./interfaces";
 import * as fromUser from "./user/user.reducers";
 import * as TalentsActions from "./shared/store/talents/talents.actions";
@@ -51,35 +51,29 @@ export class AppComponent implements OnInit {
   title = "untapped-app";
   isAuthenticated = false;
   selectedUser: UserFilterCategory;
-  componentToggle: AppToggle = {
-    id: "app",
-    toggles: [
-      {
-        index: 0,
-        name: "modal-upload-toggle",
-        title: "Multiple Upload",
-        state: false,
-      },
-      {
-        index: 1,
-        name: "settings-tap-notification",
-        title: "",
-        state: false,
-      },
-      {
-        index: 2,
-        name: "settings-email-notification",
-        title: "",
-        state: false,
-      },
-      {
-        index: 3,
-        name: "settings-profile-visibility",
-        title: "",
-        state: false,
-      },
-    ],
-  };
+  componentToggle: IToggle[] = [
+    {
+      name: "modal-upload-toggle",
+      title: "Multiple Upload",
+      state: false,
+    },
+    {
+      name: "settings-tap-notification",
+      title: "",
+      state: false,
+    },
+    {
+      name: "settings-email-notification",
+      title: "",
+      state: false,
+    },
+    {
+      name: "settings-profile-visibility",
+      title: "",
+      state: false,
+    },
+  ];
+
   componentModal: AppModal = {
     id: "contest",
     modals: [

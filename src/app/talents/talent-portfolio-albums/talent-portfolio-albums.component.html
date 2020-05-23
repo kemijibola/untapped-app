@@ -90,7 +90,12 @@
     *ngFor="let video of videoAlbums; let i = index"
     (click)="openModalDialog('album-modal', video)"
   >
-    <img src="{{ video.albumCover }}" style="height: 225px;" alt="" />
+    <!-- <img src="{{ video.albumCover }}" style="height: 225px;" alt="" /> -->
+    <img
+      [defaultImage]="video.defaultAlbumCover"
+      [lazyLoad]="video.albumCover"
+      style="height: 225px; background: lightgray;"
+    />
     <div class="title-content" style="width: 187.83px;">
       <span class="subject">{{ video.mediaTitle }}</span>
       <span class="date">{{ video.dateCreated | date }}</span>

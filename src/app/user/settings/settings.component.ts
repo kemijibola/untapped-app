@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
-import { IAuthData, AppToggle, IToggle, ToggleList } from "src/app/interfaces";
+import { IAuthData, IToggle, ToggleList } from "src/app/interfaces";
 import { Router } from "@angular/router";
 import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
 import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";
@@ -14,7 +14,9 @@ import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.r
 })
 export class SettingsComponent implements OnInit {
   userEmail: string = "";
-  modalUploadToggle: IToggle;
+  emailToggle: IToggle;
+  tapToggle: IToggle;
+  profileVisibilityToggle: IToggle;
   constructor(private store: Store<fromApp.AppState>, public router: Router) {}
 
   ngOnInit() {
@@ -27,15 +29,25 @@ export class SettingsComponent implements OnInit {
       });
 
     this.store
-      .pipe(select(fromSlideToggle.selectCurrentSlideToggle))
-      .subscribe((val: AppToggle) => {
-        if (val) {
-          this.modalUploadToggle = val.toggles.filter(
+      .pipe(select(fromSlideToggle.selectAllToggles))
+      .subscribe((val: IToggle[]) => {
+        if (val !== null) {
+          this.tapToggle = val.filter(
             (x) => x.name === ToggleList.settingstapnotification
           )[0];
-          console.log(this.modalUploadToggle);
+          this.emailToggle = val.filter(
+            (x) => x.name === ToggleList.settingsemailnotification
+          )[0];
+          this.profileVisibilityToggle = val.filter(
+            (x) => x.name === ToggleList.settingsprofilevisibility
+          )[0];
         }
       });
+
+  }
+
+  saveChanges() {
+    
   }
 
   navigateToChangeEmail() {

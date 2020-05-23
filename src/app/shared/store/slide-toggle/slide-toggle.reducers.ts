@@ -1,10 +1,10 @@
 import * as ToggleActions from "./slide-toggle.actions";
 import * as fromAdapter from "./slide-toggle.adapter";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
-import { AppToggle } from "src/app/interfaces";
+import { IToggle } from "src/app/interfaces";
 import { createSelector, createFeatureSelector } from "@ngrx/store";
 
-export interface ToggleState extends EntityState<AppToggle> {
+export interface ToggleState extends EntityState<IToggle> {
   selectAppToggleId: string | number | null;
 }
 
@@ -19,7 +19,7 @@ export function reducer(
   switch (action.type) {
     case ToggleActions.ADD_COMPONENT_TOGGLE:
       console.log(action.payload.componentToggle);
-      return fromAdapter.adapter.setOne(action.payload.componentToggle, state);
+      return fromAdapter.adapter.setAll(action.payload.componentToggle, state);
     case ToggleActions.FETCH_TOGGLE:
       return Object.assign({
         ...state,
@@ -47,6 +47,11 @@ export const selectAppToggleEntities = createSelector(
 export const selectCurrentAppToggleId = createSelector(
   getAppToggleState,
   getSelectedAppToggleId
+);
+
+export const selectAllToggles = createSelector(
+  getAppToggleState,
+  fromAdapter.selectAllAppToggle
 );
 
 export const selectCurrentSlideToggle = createSelector(

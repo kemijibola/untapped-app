@@ -35,7 +35,6 @@ import { StorageModule } from "@ngx-pwa/local-storage";
 import { SnackBarEffect } from "./shared/notifications/snackbar/snackbar.effect";
 import { TabsEffect } from "./shared/store/tabs/tabs.effects";
 import { ModalsEffect } from "./shared/store/modals/modals.effect";
-import { SlideToggleEffect } from "./shared/store/slide-toggle/slide-toggle.effect";
 import { UserImageEffect } from "./shared/store/user-image/user-image.effect";
 import { NotificationEffect } from "./store/global/notification/notification.effect";
 import { NgxCurrencyModule } from "ngx-currency";
@@ -94,7 +93,6 @@ export const customCurrencyMaskConfig = {
       SnackBarEffect,
       TabsEffect,
       ModalsEffect,
-      SlideToggleEffect,
       ServiceEffects,
       OrderEffect,
       ContestsEffect,

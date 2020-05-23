@@ -30,13 +30,7 @@
           <div class="setting-content">
             <p>Notifications when someone taps you or likes your upload</p>
             <div class="toggle-btn">
-              <app-slide-toggle
-                [id]="'app'"
-                [data]="modalUploadToggle"
-              ></app-slide-toggle>
-              <!-- <div class="toggle-outer">
-                <div class="toggle-inner"></div>
-              </div> -->
+              <app-slide-toggle [data]="tapToggle"></app-slide-toggle>
             </div>
           </div>
         </div>
@@ -45,9 +39,7 @@
           <div class="setting-content">
             <p>Turn off all non-administrative email from Untapped</p>
             <div class="toggle-btn">
-              <div class="toggle-outer">
-                <div class="toggle-inner"></div>
-              </div>
+              <app-slide-toggle [data]="emailToggle"></app-slide-toggle>
             </div>
           </div>
         </div>
@@ -57,9 +49,9 @@
           <div class="setting-content">
             <p>Hide my profile from search result</p>
             <div class="toggle-btn">
-              <div class="toggle-outer">
-                <div class="toggle-inner"></div>
-              </div>
+              <app-slide-toggle
+                [data]="profileVisibilityToggle"
+              ></app-slide-toggle>
             </div>
           </div>
         </div>

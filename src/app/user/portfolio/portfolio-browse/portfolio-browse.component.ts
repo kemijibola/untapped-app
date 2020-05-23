@@ -55,6 +55,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
     this.canSetUploadedImage = false;
     this.store
       .select(fromUpload.selectMediaThumbnailFile)
+      .take(2)
       .subscribe((val: IFileModel) => {
         if (val !== null) {
           const file: IPresignRequest = {
@@ -77,6 +78,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
 
           this.store
             .pipe(select(fromUpload.selectThumbnailPresignedUrl))
+            .take(2)
             .subscribe((signedUrl: SignedUrl) => {
               if (signedUrl !== null) {
                 const item: CloudUploadParams = {
@@ -102,6 +104,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
 
     this.store
       .pipe(select(fromUpload.selectFilesToUpload))
+      .take(2)
       .subscribe((val: IFileModel) => {
         if (val !== null) {
           if (val.action === this.uploadAction) {
@@ -153,6 +156,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
     let uploadParams: CloudUploadParams[] = [];
     this.store
       .pipe(select(fromUpload.selectPresignedUrls))
+      .take(2)
       .subscribe((val: SignedUrl) => {
         if (val !== null) {
           if (val.component === this.uploadComponent) {
@@ -196,7 +200,8 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   }
 
   onClickBrowseBtn() {
-    this.store.dispatch(new UploadActions.ResetFileInput());
+    // console.log("clicked");
+    // this.store.dispatch(new UploadActions.ResetFileInput());
     this.fileConfig = {
       state: true,
       component: this.uploadComponent,

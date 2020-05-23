@@ -95,7 +95,6 @@ export function reducer(
         uploadState: UploadStatus.Started,
       });
     case UploadActions.SET_THUMBNAIL_PRESIGNED_URL:
-      console.log(action.payload);
       return Object.assign({
         ...state,
         thumbnailPresignedUrl: { ...action.payload },

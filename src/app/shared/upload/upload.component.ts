@@ -60,12 +60,6 @@ export class UploadComponent
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
 
-  @ViewChild("video")
-  video: ElementRef;
-
-  @ViewChild("canvas")
-  canvas: ElementRef;
-  videoSrc: string = "";
 
   constructor(
     private host: ElementRef<HTMLInputElement>,
@@ -74,6 +68,8 @@ export class UploadComponent
   ) {
     this.onTouchedCallback = noop;
     this.onChange = noop;
+
+    this.store.dispatch(new UploadActions.ResetFileInput());
   }
   ngOnInit() {}
 
@@ -167,7 +163,7 @@ export class UploadComponent
       reader.onerror = (error) => reject(error);
     });
   }
-  
+
   dataURItoBlob(dataURI: string): Blob {
     const byteString = window.atob(dataURI.split(",")[1]);
     const arrayBuffer = new ArrayBuffer(byteString.length);

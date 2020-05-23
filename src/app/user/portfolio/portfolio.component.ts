@@ -13,7 +13,6 @@ import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract
 import * as fromPortfolio from "../store/portfolio/portfolio.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromUser from "../user.reducers";
-import { AppToggle } from "src/app/interfaces";
 
 @Component({
   selector: "app-portfolio",
