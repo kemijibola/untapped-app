@@ -15,7 +15,7 @@ import { Store, select } from "@ngrx/store";
 import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";
 import * as fromApp from "../../store/app.reducers";
 import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
-import { IToggle, ToggleList } from "src/app/interfaces";
+import { IToggle } from "src/app/interfaces";
 
 @Component({
   selector: "app-slide-toggle",
@@ -37,10 +37,10 @@ export class SlideToggleComponent implements OnInit, OnChanges {
     }
   }
   onToggleChange() {
-    this.isChecked = !this.isChecked;
+    this.toggle.state = !this.toggle.state;
     const toggleToUpate: IToggle = {
       name: this.toggle.name,
-      state: this.isChecked,
+      state: this.toggle.state,
       title: this.toggle.title,
     };
     this.store.dispatch(new ToggleActions.UpsertToggle(toggleToUpate));

@@ -1,7 +1,7 @@
 export interface IToggle {
   name: string;
   title?: string;
-  state: boolean;
+  state?: boolean;
 }
 
 export enum ToggleList {

@@ -32,7 +32,7 @@ export interface IUserData {
   email_notification: boolean;
   profile_visibility: boolean;
   profile_image_path: string;
-  tap_notification: string;
+  tap_notification: boolean;
   banner_image_path: string;
   userType: UserType;
 }
@@ -63,8 +63,9 @@ export interface IUser {
   isPhoneConfirmed?: boolean;
   isProfileCompleted?: boolean;
   generalNotification?: boolean;
-  emailNotification?: boolean;
+  tapNotification?: boolean;
   profileVisibility?: boolean;
+  emailNotification?: boolean;
   loginCount?: number;
   status?: IUserAccountStatus;
   roles?: IRole["_id"][];

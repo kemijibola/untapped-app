@@ -18,6 +18,9 @@ const initialState: AuthState = fromAdapter.adapter.getInitialState({
       full_name: "",
       email: "",
       profile_is_completed: false,
+      email_notification: false,
+      profile_visibility: false,
+      tap_notification: false,
       profile_image_path: "",
       banner_image_path: "",
       userType: {

@@ -29,7 +29,6 @@ export class TalentBiodataComponent implements OnInit {
     this.store
       .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
-        console.log(val);
         if (val) {
           this.selectedUser = { ...val };
           this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(

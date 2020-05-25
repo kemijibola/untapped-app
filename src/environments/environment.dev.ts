@@ -21,4 +21,5 @@ export const environment = {
   CONTEST_BANNER_DEFAULT: "assets/img/contest/contest-banner.png",
   PAYSTACK_CLIENT_KEY: "pk_test_59348c251942c0500c9bf1058fdbd9956cadc060",
   EMAIL_CHANGE_ROUTE: "account/email-change/verify",
+  RESET_PASSWORD_URL: "account/reset/password-request/verify",
 };

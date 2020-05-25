@@ -182,7 +182,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       .subscribe((val: IToggle) => {
         console.log(val);
         if (val !== undefined) {
-          
           this.modalUploadToggle = { ...val };
           this.multiple = val.state;
           this.uploadType = this.multiple
@@ -268,7 +267,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     item.type = `video/${item.path.split(".").pop()}`;
     this.currentVideoIndex = index;
     this.currentVideoItem = item;
-    console.log(this.api);
     (<VgMedia>this.api.getDefaultMedia()).loadMedia();
   }
 

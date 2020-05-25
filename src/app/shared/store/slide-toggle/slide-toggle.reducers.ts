@@ -18,13 +18,14 @@ export function reducer(
 ): ToggleState {
   switch (action.type) {
     case ToggleActions.ADD_COMPONENT_TOGGLE:
-      console.log(action.payload.componentToggle);
       return fromAdapter.adapter.setAll(action.payload.componentToggle, state);
     case ToggleActions.FETCH_TOGGLE:
       return Object.assign({
         ...state,
         selectAppToggleId: action.payload.appToggleId,
       });
+    case ToggleActions.UPSERT_MANY_TOGGLE:
+      return fromAdapter.adapter.upsertMany(action.payload, state);
     case ToggleActions.UPSERT_TOGGLE:
       return fromAdapter.adapter.upsertOne(action.payload, state);
     default: {

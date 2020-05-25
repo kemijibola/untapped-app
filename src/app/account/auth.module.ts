@@ -12,6 +12,9 @@ import { UserTypeListItemComponent } from '../user-type/user-type-list/user-type
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { ChangeEmailComponent } from './change-email/change-email.component';
 import { EmailChangeVerificationComponent } from './email-change-verification/email-change-verification.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { CreateNewPasswordComponent } from './create-new-password/create-new-password.component';
+import { ResetPasswordVerificationComponent } from './reset-password-verification/reset-password-verification.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { EmailChangeVerificationComponent } from './email-change-verification/em
     UserTypeListItemComponent,
     ConfirmationComponent,
     ChangeEmailComponent,
-    EmailChangeVerificationComponent
+    EmailChangeVerificationComponent,
+    ForgotPasswordComponent,
+    CreateNewPasswordComponent,
+    ResetPasswordVerificationComponent
   ],
   imports: [CommonModule, ReactiveFormsModule, AuthRoutingModule],
   exports: [AuthRoutingModule]

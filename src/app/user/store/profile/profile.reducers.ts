@@ -35,7 +35,6 @@ export const getProfileState = createFeatureSelector<ProfileState>(
 const getSelectedCurrentUserProfile = (state: ProfileState) =>
   state.userProfile;
 
-
 export const selectCurrentUserProfile = createSelector(
   getProfileState,
   getSelectedCurrentUserProfile

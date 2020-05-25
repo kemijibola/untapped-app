@@ -72,7 +72,7 @@
               minutes. You can sign back in anytime to reactivate your account
               and restore its content.
             </p>
-            <a href="#">Suspend Account</a>
+            <a (click)="suspendAccount()">Suspend Account</a>
           </div>
         </div>
         <div class="setting-item">
@@ -86,7 +86,9 @@
 
       <div class="col-xl-12">
         <div class="sett-btn">
-          <button class="box-btn profile-save">SAVE CHANGES</button>
+          <button class="box-btn profile-save" (click)="saveChanges()">
+            SAVE CHANGES
+          </button>
         </div>
       </div>
     </div>

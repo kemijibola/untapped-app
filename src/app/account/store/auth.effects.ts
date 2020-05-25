@@ -59,6 +59,71 @@ export class AuthEffects {
     )
   );
 
+  createNewPassword = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.CREATE_NEW_PASSWORD),
+      concatMap((action: AuthActions.CreateNewPassword) =>
+        this.authService
+          .createNewPassword(action.payload.email, action.payload.newPassword)
+          .pipe(
+            mergeMap((resp: IResult<string>) => [
+              new NotificationActions.AddSuccess({
+                key: AppNotificationKey.success,
+                code: 200,
+                message: "Password reset was successful",
+              }),
+              new AuthActions.CreateNewPasswordSuccess(),
+            ]),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  doPasswordRequest = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.REQUEST_PASSWORD_RESET),
+      concatMap((action: AuthActions.RequestPasswordReset) =>
+        this.authService
+          .requestPasswordReset(
+            action.payload.email,
+            action.payload.redirectUrl
+          )
+          .pipe(
+            map(
+              (resp: IResult<string>) =>
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: `Reset link has been sent to ${action.payload.email.toLowerCase()}.`,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   doEmailChange = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.CHANGE_EMAIL_ADDRESS),
@@ -146,6 +211,35 @@ export class AuthEffects {
     )
   );
 
+  doResetPasswordConfirmation = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.VERIFY_RESET_PASSWORD),
+      concatMap((action: AuthActions.VerifyRestPassword) =>
+        this.authService
+          .verifyPasswordReset(action.payload.verifyPasswordReq)
+          .pipe(
+            map(
+              (resp: IResult<string>) =>
+                new AuthActions.VerifyRestPasswordSuccess({
+                  email: action.payload.verifyPasswordReq.email,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   authSignIn = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.DO_SIGNIN),
@@ -183,6 +277,32 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.SIGNUP_SUCCESS),
         pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
+      ),
+    { dispatch: false }
+  );
+
+  createNewPasswordSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.CREATE_NEW_PASSWORD_SUCCESS),
+        pipe(tap(() => this.router.navigate(["/account/signin"])))
+      ),
+    { dispatch: false }
+  );
+
+  resetPasswordRequestSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.VERIFY_RESET_PASSWORD_SUCCESS),
+        pipe(
+          map(
+            (action: AuthActions.VerifyRestPasswordSuccess) =>
+              action.payload.email
+          ),
+          tap((email) =>
+            this.router.navigate(["/account/new-password/", email])
+          )
+        )
       ),
     { dispatch: false }
   );

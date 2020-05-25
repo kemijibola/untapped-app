@@ -4,6 +4,7 @@ import { IToggle } from "src/app/interfaces";
 export const ADD_COMPONENT_TOGGLE = "ADD_COMPONENT_TOGGLE";
 export const INITIATE_TOGGLE = "INITIATE_TOGGLE";
 export const UPSERT_TOGGLE = "UPSERT_TOGGLE";
+export const UPSERT_MANY_TOGGLE = "UPSERT_MANY_TOGGLE";
 export const DESTROY_TOGGLE = "DESTROY_TOGGLE";
 export const FETCH_TOGGLE = "FETCH_TOGGLE";
 
@@ -23,9 +24,18 @@ export class FetchToggle implements Action {
 //   ) {}
 // }
 
+export class UpsertManyToggle implements Action {
+  readonly type = UPSERT_MANY_TOGGLE;
+  constructor(public payload: IToggle[]) {}
+}
+
 export class UpsertToggle implements Action {
   readonly type = UPSERT_TOGGLE;
   constructor(public payload: IToggle) {}
 }
 
-export type ToggleActions = AddComponentToggle | UpsertToggle | FetchToggle;
+export type ToggleActions =
+  | AddComponentToggle
+  | UpsertToggle
+  | FetchToggle
+  | UpsertManyToggle;

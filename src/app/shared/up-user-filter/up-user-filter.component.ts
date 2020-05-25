@@ -75,7 +75,6 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
         this.filteredUsers[0].isSelected = true;
 
         if (this.typeOfUser === AppUserType.Talent) {
-          console.log(this.typeOfUser);
           this.store.dispatch(
             new TalentCategoryActions.FetchTalentWithHighestComment({
               id: this.filteredUsers[0]._id,

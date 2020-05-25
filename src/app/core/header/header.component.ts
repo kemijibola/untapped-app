@@ -1,3 +1,4 @@
+import { IToggle, ToggleList } from "./../../interfaces/shared/toggle";
 import { Component, OnInit, Input, AfterContentInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
@@ -11,6 +12,8 @@ import {
 } from "src/app/lib/Helper";
 import { environment } from "src/environments/environment";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
+import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";
 
 @Component({
   selector: "app-header",
@@ -33,13 +36,14 @@ export class HeaderComponent implements OnInit, AfterContentInit {
       grayscale: false,
     },
   };
+  updatedToggles: IToggle[] = [];
+  tapNotificationStatus: boolean;
+  emailNotificationStatus: boolean;
+  profileVisibilityStatus: boolean;
 
   constructor(private store: Store<fromApp.AppState>) {
     this.userImage = environment.TALENT_DEFAULT_IMG;
   }
-
-  // TODO:: properties needed, fullname, Split and use [0] for display name
-  // email address also needed for username
 
   ngOnInit() {
     this.store
@@ -47,10 +51,21 @@ export class HeaderComponent implements OnInit, AfterContentInit {
       .subscribe((val: IAuthData) => {
         this.isAuthenticated = val.authenticated;
         if (val.authenticated) {
+          this.tapNotificationStatus = val.user_data.tap_notification;
+          this.emailNotificationStatus = val.user_data.email_notification;
+          this.profileVisibilityStatus = val.user_data.profile_visibility;
           this.fetchUserProfileImage(val.user_data.profile_image_path);
           this.userPreEmailAdress = val.user_data.email.split("@")[0];
           this.userFullName = val.user_data.full_name;
           this.typeOfUser = AppUserType[val.user_data.userType.name];
+        }
+      });
+
+    this.store
+      .pipe(select(fromSlideToggle.selectAllToggles))
+      .subscribe((val: IToggle[]) => {
+        if (val !== null) {
+          this.updatedToggles = [...val];
         }
       });
   }
@@ -75,5 +90,41 @@ export class HeaderComponent implements OnInit, AfterContentInit {
       });
   }
 
-  ngAfterContentInit() {}
+  ngAfterContentInit() {
+    this.updateUserEmailPreference();
+  }
+
+  updateUserEmailPreference() {
+    const togglesToUpdate = this.updatedToggles.reduce(
+      (theMap: IToggle[], theItem: IToggle) => {
+        if (theItem.name === ToggleList.settingsemailnotification) {
+          theItem = Object.assign({
+            name: theItem.name,
+            state: this.emailNotificationStatus,
+            title: theItem.title,
+          });
+          theMap = [...theMap, theItem];
+        }
+        if (theItem.name === ToggleList.settingstapnotification) {
+          theItem = Object.assign({
+            name: theItem.name,
+            state: this.tapNotificationStatus,
+            title: theItem.title,
+          });
+          theMap = [...theMap, theItem];
+        }
+        if (theItem.name === ToggleList.settingsprofilevisibility) {
+          theItem = Object.assign({
+            name: theItem.name,
+            state: this.profileVisibilityStatus,
+            title: theItem.title,
+          });
+          theMap = [...theMap, theItem];
+        }
+        return theMap;
+      },
+      []
+    );
+    this.store.dispatch(new ToggleActions.UpsertManyToggle(togglesToUpdate));
+  }
 }

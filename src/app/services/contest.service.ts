@@ -61,7 +61,8 @@ export class ContestService {
   fetchContestsCreatedByUser(): Observable<
     IResult<IUserContestListAnalysis[]>
   > {
-    const url = `${this.BASE_URI}/contests/user`;
+    console.log("called");
+    const url = `${this.BASE_URI}/contests/user/contests`;
     return this.http.get<IResult<IUserContestListAnalysis[]>>(url);
   }
 

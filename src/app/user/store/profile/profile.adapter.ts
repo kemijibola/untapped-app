@@ -6,12 +6,12 @@ export function selectProfileId(a: IProfile): string {
 }
 
 export const adapter: EntityAdapter<IProfile> = createEntityAdapter<IProfile>({
-  selectId: selectProfileId
+  selectId: selectProfileId,
 });
 
 export const {
   selectIds: selectProfileIds,
   selectEntities: selectProfileEntities,
   selectAll: selectAllProfiles,
-  selectTotal: profileCount
+  selectTotal: profileCount,
 } = adapter.getSelectors();
