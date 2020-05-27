@@ -18,23 +18,30 @@
     <div class="row mb-70">
       <div class="col-xl-5 col-lg-5 col-md-5">
         <div class="details-wrapper mb-30">
-          <img src="{{ fullBannerImage }}" alt="" />
+          <img
+            [defaultImage]="defaultBannerImage"
+            [lazyLoad]="fullBannerImage"
+            style="width: 448px; height: 451px; background: lightgray;"
+            alt=""
+          />
           <span>{{ entriesCount }} Entries</span>
         </div>
       </div>
       <div class="col-xl-7 col-lg-7 col-md-7">
         <div class="details-content">
-          <div style="text-align: right; margin-bottom: 20px;"><a
-          class="box-btn details-btn"
-          style="cursor: pointer; margin-right: 20px;"
-          *ngIf="!hasEnded && isEligible"
-          (click)="openModalDialog('new-entry')"
-          >
-          Enter Contest</a
-          >
-          <a class="box-btn details-btn" style="cursor: pointer;"
-          >View Vote Analysis</a
-          ></div>
+          <div style="text-align: right; margin-bottom: 20px;">
+            <a
+              class="box-btn details-btn"
+              style="cursor: pointer; margin-right: 20px;"
+              *ngIf="!hasEnded && isEligible"
+              (click)="openModalDialog('new-entry')"
+            >
+              Enter Contest</a
+            >
+            <a class="box-btn details-btn" style="cursor: pointer;"
+              >View Vote Analysis</a
+            >
+          </div>
           <div class="heading mb-10">
             <h2>{{ contestDetails.contest.title }}</h2>
           </div>
@@ -126,7 +133,7 @@
     </app-modals>
 
     <app-modals [id]="'talent-entry-details'">
-      <div class="pop-icon-bar" navigate  style="padding-right: 16px">
+      <div class="pop-icon-bar" navigate style="padding-right: 16px;">
         <div class="slide-arrow">
           <a class="left"><i class="far fa-angle-left"></i></a>
           <a class="right"><i class="far fa-angle-right"></i></a>
@@ -172,7 +179,10 @@
       </div>
     </div>
 
-    <div class="row entries-container" *ngIf="contestDetails.submissions.length === 0">
+    <div
+      class="row entries-container"
+      *ngIf="contestDetails.submissions.length === 0"
+    >
       <span> No Entries</span>
     </div>
   </div>

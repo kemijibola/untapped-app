@@ -24,11 +24,22 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
   @Input() filteredUsers: UserFilterCategory[] = [];
   @Input() typeOfFilter: string = "";
   @Input() typeOfUser: AppUserType;
+
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 30,
+        height: 30,
+      },
+      grayscale: false,
+    },
+  };
+
   editParams: ImageEditRequest = {
     edits: {
       resize: {
-        width: 187,
-        height: 114,
+        width: 108,
+        height: 65.83,
       },
       grayscale: false,
     },
@@ -69,6 +80,10 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
             displayPhotoFullPath: fetchImageObjectFromCloudFormation(
               x.displayPhoto,
               this.editParams
+            ),
+            defaultImageFullPath: fetchImageObjectFromCloudFormation(
+              x.displayPhoto,
+              this.defaultParams
             ),
           });
         });

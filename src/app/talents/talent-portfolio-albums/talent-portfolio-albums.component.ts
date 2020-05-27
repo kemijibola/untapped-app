@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from "@angular/core";
+import { Component, OnInit, ElementRef, Input } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModals from "../../shared/store/modals/modals.reducers";
@@ -13,6 +13,7 @@ import {
   AudioPortfolioPreview,
   VideoPortfolioPreview,
   TalentPortfolioPreview,
+  UserFilterCategory,
 } from "src/app/interfaces";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import {
@@ -25,6 +26,7 @@ import * as fromModal from "../../shared/store/modals/modals.reducers";
 import * as fromTalentAudioPortfolio from "src/app/shared/store/talents/audio-preview/audio-preview.reducer";
 import * as fromTalentImagePortfolio from "src/app/shared/store/talents/image-preview/image-preview.reducer";
 import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-preview/video-preview.reducer";
+import * as fromTalentFilter from "../../shared/store/filtered-categories/talent-category.reducers";
 
 @Component({
   selector: "app-talent-portfolio-albums",
@@ -32,11 +34,9 @@ import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-pr
   styleUrls: ["./talent-portfolio-albums.component.css"],
 })
 export class TalentPortfolioAlbumsComponent {
+  talentName: string;
   appModal: AppModal;
   componentModal: AppModal;
-  imageAlbumCount = 0;
-  audioAlbumCount = 0;
-  videoAlbumCount = 0;
   imageAlbums: ImagePortfolioPreview[] = [];
   audioAlbums: AudioPortfolioPreview[] = [];
   videoAlbums: VideoPortfolioPreview[] = [];
@@ -92,6 +92,13 @@ export class TalentPortfolioAlbumsComponent {
         if (val !== null && val) {
           this.showModal = false;
         }
+      });
+
+    this.store
+      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
+      .subscribe((val: UserFilterCategory) => {
+        console.log("selected user", val);
+        this.talentName = val.aliasName || "";
       });
   }
 
@@ -181,7 +188,6 @@ export class TalentPortfolioAlbumsComponent {
       .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
       .subscribe((val: ImagePortfolioPreview[]) => {
         if (val) {
-          this.imageAlbumCount = val.length;
           this.imageAlbums = [...val];
           this.setImageAlbumCover();
         }
@@ -192,23 +198,19 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
       .subscribe((val: AudioPortfolioPreview[]) => {
+        console.log(val);
         if (val) {
-          this.audioAlbumCount = val.length;
           this.audioAlbums = [...val];
           this.setAudioAlbumCover();
         }
       });
   }
-  // loadeddone(data: any, i: number) {
-  //   console.log(i);
-  //   this.imageAlbums[i].defaultLoaded = true;
-  // }
+
   fetchTalentVideos() {
     this.store
       .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
       .subscribe((val: VideoPortfolioPreview[]) => {
         if (val) {
-          this.videoAlbumCount = val.length;
           this.videoAlbums = [...val];
           this.setVideoAlbumCover();
         }
@@ -235,8 +237,6 @@ export class TalentPortfolioAlbumsComponent {
         defaultLoaded: false,
       });
     });
-
-    // this.triggerTimer();
   }
 
   triggerTimer() {

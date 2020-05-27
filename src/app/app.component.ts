@@ -27,7 +27,6 @@ import {
   AppModal,
   IToggle,
 } from "./interfaces";
-import * as fromUser from "./user/user.reducers";
 import * as TalentsActions from "./shared/store/talents/talents.actions";
 import * as fromTalentFilter from "./shared/store/filtered-categories/talent-category.reducers";
 import * as TalentCategoryActions from "./shared/store/filtered-categories/talent-category.action";

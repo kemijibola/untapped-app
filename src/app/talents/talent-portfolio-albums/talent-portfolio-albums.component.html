@@ -23,12 +23,12 @@
   <app-talent-album-modal-content body></app-talent-album-modal-content>
 </app-modals>
 
-<div class="head text-left mb-30" *ngIf="imageAlbumCount > 0">
-  <span>Oluwa Burna’s</span>
+<div class="head text-left mb-30" *ngIf="imageAlbums.length > 0">
+  <span>{{ talentName }}’s</span>
   <h3>Image Albums</h3>
 </div>
 
-<div>
+<div *ngIf="imageAlbums.length > 0">
   <a
     class="album-img mb-30"
     (click)="openModalDialog('album-modal', image)"
@@ -59,12 +59,12 @@
   </a>
 </div>
 
-<div class="head text-left mb-30 mt-45" *ngIf="audioAlbumCount > 0">
-  <span>Oluwa Burna’s</span>
+<div class="head text-left mb-30 mt-45" *ngIf="audioAlbums.length > 0">
+  <span>{{ talentName }}’s</span>
   <h3>Audio Albums</h3>
 </div>
 
-<div *ngIf="">
+<div *ngIf="audioAlbums.length > 0">
   <a
     class="album-img mb-30"
     *ngFor="let audio of audioAlbums; let i = index"
@@ -79,12 +79,12 @@
   </a>
 </div>
 
-<div class="head text-left mb-30">
-  <span>Oluwa Burna’s</span>
+<div class="head text-left mb-30" *ngIf="videoAlbums.length > 0">
+  <span>{{ talentName }}’s</span>
   <h3>Video Albums</h3>
 </div>
 
-<div *ngIf="">
+<div *ngIf="videoAlbums.length > 0">
   <a
     class="album-img mb-30"
     *ngFor="let video of videoAlbums; let i = index"

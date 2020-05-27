@@ -9,6 +9,7 @@ export interface IUserContestListAnalysis {
   commentCount: number;
   entryCount: number;
   fullContestBannerImage?: string;
+  defaultContestBannerImage?: string;
 }
 
 export interface UserFilterCategory {
@@ -18,6 +19,7 @@ export interface UserFilterCategory {
   displayPhoto: string;
   bannerPhoto: string;
   displayPhotoFullPath?: string;
+  defaultImageFullPath?: string;
   bannerPhotoFullPath?: string;
   location: string;
   userSocials: IUserSocialMedia[];

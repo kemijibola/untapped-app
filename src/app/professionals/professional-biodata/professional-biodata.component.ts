@@ -22,14 +22,16 @@ import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
   styleUrls: ["./professional-biodata.component.css"],
 })
 export class ProfessionalBiodataComponent implements OnInit {
+  defaultBannerImage: string;
+  defaultDisplayImage: string;
   selectedUser: UserFilterCategory = {
     _id: "",
     user: "",
     displayName: "",
     displayPhoto: "",
     bannerPhoto: "",
-    displayPhotoFullPath: fetchProfessionalDefaultDisplayPicture(),
-    bannerPhotoFullPath: fetchProfessionalBiodataBanner(),
+    displayPhotoFullPath: "",
+    bannerPhotoFullPath: "",
     location: "",
     categoryTypes: [],
     userSocials: [],
@@ -43,6 +45,16 @@ export class ProfessionalBiodataComponent implements OnInit {
     aliasName: "",
     dateJoined: new Date(),
     isSelected: false,
+  };
+  defaulrBannerEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
   };
   bannerEditParams: ImageEditRequest = {
     edits: {
@@ -64,6 +76,17 @@ export class ProfessionalBiodataComponent implements OnInit {
       grayscale: false,
     },
   };
+  defaultDpEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
   userContestBannerEditParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -74,6 +97,18 @@ export class ProfessionalBiodataComponent implements OnInit {
       grayscale: false,
     },
   };
+
+  defaultUserContestBannerEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
   facebookUrl: string = "";
   instagramUrl: string = "";
   twitterUrl: string = "";
@@ -100,6 +135,12 @@ export class ProfessionalBiodataComponent implements OnInit {
                 this.instagramUrl = item.handle;
             }
           }
+
+          this.defaultBannerImage = fetchImageObjectFromCloudFormation(
+            val.bannerPhoto,
+            this.bannerEditParams
+          );
+
           this.selectedUser.bannerPhotoFullPath =
             val.bannerPhoto !== ""
               ? fetchImageObjectFromCloudFormation(
@@ -107,6 +148,12 @@ export class ProfessionalBiodataComponent implements OnInit {
                   this.bannerEditParams
                 )
               : fetchProfessionalBiodataBanner();
+
+          this.defaultDisplayImage = fetchImageObjectFromCloudFormation(
+            val.displayPhoto,
+            this.defaultDpEditParams
+          );
+
           this.selectedUser.displayPhotoFullPath =
             val.displayPhoto !== ""
               ? fetchImageObjectFromCloudFormation(
@@ -130,6 +177,10 @@ export class ProfessionalBiodataComponent implements OnInit {
                 this.userContestBannerEditParams
               )
             : fetchDefaultContestBanner(),
+        defaultContestBannerImage: fetchImageObjectFromCloudFormation(
+          x.contestBanner,
+          this.defaultUserContestBannerEditParams
+        ),
       });
     });
   }

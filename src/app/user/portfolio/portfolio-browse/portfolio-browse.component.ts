@@ -152,7 +152,8 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   }
 
   uploadFiles(files: File[]): void {
-    const uploadType: string = this.isMultiple ? "single" : "multiple";
+    const uploadType: string = this.isMultiple ? "multiple" : "single";
+    console.log(uploadType);
     let uploadParams: CloudUploadParams[] = [];
     this.store
       .pipe(select(fromUpload.selectPresignedUrls))

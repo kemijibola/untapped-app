@@ -26,14 +26,24 @@ export class ContestsComponent implements OnInit, OnDestroy {
   editParams: ImageEditRequest = {
     edits: {
       resize: {
-        width: 260.23,
-        height: 162.83,
+        width: 257,
+        height: 161,
         fit: ImageFit.fill,
       },
       grayscale: false,
     },
   };
 
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
   constructor(public store: Store<fromApp.AppState>, public router: Router) {}
 
   ngOnInit() {
@@ -49,6 +59,10 @@ export class ContestsComponent implements OnInit, OnDestroy {
   setContestBannerImage() {
     this.contests = this.contests.map((x) => {
       return Object.assign({}, x, {
+        defaultBannerImage: fetchImageObjectFromCloudFormation(
+          x.bannerImage,
+          this.defaultParams
+        ),
         fullBannerImage:
           x.bannerImage !== ""
             ? fetchImageObjectFromCloudFormation(x.bannerImage, this.editParams)

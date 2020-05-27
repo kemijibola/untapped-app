@@ -21,6 +21,7 @@ import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
 import { UpImageComponent } from "./up-image/up-image.component";
 import { UpAudioComponent } from "./up-audio/up-audio.component";
 import { UpVideoComponent } from "./up-video/up-video.component";
+import { LazyLoadImageModule } from "ng-lazyload-image";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
 
 // import { VgCoreModule } from "videogular2/compiled/core";
@@ -54,6 +55,7 @@ import { NguiInViewComponent } from "./ngui-in-view.component";
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    LazyLoadImageModule,
     Angular4PaystackModule.forRoot(environment.PAYSTACK_CLIENT_KEY),
     RouterModule.forChild([]),
   ],

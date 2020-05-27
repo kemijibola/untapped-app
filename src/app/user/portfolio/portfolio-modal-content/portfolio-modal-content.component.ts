@@ -426,8 +426,8 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     if (media.uploadType === "single") {
       this.defaultVideoSet = true;
       this.isMultipleVideo = false;
-      this.setDefaultAudio(currentVideo);
-      this.setOtherAudio(media.items);
+      this.setDefaultVideo(currentVideo);
+      this.setOtherVideo(media.items);
     }
   }
 
@@ -518,10 +518,13 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       _id: this.uploadedItems._id,
       title,
       shortDescription: desc,
+      albumCover: this.thumbnailUrl || this.uploadedItems.albumCover,
       items: this.uploadedItems.items,
       type: this.uploadedItems.type,
       uploadType: this.uploadedItems.uploadType,
     };
+
+    console.log(payload);
     if (this.pageViewMode === "edit") {
       // dispatch update
       this.userStore.dispatch(

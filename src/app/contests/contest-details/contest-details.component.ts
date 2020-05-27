@@ -49,6 +49,7 @@ export class ContestDetailsComponent implements OnInit {
   isEligible: boolean = true;
   fullBannerImage: string = "";
   entriesCount: number = 0;
+  defaultBannerImage: string = "";
   enterContestBtnText: string = "";
   contestDetails: ContestData = {
     contest: {
@@ -66,13 +67,25 @@ export class ContestDetailsComponent implements OnInit {
   editParams: ImageEditRequest = {
     edits: {
       resize: {
-        width: 482.91,
-        height: 395.66,
+        width: 448,
+        height: 451,
         fit: ImageFit.fill,
       },
       grayscale: false,
     },
   };
+
+  defaultEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
   entryContestantParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -96,7 +109,6 @@ export class ContestDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.contestId = this.route.snapshot.params.id;
     if (this.contestId !== null) {
-      this.fullBannerImage = fetchDefaultContestBanner();
       this.store.dispatch(
         new ContestsAction.FetchContestById({ id: this.contestId })
       );
@@ -167,6 +179,10 @@ export class ContestDetailsComponent implements OnInit {
   }
 
   setContestBannerImage(bannerImageKey: string) {
+    this.defaultBannerImage = fetchImageObjectFromCloudFormation(
+      bannerImageKey,
+      this.defaultEditParams
+    );
     this.fullBannerImage =
       bannerImageKey !== undefined
         ? fetchImageObjectFromCloudFormation(bannerImageKey, this.editParams)

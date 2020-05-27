@@ -60,7 +60,6 @@ export class UploadComponent
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
 
-
   constructor(
     private host: ElementRef<HTMLInputElement>,
     private store: Store<fromApp.AppState>,
@@ -107,7 +106,7 @@ export class UploadComponent
           this.fileArray.push({ data: file });
         }
       } else {
-        if (this.fileConfig.accept === MediaAcceptType.VIDEO) {
+        if (this.fileConfig.accept === MediaAcceptType.VIDEO && index === 0) {
           const base64 = await this.getBase64(file);
           var videoBlob = this.dataURItoBlob(base64);
           const thumbnails = await getThumbnails(videoBlob, {

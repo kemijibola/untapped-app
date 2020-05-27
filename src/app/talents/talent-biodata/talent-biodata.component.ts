@@ -13,11 +13,22 @@ import * as fromTalentFilter from "src/app/shared/store/filtered-categories/tale
 })
 export class TalentBiodataComponent implements OnInit {
   selectedUser: UserFilterCategory;
+  defaultImage: string = "";
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
   editParams: ImageEditRequest = {
     edits: {
       resize: {
-        width: 437.66,
-        height: 416.16,
+        width: 442,
+        height: 293,
         fit: ImageFit.fill,
       },
       grayscale: false,
@@ -31,6 +42,10 @@ export class TalentBiodataComponent implements OnInit {
       .subscribe((val: UserFilterCategory) => {
         if (val) {
           this.selectedUser = { ...val };
+          this.defaultImage = fetchImageObjectFromCloudFormation(
+            val.displayPhoto,
+            this.defaultParams
+          );
           this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
             val.displayPhoto,
             this.editParams

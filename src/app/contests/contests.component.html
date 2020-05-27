@@ -43,8 +43,9 @@
                   [routerLinkActiveOptions]="{ exact: true }"
                   routerLinkActive="visited"
                   ><img
-                    style="height: 162.83px;"
-                    src="{{ contest.fullBannerImage }}"
+                    [defaultImage]="contest.defaultBannerImage"
+                    [lazyLoad]="contest.fullBannerImage"
+                    style="width: 257px; height: 161px; background: lightgray;"
                     alt=""
                 /></a>
                 <div class="entries-content all-ent contest">

@@ -1,10 +1,20 @@
 <div class="middle-talent-wrp">
   <div class="prohead-img">
-    <img src="{{ selectedUser.bannerPhotoFullPath }}" alt="" />
+    <img
+      [defaultImage]="defaultBannerImage"
+      [lazyLoad]="selectedUser.bannerPhotoFullPath"
+      style="width: 877px; height: 275px; background: lightgray;"
+      alt=""
+    />
   </div>
   <div class="pro-search-right middle-outer-wrp">
     <div class="pro-little-img">
-      <img src="{{ selectedUser.displayPhotoFullPath }}" alt="" />
+      <img
+        [defaultImage]="defaultDisplayImage"
+        [lazyLoad]="selectedUser.displayPhotoFullPath"
+        style="width: 160px; height: 152px; background: lightgray;"
+        alt=""
+      />
     </div>
     <div class="nam">
       <div class="nam-inner mt-30">
@@ -69,8 +79,9 @@
         <div class="entries-img mb-20">
           <a href="#"
             ><img
-              src="{{ contest.fullContestBannerImage }}"
-              style="height: 149px;"
+              [defaultImage]="contest.defaultContestBannerImage"
+              [lazyLoad]="contest.fullContestBannerImage"
+              style="width: 239px; height: 149px; background: lightgray;"
               alt=""
           /></a>
           <div class="entries-content all-ent">

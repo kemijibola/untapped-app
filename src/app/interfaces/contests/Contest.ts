@@ -28,6 +28,8 @@ export interface IContestList {
   viewCount: number;
   bannerImage: string;
   fullBannerImage?: string;
+  defaultBannerImage?: string;
+
   endDate: Date;
 }
 
