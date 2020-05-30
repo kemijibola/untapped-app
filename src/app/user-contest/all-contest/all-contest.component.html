@@ -9,7 +9,16 @@
     *ngFor="let contest of userContests"
   >
     <div class="entries-img mb-20">
-      <a href="#"><img src="assets/img/contest/all-contest-1.jpg" alt="" /></a>
+      <a
+        [routerLink]="['./', contest.contestId]"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="visited"
+        ><img
+          [defaultImage]="contest.defaultContestBannerImage"
+          [lazyLoad]="contest.fullContestBannerImage"
+          style="width: 300px; height: 187px; background: lightgray;"
+          alt=""
+      /></a>
       <div class="entries-content all-ent">
         <span class="ent-num"
           >{{ contest.entryCount }}

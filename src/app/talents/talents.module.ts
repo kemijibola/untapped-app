@@ -20,6 +20,8 @@ import { TalentCommentComponent } from "./talent-comment/talent-comment.componen
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LazyLoadImageModule } from "ng-lazyload-image";
 
+import { MatVideoModule } from "mat-video";
+
 @NgModule({
   declarations: [
     TalentsComponent,
@@ -42,6 +44,7 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
     VgOverlayPlayModule,
     VgBufferingModule,
     LazyLoadImageModule,
+    MatVideoModule,
   ],
   exports: [],
 })

@@ -115,8 +115,9 @@
           <div class="details-content">
             <div class="sidebar-img">
               <img
-                style="width: 482px; height: 395px;"
-                src="{{ bannerImage }}"
+                [defaultImage]="defaultBannerImage"
+                [lazyLoad]="bannerImage"
+                style="width: 482px; height: 395px; background: lightgray;"
                 alt=""
               />
             </div>
@@ -241,11 +242,20 @@
                       </span>
                       Entry Media Type</label
                     >
-                    <input formControlName="entryMedia" class="input-design dropdown-input"/>
-                    <div class="custom-dropdown-container">
+                    <input
+                      formControlName="entryMedia"
+                      [(ngModel)]="selectedMediaType"
+                      class="input-design dropdown-input"
+                      (click)="onClick()"
+                    />
+                    <div
+                      class="custom-dropdown-container"
+                      *ngIf="showMediaTypes"
+                    >
                       <div
                         class="custom-dropdown"
-                        *ngFor="let media of mediaTypes"
+                        *ngFor="let media of mediaTypes; let i = index"
+                        (click)="onSelectedMedia(i)"
                       >
                         {{ media.name }}
                       </div>

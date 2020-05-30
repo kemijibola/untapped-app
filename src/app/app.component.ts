@@ -34,6 +34,7 @@ import * as ContestsAction from "./contests/store/contests.action";
 import * as ModalsActions from "./shared/store/modals/modals.actions";
 import * as ProfessionalCategoryActions from "./shared/store/filtered-categories/professional-category/professional-category.actions";
 import * as ToggleActions from "./shared/store/slide-toggle/slide-toggle.actions";
+import * as DashboardActions from "./shared/store/dashboard/dashboard.action";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -107,6 +108,8 @@ export class AppComponent implements OnInit {
       });
   }
   constructor(private store: Store<fromApp.AppState>) {
+    this.store.dispatch(new DashboardActions.FetchDashboardContests());
+
     this.store.dispatch(
       new ModalsActions.AddComponentModal({
         componentModal: this.componentModal,

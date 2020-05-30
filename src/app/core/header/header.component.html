@@ -116,8 +116,20 @@
                           >Contests</a
                         >
                       </li>
-                      <li><a href="#">Gigs</a></li>
-                      <li><a href="#">New Portfolio Upload</a></li>
+                      <li>
+                        <a
+                          routerLink="./user/{{ userPreEmailAdress }}"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
+                          [queryParams]="{ tab: 'wallet' }"
+                          >Wallet</a
+                        >
+                      </li>
+                      <!-- <li>
+                        <a *ngIf="typeOfUser === 'Talent'"
+                          >New Portfolio Upload</a
+                        >
+                      </li> -->
                     </ul>
                     <ul class="bot">
                       <li>
@@ -142,20 +154,12 @@
                       </li>
                       <li>
                         <a
+                          *ngIf="typeOfUser === 'Talent'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'settings' }"
                           >Settings</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          routerLink="./user/{{ userPreEmailAdress }}"
-                          [routerLinkActiveOptions]="{ exact: true }"
-                          routerLinkActive="visited"
-                          [queryParams]="{ tab: 'managevotes' }"
-                          >Manage Votes</a
                         >
                       </li>
                       <li><a (click)="onLogOut()">Logout</a></li>

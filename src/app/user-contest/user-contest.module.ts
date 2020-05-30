@@ -19,7 +19,8 @@ import { EffectsModule } from "@ngrx/effects";
 import { NewUserContestEffect } from "./store/new-contest/new-contest.effects";
 import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
 import { NewContestOverviewComponent } from "./new-contest/new-contest-overview/new-contest-overview.component";
-import { NewContestSuccessComponent } from './new-contest/new-contest-success/new-contest-success.component';
+import { NewContestSuccessComponent } from "./new-contest/new-contest-success/new-contest-success.component";
+import { LazyLoadImageModule } from "ng-lazyload-image";
 // import { DatePipe } from "@angular/common";
 
 @NgModule({
@@ -42,6 +43,7 @@ import { NewContestSuccessComponent } from './new-contest/new-contest-success/ne
     UserContestRoutingModule,
     NgxCurrencyModule,
     OwlDateTimeModule,
+    LazyLoadImageModule,
     OwlNativeDateTimeModule,
     StoreModule.forFeature("allContestState", allContestReducer),
     StoreModule.forFeature("newUserContestState", newContestReducer),

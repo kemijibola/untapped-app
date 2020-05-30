@@ -115,7 +115,7 @@ export interface AudioItem extends MediaItem {
 }
 
 export interface VideoItem extends MediaItem {
-  fullAudioPath?: string;
+  fullVideoPath?: string;
 }
 
 export interface OtherMedia {

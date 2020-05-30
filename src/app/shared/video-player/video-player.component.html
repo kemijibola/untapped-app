@@ -1,4 +1,4 @@
-<vg-player style="height: 302px;" (onPlayerReady)="onAudioPlayerReady($event)">
+<vg-player style="height: 302px;" (onPlayerReady)="onVideoPlayerReady($event)">
   <vg-overlay-play></vg-overlay-play>
   <vg-buffering></vg-buffering>
   <vg-controls>
@@ -20,14 +20,14 @@
     <vg-fullscreen></vg-fullscreen>
   </vg-controls>
   <!-- <vg-overlay-play
-            vgFor="audio_{{ currentAudioItem._id }}"
-          ></vg-overlay-play> -->
-  <audio
+vgFor="audio_{{ currentAudioItem._id }}"
+></vg-overlay-play> -->
+  <video
     #media
     [vgMedia]="media"
-    id="audio_{{ currentAudio._id }}"
+    id="video_{{ currentVideo._id }}"
     preload="auto"
   >
-    <source src="{{ currentAudio.fullAudioPath }}" [type]="currentAudio.type" />
-  </audio>
+    <source src="{{ currentVideo.fullVideoPath }}" [type]="currentVideo.type" />
+  </video>
 </vg-player>

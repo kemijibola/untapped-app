@@ -42,6 +42,9 @@ import { environment } from "src/environments/environment";
 import { GooglePlacesComponent } from "./google-places/google-places.component";
 import { LatestContestLandingComponent } from "./latest-contest-landing/latest-contest-landing.component";
 import { NguiInViewComponent } from "./ngui-in-view.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { VideoPlayerComponent } from "./video-player/video-player.component";
+import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
 
 @NgModule({
   imports: [
@@ -56,6 +59,7 @@ import { NguiInViewComponent } from "./ngui-in-view.component";
     VgOverlayPlayModule,
     VgBufferingModule,
     LazyLoadImageModule,
+    NgbModule,
     Angular4PaystackModule.forRoot(environment.PAYSTACK_CLIENT_KEY),
     RouterModule.forChild([]),
   ],
@@ -82,6 +86,9 @@ import { NguiInViewComponent } from "./ngui-in-view.component";
     MatProgressBarModule,
     LatestContestLandingComponent,
     NguiInViewComponent,
+    VideoPlayerComponent,
+    AudioPayerComponent,
+    NgbModule,
   ],
   declarations: [
     UploadComponent,
@@ -103,6 +110,8 @@ import { NguiInViewComponent } from "./ngui-in-view.component";
     GooglePlacesComponent,
     LatestContestLandingComponent,
     NguiInViewComponent,
+    VideoPlayerComponent,
+    AudioPayerComponent,
   ],
 })
 export class SharedModule {}

@@ -17,115 +17,21 @@
     <div class="col-xl-12 album-viewer">
       <div class="popup-img d-inline-block popup-img-mobile">
         <img
-          src="{{ defaultImagePath }}"
-          alt=""
-          (click)="setMagnifiedImage()"
+          [defaultImage]="defaultImagePath"
+          [lazyLoad]="imagePath"
           *ngIf="isCurrentImageSet"
+          style="width: 435px; height: 289px; background: lightgray;"
         />
-        <!-- <app-up-image
-          [defaultImagePath]="defaultImagePath"
-          *ngIf="isCurrentImageSet"
-        ></app-up-image> -->
 
-        <vg-player
-          style="height: 302px;"
-          (onPlayerReady)="onPlayerReady($event)"
+        <app-audio-payer
+          [currentAudio]="currentAudioItem"
           [style.display]="isCurrentAudioSet ? 'block' : 'none'"
-        >
-          <vg-overlay-play></vg-overlay-play>
-          <vg-buffering></vg-buffering>
-          <vg-controls>
-            <vg-play-pause></vg-play-pause>
-            <vg-playback-button></vg-playback-button>
+        ></app-audio-payer>
 
-            <vg-time-display
-              vgProperty="current"
-              vgFormat="mm:ss"
-            ></vg-time-display>
-
-            <vg-scrub-bar>
-              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-            </vg-scrub-bar>
-
-            <vg-time-display
-              vgProperty="left"
-              vgFormat="mm:ss"
-            ></vg-time-display>
-            <vg-time-display
-              vgProperty="total"
-              vgFormat="mm:ss"
-            ></vg-time-display>
-
-            <vg-mute></vg-mute>
-
-            <vg-fullscreen></vg-fullscreen>
-          </vg-controls>
-          <!-- <vg-overlay-play
-            vgFor="audio_{{ currentAudioItem._id }}"
-          ></vg-overlay-play> -->
-          <audio
-            #media
-            [vgMedia]="media"
-            id="audio_{{ currentAudioItem._id }}"
-            preload="auto"
-          >
-            <source
-              src="{{ currentAudioItem.fullAudioPath }}"
-              [type]="currentAudioItem.type"
-            />
-          </audio>
-        </vg-player>
-
-        <vg-player
-          style="height: 302px;"
-          (onPlayerReady)="onPlayerReady($event)"
+        <app-video-player
+          [currentVideo]="currentVideoItem"
           [style.display]="isCurrentVideoSet ? 'block' : 'none'"
-        >
-          <vg-overlay-play></vg-overlay-play>
-          <vg-buffering></vg-buffering>
-          <vg-controls>
-            <vg-play-pause></vg-play-pause>
-            <vg-playback-button></vg-playback-button>
-
-            <vg-time-display
-              vgProperty="current"
-              vgFormat="mm:ss"
-            ></vg-time-display>
-
-            <vg-scrub-bar>
-              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-              <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-            </vg-scrub-bar>
-
-            <vg-time-display
-              vgProperty="left"
-              vgFormat="mm:ss"
-            ></vg-time-display>
-            <vg-time-display
-              vgProperty="total"
-              vgFormat="mm:ss"
-            ></vg-time-display>
-
-            <vg-mute></vg-mute>
-
-            <vg-fullscreen></vg-fullscreen>
-          </vg-controls>
-          <!-- <vg-overlay-play
-          vgFor="audio_{{ currentAudioItem._id }}"
-        ></vg-overlay-play> -->
-          <video
-            #media
-            [vgMedia]="media"
-            id="video_{{ currentVideoItem._id }}"
-            preload="auto"
-          >
-            <source
-              src="{{ currentVideoItem.fullAudioPath }}"
-              [type]="currentVideoItem.type"
-            />
-          </video>
-        </vg-player>
+        ></app-video-player>
 
         <div class="user-part">
           <div class="p-user-content p-talent">

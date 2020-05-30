@@ -39,6 +39,7 @@ import * as fromCategoryType from "src/app/shared/store/category-type/category-t
 export class NewContestComponent implements OnInit {
   contestForm: FormGroup;
   bannerImage: string = environment.CONTEST_BANNER_DEFAULT;
+  defaultBannerImage: string = "";
   title = "";
   basicInfo = "";
   eligibityRule = "";
@@ -60,9 +61,21 @@ export class NewContestComponent implements OnInit {
       grayscale: false,
     },
   };
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
   private filesToUpload: File[];
   selectedCategories: string[] = [];
   bannerImageKey: string | null;
+  selectedMediaType: string = "";
+  showMediaTypes: boolean;
 
   formatLabel(value: number = 3) {
     if (value >= 1) {
@@ -89,6 +102,7 @@ export class NewContestComponent implements OnInit {
           this.fetchContestBanner();
         }
       });
+    this.selectedMediaType = this.mediaTypes[0].name;
   }
 
   ngOnInit() {
@@ -162,6 +176,15 @@ export class NewContestComponent implements OnInit {
       });
   }
 
+  onClick() {
+    this.showMediaTypes = !this.showMediaTypes;
+  }
+
+  onSelectedMedia(i: number) {
+    this.selectedMediaType = this.mediaTypes[i].name;
+    this.showMediaTypes = !this.showMediaTypes;
+  }
+
   uploadFiles(files: File[]): void {
     let uploadParams: CloudUploadParams[] = [];
     this.store
@@ -189,7 +212,6 @@ export class NewContestComponent implements OnInit {
   }
 
   onClickCreateButton() {
-    console.log("clicked");
     const formArray = <FormArray>this.contestForm.get("contestRewards");
     const duration = this.contestForm.controls["contestDuration"].value;
     let redeemables: IRedeemable[] = [];
@@ -209,7 +231,7 @@ export class NewContestComponent implements OnInit {
       .value;
     const submissionRule: string = this.contestForm.controls["submissionRule"]
       .value;
-    const entryMedia: number = this.contestForm.controls["entryMedia"].value;
+    // const entryMedia: number = this.contestForm.controls["entryMedia"].value;
 
     const contestObj: IContest = {
       title,
@@ -217,8 +239,7 @@ export class NewContestComponent implements OnInit {
       bannerImage: this.bannerImageKey,
       eligibleCategories: [...this.selectedCategories],
       eligibilityInfo: eligibityRule,
-      entryMediaType: this.mediaTypes.filter((x) => x.id === entryMedia)[0]
-        .name,
+      entryMediaType: this.selectedMediaType,
       submissionRules: submissionRule,
       startDate: new Date(duration[0]),
       endDate: new Date(duration[1]),
@@ -287,12 +308,14 @@ export class NewContestComponent implements OnInit {
       .pipe(select(fromNewContest.selectCurrentBannerKey))
       .subscribe((val: string) => {
         this.bannerImageKey = val || "";
-
+        this.defaultBannerImage = fetchImageObjectFromCloudFormation(
+          val,
+          this.defaultParams
+        );
         this.bannerImage =
           val !== null
             ? fetchImageObjectFromCloudFormation(val, this.editParams)
             : environment.CONTEST_BANNER_DEFAULT;
-        console.log(this.bannerImage);
       });
   }
 

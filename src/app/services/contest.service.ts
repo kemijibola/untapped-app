@@ -13,6 +13,7 @@ import {
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
+import { ContestWithEntriesPreview } from "../interfaces/shared/dashboard";
 
 @Injectable({ providedIn: "root" })
 export class ContestService {
@@ -36,7 +37,6 @@ export class ContestService {
   checkUserEligibility(
     contestId: string
   ): Observable<IResult<ContestEligibilityData>> {
-    console.log("network service");
     const url = `${this.BASE_URI}/contest-entries/${contestId}/user`;
     return this.http.get<IResult<ContestEligibilityData>>(url);
   }
@@ -49,6 +49,11 @@ export class ContestService {
   findContestByTitle(title: string): Observable<IResult<IContest[]>> {
     const url = `${this.BASE_URI}/contests`;
     return this.http.get<IResult<IContest[]>>(`${url}?title=${title}`);
+  }
+
+  fetchRunningContests(): Observable<IResult<ContestWithEntriesPreview[]>> {
+    const url = `${this.BASE_URI}/contests/dashboard/runningcontests`;
+    return this.http.get<IResult<ContestWithEntriesPreview[]>>(url);
   }
 
   fetchUserParticipatedContests(): Observable<

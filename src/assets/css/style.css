@@ -1674,7 +1674,7 @@ html::-webkit-scrollbar {
 }
 
 .custom-dropdown:hover {
-  background-color: green;
+  background-color: #dcdbdb40;
 }
 
 .dropdown-input {

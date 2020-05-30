@@ -44,6 +44,7 @@ export class ContestsComponent implements OnInit, OnDestroy {
       grayscale: false,
     },
   };
+  
   constructor(public store: Store<fromApp.AppState>, public router: Router) {}
 
   ngOnInit() {

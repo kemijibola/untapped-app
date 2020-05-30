@@ -42,77 +42,75 @@
                 </h4>
               </div>
               <div class="col-lg-12 col-md-12">
-                <div class="blog-slide owl-carousel">
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <ul
-                        class="count home-modal-contest-likes"
-                        style="
-                          display: -webkit-inline-box;
-                          list-style-type: none;
-                          padding-left: 0;
-                        "
-                      >
-                        <li><i class="fas fa-heart"></i>300</li>
-                        <li><i class="fas fa-comment-alt"></i>500</li>
-                        <div class="count-img">
-                          <img src="" alt="" />
-                        </div>
-                      </ul>
-                      <p>Text "BESTRAP 103 Marvel Fash" To 55609</p>
+                <ngb-carousel *ngIf="showEntries">
+                  <ng-template>
+                    <div class="single-slide">
+                      <img src="assets/img/img-7.png" alt="" />
+                      <div class="slide-txt">
+                        <ul
+                          class="count home-modal-contest-likes"
+                          style="
+                            display: -webkit-inline-box;
+                            list-style-type: none;
+                            padding-left: 0;
+                          "
+                        >
+                          <li><i class="fas fa-heart"></i>300</li>
+                          <li><i class="fas fa-comment-alt"></i>500</li>
+                          <div class="count-img">
+                            <img src="" alt="" />
+                          </div>
+                        </ul>
+                        <p>Text "BESTRAP 103 Marvel Fash" To 55609</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <span>Music</span>
-                      <p>200+ music talents</p>
+                  </ng-template>
+                  <ng-template ngbSlide>
+                    <div class="single-slide">
+                      <img src="assets/img/img-8.png" alt="" />
+                      <div class="slide-txt">
+                        <span>Music</span>
+                        <p>200+ music talents</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <span>Music</span>
-                      <p>200+ music talents</p>
+                  </ng-template>
+                </ngb-carousel>
+              </div>
+
+              <div class="col-lg-12 col-md-12">
+                <ngb-carousel *ngIf="showContests">
+                  <ng-template ngbSlide>
+                    <div class="single-slide">
+                      <img src="assets/img/img-7.png" alt="" />
+                      <div class="slide-txt">
+                        <ul
+                          class="count home-modal-contest-likes"
+                          style="
+                            display: -webkit-inline-box;
+                            list-style-type: none;
+                            padding-left: 0;
+                          "
+                        >
+                          <li><i class="fas fa-heart"></i>300</li>
+                          <li><i class="fas fa-comment-alt"></i>500</li>
+                          <div class="count-img">
+                            <img src="" alt="" />
+                          </div>
+                        </ul>
+                        <p>Text "BESTRAP 103 Marvel Fash" To 55609</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <span>Music</span>
-                      <p>200+ music talents</p>
+                  </ng-template>
+                  <ng-template ngbSlide>
+                    <div class="single-slide" (click)="onSelect('two')">
+                      <img src="assets/img/img-8.png" alt="" />
+                      <div class="slide-txt">
+                        <span>Music</span>
+                        <p>200+ music talents</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <span>Music</span>
-                      <p>200+ music talents</p>
-                    </div>
-                  </div>
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <span>Music</span>
-                      <p>200+ music talents</p>
-                    </div>
-                  </div>
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <span>Music</span>
-                      <p>200+ music talents</p>
-                    </div>
-                  </div>
-                  <div class="single-slide">
-                    <img src="assets/img/img-7.png" alt="" />
-                    <div class="slide-txt">
-                      <span>Music</span>
-                      <p>200+ music talents</p>
-                    </div>
-                  </div>
-                </div>
+                  </ng-template>
+                </ngb-carousel>
               </div>
             </div>
           </div>
@@ -122,7 +120,7 @@
           style="width: 35% !important;"
           type="button"
         >
-          VIEW ALL ENTRIES
+          VIEW ALL CONTESTS
         </a>
       </div>
     </div>
