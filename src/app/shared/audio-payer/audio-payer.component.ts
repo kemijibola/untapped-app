@@ -45,9 +45,9 @@ export class AudioPayerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
     if (this.audioApi) {
-      (<VgMedia>this.audioApi.getDefaultMedia()).pause();
-      this.audioApi = null;
-      console.log("called");
+      // (<VgMedia>this.audioApi.getDefaultMedia()).pause();
+      // this.audioApi = null;
+      // console.log("called");
     }
   }
 }

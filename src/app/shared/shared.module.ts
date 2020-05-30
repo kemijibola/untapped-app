@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { UploadComponent } from "./upload/upload.component";
 import { TabsComponent } from "./tabs/tabs.component";
@@ -49,6 +49,7 @@ import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
 @NgModule({
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     MatSlideToggleModule,
     MatProgressBarModule,
     AngularMultiSelectModule,
@@ -65,6 +66,8 @@ import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
   ],
   exports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     UploadComponent,
     TabsComponent,
     ModalsComponent,

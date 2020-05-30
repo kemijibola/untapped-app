@@ -20,6 +20,7 @@ import {
   ContestEligibilityData,
   EligibilityStatus,
   IAuthData,
+  MediaType,
 } from "src/app/interfaces";
 import * as fromCategoryType from "../../shared/store/category-type/category-type.reducers";
 import { differenceInDays, isPast, getTime, isAfter } from "date-fns";
@@ -97,6 +98,7 @@ export class ContestDetailsComponent implements OnInit {
     },
   };
   componentModal: AppModal;
+  entryMediaType: string = "";
   constructor(
     private router: Router,
     private store: Store<fromApp.AppState>,
@@ -264,7 +266,8 @@ export class ContestDetailsComponent implements OnInit {
   }
 
   openModalDialog(modalId: string, data: any = null) {
-    // console.log("clicked");
+    // set MediaType
+    this.entryMediaType = this.contestDetails.contest.entryMediaType;
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "contest" })
     );
@@ -282,7 +285,7 @@ export class ContestDetailsComponent implements OnInit {
             ? ModalViewModel.view
             : ModalViewModel.new,
         contentType: "",
-        data: data !== null ? data : null,
+        data: data !== null ? data.entry : null,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
         showMagnifier: false,

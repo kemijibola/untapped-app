@@ -147,7 +147,10 @@
           <span aria-hidden="true"><i class="far fa-times"></i></span>
         </button>
       </div>
-      <app-contest-entry-modal-content body></app-contest-entry-modal-content>
+      <app-contestant-modal
+        [mediaType]="entryMediaType"
+        body
+      ></app-contestant-modal>
     </app-modals>
 
     <div class="row" *ngIf="contestDetails.submissions.length > 0">

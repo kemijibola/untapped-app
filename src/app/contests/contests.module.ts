@@ -11,6 +11,7 @@ import { EntryListComponent } from "./contest-details/entry-list/entry-list.comp
 import { ContestEntryModalContentComponent } from "./contest-details/contest-entry-modal-content/contest-entry-modal-content.component";
 import { EntryCommentComponent } from "./contest-details/entry-comment/entry-comment.component";
 import { LazyLoadImageModule } from "ng-lazyload-image";
+import { ContestantModalComponent } from "./contestant-modal/contestant-modal.component";
 
 @NgModule({
   declarations: [
@@ -21,11 +22,10 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
     EntryListComponent,
     ContestEntryModalContentComponent,
     EntryCommentComponent,
+    ContestantModalComponent,
   ],
   imports: [
     SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
     LazyLoadImageModule,
     InfiniteScrollModule,
     ContestsRoutingModule,

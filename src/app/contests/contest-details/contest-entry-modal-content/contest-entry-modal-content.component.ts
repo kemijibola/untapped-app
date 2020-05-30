@@ -19,6 +19,7 @@ export class ContestEntryModalContentComponent implements OnInit {
   isCurrentAudioSet: boolean;
   isCurrentVideoSet: boolean;
   entryData: IEntryData;
+  
 
   ngOnInit(): void {
     this.activateModalContent();
@@ -34,7 +35,7 @@ export class ContestEntryModalContentComponent implements OnInit {
           this.isCurrentVideoSet = false;
           if (val.name === "talent-entry-details" && val.data !== null) {
             if (val.data !== null) {
-              console.log(val);
+              console.log("contestant", val);
               this.entryData = { ...val.data };
               this.store.dispatch(
                 new CommentsActions.FetchMediaComments({

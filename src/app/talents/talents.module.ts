@@ -16,11 +16,11 @@ import { VgControlsModule } from "ngx-videogular";
 import { VgOverlayPlayModule } from "ngx-videogular";
 import { VgBufferingModule } from "ngx-videogular";
 
-import { TalentCommentComponent } from "./talent-comment/talent-comment.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LazyLoadImageModule } from "ng-lazyload-image";
 
 import { MatVideoModule } from "mat-video";
+import { TalentCommentComponent } from "./talent-comment/talent-comment.component";
 
 @NgModule({
   declarations: [
