@@ -7,7 +7,6 @@ import * as PortfolioActions from "./portfolio.actions";
 import * as UploadActions from "../../../shared/store/upload/upload.actions";
 import {
   map,
-  switchMap,
   catchError,
   mergeMap,
   withLatestFrom,
@@ -35,19 +34,56 @@ export class PortfolioEffect {
   createPortfolioMedia = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.CREATE_PORTFOLIO_MEDIA),
-      switchMap((action: PortfolioActions.CreatePortfolioMedia) =>
+      concatMap((action: PortfolioActions.CreatePortfolioMedia) =>
         this.portfolioService
           .createPortfolioMedia(action.payload.uploadType, action.payload.data)
           .pipe(
             mergeMap((resp: IResult<IMedia>) => {
               return [
-                {
-                  type: PortfolioActions.CREATE_PORTFOLIO_MEDIA_SUCCESS,
-                  payload: resp.data,
-                },
-                {
-                  type: UploadActions.RESET_UPLOADED_ITEMS,
-                },
+                new PortfolioActions.CreatePortfolioMediaSuccess(resp.data),
+                new UploadActions.ResetUploadedItems({
+                  uploadedItemId: resp.data._id,
+                }),
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Album media submitted for approval.",
+                }),
+              ];
+            }),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  patchPortfolioMedia = createEffect(() =>
+    this.action$.pipe(
+      ofType(PortfolioActions.PATCH_MEDIA_BY_ID),
+      concatMap((action: PortfolioActions.PatchMediaById) =>
+        this.portfolioService
+          .patchPortfolioMedia(
+            action.payload.mediaId,
+            action.payload.updateItem
+          )
+          .pipe(
+            mergeMap((resp: IResult<IMedia>) => {
+              return [
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Album media submitted for approval.",
+                }),
               ];
             }),
             catchError((respError: HttpErrorResponse) =>
@@ -69,15 +105,19 @@ export class PortfolioEffect {
   updatePortfolioMedia = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.UPDATE_PORTFOLIO_MEDIA),
-      switchMap((action: PortfolioActions.UpdatePortfolioMedia) =>
+      concatMap((action: PortfolioActions.UpdatePortfolioMedia) =>
         this.portfolioService
           .updatePortfolioMedia(action.payload.uploadType, action.payload.data)
           .pipe(
-            map(() => {
-              return {
-                type: PortfolioActions.UPDATE_PORTFOLIO_MEDIA_SUCCESS,
-                payload: action.payload.data,
-              };
+            mergeMap((resp: IResult<IMedia>) => {
+              return [
+                new PortfolioActions.UpdatePortfolioMediaSuccess(resp.data),
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Album updated successfully.",
+                }),
+              ];
             }),
             catchError((respError: HttpErrorResponse) =>
               of(
@@ -98,7 +138,7 @@ export class PortfolioEffect {
   fetchUserPortfolioList = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.FETCH_USER_MEDIA_LIST),
-      switchMap((action: PortfolioActions.FetchUserMediaList) =>
+      concatMap((action: PortfolioActions.FetchUserMediaList) =>
         this.portfolioService.fetchUserPortfolioList(action.payload).pipe(
           mergeMap((resp: IResult<IMedia[]>) => {
             const userAudios = resp.data.filter(
@@ -147,7 +187,7 @@ export class PortfolioEffect {
   deleteMediaItem = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.DELETE_MEDIA_ITEM_BY_ID),
-      switchMap((action: PortfolioActions.DeleteMediaItemById) =>
+      concatMap((action: PortfolioActions.DeleteMediaItemById) =>
         this.portfolioService
           .deleteMediaItem(action.payload.id, action.payload.itemId)
           .pipe(
@@ -183,7 +223,7 @@ export class PortfolioEffect {
           )
         )
       ),
-      switchMap(([action, id]) =>
+      concatMap(([action, id]) =>
         this.portfolioService.fetchPortfolioMedia(id).pipe(
           map(
             (resp: IResult<IMedia>) =>
@@ -207,7 +247,7 @@ export class PortfolioEffect {
   fetchAllPortfolioList = createEffect(() =>
     this.action$.pipe(
       ofType(PortfolioActions.FETCH_ALL_MEDIA),
-      switchMap((action: PortfolioActions.FetchAllMedia) =>
+      concatMap((action: PortfolioActions.FetchAllMedia) =>
         this.portfolioService.fetchPortfolioList(action.payload).pipe(
           map((resp: IResult<IMedia[]>) => {
             return {

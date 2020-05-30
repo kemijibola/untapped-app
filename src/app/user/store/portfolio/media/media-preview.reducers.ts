@@ -16,6 +16,7 @@ export interface MediaPreviewState extends EntityState<MediaPreview> {
   videoPreviews: VideoPreview[];
   imagePreviews: ImagePreview[];
   selectedMediaPreviewId: string | number | null;
+  userMediaListCount: number;
 }
 
 const initialState: MediaPreviewState = fromAdapter.adapter.getInitialState({
@@ -23,6 +24,7 @@ const initialState: MediaPreviewState = fromAdapter.adapter.getInitialState({
   imagePreviews: [],
   videoPreviews: [],
   selectedMediaPreviewId: null,
+  userMediaListCount: 0,
 });
 
 export function mediaPreviewReducer(
@@ -75,29 +77,10 @@ export function mediaPreviewReducer(
         ...state,
         imagePreviews: newImagePreviews,
       });
-    case MediaPreviewActions.DELETE_IMAGE_LIST_BY_ID_ERROR:
+    case MediaPreviewActions.USER_MEDIA_LIST_COUNT:
       return Object.assign({
         ...state,
-        mediaPreviewError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
-    case MediaPreviewActions.DELETE_AUDIO_LIST_BY_ID_ERROR:
-      return Object.assign({
-        ...state,
-        mediaPreviewError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
-      });
-    case MediaPreviewActions.DELETE_VIDEO_LIST_BY_ID_ERROR:
-      return Object.assign({
-        ...state,
-        mediaPreviewError: Object.assign({
-          errorCode: action.payload.errorCode,
-          errorMessage: action.payload.errorMessage,
-        }),
+        userMediaListCount: action.payload,
       });
     case MediaPreviewActions.SET_USER_AUDIO_PREVIEWS:
       return Object.assign({
@@ -129,6 +112,9 @@ const getImagePreviews = (state: MediaPreviewState) => state.imagePreviews;
 
 const getVideoPreviews = (state: MediaPreviewState) => state.videoPreviews;
 
+const getUserMediaListCount = (state: MediaPreviewState) =>
+  state.userMediaListCount;
+
 export const getMediaPreviewState = createFeatureSelector<MediaPreviewState>(
   "mediaPreviewState"
 );
@@ -150,6 +136,11 @@ export const selectAllMediaPreviews = createSelector(
 export const mediaPreviewCount = createSelector(
   getMediaPreviewState,
   fromAdapter.mediaPreviewCount
+);
+
+export const selectUserMediaListCount = createSelector(
+  getMediaPreviewState,
+  getUserMediaListCount
 );
 
 export const selectCurrentMediaPreviewId = createSelector(

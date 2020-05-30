@@ -76,6 +76,9 @@ export class PortfolioVideosComponent {
   }
 
   onDelete(id: string) {
+    if (this.userVideoPreviews.length !== 0) {
+      this.userVideoPreviews.length - 1;
+    }
     this.userStore.dispatch(
       new MediaPreviewActions.DeleteVideoListById({ videoId: id })
     );

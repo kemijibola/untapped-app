@@ -25,7 +25,24 @@ export class AuthService {
   confirmEmail(req: IConfirmEmail): Observable<IResult<string>> {
     const { email, token } = req;
     const url = `${this.BASE_URI}/account/verify`;
-    console.log(req);
+    return this.http.post<IResult<string>>(url, {
+      email,
+      token,
+    });
+  }
+
+  verifyPasswordReset(req: IConfirmEmail): Observable<IResult<string>> {
+    const { email, token } = req;
+    const url = `${this.BASE_URI}/account/password/reset/verify`;
+    return this.http.post<IResult<string>>(url, {
+      email,
+      token,
+    });
+  }
+
+  confirmEmailChange(req: IConfirmEmail): Observable<IResult<string>> {
+    const { email, token } = req;
+    const url = `${this.BASE_URI}/account/email/change/verify`;
     return this.http.post<IResult<string>>(url, {
       email,
       token,
@@ -40,6 +57,39 @@ export class AuthService {
       email,
       password,
       userType,
+    });
+  }
+
+  requestPasswordReset(
+    email: string,
+    redirectUrl: string
+  ): Observable<IResult<string>> {
+    const url = `${this.BASE_URI}/account/password/reset/request`;
+    return this.http.post<IResult<string>>(url, {
+      email,
+      redirectUrl,
+    });
+  }
+
+  createNewPassword(
+    email: string,
+    newPassword: string
+  ): Observable<IResult<string>> {
+    const url = `${this.BASE_URI}/account/password/reset`;
+    return this.http.post<IResult<string>>(url, {
+      email,
+      newPassword,
+    });
+  }
+
+  changeEmailAddress(
+    newEmail: string,
+    emailChangeVerificationUri: string
+  ): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/account/email/change`;
+    return this.http.post<IResult<boolean>>(url, {
+      newEmailAddress: newEmail,
+      redirectUrl: emailChangeVerificationUri,
     });
   }
 

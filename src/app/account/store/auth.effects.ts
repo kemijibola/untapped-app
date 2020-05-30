@@ -59,6 +59,105 @@ export class AuthEffects {
     )
   );
 
+  createNewPassword = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.CREATE_NEW_PASSWORD),
+      concatMap((action: AuthActions.CreateNewPassword) =>
+        this.authService
+          .createNewPassword(action.payload.email, action.payload.newPassword)
+          .pipe(
+            mergeMap((resp: IResult<string>) => [
+              new NotificationActions.AddSuccess({
+                key: AppNotificationKey.success,
+                code: 200,
+                message: "Password reset was successful",
+              }),
+              new AuthActions.CreateNewPasswordSuccess(),
+            ]),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  doPasswordRequest = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.REQUEST_PASSWORD_RESET),
+      concatMap((action: AuthActions.RequestPasswordReset) =>
+        this.authService
+          .requestPasswordReset(
+            action.payload.email,
+            action.payload.redirectUrl
+          )
+          .pipe(
+            map(
+              (resp: IResult<string>) =>
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: `Reset link has been sent to ${action.payload.email.toLowerCase()}.`,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  doEmailChange = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.CHANGE_EMAIL_ADDRESS),
+      concatMap((action: AuthActions.ChangeEmailAddress) =>
+        this.authService
+          .changeEmailAddress(
+            action.payload.newEmail,
+            action.payload.emailChangeVerificationUri
+          )
+          .pipe(
+            map(
+              (resp: IResult<boolean>) =>
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: `Verification link has been sent to ${action.payload.newEmail.toLowerCase()}.`,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   doEmailConfirmation = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.DO_EMAIL_CONFIRMATION),
@@ -79,6 +178,64 @@ export class AuthEffects {
             )
           )
         )
+      )
+    )
+  );
+
+  doEmailChangeConfirmation = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.VERIFY_EMAIL_CHANGE),
+      concatMap((action: AuthActions.VerifyEmailChange) =>
+        this.authService
+          .confirmEmailChange(action.payload.confirmEmailData)
+          .pipe(
+            map(
+              (resp: IResult<string>) =>
+                new AuthActions.VerifyEmailChangeSuccess({
+                  changedEmail: action.payload.confirmEmailData.email,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  doResetPasswordConfirmation = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.VERIFY_RESET_PASSWORD),
+      concatMap((action: AuthActions.VerifyRestPassword) =>
+        this.authService
+          .verifyPasswordReset(action.payload.verifyPasswordReq)
+          .pipe(
+            map(
+              (resp: IResult<string>) =>
+                new AuthActions.VerifyRestPasswordSuccess({
+                  email: action.payload.verifyPasswordReq.email,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
+            )
+          )
       )
     )
   );
@@ -119,6 +276,41 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.SIGNUP_SUCCESS),
+        pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
+      ),
+    { dispatch: false }
+  );
+
+  createNewPasswordSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.CREATE_NEW_PASSWORD_SUCCESS),
+        pipe(tap(() => this.router.navigate(["/account/signin"])))
+      ),
+    { dispatch: false }
+  );
+
+  resetPasswordRequestSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.VERIFY_RESET_PASSWORD_SUCCESS),
+        pipe(
+          map(
+            (action: AuthActions.VerifyRestPasswordSuccess) =>
+              action.payload.email
+          ),
+          tap((email) =>
+            this.router.navigate(["/account/new-password/", email])
+          )
+        )
+      ),
+    { dispatch: false }
+  );
+
+  changeEmailSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.CHANGE_EMAIL_ADDRESS_SUCCESS),
         pipe(tap(() => this.router.navigate(["/account/confirm-email"])))
       ),
     { dispatch: false }
@@ -166,7 +358,7 @@ export class AuthEffects {
             new NotificationActions.AddError({
               key: AppNotificationKey.error,
               code: 400,
-              message: "Session expired. Please login to app to continue.",
+              message: "You have been logged out. Please login to continue.",
             })
           );
 
@@ -174,6 +366,31 @@ export class AuthEffects {
             type: AuthActions.LOGOUT,
           };
         })
+      )
+    )
+  );
+
+  verifyEmailChangeSuccess = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.VERIFY_EMAIL_CHANGE_SUCCESS),
+      pipe(
+        concatMap((action: AuthActions.VerifyEmailChangeSuccess) =>
+          this.authService.fetchUserData("userData").pipe(
+            map((resp) => {
+              const newAuthData: IAuthData = { ...resp };
+              newAuthData.user_data.email = action.payload.changedEmail;
+              this.authService.updateData("userData", newAuthData);
+              return {
+                type: NotificationActions.ADD_SUCCESS,
+                payload: {
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Email changed successfully",
+                },
+              };
+            })
+          )
+        )
       )
     )
   );

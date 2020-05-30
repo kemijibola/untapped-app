@@ -22,6 +22,11 @@ import * as fromTalentAudioPortfolio from "../shared/store/talents/audio-preview
 import * as fromTalentVideoPorfolio from "../shared/store/talents/video-preview/video-preview.reducer";
 import * as fromTalentImagePorfolio from "../shared/store/talents/image-preview/image-preview.reducer";
 import * as fromOrder from "../shared/store/order/order.reducers";
+import * as fromContests from "../contests/store/contests.reducers";
+import * as fromContestEntry from "../contests/store/contest-entry/contest-entry.reducer";
+import * as fromContest from "../contests/store/contest/contest.reducer";
+import * as fromProfessionalFilter from "../shared/store/filtered-categories/professional-category/professional-category.reducer";
+import * as fromDashboard from "../shared/store/dashboard/dashboard.reducer";
 
 export interface AppState {
   authState: fromAuth.AuthState;
@@ -44,6 +49,11 @@ export interface AppState {
   snackBarState: fromSnackBar.SnackBarState;
   notificationState: fromNotification.NotificationState;
   orderState: fromOrder.OrderState;
+  contestsState: fromContests.ContestsState;
+  contestEntryState: fromContestEntry.ContestEntryState;
+  contestState: fromContest.ContestState;
+  professionalFilterState: fromProfessionalFilter.ProfessionalFilterState;
+  dashboadState: fromDashboard.DashboadState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -67,6 +77,11 @@ export const reducers: ActionReducerMap<AppState> = {
   snackBarState: fromSnackBar.reducer,
   notificationState: fromNotification.reducer,
   orderState: fromOrder.reducer,
+  contestsState: fromContests.reducer,
+  contestEntryState: fromContestEntry.reducer,
+  contestState: fromContest.reducer,
+  professionalFilterState: fromProfessionalFilter.reducer,
+  dashboadState: fromDashboard.reducer,
 };
 
 export function logger(

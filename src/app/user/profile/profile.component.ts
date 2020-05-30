@@ -8,15 +8,14 @@ import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
 import { takeUntil, take } from "rxjs/operators";
 import {
-  UPLOADOPERATIONS,
   IFileInputModel,
   IAuthData,
   IProfile,
   IUserSocialMedia,
   ICategory,
-  SocialMedia,
   SnackBarData,
   AppUserType,
+  ILocation,
 } from "src/app/interfaces";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
@@ -26,6 +25,7 @@ import * as fromCategoryType from "src/app/shared/store/category-type/category-t
 import * as _ from "underscore";
 import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.action";
 import { PHONE_REGEX } from "src/app/lib/constants";
+import * as fromUserLocation from "../../shared/store/user-location/user-location.reducer";
 
 @Component({
   selector: "app-profile",
@@ -37,7 +37,6 @@ export class ProfileComponent implements OnInit {
   userProfileState: Observable<fromProfile.ProfileState>;
   ngDestroyed = new Subject();
   fileConfig: IFileInputModel;
-  fileUploadOperation: UPLOADOPERATIONS;
   userEmail: string;
   userFullName: string;
   profileData: IProfile;
@@ -59,7 +58,12 @@ export class ProfileComponent implements OnInit {
   bannerImagePath?: string;
   typeOfUser: AppUserType;
   selectedCategories: string[] = [];
+  userLocation: ILocation = {
+    location: "",
+    formattedAddres: "",
+  };
   userType: string = "";
+  shortbioCount: number = 0;
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -93,8 +97,8 @@ export class ProfileComponent implements OnInit {
           );
           this._id = val._id;
           this.name = val.name;
-          this.rcNumber = val.rcNumber;
-          this.location = val.location;
+          // this.rcNumber = val.rcNumber;
+          this.location = val.formattedAddres;
           this.phoneNumber = val.phoneNumbers[0];
           this.shortBio = val.shortBio;
           this.twitter = val.twitter;
@@ -117,13 +121,20 @@ export class ProfileComponent implements OnInit {
       .subscribe((val: string[]) => {
         this.selectedCategories = [...val];
       });
+
+    this.userStore
+      .pipe(select(fromUserLocation.selectCurrentUserLocation))
+      .subscribe((val: ILocation) => {
+        if (val !== null) {
+          this.userLocation = val;
+        }
+      });
   }
 
   private initForm() {
     this.profileForm = new FormGroup({
       name: new FormControl(this.name, Validators.required),
-      rcNumber: new FormControl(this.rcNumber),
-      location: new FormControl(this.location, Validators.required),
+      // rcNumber: new FormControl(this.rcNumber),
       fullName: new FormControl(this.userFullName, Validators.required),
       emailAddress: new FormControl(this.userEmail, Validators.required),
       phoneNumber: new FormControl(
@@ -156,8 +167,7 @@ export class ProfileComponent implements OnInit {
   }
   onUpdateProfile() {
     const name: string = this.profileForm.controls["name"].value;
-    const rcNumber: string = this.profileForm.controls["rcNumber"].value;
-    const location: string = this.profileForm.controls["location"].value;
+    // const rcNumber: string = this.profileForm.controls["rcNumber"].value;
     const fullName: string = this.profileForm.controls["fullName"].value;
     const phoneNumber: string = this.profileForm.controls["phoneNumber"].value;
     const shortBio: string = this.profileForm.controls["shortBio"].value;
@@ -170,9 +180,9 @@ export class ProfileComponent implements OnInit {
     ].value;
     const profileObj: IProfile = {
       name,
-      rcNumber,
-      location,
+      // rcNumber,
       fullName,
+      userAddress: { ...this.userLocation },
       phoneNumbers: [phoneNumber],
       categoryTypes: [...this.selectedCategories],
       additionalSocial: [...additionalSocials],
@@ -194,14 +204,14 @@ export class ProfileComponent implements OnInit {
     }
 
     this.name = name;
-    this.rcNumber = rcNumber;
-    this.location = location;
+    // this.rcNumber = rcNumber;
     this.phoneNumber = phoneNumber;
     this.shortBio = shortBio;
     this.twitter = twitter;
     this.facebook = facebook;
     this.instagram = instagram;
     this.youtube = youtube;
+    // this.location = this.userLocation.formattedAddres;
     if (additionalSocials) {
       for (let socialMedia of additionalSocials) {
         this.otherSocialMedias.push(

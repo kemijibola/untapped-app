@@ -16,7 +16,7 @@
 
 <!-- Show-case area start -->
 
-<div class="showcase-area fx-padding ">
+<div class="showcase-area fx-padding">
   <img class="path-1" src="assets/img/sp-1.png" alt="" />
   <div class="container-fluid">
     <div class="row">
@@ -56,12 +56,12 @@
 
 <!-- professional-content-area Start -->
 
-<div class="professional-content-area fx-padding ">
+<div class="professional-content-area fx-padding">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-5 col-md-5">
         <div class="tm-img">
-          <span><img src="assets/img/sp-2.png" alt=""/></span>
+          <span><img src="assets/img/sp-2.png" alt="" /></span>
           <img src="assets/img/img-7.png" alt="" />
         </div>
       </div>
@@ -76,7 +76,12 @@
             video) receive messages from professionals, enter contest and send
             portfolio to a professional.
           </p>
-          <a href="">SIGN UP AS A TALENT<i class="fal fa-arrow-right"></i></a>
+          <a
+            (click)="onSignUpTalent()"
+            *ngIf="!isAuthenticated"
+            style="cursor: pointer;"
+            >SIGN UP AS A TALENT<i class="fal fa-arrow-right"></i
+          ></a>
         </div>
       </div>
     </div>
@@ -155,12 +160,14 @@
   </div>
 </div> -->
 
-<div class="contact-area fx-padding ">
+<div class="contact-area fx-padding">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-6 col-md-6">
         <div class="contact-txt">
-          <span>Join as professional</span>
+          <span *ngIf="!isAuthenticated" (click)="onSignUpProfessional()"
+            >Join as professional</span
+          >
           <h1>Get access to large network of talent</h1>
           <p>
             You will be able to search a large pool of talents (Highest number
@@ -170,12 +177,17 @@
             in the portfolio. Set appointment to see a talent you are interested
             in.
           </p>
-          <a href="">Join as professional<i class="fal fa-arrow-right"></i></a>
+          <a
+            style="cursor: pointer;"
+            *ngIf="!isAuthenticated"
+            (click)="onSignUpProfessional()"
+            >Join as professional<i class="fal fa-arrow-right"></i
+          ></a>
         </div>
       </div>
       <div class="col-lg-6 col-md-6">
         <div class="left-bg-contact">
-          <span class="ptrn"><img src="assets/img/patrn-2.png" alt=""/></span>
+          <span class="ptrn"><img src="assets/img/patrn-2.png" alt="" /></span>
           <div class="row">
             <div class="col-lg-12 col-md-12 p-btn">
               <img src="assets/img/img-8.png" alt="" />
@@ -191,7 +203,7 @@
       </div>
     </div>
 
-    <div class="row contact-bottom">
+    <div class="row contact-bottom" *ngIf="!isAuthenticated">
       <div class="col-lg-8 col-md-7">
         <p>
           Not a talent or professional? <br />
@@ -199,7 +211,9 @@
         </p>
       </div>
       <div class="col-lg-4 col-md-5 text-center">
-        <a href="">Sign up as audiance<i class="fal fa-arrow-right"></i></a>
+        <a style="cursor: pointer;" (click)="onSignUpAudience()"
+          >Sign up as audiance<i class="fal fa-arrow-right"></i
+        ></a>
       </div>
     </div>
   </div>

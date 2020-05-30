@@ -10,13 +10,7 @@ import {
   MediaType,
   AppNotificationKey,
 } from "src/app/interfaces";
-import {
-  map,
-  switchMap,
-  catchError,
-  concatMap,
-  mergeMap,
-} from "rxjs/operators";
+import { map, catchError, concatMap, mergeMap } from "rxjs/operators";
 import { of } from "rxjs";
 import * as TalentAudioPreviewActions from "./audio-preview/audio-preview.action";
 import * as TalentImagePreviewActions from "./image-preview/image-preview.action";

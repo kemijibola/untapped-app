@@ -6,9 +6,14 @@ import {
   IContest,
   IUserContest,
   IContestIssue,
+  ContestData,
+  IContestEntry,
+  ContestEligibilityData,
+  IUserContestListAnalysis,
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
+import { ContestWithEntriesPreview } from "../interfaces/shared/dashboard";
 
 @Injectable({ providedIn: "root" })
 export class ContestService {
@@ -16,14 +21,26 @@ export class ContestService {
   constructor(private http: HttpClient) {
     this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
-  fetchContests(): Observable<IResult<IContestList[]>> {
-    const url = `${this.BASE_URI}/contests`;
+  fetchContestPreviews(
+    pageNo: number,
+    size: number
+  ): Observable<IResult<IContestList[]>> {
+    const url = `${this.BASE_URI}/contests/preview/list?pageNo=${pageNo}&size=${size}`;
     return this.http.get<IResult<IContestList[]>>(url);
   }
-  fetchContest(_id: string): Observable<IResult<IContest>> {
+
+  fetchContest(_id: string): Observable<IResult<ContestData>> {
     const url = `${this.BASE_URI}/contests/${_id}`;
-    return this.http.get<IResult<IContest>>(url);
+    return this.http.get<IResult<ContestData>>(url);
   }
+
+  checkUserEligibility(
+    contestId: string
+  ): Observable<IResult<ContestEligibilityData>> {
+    const url = `${this.BASE_URI}/contest-entries/${contestId}/user`;
+    return this.http.get<IResult<ContestEligibilityData>>(url);
+  }
+
   fetchUserContests(): Observable<IResult<IUserContest[]>> {
     const url = `${this.BASE_URI}/contests`;
     return this.http.get<IResult<IUserContest[]>>(url);
@@ -33,14 +50,42 @@ export class ContestService {
     const url = `${this.BASE_URI}/contests`;
     return this.http.get<IResult<IContest[]>>(`${url}?title=${title}`);
   }
+
+  fetchRunningContests(): Observable<IResult<ContestWithEntriesPreview[]>> {
+    const url = `${this.BASE_URI}/contests/dashboard/runningcontests`;
+    return this.http.get<IResult<ContestWithEntriesPreview[]>>(url);
+  }
+
+  fetchUserParticipatedContests(): Observable<
+    IResult<IUserContestListAnalysis[]>
+  > {
+    const url = `${this.BASE_URI}/contest-entries/user`;
+    return this.http.get<IResult<IUserContestListAnalysis[]>>(url);
+  }
+
+  fetchContestsCreatedByUser(): Observable<
+    IResult<IUserContestListAnalysis[]>
+  > {
+    console.log("called");
+    const url = `${this.BASE_URI}/contests/user/contests`;
+    return this.http.get<IResult<IUserContestListAnalysis[]>>(url);
+  }
+
   createContest(item: IContest): Observable<IResult<IContest>> {
     const url = `${this.BASE_URI}/contests`;
     return this.http.post<IResult<IContest>>(url, item);
   }
+
+  enterContest(item: IContestEntry): Observable<IResult<IContestEntry>> {
+    const url = `${this.BASE_URI}/contest-entries`;
+    return this.http.post<IResult<IContestEntry>>(url, item);
+  }
+
   createContestIssue(item: IContestIssue): Observable<IResult<IContestIssue>> {
     const url = `${this.BASE_URI}/contests`;
     return this.http.post<IResult<IContestIssue>>(url, item);
   }
+
   updateContestWithJudge(
     _id: string,
     judges: IJudge[]

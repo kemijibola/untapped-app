@@ -18,17 +18,16 @@ export class NotificationEffect {
       pipe(
         map((action: NotificationActions.AddError) => action.payload),
         map((payload: AppNotification) => {
-          const snackBarConfig: SnackBarData = {
+          let snackBarConfig: SnackBarData = {
             message: payload["message"],
             action: "X",
             config: {
               panelClass: ["error-snackbar"],
-              horizontalPosition: "center",
+              horizontalPosition: "right",
               verticalPosition: "top",
               duration: 7000,
             },
           };
-
           return {
             type: SnackBarActions.SNACKBAR_OPEN,
             payload: snackBarConfig,
@@ -72,7 +71,7 @@ export class NotificationEffect {
             action: "X",
             config: {
               panelClass: ["success-snackbar"],
-              horizontalPosition: "center",
+              horizontalPosition: "right",
               verticalPosition: "top",
               duration: 7000,
             },
@@ -103,7 +102,7 @@ export class NotificationEffect {
             action: "X",
             config: {
               panelClass: ["info-snackbar"],
-              horizontalPosition: "center",
+              horizontalPosition: "right",
               verticalPosition: "top",
               duration: 7000,
             },

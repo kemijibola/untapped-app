@@ -11,15 +11,17 @@ import {
   MediaType,
   AudioItem,
   VideoItem,
+  AppModal,
+  ModalDisplay,
+  ModalViewModel,
 } from "src/app/interfaces";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import {
   fetchImageObjectFromCloudFormation,
   fetchNoMediaDefaultImage,
   fetchAudioItemFullPath,
+  fetchVideoItemFullPath,
 } from "src/app/lib/Helper";
-import { VgMedia } from "videogular2/compiled/core";
-import { VgAPI } from "ngx-videogular";
 
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
@@ -32,8 +34,7 @@ import * as _ from "underscore";
   templateUrl: "./talent-album-modal-content.component.html",
   styleUrls: ["./talent-album-modal-content.component.css"],
 })
-export class TalentAlbumModalContentComponent implements OnInit {
-  api: VgAPI;
+export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   selectedUser: UserFilterCategory;
   selectedMedia: TalentPortfolioPreview = {
     _id: "",
@@ -42,6 +43,7 @@ export class TalentAlbumModalContentComponent implements OnInit {
     uploadType: "",
     albumCover: "",
     defaultImageKey: "",
+    defaultAlbumCover: "",
     mediaTitle: "",
     mediaDescription: "",
     items: [],
@@ -70,7 +72,7 @@ export class TalentAlbumModalContentComponent implements OnInit {
     key: "",
     path: "",
     type: "",
-    fullAudioPath: "",
+    fullVideoPath: "",
   };
   currentIndex = 0;
   mediaItems: MediaItem[] = [];
@@ -84,13 +86,27 @@ export class TalentAlbumModalContentComponent implements OnInit {
       grayscale: false,
     },
   };
+  defaultImgParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.cover,
+      },
+      grayscale: false,
+    },
+  };
+
   defaultImagePath: string;
+  imagePath: string;
   isCurrentImageSet: boolean;
   isCurrentAudioSet: boolean;
   isCurrentVideoSet: boolean;
   currentAudioIndex = 0;
   audioItems: MediaItem[] = [];
   commentsFetched: boolean = false;
+  currentImage: string = "";
+  componentModal: AppModal;
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -105,14 +121,18 @@ export class TalentAlbumModalContentComponent implements OnInit {
           if (currentMedia !== undefined) {
             Object.assign({}, currentMedia, { key: currentMedia.path });
             // currentMedia.key = currentMedia.path;
+            this.setMedia(val.mediaType, currentMedia);
           }
-          this.setMedia(val.mediaType, currentMedia);
         }
       });
-  }
 
-  onPlayerReady(api: VgAPI) {
-    this.api = api;
+    this.store
+      .pipe(select(fromModal.selectCurrentModal))
+      .subscribe((val: AppModal) => {
+        if (val) {
+          this.componentModal = { ...val };
+        }
+      });
   }
 
   activateModalContent(): void {
@@ -132,11 +152,13 @@ export class TalentAlbumModalContentComponent implements OnInit {
                 })
               );
             }
-          } else {
-            if (this.api) {
-              (<VgMedia>this.api.getDefaultMedia()).pause();
-            }
           }
+          // else {
+          //   console.log(this.api);
+          //   if (this.api !== null) {
+          //     (<VgMedia>this.api.getDefaultMedia()).pause();
+          //   }
+          // }
         }
       });
 
@@ -144,7 +166,6 @@ export class TalentAlbumModalContentComponent implements OnInit {
       .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
         this.selectedUser = { ...val };
-        console.log(this.selectedUser);
         this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")
           ? fetchImageObjectFromCloudFormation(
               val.displayPhoto,
@@ -155,16 +176,29 @@ export class TalentAlbumModalContentComponent implements OnInit {
   }
 
   setCurrentImage(image: MediaItem) {
+    console.log("setting image...");
     this.isCurrentImageSet = true;
     this.isCurrentAudioSet = false;
     this.isCurrentVideoSet = false;
-    this.defaultImagePath =
-      image === undefined
-        ? fetchNoMediaDefaultImage()
-        : (this.defaultImagePath = fetchImageObjectFromCloudFormation(
+    this.defaultImagePath = fetchImageObjectFromCloudFormation(
+      image.path,
+      this.defaultImgParams
+    );
+    this.imagePath =
+      image !== undefined
+        ? fetchImageObjectFromCloudFormation(
             image.path,
             this.defaultImageParams
-          ));
+          )
+        : fetchNoMediaDefaultImage();
+    // this.imagePath =
+    //   image === undefined
+    //     ? fetchNoMediaDefaultImage()
+    //     : (this.defaultImagePath = fetchImageObjectFromCloudFormation(
+    //         image.path,
+    //         this.defaultImageParams
+    //       ));
+    this.currentImage = image.path || fetchNoMediaDefaultImage();
   }
 
   setMagnifiedImage() {
@@ -181,29 +215,21 @@ export class TalentAlbumModalContentComponent implements OnInit {
     this.isCurrentImageSet = false;
     this.isCurrentAudioSet = false;
     this.isCurrentVideoSet = true;
-
-    video.type = `video/${video.path.split(".").pop()}`;
-    video.fullAudioPath = fetchAudioItemFullPath(video.path);
     this.currentVideoItem = video;
-
-    (<VgMedia>this.api.getDefaultMedia()).loadMedia();
   }
+
   setCurrentAudio(audio: AudioItem) {
     this.isCurrentImageSet = false;
-    this.isCurrentAudioSet = true;
     this.isCurrentVideoSet = false;
-
-    audio.type = `audio/${audio.path.split(".").pop()}`;
-    audio.fullAudioPath = fetchAudioItemFullPath(audio.path);
+    this.isCurrentAudioSet = true;
     this.currentAudioItem = audio;
-
-    (<VgMedia>this.api.getDefaultMedia()).loadMedia();
   }
 
   setMedia(type: string, media: MediaItem) {
     const mediaType = type.toUpperCase();
     this.isCurrentImageSet = false;
     this.isCurrentAudioSet = false;
+    this.isCurrentVideoSet = false;
     switch (mediaType) {
       case MediaType.AUDIO:
         this.setCurrentAudio(media);
@@ -216,6 +242,31 @@ export class TalentAlbumModalContentComponent implements OnInit {
         break;
       default:
         break;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.componentModal) {
+      const modalToDeActivate = this.componentModal.modals.filter(
+        (x) => x.name === "album-modal"
+      )[0];
+      const modalToClose: IModal = {
+        index: modalToDeActivate.index,
+        name: modalToDeActivate.name,
+        display: ModalDisplay.none,
+        viewMode: ModalViewModel.none,
+        contentType: "",
+        data: null,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      };
+      this.store.dispatch(
+        new ModalsActions.ToggleModal({
+          appModal: this.componentModal,
+          modal: modalToClose,
+        })
+      );
     }
   }
 }

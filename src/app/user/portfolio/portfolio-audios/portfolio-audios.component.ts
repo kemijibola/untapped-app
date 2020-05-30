@@ -76,6 +76,9 @@ export class PortfolioAudiosComponent {
   }
 
   onDelete(id: string) {
+    if (this.userAudioPreviews.length !== 0) {
+      this.userAudioPreviews.length - 1;
+    }
     this.userStore.dispatch(
       new MediaPreviewActions.DeleteAudioListById({ audioId: id })
     );

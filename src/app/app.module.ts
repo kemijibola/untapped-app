@@ -9,6 +9,7 @@ import {
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "./../environments/environment";
 import { APP_INITIALIZER } from "@angular/core";
+import { LazyLoadImageModule } from "ng-lazyload-image";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
 import { AppRoutingModule } from "./app-routing.module";
@@ -34,13 +35,18 @@ import { StorageModule } from "@ngx-pwa/local-storage";
 import { SnackBarEffect } from "./shared/notifications/snackbar/snackbar.effect";
 import { TabsEffect } from "./shared/store/tabs/tabs.effects";
 import { ModalsEffect } from "./shared/store/modals/modals.effect";
-import { SlideToggleEffect } from "./shared/store/slide-toggle/slide-toggle.effect";
 import { UserImageEffect } from "./shared/store/user-image/user-image.effect";
 import { NotificationEffect } from "./store/global/notification/notification.effect";
 import { NgxCurrencyModule } from "ngx-currency";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { OrderEffect } from "./shared/store/order/order.effects";
-// import { NgbModule, NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ContestsEffect } from "./contests/store/contests.effects";
+import { ContestEntryEffect } from "./contests/store/contest-entry/contest-entry.effects";
+import { StickyModule } from "ng2-sticky-kit";
+import { ContestEffect } from "./contests/store/contest/contest.effects";
+import { ProfessionalCategoryEffect } from "./shared/store/filtered-categories/professional-category/professional-category.effects";
+import { DashboardEffects } from "./shared/store/dashboard/dashboard.effect";
+
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
 // }
@@ -68,6 +74,8 @@ export const customCurrencyMaskConfig = {
     MaterialModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    StickyModule,
+    LazyLoadImageModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
@@ -85,9 +93,13 @@ export const customCurrencyMaskConfig = {
       SnackBarEffect,
       TabsEffect,
       ModalsEffect,
-      SlideToggleEffect,
       ServiceEffects,
       OrderEffect,
+      ContestsEffect,
+      ContestEntryEffect,
+      ContestEffect,
+      ProfessionalCategoryEffect,
+      DashboardEffects,
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({

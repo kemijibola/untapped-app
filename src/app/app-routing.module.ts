@@ -20,7 +20,6 @@ const appRoutes: Routes = [
   },
   {
     path: "contests",
-    canActivate: [AuthGuard, CompleteProfile],
     loadChildren: () =>
       import("./contests/contests.module").then((m) => m.ContestsModule),
   },

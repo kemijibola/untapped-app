@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import * as fromNewContestActions from "../../../user-contest/store/new-contest/new-contest.actions";
 import * as fromUserContest from "../../../user-contest/user-contest.reducers";
 import * as fromNewContest from "../../../user-contest/store/new-contest/new-contest.reducers";
 import { Store, select } from "@ngrx/store";
@@ -123,7 +122,6 @@ export class NewContestOverviewComponent implements OnInit {
           );
           this.differenceInDays =
             difference > 1 ? `${difference} days` : `${difference} day`;
-          console.log(this.differenceInDays);
           if (val.eligibleCategories.length > 0) {
             this.mapSelectedCategories();
           }
@@ -191,6 +189,8 @@ export class NewContestOverviewComponent implements OnInit {
           processor: PaymentProcessor["paystack"],
         })
       );
+
+      this.router.navigate(["/user/contest/new/order-success"]);
     }
   }
 

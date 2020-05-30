@@ -15,6 +15,8 @@ export const SET_USER_AUDIO_PREVIEWS = "SET_USER_AUDIO_PREVIEWS";
 export const SET_USER_VIDEO_PREVIEWS = "SET_USER_VIDEO_PREVIEWS";
 export const SET_USER_IMAGE_PREVIEWS = "SET_USER_IMAGE_PREVIEWS";
 
+export const USER_MEDIA_LIST_COUNT = "USER_MEDIA_LIST_COUNT";
+
 export const DELETE_IMAGE_LIST_BY_ID = "DELETE_IMAGE_LIST_BY_ID";
 export const DELETE_IMAGE_LIST_BY_ID_SUCCESS =
   "DELETE_IMAGE_LIST_BY_ID_SUCCESS";
@@ -102,6 +104,10 @@ export class DeleteVideoListByIdError implements Action {
   readonly type = DELETE_VIDEO_LIST_BY_ID_ERROR;
   constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
+export class UserMediaListCount implements Action {
+  readonly type = USER_MEDIA_LIST_COUNT;
+  constructor(public payload: { userMediaListCount: number }) {}
+}
 
 export type MediaPreviewActions =
   | FetchUserMediaListPreview
@@ -118,4 +124,5 @@ export type MediaPreviewActions =
   | DeleteVideoListByIdSuccess
   | DeleteImageListByIdError
   | DeleteAudioListByIdError
-  | DeleteVideoListByIdError;
+  | DeleteVideoListByIdError
+  | UserMediaListCount;

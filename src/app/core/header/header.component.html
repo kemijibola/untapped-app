@@ -98,7 +98,11 @@
                   <a href="#"><i class="far fa-bell"></i></a><span>4</span>
                 </li>
                 <li class="user">
-                  <img src="assets/img/contest/user.png" alt="" />
+                  <img
+                    style="height: 25px; width: 25px; border-radius: 50%;"
+                    src="{{ userImage }}"
+                    alt=""
+                  />
                   <span>{{ userFullName }}</span>
                   <div class="drpdown">
                     <ul class="top">
@@ -112,8 +116,20 @@
                           >Contests</a
                         >
                       </li>
-                      <li><a href="#">Gigs</a></li>
-                      <li><a href="#">New Portfolio Upload</a></li>
+                      <li>
+                        <a
+                          routerLink="./user/{{ userPreEmailAdress }}"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
+                          [queryParams]="{ tab: 'wallet' }"
+                          >Wallet</a
+                        >
+                      </li>
+                      <!-- <li>
+                        <a *ngIf="typeOfUser === 'Talent'"
+                          >New Portfolio Upload</a
+                        >
+                      </li> -->
                     </ul>
                     <ul class="bot">
                       <li>
@@ -138,20 +154,12 @@
                       </li>
                       <li>
                         <a
+                          *ngIf="typeOfUser === 'Talent'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'settings' }"
                           >Settings</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          routerLink="./user/{{ userPreEmailAdress }}"
-                          [routerLinkActiveOptions]="{ exact: true }"
-                          routerLinkActive="visited"
-                          [queryParams]="{ tab: 'managevotes' }"
-                          >Manage Votes</a
                         >
                       </li>
                       <li><a (click)="onLogOut()">Logout</a></li>

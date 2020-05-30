@@ -25,6 +25,16 @@ export const SUCCESS_EMAIL_CONFIRMATION = "SUCCESS_EMAIL_CONFIRMATION";
 export const FAILURE_EMAIL_CONFIRMATION = "FAILURE_EMAIL_CONFIRMATION";
 export const CHECK_TOKEN_EXPIRED = "CHECK_TOKEN_EXPIRED";
 export const PROCEED_TO_ROUTE = "PROCEED_TO_ROUTE";
+export const CHANGE_EMAIL_ADDRESS = "CHANGE_EMAIL_ADDRESS";
+export const CHANGE_EMAIL_ADDRESS_SUCCESS = "CHANGE_EMAIL_ADDRESS_SUCCESS";
+export const VERIFY_EMAIL_CHANGE = "VERIFY_EMAIL_CHANGE";
+export const VERIFY_EMAIL_CHANGE_SUCCESS = "VERIFY_EMAIL_CHANGE_SUCCESS";
+export const REQUEST_PASSWORD_RESET = "REQUEST_PASSWORD_RESET";
+export const REQUEST_PASSWORD_RESET_SUCCESS = "REQUEST_PASSWORD_RESET_SUCCESS";
+export const VERIFY_RESET_PASSWORD = "VERIFY_RESET_PASSWORD";
+export const VERIFY_RESET_PASSWORD_SUCCESS = "VERIFY_RESET_PASSWORD_SUCCESS";
+export const CREATE_NEW_PASSWORD = "CREATE_NEW_PASSWORD";
+export const CREATE_NEW_PASSWORD_SUCCESS = "CREATE_NEW_PASSWORD_SUCCESS";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -67,7 +77,6 @@ export class SetNewUserEmail implements Action {
   readonly type = SET_NEW_USER_EMAIL;
   constructor(public payload: { email: string }) {}
 }
-
 export class SignInFailure implements Action {
   readonly type = SIGNIN_FAILURE;
   constructor(public payload: { errorCode: number; errorMessage: string }) {}
@@ -100,6 +109,48 @@ export class ProceedToRoute implements Action {
   readonly type = PROCEED_TO_ROUTE;
   constructor(public payload: { routeUrl: string }) {}
 }
+export class ChangeEmailAddress implements Action {
+  readonly type = CHANGE_EMAIL_ADDRESS;
+  constructor(
+    public payload: { newEmail: string; emailChangeVerificationUri: string }
+  ) {}
+}
+export class ChangeEmailAddressSuccess implements Action {
+  readonly type = CHANGE_EMAIL_ADDRESS_SUCCESS;
+}
+export class VerifyEmailChange implements Action {
+  readonly type = VERIFY_EMAIL_CHANGE;
+  constructor(public payload: { confirmEmailData: IConfirmEmail }) {}
+}
+export class VerifyEmailChangeSuccess implements Action {
+  readonly type = VERIFY_EMAIL_CHANGE_SUCCESS;
+  constructor(public payload: { changedEmail: string }) {}
+}
+export class RequestPasswordReset implements Action {
+  readonly type = REQUEST_PASSWORD_RESET;
+  constructor(public payload: { email: string; redirectUrl: string }) {}
+}
+export class RequsetPasswordResetSuccess implements Action {
+  readonly type = REQUEST_PASSWORD_RESET_SUCCESS;
+}
+export class VerifyRestPassword implements Action {
+  readonly type = VERIFY_RESET_PASSWORD;
+  constructor(public payload: { verifyPasswordReq: IConfirmEmail }) {}
+}
+
+export class VerifyRestPasswordSuccess implements Action {
+  readonly type = VERIFY_RESET_PASSWORD_SUCCESS;
+  constructor(public payload: { email: string }) {}
+}
+CREATE_NEW_PASSWORD;
+export class CreateNewPassword implements Action {
+  readonly type = CREATE_NEW_PASSWORD;
+  constructor(public payload: { email: string; newPassword: string }) {}
+}
+
+export class CreateNewPasswordSuccess implements Action {
+  readonly type = CREATE_NEW_PASSWORD_SUCCESS;
+}
 
 export type AuthActions =
   | SignUpSuccess
@@ -119,4 +170,14 @@ export type AuthActions =
   | SuccessEmailConfirmation
   | FailureEmailConfirmation
   | CheckTokenExpired
-  | ProceedToRoute;
+  | ProceedToRoute
+  | ChangeEmailAddress
+  | ChangeEmailAddressSuccess
+  | VerifyEmailChange
+  | VerifyEmailChangeSuccess
+  | RequestPasswordReset
+  | RequsetPasswordResetSuccess
+  | VerifyRestPassword
+  | VerifyRestPasswordSuccess
+  | CreateNewPassword
+  | CreateNewPasswordSuccess;

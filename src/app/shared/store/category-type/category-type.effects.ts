@@ -5,7 +5,7 @@ import * as CategoryTypeActions from "./category-type.actions";
 import * as fromApp from "../../../store/app.reducers";
 import { CategoryTypeService } from "src/app/services/category-type.service";
 import { IResult, CategoryType, AppNotificationKey } from "src/app/interfaces";
-import { map, switchMap, catchError } from "rxjs/operators";
+import { map, concatMap, catchError } from "rxjs/operators";
 import { of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../store/global/notification/notification.action";
@@ -15,7 +15,7 @@ export class CategoryTypeEffects {
   fetchCategoryTypes = createEffect(() =>
     this.actions$.pipe(
       ofType(CategoryTypeActions.FETCH_CATEGORY_TYPES),
-      switchMap((action: CategoryTypeActions.FetchCategoryTypes) =>
+      concatMap((action: CategoryTypeActions.FetchCategoryTypes) =>
         this.categoryTypeService.getCategoryTypes().pipe(
           map((res: IResult<CategoryType[]>) => {
             return {

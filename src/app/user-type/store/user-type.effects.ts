@@ -1,19 +1,10 @@
 import { Action } from "@ngrx/store";
-import {
-  mergeMap,
-  catchError,
-  switchMap,
-  concatMap,
-  map,
-  tap,
-} from "rxjs/operators";
+import { mergeMap, catchError, concatMap, map, tap } from "rxjs/operators";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Injectable } from "@angular/core";
 import * as UserTypeActions from "./user-type.actions";
 import { IUserType, IResult, AppNotificationKey } from "src/app/interfaces";
 import { UserTypeService } from "../../services/user-type.service";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
 import { of } from "rxjs";
 import { Observable } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";

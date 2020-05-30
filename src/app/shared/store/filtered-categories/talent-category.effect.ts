@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import * as TalentCategoryActions from "./talent-category.action";
 import { UserCategoryService } from "src/app/services/user-category.service";
-import { map, switchMap, catchError, concatMap } from "rxjs/operators";
+import { map, catchError, concatMap } from "rxjs/operators";
 import {
   IResult,
   UserFilterCategory,
@@ -21,7 +21,7 @@ export class UserCategoryEffect {
       ofType(TalentCategoryActions.FETCH_ALL_TALENT_HIGHEST_COMMENT),
       concatMap((action: TalentCategoryActions.FetchAllTalentHighestComment) =>
         this.userCategoryService
-          .getAllTalentsByHighestComment(action.payload)
+          .getUserFilterCategoryByReportType(action.payload)
           .pipe(
             map(
               (resp: IResult<UserFilterCategory[]>) =>

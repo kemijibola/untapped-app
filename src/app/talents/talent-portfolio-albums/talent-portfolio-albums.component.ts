@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, Input } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
+import * as fromModals from "../../shared/store/modals/modals.reducers";
 import * as fromApp from "../../store/app.reducers";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
 import {
@@ -12,6 +13,7 @@ import {
   AudioPortfolioPreview,
   VideoPortfolioPreview,
   TalentPortfolioPreview,
+  UserFilterCategory,
 } from "src/app/interfaces";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import {
@@ -24,6 +26,7 @@ import * as fromModal from "../../shared/store/modals/modals.reducers";
 import * as fromTalentAudioPortfolio from "src/app/shared/store/talents/audio-preview/audio-preview.reducer";
 import * as fromTalentImagePortfolio from "src/app/shared/store/talents/image-preview/image-preview.reducer";
 import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-preview/video-preview.reducer";
+import * as fromTalentFilter from "../../shared/store/filtered-categories/talent-category.reducers";
 
 @Component({
   selector: "app-talent-portfolio-albums",
@@ -31,19 +34,27 @@ import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-pr
   styleUrls: ["./talent-portfolio-albums.component.css"],
 })
 export class TalentPortfolioAlbumsComponent {
+  talentName: string;
   appModal: AppModal;
   componentModal: AppModal;
-  imageAlbumCount = 0;
-  audioAlbumCount = 0;
-  videoAlbumCount = 0;
   imageAlbums: ImagePortfolioPreview[] = [];
   audioAlbums: AudioPortfolioPreview[] = [];
   videoAlbums: VideoPortfolioPreview[] = [];
+  defaultEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
   editParams: ImageEditRequest = {
     edits: {
       resize: {
-        width: 418.66,
-        height: 225.13,
+        width: 413,
+        height: 225,
         fit: ImageFit.fill,
       },
       grayscale: false,
@@ -53,7 +64,12 @@ export class TalentPortfolioAlbumsComponent {
   selectedMedia: TalentPortfolioPreview;
   leftDisabled = false;
   rightDisabled = false;
-  constructor(public store: Store<fromApp.AppState>) {}
+  showModal: boolean = true;
+  showImage: boolean = false;
+  constructor(
+    public store: Store<fromApp.AppState>,
+    public element: ElementRef
+  ) {}
 
   ngOnInit() {
     this.fetchTalentImages();
@@ -69,10 +85,24 @@ export class TalentPortfolioAlbumsComponent {
           this.componentModal = { ...val };
         }
       });
+
+    this.store
+      .pipe(select(fromModals.selectCurrentShowMagnifier))
+      .subscribe((val: boolean) => {
+        if (val !== null && val) {
+          this.showModal = false;
+        }
+      });
+
+    this.store
+      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
+      .subscribe((val: UserFilterCategory) => {
+        console.log("selected user", val);
+        this.talentName = val.aliasName || "";
+      });
   }
 
   onPrevious() {
-    console.log("prev clicked");
     this.currentIndex--;
     if (this.currentIndex < this.selectedMedia.items.length - 1) {
       this.rightDisabled = false;
@@ -90,7 +120,6 @@ export class TalentPortfolioAlbumsComponent {
   }
 
   onNext() {
-    console.log("next clicked");
     this.currentIndex++;
     if (this.currentIndex > 0 && this.selectedMedia.items.length > 1) {
       this.leftDisabled = false;
@@ -109,8 +138,6 @@ export class TalentPortfolioAlbumsComponent {
   }
 
   openModalDialog(modalId: string, selectedMedia: TalentPortfolioPreview) {
-    console.log(selectedMedia);
-
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "talent-portfolio" })
     );
@@ -127,7 +154,7 @@ export class TalentPortfolioAlbumsComponent {
         viewMode: ModalViewModel.new,
         contentType: modalToActivate.contentType,
         data: { ...selectedMedia },
-        modalCss: "modal aligned-modal",
+        modalCss: "modal aligned-modal album-modal",
         modalDialogCss: "modal-dialog-album-view",
         showMagnifier: false,
       };
@@ -161,7 +188,6 @@ export class TalentPortfolioAlbumsComponent {
       .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
       .subscribe((val: ImagePortfolioPreview[]) => {
         if (val) {
-          this.imageAlbumCount = val.length;
           this.imageAlbums = [...val];
           this.setImageAlbumCover();
         }
@@ -172,8 +198,8 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
       .subscribe((val: AudioPortfolioPreview[]) => {
+        console.log(val);
         if (val) {
-          this.audioAlbumCount = val.length;
           this.audioAlbums = [...val];
           this.setAudioAlbumCover();
         }
@@ -185,12 +211,12 @@ export class TalentPortfolioAlbumsComponent {
       .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
       .subscribe((val: VideoPortfolioPreview[]) => {
         if (val) {
-          this.videoAlbumCount = val.length;
           this.videoAlbums = [...val];
           this.setVideoAlbumCover();
         }
       });
   }
+
   setImageAlbumCover() {
     this.imageAlbums = this.imageAlbums.map((x) => {
       return Object.assign({}, x, {
@@ -201,8 +227,26 @@ export class TalentPortfolioAlbumsComponent {
                 this.editParams
               )
             : fetchNoMediaDefaultImage(),
+        defaultAlbumCover:
+          x.defaultImageKey !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.defaultImageKey,
+                this.defaultEditParams
+              )
+            : fetchNoMediaDefaultImage(),
+        defaultLoaded: false,
       });
     });
+  }
+
+  triggerTimer() {
+    setTimeout(() => {
+      this.triggerImageShow();
+    }, 5000);
+  }
+
+  triggerImageShow() {
+    this.showImage = true;
   }
 
   setAudioAlbumCover() {
@@ -213,7 +257,23 @@ export class TalentPortfolioAlbumsComponent {
 
   setVideoAlbumCover() {
     this.videoAlbums = this.videoAlbums.map((x) => {
-      return Object.assign({}, x, { albumCover: fetchVideoArt() });
+      return Object.assign({}, x, {
+        albumCover:
+          x.albumCoverKey !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.albumCoverKey,
+                this.editParams
+              )
+            : fetchVideoArt(),
+        defaultAlbumCover:
+          x.albumCoverKey !== ""
+            ? fetchImageObjectFromCloudFormation(
+                x.albumCoverKey,
+                this.defaultEditParams
+              )
+            : fetchVideoArt(),
+        defaultLoaded: false,
+      });
     });
   }
 

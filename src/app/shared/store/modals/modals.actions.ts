@@ -8,6 +8,7 @@ import {
 
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const ADD_COMPONENT_MODAL = "ADD_COMPONENT_MODAL";
+export const ADD_COMPONENT_MODALS = "ADD_COMPONENT_MODALS";
 export const SET_CURRENT_MODAL = "SET_CURRENT_MODAL";
 export const RESET_CURRENT_MODAL = "RESET_CURRENT_MODAL";
 export const FETCH_APP_MODAL = "FETCH_APP_MODAL";
@@ -25,6 +26,10 @@ export class ToggleModal implements Action {
   constructor(public payload: { appModal: AppModal; modal: IModal }) {}
 }
 
+export class AddComponentModals implements Action {
+  readonly type = ADD_COMPONENT_MODALS;
+  constructor(public payload: { appModals: AppModal[] }) {}
+}
 export class AddComponentModal implements Action {
   readonly type = ADD_COMPONENT_MODAL;
   constructor(public payload: { componentModal: AppModal }) {}
@@ -87,4 +92,5 @@ export type ModalsActions =
   | DestroyAll
   | SetCurrentModal
   | ResetCurrentModal
-  | AddComponentModal;
+  | AddComponentModal
+  | AddComponentModals;

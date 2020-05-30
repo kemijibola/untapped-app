@@ -34,6 +34,11 @@ import { VgOverlayPlayModule } from "ngx-videogular";
 import { VgBufferingModule } from "ngx-videogular";
 import { mediaPreviewReducer } from "./store/portfolio/media/media-preview.reducers";
 import { MediaPreviewEffect } from "./store/portfolio/media/media-preview.effects";
+import { AddMoreImageComponent } from "./portfolio/add-more-image/add-more-image.component";
+import { AddMoreAudioComponent } from "./portfolio/add-more-audio/add-more-audio.component";
+import { AddMoreVideoComponent } from "./portfolio/add-more-video/add-more-video.component";
+import { userLocationReducer } from "../shared/store/user-location/user-location.reducer";
+import { TalentContestComponent } from './talent-contest/talent-contest.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +58,10 @@ import { MediaPreviewEffect } from "./store/portfolio/media/media-preview.effect
     ChangeProfilePictureComponent,
     ChangeProfessionalBannerComponent,
     PortfolioGeneralComponent,
+    AddMoreImageComponent,
+    AddMoreAudioComponent,
+    AddMoreVideoComponent,
+    TalentContestComponent,
   ],
   imports: [
     SharedModule,
@@ -66,6 +75,7 @@ import { MediaPreviewEffect } from "./store/portfolio/media/media-preview.effect
     StoreModule.forFeature("profileState", profileReducer),
     StoreModule.forFeature("mediaPreviewState", mediaPreviewReducer),
     StoreModule.forFeature("portfolioState", portfolioReducer),
+    StoreModule.forFeature("userLocationState", userLocationReducer),
     EffectsModule.forFeature([
       ProfileEffect,
       PortfolioEffect,

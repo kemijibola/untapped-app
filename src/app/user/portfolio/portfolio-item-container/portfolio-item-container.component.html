@@ -1,7 +1,10 @@
-<app-portfolio-images></app-portfolio-images>
+<img *ngIf="userMediaListCount < 1" src="{{ noMediaImg }}" alt="" />
+<div>
+  <app-portfolio-images></app-portfolio-images>
 
-<app-portfolio-videos></app-portfolio-videos>
+  <app-portfolio-videos></app-portfolio-videos>
 
-<app-portfolio-audios></app-portfolio-audios>
+  <app-portfolio-audios></app-portfolio-audios>
 
-<app-portfolio-media-type></app-portfolio-media-type>
+  <app-portfolio-media-type></app-portfolio-media-type>
+</div>

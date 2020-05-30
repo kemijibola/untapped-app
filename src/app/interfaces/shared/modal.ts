@@ -30,6 +30,7 @@ export enum ModalDisplay {
 export enum ModalViewModel {
   new = "new",
   edit = "edit",
+  view = "view",
   none = "none",
 }
 

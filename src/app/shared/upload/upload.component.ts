@@ -18,12 +18,17 @@ import * as UploadActions from "../store/upload/upload.actions";
 import {
   IFileInputModel,
   IFileModel,
-  UPLOADOPERATIONS,
   AppNotificationKey,
   ISize,
   MediaAcceptType,
+  UPLOADCOMPONENT,
+  UPLOADACTION,
+  IPresignRequest,
 } from "src/app/interfaces";
 import * as NotificationActions from "../../store/global/notification/notification.action";
+import { map } from "rxjs/operators";
+import { getDate } from "date-fns";
+import { getMetadata, getThumbnails } from "video-metadata-thumbnails";
 
 const noop = () => {};
 
@@ -41,17 +46,16 @@ const noop = () => {};
 })
 export class UploadComponent
   implements ControlValueAccessor, OnInit, OnChanges {
-  private file: IFileModel = {
-    action: UPLOADOPERATIONS.ContestBanner,
-    files: [],
-  };
   ngDestroyed = new Subject();
   multiple: boolean;
   accept: string;
-  operationType: UPLOADOPERATIONS;
+  operationType: UPLOADACTION;
   state: boolean;
   private onChange: Function;
   private onTouchedCallback: Function;
+  private file: IFileModel;
+  private thumbnailFile: IPresignRequest;
+
   fileArray = [];
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   @Input() fileConfig: IFileInputModel;
@@ -63,15 +67,17 @@ export class UploadComponent
   ) {
     this.onTouchedCallback = noop;
     this.onChange = noop;
+
+    this.store.dispatch(new UploadActions.ResetFileInput());
   }
   ngOnInit() {}
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["fileConfig"]) {
       if (this.fileConfig) {
-        if (this.fileConfig.process !== UPLOADOPERATIONS.Default) {
+        if (this.fileConfig.action !== UPLOADACTION.default) {
           this.multiple = this.fileConfig.multiple;
-          this.operationType = this.fileConfig.process;
+          this.operationType = this.fileConfig.action;
           this.state = this.fileConfig.state;
           this.accept = this.fileConfig.accept;
           if (this.state) {
@@ -100,6 +106,28 @@ export class UploadComponent
           this.fileArray.push({ data: file });
         }
       } else {
+        if (this.fileConfig.accept === MediaAcceptType.VIDEO && index === 0) {
+          const base64 = await this.getBase64(file);
+          var videoBlob = this.dataURItoBlob(base64);
+          const thumbnails = await getThumbnails(videoBlob, {
+            start: 0,
+            end: 1,
+            quality: 0.7,
+            interval: 1,
+            scale: 0.7,
+          });
+
+          const imageFile = new File([thumbnails[0].blob], "thumbnail.jpeg", {
+            type: "image/jpeg",
+          });
+          const mediaThumbnail: IFileModel = {
+            action: UPLOADACTION.uploadthumbnail,
+            files: [imageFile],
+          };
+          this.store.dispatch(
+            new UploadActions.SetMediaThumbnail({ thumbnail: mediaThumbnail })
+          );
+        }
         this.fileArray.push({
           data: file,
         });
@@ -115,14 +143,35 @@ export class UploadComponent
       this.store.dispatch(new UploadActions.FileToUpload({ file: this.file }));
       this.writeValue(null);
     } else {
+      //  CHANGE TO HIEHGT AND WIDTH
       this.store.dispatch(
         new NotificationActions.AddError({
           key: AppNotificationKey.error,
-          message: `Upload image with minimum dimentions ${this.fileConfig.minHeight}px x ${this.fileConfig.minWidth}px`,
+          message: `Upload image with minimum dimensions ${this.fileConfig.minHeight}px x ${this.fileConfig.minWidth}px`,
           code: 400,
         })
       );
     }
+  }
+
+  getBase64(file: File): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = window.atob(dataURI.split(",")[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: "image/png" });
+    return blob;
   }
 
   validateImageDimension(size: ISize): boolean {
@@ -145,7 +194,7 @@ export class UploadComponent
       var image = new Image();
       fromEvent(image, "load")
         .take(1)
-        .map(mapLoadedImage)
+        .pipe(map(mapLoadedImage))
         .subscribe((val: ISize) => {
           resolve(val);
         });

@@ -49,9 +49,9 @@ export enum PortfolioOperationType {
 }
 
 export enum MediaUploadType {
-  SINGLE = "SINGLE",
-  MULTIPLE = "MULTIPLE",
-  ALL = "ALL",
+  single = "single",
+  multiple = "multiple",
+  all = "all",
 }
 
 export interface IMediaItem {
@@ -72,7 +72,6 @@ export interface IMedia {
   uploadType: MediaUploadType;
   mediaType: MediaType;
   isApproved: boolean;
-  activityCount: number;
   isDeleted: boolean;
 }
 export interface IGeneralMedia {
@@ -93,8 +92,10 @@ export interface IPortfolio {
 export interface UploadedItems {
   _id?: string;
   type: MediaType;
+  uploadType: MediaUploadType;
   items: MediaItem[];
   title?: string;
+  albumCover?: string;
   shortDescription?: string;
 }
 
@@ -114,7 +115,7 @@ export interface AudioItem extends MediaItem {
 }
 
 export interface VideoItem extends MediaItem {
-  fullAudioPath?: string;
+  fullVideoPath?: string;
 }
 
 export interface OtherMedia {
@@ -147,7 +148,7 @@ export interface MediaPreview {
   uploadType: string;
   defaultMediaPath: string;
   shortDescription: string;
-  activityCount: number;
+  itemCount: number;
 }
 
 export interface AudioPortfolioPreview extends TalentPortfolioPreview {}
@@ -160,7 +161,10 @@ export interface TalentPortfolioPreview {
   talent: string;
   uploadType: string;
   albumCover: string;
+  albumCoverKey?: string;
+  defaultLoaded?: boolean;
   defaultImageKey: string;
+  defaultAlbumCover: string;
   mediaTitle: string;
   mediaDescription: string;
   items: IMediaItem[];

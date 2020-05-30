@@ -5,8 +5,6 @@ export const FETCH_ALL_TALENT_HIGHEST_COMMENT =
   "FETCH_ALL_TALENT_HIGHEST_COMMENT";
 export const FETCH_ALL_TALENT_HIGHEST_COMMENT_SUCCESS =
   "FETCH_ALL_TALENT_HIGHEST_COMMENT_SUCCESS";
-export const FETCH_ALL_TALENT_HIGHEST_COMMENT_ERROR =
-  "FETCH_ALL_TALENT_HIGHEST_COMMENT_ERROR";
 export const FETCH_TALENT_WITH_HIGHEST_COMMENT =
   "FETCH_TALENT_WITH_HIGHEST_COMMENT";
 
@@ -25,13 +23,7 @@ export class FetchAllTalentHighestCommentSuccess implements Action {
   constructor(public payload: { talents: UserFilterCategory[] }) {}
 }
 
-export class FetchAllTalentHighestCommentError implements Action {
-  readonly type = FETCH_ALL_TALENT_HIGHEST_COMMENT_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
-}
-
 export type TalentCategoryActions =
   | FetchAllTalentHighestComment
   | FetchTalentWithHighestComment
-  | FetchAllTalentHighestCommentSuccess
-  | FetchAllTalentHighestCommentError;
+  | FetchAllTalentHighestCommentSuccess;

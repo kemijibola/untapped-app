@@ -16,7 +16,6 @@ import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
 export class LoginComponent implements OnInit {
   signinForm: FormGroup;
   errorMessage = "";
-  hasError = false;
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -33,7 +32,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSignin() {
-    // this.hasError = false;
     this.store.dispatch(new AuthActions.ResetFailureMessage());
     const email: string = this.signinForm.controls["email"].value;
     const password: string = this.signinForm.controls["password"].value;

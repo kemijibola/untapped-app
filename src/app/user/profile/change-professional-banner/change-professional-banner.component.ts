@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component";
+// import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component";
 import {
   IFileInputModel,
-  UPLOADOPERATIONS,
   IAuthData,
   MediaAcceptType,
   CloudUploadParams,
@@ -10,6 +9,8 @@ import {
   IFileMetaData,
   IFileModel,
   IPresignRequest,
+  UPLOADCOMPONENT,
+  UPLOADACTION,
 } from "src/app/interfaces";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import { select, Store } from "@ngrx/store";
@@ -31,7 +32,8 @@ export class ChangeProfessionalBannerComponent implements OnInit {
   private file: IPresignRequest;
   imagePath: string;
   fileConfig: IFileInputModel;
-  uploadOperation = UPLOADOPERATIONS.BannerImage;
+  uploadComponent = UPLOADCOMPONENT.bannerimage;
+  uploadAction = UPLOADACTION.updatebannerimage;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -59,7 +61,7 @@ export class ChangeProfessionalBannerComponent implements OnInit {
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
@@ -76,7 +78,7 @@ export class ChangeProfessionalBannerComponent implements OnInit {
             var fileType = files[0].file_type.split("/");
             this.file = {
               mediaType: fileType[0],
-              action: val.action,
+              component: UPLOADCOMPONENT.bannerimage,
               files: [...files],
             };
 
@@ -103,7 +105,7 @@ export class ChangeProfessionalBannerComponent implements OnInit {
       .subscribe((val: SignedUrl) => {
         console.log(val);
         if (val) {
-          if (val.action === this.uploadOperation) {
+          if (val.component === this.uploadComponent) {
             const item: CloudUploadParams = {
               file: files[0]["data"],
               url: val.presignedUrl[0].url,
@@ -124,7 +126,8 @@ export class ChangeProfessionalBannerComponent implements OnInit {
   onClickUploadImageBtn() {
     this.fileConfig = {
       state: true,
-      process: this.uploadOperation,
+      component: this.uploadComponent,
+      action: this.uploadAction,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
       minHeight: 100,

@@ -6,7 +6,6 @@ import { Store, select } from "@ngrx/store";
 import {
   AppNotificationKey,
   IFileInputModel,
-  UPLOADOPERATIONS,
   MediaAcceptType,
   IPresignRequest,
   IFileMetaData,
@@ -15,6 +14,8 @@ import {
   IFileModel,
   IContest,
   IRedeemable,
+  UPLOADCOMPONENT,
+  UPLOADACTION,
 } from "src/app/interfaces";
 import {
   contestTitleAsyncValidator,
@@ -38,16 +39,18 @@ import * as fromCategoryType from "src/app/shared/store/category-type/category-t
 export class NewContestComponent implements OnInit {
   contestForm: FormGroup;
   bannerImage: string = environment.CONTEST_BANNER_DEFAULT;
+  defaultBannerImage: string = "";
   title = "";
   basicInfo = "";
   eligibityRule = "";
   submissionRule = "";
   contestDays = 1;
   contestDuration = "";
-  evaluations: string[] = [];
+  // evaluations: string[] = [];
   fileConfig: IFileInputModel;
   private presignRequest: IPresignRequest;
-  uploadOperation = UPLOADOPERATIONS.ContestBanner;
+  uploadComponent = UPLOADCOMPONENT.contestbanner;
+  uploadAction = UPLOADACTION.uploadcontestbanner;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -58,9 +61,21 @@ export class NewContestComponent implements OnInit {
       grayscale: false,
     },
   };
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
   private filesToUpload: File[];
   selectedCategories: string[] = [];
   bannerImageKey: string | null;
+  selectedMediaType: string = "";
+  showMediaTypes: boolean;
 
   formatLabel(value: number = 3) {
     if (value >= 1) {
@@ -87,6 +102,7 @@ export class NewContestComponent implements OnInit {
           this.fetchContestBanner();
         }
       });
+    this.selectedMediaType = this.mediaTypes[0].name;
   }
 
   ngOnInit() {
@@ -116,7 +132,7 @@ export class NewContestComponent implements OnInit {
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
@@ -133,16 +149,15 @@ export class NewContestComponent implements OnInit {
             var fileType = files[0].file_type.split("/");
             this.presignRequest = {
               mediaType: fileType[0],
-              action: val.action,
+              component: this.uploadComponent,
               files: [...files],
             };
-            if (this.fileConfig.state) {
-              this.store.dispatch(
-                new UploadActions.GetPresignedUrl({
-                  preSignRequest: this.presignRequest,
-                })
-              );
-            }
+
+            this.store.dispatch(
+              new UploadActions.GetPresignedUrl({
+                preSignRequest: this.presignRequest,
+              })
+            );
 
             this.store.dispatch(new UploadActions.ResetFileInput());
 
@@ -161,13 +176,22 @@ export class NewContestComponent implements OnInit {
       });
   }
 
+  onClick() {
+    this.showMediaTypes = !this.showMediaTypes;
+  }
+
+  onSelectedMedia(i: number) {
+    this.selectedMediaType = this.mediaTypes[i].name;
+    this.showMediaTypes = !this.showMediaTypes;
+  }
+
   uploadFiles(files: File[]): void {
     let uploadParams: CloudUploadParams[] = [];
     this.store
       .pipe(select(fromUpload.selectPresignedUrls))
       .subscribe((val: SignedUrl) => {
         if (val) {
-          if (val.action === this.uploadOperation) {
+          if (val.component === this.uploadComponent) {
             const item: CloudUploadParams = {
               file: files[0]["data"],
               url: val.presignedUrl[0].url,
@@ -188,7 +212,6 @@ export class NewContestComponent implements OnInit {
   }
 
   onClickCreateButton() {
-    console.log("clicked");
     const formArray = <FormArray>this.contestForm.get("contestRewards");
     const duration = this.contestForm.controls["contestDuration"].value;
     let redeemables: IRedeemable[] = [];
@@ -208,7 +231,7 @@ export class NewContestComponent implements OnInit {
       .value;
     const submissionRule: string = this.contestForm.controls["submissionRule"]
       .value;
-    const entryMedia: number = this.contestForm.controls["entryMedia"].value;
+    // const entryMedia: number = this.contestForm.controls["entryMedia"].value;
 
     const contestObj: IContest = {
       title,
@@ -216,13 +239,11 @@ export class NewContestComponent implements OnInit {
       bannerImage: this.bannerImageKey,
       eligibleCategories: [...this.selectedCategories],
       eligibilityInfo: eligibityRule,
-      entryMediaType: this.mediaTypes.filter((x) => x.id === entryMedia)[0]
-        .name,
+      entryMediaType: this.selectedMediaType,
       submissionRules: submissionRule,
       startDate: new Date(duration[0]),
       endDate: new Date(duration[1]),
       redeemable: [...redeemables],
-      evaluations: [...this.evaluations],
     };
 
     this.userContestStore.dispatch(
@@ -230,36 +251,36 @@ export class NewContestComponent implements OnInit {
     );
   }
 
-  onAddEvaluation() {
-    const evaluation: string = this.contestForm.controls["evaluation"].value;
-    if (this.evaluations.length > 4) {
-      this.store.dispatch(
-        new NotificationActions.AddInfo({
-          key: AppNotificationKey.error,
-          message: "You can only add maximum 5 Evaluation criteria at once",
-          code: 400,
-        })
-      );
-    } else {
-      if (evaluation !== "") {
-        const foundEvaluation = this.evaluations.filter(
-          (x) => x === evaluation.toLowerCase()
-        )[0];
-        if (!foundEvaluation) {
-          this.evaluations.push(evaluation.toLowerCase());
-          this.contestForm.controls["evaluation"].setValue("");
-        } else {
-          this.store.dispatch(
-            new NotificationActions.AddInfo({
-              key: AppNotificationKey.error,
-              message: `${evaluation} has already been added to evaluation list`,
-              code: 400,
-            })
-          );
-        }
-      }
-    }
-  }
+  // onAddEvaluation() {
+  //   const evaluation: string = this.contestForm.controls["evaluation"].value;
+  //   if (this.evaluations.length > 4) {
+  //     this.store.dispatch(
+  //       new NotificationActions.AddInfo({
+  //         key: AppNotificationKey.error,
+  //         message: "You can only add maximum 5 Evaluation criteria at once",
+  //         code: 400,
+  //       })
+  //     );
+  //   } else {
+  //     if (evaluation !== "") {
+  //       const foundEvaluation = this.evaluations.filter(
+  //         (x) => x === evaluation.toLowerCase()
+  //       )[0];
+  //       if (!foundEvaluation) {
+  //         this.evaluations.push(evaluation.toLowerCase());
+  //         this.contestForm.controls["evaluation"].setValue("");
+  //       } else {
+  //         this.store.dispatch(
+  //           new NotificationActions.AddInfo({
+  //             key: AppNotificationKey.error,
+  //             message: `${evaluation} has already been added to evaluation list`,
+  //             code: 400,
+  //           })
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 
   get contestRewards(): FormArray {
     return this.contestForm.get("contestRewards") as FormArray;
@@ -268,7 +289,8 @@ export class NewContestComponent implements OnInit {
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
-      process: UPLOADOPERATIONS.ContestBanner,
+      component: this.uploadComponent,
+      action: this.uploadAction,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
       minHeight: 150,
@@ -286,18 +308,20 @@ export class NewContestComponent implements OnInit {
       .pipe(select(fromNewContest.selectCurrentBannerKey))
       .subscribe((val: string) => {
         this.bannerImageKey = val || "";
-
+        this.defaultBannerImage = fetchImageObjectFromCloudFormation(
+          val,
+          this.defaultParams
+        );
         this.bannerImage =
           val !== null
             ? fetchImageObjectFromCloudFormation(val, this.editParams)
             : environment.CONTEST_BANNER_DEFAULT;
-        console.log(this.bannerImage);
       });
   }
 
   deleteEvaluation() {}
   onAddReward() {
-    if ((<FormArray>this.contestForm.get("contestRewards")).length < 2) {
+    if ((<FormArray>this.contestForm.get("contestRewards")).length < 3) {
       (<FormArray>this.contestForm.get("contestRewards")).push(
         new FormGroup({
           reward: new FormControl("", Validators.required),

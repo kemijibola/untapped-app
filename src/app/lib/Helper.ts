@@ -3,7 +3,7 @@ import { environment } from "../../../src/environments/environment.prod";
 import { ContestService } from "../services/contest.service";
 import { FormControl } from "@angular/forms";
 import { timer, Observable } from "rxjs";
-import { switchMap, map } from "rxjs/operators";
+import { map, concatMap } from "rxjs/operators";
 import { IContest, IResult } from "../interfaces";
 
 export function fetchImageObjectFromCloudFormation(
@@ -22,6 +22,18 @@ export function fetchImageObjectFromCloudFormation(
 
 export function fetchNoMediaDefaultImage(): string {
   return environment.NO_MEDIA_IMG;
+}
+
+export function fetchDefaultContestBanner(): string {
+  return environment.CONTEST_BANNER_DEFAULT;
+}
+
+export function fetchProfessionalDefaultDisplayPicture(): string {
+  return environment.PROFESSIONAL_DEFAULT_IMG;
+}
+
+export function fetchProfessionalBiodataBanner(): string {
+  return environment.PROFESSIONAL_BIODATA_BANNER_DEFAULT;
 }
 
 export function getTime(date?: Date) {
@@ -56,7 +68,7 @@ export function contestTitleAsyncValidator(
 ) {
   return (input: FormControl): Observable<any> | Promise<any> => {
     return timer(time).pipe(
-      switchMap(() => contestService.findContestByTitle(input.value)),
+      concatMap(() => contestService.findContestByTitle(input.value)),
       map((res: IResult<IContest[]>) => {
         return res.data.length === 0 ? null : { titleExist: true };
       })

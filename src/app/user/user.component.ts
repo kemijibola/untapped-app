@@ -54,6 +54,7 @@ export class UserComponent extends AbstractTabComponent {
         this.loadAudienceTab();
         break;
       default:
+        this.loadAudienceTab();
         break;
     }
   }
@@ -68,12 +69,7 @@ export class UserComponent extends AbstractTabComponent {
         { index: 1, title: "Portfolio", tag: "portfolio", active: false },
         { index: 2, title: "Settings", tag: "settings", active: false },
         { index: 3, title: "Contests", tag: "contests", active: false },
-        {
-          index: 4,
-          title: "Manage Votes",
-          tag: "managevotes",
-          active: false,
-        },
+        { index: 4, title: "Wallet", tag: "wallet", active: false },
       ],
     };
   }
@@ -86,12 +82,6 @@ export class UserComponent extends AbstractTabComponent {
       tabs: [
         { index: 0, title: "Profile", tag: "profile", active: false },
         { index: 1, title: "Settings", tag: "settings", active: false },
-        {
-          index: 2,
-          title: "Manage Votes",
-          tag: "managevotes",
-          active: false,
-        },
       ],
     };
   }
@@ -104,12 +94,6 @@ export class UserComponent extends AbstractTabComponent {
       tabs: [
         { index: 0, title: "Settings", tag: "settings", active: false },
         { index: 1, title: "Contests", tag: "contests", active: false },
-        {
-          index: 2,
-          title: "Manage Votes",
-          tag: "managevotes",
-          active: false,
-        },
       ],
     };
   }

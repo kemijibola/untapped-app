@@ -1,25 +1,33 @@
- 
-<vg-player style="height: 50px;">
+<vg-player style="height: 302px;" (onPlayerReady)="onAudioPlayerReady($event)">
+  <vg-overlay-play></vg-overlay-play>
+  <vg-buffering></vg-buffering>
   <vg-controls>
-      <vg-play-pause></vg-play-pause>
-      <vg-playback-button></vg-playback-button>
+    <vg-play-pause></vg-play-pause>
+    <vg-playback-button></vg-playback-button>
 
-      <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+    <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
-      <vg-scrub-bar>
-          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-      </vg-scrub-bar>
+    <vg-scrub-bar>
+      <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+      <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+    </vg-scrub-bar>
 
-      <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-      <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+    <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+    <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
 
-      <vg-mute></vg-mute>
+    <vg-mute></vg-mute>
 
-      <vg-fullscreen></vg-fullscreen>
+    <vg-fullscreen></vg-fullscreen>
   </vg-controls>
-
-  <audio #media [vgMedia]="media" id="myAudio" preload="auto">
-      <source *ngFor="let audio of sources" [src]="audio.src" [type]="audio.type">
+  <!-- <vg-overlay-play
+            vgFor="audio_{{ currentAudioItem._id }}"
+          ></vg-overlay-play> -->
+  <audio
+    #media
+    [vgMedia]="media"
+    id="audio_{{ currentAudio._id }}"
+    preload="auto"
+  >
+    <source src="{{ currentAudio.fullAudioPath }}" [type]="currentAudio.type" />
   </audio>
 </vg-player>

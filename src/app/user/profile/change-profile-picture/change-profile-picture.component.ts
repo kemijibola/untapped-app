@@ -1,8 +1,10 @@
-import { IFileMetaData } from "./../../../interfaces/shared/file";
-import { Component, OnInit } from "@angular/core";
-import { AbstractUploadComponent } from "src/app/shared/Classes/abstract/abstract-upload/abstract-upload.component";
 import {
-  UPLOADOPERATIONS,
+  IFileMetaData,
+  UPLOADCOMPONENT,
+  UPLOADACTION,
+} from "./../../../interfaces/shared/file";
+import { Component, OnInit } from "@angular/core";
+import {
   IUserImage,
   IFileInputModel,
   IAuthData,
@@ -39,7 +41,8 @@ export class ChangeProfilePictureComponent implements OnInit {
   private filesToUpload: File[];
   private file: IPresignRequest;
   fileConfig: IFileInputModel;
-  uploadOperation = UPLOADOPERATIONS.ProfileImage;
+  uploadComponent = UPLOADCOMPONENT.profileimage;
+  uploadAction = UPLOADACTION.updateprofilepicture;
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -51,14 +54,18 @@ export class ChangeProfilePictureComponent implements OnInit {
     },
   };
   constructor(public store: Store<fromApp.AppState>) {
-    this.fetchUserProfileImage();
-    this.store
-      .pipe(select(fromUpload.selectUploadStatus))
-      .subscribe((val: boolean) => {
-        if (val) {
-          this.fetchUserProfileImage();
-        }
-      });
+    if (window.ononline) {
+      this.fetchUserProfileImage();
+      this.store
+        .pipe(select(fromUpload.selectUploadStatus))
+        .subscribe((val: boolean) => {
+          if (val) {
+            this.fetchUserProfileImage();
+          }
+        });
+    } else {
+      this.imagePath = environment.TALENT_DEFAULT_IMG;
+    }
   }
 
   ngOnInit() {
@@ -66,7 +73,7 @@ export class ChangeProfilePictureComponent implements OnInit {
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
         if (val !== null) {
-          if (val.action === this.uploadOperation) {
+          if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
@@ -83,15 +90,13 @@ export class ChangeProfilePictureComponent implements OnInit {
             var fileType = files[0].file_type.split("/");
             this.file = {
               mediaType: fileType[0],
-              action: val.action,
+              component: UPLOADCOMPONENT.profileimage,
               files: [...files],
             };
-            if (this.fileConfig.state) {
-              this.store.dispatch(
-                new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
-              );
-            }
 
+            this.store.dispatch(
+              new UploadActions.GetPresignedUrl({ preSignRequest: this.file })
+            );
             this.store.dispatch(new UploadActions.ResetFileInput());
 
             // perform actual upload to cloud
@@ -120,7 +125,7 @@ export class ChangeProfilePictureComponent implements OnInit {
       .pipe(select(fromUpload.selectPresignedUrls))
       .subscribe((val: SignedUrl) => {
         if (val) {
-          if (val.action === this.uploadOperation) {
+          if (val.component === this.uploadComponent) {
             const item: CloudUploadParams = {
               file: files[0]["data"],
               url: val.presignedUrl[0].url,
@@ -141,11 +146,12 @@ export class ChangeProfilePictureComponent implements OnInit {
   onClickUploadImageBtn() {
     this.fileConfig = {
       state: true,
-      process: this.uploadOperation,
+      component: this.uploadComponent,
+      action: this.uploadAction,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
-      minHeight: 300,
-      minWidth: 400,
+      minHeight: 630,
+      minWidth: 910,
     };
   }
 

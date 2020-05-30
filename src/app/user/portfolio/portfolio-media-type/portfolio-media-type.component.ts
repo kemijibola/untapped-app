@@ -4,6 +4,7 @@ import {
   AppModal,
   MediaType,
   IMedia,
+  ToggleList,
 } from "src/app/interfaces";
 import {
   ModalDisplay,
@@ -19,6 +20,7 @@ import * as PortfolioActions from "../../store/portfolio/portfolio.actions";
 import * as ModalsActions from "../../../shared/store/modals/modals.actions";
 import * as fromModal from "../../../shared/store/modals/modals.reducers";
 import { AbstractModalComponent } from "src/app/shared/Classes/abstract/abstract-modal/abstract-modal.component";
+import * as ToggleActions from "../../../shared/store/slide-toggle/slide-toggle.actions";
 
 @Component({
   selector: "app-portfolio-media-type",
@@ -44,6 +46,13 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
           this.componentModal = { ...val };
         }
       });
+
+    console.log("setting toggle");
+    this.store.dispatch(
+      new ToggleActions.FetchToggle({
+        appToggleId: ToggleList.modaluploadtoggle,
+      })
+    );
   }
 
   ngOnInit() {
@@ -99,7 +108,6 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
   }
 
   closeModalDialog(modalId: string) {
-    console.log("click");
     if (this.componentModal) {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId

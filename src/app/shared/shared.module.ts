@@ -7,6 +7,7 @@ import { RouterModule } from "@angular/router";
 import { ModalsComponent } from "./modals/modals.component";
 import { SlideToggleComponent } from "./slide-toggle/slide-toggle.component";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { TalentCategoriesComponent } from "./talent-categories/talent-categories.component";
 import { MaterialModule } from "../material.module";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
@@ -20,6 +21,7 @@ import { TruncateTextPipe } from "./utils/pipes/truncate-text.pipe";
 import { UpImageComponent } from "./up-image/up-image.component";
 import { UpAudioComponent } from "./up-audio/up-audio.component";
 import { UpVideoComponent } from "./up-video/up-video.component";
+import { LazyLoadImageModule } from "ng-lazyload-image";
 // Simport { AudioPayerComponent } from './audio-payer/audio-payer.component';
 
 // import { VgCoreModule } from "videogular2/compiled/core";
@@ -37,11 +39,18 @@ import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifi
 
 import { Angular4PaystackModule } from "angular4-paystack";
 import { environment } from "src/environments/environment";
+import { GooglePlacesComponent } from "./google-places/google-places.component";
+import { LatestContestLandingComponent } from "./latest-contest-landing/latest-contest-landing.component";
+import { NguiInViewComponent } from "./ngui-in-view.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { VideoPlayerComponent } from "./video-player/video-player.component";
+import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
 
 @NgModule({
   imports: [
     FormsModule,
     MatSlideToggleModule,
+    MatProgressBarModule,
     AngularMultiSelectModule,
     CommonModule,
     MaterialModule,
@@ -49,6 +58,8 @@ import { environment } from "src/environments/environment";
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    LazyLoadImageModule,
+    NgbModule,
     Angular4PaystackModule.forRoot(environment.PAYSTACK_CLIENT_KEY),
     RouterModule.forChild([]),
   ],
@@ -71,6 +82,13 @@ import { environment } from "src/environments/environment";
     UpVideoComponent,
     UpMediaMagnifierComponent,
     Angular4PaystackModule,
+    GooglePlacesComponent,
+    MatProgressBarModule,
+    LatestContestLandingComponent,
+    NguiInViewComponent,
+    VideoPlayerComponent,
+    AudioPayerComponent,
+    NgbModule,
   ],
   declarations: [
     UploadComponent,
@@ -89,6 +107,11 @@ import { environment } from "src/environments/environment";
     UpAudioComponent,
     UpVideoComponent,
     UpMediaMagnifierComponent,
+    GooglePlacesComponent,
+    LatestContestLandingComponent,
+    NguiInViewComponent,
+    VideoPlayerComponent,
+    AudioPayerComponent,
   ],
 })
 export class SharedModule {}

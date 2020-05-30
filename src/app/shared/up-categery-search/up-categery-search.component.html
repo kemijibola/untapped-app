@@ -1,4 +1,4 @@
-<div aria-label="Page navigation example">
+<div aria-label="Page navigation example" style="cursor: pointer;">
   <ul class="pagination">
     <li
       class="page-item"
@@ -11,7 +11,7 @@
         >{{ category.name }}</a
       >
     </li>
-    <li class="page-item" (click)="onNext()">
+    <li class="page-item page-item-right" (click)="onNext()">
       <a class="page-link"><i class="fas fa-chevron-right"></i></a>
     </li>
   </ul>

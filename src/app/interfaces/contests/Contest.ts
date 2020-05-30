@@ -27,7 +27,10 @@ export interface IContestList {
   entryCount: number;
   viewCount: number;
   bannerImage: string;
-  contestDateDistanceInWords: string;
+  fullBannerImage?: string;
+  defaultBannerImage?: string;
+
+  endDate: Date;
 }
 
 export interface IContest {
@@ -37,7 +40,7 @@ export interface IContest {
   information: string;
   bannerImage: string;
   entryMediaType: string;
-  eligibleCategories?: CategoryType["_id"][];
+  eligibleCategories?: string[];
   evaluations?: string[];
   eligibilityInfo?: string;
   submissionRules?: string;
@@ -74,7 +77,41 @@ export enum ComplaintStatus {
 }
 
 export interface CreateContest {
-  user: IUser["_id"];
-  contest: IContest["_id"];
+  user: string;
+  contest: string;
   submissionPath: string;
+}
+
+export interface IContestEntry {
+  _id?: string;
+  user?: string;
+  contest: string;
+  likedBy?: string[];
+  title: string;
+  additionalInfo?: string;
+  contestantCode?: string;
+  entry: string;
+}
+
+export interface ContestData {
+  contest: IContest;
+  submissions: IEntryData[];
+}
+
+export interface IEntryData {
+  entry: IContestEntry;
+  commentCount: number;
+  fullUserProfileImage?: string;
+}
+
+export enum EligibilityStatus {
+  entered = "entered",
+  noteligible = "noteligible",
+  eligible = "eligible",
+  default = "default",
+}
+export interface ContestEligibilityData {
+  status: boolean;
+  eligibility: EligibilityStatus;
+  message?: string;
 }

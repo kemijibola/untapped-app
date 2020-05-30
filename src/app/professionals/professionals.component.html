@@ -1,3 +1,41 @@
-<p>
-  professionals works!
-</p>
+<!-- Header bar section complate -->
+<!-- Professional Area Start -->
+<div class="talent-one-area">
+  <div class="container-fluid">
+    <div class="row no-gutters">
+      <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+        <div class="left-talent-wrp pt-30">
+          <div
+            class="head text-left"
+            *ngIf="!(currentUser | async).authenticated"
+          >
+            <span (click)="onSignUpClicked()" style="cursor: pointer;"
+              >Sign Up </span
+            ><span>to</span>
+            <h3>Join the Community</h3>
+          </div>
+          <app-up-search
+            [placeholderText]="searchPlaceHolderText"
+          ></app-up-search>
+          <app-up-categery-search> </app-up-categery-search>
+
+          <!-- professionals filter -->
+          <app-up-user-filter
+            [typeOfUser]="'Professional'"
+            [filteredUsers]="professionals | async"
+            [typeOfFilter]="
+              (professionals | async).length > 1
+                ? 'Professionals'
+                : 'Professional'
+            "
+          ></app-up-user-filter>
+        </div>
+      </div>
+
+      <div class="col-xl-8 col-lg-8 col-md-8 col-12">
+        <app-professional-biodata></app-professional-biodata>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Professional Area End -->

@@ -5,14 +5,14 @@ import {
   HttpHandler,
   HttpEvent,
   HttpHeaders,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "../account/store/auth.reducers";
 import { IAuthData } from "../interfaces";
-import { catchError, take, switchMap } from "rxjs/operators";
+import { catchError, take, concatMap } from "rxjs/operators";
 import { environment } from "../../../src/environments/environment.prod";
 
 @Injectable()
@@ -27,19 +27,11 @@ export class AuthInterceptor implements HttpInterceptor {
     if (this.useHeader(req.url)) {
       return this.store.select(fromAuth.selectCurrentUserData).pipe(
         take(1),
-        switchMap((autData: IAuthData) => {
-          // console.log(autData);
+        concatMap((autData: IAuthData) => {
           req = this.addToken(req, autData.access_token);
           return next.handle(req);
         })
       );
-      // return this.store
-      //   .select("auth")
-      //   .take(1)
-      //   .switchMap((authState: fromAuth.State) => {
-      //     req = this.addToken(req, authState.userData.access_token);
-      //     return next.handle(req);
-      //   });
     }
     return next.handle(req);
   }
@@ -48,8 +40,8 @@ export class AuthInterceptor implements HttpInterceptor {
     return req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
-        clientId: environment.clientId
-      }
+        clientId: environment.clientId,
+      },
     });
   }
 

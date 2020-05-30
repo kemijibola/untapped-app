@@ -1,10 +1,10 @@
-import { IUserContest } from "src/app/interfaces";
+import { IUserContest, IUserContestListAnalysis } from "src/app/interfaces";
 import * as AllContestActions from "./all-contest.actions";
 import { EntityState, createEntityAdapter } from "@ngrx/entity";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromAdapter from "./all-contest.adapter";
 
-export interface AllContestState extends EntityState<IUserContest> {
+export interface AllContestState extends EntityState<IUserContestListAnalysis> {
   selectedUserContestId: string | number | null;
 }
 const initialState: AllContestState = fromAdapter.adapter.getInitialState({
@@ -60,7 +60,7 @@ export const selectCurrentUserContestId = createSelector(
   getSelectedUserContestId
 );
 
-export const selectCurrentUserContest = createSelector(
+export const selectContestsCreatedByUser = createSelector(
   selectAllUserContestEntities,
   selectCurrentUserContestId,
   (userContestEntities, contestId) => userContestEntities[contestId]

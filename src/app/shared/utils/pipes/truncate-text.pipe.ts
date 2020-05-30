@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-  name: "truncateText"
+  name: "truncateText",
 })
 export class TruncateTextPipe implements PipeTransform {
   transform(value: string, length: number): string {
@@ -20,6 +20,7 @@ export class TruncateTextPipe implements PipeTransform {
         .slice(0, lastSpace)
         .replace(/[!,.?;:]$/, "");
     }
-    return truncatedText + elipses;
+    // return truncatedText + elipses;
+    return truncatedText;
   }
 }

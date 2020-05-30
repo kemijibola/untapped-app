@@ -36,6 +36,16 @@ export class UserService {
     return this.http.post<IResult<string>>(url, { key, editParams: params });
   }
 
+  patchUser(data: IUser): Observable<IResult<IUser>> {
+    const url = `${this.BASE_URI}/users/`;
+    return this.http.patch<IResult<IUser>>(url, data);
+  }
+
+  suspendUserAccount(): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/users/suspend`;
+    return this.http.post<IResult<boolean>>(url, {});
+  }
+
   updateUserProfileImage(imagePath: string): Observable<IResult<IUser>> {
     const url = `${this.BASE_URI}/users/`;
     return this.http.patch<IResult<IUser>>(url, {

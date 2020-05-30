@@ -1,3 +1,33 @@
-<p>
-  contest-entry works!
-</p>
+<div class="row" body>
+  <div class="col-xl-12">
+    <div class="popup-content-wrap pro-page p-0">
+      <div class="login-wrapper create-pass-popup">
+        <div class="head text-center mb-30">
+          <span>{{ selectedContest.contest.title }}</span>
+          <h3>Submit entry</h3>
+        </div>
+        <div class="login-form" [formGroup]="contestEntryForm">
+          <label for="">Title</label>
+          <input
+            type="text"
+            formControlName="title"
+            class="input-design mb-35"
+          />
+          <label for="">Additional Info</label>
+          <textarea formControlName="info" class="input-design mb-35" cols="30" row="10"></textarea>
+          <p>
+            <!-- Drag and drop multiple file to upload <br /><br />
+            or <br /><br /> -->
+            <span style="margin-left: 0; text-decoration: underline; color: blue" (click)="onClickBrowseBtn()"
+              >Click here to upload your entry</span
+            >
+          </p>
+          <app-upload [fileConfig]="fileConfig"></app-upload>
+          <button class="box-btn login-btn mt-20" (click)="onSubmitEntry()">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

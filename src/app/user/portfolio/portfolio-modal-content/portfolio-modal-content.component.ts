@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  Renderer2,
+} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as fromSlideToggle from "../../../shared/store/slide-toggle/slide-toggle.reducers";
 import * as fromModal from "../../../shared/store/modals/modals.reducers";
@@ -21,10 +28,11 @@ import {
   OtherMedia,
   ModalDisplay,
   AppModal,
-  AppToggle,
+  UPLOADACTION,
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
 import { map } from "rxjs/operators";
+import * as MediaPreviewActions from "../../store/portfolio/media/media-preview.actions";
 
 import * as fromUpload from "src/app/shared/store/upload/upload.reducers";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
@@ -55,13 +63,13 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   api: VgAPI;
   modalContentTitle: string;
   portfolioForm: FormGroup;
-  currentAppModal: AppModal;
+  componentModal: AppModal;
   modal: IModal;
   showToggle = false;
   multiple: boolean;
   accept: string;
   modalUploadToggle: IToggle;
-  selectedUploadType = MediaUploadType.SINGLE;
+  selectedUploadType = MediaUploadType.single;
   portfolioUploadConfig: PortfolioUploadInputConfig = {
     isMultiple: false,
     mediaAccept: MediaAcceptType.IMAGE,
@@ -100,6 +108,8 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   uploadedItems: UploadedItems = {
     _id: "",
     type: MediaType.AUDIO,
+    uploadType: MediaUploadType.all,
+    albumCover: "",
     items: [],
     title: "",
     shortDescription: "",
@@ -128,47 +138,57 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     path: "",
     type: "",
   };
-  isViewMode: boolean;
+  isViewMode: boolean = false;
   itemToUpdate: UploadedItems;
+  showUploading: boolean = false;
+  showCompleted: boolean = false;
+  showDiv: boolean = false;
+  thumbnailUrl: string = "";
 
   constructor(
     private store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private renderer: Renderer2
   ) {}
   onPlayerReady(api: VgAPI) {
     this.api = api;
   }
 
   ngOnInit() {
-    // fetch component toggle here by Id
-    this.store.dispatch(
-      new ToggleActions.FetchToggle({ appToggleId: "portfolio" })
-    );
+    this.store
+      .pipe(select(fromUpload.selectCurrentUploadStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.showDiv = true;
+          this.showUploading = true;
+          this.showCompleted = false;
+        }
+      });
+
+    // this.store
+    //   .pipe(select(fromUpload.selectUploadCompleted))
+    //   .subscribe((val: boolean) => {
+    //     if (val) {
+    //       this.showDiv = true;
+    //       this.showCompleted = true;
+    //       this.showUploading = false;
+    //     }
+    //   });
     // use filter to get toggle
     this.store
       .pipe(select(fromSlideToggle.selectCurrentSlideToggle))
-      .subscribe((val: AppToggle) => {
-        if (val) {
-          this.modalUploadToggle = val.toggles.filter(
-            (x) => x.name === ToggleList.modaluploadtoggle
-          )[0];
-          this.multiple = this.modalUploadToggle.state;
+      .subscribe((val: IToggle) => {
+        console.log(val);
+        if (val !== undefined) {
+          this.modalUploadToggle = { ...val };
+          this.multiple = val.state;
           this.uploadType = this.multiple
-            ? MediaUploadType.MULTIPLE
-            : MediaUploadType.SINGLE;
+            ? MediaUploadType.multiple
+            : MediaUploadType.single;
         }
       });
-    // this.store.pipe(select(selectToggleList)).subscribe((val: IToggle[]) => {
-    //   this.toggleState = val.filter(
-    //     (x) => x.name === ToggleList.UploadTypeToggle
-    //   )[0];
-    //   this.multiple = this.toggleState.state;
-    //   this.uploadType = this.multiple
-    //     ? MediaUploadType.MULTIPLE
-    //     : MediaUploadType.SINGLE;
-    // });
 
     // select accept
     this.userStore
@@ -188,43 +208,38 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
         if (val) {
-          this.isViewMode = true;
-          this.setMedia(this.uploadedItems);
+          this.showDiv = true;
+          this.showCompleted = true;
+          this.showUploading = false;
+          this.triggerTimer();
         }
       });
 
-    // this.userStore
-    //   .pipe(select(selectMediaItemDeleteSuccess))
-    //   .subscribe((deleted: boolean) => {
-    //     if (deleted) {
-    //       if (this.uploadedItems.type === MediaType.IMAGE.toLowerCase()) {
-    //           this.uploadedItems.items
-    //       } else if (this.uploadedItems.type === MediaType.AUDIO.toLowerCase()) {
-
-    //       } else if (this.uploadedItems.type === MediaType.VIDEO.toLowerCase()) {
-
-    //       } else {
-
-    //       }
-    //     }
-    //   });
+    this.store
+      .pipe(select(fromUpload.selectThumbnailUrl))
+      .subscribe((val: string) => {
+        if (val !== null) {
+          this.thumbnailUrl = val;
+        }
+      });
 
     this.store
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.currentAppModal = { ...this.currentAppModal, ...val };
+          this.componentModal = { ...val };
         }
       });
 
     this.userStore
       .pipe(select(fromPortfolio.selectSelectedMedia))
       .subscribe((val: IMedia) => {
-        console.log(val);
         if (val) {
           this.uploadedItems = {
             _id: val._id,
             type: val.mediaType,
+            uploadType: val.uploadType,
+            albumCover: val.albumCover,
             items: val.items,
             title: val.title,
             shortDescription: val.shortDescription,
@@ -241,11 +256,17 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.activateModalContent();
   }
 
+  triggerTimer() {
+    setTimeout(() => {
+      this.isViewMode = true;
+      this.setMedia(this.uploadedItems);
+    }, 1000);
+  }
+
   onClickPlaylistVideo(item: MediaItem, index: number) {
     item.type = `video/${item.path.split(".").pop()}`;
     this.currentVideoIndex = index;
     this.currentVideoItem = item;
-    console.log(this.api);
     (<VgMedia>this.api.getDefaultMedia()).loadMedia();
   }
 
@@ -299,7 +320,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
               this.portfolioForm.controls["title"].setValue("");
               this.portfolioForm.controls["description"].setValue("");
               this.modalContentTitle = "New Album Upload";
-              this.actionText = "ADD TO POR_TFOLIO";
+              this.actionText = "ADD TO PORTFOLIO";
             }
           }
           // this.clearModalContent();
@@ -310,6 +331,9 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   setMedia(media: UploadedItems) {
     if (media.items) {
       this.canViewDetails = true;
+      this.showCompleted = false;
+      this.showUploading = false;
+      this.showDiv = false;
       const mediaType = media.type.toUpperCase();
       switch (mediaType) {
         case MediaType.AUDIO:
@@ -392,56 +416,34 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
 
   setVideo(media: UploadedItems) {
     this.isVideoUpload = true;
-    if (media.items.length > 1) {
-      // multiple upload
+    if (media.uploadType === "multiple") {
       this.isMultipleVideo = true;
       this.defaultVideoSet = true;
       var currentVideo = media.items[this.currentVideoIndex];
       this.setDefaultVideo(currentVideo);
       this.setOtherVideo(media.items);
-    } else if (media.items.length === 1) {
-      // single video
-      if (this.pageViewMode === "edit") {
-        this.isMultipleVideo = true;
-      } else {
-        this.isMultipleVideo = false;
-      }
+    }
+    if (media.uploadType === "single") {
       this.defaultVideoSet = true;
-      this.setDefaultAudio(currentVideo);
-      this.setOtherAudio(media.items);
-    } else if (media.items.length <= 0 && this.pageViewMode === "edit") {
-      this.isMultipleVideo = true;
-      this.otherVideoPath = [];
-      // this.defaultImagePath = fetchNoMediaDefaultImage();
+      this.isMultipleVideo = false;
+      this.setDefaultVideo(currentVideo);
+      this.setOtherVideo(media.items);
     }
   }
 
   setAudio(media: UploadedItems) {
+    var currentItem = media.items[this.currentAudioIndex];
     this.isAudioUpload = true;
-    if (media.items.length > 1) {
-      // multiple upload
-      this.isMultipleAudio = true;
+    if (media.uploadType === "multiple") {
       this.defaultAudioSet = true;
-      var currentItem = media.items[this.currentAudioIndex];
+      this.isMultipleAudio = true;
       this.setDefaultAudio(currentItem);
       this.setOtherAudio(media.items);
-    } else if (media.items.length === 1) {
-      // single upload
-      if (this.pageViewMode === "edit") {
-        this.isMultipleAudio = true;
-      } else {
-        this.isMultipleAudio = false;
-      }
+    }
+    if (media.uploadType === "single") {
       this.defaultAudioSet = true;
+      this.isMultipleAudio = false;
       this.setDefaultAudio(currentItem);
-      this.setOtherAudio(media.items);
-    } else if (media.items.length <= 0 && this.pageViewMode === "edit") {
-      this.isMultipleAudio = true;
-      this.otherAudioPath = [];
-      // this.defaultAudioSet = true;
-      // this.isMultipleAudio = true;
-      // this.defaultImagePath = fetchNoMediaDefaultImage();
-      // this.defaultImagePath = fetchNoMediaDefaultImage();
     }
   }
 
@@ -453,6 +455,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       type: `video/${video.path.split(".").pop()}`,
     };
   }
+
   setDefaultAudio(audio: MediaItem) {
     this.currentAudioItem = {
       _id: audio._id,
@@ -472,6 +475,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
         });
         return theMap;
       },
+
       []
     );
   }
@@ -491,28 +495,19 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   setImage(media: UploadedItems) {
+    console.log(media);
     this.isImageUpload = true;
-    if (media.items.length > 1) {
-      // items is greater than 1 means it is multiple upload
+    if (media.uploadType === "multiple") {
       this.isMultipleImage = true;
       this.defaultImageSet = true;
       this.setDefaultImage(media.items[0].path);
       this.setOtherImages(media.items);
-    } else if (media.items.length === 1) {
-      // single upload
-      if (this.pageViewMode === "edit") {
-        this.isMultipleImage = true;
-      } else {
-        this.isMultipleImage = false;
-      }
+    }
+    if (media.uploadType === "single") {
       this.defaultImageSet = true;
+      this.isMultipleImage = false;
       this.setDefaultImage(media.items[0].path);
       this.setOtherImages(media.items);
-    } else if (media.items.length <= 0 && this.pageViewMode === "edit") {
-      this.defaultImageSet = true;
-      this.isMultipleImage = true;
-      this.otherImagesPath = [];
-      this.defaultImagePath = fetchNoMediaDefaultImage();
     }
   }
 
@@ -523,9 +518,13 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       _id: this.uploadedItems._id,
       title,
       shortDescription: desc,
+      albumCover: this.thumbnailUrl || this.uploadedItems.albumCover,
       items: this.uploadedItems.items,
       type: this.uploadedItems.type,
+      uploadType: this.uploadedItems.uploadType,
     };
+
+    console.log(payload);
     if (this.pageViewMode === "edit") {
       // dispatch update
       this.userStore.dispatch(
@@ -545,23 +544,50 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     }
 
     // TODO:: show success pop-up before toggling modal
-    // this.closeGigsModal();
+    this.closeGigsModal();
+  }
+
+  closeGigsModal() {
+    if (this.componentModal) {
+      const modalToDeActivate = this.componentModal.modals.filter(
+        (x) => x.name === "gigs-modal"
+      )[0];
+      const modalToClose: IModal = {
+        index: modalToDeActivate.index,
+        name: modalToDeActivate.name,
+        display: ModalDisplay.none,
+        viewMode: ModalViewModel.none,
+        contentType: "",
+        data: null,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      };
+      this.store.dispatch(
+        new ModalsActions.ToggleModal({
+          appModal: this.componentModal,
+          modal: modalToClose,
+        })
+      );
+    }
   }
 
   // private closeGigsModal() {
   //   if (_.has(this.currentAppModal, "id")) {
   //     const modalToClose: IModal = {
-  //       index: 0,
-  //       name: "gigs-modal",
+  //       index: this.currentAppModal.,
+  //       name: modalToDeActivate.name,
   //       display: ModalDisplay.none,
+  //       viewMode: ModalViewModel.none,
+  //       contentType: "",
+  //       data: null,
   //       modalCss: "",
   //       modalDialogCss: "",
   //       showMagnifier: false,
   //     };
-
   //     this.store.dispatch(
   //       new ModalsActions.ToggleModal({
-  //         appModal: this.currentAppModal,
+  //         appModal: this.componentModal,
   //         modal: modalToClose,
   //       })
   //     );

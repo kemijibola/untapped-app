@@ -5,7 +5,10 @@
     <div class="row no-gutters">
       <div class="col-xl-4 col-lg-4 col-md-4 col-12">
         <div class="left-talent-wrp pt-30">
-          <div class="head text-left" *ngIf="!isAuthenticated">
+          <div
+            class="head text-left"
+            *ngIf="!(currentUser | async).authenticated"
+          >
             <span (click)="onSignUpClicked()" style="cursor: pointer;"
               >Sign Up </span
             ><span>to</span>
@@ -16,8 +19,12 @@
           ></app-up-search>
           <app-up-categery-search> </app-up-categery-search>
 
-          <!-- talent filter -->
-          <app-up-user-filter-container></app-up-user-filter-container>
+          <!-- talents filter -->
+          <app-up-user-filter
+            [typeOfUser]="'Talent'"
+            [filteredUsers]="talents | async"
+            [typeOfFilter]="(talents | async).length > 1 ? 'Talents' : 'Talent'"
+          ></app-up-user-filter>
         </div>
       </div>
       <div class="col-xl-4 col-lg-4 col-md-4 col-12">

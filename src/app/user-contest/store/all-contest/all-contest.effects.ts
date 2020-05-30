@@ -11,19 +11,20 @@ import {
   IContest,
   AppNotificationKey,
   IUserContest,
+  IUserContestListAnalysis,
 } from "src/app/interfaces";
 import { HttpErrorResponse } from "@angular/common/http";
 import { of } from "rxjs";
 
 @Injectable()
 export class AllUserContestEffect {
-  fetchUserContests = createEffect(() =>
+  fetchContestsCreatedByUser = createEffect(() =>
     this.action$.pipe(
       ofType(AllContestActions.FETCH_USER_CONTEST_LIST),
       concatMap(() =>
-        this.contestService.fetchUserContests().pipe(
+        this.contestService.fetchContestsCreatedByUser().pipe(
           map(
-            (resp: IResult<IUserContest[]>) =>
+            (resp: IResult<IUserContestListAnalysis[]>) =>
               new AllContestActions.FetchUserContestListSuccess({
                 userContests: resp.data,
               })
@@ -42,6 +43,32 @@ export class AllUserContestEffect {
       )
     )
   );
+
+  // fetchContestsCreatedByCurrentUser = createEffect(() =>
+  //   this.action$.pipe(
+  //     ofType(AllContestActions.FETCH_CONTESTS_CREATED_BY_USER),
+  //     concatMap(() =>
+  //       this.contestService.fetchContestsCreatedByUser().pipe(
+  //         map(
+  //           (resp: IResult<IUserContestListAnalysis[]>) =>
+  //             new AllContestActions.FatchContestCreatedByUserSuccess({
+  //               createdbyUser: resp.data,
+  //             })
+  //         ),
+  //         catchError((respError: HttpErrorResponse) =>
+  //           of(
+  //             new NotificationActions.AddError({
+  //               key: AppNotificationKey.error,
+  //               code: respError.error.response_code || -1,
+  //               message:
+  //                 respError.error.response_message || "No Internet connection",
+  //             })
+  //           )
+  //         )
+  //       )
+  //     )
+  //   )
+  // );
 
   constructor(
     private action$: Actions,

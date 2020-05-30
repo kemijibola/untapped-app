@@ -1,11 +1,10 @@
 import { IRole, IPermission } from "./role";
 
-export enum SocialMedia {
-  FACEBOOK = "FACEBOOK",
-  TWITTER = "TWITTER",
-  INSTAGRAM = "INSTAGRAM",
-  YOUTUBE = "YOUTUBE",
-  OTHER = "OTHER",
+export enum SocialMediaTypes {
+  facebook = "facebook",
+  twitter = "twitter",
+  instagram = "instagram",
+  youtube = "youtube",
 }
 
 export enum UserTypes {
@@ -14,7 +13,7 @@ export enum UserTypes {
   Professional = "Professional",
 }
 export interface IUserSocialMedia {
-  type: SocialMedia;
+  type: SocialMediaTypes;
   handle: string;
 }
 export interface IAuthData {
@@ -30,7 +29,10 @@ export interface IUserData {
   full_name: string;
   email: string;
   profile_is_completed: boolean;
+  email_notification: boolean;
+  profile_visibility: boolean;
   profile_image_path: string;
+  tap_notification: boolean;
   banner_image_path: string;
   userType: UserType;
 }
@@ -61,8 +63,9 @@ export interface IUser {
   isPhoneConfirmed?: boolean;
   isProfileCompleted?: boolean;
   generalNotification?: boolean;
-  emailNotification?: boolean;
+  tapNotification?: boolean;
   profileVisibility?: boolean;
+  emailNotification?: boolean;
   loginCount?: number;
   status?: IUserAccountStatus;
   roles?: IRole["_id"][];

@@ -2,11 +2,19 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
-import { IAuthData, IModal, ModalDisplay, AppModal } from "../interfaces";
+import {
+  IAuthData,
+  IModal,
+  ModalDisplay,
+  AppModal,
+  UserFilterCategory,
+} from "../interfaces";
 import { Router } from "@angular/router";
 import * as ModalsActions from "../shared/store/modals/modals.actions";
 import * as fromModal from "../shared/store/modals/modals.reducers";
 import * as _ from "underscore";
+import * as fromTalentWithHighestComment from "../shared/store/filtered-categories/talent-category.reducers";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-talents",
@@ -14,8 +22,9 @@ import * as _ from "underscore";
   styleUrls: ["./talents.component.css"],
 })
 export class TalentsComponent implements OnInit, OnDestroy {
-  isAuthenticated: boolean;
+  currentUser: Observable<IAuthData>;
   searchPlaceHolderText = "Talents";
+  talents: Observable<UserFilterCategory[]>;
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
   componentModal: AppModal = {
     id: "talent-portfolio",
@@ -31,16 +40,16 @@ export class TalentsComponent implements OnInit, OnDestroy {
     ],
   };
   ngOnInit() {
-    this.store
-      .pipe(select(fromAuth.selectCurrentUserData))
-      .subscribe((val: IAuthData) => {
-        this.isAuthenticated = val.authenticated;
-      });
+    this.currentUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
 
     this.store.dispatch(
       new ModalsActions.AddComponentModal({
         componentModal: this.componentModal,
       })
+    );
+
+    this.talents = this.store.pipe(
+      select(fromTalentWithHighestComment.selectTalentWithHighestComments)
     );
   }
 

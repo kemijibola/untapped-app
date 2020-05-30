@@ -4,50 +4,72 @@ import {
   IContest,
   IContestIssue,
   IUserContest,
-  CreateContest
+  CreateContest,
+  ContestData,
+  ContestEligibilityData,
 } from "../../interfaces";
 
-export const FETCH_CONTESTS = "FETCH_CONTESTS";
-export const SET_CONTESTS = "SET_CONTESTS";
-export const FETCH_CONTEST = "FETCH_CONTEST";
-export const SET_CONTEST = "SET_CONTEST";
-export const DO_ENTER_CONTEST = "DO_ENTER_CONTEST";
-export const SUCCESS_ENTER_CONTEST = "SUCCESS_ENTER_CONTEST";
-export const FAILURE_ENTER_CONTEST = "FAILURE_ENTER_CONTEST";
+export const FETCH_CONTESTS_PREVIEW = "FETCH_CONTESTS_PREVIEW";
+export const FETCH_CONTESTS_PREVIEW_SUCCESS = "FETCH_CONTESTS_PREVIEW_SUCCESS";
+export const FETCH_CONTEST_PREVIEW = "FETCH_CONTEST_PREVIEW";
+export const RESET_CONTESTS_PREVIEW_TO_DEFAULT =
+  "RESET_CONTESTS_PREVIEW_TO_DEFAULT";
+export const FETCH_CONTEST_BY_ID = "FETCH_CONTEST_BY_ID";
+export const FETCH_CONTEST_BY_ID_SUCCESS = "FETCH_CONTEST_BY_ID_SUCCESS";
+export const CHECK_USER_ELIGIBILITY = "CHECK_USER_ELIGIBILITY";
+export const CHECK_USER_ELIGIBILITY_SUCCESS = "CHECK_USER_ELIGIBILITY_SUCCESS";
+export const RESET_CONTEST_DATA = "RESET_CONTEST_DATA";
+export const RESET_USER_ELIGIBILITY_STATUS = "RESET_USER_ELIGIBILITY_STATUS";
 
-export class FetchContests implements Action {
-  readonly type = FETCH_CONTESTS;
+export class FetchContestById implements Action {
+  readonly type = FETCH_CONTEST_BY_ID;
+  constructor(public payload: { id: string }) {}
 }
-export class SetContests implements Action {
-  readonly type = SET_CONTESTS;
-  constructor(public payload: { contestList: IContestList[] }) {}
+export class FetchContestByIdSuccess implements Action {
+  readonly type = FETCH_CONTEST_BY_ID_SUCCESS;
+  constructor(public payload: { contest: ContestData }) {}
 }
-export class SuccessEnterContest implements Action {
-  readonly type = SUCCESS_ENTER_CONTEST;
+export class FetchContestsPreview implements Action {
+  readonly type = FETCH_CONTESTS_PREVIEW;
+  constructor(public payload: { perPage: number; page: number }) {}
 }
-export class FailureEnterContest implements Action {
-  readonly type = FAILURE_ENTER_CONTEST;
-  constructor(public payload: string) {}
+export class CheckUserEligibilitySuccess implements Action {
+  readonly type = CHECK_USER_ELIGIBILITY_SUCCESS;
+  constructor(public payload: { response: ContestEligibilityData }) {}
 }
-export class DoEnterContest implements Action {
-  readonly type = DO_ENTER_CONTEST;
-  constructor(public payload: CreateContest) {}
-}
-export class FetchContest implements Action {
-  readonly type = FETCH_CONTEST;
-  // payload is contest id
-  constructor(public payload: string) {}
-}
-export class SetContest implements Action {
-  readonly type = SET_CONTEST;
-  constructor(public payload: IContest) {}
+export class CheckUserEligibility implements Action {
+  readonly type = CHECK_USER_ELIGIBILITY;
+  constructor(public payload: { contestId: string }) {}
 }
 
+export class FetchContestsPreviewSuccess implements Action {
+  readonly type = FETCH_CONTESTS_PREVIEW_SUCCESS;
+  constructor(public payload: { runningContests: IContestList[] }) {}
+}
+
+export class FetchContestPreview implements Action {
+  readonly type = FETCH_CONTEST_PREVIEW;
+  constructor(public payload: { contestPreviewId: string }) {}
+}
+
+export class ResetContestsPreviewToDefault implements Action {
+  readonly type = RESET_CONTESTS_PREVIEW_TO_DEFAULT;
+}
+
+export class ResetContestData implements Action {
+  readonly type = RESET_CONTEST_DATA;
+}
+export class ResetUserEligibilityStatus implements Action {
+  readonly type = RESET_USER_ELIGIBILITY_STATUS;
+}
 export type ContestsAction =
-  | FetchContests
-  | SetContests
-  | FetchContest
-  | SetContest
-  | DoEnterContest
-  | SuccessEnterContest
-  | FailureEnterContest;
+  | FetchContestById
+  | FetchContestsPreview
+  | FetchContestsPreviewSuccess
+  | FetchContestPreview
+  | ResetContestsPreviewToDefault
+  | FetchContestByIdSuccess
+  | CheckUserEligibility
+  | CheckUserEligibilitySuccess
+  | ResetContestData
+  | ResetUserEligibilityStatus;

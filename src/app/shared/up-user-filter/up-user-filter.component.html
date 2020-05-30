@@ -1,27 +1,34 @@
-<div class="accordion-content acor-pg-2">
-  <!-- <app-up-user-filter-item
-    *ngFor="let user of filteredUsers; let i = index"
-    [userData]="user"
-  ></app-up-user-filter-item> -->
+<div class="accor-wrapper">
+  <div class="accor-head mb-30">
+    <span>Search result</span>
+    <h3>{{ filteredUsers.length }} {{ typeOfFilter }} found</h3>
+  </div>
 
-  <a
-    *ngFor="let user of filteredUsers; let i = index"
-    (click)="onUserSelected(i)"
-    style="cursor: pointer;"
-  >
-    <div
-      class="accor-item"
-      [class.accor-item-active]="filteredUsers[i].isSelected"
+  <div class="accordion-content acor-pg-2">
+    <a
+      *ngFor="let user of filteredUsers; let i = index"
+      (click)="onUserSelected(i)"
+      style="cursor: pointer;"
     >
-      <div class="accor-img">
-        <img src="{{ user.displayPhotoFullPath }}" alt="" />
+      <div
+        class="accor-item"
+        [class.accor-item-active]="filteredUsers[i].isSelected"
+      >
+        <div class="accor-img">
+          <img
+            [defaultImage]="user.defaultImageFullPath"
+            [lazyLoad]="user.displayPhotoFullPath"
+            style="width: 108px; height: 65.83px; background: lightgray;"
+            alt=""
+          />
+        </div>
+        <div class="accor-content">
+          <h4>{{ user.aliasName }}</h4>
+          <p>
+            {{ user.shortDescription | truncateText: 80 }}
+          </p>
+        </div>
       </div>
-      <div class="accor-content">
-        <h4>{{ user.aliasName }}</h4>
-        <p>
-          {{ user.shortDescription | truncateText: 80 }}
-        </p>
-      </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>

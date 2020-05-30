@@ -40,6 +40,13 @@
           type="password"
           formControlName="password"
         />
+        <a
+          style="cursor: pointer;"
+          routerLink="/account/password/forgot"
+          routerLinkActive="visited"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Forgot your password</a
+        >
         <!-- <span class="error-block" *ngIf="hasError">
           {{ errorMessage }}
         </span> -->
@@ -52,13 +59,13 @@
           Login
         </button>
       </div>
-      <div class="log-other text-center mt-55">
+      <!-- <div class="log-other text-center mt-55">
         <span>Sign In With</span>
         <div class="alternative mt-25">
           <a class="ggl"><i class="fab fa-google"></i>Google account</a>
           <a class="fb"><i class="fab fa-facebook"></i>Facebook account</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

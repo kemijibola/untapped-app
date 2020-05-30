@@ -1,3 +1,4 @@
+import { environment } from "./../../../../environments/environment.dev";
 import {
   MediaUploadType,
   PortfolioQueryParams,
@@ -13,6 +14,7 @@ import { Store, select } from "@ngrx/store";
 import { MediaType, IAuthData } from "src/app/interfaces";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromUser from "../../user.reducers";
+import * as fromMediaPreview from "../../store/portfolio/media/media-preview.reducers";
 
 @Component({
   selector: "app-portfolio-item-container",
@@ -22,26 +24,27 @@ import * as fromUser from "../../user.reducers";
 export class PortfolioItemContainerComponent implements OnInit {
   userId = "";
   selectedMediaType: MediaType;
+  userMediaListCount: number;
+  noMediaImg: string = environment.NO_MEDIA_IMG;
   constructor(
     public store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>
   ) {}
 
   ngOnInit() {
-    // this.selectedMediaType = MediaType.AUDIO;
-    // this.store
-    //   .pipe(select(fromAuth.selectCurrentUserData))
-    //   .subscribe((val: IAuthData) => {
-    //     this.userId = val.user_data._id;
-    //   });
-
     this.triggerFetchUserMediaList();
+
+    this.userStore
+      .pipe(select(fromMediaPreview.selectUserMediaListCount))
+      .subscribe((val: number) => {
+        this.userMediaListCount = val;
+      });
   }
 
   triggerFetchUserMediaList(): void {
     const queryParams: MediaQueryParams = {
       type: MediaType.ALL,
-      uploadType: MediaUploadType.ALL,
+      uploadType: MediaUploadType.all,
     };
     this.userStore.dispatch(
       new MediaPreviewActions.FetchUserMediaListPreview(queryParams)

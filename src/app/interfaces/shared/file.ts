@@ -1,12 +1,26 @@
 import { MediaType } from "../user/portfolio";
 
-export enum UPLOADOPERATIONS {
-  ProfileImage = "ProfileImage",
-  Portfolio = "Portfolio",
-  Entries = "Entries",
-  ContestBanner = "ContestBanner",
-  BannerImage = "BannerImage",
-  Default = "Default",
+export enum UPLOADCOMPONENT {
+  profileimage = "profileimage",
+  portfolio = "portfolio",
+  contestentry = "contestentry",
+  contestbanner = "contestbanner",
+  bannerimage = "bannerimage",
+  thumbnail = "thumbnail",
+  default = "default",
+}
+
+export enum UPLOADACTION {
+  updateimagealbum = "updateimagealbum",
+  updateaudioalbum = "updateaudioalbum",
+  updatevideoalbum = "updatevideoalbum",
+  createportfolio = "createportfolio",
+  updateprofilepicture = "updateprofilepicture",
+  uploadcontestbanner = "addcontestbanner",
+  uploadcontestentry = "uploadcontestentry",
+  updatebannerimage = "updatebannerimage",
+  uploadthumbnail = "uploadthumbnail",
+  default = "default",
 }
 
 export enum MediaAcceptType {
@@ -23,28 +37,29 @@ export interface IFileUploadModel {
 
 export interface IFileModel extends IFileUploadModel {
   files: File[];
-  action: UPLOADOPERATIONS;
+  action: UPLOADACTION;
 }
 
 export interface IPresignRequest {
   mediaType: string;
-  action: UPLOADOPERATIONS;
+  component: UPLOADCOMPONENT;
   files: IFileMetaData[];
 }
 export interface IFileInputModel {
   state: boolean;
-  process: UPLOADOPERATIONS;
+  component: UPLOADCOMPONENT;
+  action: UPLOADACTION;
   multiple: boolean;
   accept: string;
-  minHeight: number;
-  minWidth: number;
+  minHeight?: number;
+  minWidth?: number;
 }
 export interface IFileMetaData {
   file: string;
   file_type: string;
 }
 export interface SignedUrl {
-  action: UPLOADOPERATIONS;
+  component: UPLOADCOMPONENT;
   presignedUrl: PresignedUrl[];
 }
 
@@ -61,4 +76,13 @@ export interface IUploadedFiles {
 export interface CloudUploadParams {
   file: File;
   url: string;
+  key?: string;
+}
+
+export enum UploadStatus {
+  Ready = "Ready",
+  Requested = "Requested",
+  Started = "Started",
+  Failed = "Failed",
+  Completed = "Completed",
 }

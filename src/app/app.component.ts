@@ -23,12 +23,18 @@ import {
   MediaQueryParams,
   MediaType,
   UserFilterCategory,
+  ModalDisplay,
+  AppModal,
+  IToggle,
 } from "./interfaces";
-import * as fromUser from "./user/user.reducers";
 import * as TalentsActions from "./shared/store/talents/talents.actions";
 import * as fromTalentFilter from "./shared/store/filtered-categories/talent-category.reducers";
 import * as TalentCategoryActions from "./shared/store/filtered-categories/talent-category.action";
-
+import * as ContestsAction from "./contests/store/contests.action";
+import * as ModalsActions from "./shared/store/modals/modals.actions";
+import * as ProfessionalCategoryActions from "./shared/store/filtered-categories/professional-category/professional-category.actions";
+import * as ToggleActions from "./shared/store/slide-toggle/slide-toggle.actions";
+import * as DashboardActions from "./shared/store/dashboard/dashboard.action";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -45,6 +51,50 @@ export class AppComponent implements OnInit {
   title = "untapped-app";
   isAuthenticated = false;
   selectedUser: UserFilterCategory;
+  componentToggle: IToggle[] = [
+    {
+      name: "modal-upload-toggle",
+      title: "Multiple Upload",
+      state: false,
+    },
+    {
+      name: "settings-tap-notification",
+      title: "",
+      state: false,
+    },
+    {
+      name: "settings-email-notification",
+      title: "",
+      state: false,
+    },
+    {
+      name: "settings-profile-visibility",
+      title: "",
+      state: false,
+    },
+  ];
+
+  componentModal: AppModal = {
+    id: "contest",
+    modals: [
+      {
+        index: 0,
+        name: "new-entry",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      },
+      {
+        index: 1,
+        name: "talent-entry-details",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        showMagnifier: false,
+      },
+    ],
+  };
 
   ngOnInit() {
     this.loadAll();
@@ -57,10 +107,22 @@ export class AppComponent implements OnInit {
         }
       });
   }
-  constructor(
-    @Inject(DOCUMENT) document,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {
+    this.store.dispatch(new DashboardActions.FetchDashboardContests());
+
+    this.store.dispatch(
+      new ModalsActions.AddComponentModal({
+        componentModal: this.componentModal,
+      })
+    );
+
+    // setup all component slide-toggles here
+    this.store.dispatch(
+      new ToggleActions.AddComponentToggle({
+        componentToggle: this.componentToggle,
+      })
+    );
+  }
 
   loadAll() {
     this.store.dispatch(new AuthActions.FetchAuthData());
@@ -72,13 +134,18 @@ export class AppComponent implements OnInit {
         ReportType.highestcomment
       )
     );
+    this.store.dispatch(
+      new ProfessionalCategoryActions.FetchAllProfessional(
+        ReportType.allprofessionals
+      )
+    );
     this.store.dispatch(new ServiceActions.FetchServices());
   }
 
   fetchTalentPortfolio(userId: string) {
     const mediaQueryParams: MediaQueryParams = {
       type: MediaType.ALL,
-      uploadType: MediaUploadType.ALL,
+      uploadType: MediaUploadType.all,
       user: userId,
     };
 
@@ -86,14 +153,15 @@ export class AppComponent implements OnInit {
       new TalentsActions.FetchTalentPortfolio(mediaQueryParams)
     );
   }
-  // @HostListener('window:scroll', ['$event'])
+
+  // @HostListener("window:scroll", ["$event"])
   // onWindowScroll() {
   //   if (window.pageYOffset > 0) {
-  //     const element = document.getElementById('top-header');
-  //     element.classList.add('sticky');
+  //     const element = document.getElementById("top-header");
+  //     element.classList.add("sticky");
   //   } else {
-  //     const element = document.getElementById('top-header');
-  //     element.classList.remove('sticky');
+  //     const element = document.getElementById("top-header");
+  //     element.classList.remove("sticky");
   //   }
   // }
 }

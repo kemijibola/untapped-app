@@ -1,11 +1,15 @@
 <div class="middle-talent-wrp">
   <div class="talent-img">
-    <img src="{{ selectedUser.displayPhotoFullPath }}" alt="" />
+    <img
+      [defaultImage]="defaultImage"
+      [lazyLoad]="selectedUser.displayPhotoFullPath"
+      style="width: 442px; height: 293px; background: lightgray;"
+    />
   </div>
   <div class="middle-outer-wrp">
     <div class="nam">
-      <h3>{{ selectedUser.displayName }}</h3>
-      <a class="box-btn" href="#">TAP TALENT</a>
+      <h3>{{ selectedUser.aliasName }}</h3>
+      <a class="box-btn" href="#">LIKE TALENT</a>
     </div>
     <div class="talent mt-20">
       <span
@@ -19,7 +23,7 @@
     </div>
     <div class="address mt-30 mb-30">
       <div class="tap">
-        <span>TAPS</span>
+        <span>LIKES</span>
         <span class="number">{{ selectedUser.tapCount }}</span>
       </div>
       <div class="location">

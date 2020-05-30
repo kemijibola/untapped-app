@@ -38,7 +38,7 @@
           <div class="single-over-view-contnet-blk">
             <h4>Contest duration</h4>
             <p>
-              {{ contestInEdit.startDate | date }} -
+              {{ contestInEdit.startDate | date }} →
               {{ contestInEdit.endDate | date }}
               ({{ differenceInDays }})
             </p>
@@ -47,7 +47,7 @@
             <h4>Prize/Prizes</h4>
             <span *ngFor="let prize of contestInEdit.redeemable">
               {{ prize.name }} -
-              {{ prize.prizeCash | currency: "NGN":true:"2.2-4" }}
+              {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
             </span>
           </div>
           <div class="single-over-view-contnet-blk">

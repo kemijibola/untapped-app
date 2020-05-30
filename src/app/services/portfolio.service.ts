@@ -28,10 +28,19 @@ export class PortfolioService {
     return this.http.post<IResult<IMedia>>(url, {
       title: data.title,
       items: data.items,
+      albumCover: data.albumCover,
       uploadType: mediaUploadType,
       mediaType: data.type,
       shortDescription: data.shortDescription,
     });
+  }
+
+  patchPortfolioMedia(
+    mediaId: string,
+    data: UploadedItems
+  ): Observable<IResult<IMedia>> {
+    const url = `${this.BASE_URI}/media/${mediaId}`;
+    return this.http.patch<IResult<IMedia>>(url, data);
   }
 
   updatePortfolioMedia(
@@ -43,6 +52,7 @@ export class PortfolioService {
     return this.http.put<IResult<IMedia>>(url, {
       title: data.title,
       items: data.items,
+      albumCover: data.albumCover,
       uploadType: mediaUploadType,
       mediaType: data.type,
       shortDescription: data.shortDescription,
