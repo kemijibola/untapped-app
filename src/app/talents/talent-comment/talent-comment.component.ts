@@ -158,7 +158,7 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     const commentObj: IComment = {
       _id: UUID.UUID(),
       comment: mediaComment,
-      media: this.selectedMediaId,
+      entity: this.selectedMediaId,
       user: {
         _id: this.currentUser._id,
         fullName: this.currentUser.full_name,

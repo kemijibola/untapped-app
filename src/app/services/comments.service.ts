@@ -11,8 +11,9 @@ export class CommentsService {
     this.BASE_URI = "http://127.0.0.1:8900/v1";
   }
 
-  fetchMediaComments(mediaId: string): Observable<IResult<IComment[]>> {
-    const url = `${this.BASE_URI}/comments/media/${mediaId}`;
+  fetchMediaComments(entityId: string): Observable<IResult<IComment[]>> {
+    console.log(entityId);
+    const url = `${this.BASE_URI}/comments/entity/${entityId}`;
     return this.http.get<IResult<IComment[]>>(url);
   }
 
@@ -20,7 +21,7 @@ export class CommentsService {
     console.log("calling service to add comment");
     const url = `${this.BASE_URI}/comments`;
     return this.http.post<IResult<IComment>>(url, {
-      media: data.media,
+      entity: data.entity,
       comment: data.comment,
     });
   }

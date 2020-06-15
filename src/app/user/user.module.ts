@@ -38,7 +38,9 @@ import { AddMoreImageComponent } from "./portfolio/add-more-image/add-more-image
 import { AddMoreAudioComponent } from "./portfolio/add-more-audio/add-more-audio.component";
 import { AddMoreVideoComponent } from "./portfolio/add-more-video/add-more-video.component";
 import { userLocationReducer } from "../shared/store/user-location/user-location.reducer";
-import { TalentContestComponent } from './talent-contest/talent-contest.component';
+import { TalentContestComponent } from "./talent-contest/talent-contest.component";
+
+import { LazyLoadImageModule } from "ng-lazyload-image";
 
 @NgModule({
   declarations: [
@@ -71,6 +73,7 @@ import { TalentContestComponent } from './talent-contest/talent-contest.componen
     VgBufferingModule,
     FormsModule,
     ReactiveFormsModule,
+    LazyLoadImageModule,
     UserRoutingModule,
     StoreModule.forFeature("profileState", profileReducer),
     StoreModule.forFeature("mediaPreviewState", mediaPreviewReducer),

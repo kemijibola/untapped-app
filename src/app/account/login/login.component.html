@@ -1,7 +1,7 @@
 <!-- Log-In Area Start -->
 <div class="login-area pt-75 pb-100">
   <div class="container-fluid">
-    <div class="login-wrapper" [formGroup]="signinForm">
+    <form class="login-wrapper" [formGroup]="signinForm">
       <div class="head text-center mb-30">
         <span>Sign In to</span>
         <h3>untapped pool</h3>
@@ -14,7 +14,7 @@
               !signinForm.get('email').valid && signinForm.get('email').touched
             "
           >
-            Please enter a valid
+            *
           </span>
           Email
         </label>
@@ -31,7 +31,7 @@
               signinForm.get('password').touched
             "
           >
-            Please enter a valid
+            *
           </span>
           Password</label
         >
@@ -41,7 +41,7 @@
           formControlName="password"
         />
         <a
-          style="cursor: pointer;"
+          style="cursor: pointer; float: right;"
           routerLink="/account/password/forgot"
           routerLinkActive="visited"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -51,12 +51,18 @@
           {{ errorMessage }}
         </span> -->
         <button
+          #loginButton
           class="box-btn login-btn mt-50"
-          [disabled]="!signinForm.valid"
+          [disabled]="!signinForm.valid || (inProgress$ | async)"
           (click)="onSignin()"
           type="button"
         >
-          Login
+          <span *ngIf="(initiated$ | async) || (loginCompleted$ | async)"
+            >Login</span
+          >
+          <span *ngIf="(inProgress$ | async) || (!loginCompleted$ | async)"
+            >Logging In</span
+          >
         </button>
       </div>
       <!-- <div class="log-other text-center mt-55">
@@ -66,7 +72,7 @@
           <a class="fb"><i class="fab fa-facebook"></i>Facebook account</a>
         </div>
       </div> -->
-    </div>
+    </form>
   </div>
 </div>
 <!-- Log-In Area End -->

@@ -53,7 +53,6 @@ export class SignInSuccess implements Action {
 }
 export class SignUpFailure implements Action {
   readonly type = SIGNUP_FAILURE;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 export class ResetFailureMessage implements Action {
   readonly type = RESET_FAILURE_MESSAGE;
@@ -79,7 +78,6 @@ export class SetNewUserEmail implements Action {
 }
 export class SignInFailure implements Action {
   readonly type = SIGNIN_FAILURE;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 export class FetchAuthData implements Action {
   readonly type = FETCH_AUTHDATA;
@@ -142,7 +140,6 @@ export class VerifyRestPasswordSuccess implements Action {
   readonly type = VERIFY_RESET_PASSWORD_SUCCESS;
   constructor(public payload: { email: string }) {}
 }
-CREATE_NEW_PASSWORD;
 export class CreateNewPassword implements Action {
   readonly type = CREATE_NEW_PASSWORD;
   constructor(public payload: { email: string; newPassword: string }) {}

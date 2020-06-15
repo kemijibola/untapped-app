@@ -27,7 +27,10 @@
       </div>
       <div class="loader-container" *ngIf="showDiv">
         <div class="loader-inner-div">
-          <img src="assets/loader.gif" *ngIf="showUploading" />
+          <span *ngIf="showUploading">
+            <img src="assets/loader.gif" style="width: 20px;" />
+            <p>Uploading...</p>
+          </span>
           <img
             src="assets/check.gif"
             *ngIf="showCompleted"

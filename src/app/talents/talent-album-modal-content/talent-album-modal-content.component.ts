@@ -120,7 +120,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
           const currentMedia = this.selectedMedia.items[val.currentIndex];
           if (currentMedia !== undefined) {
             Object.assign({}, currentMedia, { key: currentMedia.path });
-            
+
             this.setMedia(val.mediaType, currentMedia);
           }
         }
@@ -148,7 +148,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
               this.selectedMedia = { ...val.data };
               this.store.dispatch(
                 new CommentsActions.FetchMediaComments({
-                  mediaId: this.selectedMedia._id,
+                  entityId: this.selectedMedia._id,
                 })
               );
             }

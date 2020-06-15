@@ -136,9 +136,11 @@ export interface AudioPreview extends MediaPreview {
 }
 export interface VideoPreview extends MediaPreview {
   albumCover?: string;
+  defaultAlbumCover?: string;
 }
 export interface ImagePreview extends MediaPreview {
   albumCover?: string;
+  defaultAlbumCover?: string;
 }
 
 export interface MediaPreview {

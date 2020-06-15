@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { Observable, Subject } from "rxjs";
-import * as fromProfile from "../store/profile/profile.reducers";
+import * as fromProfileReducer from "../store/profile/profile.reducers";
 import * as ProfileActions from "../store/profile/profile.actions";
 import * as fromUser from "../user.reducers";
 import * as fromApp from "../../store/app.reducers";
@@ -34,7 +34,7 @@ import * as fromUserLocation from "../../shared/store/user-location/user-locatio
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
-  userProfileState: Observable<fromProfile.ProfileState>;
+  userProfileState: Observable<fromProfileReducer.ProfileState>;
   ngDestroyed = new Subject();
   fileConfig: IFileInputModel;
   userEmail: string;
@@ -62,8 +62,21 @@ export class ProfileComponent implements OnInit {
     location: "",
     formattedAddres: "",
   };
+  newUserLocation: string = "";
   userType: string = "";
   shortbioCount: number = 0;
+
+  isInitiated$ = this.userStore.pipe(
+    select(fromProfileReducer.selectSaveProfileInitiatedStatus)
+  );
+
+  inProgress$ = this.userStore.pipe(
+    select(fromProfileReducer.selectSaveProfileInProgressStatus)
+  );
+
+  isCompleted$ = this.userStore.pipe(
+    select(fromProfileReducer.selectSaveProfileCompletedStatus)
+  );
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -86,8 +99,16 @@ export class ProfileComponent implements OnInit {
 
     this.userStore.dispatch(new ProfileActions.FetchUserProfile());
 
+    // this.userStore
+    //   .pipe(select(fromUserLocation.selectCurrentUserLocation))
+    //   .subscribe((val: ILocation) => {
+    //     if (val !== null) {
+    //       this.newUserLocation = val.formattedAddres;
+    //     }
+    //   });
+
     this.userStore
-      .pipe(select(fromProfile.selectCurrentUserProfile))
+      .pipe(select(fromProfileReducer.selectCurrentUserProfile))
       .subscribe((val: IProfile) => {
         if (_.has(val, "_id")) {
           this.store.dispatch(
@@ -125,8 +146,10 @@ export class ProfileComponent implements OnInit {
     this.userStore
       .pipe(select(fromUserLocation.selectCurrentUserLocation))
       .subscribe((val: ILocation) => {
-        if (val !== null) {
-          this.userLocation = val;
+        if (_.has(val, "address")) {
+          this.userLocation = { ...val };
+          this.location = val["address"].formattedAddres;
+          console.log(this.location);
         }
       });
   }
@@ -139,7 +162,11 @@ export class ProfileComponent implements OnInit {
       emailAddress: new FormControl(this.userEmail, Validators.required),
       phoneNumber: new FormControl(
         this.phoneNumber,
-        Validators.pattern(PHONE_REGEX)
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(PHONE_REGEX),
+          Validators.minLength(11),
+        ])
       ),
       shortBio: new FormControl(this.shortBio, [
         Validators.minLength(80),
@@ -166,6 +193,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   onUpdateProfile() {
+    console.log("clicked");
     const name: string = this.profileForm.controls["name"].value;
     // const rcNumber: string = this.profileForm.controls["rcNumber"].value;
     const fullName: string = this.profileForm.controls["fullName"].value;
@@ -178,11 +206,14 @@ export class ProfileComponent implements OnInit {
     const additionalSocials: string[] = this.profileForm.controls[
       "additionalSocial"
     ].value;
+
     const profileObj: IProfile = {
       name,
       // rcNumber,
       fullName,
-      userAddress: { ...this.userLocation },
+      // location:
+      //   this.newUserLocation !== "" ? this.newUserLocation : this.location,
+      userAddress: this.userLocation,
       phoneNumbers: [phoneNumber],
       categoryTypes: [...this.selectedCategories],
       additionalSocial: [...additionalSocials],

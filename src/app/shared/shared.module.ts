@@ -45,6 +45,7 @@ import { NguiInViewComponent } from "./ngui-in-view.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { VideoPlayerComponent } from "./video-player/video-player.component";
 import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
+import { ValidationErrorsComponent } from "./validation-errors/validation-errors.component";
 
 @NgModule({
   imports: [
@@ -92,6 +93,7 @@ import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
     VideoPlayerComponent,
     AudioPayerComponent,
     NgbModule,
+    ValidationErrorsComponent,
   ],
   declarations: [
     UploadComponent,
@@ -115,6 +117,7 @@ import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
     NguiInViewComponent,
     VideoPlayerComponent,
     AudioPayerComponent,
+    ValidationErrorsComponent,
   ],
 })
 export class SharedModule {}

@@ -14,7 +14,7 @@ import { environment } from "src/environments/environment";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
 import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";
-
+import * as _ from "underscore";
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
@@ -49,8 +49,8 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
-        this.isAuthenticated = val.authenticated;
-        if (val.authenticated) {
+        if (_.has(val, "user_data")) {
+          this.isAuthenticated = val.authenticated;
           this.tapNotificationStatus = val.user_data.tap_notification;
           this.emailNotificationStatus = val.user_data.email_notification;
           this.profileVisibilityStatus = val.user_data.profile_visibility;
@@ -58,6 +58,8 @@ export class HeaderComponent implements OnInit, AfterContentInit {
           this.userPreEmailAdress = val.user_data.email.split("@")[0];
           this.userFullName = val.user_data.full_name;
           this.typeOfUser = AppUserType[val.user_data.userType.name];
+        } else {
+          this.isAuthenticated = false;
         }
       });
 
@@ -75,19 +77,10 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   }
 
   fetchUserProfileImage(userImageKey: string) {
-    this.store
-      .pipe(select(fromAuth.selectCurrentUserData))
-      .subscribe((val: IAuthData) => {
-        if (val.authenticated) {
-          this.userImage =
-            userImageKey !== ""
-              ? fetchImageObjectFromCloudFormation(
-                  val.user_data.profile_image_path,
-                  this.editParams
-                )
-              : environment.TALENT_DEFAULT_IMG;
-        }
-      });
+    this.userImage =
+      userImageKey !== ""
+        ? fetchImageObjectFromCloudFormation(userImageKey, this.editParams)
+        : environment.TALENT_DEFAULT_IMG;
   }
 
   ngAfterContentInit() {

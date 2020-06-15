@@ -198,7 +198,6 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
       .subscribe((val: AudioPortfolioPreview[]) => {
-        
         if (val) {
           this.audioAlbums = [...val];
           this.setAudioAlbumCover();

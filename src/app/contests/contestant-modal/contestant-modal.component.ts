@@ -290,7 +290,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
               this.setContestantProfileIImage(val.data);
               this.store.dispatch(
                 new CommentsActions.FetchMediaComments({
-                  mediaId: this.entryData._id,
+                  entityId: this.entryData._id,
                 })
               );
             }
@@ -323,7 +323,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
     const commentObj: IComment = {
       _id: UUID.UUID(),
       comment: mediaComment,
-      media: this.entryData._id,
+      entity: this.entryData._id,
       user: {
         _id: this.currentUser._id,
         fullName: this.currentUser.full_name,

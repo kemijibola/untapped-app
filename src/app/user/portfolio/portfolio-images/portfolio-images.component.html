@@ -2,10 +2,12 @@
   <div class="col-xl-12">
     <div class="profile-alb-head">
       <h4>
-        Picture Portfolio<span
-          >({{ userImagesLength }} album
-          <small *ngIf="userImagesLength > 1">s</small>
-          )</span
+        Picture Portfolio
+        <span *ngIf="userImagesLength === 1"
+          >({{ userImagesLength }} album)</span
+        >
+        <span *ngIf="userImagesLength > 1"
+          >({{ userImagesLength }} albums)</span
         >
       </h4>
     </div>
@@ -14,13 +16,16 @@
     class="col-xl-4 col-lg-4 col-md-4 col-sm-6"
     *ngFor="let image of userImagePreviews; let i = index"
   >
-    <div class="profile-alb-wrapper mb-30">
+    <div
+      class="profile-alb-wrapper mb-30"
+      (click)="openModalDialog('gigs-modal', image._id)"
+    >
       <div class="alb-image">
         <img
-          style="height: 168px; width: 320px;"
-          src="{{ image.albumCover }}"
+          [defaultImage]="image.defaultAlbumCover"
+          [lazyLoad]="image.albumCover"
+          style="height: 168px; width: 320px; background: lightgray;"
           (click)="openModalDialog('gigs-modal', image._id)"
-          alt=""
         />
 
         <!-- <div class="edit" (click)="onEdit()">
