@@ -45,6 +45,9 @@ import { StickyModule } from "ng2-sticky-kit";
 import { ContestEffect } from "./contests/store/contest/contest.effects";
 import { ProfessionalCategoryEffect } from "./shared/store/filtered-categories/professional-category/professional-category.effects";
 import { DashboardEffects } from "./shared/store/dashboard/dashboard.effect";
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+ 
+const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -74,6 +77,7 @@ export const customCurrencyMaskConfig = {
     StickyModule,
     LazyLoadImageModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    SocketIoModule.forRoot(config),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
       UserTypeEffects,

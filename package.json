@@ -63,7 +63,6 @@
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
     "rxjs-toolbox": "^2.2.2",
-    "rxjs-websockets": "^8.0.1",
     "tslib": "^1.10.0",
     "typescript": "^3.8.3",
     "underscore": "^1.9.1",
