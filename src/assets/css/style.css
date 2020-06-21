@@ -170,7 +170,6 @@ a:hover {
   font-size: 14px;
 }
 .mainmenu-main li a i {
-  margin: ;
   margin-right: 5px;
 }
 .menu-btn a {
@@ -321,7 +320,6 @@ a:hover {
 }
 
 .professsional-txt p {
-  font-size: ;
   font-weight: 400;
   letter-spacing: 0.7px;
   line-height: 41px;
@@ -345,7 +343,6 @@ a:hover {
 }
 
 .mainmenu-main ul li a svg {
-  padding-right: ;
   margin-right: 7px;
 }
 
@@ -469,8 +466,7 @@ a:hover {
   bottom: 110px;
   right: 0;
 }
-.left-bg-contact {
-}
+
 .contact-area {
   background: #06a7ae;
   padding: 120px 0;
@@ -956,6 +952,7 @@ footer {
   margin-right: 5px;
   display: inline-block;
 }
+
 .entries-header span {
   font-size: 14px;
   color: #6c6b6b;
@@ -1001,7 +998,6 @@ footer {
   position: relative;
 }
 .entries-content .count li {
-  display: ;
   float: left;
   margin-right: 18px;
   color: #fff;
@@ -1266,23 +1262,13 @@ html::-webkit-scrollbar {
   margin: 0 auto;
 }
 
-/*
-::-webkit-scrollbar {
-  width: 7px;
-}
-
-
 ::-webkit-scrollbar-track {
   background: red;
-
 }
-
 
 ::-webkit-scrollbar-thumb {
   background: #000;
-
 }
-
 
 ::-webkit-scrollbar-thumb:hover {
   background: green;
@@ -1292,25 +1278,18 @@ html::-webkit-scrollbar {
   width: 7px;
 }
 
-
 ::-moz-scrollbar-track {
   background: red;
-
 }
-
 
 ::-moz-scrollbar-thumb {
   background: #000;
-
 }
-
 
 ::-moz-scrollbar-thumb:hover {
   background: green;
 }
-*/
-
-.pop-review-section {
+*/ .pop-review-section {
   margin-bottom: 19px;
   padding-right: 4px;
 }
@@ -1489,6 +1468,7 @@ html::-webkit-scrollbar {
 .input-1 textarea:focus {
   background: #fff;
 }
+
 .upload .head {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2464,9 +2444,6 @@ button.accordion.is-open:after {
   font-family: AvenirNextLTProMedium;
 }
 .tap .number {
-  text-align: ;
-  fn: ;
-  font-size: ;
   font-family: AvenirNext-reg;
 }
 .location p {
@@ -2706,7 +2683,6 @@ button.accordion.is-open:after {
 .sm-round button {
   background: transparent;
   border: none;
-  padding: ;
   padding: 0;
 }
 .sm-round button:after {
@@ -2754,8 +2730,6 @@ button.accordion.is-open:after {
 .sm-round .dropdown-menu {
   border-radius: 0;
   border: none;
-  -webkit-box-sizing: ;
-  box-sizing: ;
   -webkit-box-shadow: 0 0 25px #ddd;
   box-shadow: 0 0 25px #ddd;
 }
@@ -3013,7 +2987,6 @@ button.accordion.is-open:after {
   margin-bottom: 60px;
 }
 .gig-appointmnt-area .pagination .page-item {
-  marginle: ;
   margin-left: 5px;
   margin-right: 5px;
 }
@@ -3111,7 +3084,6 @@ button.accordion.is-open:after {
 .general-img-uploads img {
   height: 208px;
   width: 100%;
-  resize-image: "cover";
 }
 .footer-menu ul li a:hover {
   color: #3db483;
@@ -4051,8 +4023,6 @@ button.accordion.is-open:after {
   font-size: 21px;
   color: #000;
 }
-.s-angl-item input.long-ht {
-}
 
 .s-angl-item textarea {
   width: 350px;
@@ -4124,11 +4094,8 @@ button.accordion.is-open:after {
 .vocal-row input {
   height: 50px;
   border: 1px solid #e0e0e0;
-  -webkit-animation: ;
-  animation: ;
   background: #fafafa;
   padding: 0 13px;
-  border-a: ;
   border-radius: 3px;
 }
 .vocal-row {
@@ -4190,7 +4157,6 @@ button.accordion.is-open:after {
 }
 .success-right-content h1 {
   font-size: 30px;
-  font-\=f: ;
   font-family: AvenirNextLTProBold;
   color: #0c0c0c;
 }
@@ -4250,8 +4216,7 @@ button.accordion.is-open:after {
   border-radius: 0;
   margin-top: 25px;
 }
-bo .add-judge-inner {
-}
+
 .add-judge-inner h3 {
   font-family: AvenirNextLTProBold;
   font-size: 22px;
@@ -4344,8 +4309,7 @@ bo .add-judge-inner {
   padding-left: 0;
   color: #545051;
 }
-.add-more-btn {
-}
+
 .add-more-btn button i {
   border: 1px solid #e0e0e0;
   width: 47px;
@@ -4373,7 +4337,6 @@ bo .add-judge-inner {
   display: block;
 }
 .add-profession-blk .single-prf-blk:nth-child(1) {
-  opacity: ;
   width: 700px;
   margin-right: 31px;
 }
@@ -4412,9 +4375,6 @@ bo .add-judge-inner {
   font-size: 22px;
   font-family: AvenirNextLTProBold;
   margin: 0;
-}
-
-.jd-name h4 span {
 }
 
 .jd-name h4 span {
@@ -4892,7 +4852,6 @@ button.close-btn {
 .c-comments p {
   color: #0c0c0c;
   margin: 0;
-  fp: ;
   font-size: 20px;
 }
 .jd-ev .contestent-inner-content {
@@ -4911,7 +4870,6 @@ button.close-btn {
 }
 
 .comment-box form textarea {
-  quotes: ;
   width: 100%;
   border: 1px solid #929292;
   resize: none;
@@ -4966,7 +4924,6 @@ button.close-btn {
 }
 .jd-ev-rt-content a {
   font-size: 20px;
-  color: ;
   font-family: AvenirNextLTProMedium;
   background: -webkit-gradient(
     linear,
@@ -4985,7 +4942,6 @@ button.close-btn {
   width: 200px;
   line-height: 50px;
   border-radius: 5px;
-  magin-t: ;
   margin-top: 25px;
   color: #fff;
 }
@@ -5010,7 +4966,6 @@ button.close-btn {
 .selected-cnt-left-content h3 {
   font-size: 14px;
   color: #0c0c0c;
-  marg-b: ;
   margin-bottom: 7px;
   font-family: AvenirNextLTProMedium;
 }
@@ -5213,8 +5168,7 @@ button.close-btn {
 .inner-b-more-main-contnet p {
   font-size: 16px;
 }
-.select-nmber a {
-}
+
 .inner-b-more-main-contnet a {
   display: inline-block;
   margin: 13px 0;
@@ -5301,7 +5255,6 @@ button.close-btn {
 }
 .sm-sng-blk h4 span {
   float: right;
-  font-size: ;
 }
 .sm-btm a {
   background: #231f20;
