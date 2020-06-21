@@ -19,7 +19,7 @@ export class NotificationEffect {
         map((action: NotificationActions.AddError) => action.payload),
         map((payload: AppNotification) => {
           let snackBarConfig: SnackBarData = {
-            message: payload["message"],
+            message: `Error: ${payload["message"]}`,
             action: "X",
             config: {
               panelClass: ["error-snackbar"],

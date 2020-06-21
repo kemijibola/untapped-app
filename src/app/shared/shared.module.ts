@@ -46,10 +46,12 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { VideoPlayerComponent } from "./video-player/video-player.component";
 import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
 import { ValidationErrorsComponent } from "./validation-errors/validation-errors.component";
+import { CarouselModule } from "ngx-owl-carousel-o";
 
 @NgModule({
   imports: [
     FormsModule,
+    CarouselModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
     MatProgressBarModule,
@@ -93,6 +95,7 @@ import { ValidationErrorsComponent } from "./validation-errors/validation-errors
     VideoPlayerComponent,
     AudioPayerComponent,
     NgbModule,
+    CarouselModule,
     ValidationErrorsComponent,
   ],
   declarations: [

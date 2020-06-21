@@ -12,6 +12,7 @@ import { ContestEntryModalContentComponent } from "./contest-details/contest-ent
 import { EntryCommentComponent } from "./contest-details/entry-comment/entry-comment.component";
 import { LazyLoadImageModule } from "ng-lazyload-image";
 import { ContestantModalComponent } from "./contestant-modal/contestant-modal.component";
+import { ContestAnalysisReportComponent } from './contest-analysis-report/contest-analysis-report.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ContestantModalComponent } from "./contestant-modal/contestant-modal.co
     ContestEntryModalContentComponent,
     EntryCommentComponent,
     ContestantModalComponent,
+    ContestAnalysisReportComponent,
   ],
   imports: [
     SharedModule,

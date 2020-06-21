@@ -300,6 +300,12 @@ export class ContestDetailsComponent implements OnInit {
     }
   }
 
+  navigateToAanalysis() {
+    this.router.navigate([
+      "/contests/" + this.contestDetails.contest._id + "/analysis",
+    ]);
+  }
+
   ngOnDestroy(): void {
     // this.hasEnded = false;
     // this.store.dispatch(new ContestsAction.ResetContestData());

@@ -34,7 +34,6 @@ export class ContestEntryModalContentComponent implements OnInit {
           this.isCurrentVideoSet = false;
           if (val.name === "talent-entry-details" && val.data !== null) {
             if (val.data !== null) {
-              console.log("contestant", val);
               this.entryData = { ...val.data };
               this.store.dispatch(
                 new CommentsActions.FetchMediaComments({

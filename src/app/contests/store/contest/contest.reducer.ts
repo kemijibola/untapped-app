@@ -13,11 +13,13 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 export interface ContestState extends EntityState<ContestData> {
   selectedContestId: string | number | null;
   userEligibilityStatus: ContestEligibilityData | null;
+  userEntryVoteCount: number | null;
 }
 
 const initialState: ContestState = fromAdapter.adapter.getInitialState({
   selectedContestId: null,
   userEligibilityStatus: null,
+  userEntryVoteCount: null,
 });
 
 export function reducer(
@@ -37,6 +39,11 @@ export function reducer(
       return Object.assign({
         ...state,
         userEligibilityStatus: action.payload.response,
+      });
+    case ContestActions.FETCH_CONTEST_BY_ID:
+      return Object.assign({
+        ...state,
+        selectedContestId: action.payload.contestId,
       });
     case ContestActions.FETCH_CONTEST_BY_ID:
       return Object.assign({

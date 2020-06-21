@@ -35,6 +35,7 @@ import {
 } from "src/app/lib/Helper";
 import { Router } from "@angular/router";
 import { UUID } from "angular2-uuid";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-contestant-modal",
@@ -121,6 +122,8 @@ export class ContestantModalComponent implements OnInit, OnChanges {
     },
   };
   imagePath: string = "";
+  keyword = environment.CONTEST_KEYWORD;
+  textNumber = environment.CONTEST_TO_NUMBER;
 
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
@@ -242,7 +245,6 @@ export class ContestantModalComponent implements OnInit, OnChanges {
   }
 
   setCurrentImage(key: string) {
-    console.log("setting image...");
     this.isCurrentImageSet = true;
     this.isCurrentAudioSet = false;
     this.isCurrentVideoSet = false;
@@ -288,6 +290,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
           if (val.name === "talent-entry-details" && val.data !== null) {
             if (val.data) {
               this.setContestantProfileIImage(val.data);
+              console.log("contest entry data", val.data);
               this.store.dispatch(
                 new CommentsActions.FetchMediaComments({
                   entityId: this.entryData._id,

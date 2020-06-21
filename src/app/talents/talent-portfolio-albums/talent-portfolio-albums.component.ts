@@ -97,8 +97,7 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
       .subscribe((val: UserFilterCategory) => {
-        console.log("selected user", val);
-        this.talentName = val.aliasName || "";
+        this.talentName = val !== undefined ? val.aliasName : "";
       });
   }
 

@@ -22,4 +22,7 @@ export const environment = {
   PAYSTACK_CLIENT_KEY: "pk_test_59348c251942c0500c9bf1058fdbd9956cadc060",
   EMAIL_CHANGE_ROUTE: "account/email-change/verify",
   RESET_PASSWORD_URL: "account/reset/password-request/verify",
+  CONTEST_KEYWORD: "TALENT",
+  CONTEST_TO_NUMBER: "32811",
+  WS_ENDPOINT: "http://127.0.0.1:8900",
 };
