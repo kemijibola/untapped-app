@@ -7,6 +7,7 @@ export const ADD_INFO = "ADD_INFO";
 export const CLEAR_INFO = "CLEAR_INFO";
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const CLEAR_SUCCESS = "CLEAR_SUCCESS";
+export const NOOP = "NOOP";
 
 export class AddError implements Action {
   readonly type = ADD_ERROR;
@@ -16,6 +17,10 @@ export class AddError implements Action {
 export class AddSuccess implements Action {
   readonly type = ADD_SUCCESS;
   constructor(public payload: AppNotification) {}
+}
+
+export class Noop implements Action {
+  readonly type = NOOP;
 }
 
 export class AddInfo implements Action {
@@ -32,4 +37,5 @@ export type NotificationActions =
   | AddError
   | AddInfo
   | AddSuccess
-  | ClearNotification;
+  | ClearNotification
+  | Noop;

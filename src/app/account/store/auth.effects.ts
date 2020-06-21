@@ -18,8 +18,9 @@ import {
   concatMap,
   take,
   scan,
+  filter,
 } from "rxjs/operators";
-import { of, Observable, throwError, empty, pipe } from "rxjs";
+import { of, Observable, throwError, empty, pipe, scheduled } from "rxjs";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
@@ -51,7 +52,8 @@ export class AuthEffects {
                   message:
                     respError.error.response_message ||
                     "No Internet connection",
-                })
+                }),
+                new AuthActions.SignUpFailure()
               )
             )
           )
@@ -250,10 +252,9 @@ export class AuthEffects {
             password: action.payload.loginData.password,
           })
           .pipe(
-            map(
-              (resp: IResult<IAuthData>) =>
-                new AuthActions.SetAuthData(resp.data)
-            ),
+            mergeMap((resp: IResult<IAuthData>) => [
+              new AuthActions.SetAuthData(resp.data),
+            ]),
             tap((data) => this.authService.setItem("userData", data.payload)),
             tap(() => this.router.navigate(["/"])),
             catchError((respError: HttpErrorResponse) =>
@@ -264,7 +265,13 @@ export class AuthEffects {
                   message:
                     respError.error.response_message ||
                     "No Internet connection",
-                })
+                }),
+                new AuthActions.SignInFailure()
+                // new NotificationActions.AddSuccess({
+                //   key: AppNotificationKey.success,
+                //   code: 200,
+                //   message: "Show me!",
+                // })
               )
             )
           )

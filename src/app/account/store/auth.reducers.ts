@@ -3,12 +3,17 @@ import { IAuthData } from "../../interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./auth.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { OutboundState } from "src/app/shared/Util";
 export interface AuthState extends EntityState<IAuthData> {
   userData: IAuthData | null;
   confirmationResponse: string | null;
+  loginStatus: OutboundState | null;
+  registerStatus: OutboundState | null;
 }
 
 const initialState: AuthState = fromAdapter.adapter.getInitialState({
+  loginStatus: OutboundState.initiated,
+  registerStatus: OutboundState.initiated,
   confirmationResponse: null,
   userData: {
     access_token: "",
@@ -38,6 +43,16 @@ export function reducer(
   action: AuthActions.AuthActions
 ): AuthState {
   switch (action.type) {
+    case AuthActions.DO_SIGNIN:
+      return Object.assign({
+        ...state,
+        loginStatus: OutboundState.inprogress,
+      });
+    case AuthActions.DO_SIGNUP:
+      return Object.assign({
+        ...state,
+        registerStatus: OutboundState.inprogress,
+      });
     case AuthActions.SET_AUTHDATA:
       return Object.assign({
         ...state,
@@ -48,6 +63,12 @@ export function reducer(
           token_expires: action.payload.token_expires,
           authenticated: true,
         },
+        loginStatus: OutboundState.completed,
+      });
+    case AuthActions.SIGNUP_SUCCESS:
+      return Object.assign({
+        ...state,
+        registerStatus: OutboundState.completed,
       });
     case AuthActions.DELETE_AUTHDATA:
       return Object.assign({
@@ -60,12 +81,40 @@ export function reducer(
         ...state,
         confirmationResponse: action.payload.response,
       });
+    case AuthActions.SIGNIN_FAILURE:
+      return Object.assign({
+        ...state,
+        loginStatus: OutboundState.completed,
+      });
+    case AuthActions.SIGNUP_FAILURE:
+      return Object.assign({
+        ...state,
+        registerStatus: OutboundState.completed,
+      });
     default: {
       return state;
     }
   }
 }
-export const getSelectedUserAuth = (state: AuthState) => state.userData;
+const getSelectedUserAuth = (state: AuthState) => state.userData;
+
+const getLoginCompleted = (state: AuthState): boolean =>
+  state.loginStatus === OutboundState.completed;
+
+const getLoginInProgress = (state: AuthState): boolean =>
+  state.loginStatus === OutboundState.inprogress;
+
+const getLoginInitiated = (state: AuthState): boolean =>
+  state.loginStatus === OutboundState.initiated;
+
+const getSignUpCompleted = (state: AuthState): boolean =>
+  state.registerStatus === OutboundState.completed;
+
+const getSignUpInProgress = (state: AuthState): boolean =>
+  state.registerStatus === OutboundState.inprogress;
+
+const getSignUpInitiated = (state: AuthState): boolean =>
+  state.registerStatus === OutboundState.initiated;
 
 export const getAuthState = createFeatureSelector<AuthState>("authState");
 
@@ -73,6 +122,38 @@ export const selectCurrentUserData = createSelector(
   getAuthState,
   getSelectedUserAuth
 );
+
+export const selectLoginInitiatedStatus = createSelector(
+  getAuthState,
+  getLoginInitiated
+);
+
+export const selectLoginInProgressStatus = createSelector(
+  getAuthState,
+  getLoginInProgress
+);
+
+export const selectLoginCompletedStatus = createSelector(
+  getAuthState,
+  getLoginCompleted
+);
+
+export const selectSignUpInitiatedStatus = createSelector(
+  getAuthState,
+  getSignUpInitiated
+);
+
+export const selectSignUpInProgressStatus = createSelector(
+  getAuthState,
+  getSignUpInProgress
+);
+
+export const selectSignUpCompletedStatus = createSelector(
+  getAuthState,
+  getSignUpCompleted
+);
+
+// export const selectLoginStatus = createSelector(getAuthState, getLoginStatus);
 
 const getConfirmationSuccessMessage = (state: AuthState) =>
   state.confirmationResponse;

@@ -91,6 +91,7 @@ export interface IContestEntry {
   additionalInfo?: string;
   contestantCode?: string;
   entry: string;
+  fullUserProfileImage?: string;
 }
 
 export interface ContestData {

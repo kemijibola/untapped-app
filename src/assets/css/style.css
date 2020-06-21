@@ -31,6 +31,7 @@
   display: block;
   margin: 0 auto 15px;
 }
+
 a:focus {
   outline: 0 solid;
 }
@@ -58,10 +59,10 @@ h1 {
   color: #4574ba;
 }
 input {
-  background: #fafafa;
+  background: #fafafa !important;
 }
 input:focus {
-  background: #fff;
+  background: #fff !important;
 }
 textarea:focus {
   background: #fff;
@@ -1204,21 +1205,23 @@ footer {
   height: 8px;
 }
 
-.talent-portfolio-wrapper::-webkit-scrollbar {
-  width: 5px;
-  height: 8px;
+.talent-portfolio-wrapper::-webkit-scrollbar
+  .modal-dialog-album-view::-webkit-scrollbar {
+  width: 5px !important;
+  height: 8px !important;
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: #11868b;
+  background-color: #11868b !important;
 }
 
 html::-webkit-scrollbar {
-  width: 5px;
-  height: 8px;
+  width: 5px !important;
+  height: 8px !important;
 }
 
-.talent-portfolio-wrapper::-webkit-scrollbar-thumb {
+.talent-portfolio-wrapper::-webkit-scrollbar-thumb
+  .modal-dialog-album-view::-webkit-scrollbar-thumb {
   background-color: #11868b;
 }
 
@@ -1726,6 +1729,15 @@ html::-webkit-scrollbar {
 .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
   background-color: #cdeeef !important;
 }
+.mat-slide-toggle-thumb-container {
+  top: 2px !important;
+  left: auto !important;
+}
+.mat-checked .mat-slide-toggle-thumb-container {
+  top: 2px !important;
+  left: auto !important;
+  right: 24px !important;
+}
 /* 
 .mat-slide-toggle-bar {
   background-color: #f7f7f7 !important;
@@ -1841,7 +1853,7 @@ html::-webkit-scrollbar {
 .input-design {
   height: 50px;
   background-color: #fafafa;
-  border: 1px solid #d8d8d8;
+  border: 1px solid #d8d8d8 !important;
   width: 100%;
   border-radius: 2px;
   padding: 10px 15px;
@@ -2187,11 +2199,12 @@ html::-webkit-scrollbar {
 
 @media screen and (min-width: 769px) {
   .modal-dialog-album-view {
-    width: 100%;
+    width: 860px;
     min-height: 50px;
     height: 550px;
     display: table-cell;
     vertical-align: middle;
+    overflow-x: scroll !important;
   }
 
   .modal-dialog-album-view .modal-content {
@@ -2206,19 +2219,46 @@ html::-webkit-scrollbar {
   .talent-comment-container {
     width: 45% !important;
   }
+  html {
+    min-width: 860px !important;
+    overflow-x: scroll !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
+  .modal-dialog-album-view {
+    width: 400px;
+    margin: 20px auto;
+    min-height: 50px;
+    height: 550px;
+    vertical-align: middle;
+    scrollbar-width: thin;
+    overflow-x: scroll !important;
+  }
+
+  .modal-dialog-album-view::-webkit-scrollbar-thumb {
+    background-color: #11868b;
+  }
+
+  .modal-dialog-album-view::-webkit-scrollbar {
+    width: 5px !important;
+    height: 8px !important;
+  }
   .modal-dialog-album-view .modal-content {
-    width: 90%;
-    max-width: 600px;
+    width: 860px !important;
+    margin: 0 auto;
   }
   .popup-img-mobile {
-    width: 100%;
+    display: inline-block;
+    width: 55% !important;
+    height: 309px !important;
   }
   .talent-comment-container {
-    width: 100%;
-    max-width: 600px;
+    width: 45% !important;
+  }
+  html {
+    min-width: 500px !important;
+    overflow-x: scroll !important;
   }
 }
 
@@ -3059,6 +3099,11 @@ button.accordion.is-open:after {
   color: #fff !important;
   font-size: 30px !important;
 }
+
+.contest-only-header {
+  color: #d3cb14 !important;
+  font-size: 30px !important;
+}
 .contest-name {
   color: #d3cb14 !important;
   font-size: 50px !important;
@@ -3757,7 +3802,6 @@ button.accordion.is-open:after {
 }
 .new-port-up-wrp h4 {
   font-size: 20px;
-  co: ;
   color: #272424;
   margin: 0;
   margin-right: 60px;
@@ -5358,4 +5402,7 @@ button.close-btn {
   width: 100%;
   -o-object-fit: cover;
   object-fit: cover;
+}
+.like-contest {
+  float: left;
 }

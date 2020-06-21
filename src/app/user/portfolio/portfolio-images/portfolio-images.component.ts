@@ -50,6 +50,17 @@ export class PortfolioImagesComponent implements OnInit {
       grayscale: false,
     },
   };
+
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 30,
+        height: 30,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
   componentModal: AppModal;
   data: IMedia;
   uploadedItems: UploadedItems;
@@ -106,6 +117,10 @@ export class PortfolioImagesComponent implements OnInit {
   setAlbumCovers() {
     this.userImagePreviews = this.userImagePreviews.map((x) => {
       return Object.assign({}, x, {
+        defaultAlbumCover: fetchImageObjectFromCloudFormation(
+          x.defaultMediaPath,
+          this.defaultParams
+        ),
         albumCover:
           x.defaultMediaPath !== ""
             ? fetchImageObjectFromCloudFormation(

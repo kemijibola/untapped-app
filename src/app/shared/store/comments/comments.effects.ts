@@ -16,7 +16,7 @@ export class CommentsEffects {
     this.action$.pipe(
       ofType(CommentsAction.FETCH_MEDIA_COMMENTS),
       concatMap((action: CommentsAction.FetchMediaComments) =>
-        this.commentsService.fetchMediaComments(action.payload.mediaId).pipe(
+        this.commentsService.fetchMediaComments(action.payload.entityId).pipe(
           map(
             (resp: IResult<IComment[]>) =>
               new CommentsAction.FetchMediaCommentsSuccess({

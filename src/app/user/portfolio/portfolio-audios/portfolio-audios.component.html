@@ -2,10 +2,12 @@
   <div class="col-xl-12">
     <div class="profile-alb-head">
       <h4>
-        Audio Portfolio<span
-          >({{ userAudiosLength }} album
-          <i *ngIf="userAudiosLength > 1">s</i>
-          )</span
+        Audio Portfolio
+        <span *ngIf="userAudiosLength === 1"
+          >({{ userAudiosLength }} album)</span
+        >
+        <span *ngIf="userAudiosLength > 1"
+          >({{ userAudiosLength }} albums)</span
         >
       </h4>
     </div>

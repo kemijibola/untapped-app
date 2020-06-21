@@ -1,7 +1,7 @@
 export interface IComment {
   _id?: string;
   tempId?: string;
-  media: string;
+  entity: string;
   comment: string;
   user?: CommenterViewModel;
   commenterfullProfileImagePath?: string;

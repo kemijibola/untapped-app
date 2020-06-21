@@ -5,7 +5,7 @@
     <div class="row text-center">
       <div class="col-lg-12">
         <div class="hero-text">
-          <h1>Showcase your talent directly to Professionals in your field</h1>
+          <h1>Showcase your talent</h1>
         </div>
       </div>
     </div>
@@ -68,13 +68,11 @@
       <div class="col-lg-7 col-md-7">
         <div class="professsional-txt">
           <h1>
-            Content with <br />
-            professional
+            Talent
           </h1>
           <p>
             Create your personalized page to upload your content (image, audio,
-            video) receive messages from professionals, enter contest and send
-            portfolio to a professional.
+            video) and enter contest.
           </p>
           <a
             (click)="onSignUpTalent()"
@@ -166,22 +164,18 @@
       <div class="col-lg-6 col-md-6">
         <div class="contact-txt">
           <span *ngIf="!isAuthenticated" (click)="onSignUpProfessional()"
-            >Join as professional</span
+            >Join as a professional</span
           >
-          <h1>Get access to large network of talent</h1>
+          <h1>Create contest for talents</h1>
           <p>
-            You will be able to search a large pool of talents (Highest number
-            of Follows (Taps), Trending, New) and view talent’s personalized
-            page. You can also create a competition to discover new talents,
-            vote for a talent during competition and comment on a Talent’s act
-            in the portfolio. Set appointment to see a talent you are interested
-            in.
+            You will be able to create and pull a variety of talents you so
+            wish. You will have access to trends, talent's progress and reviews.
           </p>
           <a
             style="cursor: pointer;"
             *ngIf="!isAuthenticated"
             (click)="onSignUpProfessional()"
-            >Join as professional<i class="fal fa-arrow-right"></i
+            >Join as a professional<i class="fal fa-arrow-right"></i
           ></a>
         </div>
       </div>
@@ -207,7 +201,7 @@
       <div class="col-lg-8 col-md-7">
         <p>
           Not a talent or professional? <br />
-          sign up a audiance to support your favorite talent
+          sign up to support your favorite talent
         </p>
       </div>
       <div class="col-lg-4 col-md-5 text-center">

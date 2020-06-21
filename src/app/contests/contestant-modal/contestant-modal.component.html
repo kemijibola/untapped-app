@@ -1,0 +1,166 @@
+<div class="row no-gutters">
+  <div class="col-xl-6 col-lg-6 col-12">
+    <div class="popup-img h-auto">
+      <!-- <img
+        src="assets/img/contest/popup-1.jpg"
+        *ngIf="isCurrentImageSet"
+        alt=""
+      /> -->
+      <img
+        [defaultImage]="defaultImagePath"
+        [lazyLoad]="imagePath"
+        *ngIf="isCurrentImageSet"
+        style="width: 529px; height: 517px; background: lightgray;"
+      />
+
+      <app-audio-payer
+        [currentAudio]="currentAudioItem"
+        [style.display]="isCurrentAudioSet ? 'block' : 'none'"
+      ></app-audio-payer>
+
+      <app-video-player
+        [currentVideo]="currentVideoItem"
+        [style.display]="isCurrentVideoSet ? 'block' : 'none'"
+      ></app-video-player>
+    </div>
+  </div>
+  <div class="col-xl-6 col-lg-6 col-12">
+    <div class="popup-content-wrap">
+      <div class="user-part">
+        <div class="p-user">
+          <div class="p-user-img">
+            <img
+              style="
+                height: 64px;
+                width: 64px;
+                border-radius: 50%;
+                background: lightgray;
+              "
+              src="{{ entryData.fullUserProfileImage }}"
+              alt=""
+            />
+          </div>
+          <h5>{{ entryData.user["fullName"] }}</h5>
+        </div>
+        <div class="p-user-content">
+          <h4>{{ entryData.title }}</h4>
+          <p *ngIf="entryData.additionalInfo !== ''">
+            {{ entryData.additionalInfo }}
+          </p>
+        </div>
+        <div class="pop-btn">
+          <span class="numb"
+            >Text "{{ keyword }} {{ entryData.contestantCode }}" To
+            {{ textNumber }}</span
+          >
+        </div>
+        <div class="info-xt">
+          <span>20 Votes</span>
+          <span class="comment-num" style="float: right;">Coments (560)</span>
+        </div>
+      </div>
+
+      <div
+        class="col-xl-12 d-inline-block talent-comment-container"
+        style="width: 100% !important;"
+      >
+        <div class="album-popup-content-wrap">
+          <div class="collapse cmnt-bx show" id="collapseExample">
+            <div
+              class="card card-body album-card-body"
+              [formGroup]="contestantCommentForm"
+            >
+              <textarea
+                name=""
+                placeholder="Add your comment here"
+                id=""
+                cols="10"
+                rows="1"
+                formControlName="mediaComment"
+                style="
+                  line-height: 20px;
+                  padding-right: 50px;
+                  padding-top: 5px;
+                "
+              ></textarea>
+              <a
+                [class.disabled]="true"
+                style="
+                  position: absolute;
+                  right: 13px;
+                  top: 16px;
+                  color: darkcyan !important;
+                  cursor: pointer;
+                "
+                *ngIf="isAuthenticated"
+                (click)="onPostComment()"
+                >Post</a
+              >
+              <a
+                style="
+                  position: absolute;
+                  right: 13px;
+                  top: 16px;
+                  color: darkcyan !important;
+                  cursor: pointer;
+                "
+                *ngIf="!isAuthenticated"
+                (click)="onSignUpClicked()"
+                >Post</a
+              >
+            </div>
+          </div>
+          <div class="pop-review-outer-section" style="height: 297px;">
+            <div class="pop-review-section" *ngFor="let item of mediaComments">
+              <div class="p-rv-head">
+                <div class="p-rev-img">
+                  <img src="{{ item.commenterfullProfileImagePath }}" alt="" />
+                </div>
+                <div class="p-rv-name">
+                  <h5>{{ item.user.fullName }}</h5>
+                </div>
+                <span class="p-time">{{ item.createdAt | date }} </span>
+              </div>
+              <div class="p-rv-content">
+                <p>
+                  {{ item.comment }}
+                </p>
+                <div class="pop-express">
+                  <div class="p-like-reply">
+                    <span class="reply" (click)="onReplyClicked(item._id)"
+                      >Reply</span
+                    >
+                    <span
+                      class="like"
+                      *ngIf="!item.hasLiked"
+                      (click)="onLikeClicked(item)"
+                      >Like</span
+                    >
+                    <span
+                      class="like"
+                      (click)="onUnLikeClicked(item)"
+                      *ngIf="item.hasLiked"
+                      >UnLike</span
+                    >
+                  </div>
+                  <span class="react">
+                    {{ item.likeCount }}
+                    <img src="assets/img/contest/p-love.png" alt="" />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pop-review-section" *ngIf="commentsLength < 1">
+              <div class="p-rv-content">
+                <p>
+                  Be the first to comment.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

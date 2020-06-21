@@ -27,14 +27,7 @@ export class UserTypeEffects {
             }),
           ]),
           catchError((respError: HttpErrorResponse) =>
-            of(
-              new NotificationActions.AddError({
-                key: AppNotificationKey.error,
-                code: respError.error.response_code || -1,
-                message:
-                  respError.error.response_message || "No Internet connection",
-              })
-            )
+            of(new NotificationActions.Noop())
           )
         )
       )

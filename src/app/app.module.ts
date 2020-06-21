@@ -38,7 +38,6 @@ import { ModalsEffect } from "./shared/store/modals/modals.effect";
 import { UserImageEffect } from "./shared/store/user-image/user-image.effect";
 import { NotificationEffect } from "./store/global/notification/notification.effect";
 import { NgxCurrencyModule } from "ngx-currency";
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { OrderEffect } from "./shared/store/order/order.effects";
 import { ContestsEffect } from "./contests/store/contests.effects";
 import { ContestEntryEffect } from "./contests/store/contest-entry/contest-entry.effects";
@@ -72,8 +71,6 @@ export const customCurrencyMaskConfig = {
     OwlModule,
     SharedModule,
     MaterialModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
     StickyModule,
     LazyLoadImageModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),

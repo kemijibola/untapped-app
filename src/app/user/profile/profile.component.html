@@ -141,11 +141,23 @@
           >
         </div>
       </div>
-      -->
 
       <div class="col-xl-12">
-        <button class="box-btn profile-save" (click)="onUpdateProfile()">
-          SAVE CHANGES
+        <button
+          class="box-btn profile-save"
+          [disabled]="
+            !profileForm.valid ||
+            (inProgress$ | async) ||
+            (!isCompleted$ | async)
+          "
+          (click)="onUpdateProfile()"
+        >
+          <span *ngIf="(isInitiated$ | async) || (isCompleted$ | async)"
+            >SAVE CHANGES</span
+          >
+          <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"
+            >SAVING CHANGES</span
+          >
         </button>
       </div>
     </div>

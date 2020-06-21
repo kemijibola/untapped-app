@@ -1,5 +1,12 @@
 import { ErrorService } from "./../../services/ErrorService";
-import { Component, OnInit, AfterContentInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  AfterContentInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
 import {
   FormGroup,
   FormControl,
@@ -17,6 +24,7 @@ import { takeUntil, map } from "rxjs/operators";
 import { IRegister, IUserType } from "src/app/interfaces";
 import { NotificationService } from "src/app/services/notification.service";
 import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
+import * as fromAuthReducer from "../store/auth.reducers";
 
 @Component({
   selector: "app-signup",
@@ -34,7 +42,22 @@ export class SignupComponent implements OnInit, AfterContentInit {
   };
   ngDestroyed = new Subject();
   errorMessage = "";
+  formSubmitted: boolean;
+  termsChecked: boolean;
 
+  initiated$ = this.store.pipe(
+    select(fromAuthReducer.selectSignUpInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromAuthReducer.selectSignUpInProgressStatus)
+  );
+
+  signUpCompleted$ = this.store.pipe(
+    select(fromAuthReducer.selectSignUpCompletedStatus)
+  );
+
+  @ViewChild("signupButton", { static: false }) signupButton: ElementRef;
   constructor(
     private store: Store<fromApp.AppState>,
     private userService: UserService,
@@ -44,28 +67,18 @@ export class SignupComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.signupForm = new FormGroup({
-      name: new FormControl(null, Validators.required),
+      name: new FormControl("", Validators.required),
       email: new FormControl(
-        null,
+        "",
         Validators.compose([Validators.required, Validators.email]),
         emailAsyncValidator(500, this.userService).bind(this)
       ),
       password: new FormControl(
-        null,
-        Validators.compose([Validators.required, Validators.minLength(6)])
+        "",
+        Validators.compose([Validators.required, Validators.minLength(4)])
       ),
-      terms: new FormControl(null, Validators.required),
+      terms: new FormControl(false, Validators.requiredTrue),
     });
-
-    // subscribe to error
-    // this.store.pipe(select(selectErrorMessage)).subscribe((val: any) => {
-    //   if (val) {
-    //     if (!this.signupForm.invalid) {
-    //       const message = this.errorService.getServerErrorMessage(val);
-    //       this.notificationService.showError(message);
-    //     }
-    //   }
-    // });
   }
 
   ngAfterContentInit() {
@@ -73,11 +86,20 @@ export class SignupComponent implements OnInit, AfterContentInit {
       .select(fromUserTypeReducer.selectCurrentUserType)
       .subscribe((val: IUserType) => {
         this.selectedUserType = { ...val };
-        //console.log(this.selectedUserType);
       });
   }
 
+  get form() {
+    return this.signupForm.controls;
+  }
+
   onSubmit() {
+    this.formSubmitted = true;
+
+    if (this.signupForm.invalid) {
+      return;
+    }
+
     const username: string = this.signupForm.controls["name"].value;
     const email: string = this.signupForm.controls["email"].value;
     const password: string = this.signupForm.controls["password"].value;

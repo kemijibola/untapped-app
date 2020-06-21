@@ -7,6 +7,7 @@ import { AbstractTabComponent } from "../shared/Classes/abstract/abstract-tab/ab
 import { UUID } from "angular2-uuid";
 import * as fromService from "../shared/store/service/service.reducers";
 import * as ServiceActions from "../shared/store/service/service.actions";
+import * as CategoryTypeActions from "src/app/shared/store/category-type/category-type.actions";
 
 @Component({
   selector: "app-user-contest",
@@ -34,6 +35,12 @@ export class UserContestComponent extends AbstractTabComponent {
     public route: ActivatedRoute
   ) {
     super();
+
+    this.store.dispatch(
+      new CategoryTypeActions.SetSelectedCategoryType({
+        selectedCategoryType: [],
+      })
+    );
     this.store
       .pipe(select(fromService.selectAllServices))
       .subscribe((val: IService[]) => {

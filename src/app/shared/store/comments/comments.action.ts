@@ -26,7 +26,7 @@ export const UPDATE_REMOVE_COMMENT_LIKE = "UPDATE_REMOVE_COMMENT_LIKE";
 
 export class FetchMediaComments implements Action {
   readonly type = FETCH_MEDIA_COMMENTS;
-  constructor(public payload: { mediaId: string }) {}
+  constructor(public payload: { entityId: string }) {}
 }
 
 export class FetchMediaCommentsSuccess implements Action {

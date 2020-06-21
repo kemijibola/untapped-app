@@ -120,7 +120,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
           const currentMedia = this.selectedMedia.items[val.currentIndex];
           if (currentMedia !== undefined) {
             Object.assign({}, currentMedia, { key: currentMedia.path });
-            // currentMedia.key = currentMedia.path;
+
             this.setMedia(val.mediaType, currentMedia);
           }
         }
@@ -148,7 +148,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
               this.selectedMedia = { ...val.data };
               this.store.dispatch(
                 new CommentsActions.FetchMediaComments({
-                  mediaId: this.selectedMedia._id,
+                  entityId: this.selectedMedia._id,
                 })
               );
             }
@@ -191,14 +191,6 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
             this.defaultImageParams
           )
         : fetchNoMediaDefaultImage();
-    // this.imagePath =
-    //   image === undefined
-    //     ? fetchNoMediaDefaultImage()
-    //     : (this.defaultImagePath = fetchImageObjectFromCloudFormation(
-    //         image.path,
-    //         this.defaultImageParams
-    //       ));
-    this.currentImage = image.path || fetchNoMediaDefaultImage();
   }
 
   setMagnifiedImage() {
@@ -250,23 +242,25 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === "album-modal"
       )[0];
-      const modalToClose: IModal = {
-        index: modalToDeActivate.index,
-        name: modalToDeActivate.name,
-        display: ModalDisplay.none,
-        viewMode: ModalViewModel.none,
-        contentType: "",
-        data: null,
-        modalCss: "",
-        modalDialogCss: "",
-        showMagnifier: false,
-      };
-      this.store.dispatch(
-        new ModalsActions.ToggleModal({
-          appModal: this.componentModal,
-          modal: modalToClose,
-        })
-      );
+      if (modalToDeActivate) {
+        const modalToClose: IModal = {
+          index: modalToDeActivate.index,
+          name: modalToDeActivate.name,
+          display: ModalDisplay.none,
+          viewMode: ModalViewModel.none,
+          contentType: "",
+          data: null,
+          modalCss: "",
+          modalDialogCss: "",
+          showMagnifier: false,
+        };
+        this.store.dispatch(
+          new ModalsActions.ToggleModal({
+            appModal: this.componentModal,
+            modal: modalToClose,
+          })
+        );
+      }
     }
   }
 }

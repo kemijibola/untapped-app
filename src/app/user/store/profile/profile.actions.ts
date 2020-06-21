@@ -34,12 +34,10 @@ export class UpdateUserSettingsPreferenceSuccess implements Action {
 
 export class UpdateUserProfileError implements Action {
   readonly type = UPDATE_USERPROFILE_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 
 export class CreateUserProfileError implements Action {
   readonly type = CREATE_USERPROFILE_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 export class UpdateUserProfile implements Action {
   readonly type = UPDATE_USERPROFILE;
@@ -59,7 +57,6 @@ export class CreateUserProfile implements Action {
   readonly type = CREATE_USERPROFILE;
   constructor(public payload: IProfile) {}
 }
-
 export class SuspendUserAccount implements Action {
   readonly type = SUSPEND_USER_ACCOUNT;
 }
