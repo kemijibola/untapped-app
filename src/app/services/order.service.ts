@@ -2,15 +2,15 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { IResult, IOrder } from "../interfaces";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment";
 import { ImageEditRequest } from "../interfaces/media/image";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {
   private BASE_URI = "";
 
   constructor(private http: HttpClient) {
-    this.BASE_URI = "http://127.0.0.1:8900/v1";
+    this.BASE_URI = environment.BASE_URL;
   }
 
   createOrder(newOrder: IOrder): Observable<IResult<IOrder>> {

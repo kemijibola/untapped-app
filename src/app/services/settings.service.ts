@@ -7,7 +7,7 @@ import { environment } from "../../environments/environment";
 export class SettingsService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {
-    this.BASE_URI = "http://127.0.0.1:9000";
+    this.BASE_URI = environment.BASE_URL;
   }
 
   fetchUserSettings(): Observable<IResult<ISettings>> {

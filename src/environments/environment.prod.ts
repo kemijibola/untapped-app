@@ -5,7 +5,7 @@ export const environment = {
   PROFESSIONAL_DEFAULT_IMG: "assets/img/profile/professional_default_img.png",
   NO_MEDIA_IMG: "assets/img/no-media.png",
   COMMENTER_DEFAULT_IMAGE: "assets/img/contest/popup-user.png",
-  BASE_URL: "https://untapped-api.herokuapp.com/v1",
+  BASE_URL: "https://untappedapi.herokuapp.com/v1",
   IMAGE_BUCKET: "untapped-pool-image-bucket",
   CLOUD_FORMATION_API: "https://d7olhgwoyl909.cloudfront.net",
   S3BUCKET_OBJECT_URL:
