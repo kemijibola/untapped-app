@@ -3,12 +3,13 @@ import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { IResult } from "../interfaces";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class CommentsService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {
-    this.BASE_URI = "http://127.0.0.1:8900/v1";
+    this.BASE_URI = environment.BASE_URL;
   }
 
   fetchMediaComments(entityId: string): Observable<IResult<IComment[]>> {

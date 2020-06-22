@@ -2,10 +2,11 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IResult, ICategory } from "../interfaces";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class CategoryService {
-  private BASE_URI = "http://127.0.0.1:8900/v1";
+  private BASE_URI = environment.BASE_URL;
   constructor(private http: HttpClient) {}
 
   getCategories(): Observable<IResult<ICategory[]>> {

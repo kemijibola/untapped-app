@@ -3,10 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IService, IResult } from "src/app/interfaces";
 import { ServiceTypes } from "../lib/constants";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class ServicesService {
-  private BASE_URI = "http://127.0.0.1:8900/v1";
+  private BASE_URI = environment.BASE_URL;
 
   constructor(private http: HttpClient) {}
 

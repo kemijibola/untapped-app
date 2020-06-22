@@ -4,9 +4,9 @@ import { Observable } from "rxjs";
 import { CategoryType, IResult } from "src/app/interfaces";
 import { environment } from "../../environments/environment";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: "root" })
 export class CategoryTypeService {
-  private BASE_URI = "http://127.0.0.1:8900/v1";
+  private BASE_URI = environment.BASE_URL;
 
   constructor(private http: HttpClient) {}
 

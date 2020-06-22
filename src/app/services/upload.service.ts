@@ -14,12 +14,13 @@ import {
 import { Observable, of, forkJoin } from "rxjs";
 import { IPresignRequest } from "../interfaces";
 import { map } from "rxjs/operators";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class UploadService {
   private BASE_URI = "";
   constructor(private http: HttpClient) {
-    this.BASE_URI = "http://127.0.0.1:8900/v1";
+    this.BASE_URI = environment.BASE_URL;
   }
 
   // s3Upload(data: CloudUploadParams[]): Observable<any> {
