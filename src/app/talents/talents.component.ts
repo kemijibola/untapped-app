@@ -20,8 +20,15 @@ import { Observable } from "rxjs";
   selector: "app-talents",
   templateUrl: "./talents.component.html",
   styleUrls: ["./talents.component.css"],
+  host: {
+    "(window:resize)":"onWindowResize($event)"
+  }
 })
 export class TalentsComponent implements OnInit, OnDestroy {
+  width:number = window.innerWidth;
+  onWindowResize(event) {
+    this.width = event.target.innerWidth;
+  }
   currentUser: Observable<IAuthData>;
   searchPlaceHolderText = "Talents";
   talents: Observable<UserFilterCategory[]>;
