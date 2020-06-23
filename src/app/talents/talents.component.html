@@ -3,7 +3,7 @@
 <div class="talent-one-area">
   <div class="container-fluid">
     <div class="row no-gutters">
-      <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+      <div class="col-lg-4">
         <div class="left-talent-wrp pt-30">
           <div
             class="head text-left"
@@ -27,10 +27,10 @@
           ></app-up-user-filter>
         </div>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-4 col-12">
+      <div class="col-lg-4" *ngIf="width > 991">
         <app-talent-biodata></app-talent-biodata>
       </div>
-      <div class="col-xl-4 col-lg-4 col-md-4 col-12 talent-portfolio-wrapper">
+      <div class="col-lg-4">
         <div class="right-talent-wrp">
           <app-talent-portfolio-albums></app-talent-portfolio-albums>
           <app-talent-portfolio-general-items></app-talent-portfolio-general-items>

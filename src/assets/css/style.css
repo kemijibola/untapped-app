@@ -227,10 +227,10 @@ a:hover {
   width: 599px !important;
 }
 
-.fx-padding {
+/* .fx-padding {
   padding-left: 200px !important;
   padding-right: 200px !important;
-}
+} */
 .showcase-area img {
   width: 100%;
 }
@@ -517,7 +517,7 @@ a:hover {
 
 .footer {
   background: #222;
-  padding: 100px 0;
+  padding: 60px 0;
   color: #fff;
   letter-spacing: 1px;
   font-weight: 400;
@@ -572,13 +572,12 @@ footer {
 }
 
 .footer-social span {
-  float: left;
+  /* float: left; */
   font-weight: 600;
   font-size: 18px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
 }
 .footer-social li {
-  float: left;
   margin: 0 15px;
   display: inline-block;
   list-style: none;
@@ -608,10 +607,10 @@ footer {
   -webkit-transform: translate(-6px, -3px);
   transform: translate(-8px, -3px);
 }
-.footer-social {
+/* .footer-social {
   float: right;
   margin-top: 35px;
-}
+} */
 .contact-bottom p {
   letter-spacing: 0.5px;
   font-size: 28px;
@@ -1204,7 +1203,7 @@ footer {
 .talent-portfolio-wrapper::-webkit-scrollbar
   .modal-dialog-album-view::-webkit-scrollbar {
   width: 5px !important;
-  height: 8px !important;
+  /* height: 8px !important; */
 }
 
 html::-webkit-scrollbar-thumb {
@@ -1213,7 +1212,7 @@ html::-webkit-scrollbar-thumb {
 
 html::-webkit-scrollbar {
   width: 5px !important;
-  height: 8px !important;
+  /* height: 8px !important; */
 }
 
 .talent-portfolio-wrapper::-webkit-scrollbar-thumb
@@ -1249,7 +1248,7 @@ html::-webkit-scrollbar {
 
 .album-card-body textarea::-webkit-scrollbar {
   width: 2px;
-  height: 8px;
+  /* height: 8px; */
 }
 
 .album-card-body textarea:focus {
@@ -1261,10 +1260,10 @@ html::-webkit-scrollbar {
   width: 700px;
   margin: 0 auto;
 }
-
+/*
 ::-webkit-scrollbar-track {
   background: red;
-}
+} */
 
 ::-webkit-scrollbar-thumb {
   background: #000;
@@ -1718,7 +1717,7 @@ html::-webkit-scrollbar {
   left: auto !important;
   right: 24px !important;
 }
-/* 
+/*
 .mat-slide-toggle-bar {
   background-color: #f7f7f7 !important;
 }  */
@@ -2199,10 +2198,10 @@ html::-webkit-scrollbar {
   .talent-comment-container {
     width: 45% !important;
   }
-  html {
+  /* html {
     min-width: 860px !important;
     overflow-x: scroll !important;
-  }
+  } */
 }
 
 @media screen and (max-width: 768px) {
@@ -2222,7 +2221,7 @@ html::-webkit-scrollbar {
 
   .modal-dialog-album-view::-webkit-scrollbar {
     width: 5px !important;
-    height: 8px !important;
+    /* height: 8px !important; */
   }
   .modal-dialog-album-view .modal-content {
     width: 860px !important;
@@ -2236,10 +2235,10 @@ html::-webkit-scrollbar {
   .talent-comment-container {
     width: 45% !important;
   }
-  html {
+  /* html {
     min-width: 500px !important;
     overflow-x: scroll !important;
-  }
+  } */
 }
 
 .owl-dt-container {
@@ -2292,6 +2291,9 @@ html::-webkit-scrollbar {
 }
 .left-talent-wrp .head h3 {
   margin-bottom: 9px;
+}
+.talent-one-area{
+  margin: 40px 0;
 }
 .talent-one-area .pagination .page-item {
   margin-right: 12px;
