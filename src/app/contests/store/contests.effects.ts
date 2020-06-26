@@ -1,3 +1,4 @@
+import { ContestVoteResult } from "./../../interfaces/contests/Contest";
 import { Injectable } from "@angular/core";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
@@ -18,6 +19,7 @@ import { Router } from "@angular/router";
 import { of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../store/global/notification/notification.action";
+import { PusherService } from "src/app/services/pusher.service";
 
 @Injectable()
 export class ContestsEffect {
@@ -76,10 +78,37 @@ export class ContestsEffect {
     )
   );
 
+  fetchContestVoteResult = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestsActions.FETCH_CONTEST_VOTE_RESULT),
+      concatMap((action: ContestsActions.FetchContestVoteResult) =>
+        this.pusherService.fetchContestResult(action.payload.contestId).pipe(
+          map(
+            (resp: IResult<ContestVoteResult>) =>
+              new ContestsActions.SetContestVoteResult({
+                voteResult: resp.data,
+              })
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection.",
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private action$: Actions,
     private router: Router,
     private contestsService: ContestService,
+    private pusherService: PusherService,
     private store: Store<fromApp.AppState>
   ) {}
 }

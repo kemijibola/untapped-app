@@ -4,6 +4,7 @@ import {
   IUserContest,
   ContestData,
   ContestEligibilityData,
+  ContestVoteResult,
 } from "src/app/interfaces";
 import * as ContestsActions from "./contests.action";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
@@ -14,12 +15,14 @@ export interface ContestsState extends EntityState<IContestList> {
   selectedContestsPreviewId: string | number | null;
   selectedContest: ContestData | null;
   userEligibilityStatus: ContestEligibilityData | null;
+  contestVoteResult: ContestVoteResult | null;
 }
 
 const initialState: ContestsState = fromAdapter.adapter.getInitialState({
   selectedContestsPreviewId: null,
   selectedContest: null,
   userEligibilityStatus: null,
+  contestVoteResult: null,
 });
 
 export function reducer(
@@ -38,6 +41,11 @@ export function reducer(
       return Object.assign({
         ...state,
         selectedContest: action.payload.contest,
+      });
+    case ContestsActions.SET_CONTEST_VOTE_RESULT:
+      return Object.assign({
+        ...state,
+        contestVoteResult: action.payload,
       });
     case ContestsActions.RESET_CONTESTS_PREVIEW_TO_DEFAULT:
       return fromAdapter.adapter.removeAll({
@@ -78,9 +86,16 @@ export const getContestPreviewState = createFeatureSelector<ContestsState>(
 const getSelectedUserEligibility = (state: ContestsState) =>
   state.userEligibilityStatus;
 
+const getContestVoteResut = (state: ContestsState) => state.contestVoteResult;
+
 export const selectContestsPreviewIds = createSelector(
   getContestPreviewState,
   fromAdapter.selectContestPreviewIds
+);
+
+export const selectContestVoteResult = createSelector(
+  getContestPreviewState,
+  getContestVoteResut
 );
 
 export const selectContestsPreviewEntities = createSelector(

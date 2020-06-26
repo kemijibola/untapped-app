@@ -39,6 +39,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/owl.carousel/dist/owl.carousel.min.js",
+              "node_modules/pusher-js/dist/web/pusher.min.js",
               "src/assets/js/Popper.js",
               "src/assets/js/jquery.sticky.js",
               "src/assets/js/jquery.meanmenu.js",

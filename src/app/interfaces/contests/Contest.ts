@@ -116,3 +116,28 @@ export interface ContestEligibilityData {
   eligibility: EligibilityStatus;
   message?: string;
 }
+
+export interface IContestContestant {
+  entryId: string;
+  contestantName: string;
+  contestantPhoto: string;
+  contestantCode: string;
+  contestantTotalVote: number;
+}
+
+export interface ContestVoteResult {
+  contestId: string;
+  contestPhoto: string;
+  contestTitle: string;
+  contestStartDate: Date;
+  contestDuration: string;
+  contestHasEnded: boolean;
+  contestTotalVote: number;
+  contestTotalValidVote: number;
+  contestTotalInvalidVote: number;
+  entries: IContestContestant[];
+}
+
+export const VoteEvent = {
+  VOTE_RESULT: "VOTE_RESULT",
+};

@@ -25,4 +25,7 @@ export const environment = {
   CONTEST_KEYWORD: "TALENT",
   CONTEST_TO_NUMBER: "32811",
   WS_ENDPOINT: "http://127.0.0.1:8900",
+  PUSHER_KEY: "4ca9155811a0dd70c020",
+  PUSHER_CLUSTER: "eu",
+  PUSHER_CHANNEL: "untapped-pool-production",
 };
