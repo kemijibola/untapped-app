@@ -1165,7 +1165,7 @@
 }
 .pop-icon-bar.pop-talent {
 	width: 100%;
-	background: none;
+	background-color: #d0d0d0;
 }
 .desig-up-wrap {
 	width: 420px;
@@ -2096,6 +2096,7 @@
 }
 .pop-icon-bar button.close {
 	background: #424344;
+	margin-top: -1px;
 }
 .popup-content-wrap {
 	padding-right: 10px;
@@ -2107,7 +2108,7 @@
 }
 .pop-icon-bar.pop-talent {
 	width: 100%;
-	background: none;
+	background-color: #d0d0d0;
 }
 .desig-up-wrap {
 	width: 420px;
