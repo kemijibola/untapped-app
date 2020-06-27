@@ -1,5 +1,5 @@
 <div class="middle-talent-wrp">
-  <div class="prohead-img">
+  <div class="prohead-img" style="text-align: center;background-color: lightgray;">
     <img
       [defaultImage]="defaultBannerImage"
       [lazyLoad]="selectedUser.bannerPhotoFullPath"
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div
-        class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
+        style="width: 300px;"
         *ngFor="let contest of selectedUser.contests"
       >
         <div class="entries-img mb-20">
@@ -81,7 +81,7 @@
             ><img
               [defaultImage]="contest.defaultContestBannerImage"
               [lazyLoad]="contest.fullContestBannerImage"
-              style="width: 239px; height: 149px; background: lightgray;"
+              style="background: lightgray;"
               alt=""
           /></a>
           <div class="entries-content all-ent">

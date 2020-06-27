@@ -3129,6 +3129,7 @@ button.accordion.is-open:after {
   margin-top: -77px;
 }
 .pro-little-img img {
+  box-shadow: 1px 1px 14px #929292;;
   width: 160px;
 }
 .pro-search-right.middle-outer-wrp .nam a.box-btn {
