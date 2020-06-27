@@ -25,4 +25,17 @@ export class PortfolioGeneralComponent implements OnInit {
         // }
       });
   }
+
+  setMedia() {
+    
+  }
+  //   getVideoAlbumCover()
+  // getImageAlbumCover()
+  // getAudioAlbumCover()
+
+  setAudioAlbumCover() {}
+
+  setImageAlbumCover() {}
+
+  setVideoAlbumCover() {}
 }
