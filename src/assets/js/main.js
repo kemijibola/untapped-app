@@ -15,12 +15,11 @@
                     meanMenuContainer: '.menu-prepent',
                  });
 
-        $('.menu-open').click( function (){
-                  
-            $('.slide-menu').addClass(' activee');
+        $('.menu-open').click( function (){    
+            $('.slide-menu').addClass('activee');
         });
         $('.close-btn').click(function(){
-            $('.slide-menu').removeClass(' activee');
+            $('.slide-menu').removeClass('activee');
         })
        
               

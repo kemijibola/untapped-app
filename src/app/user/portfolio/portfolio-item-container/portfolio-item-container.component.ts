@@ -33,12 +33,13 @@ export class PortfolioItemContainerComponent implements OnInit {
 
   ngOnInit() {
     this.triggerFetchUserMediaList();
+    this.triggerFetchUserGeneralList();
 
-    this.userStore
-      .pipe(select(fromMediaPreview.selectUserMediaListCount))
-      .subscribe((val: number) => {
-        this.userMediaListCount = val;
-      });
+    // this.userStore
+    //   .pipe(select(fromMediaPreview.selectUserMediaListCount))
+    //   .subscribe((val: number) => {
+    //     this.userMediaListCount = val;
+    //   });
   }
 
   triggerFetchUserMediaList(): void {
@@ -48,6 +49,16 @@ export class PortfolioItemContainerComponent implements OnInit {
     };
     this.userStore.dispatch(
       new MediaPreviewActions.FetchUserMediaListPreview(queryParams)
+    );
+  }
+
+  triggerFetchUserGeneralList(): void {
+    const queryParams: MediaQueryParams = {
+      type: MediaType.ALL,
+      uploadType: MediaUploadType.single,
+    };
+    this.userStore.dispatch(
+      new MediaPreviewActions.FetchUserGeneralListPreview(queryParams)
     );
   }
 }

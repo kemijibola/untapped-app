@@ -4,16 +4,20 @@ import {
   AudioPreview,
   ImagePreview,
   VideoPreview,
+  GeneralPreview,
 } from "src/app/interfaces";
 import { Action } from "@ngrx/store";
 
 export const FETCH_USER_MEDIA_LIST_PREVIEW = "FETCH_USER_MEDIA_LIST_PREVIEW";
 export const FETCH_USER_MEDIA_LIST_PREVIEW_ERROR =
   "FETCH_USER_MEDIA_LIST_PREVIEW_ERROR";
+export const FETCH_USER_GENERAL_LIST_PREVIEW =
+  "FETCH_USER_GENERAL_LIST_PREVIEW";
 export const SET_USER_MEDIA_LIST_PREVIEW = "SET_USER_MEDIA_LIST_PREVIEW";
 export const SET_USER_AUDIO_PREVIEWS = "SET_USER_AUDIO_PREVIEWS";
 export const SET_USER_VIDEO_PREVIEWS = "SET_USER_VIDEO_PREVIEWS";
 export const SET_USER_IMAGE_PREVIEWS = "SET_USER_IMAGE_PREVIEWS";
+export const SET_USER_GENERAL_PREVIEWS = "SET_USER_GENERAL_PREVIEWS";
 
 export const USER_MEDIA_LIST_COUNT = "USER_MEDIA_LIST_COUNT";
 
@@ -36,7 +40,10 @@ export class FetchUserMediaListPreview implements Action {
   readonly type = FETCH_USER_MEDIA_LIST_PREVIEW;
   constructor(public payload: MediaQueryParams) {}
 }
-
+export class FetchUserGeneralListPreview implements Action {
+  readonly type = FETCH_USER_GENERAL_LIST_PREVIEW;
+  constructor(public payload: MediaQueryParams) {}
+}
 export class FetchUserMediaListPreviewError implements Action {
   readonly type = FETCH_USER_MEDIA_LIST_PREVIEW_ERROR;
   constructor(public payload: { errorCode: number; errorMessage: string }) {}
@@ -54,6 +61,10 @@ export class SetUserAudioPreviews implements Action {
 export class SetUserVideoPreviews implements Action {
   readonly type = SET_USER_VIDEO_PREVIEWS;
   constructor(public payload: { videoPreviews: VideoPreview[] }) {}
+}
+export class SetUserGeneralPreviews implements Action {
+  readonly type = SET_USER_GENERAL_PREVIEWS;
+  constructor(public payload: { generalPreviews: GeneralPreview[] }) {}
 }
 
 export class DeleteImageListById implements Action {
@@ -125,4 +136,6 @@ export type MediaPreviewActions =
   | DeleteImageListByIdError
   | DeleteAudioListByIdError
   | DeleteVideoListByIdError
-  | UserMediaListCount;
+  | UserMediaListCount
+  | SetUserGeneralPreviews
+  | FetchUserGeneralListPreview;

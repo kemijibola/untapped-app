@@ -27,8 +27,6 @@ import * as MediaPreviewActions from "../../store/portfolio/media/media-preview.
   styleUrls: ["./portfolio-audios.component.css"],
 })
 export class PortfolioAudiosComponent {
-  userId = "";
-  userAudios: IAudio[] = [];
   userAudioPreviews: AudioPreview[] = [];
   userAudiosLength = 0;
   componentModal: AppModal;
@@ -55,24 +53,6 @@ export class PortfolioAudiosComponent {
           this.setAlbumCovers();
         }
       });
-
-    // this.userStore
-    //   .pipe(select(selectAudioDeleteSuccess))
-    //   .subscribe((deleted: boolean) => {
-    //         (item) => item._id !== this.mediaIdToDelete
-    //     if (deleted) {
-    //       this.userAudioPreviews = this.userImagePreviews.filter(
-    //         (item) => item._id !== this.mediaIdToDelete
-    //       );
-    //       );
-    //       console.log(this.userAudioPreviews);
-
-    //       this.userStore.dispatch(
-    //         new PortfolioActions.ResetDeleteAudioByIdSucess()
-    //       );
-    //       // TODO:: show snackback for success delete
-    //     }
-    //   });
   }
 
   onDelete(id: string) {

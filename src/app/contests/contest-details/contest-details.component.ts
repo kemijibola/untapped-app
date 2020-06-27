@@ -34,7 +34,6 @@ import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
 import { withLatestFrom, tap, takeLast } from "rxjs/operators";
 import { take } from "rxjs-compat/operator/take";
-import * as ContestAction from "../store/contest/contest.action";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 
 @Component({
@@ -302,7 +301,7 @@ export class ContestDetailsComponent implements OnInit {
 
   navigateToAanalysis() {
     this.router.navigate([
-      "/contests/" + this.contestDetails.contest._id + "/analysis",
+      "/contests/" + this.contestDetails.contest._id + "/result",
     ]);
   }
 

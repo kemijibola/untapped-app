@@ -256,6 +256,9 @@
 	padding: 13px 34px !important;
 	
 }  
+.box-btn:hover {
+	box-shadow: 0px 3px 6px #a2a2a2;
+}
 .talent {
 	display: block;
 }    
@@ -1165,7 +1168,7 @@
 }
 .pop-icon-bar.pop-talent {
 	width: 100%;
-	background: none;
+	background-color: #d0d0d0;
 }
 .desig-up-wrap {
 	width: 420px;
@@ -1349,6 +1352,7 @@
     
     
 	.entries-img {
+		background-color: lightgray;
 		position: relative;
 		width: 100%;
 		margin-left: auto;
@@ -1649,9 +1653,16 @@
 	display: none;
 }
 .all-contest-area {
-	padding-left: 0;
-	padding-right: 0;
+	padding: 0px !important;
+	margin-top: 10px;
 } 
+.new-contest-banner{
+	display: none;
+}
+
+.new-contest-banner-top{
+	display: block !important;
+}
 .all-contest-area .nav-tabs .nav-item {
 	margin-right: 15px;
 }
@@ -1684,14 +1695,14 @@
 }
 .upload-fld button {
 	position: absolute;
-	top: 70%;
-	-webkit-transform: translateY(-0px);
-	transform: translateY(-0px);
+	/* top: 70%; */
+	/* -webkit-transform: translateY(-0px); */
+	/* transform: translateY(-0px); */
 	right: 30px;
 	border-radius: 0px;
 	border: 0;
 	bottom: -15px;
-	right: 0;
+	/* right: 0; */
 }
 .category {
 	height: 250px;
@@ -2028,7 +2039,10 @@
 	padding-right: 0;
 }
 .profile-area .nav-item {
-	margin-right: 4px;
+	margin-right: 10px;
+}
+.profile-alb-head h4 span {
+    margin-left: 0px;
 }
 .profile-pic img {
 	width: 90px;
@@ -2096,6 +2110,7 @@
 }
 .pop-icon-bar button.close {
 	background: #424344;
+	margin-top: -1px;
 }
 .popup-content-wrap {
 	padding-right: 10px;
@@ -2107,7 +2122,7 @@
 }
 .pop-icon-bar.pop-talent {
 	width: 100%;
-	background: none;
+	background-color: #d0d0d0;
 }
 .desig-up-wrap {
 	width: 420px;

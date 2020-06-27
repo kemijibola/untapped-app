@@ -73,6 +73,35 @@ export class MediaPreviewEffect {
     )
   );
 
+  fetchUserGeneralPreviewList = createEffect(() =>
+    this.action$.pipe(
+      ofType(MediaPreviewActions.FETCH_USER_GENERAL_LIST_PREVIEW),
+      concatMap((action: MediaPreviewActions.FetchUserGeneralListPreview) =>
+        this.portfolioService
+          .fetchUserPortfolioPreviewList(action.payload)
+          .pipe(
+            map(
+              (resp: IResult<MediaPreview[]>) =>
+                new MediaPreviewActions.SetUserGeneralPreviews({
+                  generalPreviews: resp.data,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection.",
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   deleteImage = createEffect(() =>
     this.action$.pipe(
       ofType(MediaPreviewActions.DELETE_IMAGE_LIST_BY_ID),
