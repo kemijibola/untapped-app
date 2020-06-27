@@ -7,6 +7,7 @@ import {
   CreateContest,
   ContestData,
   ContestEligibilityData,
+  ContestVoteResult,
 } from "../../interfaces";
 
 export const FETCH_CONTESTS_PREVIEW = "FETCH_CONTESTS_PREVIEW";
@@ -20,6 +21,8 @@ export const CHECK_USER_ELIGIBILITY = "CHECK_USER_ELIGIBILITY";
 export const CHECK_USER_ELIGIBILITY_SUCCESS = "CHECK_USER_ELIGIBILITY_SUCCESS";
 export const RESET_CONTEST_DATA = "RESET_CONTEST_DATA";
 export const RESET_USER_ELIGIBILITY_STATUS = "RESET_USER_ELIGIBILITY_STATUS";
+export const FETCH_CONTEST_VOTE_RESULT = "FETCH_CONTEST_VOTE_RESULT";
+export const SET_CONTEST_VOTE_RESULT = "SET_CONTEST_VOTE_RESULT";
 
 export class FetchContestById implements Action {
   readonly type = FETCH_CONTEST_BY_ID;
@@ -33,6 +36,16 @@ export class FetchContestsPreview implements Action {
   readonly type = FETCH_CONTESTS_PREVIEW;
   constructor(public payload: { perPage: number; page: number }) {}
 }
+
+export class FetchContestVoteResult implements Action {
+  readonly type = FETCH_CONTEST_VOTE_RESULT;
+  constructor(public payload: { contestId: string }) {}
+}
+export class SetContestVoteResult implements Action {
+  readonly type = SET_CONTEST_VOTE_RESULT;
+  constructor(public payload: { voteResult: ContestVoteResult }) {}
+}
+
 export class CheckUserEligibilitySuccess implements Action {
   readonly type = CHECK_USER_ELIGIBILITY_SUCCESS;
   constructor(public payload: { response: ContestEligibilityData }) {}
@@ -72,4 +85,6 @@ export type ContestsAction =
   | CheckUserEligibility
   | CheckUserEligibilitySuccess
   | ResetContestData
-  | ResetUserEligibilityStatus;
+  | ResetUserEligibilityStatus
+  | FetchContestVoteResult
+  | SetContestVoteResult;

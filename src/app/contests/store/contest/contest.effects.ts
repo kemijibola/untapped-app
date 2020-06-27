@@ -13,11 +13,13 @@ import {
   AppNotificationKey,
   ContestData,
   ContestEligibilityData,
+  ContestVoteResult,
 } from "src/app/interfaces";
 import { Router } from "@angular/router";
 import { of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../store/global/notification/notification.action";
+import { PusherService } from "src/app/services/pusher.service";
 
 @Injectable()
 export class ContestEffect {

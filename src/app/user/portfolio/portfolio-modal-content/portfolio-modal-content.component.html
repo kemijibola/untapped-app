@@ -170,7 +170,10 @@
               >
                 <img src="assets/img/prff.jpg" alt="" />
                 <div class="plays" (click)="onClickPlaylistItem(item, i)">
-                  <a><img src="assets/img/profile/play.svg" alt="" /></a>
+                  <a>
+                    <!-- <img src="assets/img/profile/play.svg" alt="" /> -->
+                    <img src="assets/img/profile/" alt="" />
+                  </a>
                 </div>
                 <div class="cros" (click)="onDeleteMediaItem(item)">
                   <a><img src="assets/img/profile/cross.svg" alt="" /></a>
@@ -192,7 +195,8 @@
                 (click)="onClickPlaylistVideo(item, i)"
                 [class.selected]="item === currentVideoItem"
               >
-                <img src="assets/img/prff.jpg" alt="" />
+                <!-- <img src="assets/img/prff.jpg" alt="" /> -->
+                <img src="assets/img/profile/Video-1.jpg" alt="" />
                 <div class="plays" (click)="onClickPlaylistVideo(item, i)">
                   <a><img src="assets/img/profile/play.svg" alt="" /></a>
                 </div>

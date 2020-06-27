@@ -1,13 +1,5 @@
 import { Action } from "@ngrx/store";
-import {
-  IContestList,
-  IContest,
-  IContestIssue,
-  IUserContest,
-  CreateContest,
-  ContestData,
-  ContestEligibilityData,
-} from "../../../interfaces";
+import { ContestData, ContestEligibilityData } from "../../../interfaces";
 
 export const SET_SELECTED_CONTEST = "SET_SELECTED_CONTEST";
 export const FETCH_CONTEST_BY_ID = "FETCH_CONTEST_BY_ID";

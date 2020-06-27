@@ -4,6 +4,7 @@ import {
   IUserContest,
   ContestData,
   ContestEligibilityData,
+  ContestVoteResult,
 } from "src/app/interfaces";
 import * as ContestActions from "./contest.action";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
