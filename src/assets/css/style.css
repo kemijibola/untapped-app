@@ -203,6 +203,10 @@ a:hover {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efcf00', endColorstr='#00acb0',GradientType=0 );
 }
 
+.box-btn:hover {
+	box-shadow: 0px 3px 6px #a2a2a2;
+}
+
 .hero-teat-arrea {
   padding: 120px 0;
 }
