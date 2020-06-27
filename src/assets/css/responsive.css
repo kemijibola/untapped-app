@@ -1653,9 +1653,16 @@
 	display: none;
 }
 .all-contest-area {
-	padding-left: 0;
-	padding-right: 0;
+	padding: 0px !important;
+	margin-top: 10px;
 } 
+.new-contest-banner{
+	display: none;
+}
+
+.new-contest-banner-top{
+	display: block !important;
+}
 .all-contest-area .nav-tabs .nav-item {
 	margin-right: 15px;
 }
@@ -1688,14 +1695,14 @@
 }
 .upload-fld button {
 	position: absolute;
-	top: 70%;
-	-webkit-transform: translateY(-0px);
-	transform: translateY(-0px);
+	/* top: 70%; */
+	/* -webkit-transform: translateY(-0px); */
+	/* transform: translateY(-0px); */
 	right: 30px;
 	border-radius: 0px;
 	border: 0;
 	bottom: -15px;
-	right: 0;
+	/* right: 0; */
 }
 .category {
 	height: 250px;

@@ -9,6 +9,16 @@
       <div class="col-xl-7 col-lg-7 col-md-7 col-12 mb-40">
         <div class="collect-outer-wrapper">
           <div>
+            <div class="details-content new-contest-banner-top" style="display: none;">
+              <div class="sidebar-img">
+                <img
+                  [defaultImage]="defaultBannerImage"
+                  [lazyLoad]="bannerImage"
+                  style="width: 482px; height: 395px; background: lightgray;"
+                  alt=""
+                />
+              </div>
+            </div>
             <p>
               Fill your details; your personal details, contact detail, talents,
               location and social media handles.
@@ -110,7 +120,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-5 col-lg-5 col-md-5 col-12">
+      <div class="col-xl-5 col-lg-5 col-md-5 col-12 new-contest-banner">
         <div class="right-wrapper">
           <div class="details-content">
             <div class="sidebar-img">
