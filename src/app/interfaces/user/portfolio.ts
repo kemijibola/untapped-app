@@ -143,6 +143,12 @@ export interface ImagePreview extends MediaPreview {
   defaultAlbumCover?: string;
 }
 
+export interface GeneralPreview extends MediaPreview {
+  artCover?: string;
+  albumCover?: string;
+  defaultAlbumCover?: string;
+}
+
 export interface MediaPreview {
   _id: string;
   title: string;

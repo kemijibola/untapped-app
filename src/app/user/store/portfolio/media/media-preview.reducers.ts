@@ -5,6 +5,7 @@ import {
   VideoPreview,
   MediaPreview,
   ImagePreview,
+  GeneralPreview,
 } from "src/app/interfaces";
 import * as MediaPreviewActions from "./media-preview.actions";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
@@ -15,6 +16,7 @@ export interface MediaPreviewState extends EntityState<MediaPreview> {
   audioPreviews: AudioPreview[];
   videoPreviews: VideoPreview[];
   imagePreviews: ImagePreview[];
+  generalPreviews: GeneralPreview[];
   selectedMediaPreviewId: string | number | null;
   userMediaListCount: number;
 }
@@ -23,6 +25,7 @@ const initialState: MediaPreviewState = fromAdapter.adapter.getInitialState({
   audioPreviews: [],
   imagePreviews: [],
   videoPreviews: [],
+  generalPreviews: [],
   selectedMediaPreviewId: null,
   userMediaListCount: 0,
 });
@@ -87,6 +90,11 @@ export function mediaPreviewReducer(
         ...state,
         audioPreviews: action.payload,
       });
+    case MediaPreviewActions.SET_USER_GENERAL_PREVIEWS:
+      return Object.assign({
+        ...state,
+        generalPreviews: action.payload,
+      });
     case MediaPreviewActions.SET_USER_IMAGE_PREVIEWS:
       return Object.assign({
         ...state,
@@ -111,6 +119,8 @@ const getAudioPreviews = (state: MediaPreviewState) => state.audioPreviews;
 const getImagePreviews = (state: MediaPreviewState) => state.imagePreviews;
 
 const getVideoPreviews = (state: MediaPreviewState) => state.videoPreviews;
+
+const getGeneralPreviews = (state: MediaPreviewState) => state.generalPreviews;
 
 const getUserMediaListCount = (state: MediaPreviewState) =>
   state.userMediaListCount;
@@ -156,6 +166,11 @@ export const selectUserAudioPreviews = createSelector(
 export const selectUserImagePreviews = createSelector(
   getMediaPreviewState,
   getImagePreviews
+);
+
+export const selectUserGeneralPreviews = createSelector(
+  getMediaPreviewState,
+  getGeneralPreviews
 );
 
 export const selectUserVideoPreviews = createSelector(
