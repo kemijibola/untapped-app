@@ -2295,6 +2295,19 @@ html::-webkit-scrollbar {
 .talent-one-area{
   margin: 40px 0;
 }
+.talent-main{
+  display: flex;
+  justify-content: center;
+  min-width: 1209px;
+}
+.talent-div{
+  border-radius: 3px;
+  border: 1px solid #d0d0d0;
+  margin: 7px;
+  padding: 5px;
+  float: left;
+  width: 31.333333%;
+}
 .talent-one-area .pagination .page-item {
   margin-right: 12px;
 }
@@ -2475,8 +2488,8 @@ button.accordion.is-open:after {
   color: #5a5858;
 }
 .right-talent-wrp {
-  padding-left: 25px;
-  padding-top: 30px;
+  /* padding-left: 25px;
+  padding-top: 30px; */
 }
 .right-talent-wrp .album-img img {
   width: 100%;
