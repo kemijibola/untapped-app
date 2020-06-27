@@ -203,6 +203,10 @@ a:hover {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efcf00', endColorstr='#00acb0',GradientType=0 );
 }
 
+.box-btn:hover {
+	box-shadow: 0px 3px 6px #a2a2a2;
+}
+
 .hero-teat-arrea {
   padding: 120px 0;
 }
@@ -3129,6 +3133,7 @@ button.accordion.is-open:after {
   margin-top: -77px;
 }
 .pro-little-img img {
+  box-shadow: 1px 1px 14px #929292;;
   width: 160px;
 }
 .pro-search-right.middle-outer-wrp .nam a.box-btn {
