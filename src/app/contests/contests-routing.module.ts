@@ -7,7 +7,7 @@ import { ContestDetailsComponent } from "./contest-details/contest-details.compo
 const contestsRouting: Routes = [
   { path: "", component: ContestsComponent },
   { path: ":id", component: ContestDetailsComponent },
-  { path: ":id/analysis", component: ContestAnalysisReportComponent },
+  { path: ":id/result", component: ContestAnalysisReportComponent },
 ];
 
 @NgModule({

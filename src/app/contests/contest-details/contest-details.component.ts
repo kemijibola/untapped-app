@@ -301,7 +301,7 @@ export class ContestDetailsComponent implements OnInit {
 
   navigateToAanalysis() {
     this.router.navigate([
-      "/contests/" + this.contestDetails.contest._id + "/analysis",
+      "/contests/" + this.contestDetails.contest._id + "/result",
     ]);
   }
 

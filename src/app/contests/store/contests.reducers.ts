@@ -45,7 +45,7 @@ export function reducer(
     case ContestsActions.SET_CONTEST_VOTE_RESULT:
       return Object.assign({
         ...state,
-        contestVoteResult: action.payload,
+        contestVoteResult: action.payload.voteResult,
       });
     case ContestsActions.RESET_CONTESTS_PREVIEW_TO_DEFAULT:
       return fromAdapter.adapter.removeAll({
