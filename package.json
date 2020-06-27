@@ -45,7 +45,7 @@
     "date-fns": "^2.11.1",
     "express": "^4.17.1",
     "fstream": "^1.0.12",
-    "jquery": "^1.12.4",
+    "jquery": "^3.5.0",
     "mat-video": "^2.8.1",
     "ng-lazyload-image": "^7.1.0",
     "ng-pick-datetime": "^7.0.0",
