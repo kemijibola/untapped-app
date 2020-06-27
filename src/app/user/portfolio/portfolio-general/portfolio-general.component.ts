@@ -15,7 +15,7 @@ export class PortfolioGeneralComponent implements OnInit {
   constructor(private userStore: Store<fromUser.UserState>) {}
   ngOnInit() {
     this.userStore
-      .pipe(select(fromMediaPreview.selectUserAudioPreviews))
+      .pipe(select(fromMediaPreview.selectUserGeneralPreviews))
       .subscribe((val: GeneralPreview[]) => {
         console.log(val);
         this.generalPreviews = val;

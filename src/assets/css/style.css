@@ -2292,9 +2292,9 @@ html::-webkit-scrollbar {
 .left-talent-wrp .head h3 {
   margin-bottom: 9px;
 }
-.talent-one-area{
+/* .talent-one-area{
   margin: 40px 0;
-}
+} */
 .talent-main{
   display: flex;
   justify-content: center;

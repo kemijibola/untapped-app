@@ -93,7 +93,7 @@ export function mediaPreviewReducer(
     case MediaPreviewActions.SET_USER_GENERAL_PREVIEWS:
       return Object.assign({
         ...state,
-        generalPreviews: action.payload,
+        generalPreviews: action.payload.generalPreviews,
       });
     case MediaPreviewActions.SET_USER_IMAGE_PREVIEWS:
       return Object.assign({
