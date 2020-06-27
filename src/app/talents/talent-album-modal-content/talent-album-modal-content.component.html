@@ -13,10 +13,11 @@
       </div>
     </div>
   </div>
-  <div class="" style="width: 100%;">
-    <div class="col-xl-12 album-viewer">
+  <div class="">
+    <div class="album-viewer">
       <div class="popup-img d-inline-block popup-img-mobile">
-        <img
+        <div style="overflow: auto;">
+          <img
           [defaultImage]="defaultImagePath"
           [lazyLoad]="imagePath"
           *ngIf="isCurrentImageSet"
@@ -41,9 +42,14 @@
             </p>
           </div>
         </div>
+        </div>
+       
       </div>
       <!-- <app-talent-comment></app-talent-comment> -->
-      <app-talent-comment [mediaId]="selectedMedia._id"></app-talent-comment>
+
+      <div style="width: 47%; float:right;" >
+        <app-talent-comment [mediaId]="selectedMedia._id"></app-talent-comment>
+      </div>
     </div>
   </div>
 </div>

@@ -1089,6 +1089,9 @@ footer {
   display: inline-block;
   cursor: pointer;
 }
+.slide-arrow button {
+  border: 1px solid #a2a2a2;
+}
 .slide-arrow .right {
   margin-left: 18px;
 }
@@ -1101,6 +1104,7 @@ footer {
 }
 .user-part {
   margin-top: 25px;
+  text-align: center;
 }
 
 .p-user {
@@ -1193,6 +1197,7 @@ footer {
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-width: thin;
+  padding-right: 15px;
 }
 
 .pop-review-outer-section::-webkit-scrollbar {
@@ -2187,16 +2192,16 @@ html::-webkit-scrollbar {
   }
 
   .modal-dialog-album-view .modal-content {
-    width: 860px !important;
+    width: 875px !important;
     margin: 0 auto;
   }
   .popup-img-mobile {
     display: inline-block;
-    width: 55% !important;
-    height: 309px !important;
+    width: 52% !important;
+    /* height: 309px !important; */
   }
   .talent-comment-container {
-    width: 45% !important;
+    /* width: 45% !important; */
   }
   /* html {
     min-width: 860px !important;
@@ -2213,6 +2218,7 @@ html::-webkit-scrollbar {
     vertical-align: middle;
     scrollbar-width: thin;
     overflow-x: scroll !important;
+    background-color: white;
   }
 
   .modal-dialog-album-view::-webkit-scrollbar-thumb {
@@ -2224,16 +2230,17 @@ html::-webkit-scrollbar {
     /* height: 8px !important; */
   }
   .modal-dialog-album-view .modal-content {
-    width: 860px !important;
+    width: 905px !important;
     margin: 0 auto;
+    border: 1px solid white;
   }
   .popup-img-mobile {
     display: inline-block;
-    width: 55% !important;
+    width: 52% !important;
     height: 309px !important;
   }
   .talent-comment-container {
-    width: 45% !important;
+    /* width: 45% !important; */
   }
   /* html {
     min-width: 500px !important;
@@ -2537,7 +2544,9 @@ button.accordion.is-open:after {
   max-width: 860px;
 }
 .pop-icon-bar.pop-talent {
+  background-color: #d0d0d0;
   position: initial;
+  margin-bottom: 25px;
 }
 .p-user.p-talent {
   margin-left: 60px;
@@ -3735,7 +3744,7 @@ button.accordion.is-open:after {
 }
 
 .modal-content {
-  height: 550px !important;
+  /* height: 550px !important; */
 }
 
 .contest-entry .modal-dialog {
@@ -5328,7 +5337,7 @@ button.close-btn {
 }
 
 .popup-img {
-  height: 200px;
+  /* height: 200px; */
 }
 .popup-img img {
   height: 100%;
