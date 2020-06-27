@@ -2029,7 +2029,10 @@
 	padding-right: 0;
 }
 .profile-area .nav-item {
-	margin-right: 4px;
+	margin-right: 10px;
+}
+.profile-alb-head h4 span {
+    margin-left: 0px;
 }
 .profile-pic img {
 	width: 90px;
