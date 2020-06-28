@@ -12,40 +12,36 @@ import { UUID } from "angular2-uuid";
 })
 export class UpCategerySearchComponent implements OnInit {
   orderedCategories: OrderedCategory[] = [];
-  selectedCategoryIndex = 0;
+  selectedCategoryIndex: number;
   index = 0;
   categories: OrderedCategory[] = [];
   allSelected: boolean = true;
+  selectedCategoryName: string = "all";
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store
       .pipe(select(fromCategory.selectCategories))
       .subscribe((val: ICategory[]) => {
-        // // val.unshift({
-        // //   _id: "12346",
-        // //   name: "All",
-        // // });
-
         this.reOrderCategories(3, val);
-        this.orderedCategories[0].selected = true;
       });
   }
 
   onNext() {
-    // this.reOrderCategories(3, this.orderedCategories);
     this.store
       .pipe(select(fromCategory.selectCategories))
       .subscribe((val: ICategory[]) => {
         var shiftedArr = val.shift();
         val.push(shiftedArr);
         this.reOrderCategories(3, val);
+        this.onSelectCategory(0, this.selectedCategoryName);
       });
   }
 
-  onSelectCategory(index: number) {
-    if (index === -1) {
-      this.allSelected = !this.allSelected;
+  onSelectCategory(index: number, name: string) {
+    this.selectedCategoryName = name;
+    if (name === "all") {
+      this.allSelected = true;
       this.orderedCategories = this.orderedCategories.map(
         (x: OrderedCategory, i: number) => {
           return Object.assign({}, x, {
@@ -53,17 +49,16 @@ export class UpCategerySearchComponent implements OnInit {
           });
         }
       );
-      return;
+    } else {
+      this.orderedCategories = this.orderedCategories.map(
+        (x: OrderedCategory, i: number) => {
+          this.allSelected = false;
+          return Object.assign({}, x, {
+            selected: x.name === name ? true : false,
+          });
+        }
+      );
     }
-
-    this.orderedCategories = this.orderedCategories.map(
-      (x: OrderedCategory, i: number) => {
-        this.allSelected = false;
-        return Object.assign({}, x, {
-          selected: i == index ? true : false,
-        });
-      }
-    );
   }
 
   reOrderCategories(pick: number, categories: ICategory[]) {
