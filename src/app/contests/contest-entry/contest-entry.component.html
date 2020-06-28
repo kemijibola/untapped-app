@@ -24,10 +24,24 @@
             <!-- Drag and drop multiple file to upload <br /><br />
             or <br /><br /> -->
             <span
-              style="margin-left: 0; text-decoration: underline; color: blue;"
+              *ngIf="canUpload"
+              style="
+                cursor: pointer;
+                margin-left: 0;
+                text-decoration: underline;
+                color: blue;
+              "
               (click)="onClickBrowseBtn()"
               >Click here to upload your entry</span
             >
+            <span *ngIf="showCompleted">{{ fileName }}</span>
+            <span *ngIf="showUploading">
+              <img src="assets/loader.gif" style="width: 20px;" />
+              <p>Uploading...</p>
+            </span>
+            <span *ngIf="showCompleted">
+              <img src="assets/success.gif" style="width: 20px;" />
+            </span>
           </p>
           <app-upload [fileConfig]="fileConfig"></app-upload>
           <button class="box-btn login-btn mt-20" (click)="onSubmitEntry()">
