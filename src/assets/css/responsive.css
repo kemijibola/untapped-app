@@ -1647,6 +1647,7 @@
 	margin-right: 0;
 }
 .details-wrapper img {
+	height: 200px !important;
 	width: 100%;
 }
 .contest-pagination .pagination li:nth-child(4),.contest-pagination .pagination li:nth-child(5), .contest-pagination .pagination li:nth-child(6) {
@@ -1811,14 +1812,22 @@
 	padding-top: 65px;
 }
 .talent-one-area .pagination .page-item {
-	margin-right: 22px;
+	margin-right: 5px;
 	float: left;
 	margin-bottom: 15px;
 }
+.talent-portfolio-wrapper {
+	height: 1074px;
+	overflow-y: auto;
+  }
 .pagination {
 	display: -webkit-box;
 	display: -ms-flexbox;
-	display: flex;
+	display: flex !important;
+}
+.aligned-modal {
+	display: block !important;
+	overflow: auto;
 }
 .accor-content {
 	padding-top: 0;
@@ -2099,6 +2108,7 @@
 	padding-bottom: 50px;
 }
 .pop-icon-bar {
+	margin-right: 14px;
 	width: 145px;
 	background: #424344;
 }

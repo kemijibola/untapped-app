@@ -1,9 +1,22 @@
 (function ($) {
 	"use strict";
-
+    
     jQuery(document).ready(function($){
-
-
+        setTimeout(function(){
+            $("#talents-scroll").scrollLeft(10);
+        }, 500);
+        setTimeout(function(){
+            $("#talents-scroll").scrollLeft(20);
+        }, 1000);
+        setTimeout(function(){
+            $("#talents-scroll").scrollLeft(30);
+        }, 1200);
+        setTimeout(function(){
+            $("#talents-scroll").scrollLeft(40);
+        }, 1600);
+        setTimeout(function(){
+            $("#talents-scroll").scrollLeft(50);
+        }, 2000);
         $(".embed-responsive iframe").addClass("embed-responsive-item");
         $(".carousel-inner .item:first-child").addClass("active");
         
