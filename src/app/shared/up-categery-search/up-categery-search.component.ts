@@ -3,7 +3,7 @@ import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import { ICategory, OrderedCategory } from "src/app/interfaces";
 import * as fromCategory from "./../store/category/category.reducers";
-import { UUID } from "angular2-uuid";
+import * as CategoryActions from "./../store/category/category.action";
 
 @Component({
   selector: "app-up-categery-search",
@@ -16,7 +16,7 @@ export class UpCategerySearchComponent implements OnInit {
   index = 0;
   categories: OrderedCategory[] = [];
   allSelected: boolean = true;
-  selectedCategoryName: string = "all";
+  selectedCategoryId: string = "12345";
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -34,13 +34,13 @@ export class UpCategerySearchComponent implements OnInit {
         var shiftedArr = val.shift();
         val.push(shiftedArr);
         this.reOrderCategories(3, val);
-        this.onSelectCategory(0, this.selectedCategoryName);
+        this.onSelectCategory(0, this.selectedCategoryId);
       });
   }
 
-  onSelectCategory(index: number, name: string) {
-    this.selectedCategoryName = name;
-    if (name === "all") {
+  onSelectCategory(index: number, id: string) {
+    this.selectedCategoryId = id;
+    if (id === "12345") {
       this.allSelected = true;
       this.orderedCategories = this.orderedCategories.map(
         (x: OrderedCategory, i: number) => {
@@ -50,15 +50,21 @@ export class UpCategerySearchComponent implements OnInit {
         }
       );
     } else {
+      this.store.dispatch(
+        new CategoryActions.FetchCategory({ categoryId: id })
+      );
+
       this.orderedCategories = this.orderedCategories.map(
         (x: OrderedCategory, i: number) => {
           this.allSelected = false;
           return Object.assign({}, x, {
-            selected: x.name === name ? true : false,
+            selected: x._id === id ? true : false,
           });
         }
       );
     }
+
+    //
   }
 
   reOrderCategories(pick: number, categories: ICategory[]) {

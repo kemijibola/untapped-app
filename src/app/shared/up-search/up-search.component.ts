@@ -3,13 +3,13 @@ import {
   OnInit,
   Input,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from "@angular/core";
 
 @Component({
   selector: "app-up-search",
   templateUrl: "./up-search.component.html",
-  styleUrls: ["./up-search.component.css"]
+  styleUrls: ["./up-search.component.css"],
 })
 export class UpSearchComponent implements OnInit, OnChanges {
   @Input() placeholderText: string;
@@ -21,6 +21,7 @@ export class UpSearchComponent implements OnInit, OnChanges {
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges["placeholderText"]) {
       this.placeholder = this.placeholderText;
+      console.log(this.placeholder);
     }
   }
 }

@@ -24,6 +24,8 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
   @Input() filteredUsers: UserFilterCategory[] = [];
   @Input() typeOfFilter: string = "";
   @Input() typeOfUser: AppUserType;
+  searchText = "wizKid";
+  category = "5de9d35209904f38dc9ac4bb";
 
   defaultParams: ImageEditRequest = {
     edits: {
@@ -46,31 +48,7 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
   };
   constructor(private store: Store<fromApp.AppState>) {}
 
-  ngOnInit() {
-    // this.store
-    //   .pipe(
-    //     select(fromTalentWithHighestComment.selectTalentWithHighestComments)
-    //   )
-    //   .subscribe((val: UserFilterCategory[]) => {
-    //     if (val.length > 0) {
-    //       this.filteredUsers = val;
-    //       this.filteredUsers = this.filteredUsers.map((x) => {
-    //         return Object.assign({}, x, {
-    //           displayPhotoFullPath: fetchImageObjectFromCloudFormation(
-    //             x.displayPhoto,
-    //             this.editParams
-    //           ),
-    //         });
-    //       });
-    //       this.filteredUsers[0].isSelected = true;
-    //       this.store.dispatch(
-    //         new TalentCategoryActions.FetchTalentWithHighestComment({
-    //           id: this.filteredUsers[0]._id,
-    //         })
-    //       );
-    //     }
-    //   });
-  }
+  ngOnInit() {}
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["filteredUsers"]) {
@@ -105,6 +83,8 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
         }
       }
     }
+
+    // console.log(this.filteredUsers);
   }
 
   onUserSelected(index: number) {

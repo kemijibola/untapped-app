@@ -3,12 +3,12 @@
   style="cursor: pointer; display: block;"
 >
   <ul class="pagination">
-    <li class="page-item" (click)="onSelectCategory(-1, 'all')">
+    <li class="page-item" (click)="onSelectCategory(-1, '12345')">
       <a class="page-link" [class.page-link-active]="allSelected">All</a>
     </li>
     <li
       class="page-item"
-      (click)="onSelectCategory(i, category.name)"
+      (click)="onSelectCategory(i, category._id)"
       *ngFor="let category of orderedCategories; let i = index"
     >
       <a
