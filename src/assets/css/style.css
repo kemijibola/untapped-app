@@ -1046,6 +1046,7 @@ footer {
 
 .contest-details-area .modal-dialog {
   max-width: 1050px;
+  min-width: 1050px;
   margin: 1.75rem auto;
 }
 .modal-content .popup-img {
@@ -2351,7 +2352,7 @@ html::-webkit-scrollbar {
 }
 
 .talent-portfolio-wrapper {
-  height: 600px;
+  height: 900px;
   overflow-y: auto;
 }
 button.accordion {
@@ -3239,6 +3240,7 @@ button.accordion.is-open:after {
   padding-right: 100px;
   padding-top: 100px;
   padding-bottom: 145px;
+  margin-bottom: 100px;
 }
 .popup-content-wrap.pro-page h5 {
   font-size: 16px;
@@ -5387,4 +5389,12 @@ button.close-btn {
 }
 .like-contest {
   float: left;
+}
+
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+}
+body.viewport-lg {
+  position: absolute; 
 }
