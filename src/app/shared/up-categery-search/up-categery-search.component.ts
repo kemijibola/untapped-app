@@ -4,6 +4,7 @@ import * as fromApp from "../../store/app.reducers";
 import { ICategory, OrderedCategory } from "src/app/interfaces";
 import * as fromCategory from "./../store/category/category.reducers";
 import * as CategoryActions from "./../store/category/category.action";
+import * as UserFilterActions from "../store/filtered-categories/user-filter/user-filter.action";
 
 @Component({
   selector: "app-up-categery-search",

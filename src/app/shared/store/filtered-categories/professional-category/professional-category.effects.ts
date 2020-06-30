@@ -21,7 +21,11 @@ export class ProfessionalCategoryEffect {
       ofType(ProfessionalCategoryActions.FETCH_ALL_PROFESSIONAL),
       concatMap((action: ProfessionalCategoryActions.FetchAllProfessional) =>
         this.userCategoryService
-          .getUserFilterCategoryByReportType(action.payload)
+          .getUserFilterCategoryByReportType({
+            type: action.payload.queryParams.type,
+            searchText: action.payload.queryParams.searchText,
+            categoryId: action.payload.queryParams.categoryId,
+          })
           .pipe(
             map(
               (resp: IResult<UserFilterCategory[]>) =>

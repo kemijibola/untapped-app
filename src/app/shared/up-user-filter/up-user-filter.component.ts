@@ -7,13 +7,15 @@ import {
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { UserFilterCategory, AppUserType } from "src/app/interfaces";
+import { UserFilterCategory, AppUserType, Category } from "src/app/interfaces";
 import * as UserCategoryActions from "../store/filtered-categories/talent-category.action";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import * as TalentCategoryActions from "../store/filtered-categories/talent-category.action";
 import * as fromTalentWithHighestComment from "../store/filtered-categories/talent-category.reducers";
 import * as ProfessionalCategoryActions from "../store/filtered-categories/professional-category/professional-category.actions";
+import * as fromUserFilter from "../store/filtered-categories/user-filter/user-filter.reducer";
+import * as fromCategory from "../store/category/category.reducers";
 
 @Component({
   selector: "app-up-user-filter",
@@ -24,8 +26,8 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
   @Input() filteredUsers: UserFilterCategory[] = [];
   @Input() typeOfFilter: string = "";
   @Input() typeOfUser: AppUserType;
-  searchText = "wizKid";
-  category = "5de9d35209904f38dc9ac4bb";
+  searchText: string = "";
+  category: string = "";
 
   defaultParams: ImageEditRequest = {
     edits: {
@@ -48,7 +50,25 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
   };
   constructor(private store: Store<fromApp.AppState>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    //
+    this.store
+      .pipe(select(fromUserFilter.selectSearchText))
+      .subscribe((val: string) => {
+        this.searchText = val;
+      });
+
+    this.store
+      .pipe(select(fromCategory.selectCurrentCategory))
+      .subscribe((val: Category) => {
+        console.log(val);
+        if (val) {
+          this.category = val._id;
+        }
+      });
+
+    console.log(this.category);
+  }
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["filteredUsers"]) {

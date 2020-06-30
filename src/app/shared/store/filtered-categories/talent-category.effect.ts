@@ -21,7 +21,11 @@ export class UserCategoryEffect {
       ofType(TalentCategoryActions.FETCH_ALL_TALENT_HIGHEST_COMMENT),
       concatMap((action: TalentCategoryActions.FetchAllTalentHighestComment) =>
         this.userCategoryService
-          .getUserFilterCategoryByReportType(action.payload)
+          .getUserFilterCategoryByReportType({
+            type: action.payload.queryParams.type,
+            searchText: action.payload.queryParams.searchText,
+            categoryId: action.payload.queryParams.categoryId,
+          })
           .pipe(
             map(
               (resp: IResult<UserFilterCategory[]>) =>

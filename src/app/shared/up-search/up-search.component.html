@@ -1,8 +1,9 @@
-<div class="search-box mb-25">
+<form class="search-box mb-25" [formGroup]="searchForm">
   <input
     class="input-design"
+    formControlName="searchInput"
     type="text"
     placeholder="Search {{ placeholder }}"
   />
   <span class="search-icn"><i class="fas fa-search"></i></span>
-</div>
+</form>

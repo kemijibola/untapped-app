@@ -130,14 +130,18 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     this.store.dispatch(new CategoryActions.FetchCategories());
     this.store.dispatch(
-      new TalentCategoryActions.FetchAllTalentHighestComment(
-        ReportType.highestcomment
-      )
+      new TalentCategoryActions.FetchAllTalentHighestComment({
+        queryParams: {
+          type: ReportType.highestcomment,
+        },
+      })
     );
     this.store.dispatch(
-      new ProfessionalCategoryActions.FetchAllProfessional(
-        ReportType.allprofessionals
-      )
+      new ProfessionalCategoryActions.FetchAllProfessional({
+        queryParams: {
+          type: ReportType.allprofessionals,
+        },
+      })
     );
     this.store.dispatch(new ServiceActions.FetchServices());
   }

@@ -51,3 +51,9 @@ export enum ReportType {
   mostplayedsong = "mostplayedsong",
   mostlikedphoto = "mostlikedphoto",
 }
+
+export interface UserFilterRequest {
+  type: ReportType;
+  searchText?: string;
+  categoryId?: string;
+}
