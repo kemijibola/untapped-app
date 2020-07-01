@@ -99,8 +99,10 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
         this.store.dispatch(
           new UserFilterActions.FetchUser({ id: this.filteredUsers[0]._id })
         );
+        if (this.typeOfUser === AppUserType.Talent) {
+          this.fetchTalentPortfolio(this.filteredUsers[0].user);
+        }
 
-        this.fetchTalentPortfolio(this.filteredUsers[0].user);
         // if (this.typeOfUser === AppUserType.Talent) {
         //   this.store.dispatch(
         //     new TalentCategoryActions.FetchTalentWithHighestComment({
@@ -133,8 +135,9 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
     this.store.dispatch(
       new UserFilterActions.FetchUser({ id: this.filteredUsers[index]._id })
     );
-    if(this.typeOfUser === )
-    this.fetchTalentPortfolio(this.filteredUsers[index].user);
+    if (this.typeOfUser === AppUserType.Talent) {
+      this.fetchTalentPortfolio(this.filteredUsers[index].user);
+    }
   }
 
   fetchTalentPortfolio(userId: string): void {
