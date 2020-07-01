@@ -5,6 +5,7 @@ import { UserFilterCategory } from "src/app/interfaces";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as fromTalentFilter from "src/app/shared/store/filtered-categories/talent-category.reducers";
+import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
 
 @Component({
   selector: "app-talent-biodata",
@@ -38,7 +39,7 @@ export class TalentBiodataComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) {}
   ngOnInit() {
     this.store
-      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
+      .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
         if (val) {
           this.selectedUser = { ...val };

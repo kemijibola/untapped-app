@@ -8,10 +8,7 @@
 
   <div class="accordion-content acor-pg-2">
     <a
-      *ngFor="
-        let user of filteredUsers
-        let i = index
-      "
+      *ngFor="let user of filteredUsers; let i = index"
       (click)="onUserSelected(i)"
       style="cursor: pointer;"
     >

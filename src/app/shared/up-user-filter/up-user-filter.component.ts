@@ -7,7 +7,13 @@ import {
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { UserFilterCategory, AppUserType, Category } from "src/app/interfaces";
+import {
+  UserFilterCategory,
+  AppUserType,
+  Category,
+  MediaType,
+  MediaUploadType,
+} from "src/app/interfaces";
 import * as UserCategoryActions from "../store/filtered-categories/talent-category.action";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
@@ -16,6 +22,8 @@ import * as fromTalentWithHighestComment from "../store/filtered-categories/tale
 import * as ProfessionalCategoryActions from "../store/filtered-categories/professional-category/professional-category.actions";
 import * as fromUserFilter from "../store/filtered-categories/user-filter/user-filter.reducer";
 import * as fromCategory from "../store/category/category.reducers";
+import * as UserFilterActions from "../store/filtered-categories/user-filter/user-filter.action";
+import * as TalentsActions from "../store/talents/talents.actions";
 
 @Component({
   selector: "app-up-user-filter",
@@ -56,6 +64,7 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
       .pipe(select(fromUserFilter.selectSearchText))
       .subscribe((val: string) => {
         this.searchText = val;
+        //
       });
 
     this.store
@@ -66,9 +75,9 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
           this.category = val._id;
         }
       });
-
-    console.log(this.category);
   }
+
+  filterUser() {}
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["filteredUsers"]) {
@@ -87,20 +96,25 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
         });
         this.filteredUsers[0].isSelected = true;
 
-        if (this.typeOfUser === AppUserType.Talent) {
-          this.store.dispatch(
-            new TalentCategoryActions.FetchTalentWithHighestComment({
-              id: this.filteredUsers[0]._id,
-            })
-          );
-        }
-        if (this.typeOfUser === AppUserType.Professional) {
-          this.store.dispatch(
-            new ProfessionalCategoryActions.FetchProfessional({
-              id: this.filteredUsers[0]._id,
-            })
-          );
-        }
+        this.store.dispatch(
+          new UserFilterActions.FetchUser({ id: this.filteredUsers[0]._id })
+        );
+
+        this.fetchTalentPortfolio(this.filteredUsers[0].user);
+        // if (this.typeOfUser === AppUserType.Talent) {
+        //   this.store.dispatch(
+        //     new TalentCategoryActions.FetchTalentWithHighestComment({
+        //       id: this.filteredUsers[0]._id,
+        //     })
+        //   );
+        // }
+        // if (this.typeOfUser === AppUserType.Professional) {
+        //   this.store.dispatch(
+        //     new ProfessionalCategoryActions.FetchProfessional({
+        //       id: this.filteredUsers[0]._id,
+        //     })
+        //   );
+        // }
       }
     }
 
@@ -115,12 +129,22 @@ export class UpUserFilterComponent implements OnInit, OnChanges {
         x.isSelected = false;
       }
     });
+
     this.store.dispatch(
-      new TalentCategoryActions.FetchTalentWithHighestComment({
-        id: this.filteredUsers[index]._id,
+      new UserFilterActions.FetchUser({ id: this.filteredUsers[index]._id })
+    );
+    if(this.typeOfUser === )
+    this.fetchTalentPortfolio(this.filteredUsers[index].user);
+  }
+
+  fetchTalentPortfolio(userId: string): void {
+    this.store.dispatch(
+      new TalentsActions.FetchTalentPortfolio({
+        type: MediaType.ALL,
+        uploadType: MediaUploadType.all,
+        user: userId,
       })
     );
   }
-
   getUserFullImage(key: string) {}
 }

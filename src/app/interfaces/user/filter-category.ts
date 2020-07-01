@@ -56,4 +56,5 @@ export interface UserFilterRequest {
   type: ReportType;
   searchText?: string;
   categoryId?: string;
+  userTypeId?: string;
 }

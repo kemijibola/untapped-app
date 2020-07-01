@@ -25,6 +25,7 @@ export class UserCategoryEffect {
             type: action.payload.queryParams.type,
             searchText: action.payload.queryParams.searchText,
             categoryId: action.payload.queryParams.categoryId,
+            userTypeId: action.payload.queryParams.userTypeId,
           })
           .pipe(
             map(

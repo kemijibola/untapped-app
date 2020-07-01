@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Effect, Actions, ofType, createEffect } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../../../../store/app.reducers";
-import * as ProfessionalCategoryActions from "./professional-category.actions";
+import * as UserFilterActions from "./user-filter.action";
 import { UserCategoryService } from "src/app/services/user-category.service";
 import { map, catchError, concatMap } from "rxjs/operators";
 import {
@@ -15,11 +15,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../../store/global/notification/notification.action";
 
 @Injectable()
-export class ProfessionalCategoryEffect {
+export class UserFilterEffect {
   fetchHighestTalents = createEffect(() =>
     this.actions$.pipe(
-      ofType(ProfessionalCategoryActions.FETCH_ALL_PROFESSIONAL),
-      concatMap((action: ProfessionalCategoryActions.FetchAllProfessional) =>
+      ofType(UserFilterActions.FETCH_ALL_USERS),
+      concatMap((action: UserFilterActions.FetchAllUsers) =>
         this.userCategoryService
           .getUserFilterCategoryByReportType({
             type: action.payload.queryParams.type,
@@ -30,8 +30,8 @@ export class ProfessionalCategoryEffect {
           .pipe(
             map(
               (resp: IResult<UserFilterCategory[]>) =>
-                new ProfessionalCategoryActions.FetchAllProfessionalSuccess({
-                  professionals: resp.data,
+                new UserFilterActions.FetchAllUsersSuccess({
+                  users: resp.data,
                 })
             ),
             catchError((respError: HttpErrorResponse) =>
