@@ -2265,7 +2265,8 @@ html::-webkit-scrollbar {
   display: block;
 }
 .left-talent-wrp .pagination {
-  display: block;
+  display: flex;
+  justify-content: space-between;
 }
 .left-talent-wrp .pagination li {
   display: inline-block;
