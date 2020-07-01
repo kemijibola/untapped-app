@@ -36,7 +36,6 @@
             <div
               class="contest-wrapper mb-30"
               (click)="navigateToDetail(contest._id)"
-              style="width: 400px;height: 250px;"
             >
               <div class="contest-img">
                 <a
@@ -44,9 +43,10 @@
                   [routerLinkActiveOptions]="{ exact: true }"
                   routerLinkActive="visited"
                   ><img
+                    class="contets-mobile"
                     [defaultImage]="contest.defaultBannerImage"
                     [lazyLoad]="contest.fullBannerImage"
-                    style="width: 100%; height: 100%; background: lightgray;"
+                    style="background: lightgray;"
                 /></a>
                 <div class="entries-content all-ent contest">
                   <span class="ent-num">

@@ -5398,3 +5398,18 @@ body.modal-open {
 body.viewport-lg {
   position: absolute; 
 }
+.vote-box {
+  border-radius: 3px;
+  padding-top: 32px;
+  width: 175px;
+  border: 1px solid #677f94;
+  text-align: center;
+  box-shadow: 1px 1px 3px grey;
+  float: left;
+  margin-right: 7px;
+  margin-top: 7px;
+}
+.contets-mobile {
+	width: 400px;
+	height: 250px;
+}

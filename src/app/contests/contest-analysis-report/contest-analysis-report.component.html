@@ -42,24 +42,30 @@
               {{ contestVoteResult?.contestDuration }}
             </span>
           </h4>
-          <h4>
-            Total vote
-            <span>
-              {{ contestVoteResult?.contestTotalVote }}
-            </span>
-          </h4>
-          <h4>
-            Total valid
-            <span>
-              {{ contestVoteResult?.contestTotalValidVote }}
-            </span>
-          </h4>
-          <h4>
-            Total invalid
-            <span>
-              {{ contestVoteResult?.contestTotalInvalidVote }}
-            </span>
-          </h4>
+          <div class="vote-box" style="background: #4f97b9;">
+            <h4>
+              Total vote
+              <span>
+                {{ contestVoteResult?.contestTotalVote }}
+              </span>
+            </h4>
+          </div>
+          <div class="vote-box" style="background: #5cc55c;">
+            <h4>
+              Total valid
+              <span>
+                {{ contestVoteResult?.contestTotalValidVote }}
+              </span>
+            </h4>
+          </div>
+          <div class="vote-box" style="background: #ff6565;">
+            <h4>
+              Total invalid
+              <span>
+                {{ contestVoteResult?.contestTotalInvalidVote }}
+              </span>
+            </h4>
+          </div>
         </div>
       </div>
     </div>

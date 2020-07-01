@@ -1820,6 +1820,23 @@
 	height: 1074px;
 	overflow-y: auto;
   }
+
+.contets-mobile {
+	width: 400px;
+	height: 250px;
+}
+
+.winer-blk {
+	display: block;
+} 
+
+.add-more-blk {
+	margin-left: 0px;
+}
+.single-winner-blk input {
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
 .pagination {
 	display: -webkit-box;
 	display: -ms-flexbox;
