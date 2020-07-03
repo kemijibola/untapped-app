@@ -9,6 +9,7 @@ import {
   AppModal,
   IModal,
   UserFilterCategory,
+  TalentPortfolioPreview,
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
 import * as fromUser from "../../user/user.reducers";
@@ -25,6 +26,7 @@ import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as PortfolioActions from "../../user/store/portfolio/portfolio.actions";
 import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as fromTalentGeneral from "src/app/shared/store/talents/general-preview/general-preview.reducer";
 
 @Component({
   selector: "app-talent-portfolio-general-items",
@@ -33,7 +35,7 @@ import * as fromUserFilter from "../../shared/store/filtered-categories/user-fil
 })
 export class TalentPortfolioGeneralItemsComponent implements OnInit {
   componentModal: AppModal;
-  generalPreviews: GeneralPreview[] = [];
+  generalPreviews: TalentPortfolioPreview[] = [];
   editParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -51,35 +53,17 @@ export class TalentPortfolioGeneralItemsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.store
-      .pipe(select(fromUserFilter.selectCurrentUser))
-      .subscribe((val: UserFilterCategory) => {
-        if (val) {
-          this.triggerFetchUserGeneralList(val.user);
+    this.userStore
+      .pipe(select(fromTalentGeneral.selectGeneralPreviews))
+      .subscribe((val: TalentPortfolioPreview[]) => {
+        if (val.length > 0) {
+          this.setMedia(val);
+          console.log(val);
         }
       });
-
-    // this.userStore
-    //   .pipe(select(fromMediaPreview.selectUserGeneralPreviews))
-    //   .subscribe((val: GeneralPreview[]) => {
-    //     if (val.length > 0) {
-    //       this.setMedia(val);
-    //     }
-    //   });
   }
 
-  triggerFetchUserGeneralList(userId: string): void {
-    const queryParams: MediaQueryParams = {
-      type: MediaType.ALL,
-      uploadType: MediaUploadType.single,
-      user: userId,
-    };
-    this.userStore.dispatch(
-      new MediaPreviewActions.FetchUserGeneralListPreview(queryParams)
-    );
-  }
-
-  setMedia(previews: GeneralPreview[]) {
+  setMedia(previews: TalentPortfolioPreview[]) {
     this.generalPreviews = previews.map((x) => {
       const mediaType = x.mediaType.toUpperCase();
       switch (mediaType) {
@@ -87,10 +71,10 @@ export class TalentPortfolioGeneralItemsComponent implements OnInit {
           x = this.setAudioAlbumCover(x);
           break;
         case MediaType.IMAGE:
-          x = this.setImageAlbumCover(x);
+          // x = this.setImageAlbumCover(x);
           break;
         case MediaType.VIDEO:
-          x = this.setVideoAlbumCover(x);
+          // x = this.setVideoAlbumCover(x);
           break;
         default:
           break;
@@ -99,33 +83,33 @@ export class TalentPortfolioGeneralItemsComponent implements OnInit {
     });
   }
 
-  setAudioAlbumCover(audio: GeneralPreview): GeneralPreview {
+  setAudioAlbumCover(audio: TalentPortfolioPreview): TalentPortfolioPreview {
     return Object.assign({}, audio, { albumCover: fetchAudioArt() });
   }
 
-  setImageAlbumCover(image: GeneralPreview): GeneralPreview {
-    return Object.assign({}, image, {
-      albumCover:
-        image.defaultMediaPath !== ""
-          ? fetchImageObjectFromCloudFormation(
-              image.defaultMediaPath,
-              this.editParams
-            )
-          : fetchNoMediaDefaultImage(),
-    });
-  }
+  // setImageAlbumCover(image: TalentPortfolioPreview): TalentPortfolioPreview {
+  //   return Object.assign({}, image, {
+  //     albumCover:
+  //       image.defaultImageKey !== ""
+  //         ? fetchImageObjectFromCloudFormation(
+  //             image.defaultMediaPath,
+  //             this.editParams
+  //           )
+  //         : fetchNoMediaDefaultImage(),
+  //   });
+  // }
 
-  setVideoAlbumCover(video: GeneralPreview): GeneralPreview {
-    return Object.assign({}, video, {
-      albumCover:
-        video.defaultMediaPath !== ""
-          ? fetchImageObjectFromCloudFormation(
-              video.defaultMediaPath,
-              this.editParams
-            )
-          : fetchVideoArt(),
-    });
-  }
+  // setVideoAlbumCover(video: TalentPortfolioPreview): TalentPortfolioPreview {
+  //   return Object.assign({}, video, {
+  //     albumCover:
+  //       video.defaultImageKey !== ""
+  //         ? fetchImageObjectFromCloudFormation(
+  //             video.defaultMediaPath,
+  //             this.editParams
+  //           )
+  //         : fetchVideoArt(),
+  //   });
+  // }
 
   openModalDialog(modalId: string, itemId: string) {
     console.log("clicked");

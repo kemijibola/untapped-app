@@ -15,6 +15,7 @@ import { of } from "rxjs";
 import * as TalentAudioPreviewActions from "./audio-preview/audio-preview.action";
 import * as TalentImagePreviewActions from "./image-preview/image-preview.action";
 import * as TalentVideoPreviewActions from "./video-preview/video-preview.action";
+import * as GeneralPreviewActions from "./general-preview/general-preview.action";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../store/global/notification/notification.action";
 
@@ -49,6 +50,27 @@ export class TalentsEffect {
                 ),
               ];
             }),
+            catchError((respError: HttpErrorResponse) =>
+              of(new NotificationActions.Noop())
+            )
+          )
+      )
+    )
+  );
+
+  fetchUserGeneralPreviewList = createEffect(() =>
+    this.action$.pipe(
+      ofType(TalentsActions.FETCH_TALENT_GENERAL_MEDIA),
+      concatMap((action: TalentsActions.FetchTalentGeneralMedia) =>
+        this.talentsService
+          .fetchTalentsPortfolioPreviewList(action.payload)
+          .pipe(
+            map(
+              (resp: IResult<TalentPortfolioPreview[]>) =>
+                new GeneralPreviewActions.FetchTalentGeneralPreviewsSuccess({
+                  generalPreviews: resp.data,
+                })
+            ),
             catchError((respError: HttpErrorResponse) =>
               of(new NotificationActions.Noop())
             )

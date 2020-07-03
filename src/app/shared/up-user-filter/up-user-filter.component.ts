@@ -26,6 +26,8 @@ import * as fromUserFilter from "../store/filtered-categories/user-filter/user-f
 import * as fromCategory from "../store/category/category.reducers";
 import * as UserFilterActions from "../store/filtered-categories/user-filter/user-filter.action";
 import * as TalentsActions from "../store/talents/talents.actions";
+import * as fromUser from "../../user/user.reducers";
+import * as MediaPreviewActions from "../../user/store/portfolio/media/media-preview.actions";
 
 @Component({
   selector: "app-up-user-filter",
@@ -82,6 +84,7 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
           );
           if (this.typeOfUser === AppUserType.Talent) {
             this.fetchTalentPortfolio(this.filteredUsers[0].user);
+            this.triggerFetchUserGeneralList(this.filteredUsers[0].user);
           }
           this.userTypeId = this.filteredUsers[0].userType;
         }
@@ -182,6 +185,7 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
     );
     if (this.typeOfUser === AppUserType.Talent) {
       this.fetchTalentPortfolio(this.filteredUsers[index].user);
+      this.triggerFetchUserGeneralList(this.filteredUsers[index].user);
     }
   }
 
@@ -194,7 +198,17 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
       })
     );
   }
-  getUserFullImage(key: string) {}
+
+  triggerFetchUserGeneralList(userId: string): void {
+    console.log("user id", userId);
+    this.store.dispatch(
+      new TalentsActions.FetchTalentGeneralMedia({
+        type: MediaType.ALL,
+        uploadType: MediaUploadType.single,
+        user: userId,
+      })
+    );
+  }
 
   ngOnDestroy() {
     this.searchText = "";

@@ -14,6 +14,7 @@ import {
   VideoPortfolioPreview,
   TalentPortfolioPreview,
   UserFilterCategory,
+  GeneralPreview,
 } from "src/app/interfaces";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import {
@@ -41,6 +42,7 @@ export class TalentPortfolioAlbumsComponent {
   imageAlbums: ImagePortfolioPreview[] = [];
   audioAlbums: AudioPortfolioPreview[] = [];
   videoAlbums: VideoPortfolioPreview[] = [];
+  generalPreviews: GeneralPreview[] = [];
   defaultEditParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -61,6 +63,18 @@ export class TalentPortfolioAlbumsComponent {
       grayscale: false,
     },
   };
+
+  generalParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 133,
+        height: 208,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
   currentIndex = -1;
   selectedMedia: TalentPortfolioPreview;
   leftDisabled = false;

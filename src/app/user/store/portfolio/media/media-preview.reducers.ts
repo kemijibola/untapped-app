@@ -91,6 +91,7 @@ export function mediaPreviewReducer(
         audioPreviews: action.payload,
       });
     case MediaPreviewActions.SET_USER_GENERAL_PREVIEWS:
+      console.log("reducer", action.payload);
       return Object.assign({
         ...state,
         generalPreviews: action.payload.generalPreviews,

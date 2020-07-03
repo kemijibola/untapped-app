@@ -21,6 +21,7 @@ import * as fromTalentPorfolio from "../shared/store/talents/talents.reducers";
 import * as fromTalentAudioPortfolio from "../shared/store/talents/audio-preview/audio-preview.reducer";
 import * as fromTalentVideoPorfolio from "../shared/store/talents/video-preview/video-preview.reducer";
 import * as fromTalentImagePorfolio from "../shared/store/talents/image-preview/image-preview.reducer";
+import * as fromTalentGeneral from "../shared/store/talents/general-preview/general-preview.reducer";
 import * as fromOrder from "../shared/store/order/order.reducers";
 import * as fromContests from "../contests/store/contests.reducers";
 import * as fromContestEntry from "../contests/store/contest-entry/contest-entry.reducer";
@@ -46,6 +47,7 @@ export interface AppState {
   audioPortfolioPreviewState: fromTalentAudioPortfolio.AudioPortfolioPreviewState;
   imagePortfolioPreviewState: fromTalentImagePorfolio.ImagePortfolioPreviewState;
   videoPortfolioPreviewState: fromTalentVideoPorfolio.VideoPortfolioPreviewState;
+  generalPreviewState: fromTalentGeneral.GeneralPreviewState;
   commentState: fromComments.CommentState;
   snackBarState: fromSnackBar.SnackBarState;
   notificationState: fromNotification.NotificationState;
@@ -74,6 +76,7 @@ export const reducers: ActionReducerMap<AppState> = {
   talentPortfolioState: fromTalentPorfolio.reducer,
   audioPortfolioPreviewState: fromTalentAudioPortfolio.reducer,
   imagePortfolioPreviewState: fromTalentImagePorfolio.reducer,
+  generalPreviewState: fromTalentGeneral.reducer,
   videoPortfolioPreviewState: fromTalentVideoPorfolio.reducer,
   commentState: fromComments.reducer,
   snackBarState: fromSnackBar.reducer,
