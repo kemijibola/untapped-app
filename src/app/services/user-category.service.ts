@@ -17,7 +17,13 @@ export class UserCategoryService {
   getUserFilterCategoryByReportType(
     params: UserFilterRequest
   ): Observable<IResult<UserFilterCategory[]>> {
-    const url = `${this.BASE_URI}/user-categories?reportType=${params.type}&${params.searchText}&${params.categoryId}`;
-    return this.http.get<IResult<UserFilterCategory[]>>(url);
+    console.log(params);
+    const url = `${this.BASE_URI}/user-categories`;
+    return this.http.post<IResult<UserFilterCategory[]>>(url, {
+      reportType: params.type || "",
+      searchText: params.searchText || "",
+      userTypeId: params.userTypeId || "",
+      categoryId: params.categoryId || "",
+    });
   }
 }

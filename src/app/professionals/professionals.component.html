@@ -22,12 +22,6 @@
           <!-- professionals filter -->
           <app-up-user-filter
             [typeOfUser]="'Professional'"
-            [filteredUsers]="professionals | async"
-            [typeOfFilter]="
-              (professionals | async).length > 1
-                ? 'Professionals'
-                : 'Professional'
-            "
           ></app-up-user-filter>
         </div>
       </div>

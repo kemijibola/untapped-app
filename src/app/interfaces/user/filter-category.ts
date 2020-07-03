@@ -53,8 +53,12 @@ export enum ReportType {
 }
 
 export interface UserFilterRequest {
-  type: ReportType;
+  type?: ReportType;
   searchText?: string;
   categoryId?: string;
   userTypeId?: string;
 }
+
+// export enum FilterInputState {
+
+// }

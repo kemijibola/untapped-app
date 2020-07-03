@@ -2,4 +2,23 @@
   <span>Oluwa Burna’s</span>
   <h3>General Uploads</h3>
 </div>
-<app-portfolio-general-item></app-portfolio-general-item>
+
+<div class="uploads">
+  <div class="row grid no-gutters general-img-uploads">
+    <div
+      class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 grid-item"
+      *ngFor="let general of generalPreviews"
+    >
+      <div class="item">
+        <img
+          src="assets/img/talent/upload-1.jpg"
+          [defaultImage]="general.defaultAlbumCover"
+          [lazyLoad]="general.albumCover"
+          style="height: 208px; background: lightgray;"
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <app-portfolio-general-item></app-portfolio-general-item> -->

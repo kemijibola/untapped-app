@@ -27,6 +27,7 @@ import * as fromTalentAudioPortfolio from "src/app/shared/store/talents/audio-pr
 import * as fromTalentImagePortfolio from "src/app/shared/store/talents/image-preview/image-preview.reducer";
 import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-preview/video-preview.reducer";
 import * as fromTalentFilter from "../../shared/store/filtered-categories/talent-category.reducers";
+import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
 
 @Component({
   selector: "app-talent-portfolio-albums",
@@ -95,7 +96,7 @@ export class TalentPortfolioAlbumsComponent {
       });
 
     this.store
-      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
+      .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
         this.talentName = val !== undefined ? val.aliasName : "";
       });

@@ -35,7 +35,6 @@ export class UpSearchComponent implements OnInit, OnChanges {
     this.searchInput.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((data: string) => {
-        console.log(`debounced text input value ${data}`);
         this.store.dispatch(
           new UserFilterActions.SetFilterText({ searchText: data })
         );

@@ -2,6 +2,7 @@ import { Action } from "@ngrx/store";
 import { UserFilterRequest, UserFilterCategory } from "src/app/interfaces";
 
 export const SET_FILTER_TEXT = "SET_FILTER_TEXT";
+export const SET_FILTER_INPUT_STATE = "SET_FILTER_INPUT_STATE";
 export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 "FETCH_ALL_TALENT_HIGHEST_COMMENT";
 export const FETCH_ALL_USERS_SUCCESS = "FETCH_ALL_USERS_SUCCESS";
@@ -12,6 +13,10 @@ export class SetFilterText implements Action {
   constructor(public payload: { searchText: string }) {}
 }
 
+// export class SetFilterInputState implements Action {
+//   readonly type = SET_FILTER_INPUT_STATE;
+//   constructor(public payload: { state }) {}
+// }
 export class FetchAllUsers implements Action {
   readonly type = FETCH_ALL_USERS;
   constructor(public payload: { queryParams: UserFilterRequest }) {}

@@ -15,6 +15,7 @@ import {
   fetchDefaultContestBanner,
 } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
 
 @Component({
   selector: "app-professional-biodata",
@@ -118,7 +119,7 @@ export class ProfessionalBiodataComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.selectedUser.bannerPhotoFullPath);
     this.store
-      .pipe(select(fromProfessionalFilter.selectCurrentProfessional))
+      .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
         if (val) {
           this.selectedUser = { ...val };

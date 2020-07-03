@@ -65,7 +65,7 @@ export class TalentsComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.talents = this.store.pipe(select(fromUserFilter.selectAllUsers));
+    // this.talents = this.store.pipe(select(fromUserFilter.selectAllUsers));
   }
 
   onSignUpClicked() {

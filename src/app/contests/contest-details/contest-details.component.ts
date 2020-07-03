@@ -125,6 +125,8 @@ export class ContestDetailsComponent implements OnInit {
                 contestId: this.contestId,
               })
             );
+          } else {
+            this.isEligible = false;
           }
         });
 

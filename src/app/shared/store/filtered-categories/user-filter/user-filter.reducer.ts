@@ -20,6 +20,7 @@ export function reducer(
 ): UserFilterState {
   switch (action.type) {
     case UserFilterActions.FETCH_ALL_USERS_SUCCESS:
+      console.log("fetched", action.payload.users);
       return fromAdapter.adapter.setAll(action.payload.users, state);
     case UserFilterActions.SET_FILTER_TEXT:
       return Object.assign({
