@@ -27,6 +27,7 @@ export interface UserFilterCategory {
   contests: IUserContestListAnalysis[];
   shortDescription: string;
   tapCount: number;
+  tappedBy: string[];
   contestCount: number;
   reportType: ReportType;
   userType: string;

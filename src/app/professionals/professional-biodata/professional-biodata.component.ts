@@ -38,6 +38,7 @@ export class ProfessionalBiodataComponent implements OnInit {
     userSocials: [],
     shortDescription: "",
     tapCount: 0,
+    tappedBy: [],
     contestCount: 0,
     contests: [],
     reportType: ReportType.allprofessionals,

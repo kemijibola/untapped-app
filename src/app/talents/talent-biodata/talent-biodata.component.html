@@ -8,8 +8,14 @@
   </div>
   <div class="middle-outer-wrp">
     <div class="nam">
-      <h3>{{ selectedUser?.aliasName }}</h3>
-      <a class="box-btn" href="#">LIKE TALENT</a>
+      <h3>{{ selectedUser?.displayName }}</h3>
+      <a
+        style="cursor: pointer;"
+        class="box-btn"
+        (click)="likeTalent()"
+        *ngIf="(loggedInUser | async).authenticated"
+        >LIKE TALENT</a
+      >
     </div>
     <div class="talent mt-20">
       <span

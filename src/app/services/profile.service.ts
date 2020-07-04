@@ -17,14 +17,19 @@ export class ProfileService {
   }
 
   createProfile(data: IProfile): Observable<IResult<IProfile>> {
-    console.log("create called");
     const url = `${this.BASE_URI}/profiles`;
     return this.http.post<IResult<IProfile>>(url, data);
   }
 
   updateProfile(data: IProfile): Observable<IResult<IProfile>> {
-    console.log("update called");
     const url = `${this.BASE_URI}/profiles/${data._id}`;
     return this.http.put<IResult<IProfile>>(url, data);
+  }
+
+  likeTalent(userId: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/profiles/talent/like`;
+    return this.http.put<IResult<boolean>>(url, {
+      userId,
+    });
   }
 }

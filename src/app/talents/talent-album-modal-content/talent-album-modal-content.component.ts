@@ -40,6 +40,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
     _id: "",
     mediaType: "",
     talent: "",
+    aliasName: "",
     uploadType: "",
     albumCover: "",
     defaultImageKey: "",

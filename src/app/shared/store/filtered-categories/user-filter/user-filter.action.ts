@@ -8,6 +8,10 @@ export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 export const FETCH_ALL_USERS_SUCCESS = "FETCH_ALL_USERS_SUCCESS";
 export const FETCH_USER = "FETCH_USER";
 
+export const LIKE_TALENT = "LIKE_TALENT";
+export const LIKE_TALENT_SUCCESS = "LIKE_TALENT_SUCCESS";
+export const LIKE_TALENT_ERROR = "LIKE_TALENT_ERROR";
+
 export class SetFilterText implements Action {
   readonly type = SET_FILTER_TEXT;
   constructor(public payload: { searchText: string }) {}
@@ -32,8 +36,26 @@ export class FetchAllUsersSuccess implements Action {
   constructor(public payload: { users: UserFilterCategory[] }) {}
 }
 
+export class LikeTalent implements Action {
+  readonly type = LIKE_TALENT;
+  constructor(public payload: { user: UserFilterCategory; likedBy: string }) {}
+}
+
+export class LikeTalentSuccess implements Action {
+  readonly type = LIKE_TALENT_SUCCESS;
+  constructor(public payload: { user: UserFilterCategory }) {}
+}
+
+export class LikeTalentError implements Action {
+  readonly type = LIKE_TALENT_ERROR;
+  constructor(public payload: { user: UserFilterCategory; likedBy: string }) {}
+}
+
 export type UserFilterActions =
   | SetFilterText
   | FetchAllUsers
   | FetchUser
-  | FetchAllUsersSuccess;
+  | FetchAllUsersSuccess
+  | LikeTalent
+  | LikeTalentSuccess
+  | LikeTalentError;

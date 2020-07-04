@@ -119,6 +119,7 @@ export class TalentPortfolioAlbumsComponent {
       .pipe(select(fromTalentGeneral.selectGeneralPreviews))
       .subscribe((val: TalentPortfolioPreview[]) => {
         this.setGeneralMediaAlbumCover(val);
+        console.log(val);
       });
     // dispatch modal navigateData with currentIndex at 0
 
@@ -141,7 +142,7 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
-        this.talentName = val !== undefined ? val.aliasName : "";
+        this.talentName = val !== undefined ? val.displayName : "";
       });
   }
 

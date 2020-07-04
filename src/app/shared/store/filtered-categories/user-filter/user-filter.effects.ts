@@ -13,6 +13,7 @@ import {
 import { of } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../../store/global/notification/notification.action";
+import { ProfileService } from "src/app/services/profile.service";
 
 @Injectable()
 export class UserFilterEffect {
@@ -42,9 +43,38 @@ export class UserFilterEffect {
     )
   );
 
+  likeTalent = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserFilterActions.LIKE_TALENT),
+      concatMap((action: UserFilterActions.LikeTalent) =>
+        this.profileService.likeTalent(action.payload.user._id).pipe(
+          map((resp: IResult<boolean>) => {
+            action.payload.user.tappedBy = [
+              ...action.payload.user.tappedBy,
+              action.payload.likedBy,
+            ];
+            return {
+              type: UserFilterActions.LIKE_TALENT_SUCCESS,
+              payload: action.payload.user,
+            };
+          }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new UserFilterActions.LikeTalentError({
+                user: action.payload.user,
+                likedBy: action.payload.likedBy,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private userCategoryService: UserCategoryService,
+    private profileService: ProfileService,
     private store: Store<fromApp.AppState>
   ) {}
 }

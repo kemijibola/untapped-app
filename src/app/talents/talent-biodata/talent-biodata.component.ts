@@ -1,11 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
-import { UserFilterCategory } from "src/app/interfaces";
+import { UserFilterCategory, IAuthData } from "src/app/interfaces";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as fromTalentFilter from "src/app/shared/store/filtered-categories/talent-category.reducers";
 import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as UserFilterActions from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as fromAuth from "src/app/account/store/auth.reducers";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-talent-biodata",
@@ -35,9 +38,12 @@ export class TalentBiodataComponent implements OnInit {
       grayscale: false,
     },
   };
+  loggedInUser: Observable<IAuthData>;
 
   constructor(private store: Store<fromApp.AppState>) {}
   ngOnInit() {
+    this.loggedInUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
+
     this.store
       .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
@@ -54,4 +60,6 @@ export class TalentBiodataComponent implements OnInit {
         }
       });
   }
+
+  likeTalent(): void {}
 }

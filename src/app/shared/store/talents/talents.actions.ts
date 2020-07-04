@@ -16,4 +16,6 @@ export class FetchTalentGeneralMedia implements Action {
   readonly type = FETCH_TALENT_GENERAL_MEDIA;
   constructor(public payload: MediaQueryParams) {}
 }
-export type TalentsAction = FetchTalentPortfolio | FetchTalentGeneralMedia;
+export type TalentsAction =
+  | FetchTalentPortfolio
+  | FetchTalentGeneralMedia;

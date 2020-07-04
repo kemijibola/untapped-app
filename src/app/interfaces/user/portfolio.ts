@@ -167,6 +167,7 @@ export interface TalentPortfolioPreview {
   _id: string;
   mediaType: string;
   talent: string;
+  aliasName: string;
   uploadType: string;
   albumCover: string;
   albumCoverKey?: string;

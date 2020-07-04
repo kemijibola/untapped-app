@@ -104,7 +104,7 @@
 </div>
 
 <div class="head text-center mb-30 mt-45" *ngIf="generalPreviews.length > 0">
-  <span>Oluwa Burna’s</span>
+  <span>{{ talentName }}'s</span>
   <h3>General Uploads</h3>
 </div>
 
@@ -116,6 +116,7 @@
     >
       <div class="item" (click)="openModalDialog('album-modal', general)">
         <img
+          style="cursor: pointer;"
           [defaultImage]="general.defaultAlbumCover"
           [lazyLoad]="general.albumCover"
           style="height: 208px; background: lightgray;"
