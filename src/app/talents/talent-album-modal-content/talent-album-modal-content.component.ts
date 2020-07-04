@@ -140,6 +140,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentActiveModal))
       .subscribe((val: IModal) => {
         if (val !== null) {
+          console.log(val.data);
           this.isCurrentAudioSet = false;
           this.isCurrentImageSet = false;
           this.isCurrentVideoSet = false;

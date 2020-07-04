@@ -5,8 +5,7 @@ import { TalentBiodataComponent } from "./talent-biodata/talent-biodata.componen
 import { TalentPortfolioAlbumsComponent } from "./talent-portfolio-albums/talent-portfolio-albums.component";
 // tslint:disable-next-line:max-line-length
 import { TalentPortfolioAlbumItemComponent } from "./talent-portfolio-albums/talent-portfolio-album-item/talent-portfolio-album-item.component";
-import { TalentPortfolioGeneralItemsComponent } from "./talent-portfolio-general-items/talent-portfolio-general-items.component";
-import { PortfolioGeneralItemComponent } from "./talent-portfolio-general-items/portfolio-general-item/portfolio-general-item.component";
+
 import { SharedModule } from "../shared/shared.module";
 import { TalentsRoutingModule } from "./talents-routing.module";
 import { TalentAlbumModalContentComponent } from "./talent-album-modal-content/talent-album-modal-content.component";
@@ -28,8 +27,6 @@ import { TalentCommentComponent } from "./talent-comment/talent-comment.componen
     TalentBiodataComponent,
     TalentPortfolioAlbumsComponent,
     TalentPortfolioAlbumItemComponent,
-    TalentPortfolioGeneralItemsComponent,
-    PortfolioGeneralItemComponent,
     TalentAlbumModalContentComponent,
     TalentCommentComponent,
   ],

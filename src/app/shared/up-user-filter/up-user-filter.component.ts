@@ -200,6 +200,7 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   }
 
   triggerFetchUserGeneralList(userId: string): void {
+    console.log("selected user from component", userId);
     console.log("user id", userId);
     this.store.dispatch(
       new TalentsActions.FetchTalentGeneralMedia({

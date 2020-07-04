@@ -90,7 +90,6 @@
     *ngFor="let video of videoAlbums; let i = index"
     (click)="openModalDialog('album-modal', video)"
   >
-    <!-- <img src="{{ video.albumCover }}" style="height: 225px;" alt="" /> -->
     <img
       [defaultImage]="video.defaultAlbumCover"
       [lazyLoad]="video.albumCover"
@@ -104,7 +103,7 @@
   </a>
 </div>
 
-<!-- <div class="head text-center mb-30 mt-45">
+<div class="head text-center mb-30 mt-45" *ngIf="generalPreviews.length > 0">
   <span>Oluwa Burna’s</span>
   <h3>General Uploads</h3>
 </div>
@@ -115,15 +114,18 @@
       class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 grid-item"
       *ngFor="let general of generalPreviews"
     >
-      <div class="item">
+      <div class="item" (click)="openModalDialog('album-modal', general)">
         <img
-          src="assets/img/talent/upload-1.jpg"
           [defaultImage]="general.defaultAlbumCover"
           [lazyLoad]="general.albumCover"
           style="height: 208px; background: lightgray;"
-          alt=""
         />
+        <div class="plays" *ngIf="general.mediaType !== 'image'">
+          <a style="cursor: pointer;"
+            ><img src="assets/img/profile/play.svg"
+          /></a>
+        </div>
       </div>
     </div>
   </div>
-</div> -->
+</div>

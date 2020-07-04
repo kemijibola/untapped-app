@@ -15,6 +15,7 @@ import {
   TalentPortfolioPreview,
   UserFilterCategory,
   GeneralPreview,
+  MediaType,
 } from "src/app/interfaces";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import {
@@ -29,6 +30,7 @@ import * as fromTalentImagePortfolio from "src/app/shared/store/talents/image-pr
 import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-preview/video-preview.reducer";
 import * as fromTalentFilter from "../../shared/store/filtered-categories/talent-category.reducers";
 import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as fromTalentGeneral from "src/app/shared/store/talents/general-preview/general-preview.reducer";
 
 @Component({
   selector: "app-talent-portfolio-albums",
@@ -42,7 +44,7 @@ export class TalentPortfolioAlbumsComponent {
   imageAlbums: ImagePortfolioPreview[] = [];
   audioAlbums: AudioPortfolioPreview[] = [];
   videoAlbums: VideoPortfolioPreview[] = [];
-  generalPreviews: GeneralPreview[] = [];
+  generalPreviews: TalentPortfolioPreview[] = [];
   defaultEditParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -75,6 +77,28 @@ export class TalentPortfolioAlbumsComponent {
     },
   };
 
+  generalEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 133,
+        height: 208,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
+  generalDefaultEditParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 50,
+        height: 50,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
   currentIndex = -1;
   selectedMedia: TalentPortfolioPreview;
   leftDisabled = false;
@@ -91,6 +115,11 @@ export class TalentPortfolioAlbumsComponent {
     this.fetchTalentAudios();
     this.fetchTalentVideos();
 
+    this.store
+      .pipe(select(fromTalentGeneral.selectGeneralPreviews))
+      .subscribe((val: TalentPortfolioPreview[]) => {
+        this.setGeneralMediaAlbumCover(val);
+      });
     // dispatch modal navigateData with currentIndex at 0
 
     this.store
@@ -314,5 +343,75 @@ export class TalentPortfolioAlbumsComponent {
       );
     }
     this.currentIndex = -1;
+  }
+
+  setGeneralMediaAlbumCover(previews: TalentPortfolioPreview[]) {
+    this.generalPreviews = previews.map((x) => {
+      const mediaType = x.mediaType.toUpperCase();
+      switch (mediaType) {
+        case MediaType.AUDIO:
+          x = this.setGeneralAudioAlbumCover(x);
+          break;
+        case MediaType.IMAGE:
+          x = this.setGeneralImageAlbumCover(x);
+          break;
+        case MediaType.VIDEO:
+          x = this.setGeneralVideoAlbumCover(x);
+          break;
+        default:
+          break;
+      }
+      return x;
+    });
+  }
+
+  setGeneralAudioAlbumCover(
+    audio: TalentPortfolioPreview
+  ): TalentPortfolioPreview {
+    return Object.assign({}, audio, { albumCover: fetchAudioArt() });
+  }
+
+  setGeneralImageAlbumCover(
+    image: TalentPortfolioPreview
+  ): TalentPortfolioPreview {
+    return Object.assign({}, image, {
+      albumCover:
+        image.defaultImageKey !== ""
+          ? fetchImageObjectFromCloudFormation(
+              image.defaultImageKey,
+              this.editParams
+            )
+          : fetchNoMediaDefaultImage(),
+      defaultAlbumCover:
+        image.defaultImageKey !== ""
+          ? fetchImageObjectFromCloudFormation(
+              image.defaultImageKey,
+              this.defaultEditParams
+            )
+          : fetchNoMediaDefaultImage(),
+      defaultLoaded: false,
+    });
+  }
+
+  setGeneralVideoAlbumCover(
+    video: TalentPortfolioPreview
+  ): TalentPortfolioPreview {
+    return Object.assign({}, video, {
+      albumCover:
+        video.albumCoverKey !== ""
+          ? fetchImageObjectFromCloudFormation(
+              video.albumCoverKey,
+              this.editParams
+            )
+          : fetchVideoArt(),
+      defaultAlbumCover:
+        video.albumCoverKey !== ""
+          ? fetchImageObjectFromCloudFormation(
+              video.albumCoverKey,
+              this.defaultEditParams
+            )
+          : fetchVideoArt(),
+      defaultLoaded: false,
+    });
   }
 }
