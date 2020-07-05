@@ -129,10 +129,7 @@
     <div class="row">
       <div class="col-lg-3 col-md-12 col-12">
         <div class="logo">
-          <a
-            routerLink="/"
-            routerLinkActive="visited"
-            [routerLinkActiveOptions]="{ exact: true }"
+          <a style="cursor: pointer;" (click)="redirectHome()"
             ><img src="assets/img/main-logo.svg" alt="" /><span
               >untapped pool</span
             ></a

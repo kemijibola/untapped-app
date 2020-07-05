@@ -15,6 +15,7 @@ import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
 import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";
 import * as _ from "underscore";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   showDropDown: boolean = false;
   showSideToggle: boolean = false;
 
-  constructor(private store: Store<fromApp.AppState>) {
+  constructor(private store: Store<fromApp.AppState>, public router: Router) {
     this.userImage = environment.TALENT_DEFAULT_IMG;
     this.store.dispatch(new AuthActions.FetchAuthData());
   }
@@ -77,6 +78,10 @@ export class HeaderComponent implements OnInit, AfterContentInit {
 
   onLogOut() {
     this.store.dispatch(new AuthActions.LogOut());
+  }
+
+  redirectHome() {
+    this.router.navigate(["/"]);
   }
 
   fetchUserProfileImage(userImageKey: string) {
