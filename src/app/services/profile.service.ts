@@ -28,7 +28,7 @@ export class ProfileService {
 
   likeTalent(userId: string): Observable<IResult<boolean>> {
     const url = `${this.BASE_URI}/profiles/talent/like`;
-    return this.http.put<IResult<boolean>>(url, {
+    return this.http.post<IResult<boolean>>(url, {
       userId,
     });
   }

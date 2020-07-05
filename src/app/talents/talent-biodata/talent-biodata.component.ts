@@ -6,7 +6,7 @@ import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as fromTalentFilter from "src/app/shared/store/filtered-categories/talent-category.reducers";
 import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
-import * as UserFilterActions from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as UserFilterActions from "../../shared/store/filtered-categories/user-filter/user-filter.action";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import { Observable } from "rxjs";
 
@@ -39,15 +39,23 @@ export class TalentBiodataComponent implements OnInit {
     },
   };
   loggedInUser: Observable<IAuthData>;
+  hasLiked: boolean;
+  currentUser: IAuthData;
 
   constructor(private store: Store<fromApp.AppState>) {}
   ngOnInit() {
     this.loggedInUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
+    this.loggedInUser.subscribe((val: IAuthData) => {
+      if (val.authenticated) {
+        this.currentUser = { ...val };
+      }
+    });
 
     this.store
       .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
         if (val) {
+          this.checkIfUserHasLiked(val.tappedBy);
           this.selectedUser = { ...val };
           this.defaultImage = fetchImageObjectFromCloudFormation(
             val.displayPhoto,
@@ -61,5 +69,26 @@ export class TalentBiodataComponent implements OnInit {
       });
   }
 
-  likeTalent(): void {}
+  checkIfUserHasLiked(likes: string[]): void {
+    if (likes.length > 0) {
+      this.hasLiked =
+        likes.filter((x) => x === this.currentUser.user_data._id)[0].length > 0;
+    }
+  }
+
+  likeTalent(): void {
+    if (this.currentUser.authenticated) {
+      this.selectedUser.tappedBy = [
+        ...this.selectedUser.tappedBy,
+        this.currentUser.user_data._id,
+      ];
+      this.store.dispatch(
+        new UserFilterActions.LikeTalent({
+          user: this.selectedUser,
+          likedBy: this.currentUser.user_data._id,
+        })
+      );
+    }
+  }
+  unLikeTalent(): void {}
 }

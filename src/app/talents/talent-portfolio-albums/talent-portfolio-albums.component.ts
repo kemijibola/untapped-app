@@ -117,6 +117,7 @@ export class TalentPortfolioAlbumsComponent {
 
     this.store
       .pipe(select(fromTalentGeneral.selectGeneralPreviews))
+      .take(2)
       .subscribe((val: TalentPortfolioPreview[]) => {
         this.setGeneralMediaAlbumCover(val);
         console.log(val);

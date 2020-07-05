@@ -34,8 +34,11 @@ export function reducer(
     case UserFilterActions.LIKE_TALENT_SUCCESS:
       return fromAdapter.adapter.upsertOne(action.payload.user, state);
     case UserFilterActions.LIKE_TALENT_ERROR:
-      const userToUpdate = {...action.payload.user};
-      userToUpdate.tappedBy = userToUpdate.tappedBy.filter(x => x !== action.payload.likedBy)
+      console.log("entering error");
+      const userToUpdate = { ...action.payload.user };
+      userToUpdate.tappedBy = userToUpdate.tappedBy.filter(
+        (x) => x !== action.payload.likedBy
+      );
       return fromAdapter.adapter.upsertOne(userToUpdate, state);
     default: {
       return state;

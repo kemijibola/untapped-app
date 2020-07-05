@@ -13,8 +13,15 @@
         style="cursor: pointer;"
         class="box-btn"
         (click)="likeTalent()"
-        *ngIf="(loggedInUser | async).authenticated"
+        *ngIf="(loggedInUser | async).authenticated && !hasLiked"
         >LIKE TALENT</a
+      >
+      <a
+        style="cursor: pointer;"
+        class="box-btn"
+        (click)="unLikeTalent()"
+        *ngIf="(loggedInUser | async).authenticated && hasLiked"
+        >UNLIKE TALENT</a
       >
     </div>
     <div class="talent mt-20">
@@ -29,8 +36,9 @@
     </div>
     <div class="address mt-30 mb-30">
       <div class="tap">
-        <span>LIKES</span>
-        <span class="number">{{ selectedUser?.tapCount }}</span>
+        <span *ngIf="selectedUser?.tappedBy.length > 1">LIKES</span>
+        <span *ngIf="selectedUser?.tappedBy.length <= 1">LIKE</span>
+        <span class="number">{{ selectedUser?.tappedBy.length }}</span>
       </div>
       <div class="location">
         <span>LOCATION</span>

@@ -47,25 +47,22 @@ export class UserFilterEffect {
     this.actions$.pipe(
       ofType(UserFilterActions.LIKE_TALENT),
       concatMap((action: UserFilterActions.LikeTalent) =>
-        this.profileService.likeTalent(action.payload.user._id).pipe(
-          map((resp: IResult<boolean>) => {
-            action.payload.user.tappedBy = [
-              ...action.payload.user.tappedBy,
-              action.payload.likedBy,
-            ];
-            return {
-              type: UserFilterActions.LIKE_TALENT_SUCCESS,
-              payload: action.payload.user,
-            };
-          }),
-          catchError((respError: HttpErrorResponse) =>
-            of(
+        this.profileService.likeTalent(action.payload.user.user).pipe(
+          map(
+            (resp: IResult<boolean>) =>
+              new UserFilterActions.LikeTalentSuccess({
+                user: action.payload.user,
+              })
+          ),
+          catchError((respError: HttpErrorResponse) => {
+            console.log(respError);
+            return of(
               new UserFilterActions.LikeTalentError({
                 user: action.payload.user,
                 likedBy: action.payload.likedBy,
               })
-            )
-          )
+            );
+          })
         )
       )
     )

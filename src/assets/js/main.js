@@ -27,12 +27,12 @@
       meanMenuContainer: ".menu-prepent",
     });
 
-    $(".menu-open").click(function () {
-      $(".slide-menu").addClass("activee");
-    });
-    $(".close-btn").click(function () {
-      $(".slide-menu").removeClass("activee");
-    });
+    // $(".menu-open").click(function () {
+    //   $(".slide-menu").addClass("activee");
+    // });
+    // $(".close-btn").click(function () {
+    //   $(".slide-menu").removeClass("activee");
+    // });
 
     $(".blog-slide").owlCarousel({
       items: 5,

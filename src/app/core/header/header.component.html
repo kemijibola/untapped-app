@@ -1,23 +1,53 @@
 <!-- Header bar section start -->
-<div class="slide-menu">
-  <div class="slide-menu-main">
+<div class="slide-menu" [class.activee]="showSideToggle">
+  <div class="slide-menu-main" *ngIf="isAuthenticated">
     <ul>
       <li>
-        <a href=""><img src="assets/img/i1.svg" alt="" />Home</a>
+        <a
+          routerLink="/"
+          routerLinkActive="visited"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Home</a
+        >
       </li>
       <li>
-        <a href=""><img src="assets/img/i2.svg" alt="" />Travels</a>
+        <a
+          routerLink="/talents"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+        >
+          Talents</a
+        >
       </li>
       <li>
-        <a href=""><img src="assets/img/i3.svg" alt="" />Profactional</a>
+        <a
+          routerLink="/professionals"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+        >
+          Professionals</a
+        >
       </li>
+      <li>
+        <a
+          routerLink="/contests"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+        >
+          Contests</a
+        >
+      </li>
+      <li><a class="box-btn" (click)="onLogOut()">Logout</a></li>
     </ul>
   </div>
-  <div class="menu-btn-info">
+  <div class="menu-btn-info" *ngIf="!isAuthenticated">
     <a href="">login</a>
     <a class="box-btn" href="">signup</a>
   </div>
-  <div class="close-btn"><i class="fal fa-window-close"></i></div>
+  <div class="close-btn" (click)="onSideToggleClick()">
+    <i class="fal fa-window-close"></i>
+  </div>
 </div>
 
 <!-- slide menu here-->
@@ -34,7 +64,9 @@
               >untapped pool</span
             ></a
           >
-          <span class="menu-open"><i class="fal fa-align-right"></i></span>
+          <span class="menu-open" (click)="onSideToggleClick()"
+            ><i class="fal fa-align-right"></i
+          ></span>
         </div>
       </div>
       <div class="col-lg-6 col-md-8 text-right">
@@ -95,16 +127,20 @@
             <nav id="mobile-menu-active">
               <ul>
                 <li class="bell">
-                  <a href="#"><i class="far fa-bell"></i></a><span>4</span>
+                  <a><i class="far fa-bell"></i></a><span>4</span>
                 </li>
-                <li class="user">
+                <li class="user" (click)="onToggle()">
                   <img
                     style="height: 25px; width: 25px; border-radius: 50%;"
                     src="{{ userImage }}"
-                    alt=""
                   />
                   <span>{{ userFullName }}</span>
-                  <div class="drpdown">
+                  <div
+                    class="drpdown"
+                    [class.active.drpdown]="showDropDown"
+                    [class.user.icon]="showDropDown"
+                    *ngIf="showDropDown"
+                  >
                     <ul class="top">
                       <li>
                         <a
