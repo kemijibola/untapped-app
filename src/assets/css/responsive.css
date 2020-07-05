@@ -1468,6 +1468,14 @@
     transition: 0.4s;
     right: -100%;
   }
+  .active-top {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .active-bot {
+    margin: 0;
+    padding: 18px 5px 20px 16px;
+  }
   .slide-menu-main ul {
     margin: 0;
     padding: 0;
@@ -1512,7 +1520,7 @@
     top: 6px;
   }
   .close-btn i {
-    font-size: 20px;
+    font-size: 30px;
     color: #000;
     cursor: pointer;
   }

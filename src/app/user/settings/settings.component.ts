@@ -32,6 +32,7 @@ export class SettingsComponent implements OnInit {
 
     this.store
       .pipe(select(fromSlideToggle.selectAllToggles))
+      .take(2)
       .subscribe((val: IToggle[]) => {
         console.log(val);
         if (val !== null) {

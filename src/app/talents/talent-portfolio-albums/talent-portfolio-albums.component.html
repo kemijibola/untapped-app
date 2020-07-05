@@ -24,7 +24,7 @@
 </app-modals>
 
 <div class="head text-center mb-30" *ngIf="imageAlbums.length > 0">
-  <span>{{ talentName }}’s</span>
+  <span>{{ (selectedUser | async).displayName }}’s</span>
   <h3>Image Albums</h3>
 </div>
 
@@ -60,7 +60,7 @@
 </div>
 
 <div class="head text-center mb-30 mt-45" *ngIf="audioAlbums.length > 0">
-  <span>{{ talentName }}’s</span>
+  <span>{{ (selectedUser | async).displayName }}’s</span>
   <h3>Audio Albums</h3>
 </div>
 
@@ -80,7 +80,7 @@
 </div>
 
 <div class="head text-center mb-30" *ngIf="videoAlbums.length > 0">
-  <span>{{ talentName }}’s</span>
+  <span>{{ (selectedUser | async).displayName }}’s</span>
   <h3>Video Albums</h3>
 </div>
 
@@ -104,7 +104,7 @@
 </div>
 
 <div class="head text-center mb-30 mt-45" *ngIf="generalPreviews.length > 0">
-  <span>{{ talentName }}'s</span>
+  <span>{{ (selectedUser | async).displayName }}’s</span>
   <h3>General Uploads</h3>
 </div>
 

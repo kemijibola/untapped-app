@@ -31,6 +31,7 @@ import * as fromTalentVideoPortfolio from "src/app/shared/store/talents/video-pr
 import * as fromTalentFilter from "../../shared/store/filtered-categories/talent-category.reducers";
 import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
 import * as fromTalentGeneral from "src/app/shared/store/talents/general-preview/general-preview.reducer";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-talent-portfolio-albums",
@@ -38,7 +39,7 @@ import * as fromTalentGeneral from "src/app/shared/store/talents/general-preview
   styleUrls: ["./talent-portfolio-albums.component.css"],
 })
 export class TalentPortfolioAlbumsComponent {
-  talentName: string;
+  selectedUser: Observable<UserFilterCategory>;
   appModal: AppModal;
   componentModal: AppModal;
   imageAlbums: ImagePortfolioPreview[] = [];
@@ -115,6 +116,10 @@ export class TalentPortfolioAlbumsComponent {
     this.fetchTalentAudios();
     this.fetchTalentVideos();
 
+    this.selectedUser = this.store.pipe(
+      select(fromUserFilter.selectCurrentUser)
+    );
+
     this.store
       .pipe(select(fromTalentGeneral.selectGeneralPreviews))
       .take(2)
@@ -139,12 +144,10 @@ export class TalentPortfolioAlbumsComponent {
           this.showModal = false;
         }
       });
-
-    this.store
-      .pipe(select(fromUserFilter.selectCurrentUser))
-      .subscribe((val: UserFilterCategory) => {
-        this.talentName = val !== undefined ? val.displayName : "";
-      });
+    // .subscribe((val: UserFilterCategory) => {
+    //   console.log("current user", val);
+    //   this.talentName = val !== undefined ? val.displayName : "";
+    // });
   }
 
   onPrevious() {

@@ -1,4 +1,7 @@
-<vg-player style="height: 302px;" (onPlayerReady)="onAudioPlayerReady($event)">
+<vg-player
+  [ngStyle]="{ width: width + 'px', height: height + 'px' }"
+  (onPlayerReady)="onAudioPlayerReady($event)"
+>
   <vg-overlay-play></vg-overlay-play>
   <vg-buffering></vg-buffering>
   <vg-controls>

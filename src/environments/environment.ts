@@ -32,6 +32,7 @@ export const environment = {
   PUSHER_KEY: "e45121c4036dc0400543",
   PUSHER_CLUSTER: "eu",
   PUSHER_CHANNEL: "untapped-pool-development",
+  TERMS_CONDITION_LAST_DATE: "June 17, 2020",
 };
 
 /*

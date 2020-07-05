@@ -28,6 +28,7 @@ import * as fromModal from "../../shared/store/modals/modals.reducers";
 import * as CommentsActions from "../../shared/store/comments/comments.action";
 import * as fromTalentFilter from "src/app/shared/store/filtered-categories/talent-category.reducers";
 import * as _ from "underscore";
+import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
 
 @Component({
   selector: "app-talent-album-modal-content",
@@ -80,7 +81,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   defaultImageParams: ImageEditRequest = {
     edits: {
       resize: {
-        width: 435.39,
+        width: 436,
         height: 289,
         fit: ImageFit.cover,
       },
@@ -164,8 +165,20 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
         }
       });
 
+    // this.store
+    //   .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
+    //   .subscribe((val: UserFilterCategory) => {
+    //     this.selectedUser = { ...val };
+    //     this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")
+    //       ? fetchImageObjectFromCloudFormation(
+    //           val.displayPhoto,
+    //           this.editParams
+    //         )
+    //       : null;
+    //   });
+
     this.store
-      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
+      .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
         this.selectedUser = { ...val };
         this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")

@@ -28,6 +28,7 @@ import * as UserFilterActions from "../store/filtered-categories/user-filter/use
 import * as TalentsActions from "../store/talents/talents.actions";
 import * as fromUser from "../../user/user.reducers";
 import * as MediaPreviewActions from "../../user/store/portfolio/media/media-preview.actions";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-up-user-filter",
@@ -42,6 +43,7 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   searchText: string = "";
   category: string = "";
   userTypeId: string = "";
+  currentUserSelected: boolean = false;
 
   defaultParams: ImageEditRequest = {
     edits: {
@@ -62,6 +64,11 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
       grayscale: false,
     },
   };
+
+  userSet(val: UserFilterCategory[]): boolean {
+    return val.filter((x) => x.isSelected).length > 0;
+  }
+
   constructor(private store: Store<fromApp.AppState>) {
     this.searchText = "";
     this.category = "";
@@ -75,18 +82,21 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
         this.typeOfFilter =
           val.length > 1 ? `${this.typeOfUser}s` : this.typeOfUser;
         if (val.length > 0) {
+          console.log("users list", val);
           this.setUsersImage(val);
 
-          this.filteredUsers[0].isSelected = true;
+          if (!this.userSet(val)) {
+            this.filteredUsers[0].isSelected = true;
+            this.userTypeId = this.filteredUsers[0].userType;
+            if (this.typeOfUser === AppUserType.Talent) {
+              this.fetchTalentPortfolio(this.filteredUsers[0].user);
+              this.triggerFetchUserGeneralList(this.filteredUsers[0].user);
+            }
 
-          this.store.dispatch(
-            new UserFilterActions.FetchUser({ id: this.filteredUsers[0]._id })
-          );
-          if (this.typeOfUser === AppUserType.Talent) {
-            this.fetchTalentPortfolio(this.filteredUsers[0].user);
-            this.triggerFetchUserGeneralList(this.filteredUsers[0].user);
+            this.store.dispatch(
+              new UserFilterActions.FetchUser({ id: this.filteredUsers[0]._id })
+            );
           }
-          this.userTypeId = this.filteredUsers[0].userType;
         }
       });
 
@@ -105,8 +115,9 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
       .pipe(select(fromCategory.selectCurrentCategory))
       .subscribe((val: Category) => {
         if (val) {
+          console.log(val);
           this.category = val._id;
-          this.filterUser();
+          // this.filterUser();
         }
       });
   }

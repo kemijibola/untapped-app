@@ -18,6 +18,8 @@ import { fetchVideoItemFullPath } from "src/app/lib/Helper";
 })
 export class VideoPlayerComponent implements OnInit, OnChanges {
   @Input() currentVideo: VideoItem;
+  @Input() height: number;
+  @Input() width: number;
   videoApi: VgAPI;
   isCurrentVideoSet: boolean;
   constructor() {}

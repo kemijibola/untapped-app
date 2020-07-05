@@ -21,6 +21,8 @@ export class UpCategerySearchComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
+    this.store.dispatch(new CategoryActions.FetchCategories());
+
     this.store
       .pipe(select(fromCategory.selectCategories))
       .subscribe((val: ICategory[]) => {

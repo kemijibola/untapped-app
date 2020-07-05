@@ -70,9 +70,14 @@ export class TalentBiodataComponent implements OnInit {
   }
 
   checkIfUserHasLiked(likes: string[]): void {
-    if (likes.length > 0) {
-      this.hasLiked =
-        likes.filter((x) => x === this.currentUser.user_data._id)[0].length > 0;
+    if (this.currentUser) {
+      if (likes.length > 0) {
+        this.hasLiked =
+          likes.filter((x) => x === this.currentUser.user_data._id)[0].length >
+          0;
+      } else {
+        this.hasLiked = false;
+      }
     }
   }
 
@@ -82,6 +87,9 @@ export class TalentBiodataComponent implements OnInit {
         ...this.selectedUser.tappedBy,
         this.currentUser.user_data._id,
       ];
+
+      this.selectedUser.isSelected = true;
+
       this.store.dispatch(
         new UserFilterActions.LikeTalent({
           user: this.selectedUser,

@@ -1,8 +1,8 @@
 <!-- Header bar section start -->
 <div class="slide-menu" [class.activee]="showSideToggle">
   <div class="slide-menu-main" *ngIf="isAuthenticated">
-    <ul>
-      <li>
+    <ul class="active-top">
+      <li (click)="onSideToggleClick()">
         <a
           routerLink="/"
           routerLinkActive="visited"
@@ -11,7 +11,7 @@
           Home</a
         >
       </li>
-      <li>
+      <li (click)="onSideToggleClick()">
         <a
           routerLink="/talents"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -20,7 +20,7 @@
           Talents</a
         >
       </li>
-      <li>
+      <li (click)="onSideToggleClick()">
         <a
           routerLink="/professionals"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -29,7 +29,7 @@
           Professionals</a
         >
       </li>
-      <li>
+      <li (click)="onSideToggleClick()">
         <a
           routerLink="/contests"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -38,17 +38,82 @@
           Contests</a
         >
       </li>
-      <li><a class="box-btn" (click)="onLogOut()">Logout</a></li>
+    </ul>
+
+    <ul>
+      <li (click)="onSideToggleClick()">
+        <a
+          *ngIf="typeOfUser === 'Professional'"
+          routerLink="user/contest/page"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'all' }"
+          >Manage Contest</a
+        >
+      </li>
+      <li (click)="onSideToggleClick()">
+        <a
+          routerLink="./user/{{ userPreEmailAdress }}"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'wallet' }"
+          >Wallet</a
+        >
+      </li>
+    </ul>
+
+    <ul class="active-top">
+      <li (click)="onSideToggleClick()">
+        <a
+          *ngIf="typeOfUser !== 'Audience'"
+          routerLink="./user/{{ userPreEmailAdress }}"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'profile' }"
+          >Profile</a
+        >
+      </li>
+      <li (click)="onSideToggleClick()">
+        <a
+          *ngIf="typeOfUser === 'Talent'"
+          routerLink="./user/{{ userPreEmailAdress }}"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'portfolio' }"
+          >Portfolio</a
+        >
+      </li>
+      <li (click)="onSideToggleClick()">
+        <a
+          *ngIf="typeOfUser === 'Talent'"
+          routerLink="./user/{{ userPreEmailAdress }}"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'settings' }"
+          >Settings</a
+        >
+      </li>
+      <li (click)="onSideToggleClick()">
+        <a class="box-btn" (click)="onLogOut()">Logout</a>
+      </li>
     </ul>
   </div>
-  <div class="menu-btn-info" *ngIf="!isAuthenticated">
-    <!-- <a href="">login</a>
-    <a class="box-btn" href="">signup</a>
- -->
-    <a routerLink="account/signin" routerLinkActive="">login</a>
-    <a class="box-btn" routerLink="account/signup" routerLinkActive=""
-      >signup</a
-    >
+  <div class="slide-menu-main" *ngIf="!isAuthenticated">
+    <div class="menu-btn-info">
+      <a
+        routerLink="account/signin"
+        (click)="onSideToggleClick()"
+        routerLinkActive=""
+        >login</a
+      >
+      <a
+        class="box-btn"
+        (click)="onSideToggleClick()"
+        routerLink="account/signup"
+        routerLinkActive=""
+        >signup</a
+      >
+    </div>
   </div>
   <div class="close-btn" (click)="onSideToggleClick()">
     <i class="fal fa-window-close"></i>
@@ -64,7 +129,10 @@
     <div class="row">
       <div class="col-lg-3 col-md-12 col-12">
         <div class="logo">
-          <a href=""
+          <a
+            routerLink="/"
+            routerLinkActive="visited"
+            [routerLinkActiveOptions]="{ exact: true }"
             ><img src="assets/img/main-logo.svg" alt="" /><span
               >untapped pool</span
             ></a
@@ -139,7 +207,19 @@
                     style="height: 25px; width: 25px; border-radius: 50%;"
                     src="{{ userImage }}"
                   />
-                  <span>{{ userFullName }}</span>
+                  <span>
+                    {{ userFullName }}
+                    <img
+                      *ngIf="!showDropDown"
+                      style="width: 10px; height: 10px;"
+                      src="assets/img/down-arrow.svg"
+                    />
+                    <img
+                      *ngIf="showDropDown"
+                      style="width: 10px; height: 10px;"
+                      src="assets/img/up-arrow.svg"
+                    />
+                  </span>
                   <div
                     class="drpdown"
                     [class.active.drpdown]="showDropDown"

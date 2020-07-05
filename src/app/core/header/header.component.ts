@@ -45,6 +45,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
 
   constructor(private store: Store<fromApp.AppState>) {
     this.userImage = environment.TALENT_DEFAULT_IMG;
+    this.store.dispatch(new AuthActions.FetchAuthData());
   }
 
   ngOnInit() {
@@ -129,7 +130,11 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   }
 
   onSideToggleClick() {
-    console.log("side toggle clicked");
+    console.log("close slide toggle");
     this.showSideToggle = !this.showSideToggle;
+  }
+
+  closeSlideMenu() {
+    this.showSideToggle = false;
   }
 }

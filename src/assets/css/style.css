@@ -443,7 +443,7 @@ a:hover {
 
 .blog-slide .owl-nav {
   display: inline-block;
-  float: right;
+
   position: absolute;
   right: -20px;
   top: 50%;
@@ -1592,8 +1592,7 @@ html::-webkit-scrollbar {
   fill: #5d5c5c;
   color: #5d5c5c;
 } */
-.option-seclect span {
-}
+
 
 .option-seclect span {
   width: 80px;
@@ -1911,7 +1910,6 @@ html::-webkit-scrollbar {
 .alternative a i {
   font-size: 16px;
   color: #4285f4;
-  border: ;
   margin-right: 8px;
   vertical-align: middle;
 }
@@ -2206,9 +2204,7 @@ html::-webkit-scrollbar {
     width: 52% !important;
     /* height: 309px !important; */
   }
-  .talent-comment-container {
-    /* width: 45% !important; */
-  }
+  
   /* html {
     min-width: 860px !important;
     overflow-x: scroll !important;
@@ -2245,9 +2241,7 @@ html::-webkit-scrollbar {
     width: 52% !important;
     height: 309px !important;
   }
-  .talent-comment-container {
-    /* width: 45% !important; */
-  }
+  
   /* html {
     min-width: 500px !important;
     overflow-x: scroll !important;
@@ -2501,10 +2495,7 @@ button.accordion.is-open:after {
   font-size: 13px;
   color: #5a5858;
 }
-.right-talent-wrp {
-  /* padding-left: 25px;
-  padding-top: 30px; */
-}
+
 .right-talent-wrp .album-img img {
   width: 100%;
   max-width: 100%;
@@ -2906,7 +2897,7 @@ button.accordion.is-open:after {
   display: flex;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 8px;
 }
 .gig-decision .decition-item {
@@ -2992,7 +2983,6 @@ button.accordion.is-open:after {
 .gig-appointmnt-area .sent-gigs .calender img {
   width: 17.5px;
   height: 20px;
-  background: ;
   margin-right: 8px;
 }
 .gig-appointmnt-area .sent-gigs .time {
@@ -3752,9 +3742,6 @@ button.accordion.is-open:after {
   padding-bottom: 90px;
 }
 
-.modal-content {
-  /* height: 550px !important; */
-}
 
 .contest-entry .modal-dialog {
   width: 700px;
@@ -4078,7 +4065,6 @@ button.accordion.is-open:after {
   font-size: 16px;
 }
 .contest-number input {
-  width: ;
   height: 50px;
   background: #fafafa;
   border: 1px solid #e0e0e0;
@@ -5345,9 +5331,6 @@ button.close-btn {
   color: #fff;
 }
 
-.popup-img {
-  /* height: 200px; */
-}
 .popup-img img {
   height: 100%;
   width: 100%;
@@ -5404,7 +5387,7 @@ body.viewport-lg {
   border-radius: 3px;
   padding-top: 32px;
   width: 175px;
-  border: 1px solid #677f94;
+  border: 1px solid gray;
   text-align: center;
   box-shadow: 1px 1px 3px grey;
   float: left;

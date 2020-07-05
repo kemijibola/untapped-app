@@ -1,17 +1,11 @@
-import { selectAllUserTypes } from "./../../store/user-type.reducers";
 import { IUserType } from "./../../../interfaces/account/role";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Store, select } from "@ngrx/store";
-import { Observable, pipe } from "rxjs";
-import { Subject } from "rxjs";
-import { takeUntil, map, withLatestFrom } from "rxjs/operators";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 import * as UserTypeActions from "../../store/user-type.actions";
 import * as fromApp from "../../../store/app.reducers";
-import * as fromUserType from "../../store/user-type.reducers";
 import * as fromUserTypeReducer from "../../store/user-type.reducers";
-import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
-import { SnackBarData } from "src/app/interfaces";
 
 @Component({
   selector: "app-user-type-list-item",
@@ -29,22 +23,24 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     Audience: "assets/img/audience.svg",
   };
 
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(private store: Store<fromApp.AppState>) {
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
+  }
   ngOnInit() {
+    this.userTypeForm = new FormGroup({
+      typeOfUser: new FormControl("", Validators.required),
+    });
     this.userTypes$ = this.store.select(fromUserTypeReducer.selectAllUserTypes);
 
     this.store
       .select(fromUserTypeReducer.selectCurrentUserType)
+      .take(2)
       .subscribe((val: IUserType) => {
-        this.selectedUserType = { ...val };
+        if (val) {
+          this.selectedUserType = { ...val };
+          this.userTypeForm.get("typeOfUser").setValue(val._id);
+        }
       });
-
-    this.userTypeForm = new FormGroup({
-      typeOfUser: new FormControl(
-        this.selectedUserType._id,
-        Validators.required
-      ),
-    });
   }
 
   onClick(userType: IUserType) {

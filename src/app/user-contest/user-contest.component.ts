@@ -36,16 +36,15 @@ export class UserContestComponent extends AbstractTabComponent {
   ) {
     super();
 
-    this.store.dispatch(
-      new CategoryTypeActions.SetSelectedCategoryType({
-        selectedCategoryType: [],
-      })
-    );
+    this.store.dispatch(new ServiceActions.FetchServices());
+
+
     this.store
       .pipe(select(fromService.selectAllServices))
       .subscribe((val: IService[]) => {
         this.contest = val.filter((x) => x.name === "Contest Setup")[0];
         if (this.contest) {
+          console.log(this.contest);
           this.store.dispatch(
             new ServiceActions.FetchService({
               serviceId: this.contest._id,
