@@ -11,11 +11,15 @@
       <app-audio-payer
         [currentAudio]="currentAudioItem"
         [style.display]="isCurrentAudioSet ? 'block' : 'none'"
+        [height]="517"
+        [width]="529"
       ></app-audio-payer>
 
       <app-video-player
         [currentVideo]="currentVideoItem"
         [style.display]="isCurrentVideoSet ? 'block' : 'none'"
+        [height]="517"
+        [width]="529"
       ></app-video-player>
     </div>
   </div>
@@ -32,7 +36,6 @@
                 background: lightgray;
               "
               src="{{ entryData.fullUserProfileImage }}"
-              alt=""
             />
           </div>
           <h5>{{ entryData.user["fullName"] }}</h5>
@@ -51,7 +54,18 @@
         </div>
         <div class="info-xt">
           <span>20 Votes</span>
-          <span class="comment-num" style="float: right;">Coments (560)</span>
+          <span
+            *ngIf="mediaComments.length <= 1"
+            class="comment-num"
+            style="float: right;"
+            >{{ mediaComments.length }} comment</span
+          >
+          <span
+            *ngIf="mediaComments.length > 1"
+            class="comment-num"
+            style="float: right;"
+            >{{ mediaComments.length }} comments</span
+          >
         </div>
       </div>
 
@@ -109,7 +123,7 @@
             <div class="pop-review-section" *ngFor="let item of mediaComments">
               <div class="p-rv-head">
                 <div class="p-rev-img">
-                  <img src="{{ item.commenterfullProfileImagePath }}" alt="" />
+                  <img src="{{ item.commenterfullProfileImagePath }}" />
                 </div>
                 <div class="p-rv-name">
                   <h5>{{ item.user.fullName }}</h5>

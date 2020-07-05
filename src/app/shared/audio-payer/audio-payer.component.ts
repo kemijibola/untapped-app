@@ -19,6 +19,8 @@ import * as _ from "underscore";
 })
 export class AudioPayerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() currentAudio: AudioItem;
+  @Input() height: number;
+  @Input() width: number;
   audioApi: VgAPI;
   currentAudioIndex = 0;
   isCurrentAudioSet: boolean;

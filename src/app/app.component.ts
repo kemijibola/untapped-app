@@ -118,11 +118,8 @@ export class AppComponent implements OnInit {
   }
 
   loadAll() {
-    this.store.dispatch(new AuthActions.FetchAuthData());
-    this.store.dispatch(new UserTypeActions.FetchUserTypes());
     this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     this.store.dispatch(new CategoryActions.FetchCategories());
-    this.store.dispatch(new ServiceActions.FetchServices());
   }
 
   // @HostListener("window:scroll", ["$event"])

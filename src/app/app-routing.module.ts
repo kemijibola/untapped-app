@@ -5,6 +5,8 @@ import { AuthGuard } from "./guard-services/auth-guard.service";
 import { CompleteProfile } from "./guard-services/complete-profile.guard.service";
 import { CompleteProfileComponent } from "./user/complete-profile/complete-profile.component";
 import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
+import { AboutUsComponent } from "./shared/about-us/about-us.component";
+import { TermsConditionComponent } from "./shared/terms-condition/terms-condition.component";
 
 const appRoutes: Routes = [
   { path: "", canActivate: [CompleteProfile], component: HomeComponent },
@@ -42,6 +44,14 @@ const appRoutes: Routes = [
   {
     path: "",
     loadChildren: () => import("./user/user.module").then((m) => m.UserModule),
+  },
+  {
+    path: "about-us",
+    component: AboutUsComponent,
+  },
+  {
+    path: "terms-condition",
+    component: TermsConditionComponent,
   },
 
   // {

@@ -4,6 +4,7 @@ import * as fromApp from "../../store/app.reducers";
 import * as fromCategoryType from "../store/category-type/category-type.reducers";
 import * as CategoryTypeActions from "../store/category-type/category-type.actions";
 import { CategoryType } from "src/app/interfaces";
+import * as CategoryActions from "../store/category/category.action";
 
 @Component({
   selector: "app-talent-categories",
@@ -22,6 +23,9 @@ export class TalentCategoriesComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
+    //  this.store.dispatch(new CategoryActions.FetchCategories());
+    // this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
+
     this.loadCategories();
 
     this.store

@@ -2906,7 +2906,7 @@ button.accordion.is-open:after {
   display: flex;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 8px;
 }
 .gig-decision .decition-item {
@@ -5404,7 +5404,7 @@ body.viewport-lg {
   border-radius: 3px;
   padding-top: 32px;
   width: 175px;
-  border: 1px solid #677f94;
+  border: 1px solid gray;
   text-align: center;
   box-shadow: 1px 1px 3px grey;
   float: left;
