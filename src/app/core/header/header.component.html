@@ -42,8 +42,13 @@
     </ul>
   </div>
   <div class="menu-btn-info" *ngIf="!isAuthenticated">
-    <a href="">login</a>
+    <!-- <a href="">login</a>
     <a class="box-btn" href="">signup</a>
+ -->
+    <a routerLink="account/signin" routerLinkActive="">login</a>
+    <a class="box-btn" routerLink="account/signup" routerLinkActive=""
+      >signup</a
+    >
   </div>
   <div class="close-btn" (click)="onSideToggleClick()">
     <i class="fal fa-window-close"></i>
