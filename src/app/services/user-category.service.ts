@@ -1,7 +1,12 @@
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { UserFilterCategory, IResult, ReportType } from "../interfaces";
+import {
+  UserFilterCategory,
+  IResult,
+  ReportType,
+  UserFilterRequest,
+} from "../interfaces";
 import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
@@ -10,9 +15,15 @@ export class UserCategoryService {
   constructor(private http: HttpClient) {}
 
   getUserFilterCategoryByReportType(
-    type: ReportType
+    params: UserFilterRequest
   ): Observable<IResult<UserFilterCategory[]>> {
-    const url = `${this.BASE_URI}/user-categories?reportType=${type}`;
-    return this.http.get<IResult<UserFilterCategory[]>>(url);
+    console.log(params);
+    const url = `${this.BASE_URI}/user-categories`;
+    return this.http.post<IResult<UserFilterCategory[]>>(url, {
+      reportType: params.type || "",
+      searchText: params.searchText || "",
+      userTypeId: params.userTypeId || "",
+      categoryId: params.categoryId || "",
+    });
   }
 }

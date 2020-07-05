@@ -45,6 +45,7 @@ import { StickyModule } from "ng2-sticky-kit";
 import { ContestEffect } from "./contests/store/contest/contest.effects";
 import { ProfessionalCategoryEffect } from "./shared/store/filtered-categories/professional-category/professional-category.effects";
 import { DashboardEffects } from "./shared/store/dashboard/dashboard.effect";
+import { UserFilterEffect } from "./shared/store/filtered-categories/user-filter/user-filter.effects";
 
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -97,6 +98,7 @@ export const customCurrencyMaskConfig = {
       ContestEffect,
       ProfessionalCategoryEffect,
       DashboardEffects,
+      UserFilterEffect,
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({

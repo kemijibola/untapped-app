@@ -1,5 +1,8 @@
 <div class="middle-talent-wrp">
-  <div class="prohead-img" style="text-align: center;background-color: lightgray;">
+  <div
+    class="prohead-img"
+    style="text-align: center; background-color: lightgray;"
+  >
     <img
       [defaultImage]="defaultBannerImage"
       [lazyLoad]="selectedUser.bannerPhotoFullPath"
@@ -72,17 +75,16 @@
           <h4>CONTEST CREATED</h4>
         </div>
       </div>
-      <div
-        style="width: 300px;"
-        *ngFor="let contest of selectedUser.contests"
-      >
+      <div style="width: 300px;" *ngFor="let contest of selectedUser.contests">
         <div class="entries-img mb-20">
-          <a href="#"
+          <a
+            [routerLink]="['/contests', contest.contestId]"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="visited"
             ><img
               [defaultImage]="contest.defaultContestBannerImage"
               [lazyLoad]="contest.fullContestBannerImage"
               style="background: lightgray;"
-              alt=""
           /></a>
           <div class="entries-content all-ent">
             <span class="ent-num">{{ contest.entryCount }}</span>

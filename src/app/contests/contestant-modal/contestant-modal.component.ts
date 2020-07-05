@@ -36,6 +36,7 @@ import {
 import { Router } from "@angular/router";
 import { UUID } from "angular2-uuid";
 import { environment } from "../../../environments/environment";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-contestant-modal",
@@ -147,7 +148,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
         if (this.commentsLength > 0) {
           this.mediaComments = this.sortCommentsByNewest(val);
           this.mediaComments = this.fetchCommenterProfileImage(val);
-          if (this.currentUser._id !== "") {
+          if (_.has(this.currentUser, "_id")) {
             this.checkIfUserHasLikedComment(
               this.currentUser._id,
               this.mediaComments
@@ -289,6 +290,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
         if (val !== null) {
           if (val.name === "talent-entry-details" && val.data !== null) {
             if (val.data) {
+              console.log(val.data);
               this.setContestantProfileIImage(val.data);
               console.log("contest entry data", val.data);
               this.store.dispatch(

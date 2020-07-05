@@ -1,6 +1,9 @@
 <div class="accor-wrapper">
   <div class="accor-head mb-30">
-    <h3><span>Search result : </span> {{ filteredUsers.length }} {{ typeOfFilter }} found</h3>
+    <h3>
+      <span>Search result : </span> {{ filteredUsers.length }}
+      {{ typeOfFilter }} found
+    </h3>
   </div>
 
   <div class="accordion-content acor-pg-2">
@@ -18,11 +21,10 @@
             [defaultImage]="user.defaultImageFullPath"
             [lazyLoad]="user.displayPhotoFullPath"
             style="width: 108px; height: 65.83px; background: lightgray;"
-            alt=""
           />
         </div>
         <div class="accor-content">
-          <h4>{{ user.aliasName }}</h4>
+          <h4>{{ user.displayName }}</h4>
           <p>
             {{ user.shortDescription | truncateText: 80 }}
           </p>

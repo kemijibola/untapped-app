@@ -204,7 +204,7 @@ a:hover {
 }
 
 .box-btn:hover {
-	box-shadow: 0px 3px 6px #a2a2a2;
+  box-shadow: 0px 3px 6px #a2a2a2;
 }
 
 .hero-teat-arrea {
@@ -333,6 +333,7 @@ a:hover {
 .slide-menu {
   display: none;
 }
+
 .professional-content-area::after {
   background-image: url(../img/ptrn.png);
   left: 0;
@@ -700,7 +701,7 @@ footer {
   transition: 0.5s;
   z-index: 99;
 }
-.user:hover .drpdown {
+.active.drpdown {
   opacity: 1;
   visibility: visible;
   top: 45px;
@@ -725,7 +726,7 @@ footer {
   display: flow-root;
   text-align: left;
 }
-.user::after {
+.user-icon {
   position: absolute;
   content: "\f107";
   font-family: "Font Awesome 5 Free";
@@ -737,7 +738,7 @@ footer {
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
-.user:hover:after {
+.user-icon-afer {
   -webkit-transform: rotate(-180deg);
   transform: rotate(-180deg);
 }
@@ -1046,6 +1047,7 @@ footer {
 
 .contest-details-area .modal-dialog {
   max-width: 1050px;
+  min-width: 1050px;
   margin: 1.75rem auto;
 }
 .modal-content .popup-img {
@@ -2264,7 +2266,8 @@ html::-webkit-scrollbar {
   display: block;
 }
 .left-talent-wrp .pagination {
-  display: block;
+  display: flex;
+  justify-content: space-between;
 }
 .left-talent-wrp .pagination li {
   display: inline-block;
@@ -2306,12 +2309,12 @@ html::-webkit-scrollbar {
 /* .talent-one-area{
   margin: 40px 0;
 } */
-.talent-main{
+.talent-main {
   display: flex;
   justify-content: center;
   min-width: 1209px;
 }
-.talent-div{
+.talent-div {
   border-radius: 3px;
   border: 1px solid #d0d0d0;
   margin: 7px;
@@ -2351,7 +2354,7 @@ html::-webkit-scrollbar {
 }
 
 .talent-portfolio-wrapper {
-  height: 600px;
+  height: 900px;
   overflow-y: auto;
 }
 button.accordion {
@@ -3133,7 +3136,7 @@ button.accordion.is-open:after {
   margin-top: -77px;
 }
 .pro-little-img img {
-  box-shadow: 1px 1px 14px #929292;;
+  box-shadow: 1px 1px 14px #929292;
   width: 160px;
 }
 .pro-search-right.middle-outer-wrp .nam a.box-btn {
@@ -3239,6 +3242,7 @@ button.accordion.is-open:after {
   padding-right: 100px;
   padding-top: 100px;
   padding-bottom: 145px;
+  margin-bottom: 100px;
 }
 .popup-content-wrap.pro-page h5 {
   font-size: 16px;
@@ -5387,4 +5391,27 @@ button.close-btn {
 }
 .like-contest {
   float: left;
+}
+
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+}
+body.viewport-lg {
+  position: absolute;
+}
+.vote-box {
+  border-radius: 3px;
+  padding-top: 32px;
+  width: 175px;
+  border: 1px solid #677f94;
+  text-align: center;
+  box-shadow: 1px 1px 3px grey;
+  float: left;
+  margin-right: 7px;
+  margin-top: 7px;
+}
+.contets-mobile {
+  width: 400px;
+  height: 250px;
 }

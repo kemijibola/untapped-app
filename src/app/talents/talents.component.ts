@@ -8,6 +8,7 @@ import {
   ModalDisplay,
   AppModal,
   UserFilterCategory,
+  ReportType,
 } from "../interfaces";
 import { Router } from "@angular/router";
 import * as ModalsActions from "../shared/store/modals/modals.actions";
@@ -15,17 +16,19 @@ import * as fromModal from "../shared/store/modals/modals.reducers";
 import * as _ from "underscore";
 import * as fromTalentWithHighestComment from "../shared/store/filtered-categories/talent-category.reducers";
 import { Observable } from "rxjs";
+import * as UserFilterActions from "../shared/store/filtered-categories/user-filter/user-filter.action";
+import * as fromUserFilter from "../shared/store/filtered-categories/user-filter/user-filter.reducer";
 
 @Component({
   selector: "app-talents",
   templateUrl: "./talents.component.html",
   styleUrls: ["./talents.component.css"],
   host: {
-    "(window:resize)":"onWindowResize($event)"
-  }
+    "(window:resize)": "onWindowResize($event)",
+  },
 })
 export class TalentsComponent implements OnInit, OnDestroy {
-  width:number = window.innerWidth;
+  width: number = window.innerWidth;
   onWindowResize(event) {
     this.width = event.target.innerWidth;
   }
@@ -47,6 +50,13 @@ export class TalentsComponent implements OnInit, OnDestroy {
     ],
   };
   ngOnInit() {
+    this.store.dispatch(
+      new UserFilterActions.FetchAllUsers({
+        queryParams: {
+          type: ReportType.highestcomment,
+        },
+      })
+    );
     this.currentUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
 
     this.store.dispatch(
@@ -55,9 +65,7 @@ export class TalentsComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.talents = this.store.pipe(
-      select(fromTalentWithHighestComment.selectTalentWithHighestComments)
-    );
+    // this.talents = this.store.pipe(select(fromUserFilter.selectAllUsers));
   }
 
   onSignUpClicked() {

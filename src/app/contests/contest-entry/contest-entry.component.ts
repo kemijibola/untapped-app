@@ -50,14 +50,37 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   @Input() selectedContest: ContestData;
   uploadedItems: UploadedItems;
   cloudItems: UploadedItems;
+  showUploading: boolean = false;
+  showCompleted: boolean = false;
+  showDiv: boolean = false;
+  canUpload: boolean = true;
+  fileName: string = "";
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    console.log("entry modal");
     this.store
       .pipe(select(fromUpload.selectCurrentUploadedItem))
       .subscribe((val: UploadedItems) => {
         this.cloudItems = { ...val };
+      });
+
+    this.store
+      .pipe(select(fromUpload.selectCurrentUploadStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.showUploading = true;
+          this.canUpload = false;
+          this.showCompleted = false;
+        }
+      });
+
+    this.store
+      .pipe(select(fromUpload.selectUploadStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.showCompleted = true;
+          this.showUploading = false;
+        }
       });
 
     this.store
@@ -68,6 +91,7 @@ export class ContestEntryComponent implements OnInit, OnChanges {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
               (arr: IFileMetaData[], file) => {
+                this.fileName = file["data"].name;
                 const fileData = {
                   file: file["data"].name,
                   file_type: file["data"].type,
@@ -157,6 +181,7 @@ export class ContestEntryComponent implements OnInit, OnChanges {
         ];
     }
   }
+
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
@@ -194,4 +219,27 @@ export class ContestEntryComponent implements OnInit, OnChanges {
       );
     }
   }
+
+  // setMedia(media: UploadedItems) {
+  //   if (media.items) {
+  //     this.canViewDetails = true;
+  //     this.showCompleted = false;
+  //     this.showUploading = false;
+  //     this.showDiv = false;
+  //     const mediaType = media.type.toUpperCase();
+  //     switch (mediaType) {
+  //       case MediaType.AUDIO:
+  //         this.setAudio(media);
+  //         break;
+  //       case MediaType.IMAGE:
+  //         this.setImage(media);
+  //         break;
+  //       case MediaType.VIDEO:
+  //         this.setVideo(media);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // }
 }

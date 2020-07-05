@@ -133,6 +133,7 @@ export class PortfolioImagesComponent implements OnInit {
   }
 
   openModalDialog(modalId: string, itemId: string) {
+    
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "portfolio" })
     );

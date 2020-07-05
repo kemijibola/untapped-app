@@ -34,7 +34,8 @@ import * as ContestsAction from "./contests/store/contests.action";
 import * as ModalsActions from "./shared/store/modals/modals.actions";
 import * as ProfessionalCategoryActions from "./shared/store/filtered-categories/professional-category/professional-category.actions";
 import * as ToggleActions from "./shared/store/slide-toggle/slide-toggle.actions";
-import * as DashboardActions from "./shared/store/dashboard/dashboard.action";
+// import * as DashboardActions from "./shared/store/dashboard/dashboard.action";
+// import * as DashboardActions from "./shared/store/dashboard/dashboard.action";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -98,17 +99,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.loadAll();
-    this.store
-      .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
-      .subscribe((val: UserFilterCategory) => {
-        this.selectedUser = { ...val };
-        if (this.selectedUser.user !== undefined) {
-          this.fetchTalentPortfolio(this.selectedUser.user);
-        }
-      });
   }
   constructor(private store: Store<fromApp.AppState>) {
-    this.store.dispatch(new DashboardActions.FetchDashboardContests());
+    // this.store.dispatch(new DashboardActions.FetchDashboardContests());
 
     this.store.dispatch(
       new ModalsActions.AddComponentModal({
@@ -129,29 +122,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new UserTypeActions.FetchUserTypes());
     this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     this.store.dispatch(new CategoryActions.FetchCategories());
-    this.store.dispatch(
-      new TalentCategoryActions.FetchAllTalentHighestComment(
-        ReportType.highestcomment
-      )
-    );
-    this.store.dispatch(
-      new ProfessionalCategoryActions.FetchAllProfessional(
-        ReportType.allprofessionals
-      )
-    );
     this.store.dispatch(new ServiceActions.FetchServices());
-  }
-
-  fetchTalentPortfolio(userId: string) {
-    const mediaQueryParams: MediaQueryParams = {
-      type: MediaType.ALL,
-      uploadType: MediaUploadType.all,
-      user: userId,
-    };
-
-    this.store.dispatch(
-      new TalentsActions.FetchTalentPortfolio(mediaQueryParams)
-    );
   }
 
   // @HostListener("window:scroll", ["$event"])

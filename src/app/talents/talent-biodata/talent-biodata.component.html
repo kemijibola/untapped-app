@@ -8,8 +8,21 @@
   </div>
   <div class="middle-outer-wrp">
     <div class="nam">
-      <h3>{{ selectedUser?.aliasName }}</h3>
-      <a class="box-btn" href="#">LIKE TALENT</a>
+      <h3>{{ selectedUser?.displayName }}</h3>
+      <a
+        style="cursor: pointer;"
+        class="box-btn"
+        (click)="likeTalent()"
+        *ngIf="(loggedInUser | async).authenticated && !hasLiked"
+        >LIKE TALENT</a
+      >
+      <a
+        style="cursor: pointer;"
+        class="box-btn"
+        (click)="unLikeTalent()"
+        *ngIf="(loggedInUser | async).authenticated && hasLiked"
+        >UNLIKE TALENT</a
+      >
     </div>
     <div class="talent mt-20">
       <span
@@ -23,12 +36,13 @@
     </div>
     <div class="address mt-30 mb-30">
       <div class="tap">
-        <span>LIKES</span>
-        <span class="number">{{ selectedUser?.tapCount }}</span>
+        <span *ngIf="selectedUser?.tappedBy.length > 1">LIKES</span>
+        <span *ngIf="selectedUser?.tappedBy.length <= 1">LIKE</span>
+        <span class="number">{{ selectedUser?.tappedBy.length }}</span>
       </div>
       <div class="location">
         <span>LOCATION</span>
-        <!-- <p>{{ selectedUser.location }}</p> -->
+        <p>{{ selectedUser?.location }}</p>
       </div>
       <ul class="social-link">
         <!-- <li>

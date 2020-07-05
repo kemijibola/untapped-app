@@ -27,6 +27,7 @@ export interface UserFilterCategory {
   contests: IUserContestListAnalysis[];
   shortDescription: string;
   tapCount: number;
+  tappedBy: string[];
   contestCount: number;
   reportType: ReportType;
   userType: string;
@@ -51,3 +52,14 @@ export enum ReportType {
   mostplayedsong = "mostplayedsong",
   mostlikedphoto = "mostlikedphoto",
 }
+
+export interface UserFilterRequest {
+  type?: ReportType;
+  searchText?: string;
+  categoryId?: string;
+  userTypeId?: string;
+}
+
+// export enum FilterInputState {
+
+// }

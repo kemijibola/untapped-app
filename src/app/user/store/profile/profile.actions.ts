@@ -26,7 +26,6 @@ export class UpdateUserSettingsPreference implements Action {
   readonly type = UPDATE_USER_SETTINGS_PREFERENCE;
   constructor(public payload: { userSettings: IUser }) {}
 }
-
 export class UpdateUserSettingsPreferenceSuccess implements Action {
   readonly type = UPDATE_USER_SETTINGS_PREFERENCE_SUCCESS;
   constructor(public payload: { userSettings: IUser }) {}

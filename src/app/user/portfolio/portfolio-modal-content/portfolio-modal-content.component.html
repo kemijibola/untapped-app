@@ -31,11 +31,10 @@
             <img src="assets/loader.gif" style="width: 20px;" />
             <p>Uploading...</p>
           </span>
-          <img
-            src="assets/check.gif"
-            *ngIf="showCompleted"
-            style="width: 200px;"
-          />
+          <span *ngIf="showCompleted">
+            <img src="assets/success.gif" style="width: 20px;" />
+            <p>Upload successful</p>
+          </span>
         </div>
       </div>
 

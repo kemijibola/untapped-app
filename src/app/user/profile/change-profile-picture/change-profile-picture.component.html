@@ -1,12 +1,19 @@
 <div class="profile-pic-wrapper">
   <div class="profile-pic">
-    <img src="{{ imagePath }}" alt="" />
-    <a *ngIf="!isDefault" class="cancel-btn" style="cursor:pointer"
+    <img
+      [defaultImage]="imagePath"
+      [lazyLoad]="imagePath"
+      style="background: lightgray;"
+    />
+    <a *ngIf="!isDefault" class="cancel-btn" style="cursor: pointer;"
       ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
     /></a>
   </div>
   <div class="pic-change">
-    <a class="btn-gray" style="cursor:pointer" (click)="onClickUploadImageBtn()"
+    <a
+      class="btn-gray"
+      style="cursor: pointer;"
+      (click)="onClickUploadImageBtn()"
       >Change Picture</a
     >
     <!-- upload component goes here -->

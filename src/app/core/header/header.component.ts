@@ -40,6 +40,8 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   tapNotificationStatus: boolean;
   emailNotificationStatus: boolean;
   profileVisibilityStatus: boolean;
+  showDropDown: boolean = false;
+  showSideToggle: boolean = false;
 
   constructor(private store: Store<fromApp.AppState>) {
     this.userImage = environment.TALENT_DEFAULT_IMG;
@@ -119,5 +121,15 @@ export class HeaderComponent implements OnInit, AfterContentInit {
       []
     );
     this.store.dispatch(new ToggleActions.UpsertManyToggle(togglesToUpdate));
+  }
+
+  onToggle() {
+    console.log("dropdown clicked");
+    this.showDropDown = !this.showDropDown;
+  }
+
+  onSideToggleClick() {
+    console.log("side toggle clicked");
+    this.showSideToggle = !this.showSideToggle;
   }
 }
