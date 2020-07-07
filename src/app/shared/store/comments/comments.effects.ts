@@ -17,21 +17,14 @@ export class CommentsEffects {
       ofType(CommentsAction.FETCH_MEDIA_COMMENTS),
       concatMap((action: CommentsAction.FetchMediaComments) =>
         this.commentsService.fetchMediaComments(action.payload.entityId).pipe(
-          map(
-            (resp: IResult<IComment[]>) =>
-              new CommentsAction.FetchMediaCommentsSuccess({
-                mediaComments: resp.data,
-              })
-          ),
+          mergeMap((resp: IResult<IComment[]>) => [
+            new CommentsAction.SetMediaComments({
+              mediaComments: resp.data,
+            }),
+            new CommentsAction.FetchMediaCommentsSuccess(),
+          ]),
           catchError((respError: HttpErrorResponse) =>
-            of(
-              new NotificationActions.AddError({
-                key: AppNotificationKey.error,
-                code: respError.error.response_code || -1,
-                message:
-                  respError.error.response_message || "No Internet connection",
-              })
-            )
+            of(new CommentsAction.FetchMediaCommentsError())
           )
         )
       )

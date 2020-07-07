@@ -20,7 +20,27 @@ export class ProfessionalsComponent implements OnInit {
   currentUser: Observable<IAuthData>;
   searchPlaceHolderText = "Professionals";
 
+  initiated$ = this.store.pipe(
+    select(fromUserFilter.selectUsersInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromUserFilter.selectUsersInProgressStatus)
+  );
+
+  completed$ = this.store.pipe(
+    select(fromUserFilter.selectUsersCompletedStatus)
+  );
+
+  failed$ = this.store.pipe(select(fromUserFilter.selectUsersFailedStatus));
+
   ngOnInit() {
+    this.fetchUsers();
+
+    this.currentUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
+  }
+
+  fetchUsers(): void {
     this.store.dispatch(
       new UserFilterActions.FetchAllUsers({
         queryParams: {
@@ -28,10 +48,6 @@ export class ProfessionalsComponent implements OnInit {
         },
       })
     );
-
-    this.currentUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
-
-    // this.professionals = this.store.pipe(select(fromUserFilter.selectAllUsers));
   }
 
   onSignUpClicked() {

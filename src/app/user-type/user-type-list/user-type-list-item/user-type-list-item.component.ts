@@ -1,7 +1,7 @@
 import { IUserType } from "./../../../interfaces/account/role";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { Observable } from "rxjs";
 import * as UserTypeActions from "../../store/user-type.actions";
 import * as fromApp from "../../../store/app.reducers";
@@ -22,6 +22,22 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     Professional: "assets/img/i3.svg",
     Audience: "assets/img/audience.svg",
   };
+
+  initiated$ = this.store.pipe(
+    select(fromUserTypeReducer.selectFetchUserTypesInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromUserTypeReducer.selectFetchUserTypesInProgressStatus)
+  );
+
+  completed$ = this.store.pipe(
+    select(fromUserTypeReducer.selectFetchUserTypesCompletedStatus)
+  );
+
+  failed$ = this.store.pipe(
+    select(fromUserTypeReducer.selectUserTypesFailedStatus)
+  );
 
   constructor(private store: Store<fromApp.AppState>) {
     this.store.dispatch(new UserTypeActions.FetchUserTypes());

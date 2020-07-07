@@ -2,6 +2,7 @@ import { Action } from "@ngrx/store";
 import { IComment, Reply, LikeViewModel } from "../../../interfaces";
 
 export const FETCH_MEDIA_COMMENTS = "FETCH_MEDIA_COMMENTS";
+export const SET_MEDIA_COMMENTS = "SET_MEDIA_COMMENTS";
 export const FETCH_MEDIA_COMMENTS_SUCCESS = "FETCH_MEDIA_COMMENTS_SUCCESS";
 export const FETCH_MEDIA_COMMENTS_ERROR = "FETCH_MEDIA_COMMENTS_ERROR";
 
@@ -31,12 +32,15 @@ export class FetchMediaComments implements Action {
 
 export class FetchMediaCommentsSuccess implements Action {
   readonly type = FETCH_MEDIA_COMMENTS_SUCCESS;
+}
+
+export class SetMediaComments implements Action {
+  readonly type = SET_MEDIA_COMMENTS;
   constructor(public payload: { mediaComments: IComment[] }) {}
 }
 
 export class FetchMediaCommentsError implements Action {
   readonly type = FETCH_MEDIA_COMMENTS_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 
 export class AddMediaComment implements Action {
@@ -142,4 +146,5 @@ export type CommentsActions =
   | RemoveCommentLike
   | RemoveCommentLikeSuccess
   | RemoveCommentLikeError
-  | UpdateRemoveCommentLike;
+  | UpdateRemoveCommentLike
+  | SetMediaComments;

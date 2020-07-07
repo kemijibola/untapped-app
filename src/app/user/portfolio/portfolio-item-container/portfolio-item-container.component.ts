@@ -34,12 +34,6 @@ export class PortfolioItemContainerComponent implements OnInit {
   ngOnInit() {
     this.triggerFetchUserMediaList();
     this.triggerFetchUserGeneralList();
-
-    // this.userStore
-    //   .pipe(select(fromMediaPreview.selectUserMediaListCount))
-    //   .subscribe((val: number) => {
-    //     this.userMediaListCount = val;
-    //   });
   }
 
   triggerFetchUserMediaList(): void {

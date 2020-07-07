@@ -12,7 +12,8 @@ import { ContestEntryModalContentComponent } from "./contest-details/contest-ent
 import { EntryCommentComponent } from "./contest-details/entry-comment/entry-comment.component";
 import { LazyLoadImageModule } from "ng-lazyload-image";
 import { ContestantModalComponent } from "./contestant-modal/contestant-modal.component";
-import { ContestAnalysisReportComponent } from './contest-analysis-report/contest-analysis-report.component';
+import { ContestAnalysisReportComponent } from "./contest-analysis-report/contest-analysis-report.component";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ContestAnalysisReportComponent } from './contest-analysis-report/contes
     SharedModule,
     LazyLoadImageModule,
     InfiniteScrollModule,
+    NgxSpinnerModule,
     ContestsRoutingModule,
   ],
   exports: [ContestsRoutingModule],

@@ -24,15 +24,77 @@
           <app-up-categery-search> </app-up-categery-search>
 
           <!-- talents filter -->
-          <app-up-user-filter [typeOfUser]="'Talent'"></app-up-user-filter>
+          <div
+            style="
+              width: 30px;
+              height: 30px;
+              margin: 0 auto;
+              margin-top: -30px;
+            "
+          >
+            <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
+              ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+            /></a>
+
+            <a
+              style="cursor: pointer;"
+              (click)="fetchUsers()"
+              *ngIf="failed$ | async"
+              >Unable to load data. Try again
+              <img
+                src="assets/retry.svg"
+                style="width: 30px; height: 30px; margin: 0 auto;"
+                alt="Click button to retry"
+            /></a>
+          </div>
+
+          <app-up-user-filter
+            [typeOfUser]="'Talent'"
+            *ngIf="completed$ | async"
+          ></app-up-user-filter>
         </div>
       </div>
       <div class="talent-div">
-        <app-talent-biodata></app-talent-biodata>
+        <app-talent-biodata *ngIf="completed$ | async"></app-talent-biodata>
+        <span>
+          <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
+            ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+          /></a>
+
+          <a
+            style="cursor: pointer;"
+            (click)="fetchUsers()"
+            *ngIf="failed$ | async"
+            >Unable to load data. Try again
+            <img
+              src="assets/retry.svg"
+              style="width: 30px; height: 30px; margin: 0 auto;"
+              alt="Click button to retry"
+          /></a>
+        </span>
       </div>
       <div class="talent-div talent-portfolio-wrapper">
         <div class="right-talent-wrp">
-          <app-talent-portfolio-albums></app-talent-portfolio-albums>
+          <app-talent-portfolio-albums
+            *ngIf="completed$ | async"
+          ></app-talent-portfolio-albums>
+          <span>
+            <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
+              ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+            /></a>
+
+            <a
+              style="cursor: pointer;"
+              (click)="fetchUsers()"
+              *ngIf="failed$ | async"
+            >
+              Unable to load data. Try again
+              <img
+                src="assets/retry.svg"
+                style="width: 30px; height: 30px; margin: 0 auto;"
+                alt="Click button to retry"
+            /></a>
+          </span>
         </div>
       </div>
     </div>

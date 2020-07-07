@@ -32,4 +32,11 @@ export class ProfileService {
       userId,
     });
   }
+
+  unLikeTalent(userId: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/profiles/talent/unLike`;
+    return this.http.post<IResult<boolean>>(url, {
+      userId,
+    });
+  }
 }

@@ -45,16 +45,33 @@ import * as _ from "underscore";
 })
 export class ContestantModalComponent implements OnInit, OnChanges {
   @Input() mediaType: string;
-  entryData: IContestEntry = {
-    _id: "",
-    user: "",
-    contest: "",
-    likedBy: [],
-    title: "",
-    additionalInfo: "",
-    contestantCode: "",
-    entry: "",
+  // entryData: IContestEntry = {
+  //   _id: "",
+  //   user: "",
+  //   contest: "",
+  //   likedBy: [],
+  //   title: "",
+  //   additionalInfo: "",
+  //   contestantCode: "",
+  //   entry: "",
+  //   fullUserProfileImage: "",
+  // };
+
+  entryData: IEntryData = {
+    commentCount: 0,
+    entry: {
+      _id: "",
+      user: "",
+      contest: "",
+      likedBy: [],
+      title: "",
+      additionalInfo: "",
+      contestantCode: "",
+      entry: "",
+      fullUserProfileImage: "",
+    },
     fullUserProfileImage: "",
+    totalVote: 0,
   };
   commentsLength: number = 0;
   mediaComments: IComment[] = [];
@@ -174,12 +191,12 @@ export class ContestantModalComponent implements OnInit, OnChanges {
     );
   }
 
-  setContestantProfileIImage(entry: IContestEntry) {
-    this.entryData = Object.assign({}, entry, {
+  setContestantProfileIImage(data: IEntryData) {
+    this.entryData = Object.assign({}, data, {
       fullUserProfileImage:
-        entry.user["profileImagePath"] !== ""
+        data.entry.user["profileImagePath"] !== ""
           ? fetchImageObjectFromCloudFormation(
-              entry.user["profileImagePath"],
+              data.entry.user["profileImagePath"],
               this.contestantImageParams
             )
           : fetchNoMediaDefaultImage(),
@@ -201,7 +218,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["mediaType"]) {
-      this.setMedia(this.mediaType, this.entryData.entry);
+      this.setMedia(this.mediaType, this.entryData.entry.entry);
     }
   }
 
@@ -290,12 +307,11 @@ export class ContestantModalComponent implements OnInit, OnChanges {
         if (val !== null) {
           if (val.name === "talent-entry-details" && val.data !== null) {
             if (val.data) {
-              console.log(val.data);
               this.setContestantProfileIImage(val.data);
               console.log("contest entry data", val.data);
               this.store.dispatch(
                 new CommentsActions.FetchMediaComments({
-                  entityId: this.entryData._id,
+                  entityId: this.entryData.entry._id,
                 })
               );
             }
@@ -328,7 +344,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
     const commentObj: IComment = {
       _id: UUID.UUID(),
       comment: mediaComment,
-      entity: this.entryData._id,
+      entity: this.entryData.entry._id,
       user: {
         _id: this.currentUser._id,
         fullName: this.currentUser.full_name,

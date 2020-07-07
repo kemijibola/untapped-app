@@ -26,6 +26,7 @@ import {
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
 import * as CommentsActions from "../../shared/store/comments/comments.action";
+import * as fromComments from "../../shared/store/comments/comments.reducers";
 import * as fromTalentFilter from "src/app/shared/store/filtered-categories/talent-category.reducers";
 import * as _ from "underscore";
 import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
@@ -106,9 +107,23 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   isCurrentVideoSet: boolean;
   currentAudioIndex = 0;
   audioItems: MediaItem[] = [];
-  commentsFetched: boolean = false;
   currentImage: string = "";
   componentModal: AppModal;
+
+  initiated$ = this.store.pipe(
+    select(fromComments.selectCommentsInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromComments.selectCommentsInProgressStatus)
+  );
+
+  completed$ = this.store.pipe(
+    select(fromComments.selectCommentsCompletedStatus)
+  );
+
+  failed$ = this.store.pipe(select(fromComments.selectCommentsFailedStatus));
+
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -149,33 +164,11 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
           if (val.name === "album-modal" && val.data !== null) {
             if (val.data !== null) {
               this.selectedMedia = { ...val.data };
-              this.store.dispatch(
-                new CommentsActions.FetchMediaComments({
-                  entityId: this.selectedMedia._id,
-                })
-              );
+              this.fetchComments(this.selectedMedia._id);
             }
           }
-          // else {
-          //   console.log(this.api);
-          //   if (this.api !== null) {
-          //     (<VgMedia>this.api.getDefaultMedia()).pause();
-          //   }
-          // }
         }
       });
-
-    // this.store
-    //   .pipe(select(fromTalentFilter.selectCurrentTalentWithHighestComment))
-    //   .subscribe((val: UserFilterCategory) => {
-    //     this.selectedUser = { ...val };
-    //     this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")
-    //       ? fetchImageObjectFromCloudFormation(
-    //           val.displayPhoto,
-    //           this.editParams
-    //         )
-    //       : null;
-    //   });
 
     this.store
       .pipe(select(fromUserFilter.selectCurrentUser))
@@ -190,8 +183,15 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
       });
   }
 
+  fetchComments(mediaId: string): void {
+    this.store.dispatch(
+      new CommentsActions.FetchMediaComments({
+        entityId: mediaId,
+      })
+    );
+  }
+
   setCurrentImage(image: MediaItem) {
-    console.log("setting image...");
     this.isCurrentImageSet = true;
     this.isCurrentAudioSet = false;
     this.isCurrentVideoSet = false;

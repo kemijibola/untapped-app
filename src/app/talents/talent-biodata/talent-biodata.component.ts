@@ -73,7 +73,7 @@ export class TalentBiodataComponent implements OnInit {
     if (this.currentUser) {
       if (likes.length > 0) {
         this.hasLiked =
-          likes.filter((x) => x === this.currentUser.user_data._id)[0].length >
+          likes.filter((x) => x === this.currentUser.user_data._id)[0]?.length >
           0;
       } else {
         this.hasLiked = false;
@@ -98,5 +98,23 @@ export class TalentBiodataComponent implements OnInit {
       );
     }
   }
-  unLikeTalent(): void {}
+
+  unLikeTalent(): void {
+    if (this.currentUser.authenticated) {
+      this.selectedUser.tappedBy = this.selectedUser.tappedBy.filter(
+        (x) => x !== this.currentUser.user_data._id
+      );
+
+      
+
+      this.selectedUser.isSelected = true;
+
+      this.store.dispatch(
+        new UserFilterActions.UnLikeTalent({
+          user: this.selectedUser,
+          unLikedBy: this.currentUser.user_data._id,
+        })
+      );
+    }
+  }
 }

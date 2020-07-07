@@ -21,6 +21,7 @@ import {
   EligibilityStatus,
   IAuthData,
   MediaType,
+  IEntryData,
 } from "src/app/interfaces";
 import * as fromCategoryType from "../../shared/store/category-type/category-type.reducers";
 import { differenceInDays, isPast, getTime, isAfter } from "date-fns";
@@ -100,6 +101,11 @@ export class ContestDetailsComponent implements OnInit {
   entryMediaType: string = "";
   coloredHeart =
     '<svg xmlns="http://www.w3.org/2000/svg" height="464pt" viewBox="0 -20 464 464" width="464pt"><path d="m340 0c-44.773438.00390625-86.066406 24.164062-108 63.199219-21.933594-39.035157-63.226562-63.19531275-108-63.199219-68.480469 0-124 63.519531-124 132 0 172 232 292 232 292s232-120 232-292c0-68.480469-55.519531-132-124-132zm0 0" fill="#ff6243"/><path d="m32 132c0-63.359375 47.550781-122.359375 108.894531-130.847656-5.597656-.769532-11.242187-1.15625025-16.894531-1.152344-68.480469 0-124 63.519531-124 132 0 172 232 292 232 292s6-3.113281 16-8.992188c-52.414062-30.824218-216-138.558593-216-283.007812zm0 0" fill="#ff5023"/></svg>';
+
+  currentIndex = -1;
+  leftDisabled = false;
+  rightDisabled = false;
+
   constructor(
     private router: Router,
     private store: Store<fromApp.AppState>,
@@ -134,7 +140,6 @@ export class ContestDetailsComponent implements OnInit {
         .pipe(select(fromContest.selectCurrentUserEligibility))
         .take(2)
         .subscribe((val: ContestEligibilityData) => {
-          console.log(val);
           if (val !== null) {
             if (val.status) {
               this.isEligible = true;
@@ -158,6 +163,7 @@ export class ContestDetailsComponent implements OnInit {
       .take(2)
       .subscribe((val: ContestData) => {
         if (val !== null) {
+          console.log(val);
           this.setContestantProfileIImage(val);
           this.setContestBannerImage(val.contest.bannerImage);
           this.entriesCount = val.submissions.length;
@@ -287,7 +293,7 @@ export class ContestDetailsComponent implements OnInit {
             ? ModalViewModel.view
             : ModalViewModel.new,
         contentType: "",
-        data: data !== null ? data.entry : null,
+        data: data !== null ? data : null,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
         showMagnifier: false,
@@ -299,12 +305,62 @@ export class ContestDetailsComponent implements OnInit {
         })
       );
     }
+
+    if (this.contestDetails.submissions.length <= 1) {
+      this.leftDisabled = true;
+      this.rightDisabled = true;
+      this.store.dispatch(
+        new ModalsActions.SetModalNavigationProperties({
+          currentIndex: 0,
+          mediaType: this.contestDetails.contest.entryMediaType,
+        })
+      );
+    } else {
+      this.leftDisabled = true;
+      this.rightDisabled = false;
+      this.onNext();
+    }
   }
 
   navigateToAanalysis() {
     this.router.navigate([
       "/contests/" + this.contestDetails.contest._id + "/result",
     ]);
+  }
+
+  onPrevious() {
+    this.currentIndex--;
+    if (this.currentIndex < this.contestDetails.submissions.length - 1) {
+      this.rightDisabled = false;
+    }
+    if (this.currentIndex === 0) {
+      this.leftDisabled = true;
+      this.rightDisabled = false;
+    }
+    this.store.dispatch(
+      new ModalsActions.SetModalNavigationProperties({
+        currentIndex: this.currentIndex,
+        mediaType: this.contestDetails.contest.entryMediaType,
+      })
+    );
+  }
+
+  onNext() {
+    this.currentIndex++;
+    if (this.currentIndex > 0 && this.contestDetails.submissions.length > 1) {
+      this.leftDisabled = false;
+    }
+
+    if (this.currentIndex === this.contestDetails.submissions.length - 1) {
+      this.rightDisabled = true;
+      this.leftDisabled = false;
+    }
+    this.store.dispatch(
+      new ModalsActions.SetModalNavigationProperties({
+        currentIndex: this.currentIndex,
+        mediaType: this.contestDetails.contest.entryMediaType,
+      })
+    );
   }
 
   ngOnDestroy(): void {

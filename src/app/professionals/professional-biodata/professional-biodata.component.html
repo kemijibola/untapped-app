@@ -75,7 +75,7 @@
           <h4>CONTEST CREATED</h4>
         </div>
       </div>
-      <div style="width: 300px;" *ngFor="let contest of selectedUser.contests">
+      <div style="width: 239px;" *ngFor="let contest of selectedUser.contests">
         <div class="entries-img mb-20">
           <a
             [routerLink]="['/contests', contest.contestId]"
@@ -84,7 +84,7 @@
             ><img
               [defaultImage]="contest.defaultContestBannerImage"
               [lazyLoad]="contest.fullContestBannerImage"
-              style="background: lightgray;"
+              style="width: 239px; height: 149px; background: lightgray;"
           /></a>
           <div class="entries-content all-ent">
             <span class="ent-num">{{ contest.entryCount }}</span>

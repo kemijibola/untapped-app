@@ -102,6 +102,7 @@ export interface ContestData {
 export interface IEntryData {
   entry: IContestEntry;
   commentCount: number;
+  totalVote: number;
   fullUserProfileImage?: string;
 }
 
