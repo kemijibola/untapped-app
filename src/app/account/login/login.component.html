@@ -61,8 +61,9 @@
             >Login</span
           >
           <span *ngIf="(inProgress$ | async) || (!loginCompleted$ | async)"
-            >Logging In</span
-          >
+            >Logging In
+            <img src="assets/bars.svg" />
+          </span>
         </button>
       </div>
       <!-- <div class="log-other text-center mt-55">

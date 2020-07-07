@@ -36,7 +36,6 @@ import * as _ from "underscore";
   styleUrls: ["./up-user-filter.component.css"],
 })
 export class UpUserFilterComponent implements OnInit, OnDestroy {
-  // @Input() filteredUsers: UserFilterCategory[] = [];
   filteredUsers: UserFilterCategory[] = [];
   typeOfFilter: string = "";
   @Input() typeOfUser: AppUserType;

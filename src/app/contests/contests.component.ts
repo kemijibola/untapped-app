@@ -20,7 +20,7 @@ import { take } from "rxjs/operators";
   styleUrls: ["./contests.component.css"],
 })
 export class ContestsComponent implements OnInit, OnDestroy {
-  page: number = 0;
+  page: number = 1;
   perPage: number = 9;
   contests: IContestList[] = [];
   editParams: ImageEditRequest = {
@@ -44,21 +44,70 @@ export class ContestsComponent implements OnInit, OnDestroy {
       grayscale: false,
     },
   };
+  lastFetchedCount: number = 0;
+
+  initiated$ = this.store.pipe(
+    select(fromContests.selectContestsInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromContests.selectContestsInProgressStatus)
+  );
+
+  completed$ = this.store.pipe(
+    select(fromContests.selectContestsCompletedStatus)
+  );
+
+  failed$ = this.store.pipe(select(fromContests.selectContestsFailedStatus));
+
+  notEmptyPost = true;
+  notscrolly = true;
 
   constructor(public store: Store<fromApp.AppState>, public router: Router) {}
 
   ngOnInit() {
+    this.getContests();
+
     this.store
       .pipe(select(fromContests.selectAllContestsPreviews))
       .subscribe((val: IContestList[]) => {
-        this.contests = [...val];
-        this.setContestBannerImage();
+        if (this.contests.length === 0) {
+          val.forEach((x) => {
+            x = this.setContestBannerImage(x);
+            this.contests.push(x);
+          });
+        } else {
+          if (val.length > 0) {
+            val.forEach((x) => {
+              x = this.setContestBannerImage(x);
+              this.contests.push(x);
+            });
+          } else {
+            this.notEmptyPost = false;
+          }
+          this.notscrolly = true;
+        }
       });
-    this.fetchRunningContests();
   }
 
-  setContestBannerImage() {
-    this.contests = this.contests.map((x) => {
+  setContestBannerImage(data: IContestList): IContestList {
+    return Object.assign({}, data, {
+      defaultBannerImage: fetchImageObjectFromCloudFormation(
+        data.bannerImage,
+        this.defaultParams
+      ),
+      fullBannerImage:
+        data.bannerImage !== ""
+          ? fetchImageObjectFromCloudFormation(
+              data.bannerImage,
+              this.editParams
+            )
+          : fetchDefaultContestBanner(),
+    });
+  }
+
+  setContestsBannerImage(data: IContestList[]) {
+    this.contests = data.map((x) => {
       return Object.assign({}, x, {
         defaultBannerImage: fetchImageObjectFromCloudFormation(
           x.bannerImage,
@@ -72,11 +121,24 @@ export class ContestsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onScroll() {
-    this.fetchRunningContests();
+  getContests() {
+    this.store.dispatch(
+      new ContestsAction.FetchContestsPreview({
+        perPage: this.perPage,
+        page: this.page,
+      })
+    );
   }
 
-  fetchRunningContests() {
+  onScroll() {
+    if (this.notscrolly && this.notEmptyPost) {
+      this.notEmptyPost = true;
+      this.notscrolly = false;
+      this.fetchNextRunningContests();
+    }
+  }
+
+  fetchNextRunningContests() {
     this.page++;
     this.store.dispatch(
       new ContestsAction.FetchContestsPreview({

@@ -41,8 +41,8 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   tapNotificationStatus: boolean;
   emailNotificationStatus: boolean;
   profileVisibilityStatus: boolean;
-  showDropDown: boolean = false;
-  showSideToggle: boolean = false;
+  showDropDown: boolean;
+  showSideToggle: boolean;
 
   constructor(private store: Store<fromApp.AppState>, public router: Router) {
     this.userImage = environment.TALENT_DEFAULT_IMG;
@@ -130,16 +130,15 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   }
 
   onToggle() {
-    console.log("dropdown clicked");
     this.showDropDown = !this.showDropDown;
   }
 
   onSideToggleClick() {
-    console.log("close slide toggle");
     this.showSideToggle = !this.showSideToggle;
   }
 
   closeSlideMenu() {
     this.showSideToggle = false;
+    this.showDropDown = false;
   }
 }

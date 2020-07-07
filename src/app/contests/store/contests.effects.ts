@@ -30,22 +30,14 @@ export class ContestsEffect {
         this.contestsService
           .fetchContestPreviews(action.payload.page, action.payload.perPage)
           .pipe(
-            map(
-              (resp: IResult<IContestList[]>) =>
-                new ContestsActions.FetchContestsPreviewSuccess({
-                  runningContests: resp.data,
-                })
-            ),
+            mergeMap((resp: IResult<IContestList[]>) => [
+              new ContestsActions.SetContestsPreview({
+                runningContests: resp.data,
+              }),
+              new ContestsActions.FetchContestsPreviewSuccess(),
+            ]),
             catchError((respError: HttpErrorResponse) =>
-              of(
-                new NotificationActions.AddError({
-                  key: AppNotificationKey.error,
-                  code: respError.error.response_code || -1,
-                  message:
-                    respError.error.response_message ||
-                    "No Internet connection.",
-                })
-              )
+              of(new ContestsActions.FetchContestsPreviewError())
             )
           )
       )

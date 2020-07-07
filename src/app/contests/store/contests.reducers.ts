@@ -10,12 +10,14 @@ import * as ContestsActions from "./contests.action";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./contests.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { OutboundState } from "src/app/shared/Util";
 
 export interface ContestsState extends EntityState<IContestList> {
   selectedContestsPreviewId: string | number | null;
   selectedContest: ContestData | null;
   userEligibilityStatus: ContestEligibilityData | null;
   contestVoteResult: ContestVoteResult | null;
+  fetchContestStatus: OutboundState | null;
 }
 
 const initialState: ContestsState = fromAdapter.adapter.getInitialState({
@@ -23,6 +25,7 @@ const initialState: ContestsState = fromAdapter.adapter.getInitialState({
   selectedContest: null,
   userEligibilityStatus: null,
   contestVoteResult: null,
+  fetchContestStatus: OutboundState.initiated,
 });
 
 export function reducer(
@@ -30,12 +33,27 @@ export function reducer(
   action: ContestsActions.ContestsAction
 ): ContestsState {
   switch (action.type) {
+    case ContestsActions.FETCH_CONTESTS_PREVIEW:
+      return Object.assign({
+        ...state,
+        fetchContestStatus: OutboundState.inprogress,
+      });
     case ContestsActions.FETCH_CONTESTS_PREVIEW_SUCCESS:
-      return fromAdapter.adapter.addMany(action.payload.runningContests, state);
+      return Object.assign({
+        ...state,
+        fetchContestStatus: OutboundState.completed,
+      });
+    case ContestsActions.SET_CONTESTS_PREVIEW:
+      return fromAdapter.adapter.setAll(action.payload.runningContests, state);
     case ContestsActions.FETCH_CONTEST_PREVIEW:
       return Object.assign({
         ...state,
         selectedContestPreviewId: action.payload.contestPreviewId,
+      });
+    case ContestsActions.FETCH_CONTESTS_PREVIEW_ERROR:
+      return Object.assign({
+        ...state,
+        fetchContestStatus: OutboundState.failed,
       });
     case ContestsActions.FETCH_CONTEST_BY_ID_SUCCESS:
       return Object.assign({
@@ -79,6 +97,18 @@ export const getSelectedContestPreviewId = (state: ContestsState) =>
 const getSelectedCurrentContestDetails = (state: ContestsState) =>
   state.selectedContest;
 
+const getContestsCompleted = (state: ContestsState): boolean =>
+  state.fetchContestStatus === OutboundState.completed;
+
+const getContestsInProgress = (state: ContestsState): boolean =>
+  state.fetchContestStatus === OutboundState.inprogress;
+
+const getContestsInitiated = (state: ContestsState): boolean =>
+  state.fetchContestStatus === OutboundState.initiated;
+
+const getContestsFailure = (state: ContestsState): boolean =>
+  state.fetchContestStatus === OutboundState.failed;
+
 export const getContestPreviewState = createFeatureSelector<ContestsState>(
   "contestsState"
 );
@@ -101,6 +131,26 @@ export const selectContestVoteResult = createSelector(
 export const selectContestsPreviewEntities = createSelector(
   getContestPreviewState,
   fromAdapter.selectContestPreviewEntities
+);
+
+export const selectContestsInProgressStatus = createSelector(
+  getContestPreviewState,
+  getContestsInProgress
+);
+
+export const selectContestsCompletedStatus = createSelector(
+  getContestPreviewState,
+  getContestsCompleted
+);
+
+export const selectContestsInitiatedStatus = createSelector(
+  getContestPreviewState,
+  getContestsInitiated
+);
+
+export const selectContestsFailedStatus = createSelector(
+  getContestPreviewState,
+  getContestsFailure
 );
 
 export const selectAllContestsPreviews = createSelector(

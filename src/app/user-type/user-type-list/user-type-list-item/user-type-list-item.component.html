@@ -1,27 +1,37 @@
-<li *ngFor="let item of userTypes$ | async; let i = index">
-  <div
-    class="community-wrp"
-    [formGroup]="userTypeForm"
-    style="cursor:pointer"
-    (click)="onClick(item)"
-  >
-    <label class="round">
-      <input
-        type="radio"
-        name="typeOfUser"
-        formControlName="typeOfUser"
-        [value]="item._id"
-        (click)="onClick(item)"
-        required
-      />
-      <span class="checkmark"></span>
-    </label>
-    <div class="right-wrp">
-      <div class="talent-sign-up">
-        <span class="iconn"><img src="{{ icons[item.name] }}" alt=""/></span>
-        <h4>{{ item.name }}</h4>
+<a *ngIf="(initiated$ | async) || (inProgress$ | async)"
+  ><img src="assets/bars.svg" style="width: 20px; height: 20px;"
+/></a>
+
+<a *ngIf="failed$ | async"
+  ><img src="assets/retry.svg" style="width: 20px; height: 20px;"
+/></a>
+
+<div *ngIf="completed$ | async">
+  <li *ngFor="let item of userTypes$ | async; let i = index">
+    <div
+      class="community-wrp"
+      [formGroup]="userTypeForm"
+      style="cursor: pointer;"
+      (click)="onClick(item)"
+    >
+      <label class="round">
+        <input
+          type="radio"
+          name="typeOfUser"
+          formControlName="typeOfUser"
+          [value]="item._id"
+          (click)="onClick(item)"
+          required
+        />
+        <span class="checkmark"></span>
+      </label>
+      <div class="right-wrp">
+        <div class="talent-sign-up">
+          <span class="iconn"><img src="{{ icons[item.name] }}" alt="" /></span>
+          <h4>{{ item.name }}</h4>
+        </div>
+        <p>{{ item.description }}</p>
       </div>
-      <p>{{ item.description }}</p>
     </div>
-  </div>
-</li>
+  </li>
+</div>

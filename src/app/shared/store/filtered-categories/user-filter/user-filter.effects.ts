@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import * as fromApp from "../../../../store/app.reducers";
 import * as UserFilterActions from "./user-filter.action";
 import { UserCategoryService } from "src/app/services/user-category.service";
-import { map, catchError, concatMap } from "rxjs/operators";
+import { map, catchError, concatMap, mergeMap } from "rxjs/operators";
 import {
   IResult,
   UserFilterCategory,
@@ -29,14 +29,14 @@ export class UserFilterEffect {
             userTypeId: action.payload.queryParams.userTypeId,
           })
           .pipe(
-            map(
-              (resp: IResult<UserFilterCategory[]>) =>
-                new UserFilterActions.FetchAllUsersSuccess({
-                  users: resp.data,
-                })
-            ),
+            mergeMap((resp: IResult<UserFilterCategory[]>) => [
+              new UserFilterActions.SetAllUsers({
+                users: resp.data,
+              }),
+              new UserFilterActions.FetchAllUsersSuccess(),
+            ]),
             catchError((respError: HttpErrorResponse) =>
-              of(new NotificationActions.Noop())
+              of(new UserFilterActions.FetchAllUsersError())
             )
           )
       )
@@ -60,6 +60,30 @@ export class UserFilterEffect {
               new UserFilterActions.LikeTalentError({
                 user: action.payload.user,
                 likedBy: action.payload.likedBy,
+              })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  unLikeTalent = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserFilterActions.UNLIKE_TALENT),
+      concatMap((action: UserFilterActions.UnLikeTalent) =>
+        this.profileService.unLikeTalent(action.payload.user.user).pipe(
+          map(
+            (resp: IResult<boolean>) =>
+              new UserFilterActions.UnLikeTalentSuccess({
+                user: action.payload.user,
+              })
+          ),
+          catchError((respError: HttpErrorResponse) => {
+            return of(
+              new UserFilterActions.UnLikeTalentError({
+                user: action.payload.user,
+                unLikedBy: action.payload.unLikedBy,
               })
             );
           })

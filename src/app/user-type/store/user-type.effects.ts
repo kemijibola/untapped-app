@@ -18,16 +18,17 @@ export class UserTypeEffects {
       concatMap(() =>
         this.userTypeService.getUserTypes().pipe(
           mergeMap((response: IResult<IUserType[]>) => [
-            new UserTypeActions.FetchUserTypesSucess({
+            new UserTypeActions.SetUserTypes({
               userTypes: response.data,
             }),
             new UserTypeActions.FetchUserType({
               userTypeId: response.data.filter((x) => x.name === "Talent")[0]
                 ._id,
             }),
+            new UserTypeActions.FetchUserTypesSucess(),
           ]),
           catchError((respError: HttpErrorResponse) =>
-            of(new NotificationActions.Noop())
+            of(new UserTypeActions.FetchUserTypesError())
           )
         )
       )

@@ -1,3 +1,4 @@
+import { OutboundState } from "./../../Util";
 import { IComment } from "src/app/interfaces";
 import * as CommentsActions from "./comments.action";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
@@ -6,10 +7,12 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 export interface CommentState extends EntityState<IComment> {
   selectedCommentId: string | number | null;
+  fetchCommentStatus: OutboundState | null;
 }
 
 const initialState: CommentState = fromAdapter.adapter.getInitialState({
   selectedCommentId: null,
+  fetchCommentStatus: OutboundState.initiated,
 });
 
 export function reducer(
@@ -17,6 +20,21 @@ export function reducer(
   action: CommentsActions.CommentsActions
 ): CommentState {
   switch (action.type) {
+    case CommentsActions.FETCH_MEDIA_COMMENTS:
+      return Object.assign({
+        ...state,
+        fetchCommentStatus: OutboundState.inprogress,
+      });
+    case CommentsActions.FETCH_MEDIA_COMMENTS_SUCCESS:
+      return Object.assign({
+        ...state,
+        fetchCommentStatus: OutboundState.completed,
+      });
+    case CommentsActions.FETCH_MEDIA_COMMENTS_ERROR:
+      return Object.assign({
+        ...state,
+        fetchCommentStatus: OutboundState.failed,
+      });
     case CommentsActions.ADD_MEDIA_COMMENT:
       return fromAdapter.adapter.setOne(action.payload.mediaComment, state);
     case CommentsActions.ADD_COMMENT_LIKE:
@@ -43,7 +61,7 @@ export function reducer(
       return fromAdapter.adapter.removeOne(action.payload.key, state);
     case CommentsActions.UPDATE_MEDIA_COMMENT:
       return fromAdapter.adapter.setOne(action.payload.comment, state);
-    case CommentsActions.FETCH_MEDIA_COMMENTS_SUCCESS:
+    case CommentsActions.SET_MEDIA_COMMENTS:
       return fromAdapter.adapter.setAll(action.payload.mediaComments, state);
     case CommentsActions.ADD_MEDIA_COMMENT_ERROR:
       return fromAdapter.adapter.removeOne(action.payload.key, state);
@@ -59,6 +77,18 @@ export const getCommentState = createFeatureSelector<CommentState>(
   "commentState"
 );
 
+const getCommentsCompleted = (state: CommentState): boolean =>
+  state.fetchCommentStatus === OutboundState.completed;
+
+const getCommentsInProgress = (state: CommentState): boolean =>
+  state.fetchCommentStatus === OutboundState.inprogress;
+
+const getCommentsInitiated = (state: CommentState): boolean =>
+  state.fetchCommentStatus === OutboundState.initiated;
+
+const getCommentsFailure = (state: CommentState): boolean =>
+  state.fetchCommentStatus === OutboundState.failed;
+
 export const selectCommentIds = createSelector(
   getCommentState,
   fromAdapter.selectCommentIds
@@ -73,6 +103,27 @@ export const selectAllComments = createSelector(
   getCommentState,
   fromAdapter.selectAllComments
 );
+
+export const selectCommentsInProgressStatus = createSelector(
+  getCommentState,
+  getCommentsInProgress
+);
+
+export const selectCommentsCompletedStatus = createSelector(
+  getCommentState,
+  getCommentsCompleted
+);
+
+export const selectCommentsInitiatedStatus = createSelector(
+  getCommentState,
+  getCommentsInitiated
+);
+
+export const selectCommentsFailedStatus = createSelector(
+  getCommentState,
+  getCommentsFailure
+);
+
 export const commentCount = createSelector(
   getCommentState,
   fromAdapter.commentCount

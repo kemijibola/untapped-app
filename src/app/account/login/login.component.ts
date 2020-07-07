@@ -25,11 +25,6 @@ import * as fromAuth from "src/app/account/store/auth.reducers";
 })
 export class LoginComponent implements OnInit {
   signinForm: FormGroup;
-  errorMessage = "";
-  showLoader: boolean = false;
-  formSubmitted: boolean;
-  // inProgress$: Observable<boolean>;
-  // loginCompleted$: Observable<boolean>;
 
   initiated$ = this.store.pipe(
     select(fromAuthReducer.selectLoginInitiatedStatus)
@@ -63,10 +58,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSignin() {
-    this.formSubmitted = true;
     const loginBtn = this.loginButton.nativeElement;
     this.renderer.setProperty(loginBtn, "disabled", true);
-    console.log("clicked");
     const email: string = this.signinForm.controls["email"].value;
     const password: string = this.signinForm.controls["password"].value;
     const payload: ILogin = {
@@ -77,5 +70,4 @@ export class LoginComponent implements OnInit {
     // this.trigger();
     // this.renderer.setProperty(loginBtn, "disabled", false);
   }
-
 }

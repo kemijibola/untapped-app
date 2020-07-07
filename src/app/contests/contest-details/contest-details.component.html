@@ -179,8 +179,18 @@
     <app-modals [id]="'talent-entry-details'">
       <div class="pop-icon-bar" navigate style="padding-right: 16px;">
         <div class="slide-arrow" style="margin-top: 8px;">
-          <a class="left"><i class="far fa-angle-left"></i></a>
-          <a class="right"><i class="far fa-angle-right"></i></a>
+          <!-- <button class="left [disabled]="leftDisabled" (click)="onPrevious()"">
+            <i class="far fa-angle-left"></i>
+          </button>
+          <button class="right" [disabled]="rightDisabled" (click)="onNext()">
+            <i class="far fa-angle-right"></i>
+          </button> -->
+          <button class="left" [disabled]="leftDisabled" (click)="onPrevious()">
+            <i class="far fa-angle-left"></i>
+          </button>
+          <button class="right" [disabled]="rightDisabled" (click)="onNext()">
+            <i class="far fa-angle-right"></i>
+          </button>
         </div>
         <button
           type="button"

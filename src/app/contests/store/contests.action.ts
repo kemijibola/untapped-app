@@ -12,6 +12,9 @@ import {
 
 export const FETCH_CONTESTS_PREVIEW = "FETCH_CONTESTS_PREVIEW";
 export const FETCH_CONTESTS_PREVIEW_SUCCESS = "FETCH_CONTESTS_PREVIEW_SUCCESS";
+export const FETCH_CONTESTS_PREVIEW_ERROR = "FETCH_CONTESTS_PREVIEW_ERROR";
+export const SET_CONTESTS_PREVIEW = "SET_CONTESTS_PREVIEW";
+
 export const FETCH_CONTEST_PREVIEW = "FETCH_CONTEST_PREVIEW";
 export const RESET_CONTESTS_PREVIEW_TO_DEFAULT =
   "RESET_CONTESTS_PREVIEW_TO_DEFAULT";
@@ -50,6 +53,7 @@ export class CheckUserEligibilitySuccess implements Action {
   readonly type = CHECK_USER_ELIGIBILITY_SUCCESS;
   constructor(public payload: { response: ContestEligibilityData }) {}
 }
+
 export class CheckUserEligibility implements Action {
   readonly type = CHECK_USER_ELIGIBILITY;
   constructor(public payload: { contestId: string }) {}
@@ -57,6 +61,14 @@ export class CheckUserEligibility implements Action {
 
 export class FetchContestsPreviewSuccess implements Action {
   readonly type = FETCH_CONTESTS_PREVIEW_SUCCESS;
+}
+
+export class FetchContestsPreviewError implements Action {
+  readonly type = FETCH_CONTESTS_PREVIEW_ERROR;
+}
+
+export class SetContestsPreview implements Action {
+  readonly type = SET_CONTESTS_PREVIEW;
   constructor(public payload: { runningContests: IContestList[] }) {}
 }
 
@@ -87,4 +99,6 @@ export type ContestsAction =
   | ResetContestData
   | ResetUserEligibilityStatus
   | FetchContestVoteResult
-  | SetContestVoteResult;
+  | SetContestVoteResult
+  | SetContestsPreview
+  | FetchContestsPreviewError;

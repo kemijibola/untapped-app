@@ -20,14 +20,41 @@
 <div class="contest-area pt-40 pb-75 fx-padding">
   <div class="container-fluid">
     <div class="row">
+      <!-- <div class="col-xl-9 col-lg-9 col-md-9 col-12">
+        <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
+          ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+        /></a>
+
+        <a
+          style="cursor: pointer;"
+          (click)="fetchRunningContests()"
+          *ngIf="failed$ | async"
+          >Unable to fetch contests. Try again
+          <img
+            src="assets/retry.svg"
+            style="width: 30px; height: 30px; margin: 0 auto;"
+            alt="Click button to retry"
+        /></a>
+      </div> -->
       <div class="col-xl-9 col-lg-9 col-md-9 col-12">
         <div
           class="row"
           infiniteScroll
           [infiniteScrollDistance]="2"
-          [infiniteScrollThrottle]="50"
+          [infiniteScrollThrottle]="150"
           (scrolled)="onScroll()"
         >
+          <a
+            style="cursor: pointer;"
+            (click)="getContests()"
+            *ngIf="failed$ | async"
+            >We were unable to fetch contests. Try again.
+            <img
+              src="assets/retry.svg"
+              style="width: 30px; height: 30px; margin: 0 auto;"
+              alt="Click button to retry"
+            />
+          </a>
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12"
             style="cursor: pointer;"
@@ -71,40 +98,10 @@
             </div>
           </div>
         </div>
-        <!-- <div class="row">
-          <div class="col-xl-12 col-lg-12 col-md-12">
-            <nav
-              class="contest-pagination"
-              aria-label="Page navigation example"
-            >
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#">Prev</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                <li class="page-item"><a class="page-link" href="#">7</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div> -->
 
-        <!-- <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
-          <mat-grid-list cols="2" rowHeight="2:1">
-              <mat-grid-tile *ngFor='let p of photoUrls'>
-                  <img [src]='p' class="tile-image" >
-              </mat-grid-tile>
-          </mat-grid-list>
-      </div> -->
+        <span *ngIf="!notEmptyPost">No more items to show</span>
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-12">
+      <div class="col-xl-3 col-lg-3 col-md-3 col-12" *ngIf="completed$ | async">
         <div class="contest-sidebar">
           <span>ADS</span>
         </div>

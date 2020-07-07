@@ -38,22 +38,27 @@
               src="{{ entryData.fullUserProfileImage }}"
             />
           </div>
-          <h5>{{ entryData.user["fullName"] }}</h5>
+          <h5>{{ entryData.entry.user["fullName"] }}</h5>
         </div>
         <div class="p-user-content">
-          <h4>{{ entryData.title }}</h4>
-          <p *ngIf="entryData.additionalInfo !== ''">
-            {{ entryData.additionalInfo }}
+          <h4>{{ entryData.entry.title }}</h4>
+          <p *ngIf="entryData.entry.additionalInfo !== ''">
+            {{ entryData.entry.additionalInfo }}
           </p>
         </div>
         <div class="pop-btn">
           <span class="numb"
-            >Text "{{ keyword }} {{ entryData.contestantCode }}" To
+            >Text "{{ keyword }} {{ entryData.entry.contestantCode }}" To
             {{ textNumber }}</span
           >
         </div>
         <div class="info-xt">
-          <span>20 Votes</span>
+          <span *ngIf="entryData.totalVote <= 1"
+            >{{ entryData.totalVote }} vote</span
+          >
+          <span *ngIf="entryData.totalVote > 1"
+            >{{ entryData.totalVote }} votes</span
+          >
           <span
             *ngIf="mediaComments.length <= 1"
             class="comment-num"
