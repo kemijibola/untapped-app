@@ -3,15 +3,18 @@ import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./contest-entry.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as ContestEntryActions from "./contest-entry.action";
+import { OutboundState } from "src/app/shared/Util";
 
 export interface ContestEntryState extends EntityState<IContestEntry> {
   selectedContestEntryId: string | number | null;
   contestsParticipatedIn: IUserContestListAnalysis[] | null;
+  contestEntryStatus: OutboundState | null;
 }
 
 const initialState: ContestEntryState = fromAdapter.adapter.getInitialState({
   selectedContestEntryId: null,
   contestsParticipatedIn: null,
+  contestEntryStatus: OutboundState.initiated,
 });
 
 export function reducer(
@@ -19,6 +22,11 @@ export function reducer(
   action: ContestEntryActions.ContestEntryActions
 ): ContestEntryState {
   switch (action.type) {
+    case ContestEntryActions.FETCH_CONTEST_ENTRIES:
+      return Object.assign({
+        ...state,
+        contestEntryStatus: OutboundState.inprogress,
+      });
     case ContestEntryActions.ENTER_CONTEST_SUCCESS:
       return fromAdapter.adapter.setOne(action.payload.contestEntry, state);
     case ContestEntryActions.FETCH_CONTEST_ENTRIES_SUCCESS:
@@ -28,10 +36,20 @@ export function reducer(
         ...state,
         selectedContestEntryId: action.payload.contestEntryId,
       });
-    case ContestEntryActions.FETCH_USER_PARTICIPATED_CONTEST_SUCCESS:
+    case ContestEntryActions.SET_USER_PARTICIPATED_CONTEST:
       return Object.assign({
         ...state,
         contestsParticipatedIn: action.payload.participatedInContests,
+      });
+    case ContestEntryActions.FETCH_USER_PARTICIPATED_CONTEST_SUCCESS:
+      return Object.assign({
+        ...state,
+        contestEntryStatus: OutboundState.completed,
+      });
+    case ContestEntryActions.FETCH_USER_PARTICIPATED_CONTEST_ERROR:
+      return Object.assign({
+        ...state,
+        contestEntryStatus: OutboundState.failed,
       });
     default: {
       return state;
@@ -41,6 +59,18 @@ export function reducer(
 
 export const getSelectedContestEntryId = (state: ContestEntryState) =>
   state.selectedContestEntryId;
+
+const getContestEntryCompleted = (state: ContestEntryState): boolean =>
+  state.contestEntryStatus === OutboundState.completed;
+
+const getContestEntryInProgress = (state: ContestEntryState): boolean =>
+  state.contestEntryStatus === OutboundState.inprogress;
+
+const getContestEntryInitiated = (state: ContestEntryState): boolean =>
+  state.contestEntryStatus === OutboundState.initiated;
+
+const getContestEntryFailure = (state: ContestEntryState): boolean =>
+  state.contestEntryStatus === OutboundState.failed;
 
 const getContestsUserParticipatedIn = (state: ContestEntryState) =>
   state.contestsParticipatedIn;
@@ -66,6 +96,26 @@ export const selectContestsUserParticipatedIn = createSelector(
 export const selectContestEntryEntities = createSelector(
   getContestEntryState,
   fromAdapter.selectContestEntryEntities
+);
+
+export const selectContestEntryInProgressStatus = createSelector(
+  getContestEntryState,
+  getContestEntryInProgress
+);
+
+export const selectContestEntryCompletedStatus = createSelector(
+  getContestEntryState,
+  getContestEntryCompleted
+);
+
+export const selectContestEntrytrInitiatedStatus = createSelector(
+  getContestEntryState,
+  getContestEntryInitiated
+);
+
+export const selectContestEntryFailedStatus = createSelector(
+  getContestEntryState,
+  getContestEntryFailure
 );
 
 export const selectAllContestEntries = createSelector(

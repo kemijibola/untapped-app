@@ -23,7 +23,7 @@
     <div class="row">
       <a
         style="cursor: pointer;"
-        (click)="getContests()"
+        (click)="getContestsRetry()"
         *ngIf="failed$ | async"
         >We were unable to fetch contests. Try again.
         <img src="assets/retry.svg" alt="Click button to retry" />
@@ -34,7 +34,7 @@
           class="row"
           infiniteScroll
           [infiniteScrollDistance]="2"
-          [infiniteScrollThrottle]="150"
+          [infiniteScrollThrottle]="50"
           (scrolled)="onScroll()"
         >
           <div

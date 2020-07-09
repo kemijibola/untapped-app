@@ -100,6 +100,48 @@
   </div>
   <div class="slide-menu-main" *ngIf="!isAuthenticated">
     <div class="menu-btn-info">
+      <ul>
+        <li>
+          <a
+            routerLink="/"
+            routerLinkActive="visited"
+            (click)="onSideToggleClick()"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            Home</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/talents"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="visited"
+            (click)="onSideToggleClick()"
+          >
+            Talents</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/professionals"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="visited"
+            (click)="onSideToggleClick()"
+          >
+            Professionals</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/contests"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="visited"
+            (click)="onSideToggleClick()"
+          >
+            Contests</a
+          >
+        </li>
+      </ul>
       <a
         routerLink="account/signin"
         (click)="closeSlideMenu()"

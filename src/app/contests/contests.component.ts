@@ -64,11 +64,16 @@ export class ContestsComponent implements OnInit, OnDestroy {
   notscrolly = true;
   showLoading = true;
   showAd = false;
+  hasFailed: boolean;
 
   constructor(public store: Store<fromApp.AppState>, public router: Router) {}
 
   ngOnInit() {
     this.getContests();
+
+    this.failed$.subscribe((val: boolean) => {
+      this.hasFailed = val;
+    });
 
     this.store
       .pipe(select(fromContests.selectAllContestsPreviews))
@@ -133,8 +138,17 @@ export class ContestsComponent implements OnInit, OnDestroy {
     );
   }
 
+  getContestsRetry(pageNumber: number = 1) {
+    this.store.dispatch(
+      new ContestsAction.FetchContestsPreview({
+        perPage: this.perPage,
+        page: pageNumber,
+      })
+    );
+  }
+
   onScroll() {
-    if (this.notscrolly && this.notEmptyPost) {
+    if (this.notscrolly && this.notEmptyPost && !this.hasFailed) {
       this.notEmptyPost = true;
       this.notscrolly = false;
       this.fetchNextRunningContests();
