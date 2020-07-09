@@ -6,7 +6,7 @@
     </h3>
   </div>
 
-  <div class="accordion-content acor-pg-2">
+  <div class="accordion-content acor-pg-2" #scrollframe>
     <a
       *ngFor="let user of filteredUsers; let i = index"
       (click)="onUserSelected(i)"

@@ -5,6 +5,10 @@ import {
   OnChanges,
   SimpleChanges,
   OnDestroy,
+  Renderer2,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
@@ -43,6 +47,7 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   category: string = "";
   userTypeId: string = "";
   currentUserSelected: boolean = false;
+  private scrollToContainer: any;
 
   defaultParams: ImageEditRequest = {
     edits: {
@@ -68,7 +73,10 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
     return val.filter((x) => x.isSelected).length > 0;
   }
 
-  constructor(private store: Store<fromApp.AppState>) {
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private renderer: Renderer2
+  ) {
     this.searchText = "";
     this.category = "";
     this.userTypeId = "";
@@ -77,11 +85,11 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store
       .pipe(select(fromUserFilter.selectAllUsers))
+      .take(2)
       .subscribe((val: UserFilterCategory[]) => {
         this.typeOfFilter =
           val.length > 1 ? `${this.typeOfUser}s` : this.typeOfUser;
         if (val.length > 0) {
-          console.log("users list", val);
           this.setUsersImage(val);
 
           if (!this.userSet(val)) {
@@ -96,6 +104,8 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
               new UserFilterActions.FetchUser({ id: this.filteredUsers[0]._id })
             );
           }
+
+          // this.scrollToBottom();
         }
       });
 
@@ -166,6 +176,26 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
     // }
   }
 
+  // private scrollToBottom(): void {
+  //   this.scrollContainer.scroll({
+  //     top: this.scrollContainer.scrollHeight,
+  //     right: 10000,
+  //     behavior: "smooth",
+  //   });
+  //   // this.renderer.setProperty(this.scrollContainer, "scrollLeft", 70);
+  // }
+
+  // private scrollToRight(): void {
+  //   const scrollContainer = this.scrollFrame.nativeElement;
+  //   //this.renderer.setProperty(scrollContainer, "scrollLeft", 70);
+  //   console.log("i scrolled");
+  //   scrollContainer.scroll({
+  //     top: scrollContainer.scrollHeight,
+  //     right: 0,
+  //     behavior: "smooth",
+  //   });
+  // }
+
   setUsersImage(val: UserFilterCategory[]): void {
     this.filteredUsers = val.map((x) => {
       return Object.assign({}, x, {
@@ -197,6 +227,8 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
       this.fetchTalentPortfolio(this.filteredUsers[index].user);
       this.triggerFetchUserGeneralList(this.filteredUsers[index].user);
     }
+
+    // scroll to right
   }
 
   fetchTalentPortfolio(userId: string): void {

@@ -188,6 +188,7 @@ export class AddMoreImageComponent implements OnInit {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

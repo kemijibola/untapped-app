@@ -38,6 +38,7 @@ export class ModalsComponent implements OnInit {
     display: ModalDisplay.none,
     modalCss: "",
     modalDialogCss: "",
+    modalContentCss: "",
     showMagnifier: false,
   };
   constructor(private store: Store<fromApp.AppState>) {}

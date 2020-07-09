@@ -10,7 +10,8 @@ export const environment = {
   CLOUD_FORMATION_API: "https://d7olhgwoyl909.cloudfront.net",
   S3BUCKET_OBJECT_URL:
     "https://untapped-pool-image-bucket.s3-accelerate.amazonaws.com",
-  ART_ALBUM_COVER: "assets/img/profile/1950057_copy.png",
+  ART_ALBUM_COVER: "assets/img/profile/audio-cover.jpg",
+  VIDEO_ALBUM_COVER: "assets/img/profile/video-cover.jpg",
   AUDIO_ACCELERATE_URL:
     "https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com",
   VIDEO_ACCELERATE_URL:

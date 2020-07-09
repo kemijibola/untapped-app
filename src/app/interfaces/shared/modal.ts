@@ -19,6 +19,7 @@ export interface IModal {
   data?: any;
   modalCss: string;
   modalDialogCss: string;
+  modalContentCss: string;
   showMagnifier: boolean;
 }
 

@@ -130,6 +130,7 @@ export class PortfolioGeneralComponent implements OnInit {
         data: modalToActivate.data,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
       this.fetchMedia(itemId);

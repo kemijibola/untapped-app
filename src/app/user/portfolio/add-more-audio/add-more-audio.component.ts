@@ -186,6 +186,7 @@ export class AddMoreAudioComponent implements OnInit {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

@@ -94,6 +94,7 @@ export class PortfolioAudiosComponent {
         data: null,
         modalCss: "modal aligned-modal-small",
         modalDialogCss: "modal-dialog",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
       this.fetchAudio(itemId);
@@ -121,6 +122,7 @@ export class PortfolioAudiosComponent {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

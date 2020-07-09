@@ -262,6 +262,7 @@ export class ContestDetailsComponent implements OnInit {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(
@@ -274,6 +275,7 @@ export class ContestDetailsComponent implements OnInit {
   }
 
   openModalDialog(modalId: string, data: any = null) {
+    console.log(modalId);
     // set MediaType
     this.entryMediaType = this.contestDetails.contest.entryMediaType;
     this.store.dispatch(
@@ -296,8 +298,13 @@ export class ContestDetailsComponent implements OnInit {
         data: data !== null ? data : null,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
+        modalContentCss:
+          modalId.localeCompare("talent-entry-details") === 0
+            ? "modal-content contest-d"
+            : "modal-content contest-d new-entry",
         showMagnifier: false,
       };
+      console.log(modalToOpen);
       this.store.dispatch(
         new ModalsActions.ToggleModal({
           appModal: this.componentModal,

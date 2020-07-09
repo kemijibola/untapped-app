@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  Renderer2,
+  AfterViewInit,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
@@ -19,19 +27,20 @@ import { Observable } from "rxjs";
 import * as UserFilterActions from "../shared/store/filtered-categories/user-filter/user-filter.action";
 import * as fromUserFilter from "../shared/store/filtered-categories/user-filter/user-filter.reducer";
 
+import {
+  PerfectScrollbarConfigInterface,
+  PerfectScrollbarComponent,
+  PerfectScrollbarDirective,
+} from "ngx-perfect-scrollbar";
+
 @Component({
   selector: "app-talents",
   templateUrl: "./talents.component.html",
   styleUrls: ["./talents.component.css"],
-  host: {
-    "(window:resize)": "onWindowResize($event)",
-  },
 })
-export class TalentsComponent implements OnInit, OnDestroy {
+export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
   width: number = window.innerWidth;
-  onWindowResize(event) {
-    this.width = event.target.innerWidth;
-  }
+  public type: string = "component";
   currentUser: Observable<IAuthData>;
   searchPlaceHolderText = "Talents";
   talents: Observable<UserFilterCategory[]>;
@@ -50,6 +59,9 @@ export class TalentsComponent implements OnInit, OnDestroy {
 
   failed$ = this.store.pipe(select(fromUserFilter.selectUsersFailedStatus));
 
+  @ViewChild("talentFrame", { static: false }) talentFrame: ElementRef;
+  private scrollContainer: any;
+  public config: PerfectScrollbarConfigInterface = {};
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
   componentModal: AppModal = {
     id: "talent-portfolio",
@@ -60,12 +72,17 @@ export class TalentsComponent implements OnInit, OnDestroy {
         display: ModalDisplay.none,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       },
     ],
   };
   ngOnInit() {
     this.fetchUsers();
+
+    // this.completed$.subscribe((val) => {
+
+    // });
 
     this.currentUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
 
@@ -76,6 +93,27 @@ export class TalentsComponent implements OnInit, OnDestroy {
     );
 
     // this.talents = this.store.pipe(select(fromUserFilter.selectAllUsers));
+  }
+
+  ngAfterViewInit() {
+    // this.scrollContainer = this.talentFrame.nativeElement;
+    // this.scrollToXY(25, 50);
+  }
+
+  public scrollToXY(x: number, y: number): void {
+    // this.scrollContainer.scrollTo(x, y, 500);
+    // this.scrollContainer.scrollLeft(80);
+    // console.log(this.scrollContainer);
+    // if (this.type === "directive" && this.directiveRef) {
+    //   this.directiveRef.scrollTo(x, y, 500);
+    // } else if (
+    //   this.type === "component" &&
+    //   this.componentRef &&
+    //   this.componentRef.directiveRef
+    // ) {
+    //   console.log("here");
+    //   this.componentRef.directiveRef.scrollTo(x, y, 500);
+    // }
   }
 
   onSignUpClicked() {

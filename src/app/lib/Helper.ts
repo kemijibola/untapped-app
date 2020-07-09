@@ -48,7 +48,7 @@ export function fetchAudioArt(): string {
 }
 
 export function fetchVideoArt(): string {
-  return environment.ART_ALBUM_COVER;
+  return environment.VIDEO_ALBUM_COVER;
 }
 
 export function fetchOriginalImage(key): string {

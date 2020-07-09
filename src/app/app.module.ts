@@ -74,6 +74,7 @@ export const customCurrencyMaskConfig = {
     MaterialModule,
     StickyModule,
     LazyLoadImageModule,
+
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([

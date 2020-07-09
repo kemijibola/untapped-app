@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
   };
   newUserLocation: string = "";
   userType: string = "";
-  shortbioCount: number = 0;
+  shortbioCount: number = 80;
 
   isInitiated$ = this.userStore.pipe(
     select(fromProfileReducer.selectSaveProfileInitiatedStatus)
@@ -76,6 +76,10 @@ export class ProfileComponent implements OnInit {
 
   isCompleted$ = this.userStore.pipe(
     select(fromProfileReducer.selectSaveProfileCompletedStatus)
+  );
+
+  failed$ = this.userStore.pipe(
+    select(fromProfileReducer.selectSaveProfileFailedStatus)
   );
 
   constructor(

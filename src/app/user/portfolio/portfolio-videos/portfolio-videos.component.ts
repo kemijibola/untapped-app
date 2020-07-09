@@ -155,6 +155,7 @@ export class PortfolioVideosComponent {
         data: null,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
 
@@ -183,6 +184,7 @@ export class PortfolioVideosComponent {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
 

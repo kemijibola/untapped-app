@@ -267,6 +267,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
           data: null,
           modalCss: "",
           modalDialogCss: "",
+          modalContentCss: "",
           showMagnifier: false,
         };
         this.store.dispatch(

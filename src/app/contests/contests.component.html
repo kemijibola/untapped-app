@@ -17,25 +17,18 @@
     </div>
   </div>
 </div>
+
 <div class="contest-area pt-40 pb-75 fx-padding">
   <div class="container-fluid">
     <div class="row">
-      <!-- <div class="col-xl-9 col-lg-9 col-md-9 col-12">
-        <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-          ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
-        /></a>
+      <a
+        style="cursor: pointer;"
+        (click)="getContests()"
+        *ngIf="failed$ | async"
+        >We were unable to fetch contests. Try again.
+        <img src="assets/retry.svg" alt="Click button to retry" />
+      </a>
 
-        <a
-          style="cursor: pointer;"
-          (click)="fetchRunningContests()"
-          *ngIf="failed$ | async"
-          >Unable to fetch contests. Try again
-          <img
-            src="assets/retry.svg"
-            style="width: 30px; height: 30px; margin: 0 auto;"
-            alt="Click button to retry"
-        /></a>
-      </div> -->
       <div class="col-xl-9 col-lg-9 col-md-9 col-12">
         <div
           class="row"
@@ -44,17 +37,6 @@
           [infiniteScrollThrottle]="150"
           (scrolled)="onScroll()"
         >
-          <a
-            style="cursor: pointer;"
-            (click)="getContests()"
-            *ngIf="failed$ | async"
-            >We were unable to fetch contests. Try again.
-            <img
-              src="assets/retry.svg"
-              style="width: 30px; height: 30px; margin: 0 auto;"
-              alt="Click button to retry"
-            />
-          </a>
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12"
             style="cursor: pointer;"
@@ -73,7 +55,7 @@
                     class="contets-mobile"
                     [defaultImage]="contest.defaultBannerImage"
                     [lazyLoad]="contest.fullBannerImage"
-                    style="background: lightgray;"
+                    style="background: lightgray; width: 257px; height: 161px;"
                 /></a>
                 <div class="entries-content all-ent contest">
                   <span class="ent-num">
@@ -98,10 +80,14 @@
             </div>
           </div>
         </div>
-
-        <span *ngIf="!notEmptyPost">No more items to show</span>
+        <a *ngIf="(initiated$ | async) || (inProgress$ | async) || showLoading"
+          ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+        /></a>
+        <div style="text-align: center;">
+          <span *ngIf="!notEmptyPost"><i>No more items to show</i></span>
+        </div>
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-12" *ngIf="completed$ | async">
+      <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <div class="contest-sidebar">
           <span>ADS</span>
         </div>

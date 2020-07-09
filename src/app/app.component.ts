@@ -84,6 +84,7 @@ export class AppComponent implements OnInit {
         display: ModalDisplay.none,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       },
       {
@@ -92,6 +93,7 @@ export class AppComponent implements OnInit {
         display: ModalDisplay.none,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       },
     ],

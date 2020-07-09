@@ -112,6 +112,7 @@ export class TalentPortfolioAlbumsComponent {
   ) {}
 
   ngOnInit() {
+    console.log("where i want to work");
     this.fetchTalentImages();
     this.fetchTalentAudios();
     this.fetchTalentVideos();
@@ -123,10 +124,8 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentGeneral.selectGeneralPreviews))
       .subscribe((val: TalentPortfolioPreview[]) => {
-        console.log(val);
         this.setGeneralMediaAlbumCover(val);
       });
-    // dispatch modal navigateData with currentIndex at 0
 
     this.store
       .pipe(select(fromModal.selectCurrentModal))
@@ -143,10 +142,6 @@ export class TalentPortfolioAlbumsComponent {
           this.showModal = false;
         }
       });
-    // .subscribe((val: UserFilterCategory) => {
-    //   console.log("current user", val);
-    //   this.talentName = val !== undefined ? val.displayName : "";
-    // });
   }
 
   onPrevious() {
@@ -203,6 +198,7 @@ export class TalentPortfolioAlbumsComponent {
         data: { ...selectedMedia },
         modalCss: "modal aligned-modal album-modal",
         modalDialogCss: "modal-dialog-album-view",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
 
@@ -337,6 +333,7 @@ export class TalentPortfolioAlbumsComponent {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

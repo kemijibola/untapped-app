@@ -53,8 +53,21 @@ export class ChangeProfilePictureComponent implements OnInit {
       grayscale: false,
     },
   };
+  showUploading: boolean = false;
+  showCompleted: boolean = false;
+  showDiv: boolean = false;
+
   constructor(public store: Store<fromApp.AppState>) {
-    this.fetchUserProfileImage();
+    this.store
+      .pipe(select(fromUpload.selectCurrentUploadStatus))
+      .subscribe((val: boolean) => {
+        console.log(val);
+        if (val) {
+          this.showDiv = true;
+          this.showUploading = true;
+          this.showCompleted = false;
+        }
+      });
     this.store
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
@@ -157,7 +170,7 @@ export class ChangeProfilePictureComponent implements OnInit {
       .subscribe((val: IAuthData) => {
         if (val.authenticated) {
           this.imagePath = val.user_data.profile_image_path
-          ? fetchImageObjectFromCloudFormation(
+            ? fetchImageObjectFromCloudFormation(
                 val.user_data.profile_image_path,
                 this.editParams
               )

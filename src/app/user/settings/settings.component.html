@@ -55,15 +55,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="setting-item">
-          <h4>Blocked users</h4>
-          <div class="setting-content">
-            <p>See a list of all the users you’ve blocked.</p>
-            <div class="setting-bttn">
-              <a class="setting-btn" href="#">Manage block list</a>
-            </div>
-          </div>
-        </div> -->
         <div class="setting-item">
           <h4>Suspend Account</h4>
           <div class="setting-content d">
@@ -79,15 +70,28 @@
           <h4>Delete account</h4>
           <div class="setting-content d">
             <p>Permanently delete your account and all of your content.</p>
-            <a href="#">Delete Account</a>
+            <a>Delete Account</a>
           </div>
         </div>
       </div>
 
       <div class="col-xl-12">
         <div class="sett-btn">
-          <button class="box-btn profile-save" (click)="saveChanges()">
-            SAVE CHANGES
+          <button
+            [disabled]="
+              (inProgress$ | async) ||
+              (!isCompleted$ | async) ||
+              (!failed$ | async)
+            "
+            class="box-btn profile-save"
+            (click)="saveChanges()"
+          >
+            <span *ngIf="(isInitiated$ | async) || (isCompleted$ | async)"
+              >SAVE CHANGES</span
+            >
+            <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"
+              >SAVING CHANGES...</span
+            >
           </button>
         </div>
       </div>

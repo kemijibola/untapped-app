@@ -8,6 +8,8 @@ export const UPDATE_USER_SETTINGS_PREFERENCE =
   "UPDATE_USER_SETTINGS_PREFERENCE";
 export const UPDATE_USER_SETTINGS_PREFERENCE_SUCCESS =
   "UPDATE_USER_SETTINGS_PREFERENCE_SUCCESS";
+export const UPDATE_USER_SETTINGS_PREFERENCE_ERROR =
+  "UPDATE_USER_SETTINGS_PREFERENCE_ERROR";
 export const CREATE_USERPROFILE = "CREATE_USERPROFILE";
 export const FETCH_USERPROFILE_ERROR = "FETCH_USERPROFILE_ERROR";
 export const UPDATE_USERPROFILE_ERROR = "UPDATE_USERPROFILE_ERROR";
@@ -29,6 +31,9 @@ export class UpdateUserSettingsPreference implements Action {
 export class UpdateUserSettingsPreferenceSuccess implements Action {
   readonly type = UPDATE_USER_SETTINGS_PREFERENCE_SUCCESS;
   constructor(public payload: { userSettings: IUser }) {}
+}
+export class UpdateUserSettingsPreferenceError implements Action {
+  readonly type = UPDATE_USER_SETTINGS_PREFERENCE_ERROR;
 }
 
 export class UpdateUserProfileError implements Action {
@@ -79,4 +84,5 @@ export type ProfileActions =
   | UpdateUserSettingsPreference
   | UpdateUserSettingsPreferenceSuccess
   | SuspendUserAccount
-  | SuspendUserAccountSuccess;
+  | SuspendUserAccountSuccess
+  | UpdateUserSettingsPreferenceError;

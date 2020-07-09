@@ -1,21 +1,25 @@
 <div class="profile-pic-wrapper">
   <div class="profile-pic">
+    <a *ngIf="showUploading"
+      ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+    /></a>
     <img
       [defaultImage]="imagePath"
       [lazyLoad]="imagePath"
-      style="background: lightgray;"
+      style="background: lightgray; width: 120px; height: 120px;"
     />
     <a *ngIf="!isDefault" class="cancel-btn" style="cursor: pointer;"
       ><img src="assets/img/profile/cross.svg" alt="Cross-btn"
     /></a>
   </div>
   <div class="pic-change">
-    <a
+    <button
       class="btn-gray"
-      style="cursor: pointer;"
+      [disabled]="showUploading"
       (click)="onClickUploadImageBtn()"
-      >Change Picture</a
     >
+      Change Picture
+    </button>
     <!-- upload component goes here -->
     <app-upload [fileConfig]="fileConfig"> </app-upload>
     <!-- upload component goes here -->

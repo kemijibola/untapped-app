@@ -29,6 +29,7 @@ export class PortfolioComponent {
         display: ModalDisplay.none,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       },
     ],

@@ -133,7 +133,6 @@ export class PortfolioImagesComponent implements OnInit {
   }
 
   openModalDialog(modalId: string, itemId: string) {
-    
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "portfolio" })
     );
@@ -151,6 +150,7 @@ export class PortfolioImagesComponent implements OnInit {
         data: modalToActivate.data,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
       this.fetchImage(itemId);
@@ -184,6 +184,7 @@ export class PortfolioImagesComponent implements OnInit {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

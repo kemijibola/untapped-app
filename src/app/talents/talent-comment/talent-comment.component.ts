@@ -70,12 +70,12 @@ export class TalentCommentComponent implements OnInit, OnChanges {
         if (this.commentsLength > 0) {
           this.mediaComments = this.sortCommentsByNewest(val);
           this.mediaComments = this.fetchCommenterProfileImage(val);
-          if (this.currentUser._id !== "") {
-            this.checkIfUserHasLikedComment(
-              this.currentUser._id,
-              this.mediaComments
-            );
-          }
+          // if (this.currentUser._id !== "") {
+          //   this.checkIfUserHasLikedComment(
+          //     this.currentUser._id,
+          //     this.mediaComments
+          //   );
+          // }
         } else {
           this.mediaComments = [];
         }
@@ -139,13 +139,13 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     }
   }
 
-  checkIfUserHasLikedComment(currentUser: string, comments: IComment[]) {
-    comments.map((x) => {
-      const found = x.likedBy.filter((y) => y._id === currentUser)[0];
-      x.hasLiked = found ? true : false;
-      x.likeCount = x.likedBy ? x.likedBy.length : 0;
-    });
-  }
+  // checkIfUserHasLikedComment(currentUser: string, comments: IComment[]) {
+  //   comments.map((x) => {
+  //     const found = x.likedBy.filter((y) => y._id === currentUser)[0];
+  //     x.hasLiked = found ? true : false;
+  //     x.likeCount = x.likedBy ? x.likedBy.length : 0;
+  //   });
+  // }
 
   onSignUpClicked() {
     this.router.navigate(["/account/signin"]);

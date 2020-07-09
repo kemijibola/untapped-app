@@ -62,6 +62,8 @@ export class ContestsComponent implements OnInit, OnDestroy {
 
   notEmptyPost = true;
   notscrolly = true;
+  showLoading = true;
+  showAd = false;
 
   constructor(public store: Store<fromApp.AppState>, public router: Router) {}
 
@@ -72,6 +74,7 @@ export class ContestsComponent implements OnInit, OnDestroy {
       .pipe(select(fromContests.selectAllContestsPreviews))
       .subscribe((val: IContestList[]) => {
         if (this.contests.length === 0) {
+          this.showLoading = false;
           val.forEach((x) => {
             x = this.setContestBannerImage(x);
             this.contests.push(x);
