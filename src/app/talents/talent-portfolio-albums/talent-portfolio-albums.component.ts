@@ -210,6 +210,8 @@ export class TalentPortfolioAlbumsComponent {
       );
       this.selectedMedia = { ...selectedMedia };
     }
+
+    
     if (this.selectedMedia.items.length <= 1) {
       this.leftDisabled = true;
       this.rightDisabled = true;

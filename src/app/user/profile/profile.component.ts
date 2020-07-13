@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { Observable, Subject } from "rxjs";
 import * as fromProfileReducer from "../store/profile/profile.reducers";
@@ -31,6 +36,7 @@ import * as fromUserLocation from "../../shared/store/user-location/user-locatio
   selector: "app-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;

@@ -85,4 +85,5 @@ export enum UploadStatus {
   Started = "Started",
   Failed = "Failed",
   Completed = "Completed",
+  Cancelled = "Cancelled",
 }

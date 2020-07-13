@@ -90,9 +90,11 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
         this.typeOfFilter =
           val.length > 1 ? `${this.typeOfUser}s` : this.typeOfUser;
         if (val.length > 0) {
-          this.setUsersImage(val);
-
           if (!this.userSet(val)) {
+            val.map((x: UserFilterCategory) => {
+              x = this.setUserImage(x);
+              this.filteredUsers.push(x);
+            });
             this.filteredUsers[0].isSelected = true;
             this.userTypeId = this.filteredUsers[0].userType;
             if (this.typeOfUser === AppUserType.Talent) {
@@ -196,6 +198,19 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   //   });
   // }
 
+  setUserImage(data: UserFilterCategory): UserFilterCategory {
+    return Object.assign({}, data, {
+      displayPhotoFullPath: fetchImageObjectFromCloudFormation(
+        data.displayPhoto,
+        this.editParams
+      ),
+      defaultImageFullPath: fetchImageObjectFromCloudFormation(
+        data.displayPhoto,
+        this.defaultParams
+      ),
+    });
+  }
+
   setUsersImage(val: UserFilterCategory[]): void {
     this.filteredUsers = val.map((x) => {
       return Object.assign({}, x, {
@@ -209,6 +224,8 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
         ),
       });
     });
+
+    console.log(this.filteredUsers);
   }
 
   onUserSelected(index: number) {

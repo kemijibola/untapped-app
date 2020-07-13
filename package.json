@@ -53,6 +53,7 @@
     "ng2-sticky-kit": "^6.1.0",
     "ngx-currency": "^2.2.3",
     "ngx-infinite-scroll": "^8.0.2",
+    "ngx-loading-bar": "0.0.9",
     "ngx-owl-carousel": "^2.0.7",
     "ngx-owl-carousel-o": "^3.0.1",
     "ngx-perfect-scrollbar": "^9.0.0",

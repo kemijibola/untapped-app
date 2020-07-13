@@ -80,13 +80,13 @@ export class ContestsComponent implements OnInit, OnDestroy {
       .subscribe((val: IContestList[]) => {
         if (this.contests.length === 0) {
           this.showLoading = false;
-          val.forEach((x) => {
+          val.map((x: IContestList) => {
             x = this.setContestBannerImage(x);
             this.contests.push(x);
           });
         } else {
           if (val.length > 0) {
-            val.forEach((x) => {
+            val.map((x) => {
               x = this.setContestBannerImage(x);
               this.contests.push(x);
             });
@@ -111,21 +111,6 @@ export class ContestsComponent implements OnInit, OnDestroy {
               this.editParams
             )
           : fetchDefaultContestBanner(),
-    });
-  }
-
-  setContestsBannerImage(data: IContestList[]) {
-    this.contests = data.map((x) => {
-      return Object.assign({}, x, {
-        defaultBannerImage: fetchImageObjectFromCloudFormation(
-          x.bannerImage,
-          this.defaultParams
-        ),
-        fullBannerImage:
-          x.bannerImage !== ""
-            ? fetchImageObjectFromCloudFormation(x.bannerImage, this.editParams)
-            : fetchDefaultContestBanner(),
-      });
     });
   }
 

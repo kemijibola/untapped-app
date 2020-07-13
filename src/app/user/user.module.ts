@@ -41,6 +41,9 @@ import { userLocationReducer } from "../shared/store/user-location/user-location
 import { TalentContestComponent } from "./talent-contest/talent-contest.component";
 
 import { LazyLoadImageModule } from "ng-lazyload-image";
+import { WalletComponent } from './wallet/wallet.component';
+import { NewWalletComponent } from './wallet/new-wallet/new-wallet.component';
+import { RequestPayoutComponent } from './wallet/request-payout/request-payout.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,9 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
     AddMoreAudioComponent,
     AddMoreVideoComponent,
     TalentContestComponent,
+    WalletComponent,
+    NewWalletComponent,
+    RequestPayoutComponent,
   ],
   imports: [
     SharedModule,

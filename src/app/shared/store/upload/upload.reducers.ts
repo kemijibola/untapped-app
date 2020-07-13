@@ -42,7 +42,7 @@ const initialState: UploadState = fromAdapter.adapter.getInitialState({
   uploadedItems: null,
   selectedUploadedItemId: null,
   uploadStarted: null,
-  uploadState: null,
+  uploadState: UploadStatus.Ready,
   uploadCompleted: null,
   mediaThumbnail: null,
   thumbnailPresignedUrl: null,
@@ -71,7 +71,21 @@ export function reducer(
         isReadyForUpload: false,
         uploadAction: UPLOADCOMPONENT.default,
         uploadSuccessful: true,
+      });
+    case UploadActions.UPLOAD_COMPLETED:
+      return Object.assign({
+        ...state,
         uploadState: UploadStatus.Completed,
+      });
+    case UploadActions.UPLOAD_FILES:
+      return Object.assign({
+        ...state,
+        uploadState: UploadStatus.Started,
+      });
+    case UploadActions.UPLOAD_FILES_ERROR:
+      return Object.assign({
+        ...state,
+        uploadState: UploadStatus.Failed,
       });
     case UploadActions.UPLOAD_THUMBNAIL_SUCCESS:
       return Object.assign({
@@ -87,6 +101,7 @@ export function reducer(
         thumbnailPresignedUrl: null,
         mediaThumbnail: null,
         uploadSuccessful: false,
+        uploadState: UploadStatus.Ready,
       });
     case UploadActions.FILE_TOUPLOAD:
       return Object.assign({
@@ -111,6 +126,11 @@ export function reducer(
       return Object.assign({
         ...state,
         uploadAction: action.payload.uploadOperation,
+      });
+    case UploadActions.UPLOAD_THUMBNAIL_ERROR:
+      return Object.assign({
+        ...state,
+        uploadState: UploadStatus.Failed,
       });
     case UploadActions.SET_UPLOADED_ITEMS:
       return Object.assign({
@@ -157,6 +177,21 @@ const getUploadedItems = (state: UploadState) => state.uploadedItems;
 
 const getMediaThumbnail = (state: UploadState) => state.mediaThumbnail;
 
+const getUploadCompleted = (state: UploadState): boolean =>
+  state.uploadState === UploadStatus.Completed;
+
+const getUploadInProgress = (state: UploadState): boolean =>
+  state.uploadState === UploadStatus.Started;
+
+const getUploadInitiated = (state: UploadState): boolean =>
+  state.uploadState === UploadStatus.Started;
+
+const getUploadFailure = (state: UploadState): boolean =>
+  state.uploadState === UploadStatus.Failed;
+
+const getUploadReady = (state: UploadState): boolean =>
+  state.uploadState === UploadStatus.Ready;
+
 export const getUploadState = createFeatureSelector<UploadState>("uploadState");
 
 const getUploadProgressState = (state: UploadState): boolean =>
@@ -198,11 +233,6 @@ export const selectUploadActionState = createSelector(
   getUploadActionState
 );
 
-export const selectUserMediaType = createSelector(
-  getUploadState,
-  getUploadState
-);
-
 export const selectUploadFileInput = createSelector(
   getUploadState,
   getFileInput
@@ -218,6 +248,26 @@ export const selectPresignedUrls = createSelector(
   getPresignedUrls
 );
 
+export const selectUploadInProgressStatus = createSelector(
+  getUploadState,
+  getUploadInProgress
+);
+
+export const selectUploadCompletedStatus = createSelector(
+  getUploadState,
+  getUploadCompleted
+);
+
+export const selectUploadInitiatedStatus = createSelector(
+  getUploadState,
+  getUploadInitiated
+);
+
+export const selectUploadFailedStatus = createSelector(
+  getUploadState,
+  getUploadFailure
+);
+
 export const selectThumbnailPresignedUrl = createSelector(
   getUploadState,
   getThumbnailPresignedUrl
@@ -226,6 +276,11 @@ export const selectThumbnailPresignedUrl = createSelector(
 export const selectFilesToUpload = createSelector(
   getUploadState,
   getFilesToUpload
+);
+
+export const selectUploadReadyStatus = createSelector(
+  getUploadState,
+  getUploadReady
 );
 
 export const selectUploadStatus = createSelector(
