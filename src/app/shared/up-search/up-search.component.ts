@@ -11,7 +11,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, filter } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as UserFilterActions from "../store/filtered-categories/user-filter/user-filter.action";
@@ -33,7 +33,11 @@ export class UpSearchComponent implements OnInit, OnChanges {
     });
 
     this.searchInput.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(
+        // filter((res) => res.length > 2),
+        debounceTime(1000),
+        distinctUntilChanged()
+      )
       .subscribe((data: string) => {
         this.store.dispatch(
           new UserFilterActions.SetFilterText({ searchText: data })

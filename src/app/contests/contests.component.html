@@ -65,7 +65,7 @@
                 </div>
               </div>
               <div class="contesst-img-content">
-                <h4>{{ contest.title }}</h4>
+                <h4>{{ contest.title | truncateText: 31 }}</h4>
                 <div class="i-text">
                   <p>
                     <img src="assets/img/eye.svg" alt="" />

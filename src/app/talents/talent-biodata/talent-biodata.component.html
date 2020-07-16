@@ -1,4 +1,4 @@
-<div class="middle-talent-wrp">
+<div class="middle-talent-wrp" *ngIf="show">
   <div class="talent-img" style="text-align: center; background: lightgray;">
     <img
       [defaultImage]="defaultImage"
@@ -65,4 +65,8 @@
       </p>
     </div>
   </div>
+</div>
+
+<div class="middle-talent-wrp" *ngIf="!show">
+  <i>No record found</i>
 </div>

@@ -60,9 +60,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
   @ViewChild("signupButton", { static: false }) signupButton: ElementRef;
   constructor(
     private store: Store<fromApp.AppState>,
-    private userService: UserService,
-    private notificationService: NotificationService,
-    private errorService: ErrorService
+    private userService: UserService
   ) {}
 
   ngOnInit() {

@@ -112,7 +112,6 @@ export class TalentPortfolioAlbumsComponent {
   ) {}
 
   ngOnInit() {
-    console.log("where i want to work");
     this.fetchTalentImages();
     this.fetchTalentAudios();
     this.fetchTalentVideos();
@@ -211,7 +210,6 @@ export class TalentPortfolioAlbumsComponent {
       this.selectedMedia = { ...selectedMedia };
     }
 
-    
     if (this.selectedMedia.items.length <= 1) {
       this.leftDisabled = true;
       this.rightDisabled = true;
@@ -232,6 +230,7 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
       .subscribe((val: ImagePortfolioPreview[]) => {
+        console.log(val);
         if (val) {
           this.imageAlbums = [...val];
           this.setImageAlbumCover();

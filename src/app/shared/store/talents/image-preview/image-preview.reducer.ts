@@ -27,6 +27,8 @@ export function reducer(
         ...state,
         selectedImagePortfolioPreviewId: action.payload.id,
       });
+    case TalentImagePreviewActions.RESET_TALENT_IMAGE_PORTFOLIO_PREVIEW:
+      return fromAdapter.adapter.setAll([], state);
     default: {
       return state;
     }

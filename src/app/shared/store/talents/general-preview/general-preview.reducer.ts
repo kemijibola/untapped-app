@@ -25,6 +25,8 @@ export function reducer(
         ...state,
         selectedGeneralPreviewId: action.payload.id,
       });
+    case GeneralPreviewActions.RESET_TALENT_GENERAL_PREVIEW:
+      return fromAdapter.adapter.setAll([], state);
     default: {
       return state;
     }

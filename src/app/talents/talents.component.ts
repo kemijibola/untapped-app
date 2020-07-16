@@ -6,6 +6,7 @@ import {
   ElementRef,
   Renderer2,
   AfterViewInit,
+  ChangeDetectionStrategy
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
@@ -37,6 +38,7 @@ import {
   selector: "app-talents",
   templateUrl: "./talents.component.html",
   styleUrls: ["./talents.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
   width: number = window.innerWidth;

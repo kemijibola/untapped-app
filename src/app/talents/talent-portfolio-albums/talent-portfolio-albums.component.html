@@ -23,8 +23,8 @@
   <app-talent-album-modal-content body></app-talent-album-modal-content>
 </app-modals>
 
-<div class="head text-center mb-30" *ngIf="imageAlbums.length > 0">
-  <span>{{ (selectedUser | async).displayName }}’s</span>
+<div class="head text-center mb-30" *ngIf="(selectedUser | async)?.displayName">
+  <span>{{ (selectedUser | async)?.displayName }}’s</span>
   <h3>Image Albums</h3>
 </div>
 
@@ -93,7 +93,7 @@
 </div>
 
 <div class="head text-center mb-30 mt-45" *ngIf="generalPreviews.length > 0">
-  <span>{{ (selectedUser | async).displayName }}’s</span>
+  <span>{{ (selectedUser | async)?.displayName }}’s</span>
   <h3>General Uploads</h3>
 </div>
 

@@ -27,6 +27,8 @@ export function reducer(
         ...state,
         selectedAudioPortfolioPreviewId: action.payload.id,
       });
+    case TalentVideoPreviewActions.RESET_TALENT_VIDEO_PORTFOLIO_PREVIEW:
+      return fromAdapter.adapter.setAll([], state);
     default: {
       return state;
     }

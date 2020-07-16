@@ -9,7 +9,10 @@
       <div class="col-xl-7 col-lg-7 col-md-7 col-12 mb-40">
         <div class="collect-outer-wrapper">
           <div>
-            <div class="details-content new-contest-banner-top" style="display: none;">
+            <div
+              class="details-content new-contest-banner-top"
+              style="display: none;"
+            >
               <div class="sidebar-img">
                 <img
                   [defaultImage]="defaultBannerImage"
@@ -29,16 +32,24 @@
                   class="error-block"
                   *ngIf="
                     !contestForm.get('title').valid &&
-                    contestForm.get('title').touched
+                    contestForm.get('title').touched &&
+                    !contestForm.get('title').hasError('titleExist')
                   "
                 >
                   Please provide provide
+                </span>
+                <span
+                  class="error-block"
+                  *ngIf="contestForm.get('title').hasError('titleExist')"
+                >
+                  Contest title exist
                 </span>
                 Contest Title</label
               >
               <input
                 type="text"
                 formControlName="title"
+                autofocus
                 placeholder="Some fancy title for your contest"
               />
             </div>
@@ -60,18 +71,16 @@
                 formControlName="basicInfo"
                 cols="30"
                 rows="10"
+                style="resize: none;"
               ></textarea>
             </div>
             <div class="upload">
               <div class="head">
                 <label for="">+ Upload contest banner</label>
-                <!-- <span>Banner size 200px by 200px</span> -->
+                <span>Banner size 500px by 400px</span>
               </div>
               <div class="upload-fld">
-                <input
-                  type="text"
-                  placeholder="Drag and drop file to upload or"
-                />
+                <input readonly placeholder="Drag and drop file to upload or" />
                 <button (click)="onClickBrowseBtn()">BROWSE</button>
                 <!-- upload component goes here -->
                 <app-upload [fileConfig]="fileConfig"> </app-upload>
@@ -93,6 +102,7 @@
                   value=""
                   cols="30"
                   rows="10"
+                  style="resize: none;"
                 ></textarea>
               </div>
               <div class="input-1">
@@ -102,16 +112,23 @@
                   placeholder="What rules binds the people who participate in your contest"
                   cols="30"
                   rows="10"
+                  style="resize: none;"
                 ></textarea>
               </div>
               <div class="duration">
-                <label for="">Contest duration</label>
+                <label for=""
+                  >Contest duration (<small>start date - end date</small
+                  >)</label
+                >
                 <div class="duration-inner">
                   <input
                     formControlName="contestDuration"
                     [owlDateTimeTrigger]="dt10"
                     [owlDateTime]="dt10"
                     [selectMode]="'range'"
+                    [min]="minDate"
+                    [max]="maxDate"
+                    title="Click to select start and end date"
                   />
                   <owl-date-time #dt10></owl-date-time>
                 </div>
@@ -128,7 +145,6 @@
                 [defaultImage]="defaultBannerImage"
                 [lazyLoad]="bannerImage"
                 style="width: 482px; height: 395px; background: lightgray;"
-                alt=""
               />
             </div>
             <!-- <div class="heading mb-10">
@@ -195,6 +211,12 @@
                   <h4>
                     Reward/Rewards
                   </h4>
+                  <span
+                    class="error-block"
+                    *ngIf="!contestRewards.valid && contestRewards.touched"
+                  >
+                    Please provide reward / rewards
+                  </span>
                 </div>
               </div>
               <div class="winer-blk" formArrayName="contestRewards">
@@ -203,17 +225,9 @@
                   [formGroupName]="i"
                 >
                   <div class="single-winner-blk">
-                    <label for="">
-                      <span
-                        class="error-block"
-                        *ngIf="!contestRewards.valid && contestRewards.touched"
-                      >
-                        Please provide provide
-                      </span>
-                      Winner {{ i + 1 }}:</label
-                    >
+                    <label for=""> Winner {{ i + 1 }}:</label>
                     <input
-                      placeholder="N40,000"
+                      placeholder="5000000"
                       currencyMask
                       formControlName="reward"
                       [options]="{

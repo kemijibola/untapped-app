@@ -273,6 +273,16 @@
                           routerLink="user/contest/page"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
+                          [queryParams]="{ tab: 'new' }"
+                          >New Contest</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          *ngIf="typeOfUser === 'Professional'"
+                          routerLink="user/contest/page"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
                           [queryParams]="{ tab: 'all' }"
                           >Contests</a
                         >

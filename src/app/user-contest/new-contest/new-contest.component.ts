@@ -30,6 +30,8 @@ import * as fromUserContest from "../../user-contest/user-contest.reducers";
 import * as fromNewContest from "../../user-contest/store/new-contest/new-contest.reducers";
 import { environment } from "src/environments/environment.dev";
 import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
+import { addDays } from "date-fns";
+import { NUMERIC_REGEX } from "src/app/lib/constants";
 
 @Component({
   selector: "app-new-contest",
@@ -45,7 +47,6 @@ export class NewContestComponent implements OnInit {
   eligibityRule = "";
   submissionRule = "";
   contestDays = 1;
-  contestDuration = "";
   // evaluations: string[] = [];
   fileConfig: IFileInputModel;
   private presignRequest: IPresignRequest;
@@ -89,6 +90,11 @@ export class NewContestComponent implements OnInit {
     { id: 2, name: "Image", selected: false },
   ];
 
+  minDate: Date = new Date();
+  maxDate: Date = addDays(this.minDate, 30);
+  // contestDuration = "";
+  contestDuration: Date[] = [];
+
   constructor(
     public store: Store<fromApp.AppState>,
     private userContestStore: Store<fromUserContest.UserContestState>,
@@ -112,7 +118,6 @@ export class NewContestComponent implements OnInit {
     //   this.selectedCategories = [...val];
     // });
 
-
     this.contestForm = new FormGroup({
       title: new FormControl(
         null,
@@ -125,10 +130,19 @@ export class NewContestComponent implements OnInit {
       ]),
       eligibityRule: new FormControl(null),
       submissionRule: new FormControl(null),
-      contestDuration: new FormControl(null),
+      contestDuration: new FormControl([
+        this.minDate,
+        addDays(this.minDate, 7),
+      ]),
       contestRewards: new FormArray([
         new FormGroup({
-          reward: new FormControl("", Validators.required),
+          reward: new FormControl(
+            "",
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(NUMERIC_REGEX),
+            ])
+          ),
         }),
       ]),
       entryMedia: new FormControl(null),
@@ -300,8 +314,8 @@ export class NewContestComponent implements OnInit {
       action: this.uploadAction,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
-      minHeight: 150,
-      minWidth: 100,
+      minHeight: 400,
+      minWidth: 500,
     };
   }
   deleteReward(index: number) {

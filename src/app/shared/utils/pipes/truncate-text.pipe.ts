@@ -20,7 +20,7 @@ export class TruncateTextPipe implements PipeTransform {
         .slice(0, lastSpace)
         .replace(/[!,.?;:]$/, "");
     }
-    // return truncatedText + elipses;
-    return truncatedText;
+    return truncatedText + elipses;
+    // return truncatedText;
   }
 }

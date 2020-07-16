@@ -789,7 +789,7 @@ footer {
   position: absolute;
   bottom: -100%;
   height: 55;
-  width: 98%;
+  width: 100%;
   padding: 12px;
   padding-bottom: 5px;
   -webkit-transition: 0.5s ease 0s;
@@ -1464,7 +1464,7 @@ html::-webkit-scrollbar {
 }
 .input-1 label {
   display: block;
-  font-size: 16px;
+  font-size: 13px;
   color: #272424;
 }
 .input-1 input,
@@ -1763,7 +1763,7 @@ html::-webkit-scrollbar {
   padding-left: 10px;
 }
 .prize .hd h4 {
-  font-size: 16px;
+  font-size: 13px;
   color: #272424;
   font-family: AvenirNext-reg;
   margin-bottom: 12px;
@@ -4066,7 +4066,7 @@ button.accordion.is-open:after {
 }
 .contest-number label {
   display: block;
-  font-size: 16px;
+  font-size: 13px;
 }
 .contest-number input {
   height: 50px;
