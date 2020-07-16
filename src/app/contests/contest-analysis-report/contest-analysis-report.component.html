@@ -44,7 +44,7 @@
           </h4>
           <div class="vote-box" style="background: #06a9b0;">
             <h4 style="color: antiquewhite;">
-              Total votes
+              Votes
               <span>
                 {{ contestVoteResult?.contestTotalVote }}
               </span>
@@ -52,7 +52,7 @@
           </div>
           <div class="vote-box" style="background: #e73b08;">
             <h4 style="color: antiquewhite;">
-              Total invalid votes
+              Invalid
               <span>
                 {{ contestVoteResult?.contestTotalInvalidVote }}
               </span>
@@ -60,9 +60,10 @@
           </div>
           <div class="vote-box" style="background: #056f12;">
             <h4 style="color: antiquewhite;">
-              Total valid votes
+              Valid
               <span>
-                {{ contestVoteResult?.contestTotalValidVote }}
+                4,000,000
+                <!-- {{ contestVoteResult?.contestTotalValidVote }} -->
               </span>
             </h4>
           </div>
@@ -91,10 +92,36 @@
           >
             <div class="contest-list-main-inner">
               <div class="text-center mt-1">
+                <div
+                  style="
+                    position: absolute;
+                    right: 15px;
+                    top: 4px;
+                    text-align: 'center';
+                    line-height: 80px;
+                    color: #ffffff;
+                    width: 80px;
+                    height: 80px;
+                    background-color: green;
+                    border-top-right-radius: 10px;
+                    font-size: 2.2rem;
+                  "
+                >
+                  1
+                </div>
+                <!-- <div style="position: absolute;">
+                  <img src="assets/img/cancel.png" style="width: 270px;" />
+                </div> -->
                 <img
                   [defaultImage]="entry.defaultUserProfileImage"
                   [lazyLoad]="entry.fullUserProfileImage"
-                  style="width: 270px; height: 222px; background: lightgray;"
+                  style="
+                    width: 100%;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    height: 222px;
+                    background: lightgray;
+                  "
                 />
                 <!-- <img
                   src="assets/img/winner.png"

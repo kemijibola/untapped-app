@@ -1049,6 +1049,7 @@ footer {
 
 .new-entry {
   width: 50% !important;
+  margin: 0 auto;
 }
 
 .contest-details-area .modal-dialog {
@@ -4136,7 +4137,7 @@ button.accordion.is-open:after {
   margin-top: 15px !important;
 }
 .over-view-all-content {
-  padding-right: 100px;
+  /* padding-right: 100px; */
 }
 .over-view-area {
   padding: 80px;
@@ -5389,16 +5390,127 @@ body.viewport-lg {
 }
 .vote-box {
   border-radius: 3px;
-  padding-top: 32px;
-  width: 175px;
+  width: 100px;
   border: 1px solid gray;
   text-align: center;
   box-shadow: 1px 1px 3px grey;
   float: left;
   margin-right: 7px;
   margin-top: 7px;
+  padding: 8px;;
+}
+.vote-box h4 {
+  margin-bottom: 0
+}
+.vote-box span {
+  margin-top: 0 !important
 }
 .contets-mobile {
   width: 257px;
   height: 161px;
+}
+
+.wallet-container {
+  background-color: #e3fae1;
+  border-radius: 10px;
+}
+
+.wallet-summary {
+  padding: 16px;
+  border-radius: 6px;
+  background-color: #e3fae1;
+}
+
+.wallet-transaction {
+  height: 245px;
+  background-color: #e3fae1;
+  overflow-y: scroll;
+  padding: 0px 0 0 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.wallet-owner {
+  border-top: 1px solid #90d39f;
+  margin-top: 20px;
+  padding-top: 20px;
+  font-size: 14px;
+}
+
+.wallet-summary {
+}
+
+.wallet-balance {
+}
+
+.wallet-balance-text {
+  color: #000000;
+}
+
+.wallet-balance-amount {
+  font-weight: 900;
+  font-size: 1.4rem;
+  margin-top: 0.8rem;
+  color: #000000;
+}
+
+.wallet-owner-text {
+  font-weight: 900;
+}
+
+.wallet-id {
+  margin-top: 0.5rem;
+  font-size: 10px;
+}
+
+.wallet-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid green;
+  border-radius: 4px;
+  display: block;
+  width: 120px;
+  text-align: center;
+  color: #54ab68;
+}
+
+.wallet-btn :hover {
+  color: #54ab68;
+}
+
+.transaction-amount {
+  font-size: 2rem;
+  color: #000000;
+  font-weight: 900;
+}
+
+.transaction-amount-container {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  border-bottom: 1px solid green;
+  margin-bottom: 16px;
+  padding-top: 20px;
+}
+
+.transaction-amount,
+.transaction-type {
+  color: green;
+}
+
+.transaction-type {
+  font-size: 0.8rem;
+  color: #a3a3a3;
+}
+
+.transaction-amount .credit {
+  color: green;
+}
+
+.transaction-amount .debit {
+  color: red;
+}
+
+.transaction-amount-container {
+  background-color: #ffffff;
+  height: 130px;
 }
