@@ -30,4 +30,5 @@ export const environment = {
   PUSHER_CLUSTER: "eu",
   PUSHER_CHANNEL: "untapped-pool-production",
   TERMS_CONDITION_LAST_DATE: "June 17, 2020",
+  KEY: "311A35EAE8CEDB052F1E8533FE3DBC12",
 };

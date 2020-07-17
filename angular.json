@@ -49,7 +49,8 @@
               "src/assets/js/isotope.pkgd.min.js",
               "src/assets/js/jquery.nice-select.min.js",
               "src/assets/js/bootstrap.min.js",
-              "src/assets/js/main.js"
+              "src/assets/js/main.js",
+              "node_modules/crypto-js/crypto-js.js"
             ]
           },
           "configurations": {

@@ -3,11 +3,19 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
 import * as AuthActions from "../account/store/auth.actions";
-import { IAppTab, ITab, IAuthData, AppUserType } from "../interfaces";
+import {
+  IAppTab,
+  ITab,
+  IAuthData,
+  AppUserType,
+  AppModal,
+  ModalDisplay,
+} from "../interfaces";
 import { AbstractTabComponent } from "../shared/Classes/abstract/abstract-tab/abstract-tab.component";
 import { UUID } from "angular2-uuid";
-import * as TabsAction from "../shared/store/tabs/tabs.actions";
+
 import * as fromAuth from "src/app/account/store/auth.reducers";
+import * as ModalsActions from "../shared/store/modals/modals.actions";
 
 @Component({
   selector: "app-user",
@@ -21,12 +29,43 @@ export class UserComponent extends AbstractTabComponent {
   toQueryParam = "profile";
   divClass = "profile-area fx-padding-2 pt-80 pb-105";
   navClass = "nav nav-tabs mb-30 all-tablinks";
+
+  componentModal: AppModal = {
+    id: "user-wallet",
+    modals: [
+      {
+        index: 0,
+        name: "new-wallet",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        modalContentCss: "",
+        showMagnifier: false,
+      },
+      {
+        index: 1,
+        name: "wallet-data",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        modalContentCss: "",
+        showMagnifier: false,
+      },
+    ],
+  };
   constructor(
     public store: Store<fromApp.AppState>,
     public router: Router,
     public route: ActivatedRoute
   ) {
     super();
+
+    this.store.dispatch(
+      new ModalsActions.AddComponentModal({
+        componentModal: this.componentModal,
+      })
+    );
+
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {

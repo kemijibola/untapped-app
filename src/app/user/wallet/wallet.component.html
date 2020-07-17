@@ -1,15 +1,15 @@
-<app-modals [id]="'new-entry'">
+<app-modals [id]="'new-wallet'">
   <div class="pop-icon-bar pop-talent" navigate>
     <button
       type="button"
       class="close"
-      (click)="closeModalDialog('new-entry')"
+      (click)="closeModalDialog('new-wallet')"
       aria-label="Close"
     >
       <span aria-hidden="true"><i class="far fa-times"></i></span>
     </button>
   </div>
-  <app-new-wallet></app-new-wallet>>
+  <app-new-wallet body></app-new-wallet>>
 </app-modals>
 
 <!-- <app-modals [id]="'talent-entry-details'">
@@ -36,7 +36,15 @@
 
 <div class="row ml-0 mr-0 wallet-container">
   <div class="col-lg-5 col-sm-12 wallet-summary">
-    <div class="bg-white p-3">
+    <div class="p-3">
+      <a
+        (click)="openModalDialog('new-wallet')"
+        class="wallet-btn"
+        style="margin: 0 auto; cursor: pointer;"
+        >Create Wallet</a
+      >
+    </div>
+    <!-- <div class="bg-white p-3">
       <div class="wallet-balance">
         <span class="wallet-balance-text d-block">Wallet Balance</span>
         <span class="wallet-balance-amount d-block">N 0.00</span>
@@ -50,22 +58,18 @@
       <div class="mt-4">
         <a href="#" class="wallet-btn">Withdraw</a>
       </div>
-    </div>
+    </div> -->
   </div>
   <div class="col-lg-7 col-sm-12 wallet-transaction">
-      <div class="transaction-amount-container">
-        <span class="transaction-type d-block">Narration here</span>
-        <span class="transaction-amount credit d-block"
-          >N 30, 000</span
-        >
-        <span class="transaction-time">30th July, 2000 @ 12:00 am</span>
-      </div>
-      <div class="transaction-amount-container">
-        <span class="transaction-type d-block">Narration here</span>
-        <span class="transaction-amount debit d-block"
-          >N 30, 000</span
-        >
-        <span class="transaction-time">30th July, 2000 @ 12:00 am</span>
-      </div>
+    <div class="transaction-amount-container">
+      <span class="transaction-type d-block">Narration here</span>
+      <span class="transaction-amount credit d-block">N 30, 000</span>
+      <span class="transaction-time">30th July, 2000 @ 12:00 am</span>
+    </div>
+    <div class="transaction-amount-container">
+      <span class="transaction-type d-block">Narration here</span>
+      <span class="transaction-amount debit d-block">N 30, 000</span>
+      <span class="transaction-time">30th July, 2000 @ 12:00 am</span>
+    </div>
   </div>
 </div>

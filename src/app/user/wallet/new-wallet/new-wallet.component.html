@@ -1,1 +1,41 @@
-<p>new-wallet works!</p>
+<div class="row" body>
+  <div class="col-xl-12">
+    <div class="popup-content-wrap pro-page p-0">
+      <div class="create-pass-popup">
+        <form class="new-wallet" [formGroup]="newWalletForm">
+          <label for="">
+            <span
+              class="error-block"
+              *ngIf="
+                !newWalletForm.get('walletPin').valid &&
+                newWalletForm.get('walletPin').touched
+              "
+            >
+              * Please enter a valid 4 digit
+            </span>
+            New Pin</label
+          >
+          <input
+            type="password"
+            formControlName="walletPin"
+            class="input-design mb-10"
+          />
+          <button
+            #walletButton
+            class="box-btn login-btn mt-10"
+            [disabled]="!newWalletForm.valid || (inProgress$ | async)"
+            (click)="onCreateWallet()"
+            type="button"
+          >
+            <span *ngIf="(initiated$ | async) || (isCompleted$ | async)"
+              >Create Wallet</span
+            >
+            <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"
+              >Creating Wallet...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
