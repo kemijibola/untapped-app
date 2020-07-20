@@ -1,8 +1,10 @@
 export interface IWallet {
-  _id?: string;
-  walletNumber: string;
-  user: string;
-  pin: string;
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+  };
+  walletNmber: string;
+  balance: number;
   status: string;
-  balance: Number;
 }

@@ -230,10 +230,10 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
       .subscribe((val: ImagePortfolioPreview[]) => {
-        console.log(val);
         if (val) {
-          this.imageAlbums = [...val];
-          this.setImageAlbumCover();
+          this.setImageAlbumCover(val);
+        } else {
+          this.imageAlbums = [];
         }
       });
   }
@@ -243,8 +243,9 @@ export class TalentPortfolioAlbumsComponent {
       .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
       .subscribe((val: AudioPortfolioPreview[]) => {
         if (val) {
-          this.audioAlbums = [...val];
-          this.setAudioAlbumCover();
+          this.setAudioAlbumCover(val);
+        } else {
+          this.audioAlbums = [];
         }
       });
   }
@@ -254,14 +255,15 @@ export class TalentPortfolioAlbumsComponent {
       .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
       .subscribe((val: VideoPortfolioPreview[]) => {
         if (val) {
-          this.videoAlbums = [...val];
-          this.setVideoAlbumCover();
+          this.setVideoAlbumCover(val);
+        } else {
+          this.videoAlbums = [];
         }
       });
   }
 
-  setImageAlbumCover() {
-    this.imageAlbums = this.imageAlbums.map((x) => {
+  setImageAlbumCover(data: ImagePortfolioPreview[]) {
+    this.imageAlbums = data.map((x) => {
       return Object.assign({}, x, {
         albumCover:
           x.defaultImageKey !== ""
@@ -292,14 +294,14 @@ export class TalentPortfolioAlbumsComponent {
     this.showImage = true;
   }
 
-  setAudioAlbumCover() {
-    this.audioAlbums = this.audioAlbums.map((x) => {
+  setAudioAlbumCover(data: AudioPortfolioPreview[]) {
+    this.audioAlbums = data.map((x) => {
       return Object.assign({}, x, { albumCover: fetchAudioArt() });
     });
   }
 
-  setVideoAlbumCover() {
-    this.videoAlbums = this.videoAlbums.map((x) => {
+  setVideoAlbumCover(data: VideoPortfolioPreview[]) {
+    this.videoAlbums = data.map((x) => {
       return Object.assign({}, x, {
         albumCover:
           x.albumCoverKey !== ""

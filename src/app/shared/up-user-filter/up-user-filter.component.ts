@@ -40,10 +40,10 @@ import * as fromUser from "../../user/user.reducers";
 import * as MediaPreviewActions from "../../user/store/portfolio/media/media-preview.actions";
 import * as _ from "underscore";
 import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
-import * as UserTypeActions from "../../user-type/store/user-type.actions";
 import { timer, Observable } from "rxjs";
-import { concatMap, map } from "rxjs/operators";
+import { concatMap, map, take } from "rxjs/operators";
 import { of } from "core-js/fn/array";
+import { first } from "underscore";
 
 @Component({
   selector: "app-up-user-filter",
@@ -58,9 +58,6 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   searchText: string = "";
   category: string = "";
   userTypeId: string = "";
-  userType$: Observable<IUserType[]> = this.store.select(
-    fromUserTypeReducer.selectAllUserTypes
-  );
 
   currentUserSelected: boolean = false;
   private scrollToContainer: any;
@@ -93,16 +90,13 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromApp.AppState>,
     private renderer: Renderer2
-  ) {
-    this.store.dispatch(new UserTypeActions.FetchUserTypes());
-  }
+  ) {}
 
   ngOnInit() {
     this.store
       .pipe(select(fromUserFilter.selectAllUsers))
-      .take(2)
       .subscribe((val: UserFilterCategory[]) => {
-        console.log(val);
+        this.filteredUsers = [];
         this.typeOfFilter =
           val.length > 1 ? `${this.typeOfUser}s` : this.typeOfUser;
         if (val.length > 0) {
@@ -139,58 +133,51 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store
-      .pipe(select(fromUserFilter.selectSearchText))
-      .subscribe((val: string) => {
-        console.log("search text", val);
-        if (val !== null) {
-          this.searchText = val;
-          if (this.searchText.length > 2) {
-            this.store.dispatch(
-              new UserFilterActions.FetchAllUsers({
-                queryParams: {
-                  searchText: val,
-                  categoryId: this.category,
-                  userTypeId: this.userTypeId,
-                },
-              })
-            );
-          }
-          if (this.searchText.length === 0) {
-            this.userType$.subscribe((val: IUserType[]) => {
-              this.userTypeId = val.filter(
-                (x) => x.name === this.typeOfFilter
-              )[0]?._id;
-            });
+    // this.store
+    //   .pipe(select(fromUserFilter.selectSearchText))
+    //   .subscribe((val: string) => {
+    //     if (val !== null) {
+    //       this.searchText = val;
+    //       if (this.searchText.length > 2) {
+    //         this.store.dispatch(
+    //           new UserFilterActions.FetchAllUsers({
+    //             queryParams: {
+    //               searchText: val,
+    //               categoryId: this.category,
+    //               userTypeId: this.userTypeId,
+    //             },
+    //           })
+    //         );
+    //       } else if (this.searchText.length === 0) {
+    //         this.store.dispatch(
+    //           new UserFilterActions.FetchAllUsers({
+    //             queryParams: {
+    //               userTypeId: this.userTypeId,
+    //               categoryId: this.category,
+    //             },
+    //           })
+    //         );
+    //       }
+    //     }
+    //   });
 
-            this.store.dispatch(
-              new UserFilterActions.FetchAllUsers({
-                queryParams: {
-                  userTypeId: this.userTypeId,
-                  categoryId: this.category,
-                },
-              })
-            );
-          }
-        }
-      });
-
-    this.store
-      .pipe(select(fromCategory.selectCurrentCategory))
-      .subscribe((val: Category) => {
-        if (val) {
-          this.category = val._id;
-          this.store.dispatch(
-            new UserFilterActions.FetchAllUsers({
-              queryParams: {
-                searchText: this.searchText,
-                categoryId: val._id,
-                userTypeId: this.userTypeId,
-              },
-            })
-          );
-        }
-      });
+    // this.store
+    //   .pipe(select(fromCategory.selectCurrentCategory))
+    //   .subscribe((val: Category) => {
+    //     console.log("category", val);
+    //     if (val) {
+    //       this.category = val._id;
+    //       this.store.dispatch(
+    //         new UserFilterActions.FetchAllUsers({
+    //           queryParams: {
+    //             searchText: this.searchText,
+    //             categoryId: val._id,
+    //             userTypeId: this.userTypeId,
+    //           },
+    //         })
+    //       );
+    //     }
+    //   });
   }
 
   setUserImage(data: UserFilterCategory): UserFilterCategory {
@@ -264,8 +251,8 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.searchText = "";
-    this.category = "";
-    this.userTypeId = "";
+    // this.searchText = "";
+    // this.category = "";
+    // this.userTypeId = "";
   }
 }

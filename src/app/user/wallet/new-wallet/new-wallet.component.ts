@@ -59,7 +59,6 @@ export class NewWalletComponent implements OnInit {
 
     const pin: string = this.newWalletForm.controls["walletPin"].value;
     const pinData = this.helperService.set(environment.KEY, pin);
-
     this.userStore.dispatch(new WalletActions.CreateWallet({ pin: pinData }));
   }
 }

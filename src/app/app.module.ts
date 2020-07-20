@@ -101,13 +101,17 @@ export const customCurrencyMaskConfig = {
       ProfessionalCategoryEffect,
       DashboardEffects,
       UserFilterEffect,
-      WalletEffect,
     ]),
     CoreModule,
     StoreRouterConnectingModule.forRoot({
       serializer: DefaultRouterStateSerializer,
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production
+      ? StoreDevtoolsModule.instrument({
+          maxAge: 25,
+          logOnly: environment.production,
+        })
+      : [],
     StorageModule.forRoot({ IDBNoWrap: false }),
   ],
   exports: [MaterialModule],

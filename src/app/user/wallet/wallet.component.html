@@ -36,7 +36,7 @@
 
 <div class="row ml-0 mr-0 wallet-container">
   <div class="col-lg-5 col-sm-12 wallet-summary">
-    <div class="p-3">
+    <div class="p-3" *ngIf="!walletData">
       <a
         (click)="openModalDialog('new-wallet')"
         class="wallet-btn"
@@ -44,21 +44,25 @@
         >Create Wallet</a
       >
     </div>
-    <!-- <div class="bg-white p-3">
+    <div class="bg-white p-3" *ngIf="walletData">
       <div class="wallet-balance">
         <span class="wallet-balance-text d-block">Wallet Balance</span>
-        <span class="wallet-balance-amount d-block">N 0.00</span>
+        <span class="wallet-balance-amount d-block">{{
+          walletData?.balance | currency: "NGN":"symbol":"4.2-2"
+        }}</span>
       </div>
       <div class="wallet-owner">
         <span class="wallet-owner-text d-block font-weight-bold"
-          >CVWallet - CROWDYVESTLIM/ADETOYE OYEBISI</span
+          >UPWallet - UNTAPPEDPOOL/{{ walletData?.user.name }}</span
         >
-        <span class="wallet-id d-block">Wallet ID - 823892378</span>
+        <span class="wallet-id d-block"
+          >Wallet ID - {{ walletData?.walletNmber }}</span
+        >
       </div>
       <div class="mt-4">
-        <a href="#" class="wallet-btn">Withdraw</a>
+        <a disabled="walletData?.balance < 100" class="wallet-btn">Withdraw</a>
       </div>
-    </div> -->
+    </div>
   </div>
   <div class="col-lg-7 col-sm-12 wallet-transaction">
     <div class="transaction-amount-container">

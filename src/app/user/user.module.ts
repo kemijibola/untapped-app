@@ -41,9 +41,11 @@ import { userLocationReducer } from "../shared/store/user-location/user-location
 import { TalentContestComponent } from "./talent-contest/talent-contest.component";
 
 import { LazyLoadImageModule } from "ng-lazyload-image";
-import { WalletComponent } from './wallet/wallet.component';
-import { NewWalletComponent } from './wallet/new-wallet/new-wallet.component';
-import { RequestPayoutComponent } from './wallet/request-payout/request-payout.component';
+import { WalletComponent } from "./wallet/wallet.component";
+import { NewWalletComponent } from "./wallet/new-wallet/new-wallet.component";
+import { RequestPayoutComponent } from "./wallet/request-payout/request-payout.component";
+import { WalletEffect } from "./store/wallet/wallet.effect";
+import { walletReducer } from "./store/wallet/wallet.reducer";
 
 @NgModule({
   declarations: [
@@ -85,10 +87,12 @@ import { RequestPayoutComponent } from './wallet/request-payout/request-payout.c
     StoreModule.forFeature("mediaPreviewState", mediaPreviewReducer),
     StoreModule.forFeature("portfolioState", portfolioReducer),
     StoreModule.forFeature("userLocationState", userLocationReducer),
+    StoreModule.forFeature("walletState", walletReducer),
     EffectsModule.forFeature([
       ProfileEffect,
       PortfolioEffect,
       MediaPreviewEffect,
+      WalletEffect,
     ]),
   ],
   exports: [UserRoutingModule],

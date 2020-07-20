@@ -7,7 +7,7 @@ import { of, pipe } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import * as NotificationActions from "../../../store/global/notification/notification.action";
 import { IWallet } from "src/app/interfaces/account/wallet";
-import { mergeMap, concatMap, catchError } from "rxjs/operators";
+import { mergeMap, concatMap, catchError, map } from "rxjs/operators";
 import { AppNotificationKey, IResult } from "src/app/interfaces";
 import { Injectable } from "@angular/core";
 
@@ -28,6 +28,31 @@ export class WalletEffect {
               }),
             ];
           }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              }),
+              new WalletActions.CreateWalletError()
+            )
+          )
+        )
+      )
+    )
+  );
+
+  fetchWallet = createEffect(() =>
+    this.action$.pipe(
+      ofType(WalletActions.FETCH_WALLET),
+      concatMap((action: WalletActions.FetchWallet) =>
+        this.walletService.fetchUserWalletData().pipe(
+          map(
+            (resp: IResult<IWallet>) =>
+              new WalletActions.FetchWalletSuccess({ walletData: resp.data })
+          ),
           catchError((respError: HttpErrorResponse) =>
             of(
               new NotificationActions.AddError({

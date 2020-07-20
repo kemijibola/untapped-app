@@ -51,6 +51,7 @@ import { FilterPipe } from "./utils/user-filter.pipe";
 import { AboutUsComponent } from "./about-us/about-us.component";
 import { PrivacyPolicyComponent } from "./privacy-policy/privacy-policy.component";
 import { TermsConditionComponent } from "./terms-condition/terms-condition.component";
+import { CompetitionTermsComponent } from './competition-terms/competition-terms.component';
 
 @NgModule({
   imports: [
@@ -130,6 +131,7 @@ import { TermsConditionComponent } from "./terms-condition/terms-condition.compo
     AboutUsComponent,
     PrivacyPolicyComponent,
     TermsConditionComponent,
+    CompetitionTermsComponent,
   ],
 })
 export class SharedModule {}

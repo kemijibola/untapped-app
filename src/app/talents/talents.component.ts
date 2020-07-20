@@ -6,7 +6,7 @@ import {
   ElementRef,
   Renderer2,
   AfterViewInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
@@ -18,6 +18,7 @@ import {
   AppModal,
   UserFilterCategory,
   ReportType,
+  IUserType,
 } from "../interfaces";
 import { Router } from "@angular/router";
 import * as ModalsActions from "../shared/store/modals/modals.actions";
@@ -27,12 +28,15 @@ import * as fromTalentWithHighestComment from "../shared/store/filtered-categori
 import { Observable } from "rxjs";
 import * as UserFilterActions from "../shared/store/filtered-categories/user-filter/user-filter.action";
 import * as fromUserFilter from "../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as fromUserTypeReducer from "../user-type/store/user-type.reducers";
+import * as UserTypeActions from "../user-type/store/user-type.actions";
 
 import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
 } from "ngx-perfect-scrollbar";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-talents",
@@ -64,7 +68,9 @@ export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("talentFrame", { static: false }) talentFrame: ElementRef;
   private scrollContainer: any;
   public config: PerfectScrollbarConfigInterface = {};
-  constructor(private store: Store<fromApp.AppState>, private router: Router) {}
+  constructor(private store: Store<fromApp.AppState>, private router: Router) {
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
+  }
   componentModal: AppModal = {
     id: "talent-portfolio",
     modals: [
@@ -79,12 +85,9 @@ export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     ],
   };
+  talentUserTypeId: string = environment.TALENT_USER_TYPE_ID;
   ngOnInit() {
     this.fetchUsers();
-
-    // this.completed$.subscribe((val) => {
-
-    // });
 
     this.currentUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
 
@@ -94,7 +97,11 @@ export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     );
 
-    // this.talents = this.store.pipe(select(fromUserFilter.selectAllUsers));
+    // this.store
+    //   .select(fromUserTypeReducer.selectAllUserTypes)
+    //   .subscribe((val: IUserType[]) => {
+    //     this.talentUserTypeId = val.filter((x) => x.name === "Talent")[0]._id;
+    //   });
   }
 
   ngAfterViewInit() {

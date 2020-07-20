@@ -8,4 +8,3 @@ export function selectWalletId(a: IWallet): string {
 export const adapter: EntityAdapter<IWallet> = createEntityAdapter<IWallet>({
   selectId: selectWalletId,
 });
-

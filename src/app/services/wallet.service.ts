@@ -11,6 +11,11 @@ export class WalletService {
 
   constructor(private http: HttpClient) {}
 
+  fetchUserWalletData(): Observable<IResult<IWallet>> {
+    const url = `${this.BASE_URI}/wallets/details`;
+    return this.http.get<IResult<IWallet>>(url);
+  }
+
   createWallet(pin: string): Observable<IResult<IWallet>> {
     const url = `${this.BASE_URI}/wallets`;
     return this.http.post<IResult<IWallet>>(url, {

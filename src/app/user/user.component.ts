@@ -16,6 +16,8 @@ import { UUID } from "angular2-uuid";
 
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as ModalsActions from "../shared/store/modals/modals.actions";
+import * as fromUser from "./user.reducers";
+import * as WalletActions from "./store/wallet/wallet.actions";
 
 @Component({
   selector: "app-user",
@@ -56,9 +58,12 @@ export class UserComponent extends AbstractTabComponent {
   constructor(
     public store: Store<fromApp.AppState>,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private userStore: Store<fromUser.UserState>
   ) {
     super();
+
+    this.userStore.dispatch(new WalletActions.FetchWallet());
 
     this.store.dispatch(
       new ModalsActions.AddComponentModal({

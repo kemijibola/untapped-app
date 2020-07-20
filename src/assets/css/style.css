@@ -2280,6 +2280,8 @@ html::-webkit-scrollbar {
 .left-talent-wrp {
   padding-left: 15px;
   padding-right: 15px;
+  height: 900px;
+  overflow-y: auto;
 }
 .search-box {
   position: relative;
@@ -2863,7 +2865,7 @@ button.accordion.is-open:after {
   background-color: #fafafa;
 }
 .gigs-view-wrapper {
-  padding-top: 60px;
+  padding-top: 40px;
   padding-bottom: 80px;
   padding-left: 65px;
   padding-right: 65px;

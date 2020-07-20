@@ -1801,7 +1801,7 @@
   }
   .gigs-counter .single {
     margin-right: 0;
-    width: 50%;
+    /* width: 50%; */
     margin-bottom: 20px;
   }
   .gigs-finder-wrapper .search-icn {

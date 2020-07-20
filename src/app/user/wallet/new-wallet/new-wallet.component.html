@@ -13,7 +13,7 @@
             >
               * Please enter a valid 4 digit
             </span>
-            New Pin</label
+            Create wallet pin</label
           >
           <input
             type="password"
@@ -27,10 +27,20 @@
             (click)="onCreateWallet()"
             type="button"
           >
-            <span *ngIf="(initiated$ | async) || (isCompleted$ | async)"
+            <span
+              *ngIf="
+                (initiated$ | async) ||
+                (isCompleted$ | async) ||
+                (failed$ | async)
+              "
               >Create Wallet</span
             >
-            <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"
+            <span
+              *ngIf="
+                (inProgress$ | async) ||
+                (!isCompleted$ | async) ||
+                (!failed$ | async)
+              "
               >Creating Wallet...
             </span>
           </button>

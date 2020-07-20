@@ -9,6 +9,10 @@ import {
 } from "src/app/interfaces";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
+import * as fromUser from "../user.reducers";
+import * as fromWallet from "../store/wallet/wallet.reducer";
+import { IWallet } from "src/app/interfaces/account/wallet";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-wallet",
@@ -16,15 +20,35 @@ import * as fromModal from "../../shared/store/modals/modals.reducers";
   styleUrls: ["./wallet.component.css"],
 })
 export class WalletComponent implements OnInit {
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(
+    private userStore: Store<fromUser.UserState>,
+    private store: Store<fromApp.AppState>
+  ) {}
   componentModal: AppModal;
+  walletData: IWallet | null;
 
   ngOnInit(): void {
+    this.userStore
+      .pipe(select(fromWallet.selectCurrentUserWallet))
+      .subscribe((val: IWallet) => {
+        if (_.has(val, "_id")) {
+          this.walletData = { ...val };
+          console.log(this.walletData);
+        }
+      });
     this.store
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
           this.componentModal = { ...val };
+        }
+      });
+
+    this.userStore
+      .pipe(select(fromWallet.selectCompletedStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.closeModalDialog("new-wallet");
         }
       });
   }

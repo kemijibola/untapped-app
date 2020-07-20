@@ -8,12 +8,12 @@ import { IWallet } from "src/app/interfaces/account/wallet";
 
 export interface WalletState extends EntityState<IWallet> {
   userWallet: IWallet | null;
-  walletState: OutboundState;
+  userWalletState: OutboundState;
 }
 
 const initialState: WalletState = fromAdapter.adapter.getInitialState({
   userWallet: null,
-  walletState: OutboundState.initiated,
+  userWalletState: OutboundState.initiated,
 });
 
 export function walletReducer(
@@ -24,34 +24,34 @@ export function walletReducer(
     case WalletActions.CREATE_WALLET_SUCCESS:
       return Object.assign({
         ...state,
-        userWallet: { ...action.payload },
-        walletState: OutboundState.completed,
+        userWallet: { ...action.payload.walletData },
+        userWalletState: OutboundState.completed,
       });
     case WalletActions.CREATE_WALLET:
       return Object.assign({
         ...state,
-        walletState: OutboundState.inprogress,
+        userWalletState: OutboundState.inprogress,
       });
     case WalletActions.CREATE_WALLET_ERROR:
       return Object.assign({
         ...state,
-        walletState: OutboundState.completed,
+        userWalletState: OutboundState.failed,
       });
     case WalletActions.FETCH_WALLET:
       return Object.assign({
         ...state,
-        walletState: OutboundState.inprogress,
+        userWalletState: OutboundState.inprogress,
       });
     case WalletActions.FETCH_WALLET_SUCCESS:
       return Object.assign({
         ...state,
-        userWallet: { ...action.payload },
-        walletState: OutboundState.completed,
+        userWallet: { ...action.payload.walletData },
+        userWalletState: OutboundState.completed,
       });
     case WalletActions.FETCH_WALLET_ERROR:
       return Object.assign({
         ...state,
-        walletState: OutboundState.failed,
+        userWalletState: OutboundState.failed,
       });
     default: {
       return state;
@@ -62,16 +62,16 @@ export function walletReducer(
 export const getWalletState = createFeatureSelector<WalletState>("walletState");
 
 const getStateCompleted = (state: WalletState): boolean =>
-  state.walletState === OutboundState.completed;
+  state.userWalletState === OutboundState.completed;
 
 const getStateInProgress = (state: WalletState): boolean =>
-  state.walletState === OutboundState.inprogress;
+  state.userWalletState === OutboundState.inprogress;
 
 const getStateInitiated = (state: WalletState): boolean =>
-  state.walletState === OutboundState.initiated;
+  state.userWalletState === OutboundState.initiated;
 
 const getStateFailed = (state: WalletState): boolean =>
-  state.walletState === OutboundState.failed;
+  state.userWalletState === OutboundState.failed;
 
 const getSelectedCurrentUserWallet = (state: WalletState) => state.userWallet;
 
