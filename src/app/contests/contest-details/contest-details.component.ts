@@ -163,7 +163,6 @@ export class ContestDetailsComponent implements OnInit {
       .take(2)
       .subscribe((val: ContestData) => {
         if (val !== null) {
-          console.log(val);
           this.setContestantProfileIImage(val);
           this.setContestBannerImage(val.contest.bannerImage);
           this.entriesCount = val.submissions.length;

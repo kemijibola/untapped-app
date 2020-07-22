@@ -58,24 +58,26 @@ export class WalletComponent implements OnInit {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];
-      const modalToClose: IModal = {
-        index: modalToDeActivate.index,
-        name: modalToDeActivate.name,
-        display: ModalDisplay.none,
-        viewMode: ModalViewModel.none,
-        contentType: "",
-        data: null,
-        modalCss: "",
-        modalDialogCss: "",
-        modalContentCss: "",
-        showMagnifier: false,
-      };
-      this.store.dispatch(
-        new ModalsActions.ToggleModal({
-          appModal: this.componentModal,
-          modal: modalToClose,
-        })
-      );
+      if (_.has(this.componentModal, "index")) {
+        const modalToClose: IModal = {
+          index: modalToDeActivate.index,
+          name: modalToDeActivate.name,
+          display: ModalDisplay.none,
+          viewMode: ModalViewModel.none,
+          contentType: "",
+          data: null,
+          modalCss: "",
+          modalDialogCss: "",
+          modalContentCss: "",
+          showMagnifier: false,
+        };
+        this.store.dispatch(
+          new ModalsActions.ToggleModal({
+            appModal: this.componentModal,
+            modal: modalToClose,
+          })
+        );
+      }
     }
   }
 

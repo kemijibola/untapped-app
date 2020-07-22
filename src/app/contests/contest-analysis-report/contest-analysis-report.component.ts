@@ -95,6 +95,7 @@ export class ContestAnalysisReportComponent implements OnInit {
         .take(2)
         .subscribe((val: ContestVoteResult) => {
           if (val !== null) {
+            console.log(val);
             this.setContestantProfileIImage(val);
             this.setContestBannerImage(val.contestPhoto);
           }

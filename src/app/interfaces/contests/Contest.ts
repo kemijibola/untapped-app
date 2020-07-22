@@ -123,6 +123,7 @@ export interface IContestContestant {
   contestantName: string;
   contestantPhoto: string;
   contestantCode: string;
+  position: string;
   contestantTotalVote: number;
   fullUserProfileImage?: string;
   defaultUserProfileImage?: string;

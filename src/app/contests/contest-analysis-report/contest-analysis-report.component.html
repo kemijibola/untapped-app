@@ -42,28 +42,27 @@
               {{ contestVoteResult?.contestDuration }}
             </span>
           </h4>
-          <div class="vote-box" style="background: #06a9b0;">
+          <div class="vote-box" style="background: #ffb90f;">
             <h4 style="color: antiquewhite;">
-              Votes
+              votes
               <span>
                 {{ contestVoteResult?.contestTotalVote }}
               </span>
             </h4>
           </div>
-          <div class="vote-box" style="background: #e73b08;">
+          <div class="vote-box" style="background: #006400;">
             <h4 style="color: antiquewhite;">
-              Invalid
+              valid
               <span>
-                {{ contestVoteResult?.contestTotalInvalidVote }}
+                {{ contestVoteResult?.contestTotalValidVote }}
               </span>
             </h4>
           </div>
-          <div class="vote-box" style="background: #056f12;">
+          <div class="vote-box" style="background: #d23d2e;">
             <h4 style="color: antiquewhite;">
-              Valid
+              invalid
               <span>
-                4,000,000
-                <!-- {{ contestVoteResult?.contestTotalValidVote }} -->
+                {{ contestVoteResult?.contestTotalInvalidVote }}
               </span>
             </h4>
           </div>
@@ -93,35 +92,49 @@
             <div class="contest-list-main-inner">
               <div class="text-center mt-1">
                 <div
-                  style="
-                    position: absolute;
-                    right: 15px;
-                    top: 4px;
-                    text-align: 'center';
-                    line-height: 80px;
-                    color: #ffffff;
-                    width: 80px;
-                    height: 80px;
-                    background-color: green;
-                    border-top-right-radius: 10px;
-                    font-size: 2.2rem;
-                  "
+                  class="ribbon ribbon-top-left"
+                  *ngIf="contestVoteResult?.contestHasEnded"
                 >
-                  1
+                  <span
+                    *ngIf="entry.position === 'disqualified'"
+                    style="background-color: #d23d2e;"
+                    >Disqualified</span
+                  >
+                  <span
+                    *ngIf="entry.position === 'participant'"
+                    style="background-color: #bebebe;"
+                    >Participant</span
+                  >
+                  <span
+                    *ngIf="entry.position === 'firstplace'"
+                    style="background-color: #20b2aa;"
+                    >1st Place</span
+                  >
+                  <span
+                    *ngIf="entry.position === 'secondplace'"
+                    style="background-color: #20b2aa;"
+                    >2nd Place</span
+                  >
+                  <span
+                    *ngIf="entry.position === 'thirdplace'"
+                    style="background-color: #20b2aa;"
+                    >3rd Place</span
+                  >
+                  <span
+                    *ngIf="entry.position === 'fourthplace'"
+                    style="background-color: #20b2aa;"
+                    >4th Place</span
+                  >
+                  <span
+                    *ngIf="entry.position === 'fifthplace'"
+                    style="background-color: #20b2aa;"
+                    >5th Place</span
+                  >
                 </div>
-                <!-- <div style="position: absolute;">
-                  <img src="assets/img/cancel.png" style="width: 270px;" />
-                </div> -->
                 <img
                   [defaultImage]="entry.defaultUserProfileImage"
                   [lazyLoad]="entry.fullUserProfileImage"
-                  style="
-                    width: 100%;
-                    border-top-left-radius: 10px;
-                    border-top-right-radius: 10px;
-                    height: 222px;
-                    background: lightgray;
-                  "
+                  style="width: 270px; height: 222px; background: lightgray;"
                 />
                 <!-- <img
                   src="assets/img/winner.png"

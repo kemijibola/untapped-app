@@ -241,7 +241,7 @@ export class NewContestComponent implements OnInit {
         this.contestForm.get("contestRewards")
       )).at(i).value;
       redeemables.push({
-        name: `Winner ${i + 1}`,
+        name: `position${i + 1}`,
         prizeCash: reward["reward"],
       });
     }

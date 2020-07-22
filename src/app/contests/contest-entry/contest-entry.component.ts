@@ -25,6 +25,10 @@ import {
   MediaType,
   AppNotificationKey,
   MediaUploadType,
+  AppModal,
+  ModalDisplay,
+  ModalViewModel,
+  IModal,
 } from "src/app/interfaces";
 import * as fromApp from "../../store/app.reducers";
 import * as fromContest from "../store/contests.reducers";
@@ -34,6 +38,9 @@ import * as ContestEntryActions from "../store/contest-entry/contest-entry.actio
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import { AcceptedMedias } from "src/app/interfaces/media/image";
 import * as NotificationActions from "../../store/global/notification/notification.action";
+import * as fromModal from "../../shared/store/modals/modals.reducers";
+import * as _ from "underscore";
+import * as ModalsActions from "../../shared/store/modals/modals.actions";
 @Component({
   selector: "app-contest-entry",
   templateUrl: "./contest-entry.component.html",
@@ -55,6 +62,7 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   showDiv: boolean = false;
   canUpload: boolean = true;
   fileName: string = "";
+  componentModal: AppModal;
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -71,6 +79,14 @@ export class ContestEntryComponent implements OnInit, OnChanges {
           this.showUploading = true;
           this.canUpload = false;
           this.showCompleted = false;
+        }
+      });
+
+    this.store
+      .pipe(select(fromModal.selectCurrentModal))
+      .subscribe((val: AppModal) => {
+        if (val) {
+          this.componentModal = { ...val };
         }
       });
 
@@ -193,6 +209,35 @@ export class ContestEntryComponent implements OnInit, OnChanges {
       minWidth: 100,
     };
   }
+
+  private closeModalDialog(modalId: string) {
+    if (this.componentModal) {
+      const modalToDeActivate = this.componentModal.modals.filter(
+        (x) => x.name === modalId
+      )[0];
+      if (_.has(this.componentModal, "index")) {
+        const modalToClose: IModal = {
+          index: modalToDeActivate.index,
+          name: modalToDeActivate.name,
+          display: ModalDisplay.none,
+          viewMode: ModalViewModel.none,
+          contentType: "",
+          data: null,
+          modalCss: "",
+          modalDialogCss: "",
+          modalContentCss: "",
+          showMagnifier: false,
+        };
+        this.store.dispatch(
+          new ModalsActions.ToggleModal({
+            appModal: this.componentModal,
+            modal: modalToClose,
+          })
+        );
+      }
+    }
+  }
+
   onSubmitEntry() {
     if (this.cloudItems.items.length > 0) {
       const title: string = this.contestEntryForm.controls["title"].value;
@@ -209,6 +254,8 @@ export class ContestEntryComponent implements OnInit, OnChanges {
           newContestEntry: entryObj,
         })
       );
+
+      this.closeModalDialog("new-entry");
     } else {
       this.store.dispatch(
         new NotificationActions.AddError({

@@ -2870,6 +2870,7 @@ button.accordion.is-open:after {
   padding-left: 65px;
   padding-right: 65px;
 }
+
 .gig-author {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -5393,19 +5394,19 @@ body.viewport-lg {
 .vote-box {
   border-radius: 3px;
   width: 100px;
-  border: 1px solid gray;
   text-align: center;
-  box-shadow: 1px 1px 3px grey;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   float: left;
   margin-right: 7px;
   margin-top: 7px;
-  padding: 8px;;
+  padding: 8px;
 }
 .vote-box h4 {
-  margin-bottom: 0
+  margin-bottom: 0;
 }
 .vote-box span {
-  margin-top: 0 !important
+  margin-top: 0 !important;
 }
 .contets-mobile {
   width: 257px;
@@ -5437,12 +5438,6 @@ body.viewport-lg {
   margin-top: 20px;
   padding-top: 20px;
   font-size: 14px;
-}
-
-.wallet-summary {
-}
-
-.wallet-balance {
 }
 
 .wallet-balance-text {
@@ -5515,4 +5510,55 @@ body.viewport-lg {
 .transaction-amount-container {
   background-color: #ffffff;
   height: 130px;
+}
+
+/* top left*/
+.ribbon-top-left {
+  left: 6px;
+  top: -2px;
+}
+.ribbon-top-left::before,
+.ribbon-top-left::after {
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.ribbon {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: absolute;
+}
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  display: block;
+  border: 5px solid #2980b9;
+}
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 15px 0;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.ribbon-top-left::before {
+  top: 0;
+  right: 0;
+}
+.ribbon-top-left::after {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-top-left span {
+  right: -25px;
+  top: 30px;
+  transform: rotate(-45deg);
 }
