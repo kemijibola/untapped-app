@@ -36,7 +36,8 @@ import { ContestService } from "../services/contest.service";
 import { OrderService } from "../services/order.service";
 import { PusherService } from "../services/pusher.service";
 import { HelperService } from "../shared/utils/helper.service";
-import { WalletService } from '../services/wallet.service';
+import { WalletService } from "../services/wallet.service";
+import { TransactionService } from "../services/transaction.service";
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { WalletService } from '../services/wallet.service';
     PusherService,
     HelperService,
     WalletService,
+    TransactionService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

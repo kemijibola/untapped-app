@@ -22,4 +22,19 @@ export class WalletService {
       pin,
     });
   }
+
+  transfer(
+    processor: string,
+    walletPin: string,
+    amount: string,
+    narration: string
+  ): Observable<IResult<IWallet>> {
+    const url = `${this.BASE_URI}/wallets/transfer`;
+    return this.http.post<IResult<IWallet>>(url, {
+      processor,
+      walletPin,
+      amount,
+      narration,
+    });
+  }
 }

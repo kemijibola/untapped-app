@@ -46,7 +46,8 @@ import { ContestEffect } from "./contests/store/contest/contest.effects";
 import { ProfessionalCategoryEffect } from "./shared/store/filtered-categories/professional-category/professional-category.effects";
 import { DashboardEffects } from "./shared/store/dashboard/dashboard.effect";
 import { UserFilterEffect } from "./shared/store/filtered-categories/user-filter/user-filter.effects";
-import { WalletEffect } from "./user/store/wallet/wallet.effect";
+
+import { DigitOnlyModule } from "@uiowa/digit-only";
 
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
@@ -68,6 +69,7 @@ export const customCurrencyMaskConfig = {
   declarations: [AppComponent, NotLoggedInComponent],
   imports: [
     BrowserModule,
+    DigitOnlyModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     OwlModule,

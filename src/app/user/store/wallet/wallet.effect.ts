@@ -69,6 +69,45 @@ export class WalletEffect {
     )
   );
 
+  withdrawFunds = createEffect(() =>
+    this.action$.pipe(
+      ofType(WalletActions.REQUEST_PAYOUT),
+      concatMap((action: WalletActions.RequestPayout) =>
+        this.walletService
+          .transfer(
+            action.payload.processor,
+            action.payload.walletPin,
+            action.payload.amount,
+            action.payload.narration
+          )
+          .pipe(
+            mergeMap((resp: IResult<IWallet>) => [
+              new WalletActions.RequestPayoutSuccess({
+                walletData: resp.data,
+              }),
+              new NotificationActions.AddSuccess({
+                key: AppNotificationKey.success,
+                code: 200,
+                message: "Funds withdrawn successfully",
+              }),
+            ]),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                }),
+                new WalletActions.RequestPayoutError()
+              )
+            )
+          )
+      )
+    )
+  );
+
   constructor(
     private action$: Actions,
     private walletService: WalletService,

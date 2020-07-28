@@ -87,7 +87,7 @@ textarea:focus {
 }
 
 .error-snackbar button {
-  background-color: orangered;
+  background-color: red;
   color: white;
 }
 
@@ -1047,9 +1047,21 @@ footer {
   padding-left: 20px;
 }
 
+.transfer-wallet {
+  max-height: 400px !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .new-entry {
   width: 50% !important;
   margin: 0 auto;
+  overflow-y: scroll;
+}
+
+.account-setup {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .contest-details-area .modal-dialog {
@@ -5425,7 +5437,7 @@ body.viewport-lg {
 }
 
 .wallet-transaction {
-  height: 245px;
+  height: 350px;
   background-color: #e3fae1;
   overflow-y: scroll;
   padding: 0px 0 0 16px;
@@ -5468,6 +5480,7 @@ body.viewport-lg {
   width: 120px;
   text-align: center;
   color: #54ab68;
+  margin: 5px;
 }
 
 .wallet-btn :hover {
@@ -5561,4 +5574,10 @@ body.viewport-lg {
   right: -25px;
   top: 30px;
   transform: rotate(-45deg);
+}
+
+.modal-title {
+  margin: auto;
+  font-size: 16px;
+  font-weight: 700;
 }

@@ -1,5 +1,6 @@
 <app-modals [id]="'new-wallet'">
   <div class="pop-icon-bar pop-talent" navigate>
+    <span class="modal-title">New Wallet</span>
     <button
       type="button"
       class="close"
@@ -9,36 +10,49 @@
       <span aria-hidden="true"><i class="far fa-times"></i></span>
     </button>
   </div>
-  <app-new-wallet body></app-new-wallet>>
+  <app-new-wallet body></app-new-wallet>
 </app-modals>
 
-<!-- <app-modals [id]="'talent-entry-details'">
-  <div class="pop-icon-bar" navigate style="padding-right: 16px;">
-    <div class="slide-arrow" style="margin-top: 8px;">
-      <button class="left" [disabled]="leftDisabled" (click)="onPrevious()">
-        <i class="far fa-angle-left"></i>
-      </button>
-      <button class="right" [disabled]="rightDisabled" (click)="onNext()">
-        <i class="far fa-angle-right"></i>
-      </button>
-    </div>
+<app-modals [id]="'wallet-tranfer'">
+  <div class="pop-icon-bar pop-talent" navigate>
+    <span class="modal-title">Withdraw Fund</span>
     <button
       type="button"
       class="close"
-      (click)="closeModalDialog('talent-entry-details')"
+      (click)="closeModalDialog('wallet-tranfer')"
       aria-label="Close"
     >
       <span aria-hidden="true"><i class="far fa-times"></i></span>
     </button>
   </div>
-<app-request-payout></app-request-payout>
-</app-modals> -->
+  <app-request-payout body></app-request-payout>
+</app-modals>
+
+<app-modals [id]="'account-setup'">
+  <div class="pop-icon-bar pop-talent" navigate>
+    <span class="modal-title">Bank Account Setup</span>
+    <button
+      type="button"
+      class="close"
+      (click)="closeModalDialog('account-setup')"
+      aria-label="Close"
+    >
+      <span aria-hidden="true"><i class="far fa-times"></i></span>
+    </button>
+  </div>
+  <app-account-setup body></app-account-setup>
+</app-modals>
 
 <div class="row ml-0 mr-0 wallet-container">
   <div class="col-lg-5 col-sm-12 wallet-summary">
     <div class="p-3" *ngIf="!walletData">
       <a
-        (click)="openModalDialog('new-wallet')"
+        (click)="
+          openModalDialog(
+            'new-wallet',
+            'modal-content contest-d transfer-wallet'
+          )
+        "
         class="wallet-btn"
         style="margin: 0 auto; cursor: pointer;"
         >Create Wallet</a
@@ -58,9 +72,52 @@
         <span class="wallet-id d-block"
           >Wallet ID - {{ walletData?.walletNmber }}</span
         >
+        <div *ngIf="userAccountDetails">
+          <span class="wallet-id d-block"
+            >Bank Name - {{ userAccountDetails.bankName }}</span
+          >
+          <span class="wallet-id d-block"
+            >Account Name - {{ userAccountDetails.accountName }}</span
+          >
+          <span class="wallet-id d-block"
+            >Account Number - {{ userAccountDetails.accountNumber }}</span
+          >
+        </div>
       </div>
       <div class="mt-4">
-        <a disabled="walletData?.balance < 100" class="wallet-btn">Withdraw</a>
+        <button
+          [disabled]="walletData?.balance < 100"
+          class="wallet-btn"
+          style="cursor: pointer; display: inline-block;"
+          (click)="
+            onWithdraw(
+              'wallet-tranfer',
+              'modal-content contest-d transfer-wallet'
+            )
+          "
+        >
+          Withdraw
+        </button>
+
+        <button
+          class="wallet-btn"
+          style="
+            cursor: pointer;
+            display: inline-block;
+            width: 123px !important;
+          "
+          *ngIf="!userAccountDetails"
+          [disabled]="userAccountDetails"
+          (click)="
+            onSetupAccount(
+              'account-setup',
+              'modal-content contest-d account-setup'
+            )
+          "
+        >
+          Set up account
+          <!-- <span *ngIf="userAccountDetails">Change account</span> -->
+        </button>
       </div>
     </div>
   </div>

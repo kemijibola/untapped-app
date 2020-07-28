@@ -1,3 +1,4 @@
+import { UserAccount } from "./../../interfaces/account/wallet";
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
@@ -6,13 +7,17 @@ import {
   ModalDisplay,
   ModalViewModel,
   IModal,
+  PaymentProcessor,
 } from "src/app/interfaces";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
 import * as fromUser from "../user.reducers";
 import * as fromWallet from "../store/wallet/wallet.reducer";
+import * as BankActions from "../store/bank/bank.actions";
 import { IWallet } from "src/app/interfaces/account/wallet";
 import * as _ from "underscore";
+import * as fromBanks from "../store/bank/bank.reducer";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-wallet",
@@ -26,6 +31,8 @@ export class WalletComponent implements OnInit {
   ) {}
   componentModal: AppModal;
   walletData: IWallet | null;
+  canSetupAccount: boolean = false;
+  userAccountDetails: UserAccount | null;
 
   ngOnInit(): void {
     this.userStore
@@ -33,9 +40,17 @@ export class WalletComponent implements OnInit {
       .subscribe((val: IWallet) => {
         if (_.has(val, "_id")) {
           this.walletData = { ...val };
-          console.log(this.walletData);
         }
       });
+
+    this.store
+      .pipe(select(fromBanks.selectUserAccount))
+      .subscribe((val: UserAccount) => {
+        if (_.has(val, "_id")) {
+          this.userAccountDetails = { ...val };
+        }
+      });
+
     this.store
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
@@ -81,7 +96,19 @@ export class WalletComponent implements OnInit {
     }
   }
 
-  openModalDialog(modalId: string, data: any = null) {
+  onWithdraw(modalId: string, contentCss: string): void {
+    this.openModalDialog(modalId, contentCss);
+  }
+
+  onSetupAccount(modalId: string, contentCss: string) {
+    console.log("clicked");
+    this.userStore.dispatch(
+      new BankActions.FetchBanks({ processor: PaymentProcessor.paystack })
+    );
+    this.openModalDialog(modalId, contentCss);
+  }
+
+  openModalDialog(modalId: string, contentCss: string, data: any = null) {
     // set MediaType
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "user-wallet" })
@@ -96,17 +123,14 @@ export class WalletComponent implements OnInit {
         name: modalToActivate.name,
         display: ModalDisplay.table,
         viewMode:
-          modalId.localeCompare("wallet-data") === 0
+          modalId.localeCompare("wallet-tranfer") === 0
             ? ModalViewModel.view
             : ModalViewModel.new,
         contentType: "",
         data,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
-        modalContentCss:
-          modalId.localeCompare("talent-entry-details") === 0
-            ? "modal-content contest-d"
-            : "modal-content contest-d new-entry",
+        modalContentCss: contentCss,
         showMagnifier: false,
       };
       this.store.dispatch(

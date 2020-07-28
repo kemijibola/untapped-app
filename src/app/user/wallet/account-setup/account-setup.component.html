@@ -1,0 +1,63 @@
+<div class="row" style="margin-left: 15px; margin-right: 15px;" body>
+  <div class="col-xl-12">
+    <div class="popup-content-wrap pro-page p-0">
+      <div class="create-pass-popup">
+        <form class="new-wallet" [formGroup]="accountSetup">
+          <label for=""> Pick a bank</label>
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            class="input-design"
+            formControlName="selectedBank"
+            style="margin-bottom: 8px;"
+            [placeholder]="placeHolderText"
+            (click)="onClick()"
+          />
+          <div
+            class="custom-dropdown-container"
+            *ngIf="showBanks"
+            style="z-index: 100; position: absolute; width: auto;"
+            (mouseleave)="onMouseLeave()"
+          >
+            <div
+              class="custom-dropdown"
+              style="cursor: pointer;"
+              *ngFor="
+                let bank of banks | searchFilter: searchText;
+                trackBy: trackByFn
+              "
+              (click)="onSelectBank(bank)"
+            >
+              {{ bank.name }}
+            </div>
+          </div>
+
+          <label for="">
+            Account number
+          </label>
+          <input
+            class="input-design mb-35"
+            type="text"
+            id="digit-only"
+            digitOnly
+            formControlName="accountNumber"
+          />
+          <div style="z-index: -1;">
+            <button
+              class="box-btn login-btn mt-10"
+              type="button"
+              (click)="onClickSave()"
+            >
+              <span *ngIf="(isInitiated$ | async) || (isCompleted$ | async)"
+                >Save</span
+              >
+              <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"
+                >Saving...</span
+              >
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

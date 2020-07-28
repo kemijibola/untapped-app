@@ -23,9 +23,9 @@ export class NotificationEffect {
             action: "X",
             config: {
               panelClass: ["error-snackbar"],
-              horizontalPosition: "right",
-              verticalPosition: "top",
-              duration: 7000,
+              horizontalPosition: "center",
+              verticalPosition: "bottom",
+              duration: 70000,
             },
           };
           return {

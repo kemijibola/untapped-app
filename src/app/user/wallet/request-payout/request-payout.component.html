@@ -1,1 +1,62 @@
-<p>request-payout works!</p>
+<div class="row" style="margin-left: 15px; margin-right: 15px;" body>
+  <div class="col-xl-12">
+    <div class="popup-content-wrap pro-page p-0">
+      <div class="create-pass-popup">
+        <form class="new-wallet" [formGroup]="transferForm">
+          <label for="">
+            <span
+              class="error-block"
+              *ngIf="transferForm.get('walletPin').hasError('pattern')"
+            >
+              * Please enter a valid 4 digit
+            </span>
+            Wallet pin</label
+          >
+          <input
+            type="password"
+            formControlName="walletPin"
+            [pattern]="pinPattern"
+            class="input-design mb-10"
+          />
+
+          <label for="">
+            <span
+              class="error-block"
+              *ngIf="transferForm.get('amount').hasError('pattern')"
+            >
+              * Please enter a valid amount without comma / dot
+            </span>
+            Amount to withdraw</label
+          >
+          <input
+            type="text"
+            formControlName="amount"
+            [pattern]="amountPattern"
+            class="input-design mb-10"
+          />
+
+          <label for="">
+            <!-- <span class="error-block">
+              * Please enter a valid 4 digit
+            </span> -->
+            Narration</label
+          >
+          <input
+            type="text"
+            formControlName="narration"
+            class="input-design mb-10"
+          />
+
+          <button
+            #sendButton
+            class="box-btn login-btn mt-10"
+            type="button"
+            (click)="onClickWithdaw()"
+          >
+            <span>Withdraw</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

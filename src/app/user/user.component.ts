@@ -18,6 +18,7 @@ import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as ModalsActions from "../shared/store/modals/modals.actions";
 import * as fromUser from "./user.reducers";
 import * as WalletActions from "./store/wallet/wallet.actions";
+import * as BankActions from "./store/bank/bank.actions";
 
 @Component({
   selector: "app-user",
@@ -46,7 +47,16 @@ export class UserComponent extends AbstractTabComponent {
       },
       {
         index: 1,
-        name: "wallet-data",
+        name: "wallet-tranfer",
+        display: ModalDisplay.none,
+        modalCss: "",
+        modalDialogCss: "",
+        modalContentCss: "",
+        showMagnifier: false,
+      },
+      {
+        index: 2,
+        name: "account-setup",
         display: ModalDisplay.none,
         modalCss: "",
         modalDialogCss: "",
@@ -64,6 +74,8 @@ export class UserComponent extends AbstractTabComponent {
     super();
 
     this.userStore.dispatch(new WalletActions.FetchWallet());
+
+    this.userStore.dispatch(new BankActions.FetchUserAccount());
 
     this.store.dispatch(
       new ModalsActions.AddComponentModal({

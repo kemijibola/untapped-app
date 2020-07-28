@@ -46,6 +46,9 @@ import { NewWalletComponent } from "./wallet/new-wallet/new-wallet.component";
 import { RequestPayoutComponent } from "./wallet/request-payout/request-payout.component";
 import { WalletEffect } from "./store/wallet/wallet.effect";
 import { walletReducer } from "./store/wallet/wallet.reducer";
+import { AccountSetupComponent } from "./wallet/account-setup/account-setup.component";
+import { bankReducer } from "./store/bank/bank.reducer";
+import { BankEffect } from "./store/bank/bank.effects";
 
 @NgModule({
   declarations: [
@@ -72,9 +75,11 @@ import { walletReducer } from "./store/wallet/wallet.reducer";
     WalletComponent,
     NewWalletComponent,
     RequestPayoutComponent,
+    AccountSetupComponent,
   ],
   imports: [
     SharedModule,
+    
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
@@ -88,11 +93,13 @@ import { walletReducer } from "./store/wallet/wallet.reducer";
     StoreModule.forFeature("portfolioState", portfolioReducer),
     StoreModule.forFeature("userLocationState", userLocationReducer),
     StoreModule.forFeature("walletState", walletReducer),
+    StoreModule.forFeature("bankState", bankReducer),
     EffectsModule.forFeature([
       ProfileEffect,
       PortfolioEffect,
       MediaPreviewEffect,
       WalletEffect,
+      BankEffect,
     ]),
   ],
   exports: [UserRoutingModule],
