@@ -68,11 +68,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
         if (_.has(val, "user_data")) {
+          this.showDropDown = false;
+          this.showSideToggle = false;
           this.isAuthenticated = val.authenticated;
           this.tapNotificationStatus = val.user_data.tap_notification;
           this.emailNotificationStatus = val.user_data.email_notification;
           this.profileVisibilityStatus = val.user_data.profile_visibility;
-          this.fetchUserProfileImage(val.user_data.profile_image_path);
+          // this.defaultLoaded
+          //   ? this.fetchUserProfileImage(val.user_data.profile_image_path)
+          //   : this.triggerTimer(val.user_data.profile_image_path);
           this.userPreEmailAdress = val.user_data.email.split("@")[0];
           this.userFullName = val.user_data.full_name;
           this.typeOfUser = AppUserType[val.user_data.userType.name];
@@ -108,7 +112,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   fetchUserProfileImage(userImageKey: string) {
     console.log(userImageKey);
-    if (!this.defaultLoaded) {
+    if (this.defaultLoaded) {
       this.userImage =
         userImageKey !== ""
           ? fetchImageObjectFromCloudFormation(userImageKey, this.editParams)
@@ -116,6 +120,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.defaultLoaded = true;
     } else {
       this.triggerTimer(userImageKey);
+      this.defaultLoaded = false;
     }
   }
 
@@ -136,6 +141,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    console.log("called");
+    this.defaultLoaded = true;
     this.updateUserEmailPreference();
   }
 
@@ -174,6 +181,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   onToggle() {
+    console.log("this is called");
     this.showDropDown = !this.showDropDown;
   }
 

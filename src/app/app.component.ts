@@ -34,6 +34,7 @@ import * as ContestsAction from "./contests/store/contests.action";
 import * as ModalsActions from "./shared/store/modals/modals.actions";
 import * as ProfessionalCategoryActions from "./shared/store/filtered-categories/professional-category/professional-category.actions";
 import * as ToggleActions from "./shared/store/slide-toggle/slide-toggle.actions";
+import { UtilitiesService } from "./services/utilities.service";
 // import * as DashboardActions from "./shared/store/dashboard/dashboard.action";
 // import * as DashboardActions from "./shared/store/dashboard/dashboard.action";
 @Component({
@@ -102,7 +103,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.loadAll();
   }
-  constructor(private store: Store<fromApp.AppState>) {
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private utilitiesService: UtilitiesService
+  ) {
     // this.store.dispatch(new DashboardActions.FetchDashboardContests());
 
     this.store.dispatch(
@@ -122,6 +126,11 @@ export class AppComponent implements OnInit {
   loadAll() {
     this.store.dispatch(new CategoryTypeActions.FetchCategoryTypes());
     this.store.dispatch(new CategoryActions.FetchCategories());
+  }
+
+  @HostListener("document:click", ["$event"])
+  documentClick(event: any): void {
+    this.utilitiesService.documentClickedTarget.next(event.target);
   }
 
   // @HostListener("window:scroll", ["$event"])

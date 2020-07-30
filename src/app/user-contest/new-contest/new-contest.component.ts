@@ -92,7 +92,7 @@ export class NewContestComponent implements OnInit {
 
   minDate: Date = new Date();
   maxDate: Date = addDays(this.minDate, 30);
-  // contestDuration = "";
+  
   contestDuration: Date[] = [];
 
   constructor(

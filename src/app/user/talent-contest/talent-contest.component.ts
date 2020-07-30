@@ -64,8 +64,10 @@ export class TalentContestComponent implements OnInit {
   ngOnInit(): void {
     this.store
       .pipe(select(fromContestEntry.selectContestsUserParticipatedIn))
+      .take(2)
       .subscribe((val: IUserContestListAnalysis[]) => {
         if (val !== null) {
+          this.userContests = [];
           val.forEach((x) => {
             x = this.setContestBannerImage(x);
             this.userContests.push(x);

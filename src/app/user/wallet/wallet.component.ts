@@ -1,4 +1,4 @@
-import { UserAccount } from "./../../interfaces/account/wallet";
+import { UserAccount, Transaction } from "./../../interfaces/account/wallet";
 import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
@@ -18,6 +18,7 @@ import { IWallet } from "src/app/interfaces/account/wallet";
 import * as _ from "underscore";
 import * as fromBanks from "../store/bank/bank.reducer";
 import { Observable } from "rxjs";
+import * as WalletActions from "../store/wallet/wallet.actions";
 
 @Component({
   selector: "app-wallet",
@@ -25,13 +26,46 @@ import { Observable } from "rxjs";
   styleUrls: ["./wallet.component.css"],
 })
 export class WalletComponent implements OnInit {
+  color = "green";
+
+  transactionInitiated$ = this.userStore.pipe(
+    select(fromWallet.selectTransactionInitiatedStatus)
+  );
+
+  transactionInProgress$ = this.userStore.pipe(
+    select(fromWallet.selectTransactionInProgressStatus)
+  );
+
+  transactionIsCompleted$ = this.userStore.pipe(
+    select(fromWallet.selectTransactionCompletedStatus)
+  );
+
+  transactionFailed$ = this.userStore.pipe(
+    select(fromWallet.selectTransactionFailedStatus)
+  );
+
   constructor(
     private userStore: Store<fromUser.UserState>,
     private store: Store<fromApp.AppState>
-  ) {}
+  ) {
+    this.store
+      .pipe(select(fromModal.selectCurrentModal))
+      .subscribe((val: AppModal) => {
+        if (val) {
+          this.componentModal = { ...val };
+        }
+      });
+
+    this.userStore.dispatch(new WalletActions.FetchWallet());
+
+    this.userStore.dispatch(new WalletActions.FetchUserTransaction());
+
+    this.fetchUserTransaction();
+  }
   componentModal: AppModal;
   walletData: IWallet | null;
   canSetupAccount: boolean = false;
+  userTransactions: Transaction[] = [];
   userAccountDetails: UserAccount | null;
 
   ngOnInit(): void {
@@ -51,14 +85,6 @@ export class WalletComponent implements OnInit {
         }
       });
 
-    this.store
-      .pipe(select(fromModal.selectCurrentModal))
-      .subscribe((val: AppModal) => {
-        if (val) {
-          this.componentModal = { ...val };
-        }
-      });
-
     this.userStore
       .pipe(select(fromWallet.selectCompletedStatus))
       .subscribe((val: boolean) => {
@@ -68,12 +94,20 @@ export class WalletComponent implements OnInit {
       });
   }
 
+  fetchUserTransaction(): void {
+    this.userStore
+      .pipe(select(fromWallet.selectCurrentUserTransaction))
+      .subscribe((val: Transaction[]) => {
+        this.userTransactions = [...val];
+      });
+  }
+
   closeModalDialog(modalId: string) {
     if (this.componentModal) {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];
-      if (_.has(this.componentModal, "index")) {
+      if (modalToDeActivate) {
         const modalToClose: IModal = {
           index: modalToDeActivate.index,
           name: modalToDeActivate.name,

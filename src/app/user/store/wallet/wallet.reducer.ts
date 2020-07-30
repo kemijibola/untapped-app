@@ -4,16 +4,20 @@ import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromAdapter from "./wallet.adapter";
 import { OutboundState } from "src/app/shared/Util";
-import { IWallet } from "src/app/interfaces/account/wallet";
+import { IWallet, Transaction } from "src/app/interfaces/account/wallet";
 
 export interface WalletState extends EntityState<IWallet> {
   userWallet: IWallet | null;
   userWalletState: OutboundState;
+  transactions: Transaction[] | [];
+  transactionState: OutboundState;
 }
 
 const initialState: WalletState = fromAdapter.adapter.getInitialState({
   userWallet: null,
   userWalletState: OutboundState.initiated,
+  transactions: [],
+  transactionState: OutboundState.initiated,
 });
 
 export function walletReducer(
@@ -21,6 +25,11 @@ export function walletReducer(
   action: WalletActions.WalletActions
 ): WalletState {
   switch (action.type) {
+    case WalletActions.FETCH_USER_TRANSACTION:
+      return Object.assign({
+        ...state,
+        transactionState: OutboundState.inprogress,
+      });
     case WalletActions.CREATE_WALLET_SUCCESS:
       return Object.assign({
         ...state,
@@ -53,6 +62,17 @@ export function walletReducer(
         ...state,
         userWalletState: OutboundState.failed,
       });
+    case WalletActions.FETCH_USER_TRANSACTION_SUCCESS:
+      return Object.assign({
+        ...state,
+        transactionState: OutboundState.completed,
+        transactions: action.payload.transactions,
+      });
+    case WalletActions.FETCH_USER_TRANSACTION_FAILED:
+      return Object.assign({
+        ...state,
+        transactionState: OutboundState.failed,
+      });
     default: {
       return state;
     }
@@ -73,11 +93,31 @@ const getStateInitiated = (state: WalletState): boolean =>
 const getStateFailed = (state: WalletState): boolean =>
   state.userWalletState === OutboundState.failed;
 
+const getTransactionStateCompleted = (state: WalletState): boolean =>
+  state.transactionState === OutboundState.completed;
+
+const getTransactionStateInProgress = (state: WalletState): boolean =>
+  state.transactionState === OutboundState.inprogress;
+
+const getTransactionStateInitiated = (state: WalletState): boolean =>
+  state.transactionState === OutboundState.initiated;
+
+const getTransactionStateFailed = (state: WalletState): boolean =>
+  state.transactionState === OutboundState.failed;
+
 const getSelectedCurrentUserWallet = (state: WalletState) => state.userWallet;
+
+const getSelectedCurrentUserTransactions = (state: WalletState) =>
+  state.transactions;
 
 export const selectCurrentUserWallet = createSelector(
   getWalletState,
   getSelectedCurrentUserWallet
+);
+
+export const selectCurrentUserTransaction = createSelector(
+  getWalletState,
+  getSelectedCurrentUserTransactions
 );
 
 export const selectCompletedStatus = createSelector(
@@ -98,4 +138,24 @@ export const selectInProgressStatus = createSelector(
 export const selectFailedStatus = createSelector(
   getWalletState,
   getStateFailed
+);
+
+export const selectTransactionCompletedStatus = createSelector(
+  getWalletState,
+  getTransactionStateCompleted
+);
+
+export const selectTransactionInitiatedStatus = createSelector(
+  getWalletState,
+  getTransactionStateInitiated
+);
+
+export const selectTransactionInProgressStatus = createSelector(
+  getWalletState,
+  getTransactionStateInProgress
+);
+
+export const selectTransactionFailedStatus = createSelector(
+  getWalletState,
+  getTransactionStateFailed
 );

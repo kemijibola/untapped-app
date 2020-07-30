@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { IWallet } from "src/app/interfaces/account/wallet";
+import { IWallet, Transaction } from "src/app/interfaces/account/wallet";
 import { PaymentProcessor } from "src/app/interfaces";
 
 export const CREATE_WALLET = "CREATE_WALLET";
@@ -11,6 +11,10 @@ export const FETCH_WALLET_ERROR = "FETCH_WALLET_ERROR";
 export const REQUEST_PAYOUT = "REQUEST_PAYOUT";
 export const REQUEST_PAYOUT_SUCCESS = "REQUEST_PAYOUT_SUCCESS";
 export const REQUEST_PAYOUT_ERROR = "REQUEST_PAYOUT_ERROR";
+
+export const FETCH_USER_TRANSACTION = "FETCH_USER_TRANSACTION";
+export const FETCH_USER_TRANSACTION_SUCCESS = "FETCH_USER_TRANSACTION_SUCCESS";
+export const FETCH_USER_TRANSACTION_FAILED = "FETCH_USER_TRANSACTION_FAILED";
 
 export class CreateWallet implements Action {
   readonly type = CREATE_WALLET;
@@ -59,6 +63,19 @@ export class RequestPayoutError implements Action {
   readonly type = REQUEST_PAYOUT_ERROR;
 }
 
+export class FetchUserTransaction implements Action {
+  readonly type = FETCH_USER_TRANSACTION;
+}
+
+export class FetchUserTransactionSuccess implements Action {
+  readonly type = FETCH_USER_TRANSACTION_SUCCESS;
+  constructor(public payload: { transactions: Transaction[] }) {}
+}
+
+export class FetchUserTransactionFailed implements Action {
+  readonly type = FETCH_USER_TRANSACTION_FAILED;
+}
+
 export type WalletActions =
   | CreateWallet
   | CreateWalletSuccess
@@ -68,4 +85,7 @@ export type WalletActions =
   | FetchWalletError
   | RequestPayout
   | RequestPayoutSuccess
-  | RequestPayoutError;
+  | RequestPayoutError
+  | FetchUserTransaction
+  | FetchUserTransactionSuccess
+  | FetchUserTransactionFailed;

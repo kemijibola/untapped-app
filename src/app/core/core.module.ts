@@ -38,6 +38,8 @@ import { PusherService } from "../services/pusher.service";
 import { HelperService } from "../shared/utils/helper.service";
 import { WalletService } from "../services/wallet.service";
 import { TransactionService } from "../services/transaction.service";
+import { LazyLoadImageModule } from "ng-lazyload-image";
+import { UtilitiesService } from "../services/utilities.service";
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { TransactionService } from "../services/transaction.service";
   ],
   imports: [
     CommonModule,
+    LazyLoadImageModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -81,6 +84,7 @@ import { TransactionService } from "../services/transaction.service";
     HelperService,
     WalletService,
     TransactionService,
+    UtilitiesService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

@@ -273,7 +273,20 @@ export class ContestDetailsComponent implements OnInit {
     }
   }
 
-  openModalDialog(modalId: string, data: any = null) {
+  onEntrySelected(modalId: string, contentCss: string, index: number): void {
+    this.openModalDialog(modalId, contentCss, index);
+  }
+
+  onNewEntrySelected(modalId: string, contentCss: string): void {
+    this.openModalDialog(modalId, contentCss);
+  }
+
+  openModalDialog(
+    modalId: string,
+    contentCss: string,
+    index: number = 0,
+    data: any = null
+  ) {
     // set MediaType
     this.entryMediaType = this.contestDetails.contest.entryMediaType;
     this.store.dispatch(
@@ -292,14 +305,10 @@ export class ContestDetailsComponent implements OnInit {
           modalId.localeCompare("talent-entry-details") === 0
             ? ModalViewModel.view
             : ModalViewModel.new,
-        contentType: "",
-        data,
+        contentType: this.contestDetails.contest.entryMediaType,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
-        modalContentCss:
-          modalId.localeCompare("talent-entry-details") === 0
-            ? "modal-content contest-d"
-            : "modal-content contest-d new-entry",
+        modalContentCss: contentCss,
         showMagnifier: false,
       };
       this.store.dispatch(
@@ -310,20 +319,54 @@ export class ContestDetailsComponent implements OnInit {
       );
     }
 
-    if (this.contestDetails.submissions.length <= 1) {
-      this.leftDisabled = true;
-      this.rightDisabled = true;
+    if (index >= 0) {
+      // const hasPrevious =
+      //   this.contestDetails.submissions[index - 1] !== undefined ? true : false;
+      // const hasNext =
+      //   this.contestDetails.submissions[index + 1] !== undefined ? true : false;
+
+      // console.log("has previous", hasPrevious);
+      // console.log("has next", hasNext);
+
+      // if (this.hasPrevious(index) && this.hasNext(index)) {
+      //   this.leftDisabled = true;
+      //   this.rightDisabled = true;
+      // } else if (this.hasPrevious(index) && !this.hasNext(index)) {
+      //   this.leftDisabled = false;
+      //   this.rightDisabled = true;
+      // } else if (!this.hasPrevious(index) && this.hasNext(index)) {
+      //   this.leftDisabled = true;
+      //   this.rightDisabled = false;
+      // }
+
+      this.toggleButton(index);
+
+      this.currentIndex = index;
+
       this.store.dispatch(
         new ModalsActions.SetModalNavigationProperties({
-          currentIndex: 0,
+          currentIndex: this.currentIndex,
           mediaType: this.contestDetails.contest.entryMediaType,
+          data: this.contestDetails.submissions[index],
         })
       );
-    } else {
-      this.leftDisabled = true;
-      this.rightDisabled = false;
-      this.onNext();
     }
+
+    // if (this.contestDetails.submissions.length <= 1) {
+    //   this.leftDisabled = true;
+    //   this.rightDisabled = true;
+    //   this.store.dispatch(
+    //     new ModalsActions.SetModalNavigationProperties({
+    //       currentIndex: 0,
+    //       mediaType: this.contestDetails.contest.entryMediaType,
+    //       data: this.contestDetails.submissions[data],
+    //     })
+    //   );
+    // } else {
+    //   this.leftDisabled = true;
+    //   this.rightDisabled = false;
+    //   this.onNext();
+    // }
   }
 
   navigateToAanalysis() {
@@ -332,39 +375,77 @@ export class ContestDetailsComponent implements OnInit {
     ]);
   }
 
-  onPrevious() {
-    this.currentIndex--;
-    if (this.currentIndex < this.contestDetails.submissions.length - 1) {
-      this.rightDisabled = false;
-    }
-    if (this.currentIndex === 0) {
+  toggleButton(index: number): void {
+    if (this.hasPrevious(index) && this.hasNext(index)) {
+      this.leftDisabled = true;
+      this.rightDisabled = true;
+    } else if (this.hasPrevious(index) && !this.hasNext(index)) {
+      this.leftDisabled = false;
+      this.rightDisabled = true;
+    } else if (!this.hasPrevious(index) && this.hasNext(index)) {
       this.leftDisabled = true;
       this.rightDisabled = false;
     }
-    this.store.dispatch(
-      new ModalsActions.SetModalNavigationProperties({
-        currentIndex: this.currentIndex,
-        mediaType: this.contestDetails.contest.entryMediaType,
-      })
-    );
+  }
+
+  onPrevious() {
+    this.currentIndex--;
+    this.toggleButton(this.currentIndex);
+    // if (this.currentIndex < this.contestDetails.submissions.length - 1) {
+    //   this.rightDisabled = false;
+    // }
+    // if (this.currentIndex === 0) {
+    //   this.leftDisabled = true;
+    //   this.rightDisabled = false;
+    // }
+
+    const previousEntry = this.contestDetails.submissions[this.currentIndex];
+    if (previousEntry) {
+      this.store.dispatch(
+        new ModalsActions.SetModalNavigationProperties({
+          currentIndex: this.currentIndex,
+          mediaType: this.contestDetails.contest.entryMediaType,
+          data: previousEntry,
+        })
+      );
+    }
   }
 
   onNext() {
     this.currentIndex++;
-    if (this.currentIndex > 0 && this.contestDetails.submissions.length > 1) {
-      this.leftDisabled = false;
-    }
+    this.toggleButton(this.currentIndex);
+    // if (this.currentIndex > 0 && this.contestDetails.submissions.length > 1) {
+    //   this.leftDisabled = false;
+    // }
 
-    if (this.currentIndex === this.contestDetails.submissions.length - 1) {
-      this.rightDisabled = true;
-      this.leftDisabled = false;
+    // if (this.currentIndex === this.contestDetails.submissions.length - 1) {
+    //   this.rightDisabled = true;
+    //   this.leftDisabled = false;
+    // }
+    // const;
+    const nextEntry = this.contestDetails.submissions[this.currentIndex];
+
+    if (nextEntry) {
+      this.store.dispatch(
+        new ModalsActions.SetModalNavigationProperties({
+          currentIndex: this.currentIndex,
+          mediaType: this.contestDetails.contest.entryMediaType,
+          data: nextEntry,
+        })
+      );
     }
-    this.store.dispatch(
-      new ModalsActions.SetModalNavigationProperties({
-        currentIndex: this.currentIndex,
-        mediaType: this.contestDetails.contest.entryMediaType,
-      })
-    );
+  }
+
+  private hasNext(index: number): boolean {
+    return this.contestDetails.submissions[index + 1] !== undefined
+      ? true
+      : false;
+  }
+
+  private hasPrevious(index: number): boolean {
+    return this.contestDetails.submissions[index - 1] !== undefined
+      ? true
+      : false;
   }
 
   ngOnDestroy(): void {

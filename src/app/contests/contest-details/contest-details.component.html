@@ -75,7 +75,12 @@
               class="box-btn details-btn"
               style="cursor: pointer; margin-right: 20px;"
               *ngIf="!hasEnded && isEligible"
-              (click)="openModalDialog('new-entry')"
+              (click)="
+                onNewEntrySelected(
+                  'new-entry',
+                  'modal-content contest-d new-entry'
+                )
+              "
             >
               Enter Contest</a
             >
@@ -215,7 +220,14 @@
         *ngFor="let item of contestDetails.submissions; let i = index"
       >
         <div class="entries-img mb-20">
-          <a (click)="openModalDialog('talent-entry-details', item)"
+          <a
+            (click)="
+              onEntrySelected(
+                'talent-entry-details',
+                'modal-content contest-d',
+                i
+              )
+            "
             ><img src="assets/img/contest/entries-1.jpg"
           /></a>
 

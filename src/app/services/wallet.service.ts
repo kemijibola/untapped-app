@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IResult } from "src/app/interfaces";
 import { environment } from "../../environments/environment";
-import { IWallet } from "../interfaces/account/wallet";
+import { IWallet, Transaction } from "../interfaces/account/wallet";
 
 @Injectable({ providedIn: "root" })
 export class WalletService {
@@ -14,6 +14,11 @@ export class WalletService {
   fetchUserWalletData(): Observable<IResult<IWallet>> {
     const url = `${this.BASE_URI}/wallets/details`;
     return this.http.get<IResult<IWallet>>(url);
+  }
+
+  fetchUserWalletTransactions(): Observable<IResult<Transaction[]>> {
+    const url = `${this.BASE_URI}/wallets/transactions`;
+    return this.http.get<IResult<Transaction[]>>(url);
   }
 
   createWallet(pin: string): Observable<IResult<IWallet>> {

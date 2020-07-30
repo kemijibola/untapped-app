@@ -73,8 +73,6 @@ export class UserComponent extends AbstractTabComponent {
   ) {
     super();
 
-    this.userStore.dispatch(new WalletActions.FetchWallet());
-
     this.userStore.dispatch(new BankActions.FetchUserAccount());
 
     this.store.dispatch(

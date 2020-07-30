@@ -116,21 +116,70 @@
           "
         >
           Set up account
-          <!-- <span *ngIf="userAccountDetails">Change account</span> -->
         </button>
       </div>
     </div>
   </div>
-  <div class="col-lg-7 col-sm-12 wallet-transaction">
-    <div class="transaction-amount-container">
-      <span class="transaction-type d-block">Narration here</span>
-      <span class="transaction-amount credit d-block">N 30, 000</span>
-      <span class="transaction-time">30th July, 2000 @ 12:00 am</span>
+
+  <div class="col-lg-7 col-sm-12" *ngIf="transactionInitiated$ | async">
+    <a
+      *ngIf="
+        (transactionInitiated$ | async) || (transactionInProgress$ | async)
+      "
+      ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+    /></a>
+    <a
+      style="cursor: pointer;"
+      (click)="fetchUserTransaction()"
+      style="cursor: pointer; display: inline-block;"
+      *ngIf="transactionFailed$ | async"
+      >Unable to fetch transaction. Try again
+      <img
+        src="assets/retry.svg"
+        style="width: 20px; height: 20px; margin: 0 auto;"
+        alt="Click button to retry"
+    /></a>
+  </div>
+
+  <div
+    class="col-lg-7 col-sm-12 wallet-transaction"
+    *ngIf="(transactionIsCompleted$ | async) && userTransactions.length > 0"
+  >
+    <div
+      class="transaction-amount-container"
+      *ngFor="let transaction of userTransactions"
+      [ngStyle]="{
+        'border-bottom':
+          transaction.transactionType === 'credit'
+            ? '1px solid green'
+            : '1px solid red'
+      }"
+    >
+      <span class="transaction-type d-block">{{ transaction.narration }}</span>
+      <span
+        class="transaction-amount d-block"
+        [ngStyle]="{
+          color: transaction.transactionType === 'credit' ? 'green' : 'red'
+        }"
+        >{{ transaction.amount | currency: "NGN":"symbol":"4.2-2" }}</span
+      >
+      <span class="transaction-time">{{
+        transaction.transactionDate | date: "long"
+      }}</span>
     </div>
+  </div>
+
+  <div
+    class="col-lg-7 col-sm-12 wallet-transaction"
+    *ngIf="(transactionIsCompleted$ | async) && userTransactions.length < 1"
+  >
     <div class="transaction-amount-container">
-      <span class="transaction-type d-block">Narration here</span>
-      <span class="transaction-amount debit d-block">N 30, 000</span>
-      <span class="transaction-time">30th July, 2000 @ 12:00 am</span>
+      <span class="transaction-type d-block"
+        ><small>
+          Participate in a ongoing contest and start earning.
+        </small>
+        Click <a>here</a> to participate
+      </span>
     </div>
   </div>
 </div>

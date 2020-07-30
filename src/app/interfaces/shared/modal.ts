@@ -45,4 +45,5 @@ export enum ModalContent {
 export interface NavigationData {
   currentIndex: number;
   mediaType: string;
+  data?: any;
 }

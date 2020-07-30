@@ -71,6 +71,7 @@ export class ProfileComponent implements OnInit {
   newUserLocation: string = "";
   userType: string = "";
   shortbioCount: number = 80;
+  phonePattern = /^\+?([0-9]+)\)?[-. ]?([0-9]+)\)?[-. ]?([0-9]+)[-. ]?([0-9]+)$/;
 
   isInitiated$ = this.userStore.pipe(
     select(fromProfileReducer.selectSaveProfileInitiatedStatus)

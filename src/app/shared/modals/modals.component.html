@@ -1,6 +1,7 @@
 <div
   [class]="currentModal.modalCss"
   tabindex="-1"
+  #modalPopup
   role="dialog"
   id="{{ currentModal.name }}"
   [ngStyle]="{ display: currentModal.display }"

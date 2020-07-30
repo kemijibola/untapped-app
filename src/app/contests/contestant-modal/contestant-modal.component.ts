@@ -21,6 +21,7 @@ import {
   IContestEntry,
   MediaType,
   AudioItem,
+  NavigationData,
 } from "src/app/interfaces";
 import * as fromApp from "../../store/app.reducers";
 import * as CommentsActions from "../../shared/store/comments/comments.action";
@@ -142,11 +143,27 @@ export class ContestantModalComponent implements OnInit, OnChanges {
   imagePath: string = "";
   keyword = environment.CONTEST_KEYWORD;
   textNumber = environment.CONTEST_TO_NUMBER;
+  type: string = "";
 
   constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
   ngOnInit(): void {
-    this.activateModalContent();
+    this.store
+      .pipe(select(fromModal.selectCurrentNavigationData))
+      .subscribe((val: NavigationData) => {
+        if (val) {
+          if (val.data) {
+            this.setMedia(val.mediaType, val.data["entry"].entry);
+            this.setContestantProfileIImage(val.data);
+            this.store.dispatch(
+              new CommentsActions.FetchMediaComments({
+                entityId: this.entryData.entry._id,
+              })
+            );
+          }
+        }
+      });
+
     this.isDisabled = false;
 
     this.store
@@ -218,12 +235,13 @@ export class ContestantModalComponent implements OnInit, OnChanges {
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["mediaType"]) {
-      this.setMedia(this.mediaType, this.entryData.entry.entry);
+      this.type = this.mediaType;
     }
   }
 
   setMedia(type: string, mediaKey: string) {
     const mediaType = type.toUpperCase();
+    console.log("media called", mediaType);
     this.isCurrentImageSet = false;
     this.isCurrentAudioSet = false;
     this.isCurrentVideoSet = false;
@@ -300,25 +318,25 @@ export class ContestantModalComponent implements OnInit, OnChanges {
     });
   }
 
-  activateModalContent(): void {
-    this.store
-      .pipe(select(fromModal.selectCurrentActiveModal))
-      .subscribe((val: IModal) => {
-        if (val !== null) {
-          if (val.name === "talent-entry-details" && val.data !== null) {
-            if (val.data) {
-              this.setContestantProfileIImage(val.data);
-              console.log("contest entry data", val.data);
-              this.store.dispatch(
-                new CommentsActions.FetchMediaComments({
-                  entityId: this.entryData.entry._id,
-                })
-              );
-            }
-          }
-        }
-      });
-  }
+  // activateModalContent(): void {
+  //   this.store
+  //     .pipe(select(fromModal.selectCurrentActiveModal))
+  //     .subscribe((val: IModal) => {
+  //       if (val) {
+  //         if (val.name === "talent-entry-details" && val.data !== null) {
+  //           if (val.data) {
+  //             this.setMedia(val.contentType, val.data["entry"].entry);
+  //             this.setContestantProfileIImage(val.data);
+  //             this.store.dispatch(
+  //               new CommentsActions.FetchMediaComments({
+  //                 entityId: this.entryData.entry._id,
+  //               })
+  //             );
+  //           }
+  //         }
+  //       }
+  //     });
+  // }
 
   private getTime(date?: Date) {
     return date != null ? new Date(date).getTime() : 0;

@@ -2,6 +2,7 @@ import {
   Component,
   ViewEncapsulation,
   ElementRef,
+  ViewChild,
   Input,
   OnInit,
   OnDestroy,
@@ -27,6 +28,7 @@ import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
 import { DOCUMENT } from "@angular/common";
 import * as _ from "underscore";
+import { UtilitiesService } from "src/app/services/utilities.service";
 
 @Component({
   selector: "app-modals",
@@ -45,13 +47,15 @@ export class ModalsComponent implements OnInit {
     modalContentCss: "",
     showMagnifier: false,
   };
+
   constructor(
     private store: Store<fromApp.AppState>,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   ngOnInit() {
+
     this.store
       .pipe(select(fromModal.selectCurrentActiveModal))
       .subscribe((modal: IModal) => {
@@ -67,4 +71,5 @@ export class ModalsComponent implements OnInit {
         }
       });
   }
+
 }

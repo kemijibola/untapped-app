@@ -42,3 +42,26 @@ export interface UserAccount {
   accountName: string;
   gatewayRecipientCode: string;
 }
+
+export enum TransctionType {
+  credit = "credit",
+  debit = "debit",
+}
+
+export interface Transaction {
+  user: string;
+  collectionAccount: string;
+  amount: number;
+  paymentReference: string;
+  externalReference: string;
+  narration: string;
+  paymentChannel: string;
+  transactionType: TransctionType;
+  transferCode: string;
+  responseCode: number;
+  responseMessage: string;
+  currency: string;
+  transactionDate: Date;
+  transactionStatus: string;
+  responseBody?: string;
+}

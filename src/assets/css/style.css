@@ -5502,22 +5502,14 @@ body.viewport-lg {
   padding-top: 20px;
 }
 
-.transaction-amount,
+/* .transaction-amount,
 .transaction-type {
   color: green;
-}
+} */
 
 .transaction-type {
   font-size: 0.8rem;
   color: #a3a3a3;
-}
-
-.transaction-amount .credit {
-  color: green;
-}
-
-.transaction-amount .debit {
-  color: red;
 }
 
 .transaction-amount-container {
