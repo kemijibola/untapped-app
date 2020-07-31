@@ -103,10 +103,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.loadAll();
   }
-  constructor(
-    private store: Store<fromApp.AppState>,
-    private utilitiesService: UtilitiesService
-  ) {
+  constructor(private store: Store<fromApp.AppState>) {
     // this.store.dispatch(new DashboardActions.FetchDashboardContests());
 
     this.store.dispatch(
@@ -128,10 +125,10 @@ export class AppComponent implements OnInit {
     this.store.dispatch(new CategoryActions.FetchCategories());
   }
 
-  @HostListener("document:click", ["$event"])
-  documentClick(event: any): void {
-    this.utilitiesService.documentClickedTarget.next(event.target);
-  }
+  // @HostListener("document:click", ["$event"])
+  // documentClick(event: any): void {
+  //   this.utilitiesService.documentClickedTarget.next(event.target);
+  // }
 
   // @HostListener("window:scroll", ["$event"])
   // onWindowScroll() {

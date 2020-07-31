@@ -22,6 +22,7 @@ import {
   IAuthData,
   MediaType,
   IEntryData,
+  PrizePosition,
 } from "src/app/interfaces";
 import * as fromCategoryType from "../../shared/store/category-type/category-type.reducers";
 import { differenceInDays, isPast, getTime, isAfter } from "date-fns";
@@ -36,18 +37,19 @@ import * as fromModal from "../../shared/store/modals/modals.reducers";
 import { withLatestFrom, tap, takeLast } from "rxjs/operators";
 import { take } from "rxjs-compat/operator/take";
 import * as fromAuth from "src/app/account/store/auth.reducers";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-contest-details",
   templateUrl: "./contest-details.component.html",
   styleUrls: ["./contest-details.component.css"],
 })
-export class ContestDetailsComponent implements OnInit {
+export class ContestDetailsComponent implements OnInit, OnDestroy {
   contestId: string | null;
   eligibleCategories: string = "";
   differenceInDays: string = "";
   hasEnded: boolean = false;
-  isEligible: boolean = true;
+  isEligible: boolean = false;
   fullBannerImage: string = "";
   entriesCount: number = 0;
   defaultBannerImage: string = "";
@@ -62,6 +64,7 @@ export class ContestDetailsComponent implements OnInit {
       endDate: new Date(),
       redeemable: [],
       eligibleCategories: [],
+      likedBy: [],
     },
     submissions: [],
   };
@@ -105,15 +108,15 @@ export class ContestDetailsComponent implements OnInit {
   currentIndex = -1;
   leftDisabled = false;
   rightDisabled = false;
-
+  currentUserId: string = "";
+  userHasLikedContest: boolean = false;
+  isAuthenticated: boolean = false;
+  prizePosition: PrizePosition;
   constructor(
     private router: Router,
     private store: Store<fromApp.AppState>,
     private route: ActivatedRoute
-  ) {
-    this.hasEnded = true;
-    // this.store.dispatch(new ContestsAction.ResetContestData());
-  }
+  ) {}
 
   ngOnInit(): void {
     this.contestId = this.route.snapshot.params.id;
@@ -125,20 +128,25 @@ export class ContestDetailsComponent implements OnInit {
       this.store
         .pipe(select(fromAuth.selectCurrentUserData))
         .subscribe((val: IAuthData) => {
-          if (val.authenticated) {
-            this.store.dispatch(
-              new ContestsAction.CheckUserEligibility({
-                contestId: this.contestId,
-              })
-            );
+          this.isEligible = false;
+          this.hasEnded = true;
+          if (_.has(val, "authenticated")) {
+            this.isAuthenticated = val.authenticated;
+            if (val.authenticated) {
+              this.currentUserId = val.user_data._id;
+              this.store.dispatch(
+                new ContestsAction.CheckUserEligibility({
+                  contestId: this.contestId,
+                })
+              );
+            }
           } else {
-            this.isEligible = false;
+            this.isAuthenticated = false;
           }
         });
 
       this.store
         .pipe(select(fromContest.selectCurrentUserEligibility))
-        .take(2)
         .subscribe((val: ContestEligibilityData) => {
           if (val !== null) {
             if (val.status) {
@@ -160,9 +168,8 @@ export class ContestDetailsComponent implements OnInit {
 
     this.store
       .pipe(select(fromContest.selectCurrentContestDetails))
-      .take(2)
       .subscribe((val: ContestData) => {
-        if (val !== null) {
+        if (val) {
           this.setContestantProfileIImage(val);
           this.setContestBannerImage(val.contest.bannerImage);
           this.entriesCount = val.submissions.length;
@@ -198,8 +205,27 @@ export class ContestDetailsComponent implements OnInit {
         : fetchDefaultContestBanner();
   }
 
+  onClickLike(): void {
+    if (!this.hasLikedContest()) {
+      this.store.dispatch(
+        new ContestsAction.AddContestLike({
+          contest: this.contestDetails,
+          likedBy: this.currentUserId,
+        })
+      );
+    } else {
+      // unlike comment
+      this.store.dispatch(
+        new ContestsAction.RemoveContestLike({
+          contest: this.contestDetails,
+          unLikedBy: this.currentUserId,
+        })
+      );
+    }
+  }
   setContestantProfileIImage(contestData: ContestData) {
     this.contestDetails.contest = { ...contestData.contest };
+    this.userHasLikedContest = this.hasLikedContest();
     this.contestDetails.submissions = contestData.submissions.map((x) => {
       return Object.assign({}, x, {
         fullUserProfileImage:
@@ -247,6 +273,15 @@ export class ContestDetailsComponent implements OnInit {
     this.router.navigate(["/contests/"]);
   }
 
+  private hasLikedContest(): boolean {
+    if (this.currentUserId) {
+      const found = this.contestDetails.contest.likedBy.filter(
+        (x) => x === this.currentUserId
+      );
+      return found.length > 0;
+    }
+    return false;
+  }
   closeModalDialog(modalId: string) {
     if (this.componentModal) {
       const modalToDeActivate = this.componentModal.modals.filter(
@@ -320,29 +355,8 @@ export class ContestDetailsComponent implements OnInit {
     }
 
     if (index >= 0) {
-      // const hasPrevious =
-      //   this.contestDetails.submissions[index - 1] !== undefined ? true : false;
-      // const hasNext =
-      //   this.contestDetails.submissions[index + 1] !== undefined ? true : false;
-
-      // console.log("has previous", hasPrevious);
-      // console.log("has next", hasNext);
-
-      // if (this.hasPrevious(index) && this.hasNext(index)) {
-      //   this.leftDisabled = true;
-      //   this.rightDisabled = true;
-      // } else if (this.hasPrevious(index) && !this.hasNext(index)) {
-      //   this.leftDisabled = false;
-      //   this.rightDisabled = true;
-      // } else if (!this.hasPrevious(index) && this.hasNext(index)) {
-      //   this.leftDisabled = true;
-      //   this.rightDisabled = false;
-      // }
-
       this.toggleButton(index);
-
       this.currentIndex = index;
-
       this.store.dispatch(
         new ModalsActions.SetModalNavigationProperties({
           currentIndex: this.currentIndex,
@@ -351,22 +365,6 @@ export class ContestDetailsComponent implements OnInit {
         })
       );
     }
-
-    // if (this.contestDetails.submissions.length <= 1) {
-    //   this.leftDisabled = true;
-    //   this.rightDisabled = true;
-    //   this.store.dispatch(
-    //     new ModalsActions.SetModalNavigationProperties({
-    //       currentIndex: 0,
-    //       mediaType: this.contestDetails.contest.entryMediaType,
-    //       data: this.contestDetails.submissions[data],
-    //     })
-    //   );
-    // } else {
-    //   this.leftDisabled = true;
-    //   this.rightDisabled = false;
-    //   this.onNext();
-    // }
   }
 
   navigateToAanalysis() {
@@ -391,13 +389,6 @@ export class ContestDetailsComponent implements OnInit {
   onPrevious() {
     this.currentIndex--;
     this.toggleButton(this.currentIndex);
-    // if (this.currentIndex < this.contestDetails.submissions.length - 1) {
-    //   this.rightDisabled = false;
-    // }
-    // if (this.currentIndex === 0) {
-    //   this.leftDisabled = true;
-    //   this.rightDisabled = false;
-    // }
 
     const previousEntry = this.contestDetails.submissions[this.currentIndex];
     if (previousEntry) {
@@ -414,17 +405,8 @@ export class ContestDetailsComponent implements OnInit {
   onNext() {
     this.currentIndex++;
     this.toggleButton(this.currentIndex);
-    // if (this.currentIndex > 0 && this.contestDetails.submissions.length > 1) {
-    //   this.leftDisabled = false;
-    // }
 
-    // if (this.currentIndex === this.contestDetails.submissions.length - 1) {
-    //   this.rightDisabled = true;
-    //   this.leftDisabled = false;
-    // }
-    // const;
     const nextEntry = this.contestDetails.submissions[this.currentIndex];
-
     if (nextEntry) {
       this.store.dispatch(
         new ModalsActions.SetModalNavigationProperties({
@@ -449,7 +431,9 @@ export class ContestDetailsComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    // this.hasEnded = false;
+    this.isEligible = false;
+    this.hasEnded = true;
+    console.log("called");
     // this.store.dispatch(new ContestsAction.ResetContestData());
   }
 }

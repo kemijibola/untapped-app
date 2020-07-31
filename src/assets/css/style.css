@@ -101,6 +101,16 @@ textarea:focus {
   color: green;
 }
 
+.info-snackbar {
+  background-color: #b89d19 !important;
+  color: white !important;
+}
+
+.info-snackbar button {
+  background-color: #b89d19 !important;
+  color: white !important;
+}
+
 .selector-for-some-widget {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
@@ -865,8 +875,9 @@ footer {
 .contest-sidebar span {
   display: block;
   color: #fff;
-  font-size: 66px;
+  font-size: 20px;
   font-family: AvenirNextLTProMedium;
+  margin: 0 10px 10px;
 }
 .contest-pagination {
   margin-top: 100px;
@@ -1056,7 +1067,6 @@ footer {
 .new-entry {
   width: 50% !important;
   margin: 0 auto;
-  overflow-y: scroll;
 }
 
 .account-setup {
@@ -1528,7 +1538,7 @@ html::-webkit-scrollbar {
   border: 1px dashed #5d5c5c;
   height: 70px;
   width: 100%;
-  padding: 20px;
+  padding: 10px;
 }
 .upload-fld button {
   position: absolute;
@@ -3933,9 +3943,9 @@ button.accordion.is-open:after {
 /* Complete Profile Page Css End */
 
 .winer-blk {
-  display: -webkit-box;
+  /* display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: flex; */
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -3943,6 +3953,8 @@ button.accordion.is-open:after {
 }
 .single-winner-blk input {
   height: 50px;
+  margin-bottom: 5px;
+  text-align: left !important;
   background: #fafafa;
   border: 1px solid #e0e0e0;
   color: #000;
@@ -4151,9 +4163,7 @@ button.accordion.is-open:after {
 .btns a {
   margin-top: 15px !important;
 }
-.over-view-all-content {
-  /* padding-right: 100px; */
-}
+
 .over-view-area {
   padding: 80px;
 }

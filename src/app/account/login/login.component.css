@@ -1,3 +1,7 @@
 .error-block {
   color: red;
 }
+
+a:hover {
+  color: #434297 !important;
+}

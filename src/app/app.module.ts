@@ -79,7 +79,13 @@ export const customCurrencyMaskConfig = {
     LazyLoadImageModule,
 
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+      },
+    }),
     EffectsModule.forRoot([
       UserTypeEffects,
       AuthEffects,

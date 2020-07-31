@@ -92,7 +92,16 @@
             >
               *
             </span>
-            I agree to everything, so help me God amen.
+            By clicking <span style="font-size: 12px;">Sign Up</span>, you agree
+            to our
+            <a
+              routerLink="/terms-condition"
+              routerLinkActive="visited"
+              [routerLinkActiveOptions]="{ exact: true }"
+              style="color: #05274c; cursor: pointer;"
+              >T&C</a
+            >
+            and <a>Cookie Policy</a>
             <span class="checkmark"></span>
           </label>
           <button
@@ -103,7 +112,7 @@
             type="button"
           >
             <span *ngIf="(initiated$ | async) || (signUpCompleted$ | async)"
-              >SignUp</span
+              >Sign Up</span
             >
             <span *ngIf="(inProgress$ | async) || (!signUpCompleted$ | async)"
               >Please wait...</span

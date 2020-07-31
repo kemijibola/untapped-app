@@ -34,6 +34,25 @@
               (click)="onClickBrowseBtn()"
               >Click here to upload your entry</span
             >
+            <label class="form round">
+              <input formControlName="terms" type="checkbox" />
+              <span
+                class="error-block"
+                *ngIf="newContest.terms.invalid && newContest.terms.errors"
+              >
+                *
+              </span>
+              By clicking <span style="font-size: 12px;">Sign Up</span>, you
+              agree to our
+              <a
+                routerLink="/terms-condition"
+                routerLinkActive="visited"
+                [routerLinkActiveOptions]="{ exact: true }"
+                style="color: #05274c; cursor: pointer;"
+                >Competition T&C</a
+              >
+              <span class="checkmark"></span>
+            </label>
             <span *ngIf="showCompleted">{{ fileName }}</span>
             <span *ngIf="showUploading">
               <img src="assets/loader.gif" style="width: 20px;" />

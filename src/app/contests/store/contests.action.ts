@@ -27,6 +27,14 @@ export const RESET_USER_ELIGIBILITY_STATUS = "RESET_USER_ELIGIBILITY_STATUS";
 export const FETCH_CONTEST_VOTE_RESULT = "FETCH_CONTEST_VOTE_RESULT";
 export const SET_CONTEST_VOTE_RESULT = "SET_CONTEST_VOTE_RESULT";
 
+export const ADD_CONTEST_LIKE = "ADD_CONTEST_LIKE";
+export const ADD_CONTEST_LIKE_SUCCESS = "ADD_CONTEST_LIKE_SUCCESS";
+export const ADD_CONTEST_LIKE_ERROR = "ADD_CONTEST_LIKE_ERROR";
+
+export const REMOVE_CONTEST_LIKE = "REMOVE_CONTEST_LIKE";
+export const REMOVE_CONTEST_LIKE_SUCCESS = "REMOVE_CONTEST_LIKE_SUCCESS";
+export const REMOVE_CONTEST_LIKE_ERROR = "REMOVE_CONTEST_LIKE_ERROR";
+
 export class FetchContestById implements Action {
   readonly type = FETCH_CONTEST_BY_ID;
   constructor(public payload: { id: string }) {}
@@ -87,6 +95,45 @@ export class ResetContestData implements Action {
 export class ResetUserEligibilityStatus implements Action {
   readonly type = RESET_USER_ELIGIBILITY_STATUS;
 }
+
+export class AddContestLike implements Action {
+  readonly type = ADD_CONTEST_LIKE;
+  constructor(public payload: { contest: ContestData; likedBy: string }) {}
+}
+
+export class AddContestLikeSuccess implements Action {
+  readonly type = ADD_CONTEST_LIKE_SUCCESS;
+}
+
+export class AddContestLikeError implements Action {
+  readonly type = ADD_CONTEST_LIKE_ERROR;
+  constructor(
+    public payload: {
+      contest: ContestData;
+      likedBy: string;
+    }
+  ) {}
+}
+
+export class RemoveContestLike implements Action {
+  readonly type = REMOVE_CONTEST_LIKE;
+  constructor(public payload: { contest: ContestData; unLikedBy: string }) {}
+}
+
+export class RemoveContestLikeSuccess implements Action {
+  readonly type = REMOVE_CONTEST_LIKE_SUCCESS;
+}
+
+export class RemoveContestLikeError implements Action {
+  readonly type = REMOVE_CONTEST_LIKE_ERROR;
+  constructor(
+    public payload: {
+      contest: ContestData;
+      likedBy: string;
+    }
+  ) {}
+}
+
 export type ContestsAction =
   | FetchContestById
   | FetchContestsPreview
@@ -101,4 +148,10 @@ export type ContestsAction =
   | FetchContestVoteResult
   | SetContestVoteResult
   | SetContestsPreview
-  | FetchContestsPreviewError;
+  | FetchContestsPreviewError
+  | AddContestLike
+  | AddContestLikeSuccess
+  | AddContestLikeError
+  | RemoveContestLike
+  | RemoveContestLikeSuccess
+  | RemoveContestLikeError;

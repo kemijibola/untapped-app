@@ -92,7 +92,7 @@ export class NewContestComponent implements OnInit {
 
   minDate: Date = new Date();
   maxDate: Date = addDays(this.minDate, 30);
-  
+
   contestDuration: Date[] = [];
 
   constructor(
@@ -272,37 +272,6 @@ export class NewContestComponent implements OnInit {
     );
   }
 
-  // onAddEvaluation() {
-  //   const evaluation: string = this.contestForm.controls["evaluation"].value;
-  //   if (this.evaluations.length > 4) {
-  //     this.store.dispatch(
-  //       new NotificationActions.AddInfo({
-  //         key: AppNotificationKey.error,
-  //         message: "You can only add maximum 5 Evaluation criteria at once",
-  //         code: 400,
-  //       })
-  //     );
-  //   } else {
-  //     if (evaluation !== "") {
-  //       const foundEvaluation = this.evaluations.filter(
-  //         (x) => x === evaluation.toLowerCase()
-  //       )[0];
-  //       if (!foundEvaluation) {
-  //         this.evaluations.push(evaluation.toLowerCase());
-  //         this.contestForm.controls["evaluation"].setValue("");
-  //       } else {
-  //         this.store.dispatch(
-  //           new NotificationActions.AddInfo({
-  //             key: AppNotificationKey.error,
-  //             message: `${evaluation} has already been added to evaluation list`,
-  //             code: 400,
-  //           })
-  //         );
-  //       }
-  //     }
-  //   }
-  // }
-
   get contestRewards(): FormArray {
     return this.contestForm.get("contestRewards") as FormArray;
   }
@@ -321,6 +290,8 @@ export class NewContestComponent implements OnInit {
   deleteReward(index: number) {
     if ((<FormArray>this.contestForm.get("contestRewards")).length !== 1) {
       (<FormArray>this.contestForm.get("contestRewards")).removeAt(index);
+    } else {
+      //
     }
   }
 
@@ -340,9 +311,8 @@ export class NewContestComponent implements OnInit {
       });
   }
 
-  deleteEvaluation() {}
   onAddReward() {
-    if ((<FormArray>this.contestForm.get("contestRewards")).length < 3) {
+    if ((<FormArray>this.contestForm.get("contestRewards")).length < 5) {
       (<FormArray>this.contestForm.get("contestRewards")).push(
         new FormGroup({
           reward: new FormControl("", Validators.required),
@@ -351,8 +321,8 @@ export class NewContestComponent implements OnInit {
     } else {
       this.store.dispatch(
         new NotificationActions.AddInfo({
-          key: AppNotificationKey.error,
-          message: "You can only add 3 winners at once",
+          key: AppNotificationKey.info,
+          message: "You can only add 5 winners at once",
           code: 400,
         })
       );

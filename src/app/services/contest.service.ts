@@ -64,6 +64,16 @@ export class ContestService {
     return this.http.get<IResult<IUserContestListAnalysis[]>>(url);
   }
 
+  postContestLike(contestId: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/contests/${contestId}/like`;
+    return this.http.put<IResult<boolean>>(url, {});
+  }
+
+  postContestUnLike(contestId: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/contests/${contestId}/unLike`;
+    return this.http.put<IResult<boolean>>(url, {});
+  }
+
   fetchContestsCreatedByUser(): Observable<
     IResult<IUserContestListAnalysis[]>
   > {

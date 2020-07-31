@@ -142,7 +142,12 @@ export class ContestEntryComponent implements OnInit, OnChanges {
     this.contestEntryForm = new FormGroup({
       title: new FormControl("", Validators.required),
       info: new FormControl("", Validators.maxLength(150)),
+      terms: new FormControl(false, Validators.requiredTrue),
     });
+  }
+
+  get newContest() {
+    return this.contestEntryForm.controls;
   }
 
   uploadFiles(files: File[]): void {

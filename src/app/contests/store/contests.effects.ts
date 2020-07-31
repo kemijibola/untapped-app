@@ -96,6 +96,54 @@ export class ContestsEffect {
     )
   );
 
+  postContestLike = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestsActions.ADD_CONTEST_LIKE),
+      concatMap((action: ContestsActions.AddContestLike) =>
+        this.contestsService
+          .postContestLike(action.payload.contest.contest._id)
+          .pipe(
+            map(
+              (resp: IResult<boolean>) =>
+                new ContestsActions.AddContestLikeSuccess()
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new ContestsActions.AddContestLikeError({
+                  contest: action.payload.contest,
+                  likedBy: action.payload.likedBy,
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
+  postContestUnLike = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestsActions.REMOVE_CONTEST_LIKE),
+      concatMap((action: ContestsActions.RemoveContestLike) =>
+        this.contestsService
+          .postContestUnLike(action.payload.contest.contest._id)
+          .pipe(
+            map(
+              (resp: IResult<boolean>) =>
+                new ContestsActions.RemoveContestLikeSuccess()
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new ContestsActions.RemoveContestLikeError({
+                  contest: action.payload.contest,
+                  likedBy: action.payload.unLikedBy,
+                })
+              )
+            )
+          )
+      )
+    )
+  );
+
   constructor(
     private action$: Actions,
     private router: Router,

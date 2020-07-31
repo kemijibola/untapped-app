@@ -38,10 +38,47 @@ export function reducer(
         ...state,
         fetchContestStatus: OutboundState.inprogress,
       });
+    case ContestsActions.ADD_CONTEST_LIKE:
+      const contestObj = { ...action.payload.contest };
+      contestObj.contest.likedBy = [
+        ...contestObj.contest.likedBy,
+        action.payload.likedBy,
+      ];
+      return Object.assign({
+        ...state,
+        selectedContest: contestObj,
+      });
+    case ContestsActions.ADD_CONTEST_LIKE_ERROR:
+      const contestToRemoveLike = { ...action.payload.contest };
+      contestToRemoveLike.contest.likedBy = contestToRemoveLike.contest.likedBy.filter(
+        (x) => x !== action.payload.likedBy
+      );
+      return Object.assign({
+        ...state,
+        selectedContest: contestToRemoveLike,
+      });
+    case ContestsActions.REMOVE_CONTEST_LIKE:
+      const contestToRemoveLikeObj = { ...action.payload.contest };
+      contestToRemoveLikeObj.contest.likedBy = contestToRemoveLikeObj.contest.likedBy.filter(
+        (x) => x !== action.payload.unLikedBy
+      );
+      return Object.assign({
+        ...state,
+        selectedContest: contestToRemoveLikeObj,
+      });
     case ContestsActions.FETCH_CONTESTS_PREVIEW_SUCCESS:
       return Object.assign({
         ...state,
         fetchContestStatus: OutboundState.completed,
+      });
+    case ContestsActions.REMOVE_CONTEST_LIKE_ERROR:
+      const contestToUnLike = { ...action.payload.contest };
+      contestToUnLike.contest.likedBy = contestToUnLike.contest.likedBy.filter(
+        (x) => x !== action.payload.likedBy
+      );
+      return Object.assign({
+        ...state,
+        selectedContest: contestToUnLike,
       });
     case ContestsActions.SET_CONTESTS_PREVIEW:
       return fromAdapter.adapter.setAll(action.payload.runningContests, state);

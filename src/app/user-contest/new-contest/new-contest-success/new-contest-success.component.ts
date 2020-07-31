@@ -42,7 +42,6 @@ export class NewContestSuccessComponent implements OnInit {
     startDate: null,
     endDate: null,
     views: 0,
-    likes: 0,
     createdBy: "",
     redeemable: [],
   };

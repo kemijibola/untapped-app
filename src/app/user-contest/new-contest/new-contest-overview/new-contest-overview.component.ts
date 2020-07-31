@@ -43,7 +43,7 @@ export class NewContestOverviewComponent implements OnInit {
     startDate: null,
     endDate: null,
     views: 0,
-    likes: 0,
+    likedBy: [],
     createdBy: "",
     redeemable: [],
   };
