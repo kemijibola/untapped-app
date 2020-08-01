@@ -35,6 +35,11 @@ export const VERIFY_RESET_PASSWORD = "VERIFY_RESET_PASSWORD";
 export const VERIFY_RESET_PASSWORD_SUCCESS = "VERIFY_RESET_PASSWORD_SUCCESS";
 export const CREATE_NEW_PASSWORD = "CREATE_NEW_PASSWORD";
 export const CREATE_NEW_PASSWORD_SUCCESS = "CREATE_NEW_PASSWORD_SUCCESS";
+export const RESEND_CONFIRMATION_MAIL = "RESEND_CONFIRMATION_MAIL";
+export const RESEND_CONFIRMATION_MAIL_SUCCESS =
+  "RESEND_CONFIRMATION_MAIL_SUCCESS";
+export const RESEND_CONFIRMATION_MAIL_FAILED =
+  "RESEND_CONFIRMATION_MAIL_FAILED";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -149,6 +154,19 @@ export class CreateNewPasswordSuccess implements Action {
   readonly type = CREATE_NEW_PASSWORD_SUCCESS;
 }
 
+export class ResendConfirmationMail implements Action {
+  readonly type = RESEND_CONFIRMATION_MAIL;
+  constructor(public payload: { email: string }) {}
+}
+
+export class ResendConfirmationMailSuccess implements Action {
+  readonly type = RESEND_CONFIRMATION_MAIL_SUCCESS;
+}
+
+export class ResendConfirmationMailFailed implements Action {
+  readonly type = RESEND_CONFIRMATION_MAIL_FAILED;
+}
+
 export type AuthActions =
   | SignUpSuccess
   | SignInSuccess
@@ -177,4 +195,7 @@ export type AuthActions =
   | VerifyRestPassword
   | VerifyRestPasswordSuccess
   | CreateNewPassword
-  | CreateNewPasswordSuccess;
+  | CreateNewPasswordSuccess
+  | ResendConfirmationMail
+  | ResendConfirmationMailSuccess
+  | ResendConfirmationMailFailed;

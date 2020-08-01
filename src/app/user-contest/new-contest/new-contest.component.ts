@@ -328,14 +328,4 @@ export class NewContestComponent implements OnInit {
       );
     }
   }
-
-  // onFormSubmit(): void {
-  //   for (let i = 0; i < this.names.length; i++) {
-  //     console.log(this.names.at(i).value);
-  //   }
-  // }
-  onCreateClicked() {}
-  // TODO:: on click of proceed to payment, order is created
-  // payment is sent to payment gateway
-  // On success, update order collection, contest collection and payment collection
 }

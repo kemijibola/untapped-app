@@ -4,7 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 // components
 import { SlideMenuComponent } from "./header/slide-menu/slide-menu.component";
 import { HeaderComponent } from "./header/header.component";
-import { FooterComponent } from "./footer/footer.component";
 import { DropDownComponent } from "./header/drop-down/drop-down.component";
 import { AppRoutingModule } from "../app-routing.module";
 import { HomeComponent } from "./home/home.component";
@@ -46,7 +45,6 @@ import { UtilitiesService } from "../services/utilities.service";
     HeaderComponent,
     HomeComponent,
     SlideMenuComponent,
-    FooterComponent,
     DropDownComponent,
     AddOrRemoveClassDirective,
   ],
@@ -57,7 +55,7 @@ import { UtilitiesService } from "../services/utilities.service";
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  exports: [AppRoutingModule, HeaderComponent, FooterComponent],
+  exports: [AppRoutingModule, HeaderComponent],
   providers: [
     AuthService,
     AuthGuard,

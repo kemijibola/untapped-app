@@ -84,6 +84,17 @@ textarea:focus {
 .error-snackbar {
   background-color: red !important;
   color: white !important;
+  width: 100px;
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap !important;
+  white-space: -o-pre-wrap !important;
+  white-space: pre-wrap !important;
+  white-space: -webkit-pre-wrap !important;
+  word-break: break-all !important;
+  -ms-word-wrap: break-word !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  display: inline-block;
 }
 
 .error-snackbar button {
@@ -94,6 +105,17 @@ textarea:focus {
 .success-snackbar {
   background-color: green !important;
   color: white !important;
+  width: 100px;
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap !important;
+  white-space: -o-pre-wrap !important;
+  white-space: pre-wrap !important;
+  white-space: -webkit-pre-wrap !important;
+  word-break: break-all !important;
+  -ms-word-wrap: break-word !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  display: inline-block;
 }
 
 .success-snackbar button {
@@ -109,6 +131,17 @@ textarea:focus {
 .info-snackbar button {
   background-color: #b89d19 !important;
   color: white !important;
+  width: 100px;
+  white-space: -moz-pre-wrap !important;
+  white-space: -pre-wrap !important;
+  white-space: -o-pre-wrap !important;
+  white-space: pre-wrap !important;
+  white-space: -webkit-pre-wrap !important;
+  word-break: break-all !important;
+  -ms-word-wrap: break-word !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  display: inline-block;
 }
 
 .selector-for-some-widget {

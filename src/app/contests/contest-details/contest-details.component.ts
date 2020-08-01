@@ -23,6 +23,7 @@ import {
   MediaType,
   IEntryData,
   PrizePosition,
+  MediaAcceptType,
 } from "src/app/interfaces";
 import * as fromCategoryType from "../../shared/store/category-type/category-type.reducers";
 import { differenceInDays, isPast, getTime, isAfter } from "date-fns";
@@ -111,6 +112,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
   currentUserId: string = "";
   userHasLikedContest: boolean = false;
   isAuthenticated: boolean = false;
+
   prizePosition: PrizePosition;
   constructor(
     private router: Router,

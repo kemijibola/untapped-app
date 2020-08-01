@@ -46,13 +46,12 @@ import * as ModalsActions from "../../shared/store/modals/modals.actions";
   templateUrl: "./contest-entry.component.html",
   styleUrls: ["./contest-entry.component.css"],
 })
-export class ContestEntryComponent implements OnInit, OnChanges {
+export class ContestEntryComponent implements OnInit {
   fileConfig: IFileInputModel;
   private filesToUpload: File[];
   private file: IPresignRequest;
   uploadComponent = UPLOADCOMPONENT.contestentry;
   uploadAction = UPLOADACTION.updateimagealbum;
-  mediaAccept: string;
   contestEntryForm: FormGroup;
   @Input() selectedContest: ContestData;
   uploadedItems: UploadedItems;
@@ -62,6 +61,7 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   showDiv: boolean = false;
   canUpload: boolean = true;
   fileName: string = "";
+
   componentModal: AppModal;
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -194,22 +194,14 @@ export class ContestEntryComponent implements OnInit, OnChanges {
       });
   }
 
-  ngOnChanges(simple: SimpleChanges) {
-    if (simple["selectedContest"]) {
-      this.mediaAccept =
-        MediaAcceptType[
-          this.selectedContest.contest.entryMediaType.toUpperCase()
-        ];
-    }
-  }
-
-  onClickBrowseBtn() {
+  onClickBrowseBtn(mediaAccept: string) {
+    const accept = MediaAcceptType[mediaAccept.toUpperCase()];
     this.fileConfig = {
       state: true,
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: false,
-      accept: this.mediaAccept,
+      accept,
       minHeight: 100,
       minWidth: 100,
     };
@@ -244,7 +236,7 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   }
 
   onSubmitEntry() {
-    if (this.cloudItems.items.length > 0) {
+    if (this.cloudItems.items) {
       const title: string = this.contestEntryForm.controls["title"].value;
       const info: string = this.contestEntryForm.controls["info"].value;
       const entryObj: IContestEntry = {

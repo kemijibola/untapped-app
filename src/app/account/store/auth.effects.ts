@@ -184,6 +184,31 @@ export class AuthEffects {
     )
   );
 
+  resendConfirmationLink = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.RESEND_CONFIRMATION_MAIL),
+      concatMap((action: AuthActions.ResendConfirmationMail) =>
+        this.authService.resendVerificationLink(action.payload.email).pipe(
+          map(
+            (resp: IResult<boolean>) =>
+              new AuthActions.ResendConfirmationMailSuccess()
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              }),
+              new AuthActions.ResendConfirmationMailFailed()
+            )
+          )
+        )
+      )
+    )
+  );
+
   doEmailChangeConfirmation = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.VERIFY_EMAIL_CHANGE),

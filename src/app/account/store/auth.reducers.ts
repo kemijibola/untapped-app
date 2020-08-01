@@ -9,11 +9,14 @@ export interface AuthState extends EntityState<IAuthData> {
   confirmationResponse: string | null;
   loginStatus: OutboundState | null;
   registerStatus: OutboundState | null;
+  resendEmailStatus: OutboundState | null;
+  newUserEmail: string | null;
 }
 
 const initialState: AuthState = fromAdapter.adapter.getInitialState({
   loginStatus: OutboundState.initiated,
   registerStatus: OutboundState.initiated,
+  resendEmailStatus: OutboundState.initiated,
   confirmationResponse: null,
   userData: {
     access_token: "",
@@ -36,6 +39,7 @@ const initialState: AuthState = fromAdapter.adapter.getInitialState({
     token_expires: "",
     authenticated: false,
   },
+  newUserEmail: null,
 });
 
 export function reducer(
@@ -48,9 +52,25 @@ export function reducer(
         ...state,
         loginStatus: OutboundState.inprogress,
       });
+    case AuthActions.RESEND_CONFIRMATION_MAIL:
+      return Object.assign({
+        ...state,
+        resendEmailStatus: OutboundState.inprogress,
+      });
+    case AuthActions.RESEND_CONFIRMATION_MAIL_SUCCESS:
+      return Object.assign({
+        ...state,
+        resendEmailStatus: OutboundState.completed,
+      });
+    case AuthActions.RESEND_CONFIRMATION_MAIL_FAILED:
+      return Object.assign({
+        ...state,
+        resendEmailStatus: OutboundState.failed,
+      });
     case AuthActions.DO_SIGNUP:
       return Object.assign({
         ...state,
+        newUserEmail: action.payload.registerData.email,
         registerStatus: OutboundState.inprogress,
       });
     case AuthActions.SET_AUTHDATA:
@@ -116,6 +136,20 @@ const getSignUpInProgress = (state: AuthState): boolean =>
 const getSignUpInitiated = (state: AuthState): boolean =>
   state.registerStatus === OutboundState.initiated;
 
+const getNewUserEmail = (state: AuthState) => state.newUserEmail;
+
+const getResendEmailCompleted = (state: AuthState): boolean =>
+  state.resendEmailStatus === OutboundState.completed;
+
+const getResendEmailInProgress = (state: AuthState): boolean =>
+  state.resendEmailStatus === OutboundState.inprogress;
+
+const getResendEmailInitiated = (state: AuthState): boolean =>
+  state.resendEmailStatus === OutboundState.initiated;
+
+const getResendEmailFailure = (state: AuthState): boolean =>
+  state.resendEmailStatus === OutboundState.failed;
+
 export const getAuthState = createFeatureSelector<AuthState>("authState");
 
 export const selectCurrentUserData = createSelector(
@@ -153,7 +187,27 @@ export const selectSignUpCompletedStatus = createSelector(
   getSignUpCompleted
 );
 
-// export const selectLoginStatus = createSelector(getAuthState, getLoginStatus);
+export const selectResendEmailInProgressStatus = createSelector(
+  getAuthState,
+  getResendEmailInProgress
+);
+
+export const selectResendEmailCompletedStatus = createSelector(
+  getAuthState,
+  getResendEmailCompleted
+);
+
+export const selectResendEmailInitiatedStatus = createSelector(
+  getAuthState,
+  getResendEmailInitiated
+);
+
+export const selectResendEmailFailedStatus = createSelector(
+  getAuthState,
+  getResendEmailFailure
+);
+
+export const selectNewUserEmail = createSelector(getAuthState, getNewUserEmail);
 
 const getConfirmationSuccessMessage = (state: AuthState) =>
   state.confirmationResponse;
