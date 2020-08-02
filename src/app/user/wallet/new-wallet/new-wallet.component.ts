@@ -30,8 +30,9 @@ export class NewWalletComponent implements OnInit {
   isCompleted$ = this.userStore.pipe(select(fromWallet.selectCompletedStatus));
 
   failed$ = this.userStore.pipe(select(fromWallet.selectFailedStatus));
-  
+
   @ViewChild("walletButton", { static: false }) walletButton: ElementRef;
+  pinPattern = /^[0-9]{4}$/;
 
   constructor(
     private userStore: Store<fromUser.UserState>,

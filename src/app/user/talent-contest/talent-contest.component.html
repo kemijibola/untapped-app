@@ -56,8 +56,14 @@
   </div>
   <div class="info-ta" *ngIf="userContests.length < 1">
     <p style="margin-left: 16px; margin-right: 16px;">
-      You have not participated in any contest. Click <a>here</a> to view
-      contests
+      You have not participated in any contest. Click
+      <a
+        [routerLink]="['/contests']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="visited"
+        >here</a
+      >
+      to view contests
     </p>
   </div>
 </div>

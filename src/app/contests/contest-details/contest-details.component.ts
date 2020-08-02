@@ -134,7 +134,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
           this.hasEnded = true;
           if (_.has(val, "authenticated")) {
             this.isAuthenticated = val.authenticated;
-            if (val.authenticated) {
+            if (val.authenticated && val.user_data.profile_is_completed) {
               this.currentUserId = val.user_data._id;
               this.store.dispatch(
                 new ContestsAction.CheckUserEligibility({
@@ -289,6 +289,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];
+    if(modalToDeActivate){
       const modalToClose: IModal = {
         index: modalToDeActivate.index,
         name: modalToDeActivate.name,
@@ -307,6 +308,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
           modal: modalToClose,
         })
       );
+    }
     }
   }
 
@@ -435,7 +437,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.isEligible = false;
     this.hasEnded = true;
-    console.log("called");
+    this.closeModalDialog("new-entry");
     // this.store.dispatch(new ContestsAction.ResetContestData());
   }
 }

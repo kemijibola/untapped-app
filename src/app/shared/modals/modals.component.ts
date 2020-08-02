@@ -36,7 +36,7 @@ import { UtilitiesService } from "src/app/services/utilities.service";
   styleUrls: ["./modals.component.css"],
   encapsulation: ViewEncapsulation.None,
 })
-export class ModalsComponent implements OnInit {
+export class ModalsComponent implements OnInit, OnDestroy {
   @Input() id: string;
   currentModal: IModal = {
     index: 0,
@@ -51,11 +51,10 @@ export class ModalsComponent implements OnInit {
   constructor(
     private store: Store<fromApp.AppState>,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit() {
-
     this.store
       .pipe(select(fromModal.selectCurrentActiveModal))
       .subscribe((modal: IModal) => {
@@ -72,4 +71,7 @@ export class ModalsComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.renderer.setStyle(this.document.body, "overflow-y", "scroll");
+  }
 }

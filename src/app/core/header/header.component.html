@@ -242,7 +242,7 @@
                 <li class="bell">
                   <a><i class="far fa-bell"></i></a><span>4</span>
                 </li>
-                <li class="user" (click)="onToggle()">
+                <li class="user" (click)="onToggle()" (mouseenter)="onMouseEnter()">
                   <img
                     #headerImage
                     [defaultImage]="userImage"
@@ -255,7 +255,7 @@
                     "
                   />
                   <span>
-                    {{ userFullName }}
+                    {{ userFullName | truncateText: 15 }}
                     <img
                       *ngIf="!showDropDown"
                       style="width: 10px; height: 10px;"
@@ -269,6 +269,7 @@
                   </span>
                   <div
                     class="drpdown"
+                    (mouseleave)="onMouseLeave()"
                     [class.active.drpdown]="showDropDown"
                     [class.user.icon]="showDropDown"
                   >

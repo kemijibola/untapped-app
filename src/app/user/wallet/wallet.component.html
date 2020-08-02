@@ -170,15 +170,24 @@
   </div>
 
   <div
-    class="col-lg-7 col-sm-12 wallet-transaction"
+    class="col-lg-7 col-sm-12"
+    style="padding: 16px;"
     *ngIf="(transactionIsCompleted$ | async) && userTransactions.length < 1"
   >
-    <div class="transaction-amount-container">
-      <span class="transaction-type d-block"
-        ><small>
-          Participate in a ongoing contest and start earning.
-        </small>
-        Click <a>here</a> to participate
+    <div class="p-3">
+      <span style="margin: 0 auto; cursor: pointer;">
+        Start earning by participating in an on-going contest.
+        <p>
+          Click
+          <a
+            style="font-size: 13px; cursor: pointer; color: #06a9b0;"
+            [routerLink]="['/contests']"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="visited"
+            >here</a
+          >
+          to participate
+        </p>
       </span>
     </div>
   </div>

@@ -185,6 +185,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.showDropDown = !this.showDropDown;
   }
 
+  onMouseLeave(): void {
+    this.showDropDown = false;
+  }
+
+  onMouseEnter(): void {
+    this.showDropDown = true;
+  }
+
   onSideToggleClick() {
     this.showSideToggle = !this.showSideToggle;
   }

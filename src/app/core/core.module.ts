@@ -39,6 +39,7 @@ import { WalletService } from "../services/wallet.service";
 import { TransactionService } from "../services/transaction.service";
 import { LazyLoadImageModule } from "ng-lazyload-image";
 import { UtilitiesService } from "../services/utilities.service";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { UtilitiesService } from "../services/utilities.service";
   ],
   imports: [
     CommonModule,
+    SharedModule,
     LazyLoadImageModule,
     AppRoutingModule,
     ReactiveFormsModule,

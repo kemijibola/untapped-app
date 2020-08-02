@@ -16,6 +16,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from "@angular/core";
 import {
   ContestData,
@@ -263,27 +264,4 @@ export class ContestEntryComponent implements OnInit {
       );
     }
   }
-
-  // setMedia(media: UploadedItems) {
-  //   if (media.items) {
-  //     this.canViewDetails = true;
-  //     this.showCompleted = false;
-  //     this.showUploading = false;
-  //     this.showDiv = false;
-  //     const mediaType = media.type.toUpperCase();
-  //     switch (mediaType) {
-  //       case MediaType.AUDIO:
-  //         this.setAudio(media);
-  //         break;
-  //       case MediaType.IMAGE:
-  //         this.setImage(media);
-  //         break;
-  //       case MediaType.VIDEO:
-  //         this.setVideo(media);
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   }
-  // }
 }

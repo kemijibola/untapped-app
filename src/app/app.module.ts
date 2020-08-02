@@ -47,8 +47,6 @@ import { ProfessionalCategoryEffect } from "./shared/store/filtered-categories/p
 import { DashboardEffects } from "./shared/store/dashboard/dashboard.effect";
 import { UserFilterEffect } from "./shared/store/filtered-categories/user-filter/user-filter.effects";
 
-import { DigitOnlyModule } from "@uiowa/digit-only";
-
 // export function loadConfigurations(configService: ConfigService) {
 //   return () => configService.getConfigs();
 // }
@@ -69,7 +67,6 @@ export const customCurrencyMaskConfig = {
   declarations: [AppComponent, NotLoggedInComponent],
   imports: [
     BrowserModule,
-    DigitOnlyModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     OwlModule,

@@ -15,7 +15,7 @@ import { environment } from "src/environments/environment";
 })
 export class RequestPayoutComponent implements OnInit {
   transferForm: FormGroup;
-  pinPattern = /^[0-9]{4,}$/;
+  pinPattern = /^[0-9]{4}$/;
   amountPattern = NUMERIC_REGEX;
   constructor(
     private userStore: Store<fromUser.UserState>,

@@ -33,13 +33,18 @@
           </div>
 
           <label for="">
+            <span
+            class="error-block"
+            *ngIf="accountSetup.get('accountNumber').hasError('pattern')"
+          >
+            * Please enter a valid account number
+          </span>
             Account number
           </label>
           <input
             class="input-design mb-35"
             type="text"
-            id="digit-only"
-            digitOnly
+            [pattern]="accountPattern"
             formControlName="accountNumber"
           />
           <div style="z-index: -1;">

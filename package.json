@@ -36,7 +36,6 @@
     "@ngx-pwa/local-storage": "^9.0.3",
     "@types/crypto-js": "^3.1.47",
     "@types/underscore": "^1.9.4",
-    "@uiowa/digit-only": "^2.1.0",
     "angular-animations": "0.0.9",
     "angular2-multiselect-dropdown": "^4.6.3",
     "angular2-uuid": "^1.1.1",

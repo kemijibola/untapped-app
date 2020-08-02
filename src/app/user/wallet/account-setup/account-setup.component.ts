@@ -34,6 +34,7 @@ export class AccountSetupComponent implements OnInit {
   placeHolderText: string;
   searchText: string = "";
   selectedBank: Bank;
+  accountPattern = /^[0-9]{1}$/;
 
   isInitiated$ = this.userStore.pipe(
     select(fromBanks.selectAccountSetUpInitiatedStatus)

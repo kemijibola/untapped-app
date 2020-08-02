@@ -716,14 +716,14 @@ footer {
 }
 .user {
   border: 1px solid #6c6b6b;
-  padding: 8px 35px 8px 15px;
+  padding: 8px 10px 8px 15px;
   border-radius: 5px;
   margin-left: 5px;
   position: relative;
   cursor: pointer;
 }
 .user span {
-  font-size: 15px;
+  font-size: 13px;
   color: #272424;
   display: inline-block;
   padding-left: 10px;

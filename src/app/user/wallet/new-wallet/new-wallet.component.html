@@ -6,10 +6,7 @@
           <label for="">
             <span
               class="error-block"
-              *ngIf="
-                !newWalletForm.get('walletPin').valid &&
-                newWalletForm.get('walletPin').touched
-              "
+              *ngIf="newWalletForm.get('walletPin').hasError('pattern')"
             >
               * Please enter a valid 4 digit
             </span>
@@ -18,12 +15,18 @@
           <input
             type="password"
             formControlName="walletPin"
+            [pattern]="pinPattern"
             class="input-design mb-10"
           />
           <button
             #walletButton
             class="box-btn login-btn mt-10"
-            [disabled]="!newWalletForm.valid || (inProgress$ | async)"
+            [disabled]="
+              !newWalletForm.valid ||
+              (inProgress$ | async) ||
+              (!isCompleted$ | async) ||
+              (!failed$ | async)
+            "
             (click)="onCreateWallet()"
             type="button"
           >
