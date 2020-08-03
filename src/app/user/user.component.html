@@ -1,19 +1,33 @@
 <app-tabs>
   <div class="tab-content fix" id="myTabContent">
-    <app-profile *ngIf="activeTab?.tag === 'profile'"></app-profile>
+    <app-profile
+      *ngIf="
+        activeTab?.tag === 'profile' &&
+        (currentUserType === 'Talent' || currentUserType === 'Professional')
+      "
+    ></app-profile>
     <div>
-      <app-portfolio *ngIf="activeTab?.tag === 'portfolio'"></app-portfolio>
+      <app-portfolio
+        *ngIf="activeTab?.tag === 'portfolio' && currentUserType === 'Talent'"
+      ></app-portfolio>
     </div>
     <div>
-      <app-settings *ngIf="activeTab?.tag === 'settings'"></app-settings>
+      <app-wallet
+        *ngIf="activeTab?.tag === 'wallet' && currentUserType === 'Talent'"
+      ></app-wallet>
     </div>
     <div>
       <app-talent-contest
-        *ngIf="activeTab?.tag === 'contests'"
+        *ngIf="activeTab?.tag === 'contests' && currentUserType === 'Talent'"
       ></app-talent-contest>
     </div>
     <div>
-      <app-wallet *ngIf="activeTab?.tag === 'wallet'"></app-wallet>
+      <app-settings
+        *ngIf="
+          activeTab?.tag === 'settings' &&
+          (currentUserType === 'Talent' || currentUserType === 'Professional')
+        "
+      ></app-settings>
     </div>
   </div>
 </app-tabs>

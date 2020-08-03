@@ -94,7 +94,7 @@ export class AccountSetupComponent implements OnInit {
       .subscribe((val: Bank[]) => {
         if (val.length > 0) {
           this.banks = val;
-          this.placeHolderText = "Select a bank";
+          this.placeHolderText = "Search / Select a bank";
         } else {
           this.placeHolderText = "Fetching banks...";
         }

@@ -89,23 +89,22 @@ const getSaveInitiated = (state: NewContestState): boolean =>
 const getFailedStatus = (state: NewContestState): boolean =>
   state.newContestState === OutboundState.failed;
 
+export const selectNewContestCompletedStatus = createSelector(
+  getNewUserContestState,
+  getSaveCompleted
+);
 
-  export const selectNewContestCompletedStatus = createSelector(
-    getNewUserContestState,
-    getSaveCompleted
-  );
-  
-  export const selectNewContestInitiatedStatus = createSelector(
-    getNewUserContestState,
-    getSaveInitiated
-  );
-  
-  export const selectNewContestInProgressStatus = createSelector(
-    getNewUserContestState,
-    getSaveInProgress
-  );
-  
-  export const selectNewContestFailedStatus = createSelector(
-    getNewUserContestState,
-    getFailedStatus
-  );
+export const selectNewContestInitiatedStatus = createSelector(
+  getNewUserContestState,
+  getSaveInitiated
+);
+
+export const selectNewContestInProgressStatus = createSelector(
+  getNewUserContestState,
+  getSaveInProgress
+);
+
+export const selectNewContestFailedStatus = createSelector(
+  getNewUserContestState,
+  getFailedStatus
+);

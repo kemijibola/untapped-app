@@ -2472,3 +2472,13 @@
     font-size: 10px;
   }
 }
+
+@media only screen and (max-width: 960px) {
+  .overview-mobile {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .box-btn.create-btn {
+    margin-bottom: 0.6rem;
+  }
+}

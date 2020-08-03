@@ -1608,7 +1608,7 @@ html::-webkit-scrollbar {
 }
 
 .duration-inner {
-  width: 70%;
+  width: 50%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -5591,4 +5591,20 @@ body.viewport-lg {
   margin: auto;
   font-size: 16px;
   font-weight: 700;
+}
+
+.contest-entry-view {
+  overflow-y: scroll;
+  height: 550px;
+  overflow-x: hidden;
+}
+
+.account-setup-dropdown {
+  margin-top: -5px;
+  z-index: 100;
+  position: absolute;
+  width: 95.7% !important;
+  overflow-y: scroll;
+  height: 75%;
+  border-radius: 2%;
 }

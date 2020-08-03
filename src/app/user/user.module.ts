@@ -49,6 +49,7 @@ import { walletReducer } from "./store/wallet/wallet.reducer";
 import { AccountSetupComponent } from "./wallet/account-setup/account-setup.component";
 import { bankReducer } from "./store/bank/bank.reducer";
 import { BankEffect } from "./store/bank/bank.effects";
+import { NgxCurrencyModule } from "ngx-currency";
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { BankEffect } from "./store/bank/bank.effects";
   ],
   imports: [
     SharedModule,
+    NgxCurrencyModule,
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,

@@ -65,6 +65,7 @@ export class UserComponent extends AbstractTabComponent {
       },
     ],
   };
+  currentUserType: string = "";
   constructor(
     public store: Store<fromApp.AppState>,
     public router: Router,
@@ -85,6 +86,7 @@ export class UserComponent extends AbstractTabComponent {
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
         if (val.authenticated) {
+          this.currentUserType = val.user_data.userType.name;
           this.setUpAppUserTab(val.user_data.userType.name);
         }
       });
@@ -120,10 +122,10 @@ export class UserComponent extends AbstractTabComponent {
       navClass: "nav nav-tabs mb-30 all-tablinks",
       tabs: [
         { index: 0, title: "Profile", tag: "profile", active: false },
-        { index: 1, title: "Portfolio", tag: "portfolio", active: false },
-        { index: 2, title: "Settings", tag: "settings", active: false },
+        { index: 1, title: "Wallet", tag: "wallet", active: false },
+        { index: 2, title: "Portfolio", tag: "portfolio", active: false },
         { index: 3, title: "Contests", tag: "contests", active: false },
-        { index: 4, title: "Wallet", tag: "wallet", active: false },
+        { index: 4, title: "Settings", tag: "settings", active: false },
       ],
     };
   }
@@ -145,10 +147,7 @@ export class UserComponent extends AbstractTabComponent {
       id: "user-tab",
       divClass: "profile-area fx-padding-2 pt-80 pb-105",
       navClass: "nav nav-tabs mb-30 all-tablinks",
-      tabs: [
-        { index: 0, title: "Settings", tag: "settings", active: false },
-        { index: 1, title: "Contests", tag: "contests", active: false },
-      ],
+      tabs: [{ index: 0, title: "Settings", tag: "settings", active: false }],
     };
   }
 }

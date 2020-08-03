@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   profileVisibilityStatus: boolean;
   showDropDown: boolean;
   showSideToggle: boolean;
-  defaultLoaded: boolean;
+  defaultLoaded: boolean = true;
   @ViewChild("headerImage", { static: false }) headerImage: ElementRef;
 
   constructor(
@@ -74,9 +74,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.tapNotificationStatus = val.user_data.tap_notification;
           this.emailNotificationStatus = val.user_data.email_notification;
           this.profileVisibilityStatus = val.user_data.profile_visibility;
-          // this.defaultLoaded
-          //   ? this.fetchUserProfileImage(val.user_data.profile_image_path)
-          //   : this.triggerTimer(val.user_data.profile_image_path);
+          this.fetchUserProfileImage(val.user_data.profile_image_path);
           this.userPreEmailAdress = val.user_data.email.split("@")[0];
           this.userFullName = val.user_data.full_name;
           this.typeOfUser = AppUserType[val.user_data.userType.name];
@@ -92,14 +90,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.updatedToggles = [...val];
         }
       });
-
-    // this.store
-    //   .pipe(select(fromUpload.selectUploadStatus))
-    //   .subscribe((val: boolean) => {
-    //     if (val) {
-    //       this.triggerTimer(this.userImage);
-    //     }
-    //   });
   }
 
   onLogOut() {
@@ -110,26 +100,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.router.navigate(["/"]);
   }
 
-  fetchUserProfileImage(userImageKey: string) {
-    console.log(userImageKey);
-    if (this.defaultLoaded) {
-      this.userImage =
-        userImageKey !== ""
-          ? fetchImageObjectFromCloudFormation(userImageKey, this.editParams)
-          : environment.TALENT_DEFAULT_IMG;
-      this.defaultLoaded = true;
-    } else {
-      this.triggerTimer(userImageKey);
-      this.defaultLoaded = false;
-    }
-  }
-
   setHeaderImage(key: string): void {
     const headerImage = this.headerImage.nativeElement;
     this.renderer.setProperty(headerImage, "src", key);
   }
 
-  triggerTimer(image: string) {
+  fetchUserProfileImage(image: string) {
+    this.userImage =
+      image !== ""
+        ? fetchImageObjectFromCloudFormation(image, this.editParams)
+        : "";
     setTimeout(() => {
       const headerImage = this.headerImage.nativeElement;
       const userImage = fetchImageObjectFromCloudFormation(

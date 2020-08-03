@@ -53,7 +53,6 @@
               <input
                 type="text"
                 formControlName="title"
-                autofocus
                 placeholder="Some fancy title for your contest"
               />
             </div>
@@ -177,6 +176,7 @@
                 >
                 <div class="duration-inner">
                   <input
+                    style="cursor: pointer;"
                     formControlName="contestDuration"
                     [owlDateTimeTrigger]="dt10"
                     [owlDateTime]="dt10"
@@ -220,7 +220,7 @@
                     z-index: 100;
                     position: absolute;
                     width: 82%;
-                    border-radius: 5px;
+                    border-radius: 2px;
                   "
                   *ngIf="showMediaTypes"
                   (mouseleave)="onMouseLeave()"
@@ -293,8 +293,11 @@
                       [options]="{
                         prefix: 'N ',
                         thousands: ',',
+                        precision: 0,
                         decimal: '.',
-                        nullable: false
+                        nullable: false,
+                        allowNegative: false,
+                        allowZero: false
                       }"
                     />
                     <button
@@ -314,6 +317,7 @@
             </div>
             <button
               class="box-btn create-btn"
+              #createButton
               [class.box-btn-disable]="
                 !contestForm.valid || !contestForm.touched
               "
@@ -322,12 +326,24 @@
               (click)="onClickCreateButton()"
               style="margin-bottom: 1rem;"
             >
-            <span>
-              CREATE CONTEST
-            </span>
-            <span>
-              PROSESSING...
-            </span>
+              <span
+                *ngIf="
+                  (isInitiated$ | async) ||
+                  (isCompleted$ | async) ||
+                  (failed$ | async)
+                "
+              >
+                CREATE CONTEST
+              </span>
+              <span
+                *ngIf="
+                  (inProgress$ | async) ||
+                  (!isCompleted$ | async) ||
+                  (!failed$ | async)
+                "
+              >
+                PROSESSING...
+              </span>
             </button>
           </div>
         </div>

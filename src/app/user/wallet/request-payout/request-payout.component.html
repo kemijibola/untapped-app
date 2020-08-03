@@ -28,11 +28,27 @@
             </span>
             Amount to withdraw</label
           >
-          <input
+          <!-- <input
             type="text"
             formControlName="amount"
             [pattern]="amountPattern"
             class="input-design mb-10"
+          /> -->
+
+          <input
+            class="input-design mb-10"
+            currencyMask
+            formControlName="amount"
+            [options]="{
+              prefix: 'N ',
+              align: 'left',
+              thousands: ',',
+              precision: 0,
+              decimal: '.',
+              nullable: false,
+              allowNegative: false,
+              allowZero: false
+            }"
           />
 
           <label for="">

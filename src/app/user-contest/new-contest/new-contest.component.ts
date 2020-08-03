@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Renderer2,
+} from "@angular/core";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 import * as fromApp from "../../store/app.reducers";
@@ -79,6 +85,22 @@ export class NewContestComponent implements OnInit {
   selectedMediaType: string = "";
   showMediaTypes: boolean;
 
+  isInitiated$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestInitiatedStatus)
+  );
+
+  inProgress$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestInProgressStatus)
+  );
+
+  isCompleted$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestCompletedStatus)
+  );
+
+  failed$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestFailedStatus)
+  );
+
   formatLabel(value: number = 3) {
     if (value >= 1) {
       return Math.round(value / 1) + "d";
@@ -93,13 +115,14 @@ export class NewContestComponent implements OnInit {
 
   minDate: Date = new Date();
   maxDate: Date = addDays(this.minDate, 30);
-
   contestDuration: Date[] = [];
+  @ViewChild("createButton", { static: false }) createButton: ElementRef;
 
   constructor(
     public store: Store<fromApp.AppState>,
     private userContestStore: Store<fromUserContest.UserContestState>,
-    private contestService: ContestService
+    private contestService: ContestService,
+    private renderer: Renderer2
   ) {
     // this.bannerImage = environment.CONTEST_BANNER_DEFAULT;
     this.store
@@ -239,6 +262,9 @@ export class NewContestComponent implements OnInit {
   }
 
   onClickCreateButton() {
+    const createBtn = this.createButton.nativeElement;
+    this.renderer.setProperty(createBtn, "disabled", true);
+
     const formArray = <FormArray>this.contestForm.get("contestRewards");
     const duration = this.contestForm.controls["contestDuration"].value;
     if (!duration) {
