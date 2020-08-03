@@ -11,7 +11,9 @@
           <span
             class="error-block"
             *ngIf="
-              !signinForm.get('email').valid && signinForm.get('email').touched
+              (!signinForm.get('email').valid &&
+                signinForm.get('email').touched) ||
+              signinForm.get('email').hasError('pattern')
             "
           >
             * Please enter a valid
@@ -21,6 +23,7 @@
         <input
           class="input-design mb-35"
           type="email"
+          [pattern]="emailPattern"
           formControlName="email"
         />
         <label for="">
@@ -52,6 +55,7 @@
         </span> -->
         <button
           #loginButton
+          [class.box-btn-disable]="!signinForm.valid || !signinForm.touched"
           class="box-btn login-btn mt-50"
           [disabled]="!signinForm.valid || (inProgress$ | async)"
           (click)="onSignin()"

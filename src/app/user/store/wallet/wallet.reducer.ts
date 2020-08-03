@@ -11,6 +11,7 @@ export interface WalletState extends EntityState<IWallet> {
   userWalletState: OutboundState;
   transactions: Transaction[] | [];
   transactionState: OutboundState;
+  payOutState: OutboundState;
 }
 
 const initialState: WalletState = fromAdapter.adapter.getInitialState({
@@ -18,6 +19,7 @@ const initialState: WalletState = fromAdapter.adapter.getInitialState({
   userWalletState: OutboundState.initiated,
   transactions: [],
   transactionState: OutboundState.initiated,
+  payOutState: OutboundState.initiated,
 });
 
 export function walletReducer(
@@ -25,6 +27,11 @@ export function walletReducer(
   action: WalletActions.WalletActions
 ): WalletState {
   switch (action.type) {
+    case WalletActions.REQUEST_PAYOUT:
+      return Object.assign({
+        ...state,
+        payOutState: OutboundState.inprogress,
+      });
     case WalletActions.FETCH_USER_TRANSACTION:
       return Object.assign({
         ...state,
@@ -73,6 +80,16 @@ export function walletReducer(
         ...state,
         transactionState: OutboundState.failed,
       });
+    case WalletActions.REQUEST_PAYOUT_SUCCESS:
+      return Object.assign({
+        ...state,
+        payOutState: OutboundState.completed,
+      });
+    case WalletActions.REQUEST_PAYOUT_ERROR:
+      return Object.assign({
+        ...state,
+        payOutState: OutboundState.failed,
+      });
     default: {
       return state;
     }
@@ -104,6 +121,18 @@ const getTransactionStateInitiated = (state: WalletState): boolean =>
 
 const getTransactionStateFailed = (state: WalletState): boolean =>
   state.transactionState === OutboundState.failed;
+
+const getPayoutStateCompleted = (state: WalletState): boolean =>
+  state.payOutState === OutboundState.completed;
+
+const getPayoutStateInProgress = (state: WalletState): boolean =>
+  state.payOutState === OutboundState.inprogress;
+
+const getPayoutStateInitiated = (state: WalletState): boolean =>
+  state.payOutState === OutboundState.initiated;
+
+const getPayoutStateFailed = (state: WalletState): boolean =>
+  state.payOutState === OutboundState.failed;
 
 const getSelectedCurrentUserWallet = (state: WalletState) => state.userWallet;
 
@@ -158,4 +187,24 @@ export const selectTransactionInProgressStatus = createSelector(
 export const selectTransactionFailedStatus = createSelector(
   getWalletState,
   getTransactionStateFailed
+);
+
+export const selectPayoutCompletedStatus = createSelector(
+  getWalletState,
+  getPayoutStateCompleted
+);
+
+export const selectPayoutInitiatedStatus = createSelector(
+  getWalletState,
+  getPayoutStateInitiated
+);
+
+export const selectPayoutInProgressStatus = createSelector(
+  getWalletState,
+  getPayoutStateInProgress
+);
+
+export const selectPayoutFailedStatus = createSelector(
+  getWalletState,
+  getPayoutStateFailed
 );

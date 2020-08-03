@@ -82,6 +82,7 @@ export class WalletComponent implements OnInit {
       .subscribe((val: UserAccount) => {
         if (_.has(val, "_id")) {
           this.userAccountDetails = { ...val };
+          console.log(this.userAccountDetails);
         }
       });
 
@@ -90,6 +91,22 @@ export class WalletComponent implements OnInit {
       .subscribe((val: boolean) => {
         if (val) {
           this.closeModalDialog("new-wallet");
+        }
+      });
+
+    this.userStore
+      .pipe(select(fromWallet.selectPayoutCompletedStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.closeModalDialog("wallet-tranfer");
+        }
+      });
+
+    this.userStore
+      .pipe(select(fromBanks.selectAccountSetUpCompletedStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.closeModalDialog("account-setup");
         }
       });
   }
@@ -148,7 +165,7 @@ export class WalletComponent implements OnInit {
       new ModalsActions.FetchAppModal({ appModalId: "user-wallet" })
     );
 
-    if (this.componentModal) {
+  if (this.componentModal) {
       const modalToActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];

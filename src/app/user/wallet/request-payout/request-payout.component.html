@@ -50,10 +50,34 @@
           <button
             #sendButton
             class="box-btn login-btn mt-10"
+            [class.box-btn-disable]="
+              !transferForm.valid || !transferForm.touched
+            "
+            [disabled]="
+              !transferForm.valid ||
+              (inProgress$ | async) ||
+              (!isCompleted$ | async) ||
+              (!failed$ | async)
+            "
             type="button"
             (click)="onClickWithdaw()"
           >
-            <span>Withdraw</span>
+            <span
+              *ngIf="
+                (initiated$ | async) ||
+                (isCompleted$ | async) ||
+                (failed$ | async)
+              "
+              >Withdraw</span
+            >
+            <span
+              *ngIf="
+                (inProgress$ | async) ||
+                (!isCompleted$ | async) ||
+                (!failed$ | async)
+              "
+              >Processing...</span
+            >
           </button>
         </form>
       </div>

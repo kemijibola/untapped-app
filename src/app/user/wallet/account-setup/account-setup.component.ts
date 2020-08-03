@@ -34,7 +34,7 @@ export class AccountSetupComponent implements OnInit {
   placeHolderText: string;
   searchText: string = "";
   selectedBank: Bank;
-  accountPattern = /^[0-9]{1}$/;
+  accountPattern = /^[0-9]{10,11}$/;
 
   isInitiated$ = this.userStore.pipe(
     select(fromBanks.selectAccountSetUpInitiatedStatus)
@@ -52,7 +52,12 @@ export class AccountSetupComponent implements OnInit {
     select(fromBanks.selectAccountSetUpFailedStatus)
   );
 
-  constructor(private userStore: Store<fromUser.UserState>) {
+  @ViewChild("setUpButton", { static: false }) setUpButton: ElementRef;
+
+  constructor(
+    private userStore: Store<fromUser.UserState>,
+    private renderer: Renderer2
+  ) {
     this.placeHolderText = "Fetching banks...";
   }
 
@@ -63,8 +68,6 @@ export class AccountSetupComponent implements OnInit {
         null,
         Validators.compose([
           Validators.required,
-          Validators.minLength(11),
-          Validators.maxLength(11),
           Validators.pattern(NUMERIC_REGEX),
         ])
       ),
@@ -105,6 +108,9 @@ export class AccountSetupComponent implements OnInit {
   }
 
   onClickSave(): void {
+    const saveBtn = this.setUpButton.nativeElement;
+    this.renderer.setProperty(saveBtn, "disabled", true);
+
     const accountNumber = this.accountSetup.controls["accountNumber"].value;
     this.userStore.dispatch(
       new BanksActions.SetUpBankDetails({

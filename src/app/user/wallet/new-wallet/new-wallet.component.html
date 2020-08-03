@@ -21,6 +21,9 @@
           <button
             #walletButton
             class="box-btn login-btn mt-10"
+            [class.box-btn-disable]="
+              !newWalletForm.valid || !newWalletForm.touched
+            "
             [disabled]="
               !newWalletForm.valid ||
               (inProgress$ | async) ||

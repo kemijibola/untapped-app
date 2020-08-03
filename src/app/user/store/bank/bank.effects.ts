@@ -81,12 +81,18 @@ export class BankEffect {
             action.payload.bankCode
           )
           .pipe(
-            map(
-              (resp: CreateAccountResponse) =>
+            mergeMap((resp: CreateAccountResponse) => {
+              return [
                 new BankActions.SetUpBankDetailsSuccess({
                   userAccount: resp.data,
-                })
-            ),
+                }),
+                new NotificationActions.AddSuccess({
+                  key: AppNotificationKey.success,
+                  code: 200,
+                  message: "Account details saved successfully",
+                }),
+              ];
+            }),
             catchError((respError: HttpErrorResponse) =>
               of(
                 new BankActions.SetUpBankDetailsError(),

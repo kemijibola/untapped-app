@@ -3,6 +3,7 @@ import { IContest } from "../../../interfaces";
 
 export const CREATE_CONTEST = "CREATE_CONTEST";
 export const CREATE_CONTEST_SUCCESS = "CREATE_CONTEST_SUCCESS";
+export const CREATE_CONTEST_ERROR = "CREATE_CONTEST_ERROR";
 export const SET_CONTEST_IN_EDIT_MODE = "SET_CONTEST_IN_EDIT_MODE";
 export const SET_CONTEST = "SET_CONTEST";
 export const SET_CONTEST_BANNER = "SET_CONTEST_BANNER";
@@ -30,9 +31,14 @@ export class SetContestBanner implements Action {
   constructor(public payload: { bannerKey: string }) {}
 }
 
+export class CreateContestError implements Action {
+  readonly type = CREATE_CONTEST_ERROR;
+}
+
 export type NewContestActions =
   | CreateContest
   | SetContestBanner
   | SetContestInEditMode
   | SetContest
-  | CreateContestSuccess;
+  | CreateContestSuccess
+  | CreateContestError;

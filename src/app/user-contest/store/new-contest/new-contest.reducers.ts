@@ -3,14 +3,17 @@ import * as NewContestActions from "./new-contest.actions";
 import { EntityState } from "@ngrx/entity";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromAdapter from "./new-contest.adapter";
+import { OutboundState } from "src/app/shared/Util";
 
 export interface NewContestState extends EntityState<IContest> {
   contest: IContest | null;
   bannerImageKey: string | null;
+  newContestState: OutboundState;
 }
 const initialState: NewContestState = fromAdapter.adapter.getInitialState({
   contest: null,
   bannerImageKey: null,
+  newContestState: OutboundState.initiated,
 });
 
 export function newContestReducer(
@@ -21,7 +24,18 @@ export function newContestReducer(
     case NewContestActions.CREATE_CONTEST:
       return Object.assign({
         ...state,
+        newContestState: OutboundState.inprogress,
         contest: { ...action.payload.newContest },
+      });
+    case NewContestActions.CREATE_CONTEST_SUCCESS:
+      return Object.assign({
+        ...state,
+        newContestState: OutboundState.completed,
+      });
+    case NewContestActions.CREATE_CONTEST_ERROR:
+      return Object.assign({
+        ...state,
+        newContestState: OutboundState.failed,
       });
     case NewContestActions.SET_CONTEST_IN_EDIT_MODE:
       return Object.assign({
@@ -62,3 +76,36 @@ export const selectCurrentBannerKey = createSelector(
   getNewUserContestState,
   getSelectbannerImageKey
 );
+
+const getSaveCompleted = (state: NewContestState): boolean =>
+  state.newContestState === OutboundState.completed;
+
+const getSaveInProgress = (state: NewContestState): boolean =>
+  state.newContestState === OutboundState.inprogress;
+
+const getSaveInitiated = (state: NewContestState): boolean =>
+  state.newContestState === OutboundState.initiated;
+
+const getFailedStatus = (state: NewContestState): boolean =>
+  state.newContestState === OutboundState.failed;
+
+
+  export const selectNewContestCompletedStatus = createSelector(
+    getNewUserContestState,
+    getSaveCompleted
+  );
+  
+  export const selectNewContestInitiatedStatus = createSelector(
+    getNewUserContestState,
+    getSaveInitiated
+  );
+  
+  export const selectNewContestInProgressStatus = createSelector(
+    getNewUserContestState,
+    getSaveInProgress
+  );
+  
+  export const selectNewContestFailedStatus = createSelector(
+    getNewUserContestState,
+    getFailedStatus
+  );

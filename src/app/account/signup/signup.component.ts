@@ -73,7 +73,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
       ),
       password: new FormControl(
         "",
-        Validators.compose([Validators.required, Validators.minLength(6)])
+        Validators.compose([Validators.required, Validators.minLength(8)])
       ),
       terms: new FormControl(false, Validators.requiredTrue),
     });

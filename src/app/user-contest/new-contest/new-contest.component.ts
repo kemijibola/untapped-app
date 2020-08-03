@@ -47,6 +47,7 @@ export class NewContestComponent implements OnInit {
   eligibityRule = "";
   submissionRule = "";
   contestDays = 1;
+  informationLength: number = 250;
   // evaluations: string[] = [];
   fileConfig: IFileInputModel;
   private presignRequest: IPresignRequest;
@@ -126,13 +127,14 @@ export class NewContestComponent implements OnInit {
       ),
       basicInfo: new FormControl(null, [
         Validators.required,
-        Validators.minLength(20),
+        Validators.minLength(80),
+        Validators.maxLength(250),
       ]),
       eligibityRule: new FormControl(null),
       submissionRule: new FormControl(null),
       contestDuration: new FormControl([
         this.minDate,
-        addDays(this.minDate, 7),
+        addDays(this.minDate, 30),
       ]),
       contestRewards: new FormArray([
         new FormGroup({
@@ -201,6 +203,10 @@ export class NewContestComponent implements OnInit {
     this.showMediaTypes = !this.showMediaTypes;
   }
 
+  onMouseLeave() {
+    this.showMediaTypes = false;
+  }
+
   onSelectedMedia(i: number) {
     this.selectedMediaType = this.mediaTypes[i].name;
     this.showMediaTypes = !this.showMediaTypes;
@@ -235,41 +241,51 @@ export class NewContestComponent implements OnInit {
   onClickCreateButton() {
     const formArray = <FormArray>this.contestForm.get("contestRewards");
     const duration = this.contestForm.controls["contestDuration"].value;
-    let redeemables: IRedeemable[] = [];
-    for (let i = 0; i < formArray.length; i++) {
-      const reward: string = (<FormArray>(
-        this.contestForm.get("contestRewards")
-      )).at(i).value;
-      redeemables.push({
-        name: `position${i + 1}`,
-        prizeCash: reward["reward"],
-      });
+    if (!duration) {
+      this.store.dispatch(
+        new NotificationActions.AddError({
+          key: AppNotificationKey.error,
+          message: "Invalid contest duration",
+          code: 400,
+        })
+      );
+    } else {
+      let redeemables: IRedeemable[] = [];
+      for (let i = 0; i < formArray.length; i++) {
+        const reward: string = (<FormArray>(
+          this.contestForm.get("contestRewards")
+        )).at(i).value;
+        redeemables.push({
+          name: `position${i + 1}`,
+          prizeCash: reward["reward"],
+        });
+      }
+
+      const title: string = this.contestForm.controls["title"].value;
+      const basicInfo: string = this.contestForm.controls["basicInfo"].value;
+      const eligibityRule: string = this.contestForm.controls["eligibityRule"]
+        .value;
+      const submissionRule: string = this.contestForm.controls["submissionRule"]
+        .value;
+      // const entryMedia: number = this.contestForm.controls["entryMedia"].value;
+
+      const contestObj: IContest = {
+        title,
+        information: basicInfo,
+        bannerImage: this.bannerImageKey,
+        eligibleCategories: [...this.selectedCategories],
+        eligibilityInfo: eligibityRule,
+        entryMediaType: this.selectedMediaType,
+        submissionRules: submissionRule,
+        startDate: new Date(duration[0]),
+        endDate: new Date(duration[1]),
+        redeemable: [...redeemables],
+      };
+
+      this.userContestStore.dispatch(
+        new NewContestActions.CreateContest({ newContest: contestObj })
+      );
     }
-
-    const title: string = this.contestForm.controls["title"].value;
-    const basicInfo: string = this.contestForm.controls["basicInfo"].value;
-    const eligibityRule: string = this.contestForm.controls["eligibityRule"]
-      .value;
-    const submissionRule: string = this.contestForm.controls["submissionRule"]
-      .value;
-    // const entryMedia: number = this.contestForm.controls["entryMedia"].value;
-
-    const contestObj: IContest = {
-      title,
-      information: basicInfo,
-      bannerImage: this.bannerImageKey,
-      eligibleCategories: [...this.selectedCategories],
-      eligibilityInfo: eligibityRule,
-      entryMediaType: this.selectedMediaType,
-      submissionRules: submissionRule,
-      startDate: new Date(duration[0]),
-      endDate: new Date(duration[1]),
-      redeemable: [...redeemables],
-    };
-
-    this.userContestStore.dispatch(
-      new NewContestActions.CreateContest({ newContest: contestObj })
-    );
   }
 
   get contestRewards(): FormArray {

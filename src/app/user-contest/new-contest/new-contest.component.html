@@ -6,7 +6,7 @@
     aria-labelledby="profile-tab"
   >
     <div class="row">
-      <div class="col-xl-7 col-lg-7 col-md-7 col-12 mb-40">
+      <div class="col-xl-7 col-lg-7 col-md-7 col-12">
         <div class="collect-outer-wrapper">
           <div>
             <div
@@ -23,9 +23,13 @@
               </div>
             </div>
             <p>
-              Fill your details; your personal details, contact detail, talents,
-              location and social media handles.
+              Fill contest details; title, information, contest banner, eligible
+              categories, contest duration, entry media type and reward(s)
+              <span class="error-block"
+                >* All prize monies are in Nigeria currency - NGN</span
+              >
             </p>
+            <p></p>
             <div class="input-1">
               <label for="">
                 <span
@@ -36,13 +40,13 @@
                     !contestForm.get('title').hasError('titleExist')
                   "
                 >
-                  Please provide provide
+                  * Please provide provide
                 </span>
                 <span
                   class="error-block"
                   *ngIf="contestForm.get('title').hasError('titleExist')"
                 >
-                  Contest title exist
+                  * Contest title exist
                 </span>
                 Contest Title</label
               >
@@ -54,23 +58,66 @@
               />
             </div>
             <div class="input-1">
-              <label for="">
-                <span
-                  class="error-block"
-                  *ngIf="
-                    !contestForm.get('basicInfo').valid &&
-                    contestForm.get('basicInfo').touched
-                  "
-                >
-                  Please provide provide
-                </span>
-                Contest Information</label
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                "
               >
+                <label for="">
+                  <span
+                    class="error-block"
+                    *ngIf="
+                      !contestForm.get('basicInfo').valid &&
+                      contestForm.get('basicInfo').touched &&
+                      !contestForm.get('basicInfo').hasError('minlength') &&
+                      !!contestForm.get('basicInfo').hasError('maxlength')
+                    "
+                  >
+                    * Please provide
+                  </span>
+
+                  <span
+                    class="error-block"
+                    *ngIf="
+                      contestForm.get('basicInfo').hasError('minlength') &&
+                      !contestForm.get('basicInfo').hasError('maxlength')
+                    "
+                  >
+                    * Contest Information length must be greater than 80
+                  </span>
+
+                  <span
+                    class="error-block"
+                    *ngIf="
+                      !contestForm.get('basicInfo').hasError('minlength') &&
+                      contestForm.get('basicInfo').hasError('maxlength')
+                    "
+                  >
+                    * Contest Information length must be less than 250
+                  </span>
+
+                  Contest Information
+                </label>
+                <span *ngIf="basicInfo.value.length < informationLength">
+                  <small class="form-text text-muted"
+                    ><span style="color: red;">{{
+                      basicInfo.value.length
+                    }}</span>
+                    of
+                    <span style="color: red;">{{
+                      informationLength
+                    }}</span></small
+                  >
+                </span>
+              </div>
               <textarea
                 placeholder="Tell us more about your contest"
                 formControlName="basicInfo"
                 cols="30"
                 rows="10"
+                #basicInfo
                 style="resize: none;"
               ></textarea>
             </div>
@@ -116,9 +163,17 @@
                 ></textarea>
               </div> -->
               <div class="duration">
-                <label for=""
-                  >Contest duration (<small>start date - end date</small
-                  >)</label
+                <label for="">
+                  <span
+                    class="error-block"
+                    *ngIf="
+                      !contestForm.get('contestDuration').valid &&
+                      contestForm.get('contestDuration').touched
+                    "
+                  >
+                    * Contest duration is required
+                  </span>
+                  Contest duration (<small>start date - end date</small>)</label
                 >
                 <div class="duration-inner">
                   <input
@@ -148,10 +203,28 @@
                 <input
                   formControlName="entryMedia"
                   [(ngModel)]="selectedMediaType"
-                  class="input-design"
+                  style="
+                    cursor: pointer;
+                    height: 50px;
+                    background-color: #fafafa;
+                    border: 1px solid #d8d8d8 !important;
+                    width: 86%;
+                    border-radius: 5px;
+                    padding: 10px 15px;
+                  "
                   (click)="onClick()"
                 />
-                <div class="custom-dropdown-container" *ngIf="showMediaTypes">
+                <div
+                  class="custom-dropdown-container"
+                  style="
+                    z-index: 100;
+                    position: absolute;
+                    width: 82%;
+                    border-radius: 5px;
+                  "
+                  *ngIf="showMediaTypes"
+                  (mouseleave)="onMouseLeave()"
+                >
                   <div
                     class="custom-dropdown"
                     style="cursor: pointer;"
@@ -241,12 +314,20 @@
             </div>
             <button
               class="box-btn create-btn"
+              [class.box-btn-disable]="
+                !contestForm.valid || !contestForm.touched
+              "
               [disabled]="!contestForm.valid"
               type="button"
               (click)="onClickCreateButton()"
               style="margin-bottom: 1rem;"
             >
+            <span>
               CREATE CONTEST
+            </span>
+            <span>
+              PROSESSING...
+            </span>
             </button>
           </div>
         </div>

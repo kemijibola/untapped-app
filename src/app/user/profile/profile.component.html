@@ -93,10 +93,9 @@
           <small
             class="form-text text-muted"
             *ngIf="shortBio.value.length < shortbioCount"
-            ><code>{{ shortBio.value.length }}</code> of
-            <code>{{ shortbioCount }}</code> characters</small
+            ><span>{{ shortBio.value.length }}</span> of
+            <span>{{ shortbioCount }}</span> characters</small
           >
-          <!-- <span class="condition">{{ shortbioCount }}</span> -->
         </div>
         <textarea
           class="text-area"
@@ -121,26 +120,70 @@
         ></app-talent-categories>
       </div> -->
       <div class="col-xl-6">
-        <label for="">Instagram profile link</label>
-        <input class="input-design" formControlName="instagram" type="text" />
-      </div>
-      <div class="col-xl-6">
-        <label for="">Facebook profile link</label>
-        <input class="input-design" formControlName="facebook" type="text" />
-      </div>
-      <div class="col-xl-6">
-        <label for="">Twitter Profile link</label>
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('instagram').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Instagram profile link</label
+        >
         <input
-          class="input-design last"
-          formControlName="twitter"
+          class="input-design"
+          formControlName="instagram"
+          [pattern]="instagramPattern"
           type="text"
         />
       </div>
       <div class="col-xl-6">
-        <label for="">Youtube profile link</label>
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('facebook').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Facebook profile link</label
+        >
+        <input
+          class="input-design"
+          formControlName="facebook"
+          [pattern]="facebookPattern"
+          type="text"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('twitter').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Twitter Profile link</label
+        >
+        <input
+          class="input-design last"
+          formControlName="twitter"
+          [pattern]="twitterPattern"
+          type="text"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('youtube').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Youtube profile link</label
+        >
         <input
           class="input-design last"
           formControlName="youtube"
+          [pattern]="youtubePattern"
           type="text"
         />
       </div>
@@ -177,6 +220,7 @@
       <div class="col-xl-12">
         <button
           class="box-btn profile-save"
+          [class.box-btn-disable]="!profileForm.valid || !profileForm.touched"
           [disabled]="
             !profileForm.valid ||
             (inProgress$ | async) ||

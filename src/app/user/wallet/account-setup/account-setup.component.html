@@ -9,7 +9,7 @@
             [(ngModel)]="searchText"
             class="input-design"
             formControlName="selectedBank"
-            style="margin-bottom: 8px;"
+            style="margin-bottom: 8px; cursor: pointer;"
             [placeholder]="placeHolderText"
             (click)="onClick()"
           />
@@ -34,11 +34,11 @@
 
           <label for="">
             <span
-            class="error-block"
-            *ngIf="accountSetup.get('accountNumber').hasError('pattern')"
-          >
-            * Please enter a valid account number
-          </span>
+              class="error-block"
+              *ngIf="accountSetup.get('accountNumber').hasError('pattern')"
+            >
+              * Please enter a valid account number
+            </span>
             Account number
           </label>
           <input
@@ -49,14 +49,34 @@
           />
           <div style="z-index: -1;">
             <button
+              #setUpButton
+              [disabled]="
+                !accountSetup.valid ||
+                (inProgress$ | async) ||
+                (!isCompleted$ | async) ||
+                (!failed$ | async)
+              "
               class="box-btn login-btn mt-10"
+              [class.box-btn-disable]="
+                !accountSetup.valid || !accountSetup.touched
+              "
               type="button"
               (click)="onClickSave()"
             >
-              <span *ngIf="(isInitiated$ | async) || (isCompleted$ | async)"
-                >Save</span
+              <span
+                *ngIf="
+                  (isInitiated$ | async) ||
+                  (isCompleted$ | async) ||
+                  (failed$ | async)
+                "
+                >Save Details</span
               >
-              <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"
+              <span
+                *ngIf="
+                  (inProgress$ | async) ||
+                  (!isCompleted$ | async) ||
+                  (!failed$ | async)
+                "
                 >Saving...</span
               >
             </button>

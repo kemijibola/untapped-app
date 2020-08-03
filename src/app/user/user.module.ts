@@ -79,7 +79,6 @@ import { BankEffect } from "./store/bank/bank.effects";
   ],
   imports: [
     SharedModule,
-    
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,

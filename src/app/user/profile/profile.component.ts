@@ -1,4 +1,9 @@
 import {
+  INSTAGRAM_REGEX,
+  TWITTER_REGEX,
+  YOUTUBE_REGEX,
+} from "./../../lib/constants";
+import {
   Component,
   OnInit,
   OnDestroy,
@@ -29,7 +34,7 @@ import * as CategoryTypeActions from "../../shared/store/category-type/category-
 import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
 import * as _ from "underscore";
 import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.action";
-import { PHONE_REGEX } from "src/app/lib/constants";
+import { PHONE_REGEX, FACEBOOK_REGEX } from "src/app/lib/constants";
 import * as fromUserLocation from "../../shared/store/user-location/user-location.reducer";
 
 @Component({
@@ -70,8 +75,12 @@ export class ProfileComponent implements OnInit {
   };
   newUserLocation: string = "";
   userType: string = "";
-  shortbioCount: number = 80;
-  phonePattern = /^\+?([0-9]+)\)?[-. ]?([0-9]+)\)?[-. ]?([0-9]+)[-. ]?([0-9]+)$/;
+  shortbioCount: number = 250;
+  phonePattern = PHONE_REGEX;
+  facebookPattern = FACEBOOK_REGEX;
+  instagramPattern = INSTAGRAM_REGEX;
+  twitterPattern = TWITTER_REGEX;
+  youtubePattern = YOUTUBE_REGEX;
 
   isInitiated$ = this.userStore.pipe(
     select(fromProfileReducer.selectSaveProfileInitiatedStatus)
@@ -181,7 +190,7 @@ export class ProfileComponent implements OnInit {
       ),
       shortBio: new FormControl(this.shortBio, [
         Validators.minLength(80),
-        Validators.maxLength(1200),
+        Validators.maxLength(250),
       ]),
       facebook: new FormControl(this.facebook),
       instagram: new FormControl(this.instagram),

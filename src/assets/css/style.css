@@ -84,17 +84,6 @@ textarea:focus {
 .error-snackbar {
   background-color: red !important;
   color: white !important;
-  width: 100px;
-  white-space: -moz-pre-wrap !important;
-  white-space: -pre-wrap !important;
-  white-space: -o-pre-wrap !important;
-  white-space: pre-wrap !important;
-  white-space: -webkit-pre-wrap !important;
-  word-break: break-all !important;
-  -ms-word-wrap: break-word !important;
-  white-space: normal !important;
-  word-wrap: break-word !important;
-  display: inline-block;
 }
 
 .error-snackbar button {
@@ -105,17 +94,6 @@ textarea:focus {
 .success-snackbar {
   background-color: green !important;
   color: white !important;
-  width: 100px;
-  white-space: -moz-pre-wrap !important;
-  white-space: -pre-wrap !important;
-  white-space: -o-pre-wrap !important;
-  white-space: pre-wrap !important;
-  white-space: -webkit-pre-wrap !important;
-  word-break: break-all !important;
-  -ms-word-wrap: break-word !important;
-  white-space: normal !important;
-  word-wrap: break-word !important;
-  display: inline-block;
 }
 
 .success-snackbar button {
@@ -131,17 +109,6 @@ textarea:focus {
 .info-snackbar button {
   background-color: #b89d19 !important;
   color: white !important;
-  width: 100px;
-  white-space: -moz-pre-wrap !important;
-  white-space: -pre-wrap !important;
-  white-space: -o-pre-wrap !important;
-  white-space: pre-wrap !important;
-  white-space: -webkit-pre-wrap !important;
-  word-break: break-all !important;
-  -ms-word-wrap: break-word !important;
-  white-space: normal !important;
-  word-wrap: break-word !important;
-  display: inline-block;
 }
 
 .selector-for-some-widget {
@@ -962,6 +929,13 @@ footer {
   font-size: 12px;
   font-family: AvenirNextLTProMedium;
 }
+
+.box-btn-disable {
+  opacity: 0.65;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
 .heading {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1103,8 +1077,8 @@ footer {
 }
 
 .account-setup {
-  overflow-y: scroll;
-  overflow-x: hidden;
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
 }
 
 .contest-details-area .modal-dialog {
@@ -2230,13 +2204,14 @@ html::-webkit-scrollbar {
 
 .aligned-modal {
   height: 100% !important;
-  /* width: 860px; */
+  z-index: 50 !important;
   margin: 0 auto;
 }
 
 .aligned-modal,
 .album-modal {
   height: 100% !important;
+  z-index: 50 !important;
   /* width: 860px; */
   margin: 0 auto;
 }
@@ -2244,6 +2219,7 @@ html::-webkit-scrollbar {
 .album-modal {
   /* width: 860px !important; */
   display: table;
+  z-index: 50 !important;
 }
 
 @media screen and (min-width: 769px) {

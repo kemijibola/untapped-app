@@ -51,7 +51,7 @@ import { FilterPipe } from "./utils/search-filter.pipe";
 import { AboutUsComponent } from "./about-us/about-us.component";
 import { PrivacyPolicyComponent } from "./privacy-policy/privacy-policy.component";
 import { TermsConditionComponent } from "./terms-condition/terms-condition.component";
-import { CompetitionTermsComponent } from './competition-terms/competition-terms.component';
+import { CompetitionTermsComponent } from "./competition-terms/competition-terms.component";
 
 @NgModule({
   imports: [

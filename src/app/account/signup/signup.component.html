@@ -90,7 +90,7 @@
               class="error-block"
               *ngIf="form.terms.invalid && form.terms.errors"
             >
-              *
+              * Required
             </span>
             By clicking <span style="font-size: 12px;">Sign Up</span>, you agree
             to our
@@ -107,6 +107,7 @@
           <button
             #signupButton
             class="box-btn login-btn mt-50"
+            [class.box-btn-disable]="!signupForm.valid || !signupForm.touched"
             [disabled]="!signupForm.valid || (inProgress$ | async)"
             (click)="onSubmit()"
             type="button"

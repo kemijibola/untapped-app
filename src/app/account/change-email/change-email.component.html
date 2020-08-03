@@ -22,8 +22,14 @@
                 <!-- <h3>Type your email to reset</h3> -->
               </div>
               <div class="login-form" [formGroup]="changeEmailForm">
-                <label for=""
-                  >New Email Address
+                <label for="">
+                  <span
+                    class="error-block"
+                    *ngIf="changeEmailForm.get('email').hasError('pattern')"
+                  >
+                    * Please enter a valid email
+                  </span>
+                  New Email Address
                   <span
                     class="error-block"
                     *ngIf="changeEmailForm.get('email').hasError('emailExist')"
@@ -35,6 +41,7 @@
                 <input
                   class="input-design mb-35"
                   formControlName="email"
+                  [pattern]="emailPattern"
                   type="email"
                 />
                 <button
@@ -45,6 +52,9 @@
                     changeEmailForm.dirty
                   "
                   class="box-btn login-btn reset-pswd mt-50"
+                  [class.box-btn-disable]="
+                    !changeEmailForm.valid || !changeEmailForm.touched
+                  "
                 >
                   SEND VERIFICATION
                 </button>
