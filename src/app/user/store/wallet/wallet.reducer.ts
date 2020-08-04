@@ -61,7 +61,7 @@ export function walletReducer(
     case WalletActions.FETCH_WALLET_SUCCESS:
       return Object.assign({
         ...state,
-        userWallet: { ...action.payload.walletData },
+        userWallet: action.payload.walletData,
         userWalletState: OutboundState.completed,
       });
     case WalletActions.FETCH_WALLET_ERROR:
