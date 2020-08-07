@@ -101,6 +101,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   setHeaderImage(key: string): void {
+    if (this.headerImage) {
+    }
     const headerImage = this.headerImage.nativeElement;
     this.renderer.setProperty(headerImage, "src", key);
   }
@@ -110,14 +112,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       image !== ""
         ? fetchImageObjectFromCloudFormation(image, this.editParams)
         : "";
-    setTimeout(() => {
-      const headerImage = this.headerImage.nativeElement;
-      const userImage = fetchImageObjectFromCloudFormation(
-        image,
-        this.editParams
-      );
-      this.renderer.setProperty(headerImage, "src", userImage);
-    }, 80000);
+    if (this.userImage) {
+      setTimeout(() => {
+        const headerImage = this.headerImage.nativeElement;
+        const userImage = fetchImageObjectFromCloudFormation(
+          image,
+          this.editParams
+        );
+        this.renderer.setProperty(headerImage, "src", userImage);
+      }, 80000);
+    }
   }
 
   ngAfterViewInit() {

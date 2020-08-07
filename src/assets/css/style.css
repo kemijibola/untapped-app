@@ -5391,14 +5391,14 @@ button.close-btn {
   padding: 20px;
   margin-bottom: 25px;
   text-align: center;
-  height: 400px;
+  height: 100px;
   margin-top: 10px;
   display: table;
 }
 
 .drag-section p {
   font-size: 18px;
-  display: table-cell;
+  /* display: table-cell; */
   vertical-align: middle;
 }
 

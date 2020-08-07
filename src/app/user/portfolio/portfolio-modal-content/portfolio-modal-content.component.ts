@@ -166,16 +166,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
           this.showCompleted = false;
         }
       });
-
-    // this.store
-    //   .pipe(select(fromUpload.selectUploadCompleted))
-    //   .subscribe((val: boolean) => {
-    //     if (val) {
-    //       this.showDiv = true;
-    //       this.showCompleted = true;
-    //       this.showUploading = false;
-    //     }
-    //   });
     // use filter to get toggle
     this.store
       .pipe(select(fromSlideToggle.selectCurrentSlideToggle))

@@ -136,12 +136,6 @@ export class NewContestComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store
-    // .pipe(select(fromCategoryType.selectSelectedCategoryTypes))
-    // .subscribe((val: string[]) => {
-    //   this.selectedCategories = [...val];
-    // });
-
     this.contestForm = new FormGroup({
       title: new FormControl(
         null,
