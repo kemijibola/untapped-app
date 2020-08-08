@@ -23,7 +23,7 @@ export function profileReducer(
     case ProfileActions.SET_USERPROFILE:
       return Object.assign({
         ...state,
-        userProfile: { ...action.payload },
+        userProfile: action.payload,
         saveProfileState: OutboundState.completed,
       });
     case ProfileActions.UPDATE_USER_SETTINGS_PREFERENCE:

@@ -126,7 +126,7 @@ export class ProfessionalBiodataComponent implements OnInit {
         if (val) {
           if (_.has(val, "displayName")) {
             this.show = true;
-            this.selectedUser = { ...val };
+            this.selectedUser = val;
             if (val.contests.length > 0) this.setUserContestBannerImage();
             if (this.selectedUser.userSocials !== undefined) {
               for (let item of this.selectedUser.userSocials) {

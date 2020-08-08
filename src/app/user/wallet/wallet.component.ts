@@ -52,7 +52,7 @@ export class WalletComponent implements OnInit {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 
@@ -73,7 +73,7 @@ export class WalletComponent implements OnInit {
       .pipe(select(fromWallet.selectCurrentUserWallet))
       .subscribe((val: IWallet) => {
         if (_.has(val, "_id")) {
-          this.walletData = { ...val };
+          this.walletData = val;
         }
       });
 
@@ -81,7 +81,7 @@ export class WalletComponent implements OnInit {
       .pipe(select(fromBanks.selectUserAccount))
       .subscribe((val: UserAccount) => {
         if (_.has(val, "_id")) {
-          this.userAccountDetails = { ...val };
+          this.userAccountDetails = val;
           console.log(this.userAccountDetails);
         }
       });
@@ -165,7 +165,7 @@ export class WalletComponent implements OnInit {
       new ModalsActions.FetchAppModal({ appModalId: "user-wallet" })
     );
 
-  if (this.componentModal) {
+    if (this.componentModal) {
       const modalToActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];

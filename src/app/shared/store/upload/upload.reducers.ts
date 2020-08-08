@@ -57,7 +57,7 @@ export function reducer(
     case UploadActions.FILE_INPUT_CONFIG:
       return Object.assign({
         ...state,
-        fileInput: { ...action.payload },
+        fileInput: action.payload,
       });
     case UploadActions.UPLOAD_FILES_SUCCESS:
       return Object.assign({
@@ -106,13 +106,13 @@ export function reducer(
     case UploadActions.FILE_TOUPLOAD:
       return Object.assign({
         ...state,
-        file: { ...action.payload.file },
+        file: action.payload.file,
         uploadState: UploadStatus.Started,
       });
     case UploadActions.SET_THUMBNAIL_PRESIGNED_URL:
       return Object.assign({
         ...state,
-        thumbnailPresignedUrl: { ...action.payload },
+        thumbnailPresignedUrl: action.payload,
       });
     case UploadActions.SET_PRESIGNED_URL:
       return Object.assign({
@@ -135,12 +135,12 @@ export function reducer(
     case UploadActions.SET_UPLOADED_ITEMS:
       return Object.assign({
         ...state,
-        uploadedItems: { ...action.payload.uploadedItems },
+        uploadedItems: action.payload.uploadedItems,
       });
     case UploadActions.SET_MEDIA_THUMBNAIL:
       return Object.assign({
         ...state,
-        mediaThumbnail: { ...action.payload.thumbnail },
+        mediaThumbnail: action.payload.thumbnail,
       });
     case UploadActions.RESET_UPLOADED_ITEMS:
       return Object.assign({

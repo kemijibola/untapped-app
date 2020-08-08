@@ -2,13 +2,13 @@
   <div class="col-xl-12">
     <div class="p-user p-talent">
       <div class="p-user-img">
-        <img src="{{ selectedUser.displayPhotoFullPath }}" alt="" />
+        <img src="{{ selectedUser?.displayPhotoFullPath }}" alt="" />
       </div>
       <div class="p-talent-nam">
-        <h5>{{ selectedUser.displayName }}’s</h5>
+        <h5>{{ selectedUser?.displayName }}’s</h5>
         <div class="desig-up-wrap">
-          <span class="designation"> {{ selectedMedia.mediaType }} album</span>
-          <span class="up-date">{{ selectedMedia.dateCreated | date }}</span>
+          <span class="designation"> {{ selectedMedia?.mediaType }} album</span>
+          <span class="up-date">{{ selectedMedia?.dateCreated | date }}</span>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
 
       <div style="width: 47%; float: right;">
         <app-talent-comment
-          [mediaId]="selectedMedia._id"
+          [mediaId]="selectedMedia?._id"
           *ngIf="completed$ | async"
         ></app-talent-comment>
       </div>

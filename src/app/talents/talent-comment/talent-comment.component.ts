@@ -59,7 +59,7 @@ export class TalentCommentComponent implements OnInit, OnChanges {
       .subscribe((val: IAuthData) => {
         this.isAuthenticated = val.authenticated;
         if (val.authenticated) {
-          this.currentUser = { ...val.user_data };
+          this.currentUser = val.user_data;
         }
       });
 

@@ -49,7 +49,7 @@ export class TalentBiodataComponent implements OnInit {
     this.loggedInUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
     this.loggedInUser.subscribe((val: IAuthData) => {
       if (val.authenticated) {
-        this.currentUser = { ...val };
+        this.currentUser = val;
       }
     });
 
@@ -60,7 +60,7 @@ export class TalentBiodataComponent implements OnInit {
           if (_.has(val, "displayName")) {
             this.show = true;
             this.checkIfUserHasLiked(val.tappedBy);
-            this.selectedUser = { ...val };
+            this.selectedUser = val;
 
             this.defaultImage = fetchImageObjectFromCloudFormation(
               val.displayPhoto,

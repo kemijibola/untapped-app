@@ -130,7 +130,7 @@ export class TalentPortfolioAlbumsComponent {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 
@@ -194,7 +194,7 @@ export class TalentPortfolioAlbumsComponent {
         display: ModalDisplay.table,
         viewMode: ModalViewModel.new,
         contentType: modalToActivate.contentType,
-        data: { ...selectedMedia },
+        data: selectedMedia,
         modalCss: "modal aligned-modal album-modal",
         modalDialogCss: "modal-dialog-album-view",
         modalContentCss: "modal-content contest-d",
@@ -207,7 +207,7 @@ export class TalentPortfolioAlbumsComponent {
           modal: modalToOpen,
         })
       );
-      this.selectedMedia = { ...selectedMedia };
+      this.selectedMedia = selectedMedia;
     }
 
     if (this.selectedMedia.items.length <= 1) {

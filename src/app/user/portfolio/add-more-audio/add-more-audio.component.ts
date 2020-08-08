@@ -102,7 +102,7 @@ export class AddMoreAudioComponent implements OnInit {
       .pipe(select(fromPortfolio.selectSelectedMedia))
       .subscribe((val: IMedia) => {
         if (val) {
-          this.existingItem = { ...val };
+          this.existingItem = val;
         }
       });
 
@@ -110,7 +110,7 @@ export class AddMoreAudioComponent implements OnInit {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
   }

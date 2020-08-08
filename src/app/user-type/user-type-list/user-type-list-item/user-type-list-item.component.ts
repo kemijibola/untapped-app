@@ -50,10 +50,9 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
 
     this.store
       .select(fromUserTypeReducer.selectCurrentUserType)
-      .take(2)
       .subscribe((val: IUserType) => {
         if (val) {
-          this.selectedUserType = { ...val };
+          this.selectedUserType = val;
           this.userTypeForm.get("typeOfUser").setValue(val._id);
         }
       });

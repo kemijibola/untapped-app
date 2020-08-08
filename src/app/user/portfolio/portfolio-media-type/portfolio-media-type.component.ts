@@ -43,7 +43,7 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 

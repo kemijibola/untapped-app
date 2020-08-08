@@ -120,7 +120,7 @@ export class ContestAnalysisReportComponent implements OnInit {
 
   setContestantProfileIImage(contestData: ContestVoteResult) {
     // if (contestData)
-    this.contestVoteResult = { ...contestData };
+    this.contestVoteResult = contestData;
     this.contestVoteResult.entries = contestData.entries.map((x) => {
       return Object.assign({}, x, {
         defaultUserProfileImage: fetchImageObjectFromCloudFormation(

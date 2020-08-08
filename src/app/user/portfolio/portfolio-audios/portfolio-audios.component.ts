@@ -38,7 +38,7 @@ export class PortfolioAudiosComponent {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
   }

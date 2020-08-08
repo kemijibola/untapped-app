@@ -40,7 +40,7 @@ export function walletReducer(
     case WalletActions.CREATE_WALLET_SUCCESS:
       return Object.assign({
         ...state,
-        userWallet: { ...action.payload.walletData },
+        userWallet: action.payload.walletData,
         userWalletState: OutboundState.completed,
       });
     case WalletActions.CREATE_WALLET:

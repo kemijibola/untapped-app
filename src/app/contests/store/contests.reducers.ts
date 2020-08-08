@@ -39,7 +39,7 @@ export function reducer(
         fetchContestStatus: OutboundState.inprogress,
       });
     case ContestsActions.ADD_CONTEST_LIKE:
-      const contestObj = { ...action.payload.contest };
+      const contestObj = action.payload.contest;
       contestObj.contest.likedBy = [
         ...contestObj.contest.likedBy,
         action.payload.likedBy,
@@ -49,7 +49,7 @@ export function reducer(
         selectedContest: contestObj,
       });
     case ContestsActions.ADD_CONTEST_LIKE_ERROR:
-      const contestToRemoveLike = { ...action.payload.contest };
+      const contestToRemoveLike = action.payload.contest;
       contestToRemoveLike.contest.likedBy = contestToRemoveLike.contest.likedBy.filter(
         (x) => x !== action.payload.likedBy
       );
@@ -58,7 +58,7 @@ export function reducer(
         selectedContest: contestToRemoveLike,
       });
     case ContestsActions.REMOVE_CONTEST_LIKE:
-      const contestToRemoveLikeObj = { ...action.payload.contest };
+      const contestToRemoveLikeObj = action.payload.contest;
       contestToRemoveLikeObj.contest.likedBy = contestToRemoveLikeObj.contest.likedBy.filter(
         (x) => x !== action.payload.unLikedBy
       );
@@ -72,7 +72,7 @@ export function reducer(
         fetchContestStatus: OutboundState.completed,
       });
     case ContestsActions.REMOVE_CONTEST_LIKE_ERROR:
-      const contestToUnLike = { ...action.payload.contest };
+      const contestToUnLike = action.payload.contest;
       contestToUnLike.contest.likedBy = contestToUnLike.contest.likedBy.filter(
         (x) => x !== action.payload.likedBy
       );

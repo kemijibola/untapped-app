@@ -70,7 +70,7 @@ export class ContestEntryComponent implements OnInit {
     this.store
       .pipe(select(fromUpload.selectCurrentUploadedItem))
       .subscribe((val: UploadedItems) => {
-        this.cloudItems = { ...val };
+        this.cloudItems = val;
       });
 
     this.store
@@ -87,7 +87,7 @@ export class ContestEntryComponent implements OnInit {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 

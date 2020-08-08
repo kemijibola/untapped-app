@@ -164,7 +164,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 
@@ -175,7 +175,6 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
           this.setContestantProfileIImage(val);
           this.setContestBannerImage(val.contest.bannerImage);
           this.entriesCount = val.submissions.length;
-          // this.contestDetails = { ...val };
           if (
             isAfter(Date.now(), new Date(this.contestDetails.contest.endDate))
           ) {
@@ -226,7 +225,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
     }
   }
   setContestantProfileIImage(contestData: ContestData) {
-    this.contestDetails.contest = { ...contestData.contest };
+    this.contestDetails.contest = contestData.contest;
     this.userHasLikedContest = this.hasLikedContest();
     this.contestDetails.submissions = contestData.submissions.map((x) => {
       return Object.assign({}, x, {
@@ -289,26 +288,26 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];
-    if(modalToDeActivate){
-      const modalToClose: IModal = {
-        index: modalToDeActivate.index,
-        name: modalToDeActivate.name,
-        display: ModalDisplay.none,
-        viewMode: ModalViewModel.none,
-        contentType: "",
-        data: null,
-        modalCss: "",
-        modalDialogCss: "",
-        modalContentCss: "",
-        showMagnifier: false,
-      };
-      this.store.dispatch(
-        new ModalsActions.ToggleModal({
-          appModal: this.componentModal,
-          modal: modalToClose,
-        })
-      );
-    }
+      if (modalToDeActivate) {
+        const modalToClose: IModal = {
+          index: modalToDeActivate.index,
+          name: modalToDeActivate.name,
+          display: ModalDisplay.none,
+          viewMode: ModalViewModel.none,
+          contentType: "",
+          data: null,
+          modalCss: "",
+          modalDialogCss: "",
+          modalContentCss: "",
+          showMagnifier: false,
+        };
+        this.store.dispatch(
+          new ModalsActions.ToggleModal({
+            appModal: this.componentModal,
+            modal: modalToClose,
+          })
+        );
+      }
     }
   }
 

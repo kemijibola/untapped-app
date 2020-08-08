@@ -167,7 +167,7 @@ export class ProfileComponent implements OnInit {
       .pipe(select(fromUserLocation.selectCurrentUserLocation))
       .subscribe((val: ILocation) => {
         if (_.has(val, "address")) {
-          this.userLocation = { ...val };
+          this.userLocation = val;
           this.location = val["address"].formattedAddres;
           console.log(this.location);
         }

@@ -57,17 +57,17 @@ export function reducer(
     case ModalsActions.SET_CURRENT_MODAL:
       return Object.assign({
         ...state,
-        activeModal: { ...state.activeModal, ...action.payload },
+        activeModal: action.payload,
       });
     case ModalsActions.SET_NAVIGATION_PROPERTIES:
       return Object.assign({
         ...state,
-        navigationData: { ...action.payload },
+        navigationData: action.payload,
       });
     case ModalsActions.SET_MAGNIFIER_DATA:
       return Object.assign({
         ...state,
-        magnifierData: { ...action.payload },
+        magnifierData: action.payload,
       });
     case ModalsActions.TOGGLE_MAGNIFIER:
       return Object.assign({

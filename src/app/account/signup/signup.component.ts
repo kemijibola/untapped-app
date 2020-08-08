@@ -83,7 +83,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
     this.store
       .select(fromUserTypeReducer.selectCurrentUserType)
       .subscribe((val: IUserType) => {
-        this.selectedUserType = { ...val };
+        this.selectedUserType = val;
       });
   }
 

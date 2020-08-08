@@ -20,7 +20,7 @@ export function userLocationReducer(
     case UserLocationAction.SET_SELECTED_ADDRESS:
       return Object.assign({
         ...state,
-        userAddress: { ...action.payload },
+        userAddress: action.payload,
       });
     default: {
       return state;

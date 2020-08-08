@@ -172,7 +172,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       .subscribe((val: IToggle) => {
         console.log(val);
         if (val !== undefined) {
-          this.modalUploadToggle = { ...val };
+          this.modalUploadToggle = val;
           this.multiple = val.state;
           this.uploadType = this.multiple
             ? MediaUploadType.multiple
@@ -190,7 +190,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromUpload.selectCurrentUploadedItem))
       .subscribe((val: UploadedItems) => {
-        this.uploadedItems = { ...val };
+        this.uploadedItems = val;
         this.initForm();
       });
 
@@ -217,7 +217,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 
@@ -239,7 +239,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
             val.shortDescription
           );
           this.setMedia(this.uploadedItems);
-          this.itemToUpdate = { ...this.uploadedItems };
+          this.itemToUpdate = this.uploadedItems;
         }
       });
 
@@ -395,12 +395,11 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
+    const title = this.uploadedItems?.title || "";
+    const description = this.uploadedItems?.shortDescription || "";
     this.portfolioForm = new FormGroup({
-      title: new FormControl(this.uploadedItems.title, Validators.required),
-      description: new FormControl(
-        this.uploadedItems.shortDescription,
-        Validators.maxLength(250)
-      ),
+      title: new FormControl(title, Validators.required),
+      description: new FormControl(description, Validators.maxLength(250)),
     });
   }
 

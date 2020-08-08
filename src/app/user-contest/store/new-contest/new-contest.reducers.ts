@@ -25,7 +25,7 @@ export function newContestReducer(
       return Object.assign({
         ...state,
         newContestState: OutboundState.inprogress,
-        contest: { ...action.payload.newContest },
+        contest: action.payload.newContest,
       });
     case NewContestActions.CREATE_CONTEST_SUCCESS:
       return Object.assign({
@@ -40,12 +40,12 @@ export function newContestReducer(
     case NewContestActions.SET_CONTEST_IN_EDIT_MODE:
       return Object.assign({
         ...state,
-        contest: { ...action.payload.editContest },
+        contest: action.payload.editContest,
       });
     case NewContestActions.SET_CONTEST:
       return Object.assign({
         ...state,
-        contest: { ...action.payload.contest },
+        contest: action.payload.contest,
       });
     case NewContestActions.SET_CONTEST_BANNER:
       return Object.assign({

@@ -147,7 +147,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
   }
@@ -155,16 +155,15 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   activateModalContent(): void {
     this.store
       .pipe(select(fromModal.selectCurrentActiveModal))
-      .take(2)
       .subscribe((val: IModal) => {
-        if (val !== null) {
+        if (val) {
           console.log(val.data);
           this.isCurrentAudioSet = false;
           this.isCurrentImageSet = false;
           this.isCurrentVideoSet = false;
           if (val.name === "album-modal" && val.data !== null) {
-            if (val.data !== null) {
-              this.selectedMedia = { ...val.data };
+            if (val.data) {
+              this.selectedMedia = val.data;
               this.fetchComments(this.selectedMedia._id);
             }
           }
@@ -174,13 +173,15 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
-        this.selectedUser = { ...val };
-        this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")
-          ? fetchImageObjectFromCloudFormation(
-              val.displayPhoto,
-              this.editParams
-            )
-          : null;
+        if (_.has(val, "_id")) {
+          this.selectedUser = val;
+          this.selectedUser.displayPhotoFullPath = _.has(val, "displayPhoto")
+            ? fetchImageObjectFromCloudFormation(
+                val.displayPhoto,
+                this.editParams
+              )
+            : null;
+        }
       });
   }
 

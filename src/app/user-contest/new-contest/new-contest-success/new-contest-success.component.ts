@@ -65,7 +65,7 @@ export class NewContestSuccessComponent implements OnInit {
       .pipe(select(fromOrder.selectCurrentOrder))
       .subscribe((val: IOrder) => {
         if (val !== null) {
-          this.currentOrder = { ...val };
+          this.currentOrder = val;
         }
       });
 
@@ -73,7 +73,7 @@ export class NewContestSuccessComponent implements OnInit {
       .pipe(select(fromNewContest.selectCurrentContest))
       .subscribe((val: IContest) => {
         if (val !== null) {
-          this.currentContest = { ...val };
+          this.currentContest = val;
           this.fetchContestBanner(val.bannerImage);
         }
       });

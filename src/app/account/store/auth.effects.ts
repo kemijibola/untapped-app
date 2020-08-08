@@ -409,7 +409,7 @@ export class AuthEffects {
         concatMap((action: AuthActions.VerifyEmailChangeSuccess) =>
           this.authService.fetchUserData("userData").pipe(
             map((resp) => {
-              const newAuthData: IAuthData = { ...resp };
+              const newAuthData: IAuthData = resp;
               newAuthData.user_data.email = action.payload.changedEmail;
               this.authService.updateData("userData", newAuthData);
               return {

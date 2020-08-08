@@ -76,7 +76,7 @@ export function portfolioReducer(
     case PortfolioActions.SET_MEDIA_BY_ID:
       return Object.assign({
         ...state,
-        media: { ...action.payload },
+        media: action.payload,
       });
     case PortfolioActions.SET_USER_IMAGE_LIST:
       return Object.assign({
@@ -122,7 +122,7 @@ export function portfolioReducer(
         accept: action.payload.acceptType,
       });
     case PortfolioActions.DELETE_MEDIA_ITEM_BY_ID_SUCCESS:
-      let newMedia: IMedia = { ...state.media };
+      let newMedia: IMedia = state.media;
       newMedia.items = state.media.items.reduce(
         (x: IMediaItem[], y: IMediaItem) => {
           if (y._id !== action.payload.itemId) {
