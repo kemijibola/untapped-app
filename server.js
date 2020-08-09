@@ -1,13 +1,13 @@
 const compression = require("compression");
 const express = require("express");
 const path = require("path");
-import { environment } from "./environments/environment";
+const config = require("./src/environments/environment");
 
 const app = express();
 
 app.use(compression());
 
-if (environment.production) {
+if (config.environment.production) {
   app.use(forceSSL());
 }
 
