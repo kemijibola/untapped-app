@@ -5608,3 +5608,17 @@ body.viewport-lg {
   height: 75%;
   border-radius: 2%;
 }
+
+.log-other.reset-pswd a:hover {
+  text-decoration: underline;
+}
+
+.input-design.ng-dirty.ng-invalid.ng-touched {
+  border: 1.5px solid #ee1515 !important;
+  border-radius: 6px;
+}
+
+.input-design.ng-touched.ng-valid.ng-dirty {
+  border: 1.5px solid green !important;
+  border-radius: 6px;
+}

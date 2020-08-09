@@ -5,7 +5,13 @@ import {
   ElementRef,
   Renderer2,
 } from "@angular/core";
-import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+  AbstractControl,
+} from "@angular/forms";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
@@ -113,10 +119,27 @@ export class NewContestComponent implements OnInit {
     { id: 2, name: "Image", selected: false },
   ];
 
-  minDate: Date = new Date();
+  minDate: Date = addDays(new Date(), 1);
   maxDate: Date = addDays(this.minDate, 30);
   contestDuration: Date[] = [];
   @ViewChild("createButton", { static: false }) createButton: ElementRef;
+  @ViewChild("prizeInput", { static: false }) prizeInput: ElementRef;
+
+  uploadInitiated$ = this.store.pipe(
+    select(fromUpload.selectUploadInitiatedStatus)
+  );
+
+  uploadInProgress$ = this.store.pipe(
+    select(fromUpload.selectUploadInProgressStatus)
+  );
+
+  uploadCompleted$ = this.store.pipe(
+    select(fromUpload.selectUploadCompletedStatus)
+  );
+
+  uploadFailed$ = this.store.pipe(select(fromUpload.selectUploadFailedStatus));
+
+  uploadReady$ = this.store.pipe(select(fromUpload.selectUploadReadyStatus));
 
   constructor(
     public store: Store<fromApp.AppState>,
@@ -129,6 +152,7 @@ export class NewContestComponent implements OnInit {
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
         if (val) {
+          this.store.dispatch(new UploadActions.UploadCompleted());
           this.fetchContestBanner();
         }
       });
@@ -149,10 +173,10 @@ export class NewContestComponent implements OnInit {
       ]),
       eligibityRule: new FormControl(null),
       submissionRule: new FormControl(null),
-      contestDuration: new FormControl([
-        this.minDate,
-        addDays(this.minDate, 30),
-      ]),
+      contestDuration: new FormControl(
+        [this.minDate, addDays(this.minDate, 30)],
+        [Validators.required, this.ValidateContestDuration]
+      ),
       contestRewards: new FormArray([
         new FormGroup({
           reward: new FormControl(
@@ -160,6 +184,7 @@ export class NewContestComponent implements OnInit {
             Validators.compose([
               Validators.required,
               Validators.pattern(NUMERIC_REGEX),
+              this.validateContestPrize,
             ])
           ),
         }),
@@ -220,6 +245,28 @@ export class NewContestComponent implements OnInit {
     this.showMediaTypes = !this.showMediaTypes;
   }
 
+  ValidateContestDuration(control: AbstractControl) {
+    if (!control.value[0] && !control.value[1]) {
+      return { dateNotValid: true };
+    }
+    return null;
+  }
+
+  validateContestPrize(control: AbstractControl) {
+    if (control.value < 1) {
+      return { prizeNotValid: true };
+    }
+    return null;
+  }
+
+  validateInnerControl(control: AbstractControl) {
+    console.log(control.value["reward"]);
+    if (control.value["reward"] < 1) {
+      return { prizeNotValid: true };
+    }
+    return null;
+  }
+
   onMouseLeave() {
     this.showMediaTypes = false;
   }
@@ -243,8 +290,6 @@ export class NewContestComponent implements OnInit {
             uploadParams = [...uploadParams, item];
             this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
-            // update store with contest banner
-
             this.userContestStore.dispatch(
               new NewContestActions.SetContestBanner({
                 bannerKey: val.presignedUrl[0].key,
@@ -256,6 +301,8 @@ export class NewContestComponent implements OnInit {
   }
 
   onClickCreateButton() {
+    console.log("clicked");
+
     const createBtn = this.createButton.nativeElement;
     this.renderer.setProperty(createBtn, "disabled", true);
 
@@ -323,11 +370,12 @@ export class NewContestComponent implements OnInit {
       minWidth: 500,
     };
   }
+
   deleteReward(index: number) {
-    if ((<FormArray>this.contestForm.get("contestRewards")).length !== 1) {
-      (<FormArray>this.contestForm.get("contestRewards")).removeAt(index);
+    if (this.contestRewards.length !== 1) {
+      this.contestRewards.removeAt(index);
     } else {
-      //
+      // do nothing
     }
   }
 
@@ -349,11 +397,18 @@ export class NewContestComponent implements OnInit {
 
   onAddReward() {
     if ((<FormArray>this.contestForm.get("contestRewards")).length < 5) {
-      (<FormArray>this.contestForm.get("contestRewards")).push(
-        new FormGroup({
-          reward: new FormControl("", Validators.required),
-        })
-      );
+      const currentFormIndex = this.contestRewards.length - 1;
+      if (this.contestRewards.at(currentFormIndex).value["reward"] > 0) {
+        (<FormArray>this.contestForm.get("contestRewards")).push(
+          new FormGroup({
+            reward: new FormControl("", Validators.required),
+          })
+        );
+      } else {
+        this.contestRewards.controls[currentFormIndex].setValidators(
+          this.validateInnerControl
+        );
+      }
     } else {
       this.store.dispatch(
         new NotificationActions.AddInfo({

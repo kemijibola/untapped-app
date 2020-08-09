@@ -109,24 +109,8 @@ export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.scrollToXY(25, 50);
   }
 
-  public scrollToXY(x: number, y: number): void {
-    // this.scrollContainer.scrollTo(x, y, 500);
-    // this.scrollContainer.scrollLeft(80);
-    // console.log(this.scrollContainer);
-    // if (this.type === "directive" && this.directiveRef) {
-    //   this.directiveRef.scrollTo(x, y, 500);
-    // } else if (
-    //   this.type === "component" &&
-    //   this.componentRef &&
-    //   this.componentRef.directiveRef
-    // ) {
-    //   console.log("here");
-    //   this.componentRef.directiveRef.scrollTo(x, y, 500);
-    // }
-  }
-
   onSignUpClicked() {
-    this.router.navigate(["/account/signin"]);
+    this.router.navigate(["/account/login"]);
   }
 
   fetchUsers(): void {

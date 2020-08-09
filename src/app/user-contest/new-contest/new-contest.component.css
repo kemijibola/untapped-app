@@ -2,6 +2,6 @@
   color: red;
 }
 
-/* .ng-pristine.ng-invalid.ng-touched {
-  border: 1px solid red;
-} */
+.input-1 textarea {
+  width: 80% !important;
+}

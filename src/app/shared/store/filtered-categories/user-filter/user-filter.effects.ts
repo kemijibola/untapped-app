@@ -35,9 +35,11 @@ export class UserFilterEffect {
               }),
               new UserFilterActions.FetchAllUsersSuccess(),
             ]),
-            catchError((respError: HttpErrorResponse) =>
-              of(new UserFilterActions.FetchAllUsersError())
-            )
+            catchError((respError: HttpErrorResponse) => {
+              return respError.status === 404
+                ? of(new UserFilterActions.FetchAllUsersNoop())
+                : of(new UserFilterActions.FetchAllUsersError());
+            })
           )
       )
     )

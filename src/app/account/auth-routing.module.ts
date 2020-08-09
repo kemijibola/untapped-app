@@ -12,7 +12,7 @@ import { ForgotPasswordComponent } from "./forgot-password/forgot-password.compo
 import { CreateNewPasswordComponent } from "./create-new-password/create-new-password.component";
 
 const authRoutes: Routes = [
-  { path: "signin", component: LoginComponent },
+  { path: "login", component: LoginComponent },
   { path: "signup", component: SignupComponent },
   // [
   //     { path: 'success',  component: SignupSuccessComponent }

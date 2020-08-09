@@ -30,6 +30,7 @@ export const CHANGE_EMAIL_ADDRESS_SUCCESS = "CHANGE_EMAIL_ADDRESS_SUCCESS";
 export const VERIFY_EMAIL_CHANGE = "VERIFY_EMAIL_CHANGE";
 export const VERIFY_EMAIL_CHANGE_SUCCESS = "VERIFY_EMAIL_CHANGE_SUCCESS";
 export const REQUEST_PASSWORD_RESET = "REQUEST_PASSWORD_RESET";
+export const REQUEST_PASSWORD_RESET_FAILED = "REQUEST_PASSWORD_RESET_FAILED";
 export const REQUEST_PASSWORD_RESET_SUCCESS = "REQUEST_PASSWORD_RESET_SUCCESS";
 export const VERIFY_RESET_PASSWORD = "VERIFY_RESET_PASSWORD";
 export const VERIFY_RESET_PASSWORD_SUCCESS = "VERIFY_RESET_PASSWORD_SUCCESS";
@@ -136,6 +137,10 @@ export class RequestPasswordReset implements Action {
 export class RequsetPasswordResetSuccess implements Action {
   readonly type = REQUEST_PASSWORD_RESET_SUCCESS;
 }
+export class RequsetPasswordResetFailed implements Action {
+  readonly type = REQUEST_PASSWORD_RESET_FAILED;
+}
+
 export class VerifyRestPassword implements Action {
   readonly type = VERIFY_RESET_PASSWORD;
   constructor(public payload: { verifyPasswordReq: IConfirmEmail }) {}
@@ -198,4 +203,5 @@ export type AuthActions =
   | CreateNewPasswordSuccess
   | ResendConfirmationMail
   | ResendConfirmationMailSuccess
-  | ResendConfirmationMailFailed;
+  | ResendConfirmationMailFailed
+  | RequsetPasswordResetFailed;

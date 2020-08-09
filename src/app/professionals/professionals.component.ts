@@ -70,6 +70,6 @@ export class ProfessionalsComponent implements OnInit {
   }
 
   onSignUpClicked() {
-    this.router.navigate(["/account/signin"]);
+    this.router.navigate(["/account/login"]);
   }
 }

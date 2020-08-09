@@ -144,7 +144,7 @@
         </li>
       </ul>
       <a
-        routerLink="account/signin"
+        routerLink="account/login"
         (click)="closeSlideMenu()"
         routerLinkActive=""
         >login</a
@@ -229,7 +229,7 @@
       <div class="col-lg-3 col-12 text-right">
         <div class="before-login" *ngIf="!isAuthenticated">
           <div class="menu-btn">
-            <a routerLink="account/signin" routerLinkActive="">login</a>
+            <a routerLink="account/login" routerLinkActive="">login</a>
             <a class="box-btn" routerLink="account/signup" routerLinkActive=""
               >signup</a
             >
@@ -242,7 +242,11 @@
                 <li class="bell">
                   <a><i class="far fa-bell"></i></a><span>4</span>
                 </li>
-                <li class="user" (click)="onToggle()" (mouseenter)="onMouseEnter()">
+                <li
+                  class="user"
+                  (click)="onToggle()"
+                  (mouseenter)="onMouseEnter()"
+                >
                   <img
                     #headerImage
                     [defaultImage]="userImage"

@@ -1,4 +1,4 @@
-<div [formGroup]="contestForm">
+<form [formGroup]="contestForm">
   <div
     class="tab-pane fade show active row tab2"
     id="profile"
@@ -18,7 +18,6 @@
                   [defaultImage]="defaultBannerImage"
                   [lazyLoad]="bannerImage"
                   style="width: 482px; height: 200px; background: lightgray;"
-                  alt=""
                 />
               </div>
             </div>
@@ -52,6 +51,7 @@
               >
               <input
                 type="text"
+                class="input-design"
                 formControlName="title"
                 placeholder="Some fancy title for your contest"
               />
@@ -62,6 +62,7 @@
                   display: flex;
                   align-items: center;
                   justify-content: space-between;
+                  width: 80%;
                 "
               >
                 <label for="">
@@ -112,6 +113,7 @@
                 </span>
               </div>
               <textarea
+                class="input-design"
                 placeholder="Tell us more about your contest"
                 formControlName="basicInfo"
                 cols="30"
@@ -127,12 +129,34 @@
               </div>
               <div class="upload-fld">
                 <input readonly placeholder="Drag and drop file to upload or" />
-                <button (click)="onClickBrowseBtn()">BROWSE</button>
+                <button
+                  [disabled]="
+                    (uploadInitiated$ | async) || (uploadInProgress$ | async)
+                  "
+                  (click)="onClickBrowseBtn()"
+                >
+                  <span
+                    *ngIf="
+                      (uploadCompleted$ | async) ||
+                      (uploadFailed$ | async) ||
+                      (uploadReady$ | async)
+                    "
+                  >
+                    BROWSE
+                  </span>
+                  <span
+                    *ngIf="
+                      (uploadInitiated$ | async) || (uploadInProgress$ | async)
+                    "
+                  >
+                    UPLOADING...
+                  </span>
+                </button>
                 <!-- upload component goes here -->
                 <app-upload [fileConfig]="fileConfig"> </app-upload>
                 <!-- upload component goes here -->
               </div>
-              <div class="input-1">
+              <div class="input-1 col-xl-8" style="padding: inherit;">
                 <label for="">Eligble categories</label>
                 <app-talent-categories
                   [text]="'Select eligible category'"
@@ -177,6 +201,7 @@
                 <div class="duration-inner">
                   <input
                     style="cursor: pointer;"
+                    class="input-design"
                     formControlName="contestDuration"
                     [owlDateTimeTrigger]="dt10"
                     [owlDateTime]="dt10"
@@ -187,7 +212,10 @@
                   />
                   <owl-date-time #dt10></owl-date-time>
                 </div>
-
+              </div>
+            </div>
+            <div class="upload" style="width: 70%; margin-top: 5px;">
+              <div class="duration">
                 <label for="" style="margin-top: 1rem;">
                   <span
                     class="error-block"
@@ -216,14 +244,14 @@
                 />
                 <div
                   class="custom-dropdown-container"
+                  (mouseleave)="onMouseLeave()"
                   style="
                     z-index: 100;
                     position: absolute;
-                    width: 82%;
+                    width: 57%;
                     border-radius: 2px;
                   "
                   *ngIf="showMediaTypes"
-                  (mouseleave)="onMouseLeave()"
                 >
                   <div
                     class="custom-dropdown"
@@ -287,17 +315,19 @@
                   <div class="single-winner-blk">
                     <label for=""> Winner {{ i + 1 }}: </label>
                     <input
-                      placeholder="5000000"
+                      #prizeInput
+                      class="input-design"
                       currencyMask
                       formControlName="reward"
                       [options]="{
-                        prefix: 'N ',
+                        prefix: 'NGN ',
                         thousands: ',',
                         precision: 0,
                         decimal: '.',
                         nullable: false,
                         allowNegative: false,
-                        allowZero: false
+                        allowZero: false,
+                        value: 5000
                       }"
                     />
                     <button
@@ -321,7 +351,12 @@
               [class.box-btn-disable]="
                 !contestForm.valid || !contestForm.touched
               "
-              [disabled]="!contestForm.valid"
+              [disabled]="
+                !contestForm.valid ||
+                (inProgress$ | async) ||
+                (!isCompleted$ | async) ||
+                (!failed$ | async)
+              "
               type="button"
               (click)="onClickCreateButton()"
               style="margin-bottom: 1rem;"
@@ -350,4 +385,4 @@
       </div>
     </div>
   </div>
-</div>
+</form>

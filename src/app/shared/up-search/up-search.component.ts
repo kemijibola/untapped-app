@@ -34,7 +34,7 @@ export class UpSearchComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.searchForm = new FormGroup({
-      searchInput: new FormControl("", Validators.required),
+      searchInput: new FormControl(""),
     });
 
     this.store

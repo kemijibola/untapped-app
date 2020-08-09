@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <form class="login-wrapper" [formGroup]="signinForm">
       <div class="head text-center mb-30">
-        <span>Sign In to</span>
+        <span>Login to</span>
         <h3>untapped pool</h3>
       </div>
       <div class="login-form">
@@ -44,15 +44,12 @@
           formControlName="password"
         />
         <a
-          style="cursor: pointer; float: right; color: #05274c;"
+          style="cursor: pointer; float: right; color: #06a9b0;"
           routerLink="/account/password/forgot"
           routerLinkActive="visited"
           [routerLinkActiveOptions]="{ exact: true }"
-          >Forgot your password</a
+          >Forgot your password?</a
         >
-        <!-- <span class="error-block" *ngIf="hasError">
-          {{ errorMessage }}
-        </span> -->
         <button
           #loginButton
           [class.box-btn-disable]="!signinForm.valid || !signinForm.touched"

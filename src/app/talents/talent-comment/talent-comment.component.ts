@@ -148,7 +148,7 @@ export class TalentCommentComponent implements OnInit, OnChanges {
   // }
 
   onSignUpClicked() {
-    this.router.navigate(["/account/signin"]);
+    this.router.navigate(["/account/login"]);
   }
 
   onPostComment() {

@@ -24,6 +24,7 @@ export class RequestPayoutComponent implements OnInit {
   transferForm: FormGroup;
   pinPattern = /^[0-9]{4}$/;
   amountPattern = NUMERIC_REGEX;
+
   initiated$ = this.userStore.pipe(
     select(fromWallet.selectPayoutInitiatedStatus)
   );

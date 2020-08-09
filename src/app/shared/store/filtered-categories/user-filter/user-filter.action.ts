@@ -7,6 +7,7 @@ export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 export const SET_ALL_USERS = "SET_ALL_USERS";
 export const FETCH_ALL_USERS_SUCCESS = "FETCH_ALL_USERS_SUCCESS";
 export const FETCH_ALL_USERS_ERROR = "FETCH_ALL_USERS_ERROR";
+export const FETCH_ALL_USERS_NOOP = "FETCH_ALL_USERS_NOOP";
 export const FETCH_USER = "FETCH_USER";
 
 export const LIKE_TALENT = "LIKE_TALENT";
@@ -38,6 +39,10 @@ export class FetchAllUsersSuccess implements Action {
 
 export class FetchAllUsersError implements Action {
   readonly type = FETCH_ALL_USERS_ERROR;
+}
+
+export class FetchAllUsersNoop implements Action {
+  readonly type = FETCH_ALL_USERS_NOOP;
 }
 export class SetAllUsers implements Action {
   readonly type = SET_ALL_USERS;
@@ -90,4 +95,5 @@ export type UserFilterActions =
   | UnLikeTalentSuccess
   | UnLikeTalentError
   | FetchAllUsersError
-  | SetAllUsers;
+  | SetAllUsers
+  | FetchAllUsersNoop;

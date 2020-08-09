@@ -65,14 +65,14 @@ export class SignupComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.signupForm = new FormGroup({
-      name: new FormControl("", Validators.required),
+      name: new FormControl(null, Validators.required),
       email: new FormControl(
-        "",
+        null,
         Validators.compose([Validators.required, Validators.email]),
         emailAsyncValidator(500, this.userService).bind(this)
       ),
       password: new FormControl(
-        "",
+        null,
         Validators.compose([Validators.required, Validators.minLength(8)])
       ),
       terms: new FormControl(false, Validators.requiredTrue),
