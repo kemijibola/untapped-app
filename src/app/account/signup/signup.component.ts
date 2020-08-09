@@ -60,22 +60,20 @@ export class SignupComponent implements OnInit, AfterContentInit {
   @ViewChild("signupButton", { static: false }) signupButton: ElementRef;
   constructor(
     private store: Store<fromApp.AppState>,
-    private userService: UserService,
-    private notificationService: NotificationService,
-    private errorService: ErrorService
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.signupForm = new FormGroup({
-      name: new FormControl("", Validators.required),
+      name: new FormControl(null, Validators.required),
       email: new FormControl(
-        "",
+        null,
         Validators.compose([Validators.required, Validators.email]),
         emailAsyncValidator(500, this.userService).bind(this)
       ),
       password: new FormControl(
-        "",
-        Validators.compose([Validators.required, Validators.minLength(4)])
+        null,
+        Validators.compose([Validators.required, Validators.minLength(8)])
       ),
       terms: new FormControl(false, Validators.requiredTrue),
     });
@@ -85,7 +83,7 @@ export class SignupComponent implements OnInit, AfterContentInit {
     this.store
       .select(fromUserTypeReducer.selectCurrentUserType)
       .subscribe((val: IUserType) => {
-        this.selectedUserType = { ...val };
+        this.selectedUserType = val;
       });
   }
 

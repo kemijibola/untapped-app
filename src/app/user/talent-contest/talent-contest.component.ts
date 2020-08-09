@@ -3,8 +3,13 @@ import * as ContestEntryActions from "../../contests/store/contest-entry/contest
 import * as fromContestEntry from "../../contests/store/contest-entry/contest-entry.reducer";
 import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
-import { IUserContestListAnalysis } from "src/app/interfaces";
+import { IUserContestListAnalysis, IContestList } from "src/app/interfaces";
 import { Observable } from "rxjs";
+import {
+  fetchImageObjectFromCloudFormation,
+  fetchDefaultContestBanner,
+} from "src/app/lib/Helper";
+import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 
 @Component({
   selector: "app-talent-contest",
@@ -13,17 +18,83 @@ import { Observable } from "rxjs";
 })
 export class TalentContestComponent implements OnInit {
   userContests: IUserContestListAnalysis[] = [];
-  constructor(private store: Store<fromApp.AppState>) {}
+
+  editParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 257,
+        height: 161,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 70,
+        height: 70,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
+  initiated$ = this.store.pipe(
+    select(fromContestEntry.selectContestEntrytrInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromContestEntry.selectContestEntryInProgressStatus)
+  );
+
+  completed$ = this.store.pipe(
+    select(fromContestEntry.selectContestEntryCompletedStatus)
+  );
+
+  failed$ = this.store.pipe(
+    select(fromContestEntry.selectContestEntryFailedStatus)
+  );
+
+  constructor(private store: Store<fromApp.AppState>) {
+    this.fetchTalentEntries();
+  }
 
   ngOnInit(): void {
-    this.store.dispatch(new ContestEntryActions.FetchUserParticipatedContest());
-
     this.store
       .pipe(select(fromContestEntry.selectContestsUserParticipatedIn))
+      .take(2)
       .subscribe((val: IUserContestListAnalysis[]) => {
         if (val !== null) {
-          this.userContests = [...val];
+          this.userContests = [];
+          val.forEach((x) => {
+            x = this.setContestBannerImage(x);
+            this.userContests.push(x);
+          });
         }
       });
+  }
+
+  fetchTalentEntries(): void {
+    this.store.dispatch(new ContestEntryActions.FetchUserParticipatedContest());
+  }
+
+  setContestBannerImage(
+    data: IUserContestListAnalysis
+  ): IUserContestListAnalysis {
+    return Object.assign({}, data, {
+      defaultBannerImage: fetchImageObjectFromCloudFormation(
+        data.contestBanner,
+        this.defaultParams
+      ),
+      fullBannerImage:
+        data.contestBanner !== ""
+          ? fetchImageObjectFromCloudFormation(
+              data.contestBanner,
+              this.editParams
+            )
+          : fetchDefaultContestBanner(),
+    });
   }
 }

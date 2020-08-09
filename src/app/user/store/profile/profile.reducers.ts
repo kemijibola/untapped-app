@@ -23,8 +23,13 @@ export function profileReducer(
     case ProfileActions.SET_USERPROFILE:
       return Object.assign({
         ...state,
-        userProfile: { ...action.payload },
+        userProfile: action.payload,
         saveProfileState: OutboundState.completed,
+      });
+    case ProfileActions.UPDATE_USER_SETTINGS_PREFERENCE:
+      return Object.assign({
+        ...state,
+        saveProfileState: OutboundState.inprogress,
       });
     case ProfileActions.CREATE_USERPROFILE:
       return Object.assign({
@@ -39,9 +44,14 @@ export function profileReducer(
     case ProfileActions.CREATE_USERPROFILE_ERROR:
       return Object.assign({
         ...state,
-        saveProfileState: OutboundState.completed,
+        saveProfileState: OutboundState.failed,
       });
     case ProfileActions.UPDATE_USERPROFILE_ERROR:
+      return Object.assign({
+        ...state,
+        saveProfileState: OutboundState.completed,
+      });
+    case ProfileActions.UPDATE_USER_SETTINGS_PREFERENCE_ERROR:
       return Object.assign({
         ...state,
         saveProfileState: OutboundState.completed,
@@ -65,6 +75,9 @@ const getSaveInProgress = (state: ProfileState): boolean =>
 const getSaveInitiated = (state: ProfileState): boolean =>
   state.saveProfileState === OutboundState.initiated;
 
+const getFailedStatus = (state: ProfileState): boolean =>
+  state.saveProfileState === OutboundState.failed;
+
 const getSelectedCurrentUserProfile = (state: ProfileState) =>
   state.userProfile;
 
@@ -86,4 +99,9 @@ export const selectSaveProfileInitiatedStatus = createSelector(
 export const selectSaveProfileInProgressStatus = createSelector(
   getProfileState,
   getSaveInProgress
+);
+
+export const selectSaveProfileFailedStatus = createSelector(
+  getProfileState,
+  getFailedStatus
 );

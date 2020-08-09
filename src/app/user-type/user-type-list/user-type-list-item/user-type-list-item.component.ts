@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import * as UserTypeActions from "../../store/user-type.actions";
 import * as fromApp from "../../../store/app.reducers";
 import * as fromUserTypeReducer from "../../store/user-type.reducers";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-user-type-list-item",
@@ -50,10 +51,9 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
 
     this.store
       .select(fromUserTypeReducer.selectCurrentUserType)
-      .take(2)
       .subscribe((val: IUserType) => {
         if (val) {
-          this.selectedUserType = { ...val };
+          this.selectedUserType = val;
           this.userTypeForm.get("typeOfUser").setValue(val._id);
         }
       });
@@ -68,10 +68,12 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // set selected user type to default select
-    this.store.dispatch(
-      new UserTypeActions.FetchUserType({
-        userTypeId: this.selectedUserType._id,
-      })
-    );
+    if (_.has(this.selectedUserType, "_id")) {
+      this.store.dispatch(
+        new UserTypeActions.FetchUserType({
+          userTypeId: this.selectedUserType._id,
+        })
+      );
+    }
   }
 }

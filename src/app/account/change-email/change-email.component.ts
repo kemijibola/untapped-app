@@ -15,6 +15,7 @@ import { UserService } from "src/app/services/user.service";
 import * as AuthActions from "../store/auth.actions";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
+import { EMAIL_REGEX } from 'src/app/lib/constants';
 
 @Component({
   selector: "app-change-email",
@@ -24,6 +25,7 @@ import { environment } from "src/environments/environment";
 export class ChangeEmailComponent implements OnInit {
   userPreEmailAdress: string = "";
   changeEmailForm: FormGroup;
+  emailPattern = EMAIL_REGEX;
   constructor(
     private store: Store<fromApp.AppState>,
     private userService: UserService

@@ -1,0 +1,57 @@
+<div class="row" body>
+  <div class="col-xl-12">
+    <div class="popup-content-wrap pro-page p-0">
+      <div class="create-pass-popup">
+        <form class="new-wallet" [formGroup]="newWalletForm">
+          <label for="">
+            <span
+              class="error-block"
+              *ngIf="newWalletForm.get('walletPin').hasError('pattern')"
+            >
+              * Please enter a valid 4 digit
+            </span>
+            Create wallet pin</label
+          >
+          <input
+            type="password"
+            formControlName="walletPin"
+            [pattern]="pinPattern"
+            class="input-design mb-10"
+          />
+          <button
+            #walletButton
+            class="box-btn login-btn mt-10"
+            [class.box-btn-disable]="
+              !newWalletForm.valid || !newWalletForm.touched
+            "
+            [disabled]="
+              !newWalletForm.valid ||
+              (inProgress$ | async) ||
+              (!isCompleted$ | async) ||
+              (!failed$ | async)
+            "
+            (click)="onCreateWallet()"
+            type="button"
+          >
+            <span
+              *ngIf="
+                (initiated$ | async) ||
+                (isCompleted$ | async) ||
+                (failed$ | async)
+              "
+              >Create Wallet</span
+            >
+            <span
+              *ngIf="
+                (inProgress$ | async) ||
+                (!isCompleted$ | async) ||
+                (!failed$ | async)
+              "
+              >Creating Wallet...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

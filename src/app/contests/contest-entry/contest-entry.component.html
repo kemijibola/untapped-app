@@ -31,9 +31,27 @@
                 text-decoration: underline;
                 color: blue;
               "
-              (click)="onClickBrowseBtn()"
+              (click)="onClickBrowseBtn(selectedContest.contest.entryMediaType)"
               >Click here to upload your entry</span
             >
+            <label class="form round">
+              <input formControlName="terms" type="checkbox" />
+              <span
+                class="error-block"
+                *ngIf="newContest.terms.invalid && newContest.terms.errors"
+              >
+                *
+              </span>
+              I agree to be bound by the
+              <a
+                routerLink="/competition-terms-condition"
+                routerLinkActive="visited"
+                [routerLinkActiveOptions]="{ exact: true }"
+                style="color: #06a9b0; cursor: pointer;"
+                >Competition T&C</a
+              >
+              <span class="checkmark"></span>
+            </label>
             <span *ngIf="showCompleted">{{ fileName }}</span>
             <span *ngIf="showUploading">
               <img src="assets/loader.gif" style="width: 20px;" />

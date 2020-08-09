@@ -145,6 +145,20 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   showDiv: boolean = false;
   thumbnailUrl: string = "";
 
+  initiated$ = this.userStore.pipe(
+    select(fromPortfolio.selectSaveInitiatedStatus)
+  );
+
+  inProgress$ = this.userStore.pipe(
+    select(fromPortfolio.selectSaveInProgressStatus)
+  );
+
+  isCompleted$ = this.userStore.pipe(
+    select(fromPortfolio.selectSaveCompletedStatus)
+  );
+
+  failed$ = this.userStore.pipe(select(fromPortfolio.selectSaveFailedStatus));
+
   constructor(
     private store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>,
@@ -166,23 +180,13 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
           this.showCompleted = false;
         }
       });
-
-    // this.store
-    //   .pipe(select(fromUpload.selectUploadCompleted))
-    //   .subscribe((val: boolean) => {
-    //     if (val) {
-    //       this.showDiv = true;
-    //       this.showCompleted = true;
-    //       this.showUploading = false;
-    //     }
-    //   });
     // use filter to get toggle
     this.store
       .pipe(select(fromSlideToggle.selectCurrentSlideToggle))
       .subscribe((val: IToggle) => {
         console.log(val);
         if (val !== undefined) {
-          this.modalUploadToggle = { ...val };
+          this.modalUploadToggle = val;
           this.multiple = val.state;
           this.uploadType = this.multiple
             ? MediaUploadType.multiple
@@ -200,7 +204,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromUpload.selectCurrentUploadedItem))
       .subscribe((val: UploadedItems) => {
-        this.uploadedItems = { ...val };
+        this.uploadedItems = val;
         this.initForm();
       });
 
@@ -227,7 +231,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 
@@ -249,7 +253,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
             val.shortDescription
           );
           this.setMedia(this.uploadedItems);
-          this.itemToUpdate = { ...this.uploadedItems };
+          this.itemToUpdate = this.uploadedItems;
         }
       });
 
@@ -405,12 +409,11 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
+    const title = this.uploadedItems?.title || "";
+    const description = this.uploadedItems?.shortDescription || "";
     this.portfolioForm = new FormGroup({
-      title: new FormControl(this.uploadedItems.title, Validators.required),
-      description: new FormControl(
-        this.uploadedItems.shortDescription,
-        Validators.maxLength(250)
-      ),
+      title: new FormControl(title, Validators.required),
+      description: new FormControl(description, Validators.maxLength(250)),
     });
   }
 
@@ -524,7 +527,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       uploadType: this.uploadedItems.uploadType,
     };
 
-    console.log(payload);
     if (this.pageViewMode === "edit") {
       // dispatch update
       this.userStore.dispatch(
@@ -561,6 +563,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

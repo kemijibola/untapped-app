@@ -31,6 +31,7 @@ export class ModalsEffect {
                 data: payload.modal.data,
                 modalCss: payload.modal.modalCss,
                 modalDialogCss: payload.modal.modalDialogCss,
+                modalContentCss: payload.modal.modalContentCss,
                 showMagnifier: payload.modal.showMagnifier,
               };
               theMap.push(activeModal);
@@ -44,6 +45,7 @@ export class ModalsEffect {
                 data: theItem.data,
                 modalCss: theItem.modalCss,
                 modalDialogCss: theItem.modalDialogCss,
+                modalContentCss: theItem.modalContentCss,
                 showMagnifier: theItem.showMagnifier,
               });
             }

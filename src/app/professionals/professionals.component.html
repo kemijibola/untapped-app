@@ -15,17 +15,19 @@
             <h3>Join the Community</h3>
           </div>
           <app-up-search
+            [userTypeId]="professionalUserTypeId"
             [placeholderText]="searchPlaceHolderText"
           ></app-up-search>
-          <app-up-categery-search> </app-up-categery-search>
+          <app-up-categery-search [userTypeId]="'5dcb6ff6625f0d6058704eef'">
+          </app-up-categery-search>
 
           <!-- professionals filter -->
           <div
             style="
-              width: 100%;
-              height: 100%;
+              width: 30px;
+              height: 30px;
               margin: 0 auto;
-              margin-top: -10px;
+              margin-top: -30px;
             "
           >
             <a *ngIf="(initiated$ | async) || (inProgress$ | async)"

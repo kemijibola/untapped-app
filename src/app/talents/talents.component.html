@@ -1,9 +1,10 @@
 <!-- Header bar section complate -->
 <!-- Talent Area Start -->
-<div class="talent-one-area">
+
+<div class="talent-one-area" #modalPopup>
   <div
-    id="talents-scroll"
     class="container-fluid"
+    id="talents-scroll"
     style="overflow: auto; padding: 0px;"
   >
     <div class="row no-gutters talent-main">
@@ -19,19 +20,14 @@
             <h3>Join the Community</h3>
           </div>
           <app-up-search
+            [userTypeId]="'5dcb700d625f0d6058704ef0'"
             [placeholderText]="searchPlaceHolderText"
           ></app-up-search>
-          <app-up-categery-search> </app-up-categery-search>
+          <app-up-categery-search [userTypeId]="talentUserTypeId">
+          </app-up-categery-search>
 
           <!-- talents filter -->
-          <div
-            style="
-              width: 30px;
-              height: 30px;
-              margin: 0 auto;
-              margin-top: -30px;
-            "
-          >
+          <div style="margin: 0 auto; text-align: center;">
             <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
               ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
             /></a>
@@ -56,7 +52,7 @@
       </div>
       <div class="talent-div">
         <app-talent-biodata *ngIf="completed$ | async"></app-talent-biodata>
-        <span>
+        <div style="margin: 0 auto; text-align: center;">
           <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
             ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
           /></a>
@@ -71,7 +67,7 @@
               style="width: 30px; height: 30px; margin: 0 auto;"
               alt="Click button to retry"
           /></a>
-        </span>
+        </div>
       </div>
       <div class="talent-div talent-portfolio-wrapper">
         <div class="right-talent-wrp">

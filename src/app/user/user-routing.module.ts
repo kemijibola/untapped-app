@@ -9,23 +9,17 @@ const userRouting: Routes = [
   {
     path: "user/:username",
     canActivate: [AuthGuard],
-    component: UserComponent
+    component: UserComponent,
   },
   {
     path: "complete-profile",
     canActivate: [AuthGuard],
-    component: CompleteProfileComponent
-  }
-  // { path: "**", redirectTo: "account/signin" }
-  // {
-  //   path: ':username/contest',
-  //   component: UserContestComponent
-  //   // loadChildren: './user-contest/user-contest.module#UserContestModule'
-  // }
+    component: CompleteProfileComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(userRouting)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class UserRoutingModule {}

@@ -62,23 +62,31 @@ export class ContestsComponent implements OnInit, OnDestroy {
 
   notEmptyPost = true;
   notscrolly = true;
+  showLoading = true;
+  showAd = false;
+  hasFailed: boolean;
 
   constructor(public store: Store<fromApp.AppState>, public router: Router) {}
 
   ngOnInit() {
     this.getContests();
 
+    this.failed$.subscribe((val: boolean) => {
+      this.hasFailed = val;
+    });
+
     this.store
       .pipe(select(fromContests.selectAllContestsPreviews))
       .subscribe((val: IContestList[]) => {
         if (this.contests.length === 0) {
-          val.forEach((x) => {
+          this.showLoading = false;
+          val.map((x: IContestList) => {
             x = this.setContestBannerImage(x);
             this.contests.push(x);
           });
         } else {
           if (val.length > 0) {
-            val.forEach((x) => {
+            val.map((x) => {
               x = this.setContestBannerImage(x);
               this.contests.push(x);
             });
@@ -106,21 +114,6 @@ export class ContestsComponent implements OnInit, OnDestroy {
     });
   }
 
-  setContestsBannerImage(data: IContestList[]) {
-    this.contests = data.map((x) => {
-      return Object.assign({}, x, {
-        defaultBannerImage: fetchImageObjectFromCloudFormation(
-          x.bannerImage,
-          this.defaultParams
-        ),
-        fullBannerImage:
-          x.bannerImage !== ""
-            ? fetchImageObjectFromCloudFormation(x.bannerImage, this.editParams)
-            : fetchDefaultContestBanner(),
-      });
-    });
-  }
-
   getContests() {
     this.store.dispatch(
       new ContestsAction.FetchContestsPreview({
@@ -130,8 +123,17 @@ export class ContestsComponent implements OnInit, OnDestroy {
     );
   }
 
+  getContestsRetry(pageNumber: number = 1) {
+    this.store.dispatch(
+      new ContestsAction.FetchContestsPreview({
+        perPage: this.perPage,
+        page: pageNumber,
+      })
+    );
+  }
+
   onScroll() {
-    if (this.notscrolly && this.notEmptyPost) {
+    if (this.notscrolly && this.notEmptyPost && !this.hasFailed) {
       this.notEmptyPost = true;
       this.notscrolly = false;
       this.fetchNextRunningContests();

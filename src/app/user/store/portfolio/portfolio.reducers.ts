@@ -17,6 +17,7 @@ import {
   IMediaItem,
 } from "src/app/interfaces";
 import * as PortfolioActions from "./portfolio.actions";
+import { OutboundState } from "src/app/shared/Util";
 
 export interface PortfolioState extends EntityState<IMedia> {
   audios: IAudio[];
@@ -36,6 +37,7 @@ export interface PortfolioState extends EntityState<IMedia> {
   videoDeleted: boolean;
   mediaItemDeleted: boolean;
   selectedMediaId: string | number | null;
+  savePortfolioState: OutboundState;
 }
 
 const initialState: PortfolioState = fromAdapter.adapter.getInitialState({
@@ -59,6 +61,7 @@ const initialState: PortfolioState = fromAdapter.adapter.getInitialState({
   videoDeleted: false,
   mediaItemDeleted: false,
   selectedMediaId: null,
+  savePortfolioState: OutboundState.initiated,
 });
 
 export function portfolioReducer(
@@ -66,6 +69,36 @@ export function portfolioReducer(
   action: PortfolioActions.PortfolioActions
 ): PortfolioState {
   switch (action.type) {
+    case PortfolioActions.UPDATE_PORTFOLIO_MEDIA:
+      return Object.assign({
+        ...state,
+        savePortfolioState: OutboundState.inprogress,
+      });
+    case PortfolioActions.CREATE_PORTFOLIO_MEDIA:
+      return Object.assign({
+        ...state,
+        savePortfolioState: OutboundState.inprogress,
+      });
+    case PortfolioActions.UPDATE_PORTFOLIO_MEDIA_SUCCESS:
+      return Object.assign({
+        ...state,
+        savePortfolioState: OutboundState.completed,
+      });
+    case PortfolioActions.CREATE_PORTFOLIO_MEDIA_SUCCESS:
+      return Object.assign({
+        ...state,
+        savePortfolioState: OutboundState.completed,
+      });
+    case PortfolioActions.UPDATE_PORTFOLIO_MEDIA_ERROR:
+      return Object.assign({
+        ...state,
+        savePortfolioState: OutboundState.failed,
+      });
+    case PortfolioActions.CREATE_PORTFOLIO_MEDIA_ERROR:
+      return Object.assign({
+        ...state,
+        savePortfolioState: OutboundState.failed,
+      });
     case PortfolioActions.SET_USER_MEDIA_LIST:
       return fromAdapter.adapter.setAll(action.payload.userMedia, state);
     case PortfolioActions.SET_USER_AUDIO_LIST:
@@ -76,7 +109,7 @@ export function portfolioReducer(
     case PortfolioActions.SET_MEDIA_BY_ID:
       return Object.assign({
         ...state,
-        media: { ...action.payload },
+        media: action.payload,
       });
     case PortfolioActions.SET_USER_IMAGE_LIST:
       return Object.assign({
@@ -122,7 +155,7 @@ export function portfolioReducer(
         accept: action.payload.acceptType,
       });
     case PortfolioActions.DELETE_MEDIA_ITEM_BY_ID_SUCCESS:
-      let newMedia: IMedia = { ...state.media };
+      let newMedia: IMedia = state.media;
       newMedia.items = state.media.items.reduce(
         (x: IMediaItem[], y: IMediaItem) => {
           if (y._id !== action.payload.itemId) {
@@ -150,6 +183,18 @@ export function portfolioReducer(
 
 export const getSelectedMediaId = (state: PortfolioState) =>
   state.selectedMediaId;
+
+const getSaveStateCompleted = (state: PortfolioState): boolean =>
+  state.savePortfolioState === OutboundState.completed;
+
+const getSaveStateInProgress = (state: PortfolioState): boolean =>
+  state.savePortfolioState === OutboundState.inprogress;
+
+const getSaveStateInitiated = (state: PortfolioState): boolean =>
+  state.savePortfolioState === OutboundState.initiated;
+
+const getSaveStateFailed = (state: PortfolioState): boolean =>
+  state.savePortfolioState === OutboundState.failed;
 
 const getAudios = (state: PortfolioState) => state.audios;
 
@@ -212,6 +257,26 @@ export const selectUserMediaType = createSelector(
 export const selectUserOperationType = createSelector(
   getPortfolioState,
   getOperationType
+);
+
+export const selectSaveCompletedStatus = createSelector(
+  getPortfolioState,
+  getSaveStateCompleted
+);
+
+export const selectSaveInitiatedStatus = createSelector(
+  getPortfolioState,
+  getSaveStateInitiated
+);
+
+export const selectSaveInProgressStatus = createSelector(
+  getPortfolioState,
+  getSaveStateInProgress
+);
+
+export const selectSaveFailedStatus = createSelector(
+  getPortfolioState,
+  getSaveStateFailed
 );
 
 export const selectUserAccept = createSelector(getPortfolioState, getAccept);

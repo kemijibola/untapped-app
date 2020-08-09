@@ -19,6 +19,7 @@ export interface IModal {
   data?: any;
   modalCss: string;
   modalDialogCss: string;
+  modalContentCss: string;
   showMagnifier: boolean;
 }
 
@@ -44,4 +45,5 @@ export enum ModalContent {
 export interface NavigationData {
   currentIndex: number;
   mediaType: string;
+  data?: any;
 }

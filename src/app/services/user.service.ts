@@ -4,6 +4,7 @@ import { IResult, IUser } from "../interfaces";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { ImageEditRequest } from "../interfaces/media/image";
+import { UserAccount } from "../interfaces/account/wallet";
 
 @Injectable({ providedIn: "root" })
 export class UserService {
@@ -59,5 +60,10 @@ export class UserService {
     return this.http.patch<IResult<IUser>>(url, {
       bannerImagePath: imagePath,
     });
+  }
+
+  fetchUserAccountDetails(): Observable<IResult<UserAccount>> {
+    const url = `${this.BASE_URI}/users`;
+    return this.http.get<IResult<UserAccount>>(`${url}/user-account`);
   }
 }

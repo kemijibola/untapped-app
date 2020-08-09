@@ -17,44 +17,27 @@
     </div>
   </div>
 </div>
+
 <div class="contest-area pt-40 pb-75 fx-padding">
   <div class="container-fluid">
     <div class="row">
-      <!-- <div class="col-xl-9 col-lg-9 col-md-9 col-12">
-        <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-          ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
-        /></a>
+      <a
+        style="cursor: pointer;"
+        (click)="getContestsRetry()"
+        *ngIf="failed$ | async"
+        >We were unable to fetch contests. Try again.
+        <img src="assets/retry.svg" alt="Click button to retry" />
+      </a>
 
-        <a
-          style="cursor: pointer;"
-          (click)="fetchRunningContests()"
-          *ngIf="failed$ | async"
-          >Unable to fetch contests. Try again
-          <img
-            src="assets/retry.svg"
-            style="width: 30px; height: 30px; margin: 0 auto;"
-            alt="Click button to retry"
-        /></a>
-      </div> -->
       <div class="col-xl-9 col-lg-9 col-md-9 col-12">
         <div
           class="row"
           infiniteScroll
           [infiniteScrollDistance]="2"
-          [infiniteScrollThrottle]="150"
+          [infiniteScrollThrottle]="50"
           (scrolled)="onScroll()"
+          *ngIf="contests.length > 0"
         >
-          <a
-            style="cursor: pointer;"
-            (click)="getContests()"
-            *ngIf="failed$ | async"
-            >We were unable to fetch contests. Try again.
-            <img
-              src="assets/retry.svg"
-              style="width: 30px; height: 30px; margin: 0 auto;"
-              alt="Click button to retry"
-            />
-          </a>
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12"
             style="cursor: pointer;"
@@ -62,6 +45,7 @@
           >
             <div
               class="contest-wrapper mb-30"
+              style="width: 257px; margin: 10px auto;"
               (click)="navigateToDetail(contest._id)"
             >
               <div class="contest-img">
@@ -83,7 +67,7 @@
                 </div>
               </div>
               <div class="contesst-img-content">
-                <h4>{{ contest.title }}</h4>
+                <h4>{{ contest.title | truncateText: 31 }}</h4>
                 <div class="i-text">
                   <p>
                     <img src="assets/img/eye.svg" alt="" />
@@ -99,11 +83,29 @@
           </div>
         </div>
 
-        <span *ngIf="!notEmptyPost">No more items to show</span>
+        <div
+          *ngIf="contests.length < 1"
+          style="margin: 0 auto; text-align: center;"
+        >
+          <span>There are currently no contest on-going</span>
+        </div>
+        <div style="margin: 0 auto; text-align: center;">
+          <a
+            *ngIf="(initiated$ | async) || (inProgress$ | async) || showLoading"
+            ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+          /></a>
+        </div>
+
+        <div style="text-align: center;">
+          <span *ngIf="!notEmptyPost"><i>No more items to show</i></span>
+        </div>
       </div>
-      <div class="col-xl-3 col-lg-3 col-md-3 col-12" *ngIf="completed$ | async">
+      <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <div class="contest-sidebar">
-          <span>ADS</span>
+          <span
+            >For advertisement, call 070..... or send an email to
+            ads@untappedpool.com</span
+          >
         </div>
       </div>
     </div>

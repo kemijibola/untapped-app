@@ -131,7 +131,8 @@ export class ProfileEffect {
                 code: respError.error.response_code || -1,
                 message:
                   respError.error.response_message || "No Internet connection",
-              })
+              }),
+              new ProfileActions.UpdateUserSettingsPreferenceError()
             )
           )
         )

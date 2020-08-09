@@ -23,14 +23,6 @@ export class UploadService {
     this.BASE_URI = environment.BASE_URL;
   }
 
-  // s3Upload(data: CloudUploadParams[]): Observable<any> {
-  //   let responses = [];
-  //   data.map(x => {
-  //     responses = [...responses, this.http.put(x.url, x.file)];
-  //   });
-  //   return forkJoin(responses);
-  // }
-
   s3Upload(data: CloudUploadParams[]): Observable<any> {
     console.log(data[0].file);
     let requests = [];

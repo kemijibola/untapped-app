@@ -31,29 +31,34 @@
               width: 100%;
             "
           >
-            <a href="#" class="like-contest">
+            <a class="like-contest">
               <span
                 style="
                   font-size: 16px;
                   margin-right: 4px;
                   position: static !important;
                 "
-                >{{ contestDetails.contest.views }}</span
+                >{{ contestDetails.contest.likedBy.length }}</span
               >
               <svg
+                (click)="onClickLike()"
                 xmlns="http://www.w3.org/2000/svg"
-                height="23px"
+                height="22px"
                 viewBox="0 -20 464 464"
-                width="23px"
-                style="vertical-align: none;"
+                width="22px"
+                style="vertical-align: none; cursor: pointer;"
               >
                 <path
                   d="m340 0c-44.773438.00390625-86.066406 24.164062-108 63.199219-21.933594-39.035157-63.226562-63.19531275-108-63.199219-68.480469 0-124 63.519531-124 132 0 172 232 292 232 292s232-120 232-292c0-68.480469-55.519531-132-124-132zm0 0"
-                  fill="#ff6243"
+                  [attr.fill]="
+                    userHasLikedContest === true ? '#ff6243' : '#fff'
+                  "
                 />
                 <path
                   d="m32 132c0-63.359375 47.550781-122.359375 108.894531-130.847656-5.597656-.769532-11.242187-1.15625025-16.894531-1.152344-68.480469 0-124 63.519531-124 132 0 172 232 292 232 292s6-3.113281 16-8.992188c-52.414062-30.824218-216-138.558593-216-283.007812zm0 0"
-                  fill="#ff5023"
+                  [attr.fill]="
+                    userHasLikedContest === true ? '#ff5023' : '#fff'
+                  "
                 />
               </svg>
             </a>
@@ -74,8 +79,13 @@
             <a
               class="box-btn details-btn"
               style="cursor: pointer; margin-right: 20px;"
-              *ngIf="!hasEnded && isEligible"
-              (click)="openModalDialog('new-entry')"
+              *ngIf="!hasEnded && isEligible && isAuthenticated"
+              (click)="
+                onNewEntrySelected(
+                  'new-entry',
+                  'modal-content contest-d new-entry'
+                )
+              "
             >
               Enter Contest</a
             >
@@ -126,11 +136,31 @@
             <div class="content-inner-block">
               <h4>Prize</h4>
               <div class="prz-list">
-                <li *ngFor="let prize of contestDetails.contest.redeemable">
-                  {{ prize.name }}
-                  :
-                  {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
-                </li>
+                <div
+                  *ngFor="let prize of contestDetails.contest.redeemable"
+                  [ngSwitch]="prize.name"
+                >
+                  <li *ngSwitchCase="'position1'">
+                    1st Place :
+                    {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+                  </li>
+                  <li *ngSwitchCase="'position2'">
+                    2nd Place :
+                    {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+                  </li>
+                  <li *ngSwitchCase="'position3'">
+                    3rd Place :
+                    {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+                  </li>
+                  <li *ngSwitchCase="'position4'">
+                    4th Place :
+                    {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+                  </li>
+                  <li *ngSwitchCase="'position5'">
+                    5th Place :
+                    {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+                  </li>
+                </div>
               </div>
             </div>
           </div>
@@ -161,6 +191,7 @@
 
     <app-modals [id]="'new-entry'">
       <div class="pop-icon-bar pop-talent" navigate>
+        <span class="modal-title">Contest Entry</span>
         <button
           type="button"
           class="close"
@@ -179,6 +210,7 @@
     <app-modals [id]="'talent-entry-details'">
       <div class="pop-icon-bar" navigate style="padding-right: 16px;">
         <div class="slide-arrow" style="margin-top: 8px;">
+          <!-- <span class="modal-title">Contest Entry Details</span> -->
           <!-- <button class="left [disabled]="leftDisabled" (click)="onPrevious()"">
             <i class="far fa-angle-left"></i>
           </button>
@@ -213,8 +245,15 @@
         *ngFor="let item of contestDetails.submissions; let i = index"
       >
         <div class="entries-img mb-20">
-          <a (click)="openModalDialog('talent-entry-details', item)"
-            ><img src="assets/img/contest/entries-1.jpg" alt=""
+          <a
+            (click)="
+              onEntrySelected(
+                'talent-entry-details',
+                'modal-content contest-d contest-entry-view',
+                i
+              )
+            "
+            ><img src="assets/img/contest/entries-1.jpg"
           /></a>
 
           <div class="entries-content">

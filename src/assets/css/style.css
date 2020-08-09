@@ -87,7 +87,7 @@ textarea:focus {
 }
 
 .error-snackbar button {
-  background-color: orangered;
+  background-color: red;
   color: white;
 }
 
@@ -99,6 +99,16 @@ textarea:focus {
 .success-snackbar button {
   background-color: white;
   color: green;
+}
+
+.info-snackbar {
+  background-color: #b89d19 !important;
+  color: white !important;
+}
+
+.info-snackbar button {
+  background-color: #b89d19 !important;
+  color: white !important;
 }
 
 .selector-for-some-widget {
@@ -673,14 +683,14 @@ footer {
 }
 .user {
   border: 1px solid #6c6b6b;
-  padding: 8px 35px 8px 15px;
+  padding: 8px 10px 8px 15px;
   border-radius: 5px;
   margin-left: 5px;
   position: relative;
   cursor: pointer;
 }
 .user span {
-  font-size: 15px;
+  font-size: 13px;
   color: #272424;
   display: inline-block;
   padding-left: 10px;
@@ -773,15 +783,17 @@ footer {
 .section-title p {
   font-size: 20px;
 }
-.contest-img a img {
+/* .contest-img a img {
   width: 100%;
-}
+} */
 .contest-wrapper {
   position: relative;
   overflow: hidden;
-}
-.contest-wrapper:hover .contesst-img-content {
   bottom: 0;
+}
+.contest-wrapper .contesst-img-content {
+  bottom: 0;
+  opacity: 0.7;
 }
 .contesst-img-content {
   position: absolute;
@@ -792,7 +804,7 @@ footer {
   padding-bottom: 5px;
   -webkit-transition: 0.5s ease 0s;
   transition: 0.5s ease 0s;
-  background: #201010;
+  background: #000;
   -webkit-filter: blur(0);
   filter: blur(0);
 }
@@ -863,8 +875,9 @@ footer {
 .contest-sidebar span {
   display: block;
   color: #fff;
-  font-size: 66px;
+  font-size: 20px;
   font-family: AvenirNextLTProMedium;
+  margin: 0 10px 10px;
 }
 .contest-pagination {
   margin-top: 100px;
@@ -916,6 +929,13 @@ footer {
   font-size: 12px;
   font-family: AvenirNextLTProMedium;
 }
+
+.box-btn-disable {
+  opacity: 0.65;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
 .heading {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1043,6 +1063,22 @@ footer {
 .albumpopup-content-wrap {
   padding-right: 20px;
   padding-left: 20px;
+}
+
+.transfer-wallet {
+  max-height: 400px !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.new-entry {
+  width: 50% !important;
+  margin: 0 auto;
+}
+
+.account-setup {
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
 }
 
 .contest-details-area .modal-dialog {
@@ -1458,7 +1494,7 @@ html::-webkit-scrollbar {
 }
 .input-1 label {
   display: block;
-  font-size: 16px;
+  font-size: 13px;
   color: #272424;
 }
 .input-1 input,
@@ -1509,7 +1545,7 @@ html::-webkit-scrollbar {
   border: 1px dashed #5d5c5c;
   height: 70px;
   width: 100%;
-  padding: 20px;
+  padding: 10px;
 }
 .upload-fld button {
   position: absolute;
@@ -1572,7 +1608,7 @@ html::-webkit-scrollbar {
 }
 
 .duration-inner {
-  width: 70%;
+  width: 50%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1592,7 +1628,6 @@ html::-webkit-scrollbar {
   fill: #5d5c5c;
   color: #5d5c5c;
 } */
-
 
 .option-seclect span {
   width: 80px;
@@ -1758,7 +1793,7 @@ html::-webkit-scrollbar {
   padding-left: 10px;
 }
 .prize .hd h4 {
-  font-size: 16px;
+  font-size: 13px;
   color: #272424;
   font-family: AvenirNext-reg;
   margin-bottom: 12px;
@@ -2169,13 +2204,14 @@ html::-webkit-scrollbar {
 
 .aligned-modal {
   height: 100% !important;
-  /* width: 860px; */
+  z-index: 50 !important;
   margin: 0 auto;
 }
 
 .aligned-modal,
 .album-modal {
   height: 100% !important;
+  z-index: 50 !important;
   /* width: 860px; */
   margin: 0 auto;
 }
@@ -2183,6 +2219,7 @@ html::-webkit-scrollbar {
 .album-modal {
   /* width: 860px !important; */
   display: table;
+  z-index: 50 !important;
 }
 
 @media screen and (min-width: 769px) {
@@ -2204,7 +2241,7 @@ html::-webkit-scrollbar {
     width: 52% !important;
     /* height: 309px !important; */
   }
-  
+
   /* html {
     min-width: 860px !important;
     overflow-x: scroll !important;
@@ -2241,7 +2278,7 @@ html::-webkit-scrollbar {
     width: 52% !important;
     height: 309px !important;
   }
-  
+
   /* html {
     min-width: 500px !important;
     overflow-x: scroll !important;
@@ -2274,6 +2311,8 @@ html::-webkit-scrollbar {
 .left-talent-wrp {
   padding-left: 15px;
   padding-right: 15px;
+  height: 900px;
+  overflow-y: auto;
 }
 .search-box {
   position: relative;
@@ -2406,8 +2445,8 @@ button.accordion.is-open:after {
 }
 
 .middle-talent-wrp {
-  border-right: 1px solid #e0e0e0;
-  border-left: 1px solid #e0e0e0;
+  /* border-right: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0; */
   height: 100%;
 }
 .middle-outer-wrp {
@@ -2857,11 +2896,12 @@ button.accordion.is-open:after {
   background-color: #fafafa;
 }
 .gigs-view-wrapper {
-  padding-top: 60px;
+  padding-top: 40px;
   padding-bottom: 80px;
   padding-left: 65px;
   padding-right: 65px;
 }
+
 .gig-author {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3742,7 +3782,6 @@ button.accordion.is-open:after {
   padding-bottom: 90px;
 }
 
-
 .contest-entry .modal-dialog {
   width: 700px;
 }
@@ -3913,9 +3952,9 @@ button.accordion.is-open:after {
 /* Complete Profile Page Css End */
 
 .winer-blk {
-  display: -webkit-box;
+  /* display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: flex; */
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -3923,6 +3962,8 @@ button.accordion.is-open:after {
 }
 .single-winner-blk input {
   height: 50px;
+  margin-bottom: 5px;
+  text-align: left !important;
   background: #fafafa;
   border: 1px solid #e0e0e0;
   color: #000;
@@ -4062,7 +4103,7 @@ button.accordion.is-open:after {
 }
 .contest-number label {
   display: block;
-  font-size: 16px;
+  font-size: 13px;
 }
 .contest-number input {
   height: 50px;
@@ -4131,9 +4172,7 @@ button.accordion.is-open:after {
 .btns a {
   margin-top: 15px !important;
 }
-.over-view-all-content {
-  padding-right: 100px;
-}
+
 .over-view-area {
   padding: 80px;
 }
@@ -5352,14 +5391,14 @@ button.close-btn {
   padding: 20px;
   margin-bottom: 25px;
   text-align: center;
-  height: 400px;
+  height: 100px;
   margin-top: 10px;
   display: table;
 }
 
 .drag-section p {
   font-size: 18px;
-  display: table-cell;
+  /* display: table-cell; */
   vertical-align: middle;
 }
 
@@ -5385,16 +5424,201 @@ body.viewport-lg {
 }
 .vote-box {
   border-radius: 3px;
-  padding-top: 32px;
-  width: 175px;
-  border: 1px solid gray;
+  width: 100px;
   text-align: center;
-  box-shadow: 1px 1px 3px grey;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   float: left;
   margin-right: 7px;
   margin-top: 7px;
+  padding: 8px;
+}
+.vote-box h4 {
+  margin-bottom: 0;
+}
+.vote-box span {
+  margin-top: 0 !important;
 }
 .contets-mobile {
-  width: 400px;
-  height: 250px;
+  width: 257px;
+  height: 161px;
+}
+
+.wallet-container {
+  background-color: #e3fae1;
+  border-radius: 10px;
+}
+
+.wallet-summary {
+  padding: 16px;
+  border-radius: 6px;
+  background-color: #e3fae1;
+}
+
+.wallet-transaction {
+  height: 350px;
+  background-color: #e3fae1;
+  overflow-y: scroll;
+  padding: 0px 0 0 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.wallet-owner {
+  border-top: 1px solid #90d39f;
+  margin-top: 20px;
+  padding-top: 20px;
+  font-size: 14px;
+}
+
+.wallet-balance-text {
+  color: #000000;
+}
+
+.wallet-balance-amount {
+  font-weight: 900;
+  font-size: 1.4rem;
+  margin-top: 0.8rem;
+  color: #000000;
+}
+
+.wallet-owner-text {
+  font-weight: 900;
+}
+
+.wallet-id {
+  margin-top: 0.5rem;
+  font-size: 10px;
+}
+
+.wallet-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid green;
+  border-radius: 4px;
+  display: block;
+  width: 120px;
+  text-align: center;
+  color: #54ab68;
+  margin: 5px;
+}
+
+.wallet-btn :hover {
+  color: #54ab68;
+}
+
+.transaction-amount {
+  font-size: 2rem;
+  color: #000000;
+  font-weight: 900;
+}
+
+.transaction-amount-container {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  border-bottom: 1px solid green;
+  margin-bottom: 16px;
+  padding-top: 20px;
+}
+
+/* .transaction-amount,
+.transaction-type {
+  color: green;
+} */
+
+.transaction-type {
+  font-size: 0.8rem;
+  color: #a3a3a3;
+}
+
+.transaction-amount-container {
+  background-color: #ffffff;
+  height: 130px;
+}
+
+/* top left*/
+.ribbon-top-left {
+  left: 6px;
+  top: -2px;
+}
+.ribbon-top-left::before,
+.ribbon-top-left::after {
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.ribbon {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: absolute;
+}
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  display: block;
+  border: 5px solid #2980b9;
+}
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 15px 0;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.ribbon-top-left::before {
+  top: 0;
+  right: 0;
+}
+.ribbon-top-left::after {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-top-left span {
+  right: -25px;
+  top: 30px;
+  transform: rotate(-45deg);
+}
+
+.modal-title {
+  margin: auto;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.contest-entry-view {
+  overflow-y: scroll;
+  height: 550px;
+  overflow-x: hidden;
+}
+
+.account-setup-dropdown {
+  margin-top: -5px;
+  z-index: 100;
+  position: absolute;
+  width: 95.7% !important;
+  overflow-y: scroll;
+  height: 75%;
+  border-radius: 2%;
+}
+
+.log-other.reset-pswd a:hover {
+  text-decoration: underline;
+}
+
+.input-design.ng-dirty.ng-invalid.ng-touched {
+  border: 1.5px solid #ee1515 !important;
+  border-radius: 6px;
+}
+
+.input-design.ng-touched.ng-valid.ng-dirty {
+  border: 1.5px solid green !important;
+  border-radius: 6px;
 }

@@ -38,7 +38,7 @@ export function reducer(
     case CommentsActions.ADD_MEDIA_COMMENT:
       return fromAdapter.adapter.setOne(action.payload.mediaComment, state);
     case CommentsActions.ADD_COMMENT_LIKE:
-      const commentObj = { ...action.payload.comment };
+      const commentObj = action.payload.comment;
       commentObj.likedBy = [...commentObj.likedBy, action.payload.likedBy];
       return fromAdapter.adapter.upsertOne(commentObj, state);
     case CommentsActions.UPDATE_COMMENT_LIKE:
@@ -46,13 +46,13 @@ export function reducer(
     case CommentsActions.ADD_COMMENT_LIKE_SUCCESS:
       return fromAdapter.adapter.upsertOne(action.payload.comment, state);
     case CommentsActions.REMOVE_COMMENT_LIKE:
-      const commentToRemoveLike = { ...action.payload.comment };
+      const commentToRemoveLike = action.payload.comment;
       commentToRemoveLike.likedBy = commentToRemoveLike.likedBy.filter(
         (x) => x._id !== action.payload.unLikedBy._id
       );
       return fromAdapter.adapter.upsertOne(commentToRemoveLike, state);
     case CommentsActions.ADD_COMMENT_LIKE_ERROR:
-      const commentToUpdate = { ...action.payload.comment };
+      const commentToUpdate = action.payload.comment;
       commentToUpdate.likedBy = commentToUpdate.likedBy.filter(
         (x) => x._id !== action.payload.likedBy._id
       );

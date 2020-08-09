@@ -13,6 +13,8 @@ export const FETCH_USER_MEDIA_LIST_PREVIEW_ERROR =
   "FETCH_USER_MEDIA_LIST_PREVIEW_ERROR";
 export const FETCH_USER_GENERAL_LIST_PREVIEW =
   "FETCH_USER_GENERAL_LIST_PREVIEW";
+export const FETCH_USER_GENERAL_LIST_PREVIEW_ERROR =
+  "FETCH_USER_GENERAL_LIST_PREVIEW_ERROR";
 export const SET_USER_MEDIA_LIST_PREVIEW = "SET_USER_MEDIA_LIST_PREVIEW";
 export const SET_USER_AUDIO_PREVIEWS = "SET_USER_AUDIO_PREVIEWS";
 export const SET_USER_VIDEO_PREVIEWS = "SET_USER_VIDEO_PREVIEWS";
@@ -46,7 +48,9 @@ export class FetchUserGeneralListPreview implements Action {
 }
 export class FetchUserMediaListPreviewError implements Action {
   readonly type = FETCH_USER_MEDIA_LIST_PREVIEW_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
+}
+export class FetchUserGeneralListPreviewError implements Action {
+  readonly type = FETCH_USER_GENERAL_LIST_PREVIEW_ERROR;
 }
 export class SetUserMediaListPreview implements Action {
   readonly type = SET_USER_MEDIA_LIST_PREVIEW;
@@ -138,4 +142,5 @@ export type MediaPreviewActions =
   | DeleteVideoListByIdError
   | UserMediaListCount
   | SetUserGeneralPreviews
-  | FetchUserGeneralListPreview;
+  | FetchUserGeneralListPreview
+  | FetchUserGeneralListPreviewError;

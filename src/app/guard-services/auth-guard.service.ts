@@ -7,7 +7,7 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  Router
+  Router,
 } from "@angular/router";
 import { Observable, of } from "rxjs";
 import { IAuthData } from "../interfaces";
@@ -52,10 +52,10 @@ export class AuthGuard implements CanActivate {
           this.store.dispatch(new AuthActions.DeleteAutData());
           this.authService.removeItem("authData").subscribe((val: boolean) => {
             if (val) {
-              return this.router.navigate(["/account/signin"], {
+              return this.router.navigate(["/account/login"], {
                 queryParams: {
-                  return: state.url
-                }
+                  return: state.url,
+                },
               });
             }
           });

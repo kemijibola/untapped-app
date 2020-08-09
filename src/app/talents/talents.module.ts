@@ -21,6 +21,14 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
 import { MatVideoModule } from "mat-video";
 import { TalentCommentComponent } from "./talent-comment/talent-comment.component";
 
+import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+};
+
 @NgModule({
   declarations: [
     TalentsComponent,
@@ -42,7 +50,14 @@ import { TalentCommentComponent } from "./talent-comment/talent-comment.componen
     VgBufferingModule,
     LazyLoadImageModule,
     MatVideoModule,
+    PerfectScrollbarModule,
   ],
   exports: [],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+  ],
 })
 export class TalentsModule {}

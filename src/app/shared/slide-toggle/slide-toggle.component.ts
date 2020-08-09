@@ -33,7 +33,7 @@ export class SlideToggleComponent implements OnInit, OnChanges {
 
   ngOnChanges(simple: SimpleChanges) {
     if (simple["data"] !== undefined) {
-      this.toggle = { ...this.data };
+      this.toggle = this.data;
     }
   }
   onToggleChange() {

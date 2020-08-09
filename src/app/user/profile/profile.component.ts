@@ -1,4 +1,14 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  INSTAGRAM_REGEX,
+  TWITTER_REGEX,
+  YOUTUBE_REGEX,
+} from "./../../lib/constants";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { Observable, Subject } from "rxjs";
 import * as fromProfileReducer from "../store/profile/profile.reducers";
@@ -24,13 +34,14 @@ import * as CategoryTypeActions from "../../shared/store/category-type/category-
 import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
 import * as _ from "underscore";
 import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.action";
-import { PHONE_REGEX } from "src/app/lib/constants";
+import { PHONE_REGEX, FACEBOOK_REGEX } from "src/app/lib/constants";
 import * as fromUserLocation from "../../shared/store/user-location/user-location.reducer";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
@@ -64,7 +75,12 @@ export class ProfileComponent implements OnInit {
   };
   newUserLocation: string = "";
   userType: string = "";
-  shortbioCount: number = 0;
+  shortbioCount: number = 250;
+  phonePattern = PHONE_REGEX;
+  facebookPattern = FACEBOOK_REGEX;
+  instagramPattern = INSTAGRAM_REGEX;
+  twitterPattern = TWITTER_REGEX;
+  youtubePattern = YOUTUBE_REGEX;
 
   isInitiated$ = this.userStore.pipe(
     select(fromProfileReducer.selectSaveProfileInitiatedStatus)
@@ -76,6 +92,10 @@ export class ProfileComponent implements OnInit {
 
   isCompleted$ = this.userStore.pipe(
     select(fromProfileReducer.selectSaveProfileCompletedStatus)
+  );
+
+  failed$ = this.userStore.pipe(
+    select(fromProfileReducer.selectSaveProfileFailedStatus)
   );
 
   constructor(
@@ -98,14 +118,6 @@ export class ProfileComponent implements OnInit {
       });
 
     this.userStore.dispatch(new ProfileActions.FetchUserProfile());
-
-    // this.userStore
-    //   .pipe(select(fromUserLocation.selectCurrentUserLocation))
-    //   .subscribe((val: ILocation) => {
-    //     if (val !== null) {
-    //       this.newUserLocation = val.formattedAddres;
-    //     }
-    //   });
 
     this.userStore
       .pipe(select(fromProfileReducer.selectCurrentUserProfile))
@@ -147,7 +159,7 @@ export class ProfileComponent implements OnInit {
       .pipe(select(fromUserLocation.selectCurrentUserLocation))
       .subscribe((val: ILocation) => {
         if (_.has(val, "address")) {
-          this.userLocation = { ...val };
+          this.userLocation = val;
           this.location = val["address"].formattedAddres;
           console.log(this.location);
         }
@@ -166,11 +178,12 @@ export class ProfileComponent implements OnInit {
           Validators.required,
           Validators.pattern(PHONE_REGEX),
           Validators.minLength(11),
+          Validators.maxLength(11),
         ])
       ),
       shortBio: new FormControl(this.shortBio, [
         Validators.minLength(80),
-        Validators.maxLength(1200),
+        Validators.maxLength(250),
       ]),
       facebook: new FormControl(this.facebook),
       instagram: new FormControl(this.instagram),
@@ -193,9 +206,8 @@ export class ProfileComponent implements OnInit {
     );
   }
   onUpdateProfile() {
-    console.log("clicked");
+    console.log("clicked", this.userLocation);
     const name: string = this.profileForm.controls["name"].value;
-    // const rcNumber: string = this.profileForm.controls["rcNumber"].value;
     const fullName: string = this.profileForm.controls["fullName"].value;
     const phoneNumber: string = this.profileForm.controls["phoneNumber"].value;
     const shortBio: string = this.profileForm.controls["shortBio"].value;
@@ -207,12 +219,40 @@ export class ProfileComponent implements OnInit {
       "additionalSocial"
     ].value;
 
+    if (shortBio.trim().length < 80) {
+      this.store.dispatch(
+        new SnackBarActions.SnackBarOpen({
+          message: "Short bio length must be greater than 80",
+          action: "X",
+          config: {
+            panelClass: ["info-snackbar"],
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            duration: 70000,
+          },
+        })
+      );
+      return;
+    }
+    if (!this.userLocation.formattedAddres || !this.userLocation.location) {
+      this.store.dispatch(
+        new SnackBarActions.SnackBarOpen({
+          message: "Please provide a valid address",
+          action: "X",
+          config: {
+            panelClass: ["info-snackbar"],
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            duration: 70000,
+          },
+        })
+      );
+      return;
+    }
+
     const profileObj: IProfile = {
       name,
-      // rcNumber,
       fullName,
-      // location:
-      //   this.newUserLocation !== "" ? this.newUserLocation : this.location,
       userAddress: this.userLocation,
       phoneNumbers: [phoneNumber],
       categoryTypes: [...this.selectedCategories],

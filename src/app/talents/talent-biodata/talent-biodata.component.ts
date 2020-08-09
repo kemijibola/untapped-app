@@ -9,6 +9,7 @@ import * as fromUserFilter from "../../shared/store/filtered-categories/user-fil
 import * as UserFilterActions from "../../shared/store/filtered-categories/user-filter/user-filter.action";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import { Observable } from "rxjs";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-talent-biodata",
@@ -41,13 +42,14 @@ export class TalentBiodataComponent implements OnInit {
   loggedInUser: Observable<IAuthData>;
   hasLiked: boolean;
   currentUser: IAuthData;
+  show: boolean = false;
 
   constructor(private store: Store<fromApp.AppState>) {}
   ngOnInit() {
     this.loggedInUser = this.store.pipe(select(fromAuth.selectCurrentUserData));
     this.loggedInUser.subscribe((val: IAuthData) => {
       if (val.authenticated) {
-        this.currentUser = { ...val };
+        this.currentUser = val;
       }
     });
 
@@ -55,16 +57,22 @@ export class TalentBiodataComponent implements OnInit {
       .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
         if (val) {
-          this.checkIfUserHasLiked(val.tappedBy);
-          this.selectedUser = { ...val };
-          this.defaultImage = fetchImageObjectFromCloudFormation(
-            val.displayPhoto,
-            this.defaultParams
-          );
-          this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
-            val.displayPhoto,
-            this.editParams
-          );
+          if (_.has(val, "displayName")) {
+            this.show = true;
+            this.checkIfUserHasLiked(val.tappedBy);
+            this.selectedUser = val;
+
+            this.defaultImage = fetchImageObjectFromCloudFormation(
+              val.displayPhoto,
+              this.defaultParams
+            );
+            this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
+              val.displayPhoto,
+              this.editParams
+            );
+          } else {
+            this.show = false;
+          }
         }
       });
   }
@@ -104,8 +112,6 @@ export class TalentBiodataComponent implements OnInit {
       this.selectedUser.tappedBy = this.selectedUser.tappedBy.filter(
         (x) => x !== this.currentUser.user_data._id
       );
-
-      
 
       this.selectedUser.isSelected = true;
 

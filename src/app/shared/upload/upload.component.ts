@@ -147,7 +147,7 @@ export class UploadComponent
       this.store.dispatch(
         new NotificationActions.AddError({
           key: AppNotificationKey.error,
-          message: `Upload image with minimum dimensions ${this.fileConfig.minHeight}px x ${this.fileConfig.minWidth}px`,
+          message: `Upload image with minimum height ${this.fileConfig.minHeight}px and width ${this.fileConfig.minWidth}px`,
           code: 400,
         })
       );

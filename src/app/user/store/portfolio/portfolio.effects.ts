@@ -59,7 +59,8 @@ export class PortfolioEffect {
                   message:
                     respError.error.response_message ||
                     "No Internet connection",
-                })
+                }),
+                new PortfolioActions.CreatePortfolioMediaError()
               )
             )
           )
@@ -127,7 +128,8 @@ export class PortfolioEffect {
                   message:
                     respError.error.response_message ||
                     "No Internet connection",
-                })
+                }),
+                new PortfolioActions.UpdatePorfolioMediaError()
               )
             )
           )

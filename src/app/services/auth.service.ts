@@ -93,6 +93,13 @@ export class AuthService {
     });
   }
 
+  resendVerificationLink(email: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/account/resend-link`;
+    return this.http.post<IResult<boolean>>(url, {
+      email,
+    });
+  }
+
   signin(loginParams: ILogin): Observable<IResult<IAuthData>> {
     const url = `${this.BASE_URI}/authentication`;
     const { email, password } = loginParams;

@@ -119,15 +119,6 @@ export class LatestContestLandingComponent implements OnInit {
       .subscribe((val: ContestWithEntriesPreview[]) => {
         this.runningContests = [...val];
         this.setContestBannerImage();
-        // if (this.runningContests.length === 1) {
-        //   this.showEntries = true;
-        //   this.showContests = false;
-        // }
-        // if (this.runningContests.length > 1) {
-        //   this.showContests = true;
-        //   this.showEntries = false;
-        // }
-        //.hideScrollBar();
       });
   }
 

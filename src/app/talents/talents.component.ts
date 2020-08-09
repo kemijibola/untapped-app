@@ -1,4 +1,13 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  Renderer2,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
@@ -9,6 +18,7 @@ import {
   AppModal,
   UserFilterCategory,
   ReportType,
+  IUserType,
 } from "../interfaces";
 import { Router } from "@angular/router";
 import * as ModalsActions from "../shared/store/modals/modals.actions";
@@ -18,20 +28,25 @@ import * as fromTalentWithHighestComment from "../shared/store/filtered-categori
 import { Observable } from "rxjs";
 import * as UserFilterActions from "../shared/store/filtered-categories/user-filter/user-filter.action";
 import * as fromUserFilter from "../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as fromUserTypeReducer from "../user-type/store/user-type.reducers";
+import * as UserTypeActions from "../user-type/store/user-type.actions";
+
+import {
+  PerfectScrollbarConfigInterface,
+  PerfectScrollbarComponent,
+  PerfectScrollbarDirective,
+} from "ngx-perfect-scrollbar";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-talents",
   templateUrl: "./talents.component.html",
   styleUrls: ["./talents.component.css"],
-  host: {
-    "(window:resize)": "onWindowResize($event)",
-  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TalentsComponent implements OnInit, OnDestroy {
+export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
   width: number = window.innerWidth;
-  onWindowResize(event) {
-    this.width = event.target.innerWidth;
-  }
+  public type: string = "component";
   currentUser: Observable<IAuthData>;
   searchPlaceHolderText = "Talents";
   talents: Observable<UserFilterCategory[]>;
@@ -50,7 +65,12 @@ export class TalentsComponent implements OnInit, OnDestroy {
 
   failed$ = this.store.pipe(select(fromUserFilter.selectUsersFailedStatus));
 
-  constructor(private store: Store<fromApp.AppState>, private router: Router) {}
+  @ViewChild("talentFrame", { static: false }) talentFrame: ElementRef;
+  private scrollContainer: any;
+  public config: PerfectScrollbarConfigInterface = {};
+  constructor(private store: Store<fromApp.AppState>, private router: Router) {
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
+  }
   componentModal: AppModal = {
     id: "talent-portfolio",
     modals: [
@@ -60,10 +80,12 @@ export class TalentsComponent implements OnInit, OnDestroy {
         display: ModalDisplay.none,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       },
     ],
   };
+  talentUserTypeId: string = environment.TALENT_USER_TYPE_ID;
   ngOnInit() {
     this.fetchUsers();
 
@@ -75,11 +97,20 @@ export class TalentsComponent implements OnInit, OnDestroy {
       })
     );
 
-    // this.talents = this.store.pipe(select(fromUserFilter.selectAllUsers));
+    // this.store
+    //   .select(fromUserTypeReducer.selectAllUserTypes)
+    //   .subscribe((val: IUserType[]) => {
+    //     this.talentUserTypeId = val.filter((x) => x.name === "Talent")[0]._id;
+    //   });
+  }
+
+  ngAfterViewInit() {
+    // this.scrollContainer = this.talentFrame.nativeElement;
+    // this.scrollToXY(25, 50);
   }
 
   onSignUpClicked() {
-    this.router.navigate(["/account/signin"]);
+    this.router.navigate(["/account/login"]);
   }
 
   fetchUsers(): void {

@@ -5,6 +5,11 @@ import {
   OnChanges,
   SimpleChanges,
   OnDestroy,
+  Renderer2,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
@@ -15,25 +20,26 @@ import {
   MediaType,
   MediaUploadType,
   ReportType,
+  IUserType,
 } from "src/app/interfaces";
 import * as UserCategoryActions from "../store/filtered-categories/talent-category.action";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
-import * as TalentCategoryActions from "../store/filtered-categories/talent-category.action";
-import * as fromTalentWithHighestComment from "../store/filtered-categories/talent-category.reducers";
-import * as ProfessionalCategoryActions from "../store/filtered-categories/professional-category/professional-category.actions";
 import * as fromUserFilter from "../store/filtered-categories/user-filter/user-filter.reducer";
 import * as fromCategory from "../store/category/category.reducers";
 import * as UserFilterActions from "../store/filtered-categories/user-filter/user-filter.action";
 import * as TalentsActions from "../store/talents/talents.actions";
-import * as fromUser from "../../user/user.reducers";
-import * as MediaPreviewActions from "../../user/store/portfolio/media/media-preview.actions";
+import * as TalentAudioPreviewActions from "../store/talents/audio-preview/audio-preview.action";
+import * as GeneralPreviewActions from "../store/talents/general-preview/general-preview.action";
+import * as TalentImagePreviewActions from "../store/talents/image-preview/image-preview.action";
+import * as TalentVideoPreviewActions from "../store/talents/video-preview/video-preview.action";
 import * as _ from "underscore";
 
 @Component({
   selector: "app-up-user-filter",
   templateUrl: "./up-user-filter.component.html",
   styleUrls: ["./up-user-filter.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpUserFilterComponent implements OnInit, OnDestroy {
   filteredUsers: UserFilterCategory[] = [];
@@ -42,7 +48,9 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   searchText: string = "";
   category: string = "";
   userTypeId: string = "";
+
   currentUserSelected: boolean = false;
+  private scrollToContainer: any;
 
   defaultParams: ImageEditRequest = {
     edits: {
@@ -63,107 +71,116 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
       grayscale: false,
     },
   };
+  hasCleared: boolean = false;
 
   userSet(val: UserFilterCategory[]): boolean {
     return val.filter((x) => x.isSelected).length > 0;
   }
 
-  constructor(private store: Store<fromApp.AppState>) {
-    this.searchText = "";
-    this.category = "";
-    this.userTypeId = "";
-  }
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit() {
     this.store
       .pipe(select(fromUserFilter.selectAllUsers))
       .subscribe((val: UserFilterCategory[]) => {
+        this.filteredUsers = [];
         this.typeOfFilter =
           val.length > 1 ? `${this.typeOfUser}s` : this.typeOfUser;
         if (val.length > 0) {
-          console.log("users list", val);
-          this.setUsersImage(val);
-
           if (!this.userSet(val)) {
+            val.map((x: UserFilterCategory) => {
+              x = this.setUserImage(x);
+              this.filteredUsers.push(x);
+            });
             this.filteredUsers[0].isSelected = true;
-            this.userTypeId = this.filteredUsers[0].userType;
             if (this.typeOfUser === AppUserType.Talent) {
               this.fetchTalentPortfolio(this.filteredUsers[0].user);
               this.triggerFetchUserGeneralList(this.filteredUsers[0].user);
             }
 
             this.store.dispatch(
-              new UserFilterActions.FetchUser({ id: this.filteredUsers[0]._id })
+              new UserFilterActions.FetchUser({
+                id: this.filteredUsers[0]._id,
+              })
             );
           }
+        } else {
+          this.store.dispatch(
+            new TalentAudioPreviewActions.ResetTalentAudioPortfolioPreview()
+          );
+          this.store.dispatch(
+            new TalentVideoPreviewActions.ResetTalentVideoPortfolioPreview()
+          );
+          this.store.dispatch(
+            new TalentImagePreviewActions.ResetTalentImagePortfolioPreview()
+          );
+          this.store.dispatch(
+            new GeneralPreviewActions.ResetTalentGeneralPreview()
+          );
         }
       });
 
-    this.store
-      .pipe(select(fromUserFilter.selectSearchText))
-      .subscribe((val: string) => {
-        this.searchText = val;
-        if (val) {
-          this.searchText = val;
-          this.filterUser();
-        } else {
-          console.log("fetch all");
-        }
-      });
-    this.store
-      .pipe(select(fromCategory.selectCurrentCategory))
-      .subscribe((val: Category) => {
-        if (val) {
-          console.log(val);
-          this.category = val._id;
-          // this.filterUser();
-        }
-      });
+    // this.store
+    //   .pipe(select(fromUserFilter.selectSearchText))
+    //   .subscribe((val: string) => {
+    //     if (val !== null) {
+    //       this.searchText = val;
+    //       if (this.searchText.length > 2) {
+    //         this.store.dispatch(
+    //           new UserFilterActions.FetchAllUsers({
+    //             queryParams: {
+    //               searchText: val,
+    //               categoryId: this.category,
+    //               userTypeId: this.userTypeId,
+    //             },
+    //           })
+    //         );
+    //       } else if (this.searchText.length === 0) {
+    //         this.store.dispatch(
+    //           new UserFilterActions.FetchAllUsers({
+    //             queryParams: {
+    //               userTypeId: this.userTypeId,
+    //               categoryId: this.category,
+    //             },
+    //           })
+    //         );
+    //       }
+    //     }
+    //   });
+
+    // this.store
+    //   .pipe(select(fromCategory.selectCurrentCategory))
+    //   .subscribe((val: Category) => {
+    //     console.log("category", val);
+    //     if (val) {
+    //       this.category = val._id;
+    //       this.store.dispatch(
+    //         new UserFilterActions.FetchAllUsers({
+    //           queryParams: {
+    //             searchText: this.searchText,
+    //             categoryId: val._id,
+    //             userTypeId: this.userTypeId,
+    //           },
+    //         })
+    //       );
+    //     }
+    //   });
   }
 
-  filterUser() {
-    console.log({
-      queryParams: {
-        searchText: this.searchText,
-        categoryId: this.category,
-        userTypeId: this.userTypeId,
-      },
+  setUserImage(data: UserFilterCategory): UserFilterCategory {
+    return Object.assign({}, data, {
+      displayPhotoFullPath: fetchImageObjectFromCloudFormation(
+        data.displayPhoto,
+        this.editParams
+      ),
+      defaultImageFullPath: fetchImageObjectFromCloudFormation(
+        data.displayPhoto,
+        this.defaultParams
+      ),
     });
-
-    if (this.searchText.length > 0) {
-      this.store.dispatch(
-        new UserFilterActions.FetchAllUsers({
-          queryParams: {
-            searchText: this.searchText || "",
-            categoryId: this.category || "",
-            userTypeId: this.userTypeId || "",
-          },
-        })
-      );
-    }
-
-    if (this.searchText.length === 0) {
-      console.log(this.searchText.length);
-      this.store.dispatch(
-        new UserFilterActions.FetchAllUsers({
-          queryParams: {
-            searchText: this.searchText || "",
-            categoryId: this.category || "",
-            userTypeId: this.userTypeId || "",
-          },
-        })
-      );
-    }
-    // } else {
-    //   this.store.dispatch(
-    //     new UserFilterActions.FetchAllUsers({
-    //       queryParams: {
-    //         categoryId: this.category || "",
-    //         userTypeId: this.userTypeId || "",
-    //       },
-    //     })
-    //   );
-    // }
   }
 
   setUsersImage(val: UserFilterCategory[]): void {
@@ -179,6 +196,8 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
         ),
       });
     });
+
+    console.log(this.filteredUsers);
   }
 
   onUserSelected(index: number) {
@@ -197,6 +216,8 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
       this.fetchTalentPortfolio(this.filteredUsers[index].user);
       this.triggerFetchUserGeneralList(this.filteredUsers[index].user);
     }
+
+    // scroll to right
   }
 
   fetchTalentPortfolio(userId: string): void {
@@ -220,8 +241,8 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.searchText = "";
-    this.category = "";
-    this.userTypeId = "";
+    // this.searchText = "";
+    // this.category = "";
+    // this.userTypeId = "";
   }
 }

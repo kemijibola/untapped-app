@@ -15,7 +15,7 @@
       $("#talents-scroll").scrollLeft(40);
     }, 1600);
     setTimeout(function () {
-      $("#talents-scroll").scrollLeft(70);
+      $("#talents-scroll").scrollLeft(90);
     }, 2000);
     $(".embed-responsive iframe").addClass("embed-responsive-item");
     $(".carousel-inner .item:first-child").addClass("active");

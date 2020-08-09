@@ -3,6 +3,7 @@ import * as fromAdapter from "./image-preview.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as TalentImagePreviewActions from "./image-preview.action";
 import { ImagePortfolioPreview } from "src/app/interfaces";
+import { transformImagePortfolioPreview } from "src/app/lib/Helper";
 
 export interface ImagePortfolioPreviewState
   extends EntityState<ImagePortfolioPreview> {
@@ -21,12 +22,17 @@ export function reducer(
 ): ImagePortfolioPreviewState {
   switch (action.type) {
     case TalentImagePreviewActions.FETCH_TALENT_IMAGE_PORTFOLIO_PREVIEWS_SUCCESS:
-      return fromAdapter.adapter.setAll(action.payload.imagePreviews, state);
+      const transformed = transformImagePortfolioPreview(
+        action.payload.imagePreviews
+      );
+      return fromAdapter.adapter.setAll(transformed, state);
     case TalentImagePreviewActions.FETCH_TALENT_IMAGE_PORTFOLIO_PREVIEW:
       return Object.assign({
         ...state,
         selectedImagePortfolioPreviewId: action.payload.id,
       });
+    case TalentImagePreviewActions.RESET_TALENT_IMAGE_PORTFOLIO_PREVIEW:
+      return fromAdapter.adapter.setAll([], state);
     default: {
       return state;
     }

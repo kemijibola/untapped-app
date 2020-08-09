@@ -7,6 +7,7 @@ import { CompleteProfileComponent } from "./user/complete-profile/complete-profi
 import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
 import { AboutUsComponent } from "./shared/about-us/about-us.component";
 import { TermsConditionComponent } from "./shared/terms-condition/terms-condition.component";
+import { CompetitionTermsComponent } from "./shared/competition-terms/competition-terms.component";
 
 const appRoutes: Routes = [
   { path: "", canActivate: [CompleteProfile], component: HomeComponent },
@@ -53,6 +54,10 @@ const appRoutes: Routes = [
     path: "terms-condition",
     component: TermsConditionComponent,
   },
+  {
+    path: "competition-terms-condition",
+    component: CompetitionTermsComponent,
+  },
 
   // {
   //   path: 'app',
@@ -77,7 +82,10 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(appRoutes, {
+      preloadingStrategy: PreloadAllModules,
+      scrollPositionRestoration: "enabled",
+    }),
   ],
   exports: [RouterModule],
 })

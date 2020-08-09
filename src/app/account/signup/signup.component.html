@@ -25,12 +25,12 @@
                 !signupForm.get('name').valid && signupForm.get('name').touched
               "
             >
-              *
-              <!-- Please enter a valid -->
+              * Please enter a valid
             </span>
             Name
           </label>
           <input
+            autofocus
             class="input-design mb-45"
             formControlName="name"
             type="text"
@@ -44,8 +44,7 @@
                 !signupForm.get('email').hasError('emailExist')
               "
             >
-              *
-              <!-- Please enter a valid -->
+              * Please enter a valid
             </span>
             Email
             <span
@@ -67,10 +66,18 @@
                 !signupForm.get('password').valid &&
                 signupForm.get('password').touched
               "
+              >*</span
             >
-              *
-            </span>
             Password
+            <span
+              class="error-block"
+              *ngIf="
+                !signupForm.get('password').valid &&
+                signupForm.get('password').touched
+              "
+            >
+              must have at least 6 characters long
+            </span>
           </label>
           <input
             class="input-design"
@@ -84,20 +91,30 @@
               class="error-block"
               *ngIf="form.terms.invalid && form.terms.errors"
             >
-              *
+              * Required
             </span>
-            I agree to everything, so help me God amen.
+            By clicking <span style="font-size: 12px;">Sign Up</span>, you agree
+            to our
+            <a
+              routerLink="/terms-condition"
+              routerLinkActive="visited"
+              [routerLinkActiveOptions]="{ exact: true }"
+              style="color: #06a9b0; cursor: pointer;"
+              >T&C</a
+            >
+            and <a>Cookie Policy</a>
             <span class="checkmark"></span>
           </label>
           <button
             #signupButton
             class="box-btn login-btn mt-50"
+            [class.box-btn-disable]="!signupForm.valid || !signupForm.touched"
             [disabled]="!signupForm.valid || (inProgress$ | async)"
             (click)="onSubmit()"
             type="button"
           >
             <span *ngIf="(initiated$ | async) || (signUpCompleted$ | async)"
-              >SignUp</span
+              >Sign Up</span
             >
             <span *ngIf="(inProgress$ | async) || (!signUpCompleted$ | async)"
               >Please wait...</span

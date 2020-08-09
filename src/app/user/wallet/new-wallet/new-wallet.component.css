@@ -1,0 +1,9 @@
+.new-wallet {
+  margin: 0 auto;
+  padding: 16px;
+  padding-right: 16px;
+}
+
+.error-block {
+  color: red;
+}

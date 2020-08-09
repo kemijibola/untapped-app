@@ -102,7 +102,7 @@ export class AddMoreImageComponent implements OnInit {
       .pipe(select(fromPortfolio.selectSelectedMedia))
       .subscribe((val: IMedia) => {
         if (val) {
-          this.existingItem = { ...val };
+          this.existingItem = val;
         }
       });
 
@@ -110,7 +110,7 @@ export class AddMoreImageComponent implements OnInit {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
   }
@@ -188,6 +188,7 @@ export class AddMoreImageComponent implements OnInit {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

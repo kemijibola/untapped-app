@@ -43,7 +43,7 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 
@@ -96,6 +96,7 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
         data: null,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
       this.store.dispatch(
@@ -121,6 +122,7 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

@@ -41,6 +41,15 @@ import { userLocationReducer } from "../shared/store/user-location/user-location
 import { TalentContestComponent } from "./talent-contest/talent-contest.component";
 
 import { LazyLoadImageModule } from "ng-lazyload-image";
+import { WalletComponent } from "./wallet/wallet.component";
+import { NewWalletComponent } from "./wallet/new-wallet/new-wallet.component";
+import { RequestPayoutComponent } from "./wallet/request-payout/request-payout.component";
+import { WalletEffect } from "./store/wallet/wallet.effect";
+import { walletReducer } from "./store/wallet/wallet.reducer";
+import { AccountSetupComponent } from "./wallet/account-setup/account-setup.component";
+import { bankReducer } from "./store/bank/bank.reducer";
+import { BankEffect } from "./store/bank/bank.effects";
+import { NgxCurrencyModule } from "ngx-currency";
 
 @NgModule({
   declarations: [
@@ -64,9 +73,14 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
     AddMoreAudioComponent,
     AddMoreVideoComponent,
     TalentContestComponent,
+    WalletComponent,
+    NewWalletComponent,
+    RequestPayoutComponent,
+    AccountSetupComponent,
   ],
   imports: [
     SharedModule,
+    NgxCurrencyModule,
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
@@ -79,10 +93,14 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
     StoreModule.forFeature("mediaPreviewState", mediaPreviewReducer),
     StoreModule.forFeature("portfolioState", portfolioReducer),
     StoreModule.forFeature("userLocationState", userLocationReducer),
+    StoreModule.forFeature("walletState", walletReducer),
+    StoreModule.forFeature("bankState", bankReducer),
     EffectsModule.forFeature([
       ProfileEffect,
       PortfolioEffect,
       MediaPreviewEffect,
+      WalletEffect,
+      BankEffect,
     ]),
   ],
   exports: [UserRoutingModule],

@@ -20,12 +20,12 @@ export function reducer(
     case OrderActions.CREATE_ORDER_SUCCESSFUL:
       return Object.assign({
         ...state,
-        order: { ...action.payload },
+        order: action.payload,
       });
     case OrderActions.VERIFY_ORDER_SUCCESS:
       return Object.assign({
         ...state,
-        order: { ...action.payload },
+        order: action.payload,
       });
     default: {
       return state;

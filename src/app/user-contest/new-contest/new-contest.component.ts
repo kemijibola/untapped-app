@@ -1,5 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Renderer2,
+} from "@angular/core";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+  AbstractControl,
+} from "@angular/forms";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
@@ -30,6 +42,8 @@ import * as fromUserContest from "../../user-contest/user-contest.reducers";
 import * as fromNewContest from "../../user-contest/store/new-contest/new-contest.reducers";
 import { environment } from "src/environments/environment.dev";
 import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
+import { addDays } from "date-fns";
+import { NUMERIC_REGEX } from "src/app/lib/constants";
 
 @Component({
   selector: "app-new-contest",
@@ -45,7 +59,7 @@ export class NewContestComponent implements OnInit {
   eligibityRule = "";
   submissionRule = "";
   contestDays = 1;
-  contestDuration = "";
+  informationLength: number = 250;
   // evaluations: string[] = [];
   fileConfig: IFileInputModel;
   private presignRequest: IPresignRequest;
@@ -77,6 +91,22 @@ export class NewContestComponent implements OnInit {
   selectedMediaType: string = "";
   showMediaTypes: boolean;
 
+  isInitiated$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestInitiatedStatus)
+  );
+
+  inProgress$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestInProgressStatus)
+  );
+
+  isCompleted$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestCompletedStatus)
+  );
+
+  failed$ = this.userContestStore.pipe(
+    select(fromNewContest.selectNewContestFailedStatus)
+  );
+
   formatLabel(value: number = 3) {
     if (value >= 1) {
       return Math.round(value / 1) + "d";
@@ -89,16 +119,40 @@ export class NewContestComponent implements OnInit {
     { id: 2, name: "Image", selected: false },
   ];
 
+  minDate: Date = addDays(new Date(), 1);
+  maxDate: Date = addDays(this.minDate, 30);
+  contestDuration: Date[] = [];
+  @ViewChild("createButton", { static: false }) createButton: ElementRef;
+  @ViewChild("prizeInput", { static: false }) prizeInput: ElementRef;
+
+  uploadInitiated$ = this.store.pipe(
+    select(fromUpload.selectUploadInitiatedStatus)
+  );
+
+  uploadInProgress$ = this.store.pipe(
+    select(fromUpload.selectUploadInProgressStatus)
+  );
+
+  uploadCompleted$ = this.store.pipe(
+    select(fromUpload.selectUploadCompletedStatus)
+  );
+
+  uploadFailed$ = this.store.pipe(select(fromUpload.selectUploadFailedStatus));
+
+  uploadReady$ = this.store.pipe(select(fromUpload.selectUploadReadyStatus));
+
   constructor(
     public store: Store<fromApp.AppState>,
     private userContestStore: Store<fromUserContest.UserContestState>,
-    private contestService: ContestService
+    private contestService: ContestService,
+    private renderer: Renderer2
   ) {
     // this.bannerImage = environment.CONTEST_BANNER_DEFAULT;
     this.store
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
         if (val) {
+          this.store.dispatch(new UploadActions.UploadCompleted());
           this.fetchContestBanner();
         }
       });
@@ -106,13 +160,6 @@ export class NewContestComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store
-    // .pipe(select(fromCategoryType.selectSelectedCategoryTypes))
-    // .subscribe((val: string[]) => {
-    //   this.selectedCategories = [...val];
-    // });
-
-
     this.contestForm = new FormGroup({
       title: new FormControl(
         null,
@@ -121,14 +168,25 @@ export class NewContestComponent implements OnInit {
       ),
       basicInfo: new FormControl(null, [
         Validators.required,
-        Validators.minLength(20),
+        Validators.minLength(80),
+        Validators.maxLength(250),
       ]),
       eligibityRule: new FormControl(null),
       submissionRule: new FormControl(null),
-      contestDuration: new FormControl(null),
+      contestDuration: new FormControl(
+        [this.minDate, addDays(this.minDate, 30)],
+        [Validators.required, this.ValidateContestDuration]
+      ),
       contestRewards: new FormArray([
         new FormGroup({
-          reward: new FormControl("", Validators.required),
+          reward: new FormControl(
+            "",
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(NUMERIC_REGEX),
+              this.validateContestPrize,
+            ])
+          ),
         }),
       ]),
       entryMedia: new FormControl(null),
@@ -187,6 +245,32 @@ export class NewContestComponent implements OnInit {
     this.showMediaTypes = !this.showMediaTypes;
   }
 
+  ValidateContestDuration(control: AbstractControl) {
+    if (!control.value[0] && !control.value[1]) {
+      return { dateNotValid: true };
+    }
+    return null;
+  }
+
+  validateContestPrize(control: AbstractControl) {
+    if (control.value < 1) {
+      return { prizeNotValid: true };
+    }
+    return null;
+  }
+
+  validateInnerControl(control: AbstractControl) {
+    console.log(control.value["reward"]);
+    if (control.value["reward"] < 1) {
+      return { prizeNotValid: true };
+    }
+    return null;
+  }
+
+  onMouseLeave() {
+    this.showMediaTypes = false;
+  }
+
   onSelectedMedia(i: number) {
     this.selectedMediaType = this.mediaTypes[i].name;
     this.showMediaTypes = !this.showMediaTypes;
@@ -206,8 +290,6 @@ export class NewContestComponent implements OnInit {
             uploadParams = [...uploadParams, item];
             this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
-            // update store with contest banner
-
             this.userContestStore.dispatch(
               new NewContestActions.SetContestBanner({
                 bannerKey: val.presignedUrl[0].key,
@@ -219,75 +301,59 @@ export class NewContestComponent implements OnInit {
   }
 
   onClickCreateButton() {
+    console.log("clicked");
+
+    const createBtn = this.createButton.nativeElement;
+    this.renderer.setProperty(createBtn, "disabled", true);
+
     const formArray = <FormArray>this.contestForm.get("contestRewards");
     const duration = this.contestForm.controls["contestDuration"].value;
-    let redeemables: IRedeemable[] = [];
-    for (let i = 0; i < formArray.length; i++) {
-      const reward: string = (<FormArray>(
-        this.contestForm.get("contestRewards")
-      )).at(i).value;
-      redeemables.push({
-        name: `Winner ${i + 1}`,
-        prizeCash: reward["reward"],
-      });
+    if (!duration) {
+      this.store.dispatch(
+        new NotificationActions.AddError({
+          key: AppNotificationKey.error,
+          message: "Invalid contest duration",
+          code: 400,
+        })
+      );
+    } else {
+      let redeemables: IRedeemable[] = [];
+      for (let i = 0; i < formArray.length; i++) {
+        const reward: string = (<FormArray>(
+          this.contestForm.get("contestRewards")
+        )).at(i).value;
+        redeemables.push({
+          name: `position${i + 1}`,
+          prizeCash: reward["reward"],
+        });
+      }
+
+      const title: string = this.contestForm.controls["title"].value;
+      const basicInfo: string = this.contestForm.controls["basicInfo"].value;
+      const eligibityRule: string = this.contestForm.controls["eligibityRule"]
+        .value;
+      const submissionRule: string = this.contestForm.controls["submissionRule"]
+        .value;
+      // const entryMedia: number = this.contestForm.controls["entryMedia"].value;
+
+      const contestObj: IContest = {
+        title,
+        information: basicInfo,
+        bannerImage: this.bannerImageKey,
+        eligibleCategories: [...this.selectedCategories],
+        eligibilityInfo: eligibityRule,
+        entryMediaType: this.selectedMediaType,
+        submissionRules: submissionRule,
+        startDate: new Date(duration[0]),
+        endDate: new Date(duration[1]),
+        redeemable: [...redeemables],
+      };
+
+      this.userContestStore.dispatch(
+        new NewContestActions.CreateContest({ newContest: contestObj })
+      );
     }
-
-    const title: string = this.contestForm.controls["title"].value;
-    const basicInfo: string = this.contestForm.controls["basicInfo"].value;
-    const eligibityRule: string = this.contestForm.controls["eligibityRule"]
-      .value;
-    const submissionRule: string = this.contestForm.controls["submissionRule"]
-      .value;
-    // const entryMedia: number = this.contestForm.controls["entryMedia"].value;
-
-    const contestObj: IContest = {
-      title,
-      information: basicInfo,
-      bannerImage: this.bannerImageKey,
-      eligibleCategories: [...this.selectedCategories],
-      eligibilityInfo: eligibityRule,
-      entryMediaType: this.selectedMediaType,
-      submissionRules: submissionRule,
-      startDate: new Date(duration[0]),
-      endDate: new Date(duration[1]),
-      redeemable: [...redeemables],
-    };
-
-    this.userContestStore.dispatch(
-      new NewContestActions.CreateContest({ newContest: contestObj })
-    );
   }
-
-  // onAddEvaluation() {
-  //   const evaluation: string = this.contestForm.controls["evaluation"].value;
-  //   if (this.evaluations.length > 4) {
-  //     this.store.dispatch(
-  //       new NotificationActions.AddInfo({
-  //         key: AppNotificationKey.error,
-  //         message: "You can only add maximum 5 Evaluation criteria at once",
-  //         code: 400,
-  //       })
-  //     );
-  //   } else {
-  //     if (evaluation !== "") {
-  //       const foundEvaluation = this.evaluations.filter(
-  //         (x) => x === evaluation.toLowerCase()
-  //       )[0];
-  //       if (!foundEvaluation) {
-  //         this.evaluations.push(evaluation.toLowerCase());
-  //         this.contestForm.controls["evaluation"].setValue("");
-  //       } else {
-  //         this.store.dispatch(
-  //           new NotificationActions.AddInfo({
-  //             key: AppNotificationKey.error,
-  //             message: `${evaluation} has already been added to evaluation list`,
-  //             code: 400,
-  //           })
-  //         );
-  //       }
-  //     }
-  //   }
-  // }
 
   get contestRewards(): FormArray {
     return this.contestForm.get("contestRewards") as FormArray;
@@ -300,13 +366,16 @@ export class NewContestComponent implements OnInit {
       action: this.uploadAction,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
-      minHeight: 150,
-      minWidth: 100,
+      minHeight: 400,
+      minWidth: 500,
     };
   }
+
   deleteReward(index: number) {
-    if ((<FormArray>this.contestForm.get("contestRewards")).length !== 1) {
-      (<FormArray>this.contestForm.get("contestRewards")).removeAt(index);
+    if (this.contestRewards.length !== 1) {
+      this.contestRewards.removeAt(index);
+    } else {
+      // do nothing
     }
   }
 
@@ -326,32 +395,28 @@ export class NewContestComponent implements OnInit {
       });
   }
 
-  deleteEvaluation() {}
   onAddReward() {
-    if ((<FormArray>this.contestForm.get("contestRewards")).length < 3) {
-      (<FormArray>this.contestForm.get("contestRewards")).push(
-        new FormGroup({
-          reward: new FormControl("", Validators.required),
-        })
-      );
+    if ((<FormArray>this.contestForm.get("contestRewards")).length < 5) {
+      const currentFormIndex = this.contestRewards.length - 1;
+      if (this.contestRewards.at(currentFormIndex).value["reward"] > 0) {
+        (<FormArray>this.contestForm.get("contestRewards")).push(
+          new FormGroup({
+            reward: new FormControl("", Validators.required),
+          })
+        );
+      } else {
+        this.contestRewards.controls[currentFormIndex].setValidators(
+          this.validateInnerControl
+        );
+      }
     } else {
       this.store.dispatch(
         new NotificationActions.AddInfo({
-          key: AppNotificationKey.error,
-          message: "You can only add 3 winners at once",
+          key: AppNotificationKey.info,
+          message: "You can only add 5 winners at once",
           code: 400,
         })
       );
     }
   }
-
-  // onFormSubmit(): void {
-  //   for (let i = 0; i < this.names.length; i++) {
-  //     console.log(this.names.at(i).value);
-  //   }
-  // }
-  onCreateClicked() {}
-  // TODO:: on click of proceed to payment, order is created
-  // payment is sent to payment gateway
-  // On success, update order collection, contest collection and payment collection
 }

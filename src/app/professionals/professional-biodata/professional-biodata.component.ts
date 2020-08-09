@@ -16,6 +16,7 @@ import {
 } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as fromUserFilter from "../../shared/store/filtered-categories/user-filter/user-filter.reducer";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-professional-biodata",
@@ -115,54 +116,59 @@ export class ProfessionalBiodataComponent implements OnInit {
   instagramUrl: string = "";
   twitterUrl: string = "";
   youTubeUrl: string = "";
+  show: boolean = false;
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    console.log(this.selectedUser.bannerPhotoFullPath);
     this.store
       .pipe(select(fromUserFilter.selectCurrentUser))
       .subscribe((val: UserFilterCategory) => {
         if (val) {
-          this.selectedUser = { ...val };
-          if (val.contests.length > 0) this.setUserContestBannerImage();
-          if (this.selectedUser.userSocials !== undefined) {
-            for (let item of this.selectedUser.userSocials) {
-              if (item.type === SocialMediaTypes.facebook)
-                this.facebookUrl = item.handle;
-              if (item.type === SocialMediaTypes.twitter)
-                this.twitterUrl = item.handle;
-              if (item.type === SocialMediaTypes.youtube)
-                this.youTubeUrl = item.handle;
-              if (item.type === SocialMediaTypes.instagram)
-                this.instagramUrl = item.handle;
+          if (_.has(val, "displayName")) {
+            this.show = true;
+            this.selectedUser = val;
+            if (val.contests.length > 0) this.setUserContestBannerImage();
+            if (this.selectedUser.userSocials !== undefined) {
+              for (let item of this.selectedUser.userSocials) {
+                if (item.type === SocialMediaTypes.facebook)
+                  this.facebookUrl = item.handle;
+                if (item.type === SocialMediaTypes.twitter)
+                  this.twitterUrl = item.handle;
+                if (item.type === SocialMediaTypes.youtube)
+                  this.youTubeUrl = item.handle;
+                if (item.type === SocialMediaTypes.instagram)
+                  this.instagramUrl = item.handle;
+              }
             }
+
+            this.defaultBannerImage = fetchImageObjectFromCloudFormation(
+              val.bannerPhoto,
+              this.bannerEditParams
+            );
+
+            this.selectedUser.bannerPhotoFullPath =
+              val.bannerPhoto !== ""
+                ? fetchImageObjectFromCloudFormation(
+                    val.bannerPhoto,
+                    this.bannerEditParams
+                  )
+                : fetchProfessionalBiodataBanner();
+
+            this.defaultDisplayImage = fetchImageObjectFromCloudFormation(
+              val.displayPhoto,
+              this.defaultDpEditParams
+            );
+
+            this.selectedUser.displayPhotoFullPath =
+              val.displayPhoto !== ""
+                ? fetchImageObjectFromCloudFormation(
+                    val.displayPhoto,
+                    this.dpEditParams
+                  )
+                : fetchProfessionalDefaultDisplayPicture();
+          } else {
+            this.show = false;
           }
-
-          this.defaultBannerImage = fetchImageObjectFromCloudFormation(
-            val.bannerPhoto,
-            this.bannerEditParams
-          );
-
-          this.selectedUser.bannerPhotoFullPath =
-            val.bannerPhoto !== ""
-              ? fetchImageObjectFromCloudFormation(
-                  val.bannerPhoto,
-                  this.bannerEditParams
-                )
-              : fetchProfessionalBiodataBanner();
-
-          this.defaultDisplayImage = fetchImageObjectFromCloudFormation(
-            val.displayPhoto,
-            this.defaultDpEditParams
-          );
-
-          this.selectedUser.displayPhotoFullPath =
-            val.displayPhoto !== ""
-              ? fetchImageObjectFromCloudFormation(
-                  val.displayPhoto,
-                  this.dpEditParams
-                )
-              : fetchProfessionalDefaultDisplayPicture();
         }
 
         // console.log(this.selectedUser.bannerPhotoFullPath);

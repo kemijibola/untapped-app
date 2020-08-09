@@ -9,6 +9,14 @@ export enum PaymentStatus {
   UnPaid = "UnPaid",
 }
 
+export enum PrizePosition {
+  position1 = "1st Place",
+  position2 = "2nd Place",
+  position3 = "3rd Place",
+  position4 = "4th Place",
+  position5 = "5th Place",
+}
+
 export enum ContestType {
   Online = "Online",
   OnlineOffline = "OnlineOffline",
@@ -47,7 +55,7 @@ export interface IContest {
   startDate: Date;
   endDate: Date;
   views?: number;
-  likes?: number;
+  likedBy?: string[];
   createdBy?: string;
   redeemable: IRedeemable[];
   paymentStatus?: PaymentStatus;
@@ -123,6 +131,7 @@ export interface IContestContestant {
   contestantName: string;
   contestantPhoto: string;
   contestantCode: string;
+  position: string;
   contestantTotalVote: number;
   fullUserProfileImage?: string;
   defaultUserProfileImage?: string;

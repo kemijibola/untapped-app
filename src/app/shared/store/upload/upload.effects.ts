@@ -62,14 +62,7 @@ export class UploadEffect {
               })
           ),
           catchError((respError: HttpErrorResponse) =>
-            of(
-              new NotificationActions.AddError({
-                key: AppNotificationKey.error,
-                code: respError.error.response_code || -1,
-                message:
-                  respError.error.response_message || "No Internet connection",
-              })
-            )
+            of(new UploadActions.UploadThumbnailError())
           )
         )
       )
@@ -89,31 +82,14 @@ export class UploadEffect {
                 code: respError.error.response_code || -1,
                 message:
                   respError.error.response_message || "No Internet connection",
-              })
+              }),
+              new UploadActions.UploadFilesError()
             )
           )
         )
       )
     )
   );
-
-  // uploadFiles = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(UploadActions.UPLOAD_FILES),
-  //     concatMap((action: UploadActions.UploadFiles) =>
-  //       this.uploadService.s3Upload(action.payload).pipe(
-  //         map(ev => this.getActionFromHttpEvent(ev))
-  //         catchError((respError: HttpErrorResponse) =>
-  //           of(new NotificationActions.AddError({
-  //           key: AppNotificationKey.error,
-  //           code: respError.error.response_code || -1,
-  //           message: respError.error.response_message || "No Internet connection",
-  //         }))
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
 
   constructor(
     private actions$: Actions,

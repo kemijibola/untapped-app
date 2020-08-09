@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-xl-6 col-lg-6 col-md-6">
         <div class="profile-img mb-30">
-          <img src="assets/img/profile/profile-1.jpg" alt="" />
+          <img src="assets/img/profile/profile-1.jpg" />
         </div>
       </div>
       <div class="col-xl-6 col-lg-6 col-md-6">
@@ -19,19 +19,81 @@
               <div class="content-wrapper">
                 <div class="profile-link">
                   <a href="#"
-                    ><img src="assets/img/profile/profile-link-2.png" alt=""
+                    ><img src="assets/img/profile/profile-link.png" alt=""
                   /></a>
                 </div>
                 <div class="content">
                   <h4>We have sent you an email confirmation.</h4>
                   <p class="second">
-                    Check yout inbox/spam and confirm your email. Then you'll be
+                    Check your inbox/spam and confirm your email. Then you'll be
                     redircted back to Untapped Pool to sign in.
                   </p>
-                  <p>Didn't get code?</p>
-                  <button class="box-btn profile-submit" type="submit">
-                    Resent email confirmation
-                  </button>
+                  <p>Didn't get mail?</p>
+
+                  <div *ngIf="counterInProgress">
+                    <button
+                      class="box-btn profile-submit"
+                      type="submit"
+                      [disabled]="counterInProgress"
+                    >
+                      <span *ngIf="counterInProgress"
+                        >Resend email in -
+                        <countdown
+                          #cd
+                          [config]="{
+                            leftTime: 60,
+                            demand: false,
+                            format: 's'
+                          }"
+                          (event)="handleEvent($event)"
+                        ></countdown>
+                      </span>
+                    </button>
+                  </div>
+
+                  <div *ngIf="showResendBtn">
+                    <button
+                      class="box-btn profile-submit"
+                      type="submit"
+                      (click)="onClickResend()"
+                      [disabled]="counterInProgress"
+                    >
+                      <span
+                        *ngIf="(initiated$ | async) || (completed$ | async)"
+                      >
+                        Resend email confirmation
+                      </span>
+                      <span
+                        *ngIf="(inProgress$ | async) || (!completed$ | async)"
+                      >
+                        Sending mail...
+                      </span>
+                    </button>
+                  </div>
+
+                  <!-- <button
+                    class="box-btn profile-submit"
+                    type="submit"
+                    (click)="onClickResend()"
+                    [disabled]="counterInProgress"
+                  >
+                    <span *ngIf="counterInProgress"
+                      >Resend email in -
+                      <countdown
+                        #cd
+                        [config]="{ leftTime: 60, demand: true, format: 's' }"
+                        (event)="handleEvent($event)"
+                      ></countdown>
+                    </span>
+                    <span *ngIf="!counterInProgress">
+                      Resend email confirmation
+                    </span>
+                    <span
+                      *ngIf="(inProgress$ | async) || (!completed$ | async)"
+                    >
+                      Sending mail...
+                    </span>
+                  </button> -->
                 </div>
               </div>
             </li>

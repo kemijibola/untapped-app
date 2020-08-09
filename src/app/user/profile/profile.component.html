@@ -44,7 +44,7 @@
         <input class="input-design" formControlName="fullName" type="text" />
       </div>
       <div class="col-xl-6">
-        <label for="">Location</label>
+        <label for="">Type/Select Location</label>
         <app-google-places
           [addressType]="'address'"
           [autocompleteInputText]="location"
@@ -59,24 +59,23 @@
         />
       </div>
       <div class="col-xl-6">
-        <label for="">Mobile Number</label>
-        <input class="input-design" formControlName="phoneNumber" type="text" />
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('phoneNumber').hasError('pattern')"
+          >
+            * Please enter a valid
+          </span>
+          Mobile Number</label
+        >
+        <input
+          class="input-design"
+          [pattern]="phonePattern"
+          formControlName="phoneNumber"
+          type="text"
+        />
       </div>
-      <div class="col-xl-12">
-        <div class="bio">
-          <h4>Short Bio</h4>
-          <span class="condition">{{ shortbioCount }}</span>
-        </div>
-        <textarea
-          class="text-area"
-          name=""
-          id=""
-          cols="30"
-          rows="10"
-          formControlName="shortBio"
-        ></textarea>
-      </div>
-      <div class="col-xl-12">
+      <div class="col-xl-6">
         <h4 class="profile-ctg" *ngIf="typeOfUser === 'Talent'">
           Add your talent(s)
         </h4>
@@ -88,27 +87,107 @@
           [placeholderText]="'Select talent/interest'"
         ></app-talent-categories>
       </div>
-      <div class="col-xl-6">
-        <label for="">Instagram profile link</label>
-        <input class="input-design" formControlName="instagram" type="text" />
+      <div class="col-xl-12">
+        <div class="bio">
+          <h4>Short Bio</h4>
+          <small
+            class="form-text text-muted"
+            *ngIf="shortBio.value.length < shortbioCount"
+            ><span>{{ shortBio.value.length }}</span> of
+            <span>{{ shortbioCount }}</span> characters</small
+          >
+        </div>
+        <textarea
+          class="text-area"
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          #shortBio
+          formControlName="shortBio"
+        ></textarea>
       </div>
+      <!-- <div class="col-xl-12">
+        <h4 class="profile-ctg" *ngIf="typeOfUser === 'Talent'">
+          Add your talent(s)
+        </h4>
+        <h4 class="profile-ctg" *ngIf="typeOfUser === 'Professional'">
+          Add your interest(s)
+        </h4>
+        <app-talent-categories
+          [text]="'Select your talents/interest'"
+          [placeholderText]="'Select talent/interest'"
+        ></app-talent-categories>
+      </div> -->
       <div class="col-xl-6">
-        <label for="">Facebook profile link</label>
-        <input class="input-design" formControlName="facebook" type="text" />
-      </div>
-      <div class="col-xl-6">
-        <label for="">Twitter Profile link</label>
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('instagram').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Instagram profile link</label
+        >
         <input
-          class="input-design last"
-          formControlName="twitter"
+          class="input-design"
+          placeholder="www.instagram/oluwakemi"
+          formControlName="instagram"
+          [pattern]="instagramPattern"
           type="text"
         />
       </div>
       <div class="col-xl-6">
-        <label for="">Youtube profile link</label>
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('facebook').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Facebook profile link</label
+        >
+        <input
+          class="input-design"
+          placeholder="www.facebook/oluwakemi"
+          formControlName="facebook"
+          [pattern]="facebookPattern"
+          type="text"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('twitter').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Twitter Profile link</label
+        >
         <input
           class="input-design last"
+          placeholder="www.twitter/oluwakemi"
+          formControlName="twitter"
+          [pattern]="twitterPattern"
+          type="text"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="">
+          <span
+            class="error-block"
+            *ngIf="profileForm.get('youtube').hasError('pattern')"
+          >
+            * The URL is not valid
+          </span>
+          Youtube profile link</label
+        >
+        <input
+          class="input-design last"
+          placeholder="www.youtube/oluwakemi"
           formControlName="youtube"
+          [pattern]="youtubePattern"
           type="text"
         />
       </div>
@@ -134,29 +213,36 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-12">
+      <!-- <div class="col-xl-12">
         <div class="social-media">
           <a (click)="onAddAdditionalSocial()"
             >+ Add another social media profile link</a
           >
         </div>
-      </div>
+      </div> -->
 
       <div class="col-xl-12">
         <button
           class="box-btn profile-save"
+          [class.box-btn-disable]="!profileForm.valid || !profileForm.touched"
           [disabled]="
             !profileForm.valid ||
             (inProgress$ | async) ||
-            (!isCompleted$ | async)
+            (!isCompleted$ | async) ||
+            (!failed$ | async)
           "
           (click)="onUpdateProfile()"
         >
-          <span *ngIf="(isInitiated$ | async) || (isCompleted$ | async)"
+          <span
+            *ngIf="
+              (isInitiated$ | async) ||
+              (isCompleted$ | async) ||
+              (failed$ | async)
+            "
             >SAVE CHANGES</span
           >
           <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"
-            >SAVING CHANGES</span
+            >SAVING CHANGES...</span
           >
         </button>
       </div>

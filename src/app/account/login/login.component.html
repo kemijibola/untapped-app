@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <form class="login-wrapper" [formGroup]="signinForm">
       <div class="head text-center mb-30">
-        <span>Sign In to</span>
+        <span>Login to</span>
         <h3>untapped pool</h3>
       </div>
       <div class="login-form">
@@ -11,16 +11,19 @@
           <span
             class="error-block"
             *ngIf="
-              !signinForm.get('email').valid && signinForm.get('email').touched
+              (!signinForm.get('email').valid &&
+                signinForm.get('email').touched) ||
+              signinForm.get('email').hasError('pattern')
             "
           >
-            *
+            * Please enter a valid
           </span>
           Email
         </label>
         <input
           class="input-design mb-35"
           type="email"
+          [pattern]="emailPattern"
           formControlName="email"
         />
         <label for="">
@@ -31,7 +34,7 @@
               signinForm.get('password').touched
             "
           >
-            *
+            * Please enter a valid
           </span>
           Password</label
         >
@@ -41,17 +44,15 @@
           formControlName="password"
         />
         <a
-          style="cursor: pointer; float: right;"
+          style="cursor: pointer; float: right; color: #06a9b0;"
           routerLink="/account/password/forgot"
           routerLinkActive="visited"
           [routerLinkActiveOptions]="{ exact: true }"
-          >Forgot your password</a
+          >Forgot your password?</a
         >
-        <!-- <span class="error-block" *ngIf="hasError">
-          {{ errorMessage }}
-        </span> -->
         <button
           #loginButton
+          [class.box-btn-disable]="!signinForm.valid || !signinForm.touched"
           class="box-btn login-btn mt-50"
           [disabled]="!signinForm.valid || (inProgress$ | async)"
           (click)="onSignin()"
@@ -61,8 +62,7 @@
             >Login</span
           >
           <span *ngIf="(inProgress$ | async) || (!loginCompleted$ | async)"
-            >Logging In
-            <img src="assets/bars.svg" />
+            >Logging In...
           </span>
         </button>
       </div>

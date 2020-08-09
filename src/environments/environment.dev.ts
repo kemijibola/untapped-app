@@ -10,7 +10,8 @@ export const environment = {
   CLOUD_FORMATION_API: "https://d7olhgwoyl909.cloudfront.net",
   S3BUCKET_OBJECT_URL:
     "https://untapped-pool-image-bucket.s3-accelerate.amazonaws.com",
-  ART_ALBUM_COVER: "assets/img/profile/1950057_copy.png",
+  ART_ALBUM_COVER: "assets/img/profile/audio-cover.jpg",
+  VIDEO_ALBUM_COVER: "assets/img/profile/video-cover.jpg",
   AUDIO_ACCELERATE_URL:
     "https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com",
   VIDEO_ACCELERATE_URL:
@@ -29,4 +30,8 @@ export const environment = {
   PUSHER_CLUSTER: "eu",
   PUSHER_CHANNEL: "untapped-pool-development",
   TERMS_CONDITION_LAST_DATE: "June 17, 2020",
+  KEY: "311A35EAE8CEDB052F1E8533FE3DBC12",
+  TALENT_USER_TYPE_ID: "5dcb700d625f0d6058704ef0",
+  PROFESSIONAL_USER_TYPE_ID: "5dcb6ff6625f0d6058704eef",
+  COMPETITION_TERMS_LAST_DATE: "July 13, 2020",
 };

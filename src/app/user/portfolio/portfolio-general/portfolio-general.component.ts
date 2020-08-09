@@ -50,7 +50,7 @@ export class PortfolioGeneralComponent implements OnInit {
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
     this.userStore
@@ -130,6 +130,7 @@ export class PortfolioGeneralComponent implements OnInit {
         data: modalToActivate.data,
         modalCss: "modal aligned-modal",
         modalDialogCss: "modal-dialog",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
       this.fetchMedia(itemId);

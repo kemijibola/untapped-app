@@ -1801,7 +1801,7 @@
   }
   .gigs-counter .single {
     margin-right: 0;
-    width: 50%;
+    /* width: 50%; */
     margin-bottom: 20px;
   }
   .gigs-finder-wrapper .search-icn {
@@ -2466,10 +2466,19 @@
     width: 18px;
   }
   .entries-content .count li {
-    display: ;
     float: left;
     margin-right: 13px;
     color: #fff;
     font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .overview-mobile {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .box-btn.create-btn {
+    margin-bottom: 0.6rem;
   }
 }

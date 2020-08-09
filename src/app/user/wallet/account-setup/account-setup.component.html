@@ -1,0 +1,87 @@
+<div class="row" style="margin-left: 15px; margin-right: 15px;" body>
+  <div class="col-xl-12">
+    <div class="popup-content-wrap pro-page p-0">
+      <div class="create-pass-popup">
+        <form class="new-wallet" [formGroup]="accountSetup">
+          <label for=""> Pick a bank</label>
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            class="input-design"
+            formControlName="selectedBank"
+            style="margin-bottom: 8px; cursor: pointer;"
+            [placeholder]="placeHolderText"
+            (click)="onClick()"
+          />
+          <div
+            class="custom-dropdown-container account-setup-dropdown"
+            *ngIf="showBanks"
+            (mouseleave)="onMouseLeave()"
+          >
+            <div
+              class="custom-dropdown"
+              style="cursor: pointer;"
+              *ngFor="
+                let bank of banks | searchFilter: searchText;
+                trackBy: trackByFn
+              "
+              (click)="onSelectBank(bank)"
+            >
+              {{ bank.name }}
+            </div>
+          </div>
+
+          <label for="">
+            <span
+              class="error-block"
+              *ngIf="accountSetup.get('accountNumber').hasError('pattern')"
+            >
+              * Please enter a valid account number
+            </span>
+            Account number
+          </label>
+          <input
+            class="input-design mb-35"
+            type="text"
+            [pattern]="accountPattern"
+            formControlName="accountNumber"
+          />
+          <div style="z-index: -1;">
+            <button
+              #setUpButton
+              [disabled]="
+                !accountSetup.valid ||
+                (inProgress$ | async) ||
+                (!isCompleted$ | async) ||
+                (!failed$ | async)
+              "
+              class="box-btn login-btn mt-10"
+              [class.box-btn-disable]="
+                !accountSetup.valid || !accountSetup.touched
+              "
+              type="button"
+              (click)="onClickSave()"
+            >
+              <span
+                *ngIf="
+                  (isInitiated$ | async) ||
+                  (isCompleted$ | async) ||
+                  (failed$ | async)
+                "
+                >Save Details</span
+              >
+              <span
+                *ngIf="
+                  (inProgress$ | async) ||
+                  (!isCompleted$ | async) ||
+                  (!failed$ | async)
+                "
+                >Saving...</span
+              >
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -43,7 +43,7 @@ export class NewContestOverviewComponent implements OnInit {
     startDate: null,
     endDate: null,
     views: 0,
-    likes: 0,
+    likedBy: [],
     createdBy: "",
     redeemable: [],
   };
@@ -81,13 +81,13 @@ export class NewContestOverviewComponent implements OnInit {
       .pipe(select(fromOrder.selectCurrentOrder))
       .subscribe((val: IOrder) => {
         if (val !== null) {
-          this.currentOrder = { ...val };
+          this.currentOrder = val;
         }
       });
     this.store
       .pipe(select(fromService.selectCurrentService))
       .subscribe((val: IService) => {
-        this.currentService = { ...val };
+        this.currentService = val;
       });
 
     this.store
@@ -95,7 +95,7 @@ export class NewContestOverviewComponent implements OnInit {
       .subscribe((val: IAuthData) => {
         if (val.authenticated) {
           this.userEmail = val.user_data.email;
-          this.userData = { ...val };
+          this.userData = val;
         }
       });
 
@@ -115,7 +115,7 @@ export class NewContestOverviewComponent implements OnInit {
           );
           this.totalAmount = this.totalRewardFund + this.currentService.price;
           this.fetchContestBanner(val.bannerImage);
-          this.contestInEdit = { ...val };
+          this.contestInEdit = val;
           const difference: number = differenceInDays(
             new Date(val.endDate),
             new Date(val.startDate)

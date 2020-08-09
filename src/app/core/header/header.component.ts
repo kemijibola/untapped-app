@@ -1,5 +1,13 @@
 import { IToggle, ToggleList } from "./../../interfaces/shared/toggle";
-import { Component, OnInit, Input, AfterContentInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
+  Renderer2,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as fromApp from "../../store/app.reducers";
 import * as AuthActions from "../../account/store/auth.actions";
@@ -16,12 +24,13 @@ import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.act
 import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";
 import * as _ from "underscore";
 import { Router } from "@angular/router";
+import * as fromUpload from "../../shared/store/upload/upload.reducers";
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.css"],
 })
-export class HeaderComponent implements OnInit, AfterContentInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
   isAuthenticated: boolean;
   userPreEmailAdress = "";
   userFullName: string = "";
@@ -43,9 +52,14 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   profileVisibilityStatus: boolean;
   showDropDown: boolean;
   showSideToggle: boolean;
+  defaultLoaded: boolean = true;
+  @ViewChild("headerImage", { static: false }) headerImage: ElementRef;
 
-  constructor(private store: Store<fromApp.AppState>, public router: Router) {
-    this.userImage = environment.TALENT_DEFAULT_IMG;
+  constructor(
+    private store: Store<fromApp.AppState>,
+    public router: Router,
+    private renderer: Renderer2
+  ) {
     this.store.dispatch(new AuthActions.FetchAuthData());
   }
 
@@ -54,6 +68,8 @@ export class HeaderComponent implements OnInit, AfterContentInit {
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
         if (_.has(val, "user_data")) {
+          this.showDropDown = false;
+          this.showSideToggle = false;
           this.isAuthenticated = val.authenticated;
           this.tapNotificationStatus = val.user_data.tap_notification;
           this.emailNotificationStatus = val.user_data.email_notification;
@@ -84,14 +100,33 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     this.router.navigate(["/"]);
   }
 
-  fetchUserProfileImage(userImageKey: string) {
-    this.userImage =
-      userImageKey !== ""
-        ? fetchImageObjectFromCloudFormation(userImageKey, this.editParams)
-        : environment.TALENT_DEFAULT_IMG;
+  setHeaderImage(key: string): void {
+    if (this.headerImage) {
+    }
+    const headerImage = this.headerImage.nativeElement;
+    this.renderer.setProperty(headerImage, "src", key);
   }
 
-  ngAfterContentInit() {
+  fetchUserProfileImage(image: string) {
+    this.userImage =
+      image !== ""
+        ? fetchImageObjectFromCloudFormation(image, this.editParams)
+        : "";
+    if (this.userImage) {
+      setTimeout(() => {
+        const headerImage = this.headerImage.nativeElement;
+        const userImage = fetchImageObjectFromCloudFormation(
+          image,
+          this.editParams
+        );
+        this.renderer.setProperty(headerImage, "src", userImage);
+      }, 80000);
+    }
+  }
+
+  ngAfterViewInit() {
+    console.log("called");
+    this.defaultLoaded = true;
     this.updateUserEmailPreference();
   }
 
@@ -130,7 +165,16 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   }
 
   onToggle() {
+    console.log("this is called");
     this.showDropDown = !this.showDropDown;
+  }
+
+  onMouseLeave(): void {
+    this.showDropDown = false;
+  }
+
+  onMouseEnter(): void {
+    this.showDropDown = true;
   }
 
   onSideToggleClick() {

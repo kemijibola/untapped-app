@@ -47,10 +47,11 @@ import { VideoPlayerComponent } from "./video-player/video-player.component";
 import { AudioPayerComponent } from "./audio-payer/audio-payer.component";
 import { ValidationErrorsComponent } from "./validation-errors/validation-errors.component";
 import { CarouselModule } from "ngx-owl-carousel-o";
-import { FilterPipe } from "./utils/user-filter.pipe";
+import { FilterPipe } from "./utils/search-filter.pipe";
 import { AboutUsComponent } from "./about-us/about-us.component";
 import { PrivacyPolicyComponent } from "./privacy-policy/privacy-policy.component";
 import { TermsConditionComponent } from "./terms-condition/terms-condition.component";
+import { CompetitionTermsComponent } from "./competition-terms/competition-terms.component";
 
 @NgModule({
   imports: [
@@ -130,6 +131,7 @@ import { TermsConditionComponent } from "./terms-condition/terms-condition.compo
     AboutUsComponent,
     PrivacyPolicyComponent,
     TermsConditionComponent,
+    CompetitionTermsComponent,
   ],
 })
 export class SharedModule {}

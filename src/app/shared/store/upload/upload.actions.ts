@@ -34,6 +34,7 @@ export const UPLOAD_FILES_STARTED = "UPLOAD_FILES_STARTED";
 export const UPLOAD_FILES_PROGRESS = "UPLOAD_FILES_PROGRESS";
 export const UPLOAD_FILES_ERROR = "UPLOAD_FILES_ERROR";
 export const UPLOAD_FILES_SUCCESS = "UPLOAD_FILES_SUCCESS";
+export const UPLOAD_COMPLETED = "UPLOAD_COMPLETED";
 
 export const GET_THUMBNAIL_PRESIGNED_URL = "GET_THUMBNAIL_PRESIGNED_URL";
 export const SET_THUMBNAIL_PRESIGNED_URL = "SET_THUMBNAIL_PRESIGNED_URL";
@@ -122,6 +123,10 @@ export class UploadFiles implements Action {
   readonly type = UPLOAD_FILES;
   constructor(public payload: CloudUploadParams[]) {}
 }
+
+export class UploadCompleted implements Action {
+  readonly type = UPLOAD_COMPLETED;
+}
 export class UploadFilesCancel implements Action {
   readonly type = UPLOAD_FILES_CANCEL;
 }
@@ -134,7 +139,6 @@ export class UploadFilesStarted implements Action {
 export class UploadFilesError implements Action {
   readonly type = UPLOAD_FILES_ERROR;
 }
-
 export class UploadFilesSuccess implements Action {
   readonly type = UPLOAD_FILES_SUCCESS;
 }
@@ -164,4 +168,5 @@ export type UploadActions =
   | UploadThumbnailSuccess
   | UploadThumbnailError
   | GetThumbnailPresignedUrl
-  | SetThumbnailPresignedUrl;
+  | SetThumbnailPresignedUrl
+  | UploadCompleted;

@@ -7,6 +7,8 @@ import { Router } from "@angular/router";
 import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
 import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";
 import * as ProfileActions from "../store/profile/profile.actions";
+import * as fromProfile from "../store/profile/profile.reducers";
+import * as fromUser from "../user.reducers";
 
 @Component({
   selector: "app-settings",
@@ -19,7 +21,28 @@ export class SettingsComponent implements OnInit {
   tapToggle: IToggle;
   profileVisibilityToggle: IToggle;
   updatedToggles: IToggle[] = [];
-  constructor(private store: Store<fromApp.AppState>, public router: Router) {}
+
+  isInitiated$ = this.userStore.pipe(
+    select(fromProfile.selectSaveProfileInitiatedStatus)
+  );
+
+  inProgress$ = this.userStore.pipe(
+    select(fromProfile.selectSaveProfileInProgressStatus)
+  );
+
+  isCompleted$ = this.userStore.pipe(
+    select(fromProfile.selectSaveProfileCompletedStatus)
+  );
+
+  failed$ = this.userStore.pipe(
+    select(fromProfile.selectSaveProfileFailedStatus)
+  );
+
+  constructor(
+    private store: Store<fromApp.AppState>,
+    public router: Router,
+    private userStore: Store<fromUser.UserState>
+  ) {}
 
   ngOnInit() {
     this.store

@@ -17,6 +17,7 @@ import { Observable, of } from "rxjs";
 import * as NotificationActions from "../../store/global/notification/notification.action";
 import * as fromNotificationReducer from "../../store/global/notification/notification.reducer";
 import * as fromAuth from "src/app/account/store/auth.reducers";
+import { EMAIL_REGEX } from "src/app/lib/constants";
 
 @Component({
   selector: "app-login",
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
   loginCompleted$ = this.store.pipe(
     select(fromAuthReducer.selectLoginCompletedStatus)
   );
+  emailPattern = EMAIL_REGEX;
 
   @ViewChild("loginButton", { static: false }) loginButton: ElementRef;
   constructor(
@@ -52,7 +54,7 @@ export class LoginComponent implements OnInit {
       ),
       password: new FormControl(
         null,
-        Validators.compose([Validators.required, Validators.minLength(4)])
+        Validators.compose([Validators.required, Validators.minLength(8)])
       ),
     });
   }

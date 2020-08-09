@@ -3,6 +3,7 @@
 <router-outlet>
   <!-- <app-latest-contest-landing></app-latest-contest-landing> -->
 </router-outlet>
+
 <div class="fx-padding footer">
   <div class="container-fluid">
     <div class="row">
@@ -18,7 +19,7 @@
       <div class="col-lg-3 col-md-6 mt-4">
         <p>contact@untappedpool.com</p>
       </div>
-      <div class="col-lg-2 col-md-6 mt-4">
+      <div class="col-lg-3 col-md-6 mt-4">
         <div class="footer-menu">
           <ul>
             <li>
@@ -30,6 +31,15 @@
                 >About</a
               >
             </li>
+            <li>
+              <a
+                style="cursor: pointer;"
+                routerLink="./competition-terms-condition"
+                [routerLinkActiveOptions]="{ exact: true }"
+                routerLinkActive="visited"
+                >Competition Terms & Condition</a
+              >
+            </li>
             <li><a>Contact Us</a></li>
             <li><a>Privacy Policy</a></li>
             <li>
@@ -38,13 +48,13 @@
                 routerLink="./terms-condition"
                 [routerLinkActiveOptions]="{ exact: true }"
                 routerLinkActive="visited"
-                >Terms & Condition</a
+                >General Terms & Condition</a
               >
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 mt-4">
+      <div class="col-lg-3 col-md-6 mt-4">
         <div class="footer-social">
           <span>Follow us</span>
           <li>
@@ -56,9 +66,6 @@
             <a href="https://twitter.com/untappedpool"
               ><img src="assets/img/twitter.svg"
             /></a>
-          </li>
-          <li>
-            <a><img src="assets/img/drible.svg" alt="" /></a>
           </li>
           <li>
             <a href="https://www.instagram.com/official_untappedpool"

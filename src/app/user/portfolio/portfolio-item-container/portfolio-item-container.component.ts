@@ -26,6 +26,39 @@ export class PortfolioItemContainerComponent implements OnInit {
   selectedMediaType: MediaType;
   userMediaListCount: number;
   noMediaImg: string = environment.NO_MEDIA_IMG;
+
+  mediaInitiated$ = this.store.pipe(
+    select(fromMediaPreview.selectMediaPreviewInitiatedStatus)
+  );
+
+  mediaInProgress$ = this.store.pipe(
+    select(fromMediaPreview.selectMediaPreviewInProgressStatus)
+  );
+
+  mediaCompleted$ = this.store.pipe(
+    select(fromMediaPreview.selectMediaPreviewCompletedStatus)
+  );
+
+  mediaFailed$ = this.store.pipe(
+    select(fromMediaPreview.selectMediaPreviewFailedStatus)
+  );
+
+  generalInitiated$ = this.store.pipe(
+    select(fromMediaPreview.selectGeneralPreviewInitiatedStatus)
+  );
+
+  generalInProgress$ = this.store.pipe(
+    select(fromMediaPreview.selectGeneralPreviewInProgressStatus)
+  );
+
+  generalCompleted$ = this.store.pipe(
+    select(fromMediaPreview.selectGeneralPreviewCompletedStatus)
+  );
+
+  generalFailed$ = this.store.pipe(
+    select(fromMediaPreview.selectGeneralPreviewFailedStatus)
+  );
+
   constructor(
     public store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>

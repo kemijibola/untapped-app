@@ -1,4 +1,11 @@
-import { Component, OnInit, ElementRef, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  Input,
+  AfterViewInit,
+  AfterContentInit,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModals from "../../shared/store/modals/modals.reducers";
@@ -38,13 +45,14 @@ import { Observable } from "rxjs";
   templateUrl: "./talent-portfolio-albums.component.html",
   styleUrls: ["./talent-portfolio-albums.component.css"],
 })
-export class TalentPortfolioAlbumsComponent {
+export class TalentPortfolioAlbumsComponent
+  implements OnInit, AfterViewInit, AfterContentInit {
   selectedUser: Observable<UserFilterCategory>;
   appModal: AppModal;
   componentModal: AppModal;
-  imageAlbums: ImagePortfolioPreview[] = [];
-  audioAlbums: AudioPortfolioPreview[] = [];
-  videoAlbums: VideoPortfolioPreview[] = [];
+  imageAlbums: Observable<ImagePortfolioPreview[]>;
+  audioAlbums: Observable<AudioPortfolioPreview[]>;
+  videoAlbums: Observable<VideoPortfolioPreview[]>;
   generalPreviews: TalentPortfolioPreview[] = [];
   defaultEditParams: ImageEditRequest = {
     edits: {
@@ -109,12 +117,37 @@ export class TalentPortfolioAlbumsComponent {
   constructor(
     public store: Store<fromApp.AppState>,
     public element: ElementRef
-  ) {}
+  ) {
+    // this.fetchTalentImages();
+    // this.fetchTalentAudios();
+    // this.fetchTalentVideos();
+  }
 
   ngOnInit() {
-    this.fetchTalentImages();
-    this.fetchTalentAudios();
-    this.fetchTalentVideos();
+    // this.store
+    //   .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
+    //   .subscribe((val: ImagePortfolioPreview[]) => {
+    //     if (val) {
+    //       this.imageAlbums = this.setImageAlbumCover(val);
+
+    //       this.showImage = true;
+    //       // this.triggerTimer();
+    //     } else {
+    //       this.imageAlbums = [];
+    //     }
+    //   });
+
+    this.imageAlbums = this.store.pipe(
+      select(fromTalentImagePortfolio.selectImagePortfolioPreviews)
+    );
+
+    this.audioAlbums = this.store.pipe(
+      select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews)
+    );
+
+    this.videoAlbums = this.store.pipe(
+      select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews)
+    );
 
     this.selectedUser = this.store.pipe(
       select(fromUserFilter.selectCurrentUser)
@@ -123,16 +156,14 @@ export class TalentPortfolioAlbumsComponent {
     this.store
       .pipe(select(fromTalentGeneral.selectGeneralPreviews))
       .subscribe((val: TalentPortfolioPreview[]) => {
-        console.log(val);
         this.setGeneralMediaAlbumCover(val);
       });
-    // dispatch modal navigateData with currentIndex at 0
 
     this.store
       .pipe(select(fromModal.selectCurrentModal))
       .subscribe((val: AppModal) => {
         if (val) {
-          this.componentModal = { ...val };
+          this.componentModal = val;
         }
       });
 
@@ -143,10 +174,6 @@ export class TalentPortfolioAlbumsComponent {
           this.showModal = false;
         }
       });
-    // .subscribe((val: UserFilterCategory) => {
-    //   console.log("current user", val);
-    //   this.talentName = val !== undefined ? val.displayName : "";
-    // });
   }
 
   onPrevious() {
@@ -200,9 +227,10 @@ export class TalentPortfolioAlbumsComponent {
         display: ModalDisplay.table,
         viewMode: ModalViewModel.new,
         contentType: modalToActivate.contentType,
-        data: { ...selectedMedia },
+        data: selectedMedia,
         modalCss: "modal aligned-modal album-modal",
         modalDialogCss: "modal-dialog-album-view",
+        modalContentCss: "modal-content contest-d",
         showMagnifier: false,
       };
 
@@ -212,8 +240,9 @@ export class TalentPortfolioAlbumsComponent {
           modal: modalToOpen,
         })
       );
-      this.selectedMedia = { ...selectedMedia };
+      this.selectedMedia = selectedMedia;
     }
+
     if (this.selectedMedia.items.length <= 1) {
       this.leftDisabled = true;
       this.rightDisabled = true;
@@ -230,97 +259,61 @@ export class TalentPortfolioAlbumsComponent {
     }
   }
 
-  fetchTalentImages() {
-    this.store
-      .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
-      .subscribe((val: ImagePortfolioPreview[]) => {
-        if (val) {
-          this.imageAlbums = [...val];
-          this.setImageAlbumCover();
-        }
-      });
+  // fetchTalentImages() {
+  //   this.store
+  //     .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
+  //     .subscribe((val: ImagePortfolioPreview[]) => {
+  //       if (val) {
+  //         this.setImageAlbumCover(val);
+  //         // this.triggerTimer();
+  //       } else {
+  //         this.imageAlbums = [];
+  //       }
+  //     });
+  // }
+
+  // fetchTalentAudios() {
+  //   this.store
+  //     .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
+  //     .subscribe((val: AudioPortfolioPreview[]) => {
+  //       if (val) {
+  //         this.setAudioAlbumCover(val);
+  //       } else {
+  //         this.audioAlbums = [];
+  //       }
+  //     });
+  // }
+
+  // fetchTalentVideos() {
+  //   this.store
+  //     .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
+  //     .subscribe((val: VideoPortfolioPreview[]) => {
+  //       if (val) {
+  //         this.setVideoAlbumCover(val);
+  //       } else {
+  //         this.videoAlbums = [];
+  //       }
+  //     });
+  // }
+
+  ngAfterViewInit() {
+    console.log("I'm fully loaded");
   }
 
-  fetchTalentAudios() {
-    this.store
-      .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
-      .subscribe((val: AudioPortfolioPreview[]) => {
-        if (val) {
-          this.audioAlbums = [...val];
-          this.setAudioAlbumCover();
-        }
-      });
+  ngAfterContentInit() {
+    console.log("I'm fully loaded content");
   }
 
-  fetchTalentVideos() {
-    this.store
-      .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
-      .subscribe((val: VideoPortfolioPreview[]) => {
-        if (val) {
-          this.videoAlbums = [...val];
-          this.setVideoAlbumCover();
-        }
-      });
-  }
-
-  setImageAlbumCover() {
-    this.imageAlbums = this.imageAlbums.map((x) => {
-      return Object.assign({}, x, {
-        albumCover:
-          x.defaultImageKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.defaultImageKey,
-                this.editParams
-              )
-            : fetchNoMediaDefaultImage(),
-        defaultAlbumCover:
-          x.defaultImageKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.defaultImageKey,
-                this.defaultEditParams
-              )
-            : fetchNoMediaDefaultImage(),
-        defaultLoaded: false,
-      });
-    });
-  }
+  triggerImageAlbum() {}
 
   triggerTimer() {
     setTimeout(() => {
       this.triggerImageShow();
-    }, 5000);
+    }, 100);
   }
 
   triggerImageShow() {
     this.showImage = true;
-  }
-
-  setAudioAlbumCover() {
-    this.audioAlbums = this.audioAlbums.map((x) => {
-      return Object.assign({}, x, { albumCover: fetchAudioArt() });
-    });
-  }
-
-  setVideoAlbumCover() {
-    this.videoAlbums = this.videoAlbums.map((x) => {
-      return Object.assign({}, x, {
-        albumCover:
-          x.albumCoverKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.albumCoverKey,
-                this.editParams
-              )
-            : fetchVideoArt(),
-        defaultAlbumCover:
-          x.albumCoverKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.albumCoverKey,
-                this.defaultEditParams
-              )
-            : fetchVideoArt(),
-        defaultLoaded: false,
-      });
-    });
   }
 
   closeModalDialog(modalId: string) {
@@ -337,6 +330,7 @@ export class TalentPortfolioAlbumsComponent {
         data: null,
         modalCss: "",
         modalDialogCss: "",
+        modalContentCss: "",
         showMagnifier: false,
       };
       this.store.dispatch(

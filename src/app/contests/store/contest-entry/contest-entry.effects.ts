@@ -59,21 +59,14 @@ export class ContestEntryEffect {
       ofType(ContestEntryActions.FETCH_USER_PARTICIPATED_CONTEST),
       concatMap((action: ContestEntryActions.FetchUserParticipatedContest) =>
         this.contestsService.fetchUserParticipatedContests().pipe(
-          map(
-            (resp: IResult<IUserContestListAnalysis[]>) =>
-              new ContestEntryActions.FetchUserParticipatedContestSuccess({
-                participatedInContests: resp.data,
-              })
-          ),
+          mergeMap((resp: IResult<IUserContestListAnalysis[]>) => [
+            new ContestEntryActions.SetUserParticipatedContest({
+              participatedInContests: resp.data,
+            }),
+            new ContestEntryActions.FetchUserParticipatedContestSuccess(),
+          ]),
           catchError((respError: HttpErrorResponse) =>
-            of(
-              new NotificationActions.AddError({
-                key: AppNotificationKey.error,
-                code: respError.error.response_code || -1,
-                message:
-                  respError.error.response_message || "No Internet connection.",
-              })
-            )
+            of(new ContestEntryActions.FetchUserParticipatedContestError())
           )
         )
       )

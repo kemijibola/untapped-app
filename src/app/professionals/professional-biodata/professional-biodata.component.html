@@ -1,4 +1,4 @@
-<div class="middle-talent-wrp">
+<div class="middle-talent-wrp" *ngIf="show">
   <div
     class="prohead-img"
     style="text-align: center; background-color: lightgray;"
@@ -75,7 +75,10 @@
           <h4>CONTEST CREATED</h4>
         </div>
       </div>
-      <div style="width: 239px;" *ngFor="let contest of selectedUser.contests">
+      <div
+        style="width: 239px; margin-right: 1rem;"
+        *ngFor="let contest of selectedUser.contests"
+      >
         <div class="entries-img mb-20">
           <a
             [routerLink]="['/contests', contest.contestId]"
@@ -111,42 +114,14 @@
           </div>
         </div>
       </div>
-      <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-        <div class="entries-img mb-20">
-          <a href="#"
-            ><img src="assets/img/contest/all-contest-1.jpg" alt=""
-          /></a>
-          <div class="entries-content all-ent">
-            <span class="ent-num">200 Entries</span>
-          </div>
-          <div class="entries-bot-cont">
-            <h5>Top Lagos singer challenge</h5>
-            <div class="action">
-              <span><img src="assets/img/gigs/eye.svg" alt="" />2,030</span>
-              <span><img src="assets/img/gigs/heart.svg" alt="" />2,030</span>
-              <span><img src="assets/img/message-icon.svg" alt="" />2,030</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-        <div class="entries-img mb-20">
-          <a href="#"
-            ><img src="assets/img/contest/all-contest-1.jpg" alt=""
-          /></a>
-          <div class="entries-content all-ent">
-            <span class="ent-num">200 Entries</span>
-          </div>
-          <div class="entries-bot-cont">
-            <h5>Top Lagos singer challenge</h5>
-            <div class="action">
-              <span><img src="assets/img/gigs/eye.svg" alt="" />2,030</span>
-              <span><img src="assets/img/gigs/heart.svg" alt="" />2,030</span>
-              <span><img src="assets/img/message-icon.svg" alt="" />2,030</span>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
+</div>
+
+<div
+  class="middle-talent-wrp"
+  style="text-align: center; margin: 0 auto; margin-top: 40px;"
+  *ngIf="!show"
+>
+  <i>No record found</i>
 </div>

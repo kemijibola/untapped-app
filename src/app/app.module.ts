@@ -74,8 +74,15 @@ export const customCurrencyMaskConfig = {
     MaterialModule,
     StickyModule,
     LazyLoadImageModule,
+
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+      },
+    }),
     EffectsModule.forRoot([
       UserTypeEffects,
       AuthEffects,
@@ -104,7 +111,12 @@ export const customCurrencyMaskConfig = {
     StoreRouterConnectingModule.forRoot({
       serializer: DefaultRouterStateSerializer,
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production
+      ? StoreDevtoolsModule.instrument({
+          maxAge: 25,
+          logOnly: environment.production,
+        })
+      : [],
     StorageModule.forRoot({ IDBNoWrap: false }),
   ],
   exports: [MaterialModule],

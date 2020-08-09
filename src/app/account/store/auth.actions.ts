@@ -30,11 +30,17 @@ export const CHANGE_EMAIL_ADDRESS_SUCCESS = "CHANGE_EMAIL_ADDRESS_SUCCESS";
 export const VERIFY_EMAIL_CHANGE = "VERIFY_EMAIL_CHANGE";
 export const VERIFY_EMAIL_CHANGE_SUCCESS = "VERIFY_EMAIL_CHANGE_SUCCESS";
 export const REQUEST_PASSWORD_RESET = "REQUEST_PASSWORD_RESET";
+export const REQUEST_PASSWORD_RESET_FAILED = "REQUEST_PASSWORD_RESET_FAILED";
 export const REQUEST_PASSWORD_RESET_SUCCESS = "REQUEST_PASSWORD_RESET_SUCCESS";
 export const VERIFY_RESET_PASSWORD = "VERIFY_RESET_PASSWORD";
 export const VERIFY_RESET_PASSWORD_SUCCESS = "VERIFY_RESET_PASSWORD_SUCCESS";
 export const CREATE_NEW_PASSWORD = "CREATE_NEW_PASSWORD";
 export const CREATE_NEW_PASSWORD_SUCCESS = "CREATE_NEW_PASSWORD_SUCCESS";
+export const RESEND_CONFIRMATION_MAIL = "RESEND_CONFIRMATION_MAIL";
+export const RESEND_CONFIRMATION_MAIL_SUCCESS =
+  "RESEND_CONFIRMATION_MAIL_SUCCESS";
+export const RESEND_CONFIRMATION_MAIL_FAILED =
+  "RESEND_CONFIRMATION_MAIL_FAILED";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -131,6 +137,10 @@ export class RequestPasswordReset implements Action {
 export class RequsetPasswordResetSuccess implements Action {
   readonly type = REQUEST_PASSWORD_RESET_SUCCESS;
 }
+export class RequsetPasswordResetFailed implements Action {
+  readonly type = REQUEST_PASSWORD_RESET_FAILED;
+}
+
 export class VerifyRestPassword implements Action {
   readonly type = VERIFY_RESET_PASSWORD;
   constructor(public payload: { verifyPasswordReq: IConfirmEmail }) {}
@@ -147,6 +157,19 @@ export class CreateNewPassword implements Action {
 
 export class CreateNewPasswordSuccess implements Action {
   readonly type = CREATE_NEW_PASSWORD_SUCCESS;
+}
+
+export class ResendConfirmationMail implements Action {
+  readonly type = RESEND_CONFIRMATION_MAIL;
+  constructor(public payload: { email: string }) {}
+}
+
+export class ResendConfirmationMailSuccess implements Action {
+  readonly type = RESEND_CONFIRMATION_MAIL_SUCCESS;
+}
+
+export class ResendConfirmationMailFailed implements Action {
+  readonly type = RESEND_CONFIRMATION_MAIL_FAILED;
 }
 
 export type AuthActions =
@@ -177,4 +200,8 @@ export type AuthActions =
   | VerifyRestPassword
   | VerifyRestPasswordSuccess
   | CreateNewPassword
-  | CreateNewPasswordSuccess;
+  | CreateNewPasswordSuccess
+  | ResendConfirmationMail
+  | ResendConfirmationMailSuccess
+  | ResendConfirmationMailFailed
+  | RequsetPasswordResetFailed;

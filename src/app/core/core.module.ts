@@ -4,7 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 // components
 import { SlideMenuComponent } from "./header/slide-menu/slide-menu.component";
 import { HeaderComponent } from "./header/header.component";
-import { FooterComponent } from "./footer/footer.component";
 import { DropDownComponent } from "./header/drop-down/drop-down.component";
 import { AppRoutingModule } from "../app-routing.module";
 import { HomeComponent } from "./home/home.component";
@@ -35,23 +34,30 @@ import { CommentsService } from "../services/comments.service";
 import { ContestService } from "../services/contest.service";
 import { OrderService } from "../services/order.service";
 import { PusherService } from "../services/pusher.service";
+import { HelperService } from "../shared/utils/helper.service";
+import { WalletService } from "../services/wallet.service";
+import { TransactionService } from "../services/transaction.service";
+import { LazyLoadImageModule } from "ng-lazyload-image";
+import { UtilitiesService } from "../services/utilities.service";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   declarations: [
     HeaderComponent,
     HomeComponent,
     SlideMenuComponent,
-    FooterComponent,
     DropDownComponent,
     AddOrRemoveClassDirective,
   ],
   imports: [
     CommonModule,
+    SharedModule,
+    LazyLoadImageModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  exports: [AppRoutingModule, HeaderComponent, FooterComponent],
+  exports: [AppRoutingModule, HeaderComponent],
   providers: [
     AuthService,
     AuthGuard,
@@ -75,6 +81,10 @@ import { PusherService } from "../services/pusher.service";
     ContestService,
     OrderService,
     PusherService,
+    HelperService,
+    WalletService,
+    TransactionService,
+    UtilitiesService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

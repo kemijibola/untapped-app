@@ -1,11 +1,56 @@
 <div>
-  <app-portfolio-images></app-portfolio-images>
+  <div>
+    <span>
+      <a *ngIf="(mediaInitiated$ | async) || (mediaInProgress$ | async)"
+        ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+      /></a>
 
-  <app-portfolio-videos></app-portfolio-videos>
+      <a
+        style="cursor: pointer;"
+        (click)="triggerFetchUserMediaList()"
+        *ngIf="mediaFailed$ | async"
+      >
+        Unable to load album. Try again
+        <img
+          src="assets/retry.svg"
+          style="width: 20px; height: 20px; margin: 0 auto;"
+          alt="Click button to retry"
+      /></a>
+    </span>
+    <app-portfolio-images
+      *ngIf="mediaCompleted$ | async"
+    ></app-portfolio-images>
 
-  <app-portfolio-audios></app-portfolio-audios>
+    <app-portfolio-videos
+      *ngIf="mediaCompleted$ | async"
+    ></app-portfolio-videos>
 
-  <app-portfolio-general></app-portfolio-general>
+    <app-portfolio-audios
+      *ngIf="mediaCompleted$ | async"
+    ></app-portfolio-audios>
+  </div>
+  <div>
+    <span>
+      <a *ngIf="(mediaInitiated$ | async) || (mediaInProgress$ | async)"
+        ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+      /></a>
+
+      <a
+        style="cursor: pointer;"
+        (click)="triggerFetchUserMediaList()"
+        *ngIf="mediaFailed$ | async"
+      >
+        Unable to load general media. Try again
+        <img
+          src="assets/retry.svg"
+          style="width: 20px; height: 20px; margin: 0 auto;"
+          alt="Click button to retry"
+      /></a>
+    </span>
+    <app-portfolio-general
+      *ngIf="generalCompleted$ | async"
+    ></app-portfolio-general>
+  </div>
 
   <app-portfolio-media-type></app-portfolio-media-type>
 </div>

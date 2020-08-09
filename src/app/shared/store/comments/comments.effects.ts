@@ -86,7 +86,7 @@ export class CommentsEffects {
       concatMap((action: CommentsAction.RemoveCommentLike) =>
         this.commentsService.postCommentUnLike(action.payload.comment._id).pipe(
           mergeMap((resp: IResult<IComment>) => {
-            const commentObj = { ...action.payload.comment };
+            const commentObj = action.payload.comment;
             commentObj.likedBy = commentObj.likedBy.filter(
               (x) => x._id !== action.payload.unLikedBy._id
             );
@@ -118,7 +118,7 @@ export class CommentsEffects {
       concatMap((action: CommentsAction.AddCommentLike) =>
         this.commentsService.postCommentLike(action.payload.comment._id).pipe(
           mergeMap((resp: IResult<IComment>) => {
-            const commentObj = { ...action.payload.comment };
+            const commentObj = action.payload.comment;
             commentObj.likedBy = commentObj.likedBy.filter(
               (x) => x._id !== action.payload.likedBy._id
             );

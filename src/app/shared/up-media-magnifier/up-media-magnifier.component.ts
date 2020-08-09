@@ -31,7 +31,7 @@ export class UpMediaMagnifierComponent implements OnInit {
       .pipe(select(fromModals.selectCurrentMagnifiedData))
       .subscribe((val: MagnifierData) => {
         if (val) {
-          this.magnifierData = { ...val };
+          this.magnifierData = val;
           console.log(this.magnifierData);
           const found = val.data[val.index];
           console.log("found", found);
@@ -76,7 +76,7 @@ export class UpMediaMagnifierComponent implements OnInit {
   onPrevious() {
     console.log("prev clicked");
     this.currentIndex--;
-  if (this.currentIndex < this.magnifierData.data.length - 1) {
+    if (this.currentIndex < this.magnifierData.data.length - 1) {
       this.rightDisabled = false;
     }
     if (this.currentIndex === 0) {

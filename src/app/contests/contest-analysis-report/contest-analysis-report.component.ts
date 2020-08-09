@@ -95,6 +95,7 @@ export class ContestAnalysisReportComponent implements OnInit {
         .take(2)
         .subscribe((val: ContestVoteResult) => {
           if (val !== null) {
+            console.log(val);
             this.setContestantProfileIImage(val);
             this.setContestBannerImage(val.contestPhoto);
           }
@@ -119,7 +120,7 @@ export class ContestAnalysisReportComponent implements OnInit {
 
   setContestantProfileIImage(contestData: ContestVoteResult) {
     // if (contestData)
-    this.contestVoteResult = { ...contestData };
+    this.contestVoteResult = contestData;
     this.contestVoteResult.entries = contestData.entries.map((x) => {
       return Object.assign({}, x, {
         defaultUserProfileImage: fetchImageObjectFromCloudFormation(

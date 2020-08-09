@@ -16,6 +16,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from "@angular/core";
 import {
   ContestData,
@@ -25,6 +26,10 @@ import {
   MediaType,
   AppNotificationKey,
   MediaUploadType,
+  AppModal,
+  ModalDisplay,
+  ModalViewModel,
+  IModal,
 } from "src/app/interfaces";
 import * as fromApp from "../../store/app.reducers";
 import * as fromContest from "../store/contests.reducers";
@@ -34,18 +39,20 @@ import * as ContestEntryActions from "../store/contest-entry/contest-entry.actio
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import { AcceptedMedias } from "src/app/interfaces/media/image";
 import * as NotificationActions from "../../store/global/notification/notification.action";
+import * as fromModal from "../../shared/store/modals/modals.reducers";
+import * as _ from "underscore";
+import * as ModalsActions from "../../shared/store/modals/modals.actions";
 @Component({
   selector: "app-contest-entry",
   templateUrl: "./contest-entry.component.html",
   styleUrls: ["./contest-entry.component.css"],
 })
-export class ContestEntryComponent implements OnInit, OnChanges {
+export class ContestEntryComponent implements OnInit {
   fileConfig: IFileInputModel;
   private filesToUpload: File[];
   private file: IPresignRequest;
   uploadComponent = UPLOADCOMPONENT.contestentry;
   uploadAction = UPLOADACTION.updateimagealbum;
-  mediaAccept: string;
   contestEntryForm: FormGroup;
   @Input() selectedContest: ContestData;
   uploadedItems: UploadedItems;
@@ -55,13 +62,15 @@ export class ContestEntryComponent implements OnInit, OnChanges {
   showDiv: boolean = false;
   canUpload: boolean = true;
   fileName: string = "";
+
+  componentModal: AppModal;
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.store
       .pipe(select(fromUpload.selectCurrentUploadedItem))
       .subscribe((val: UploadedItems) => {
-        this.cloudItems = { ...val };
+        this.cloudItems = val;
       });
 
     this.store
@@ -71,6 +80,14 @@ export class ContestEntryComponent implements OnInit, OnChanges {
           this.showUploading = true;
           this.canUpload = false;
           this.showCompleted = false;
+        }
+      });
+
+    this.store
+      .pipe(select(fromModal.selectCurrentModal))
+      .subscribe((val: AppModal) => {
+        if (val) {
+          this.componentModal = val;
         }
       });
 
@@ -126,7 +143,12 @@ export class ContestEntryComponent implements OnInit, OnChanges {
     this.contestEntryForm = new FormGroup({
       title: new FormControl("", Validators.required),
       info: new FormControl("", Validators.maxLength(150)),
+      terms: new FormControl(false, Validators.requiredTrue),
     });
+  }
+
+  get newContest() {
+    return this.contestEntryForm.controls;
   }
 
   uploadFiles(files: File[]): void {
@@ -173,28 +195,49 @@ export class ContestEntryComponent implements OnInit, OnChanges {
       });
   }
 
-  ngOnChanges(simple: SimpleChanges) {
-    if (simple["selectedContest"]) {
-      this.mediaAccept =
-        MediaAcceptType[
-          this.selectedContest.contest.entryMediaType.toUpperCase()
-        ];
-    }
-  }
-
-  onClickBrowseBtn() {
+  onClickBrowseBtn(mediaAccept: string) {
+    const accept = MediaAcceptType[mediaAccept.toUpperCase()];
     this.fileConfig = {
       state: true,
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: false,
-      accept: this.mediaAccept,
+      accept,
       minHeight: 100,
       minWidth: 100,
     };
   }
+
+  private closeModalDialog(modalId: string) {
+    if (this.componentModal) {
+      const modalToDeActivate = this.componentModal.modals.filter(
+        (x) => x.name === modalId
+      )[0];
+      if (_.has(this.componentModal, "index")) {
+        const modalToClose: IModal = {
+          index: modalToDeActivate.index,
+          name: modalToDeActivate.name,
+          display: ModalDisplay.none,
+          viewMode: ModalViewModel.none,
+          contentType: "",
+          data: null,
+          modalCss: "",
+          modalDialogCss: "",
+          modalContentCss: "",
+          showMagnifier: false,
+        };
+        this.store.dispatch(
+          new ModalsActions.ToggleModal({
+            appModal: this.componentModal,
+            modal: modalToClose,
+          })
+        );
+      }
+    }
+  }
+
   onSubmitEntry() {
-    if (this.cloudItems.items.length > 0) {
+    if (this.cloudItems.items) {
       const title: string = this.contestEntryForm.controls["title"].value;
       const info: string = this.contestEntryForm.controls["info"].value;
       const entryObj: IContestEntry = {
@@ -209,6 +252,8 @@ export class ContestEntryComponent implements OnInit, OnChanges {
           newContestEntry: entryObj,
         })
       );
+
+      this.closeModalDialog("new-entry");
     } else {
       this.store.dispatch(
         new NotificationActions.AddError({
@@ -219,27 +264,4 @@ export class ContestEntryComponent implements OnInit, OnChanges {
       );
     }
   }
-
-  // setMedia(media: UploadedItems) {
-  //   if (media.items) {
-  //     this.canViewDetails = true;
-  //     this.showCompleted = false;
-  //     this.showUploading = false;
-  //     this.showDiv = false;
-  //     const mediaType = media.type.toUpperCase();
-  //     switch (mediaType) {
-  //       case MediaType.AUDIO:
-  //         this.setAudio(media);
-  //         break;
-  //       case MediaType.IMAGE:
-  //         this.setImage(media);
-  //         break;
-  //       case MediaType.VIDEO:
-  //         this.setVideo(media);
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   }
-  // }
 }

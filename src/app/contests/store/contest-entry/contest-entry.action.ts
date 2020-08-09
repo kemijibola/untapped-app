@@ -10,6 +10,9 @@ export const FETCH_USER_PARTICIPATED_CONTEST =
   "FETCH_USER_PARTICIPATED_CONTEST";
 export const FETCH_USER_PARTICIPATED_CONTEST_SUCCESS =
   "FETCH_USER_PARTICIPATED_CONTEST_SUCCESS";
+export const FETCH_USER_PARTICIPATED_CONTEST_ERROR =
+  "FETCH_USER_PARTICIPATED_CONTEST_ERROR";
+export const SET_USER_PARTICIPATED_CONTEST = "SET_USER_PARTICIPATED_CONTEST";
 
 export class EnterContest implements Action {
   readonly type = ENTER_CONTEST;
@@ -39,12 +42,19 @@ export class FetchUserParticipatedContest implements Action {
   readonly type = FETCH_USER_PARTICIPATED_CONTEST;
 }
 
-FETCH_USER_PARTICIPATED_CONTEST_SUCCESS;
-export class FetchUserParticipatedContestSuccess implements Action {
-  readonly type = FETCH_USER_PARTICIPATED_CONTEST_SUCCESS;
+export class SetUserParticipatedContest implements Action {
+  readonly type = SET_USER_PARTICIPATED_CONTEST;
   constructor(
     public payload: { participatedInContests: IUserContestListAnalysis[] }
   ) {}
+}
+
+export class FetchUserParticipatedContestSuccess implements Action {
+  readonly type = FETCH_USER_PARTICIPATED_CONTEST_SUCCESS;
+}
+
+export class FetchUserParticipatedContestError implements Action {
+  readonly type = FETCH_USER_PARTICIPATED_CONTEST_ERROR;
 }
 
 export type ContestEntryActions =
@@ -54,4 +64,6 @@ export type ContestEntryActions =
   | EnterContestSuccess
   | FetchContestEntriesSuccess
   | FetchUserParticipatedContest
-  | FetchUserParticipatedContestSuccess;
+  | FetchUserParticipatedContestSuccess
+  | SetUserParticipatedContest
+  | FetchUserParticipatedContestError;

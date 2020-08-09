@@ -3,7 +3,14 @@ import {
   UPLOADCOMPONENT,
   UPLOADACTION,
 } from "./../../../interfaces/shared/file";
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef,
+  Renderer2,
+} from "@angular/core";
 import {
   IUserImage,
   IFileInputModel,
@@ -24,7 +31,10 @@ import * as UploadActions from "../../../shared/store/upload/upload.actions";
 import * as UserImageActions from "../../../shared/store/user-image/user-image.action";
 import { environment } from "src/environments/environment.prod";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
-import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
+import {
+  fetchImageObjectFromCloudFormation,
+  fetchOriginalImage,
+} from "src/app/lib/Helper";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromUserImage from "../../../shared/store/user-image/user-image.reducer";
 import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
@@ -36,7 +46,8 @@ import * as _ from "underscore";
   styleUrls: ["./change-profile-picture.component.css"],
 })
 export class ChangeProfilePictureComponent implements OnInit {
-  imagePath: string;
+  imagePath: string = "";
+  defaultImagePath: string;
   isDefault: boolean;
   private filesToUpload: File[];
   private file: IPresignRequest;
@@ -53,13 +64,45 @@ export class ChangeProfilePictureComponent implements OnInit {
       grayscale: false,
     },
   };
-  constructor(public store: Store<fromApp.AppState>) {
-    this.fetchUserProfileImage();
+
+  defaultParams: ImageEditRequest = {
+    edits: {
+      resize: {
+        width: 20,
+        height: 20,
+        fit: ImageFit.fill,
+      },
+      grayscale: false,
+    },
+  };
+
+  uploading: boolean = false;
+  showCompleted: boolean = false;
+  showDiv: boolean = false;
+  defaultLoaded: boolean;
+  @ViewChild("profileImage", { static: false }) profileImage: ElementRef;
+
+  initiated$ = this.store.pipe(select(fromUpload.selectUploadInitiatedStatus));
+
+  inProgress$ = this.store.pipe(
+    select(fromUpload.selectUploadInProgressStatus)
+  );
+
+  completed$ = this.store.pipe(select(fromUpload.selectUploadCompletedStatus));
+
+  failed$ = this.store.pipe(select(fromUpload.selectUploadFailedStatus));
+
+  ready$ = this.store.pipe(select(fromUpload.selectUploadReadyStatus));
+
+  constructor(
+    public store: Store<fromApp.AppState>,
+    private renderer: Renderer2
+  ) {
     this.store
-      .pipe(select(fromUpload.selectUploadStatus))
-      .subscribe((val: boolean) => {
-        if (val) {
-          this.fetchUserProfileImage();
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        if (val.authenticated) {
+          this.fetchUserProfileImage(val.user_data.profile_image_path);
         }
       });
   }
@@ -69,6 +112,7 @@ export class ChangeProfilePictureComponent implements OnInit {
       .pipe(select(fromUpload.selectFilesToUpload))
       .subscribe((val: IFileModel) => {
         if (val !== null) {
+          this.uploading = true;
           if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
@@ -104,17 +148,6 @@ export class ChangeProfilePictureComponent implements OnInit {
       });
   }
 
-  setUploadedImage(): void {
-    this.fetchUserProfileImage();
-    this.store
-      .pipe(select(fromUpload.selectUploadStatus))
-      .subscribe((val: boolean) => {
-        if (val) {
-          this.fetchUserProfileImage();
-        }
-      });
-  }
-
   uploadFiles(files: File[]): void {
     let uploadParams: CloudUploadParams[] = [];
     this.store
@@ -134,6 +167,7 @@ export class ChangeProfilePictureComponent implements OnInit {
                 imageKey: val.presignedUrl[0].key,
               })
             );
+            this.uploading = false;
           }
         }
       });
@@ -146,24 +180,33 @@ export class ChangeProfilePictureComponent implements OnInit {
       action: this.uploadAction,
       multiple: false,
       accept: MediaAcceptType.IMAGE,
-      minHeight: 630,
-      minWidth: 910,
+      minHeight: 450,
+      minWidth: 295,
     };
   }
 
-  fetchUserProfileImage() {
-    this.store
-      .pipe(select(fromAuth.selectCurrentUserData))
-      .subscribe((val: IAuthData) => {
-        if (val.authenticated) {
-          this.imagePath = val.user_data.profile_image_path
-          ? fetchImageObjectFromCloudFormation(
-                val.user_data.profile_image_path,
-                this.editParams
-              )
-            : environment.TALENT_DEFAULT_IMG;
-          this.isDefault = val.user_data.profile_image_path ? false : true;
-        }
-      });
+  fetchUserProfileImage(userImageKey: string) {
+    if (!this.defaultLoaded) {
+      this.imagePath = userImageKey
+        ? fetchImageObjectFromCloudFormation(userImageKey, this.editParams)
+        : "";
+      this.isDefault = userImageKey ? false : true;
+      this.defaultLoaded = true;
+    } else {
+      this.triggerImageTimer(userImageKey);
+    }
+  }
+
+  triggerImageTimer(image: string) {
+    setTimeout(() => {
+      const profileImage = this.profileImage.nativeElement;
+      const userImage = fetchImageObjectFromCloudFormation(
+        image,
+        this.editParams
+      );
+      this.renderer.setAttribute(profileImage, "src", userImage);
+      this.store.dispatch(new UploadActions.UploadCompleted());
+    }, 80000);
+    this.uploading = false;
   }
 }
