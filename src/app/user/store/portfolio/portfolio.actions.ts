@@ -85,7 +85,6 @@ export class DeleteMediaItemByIdSuccess implements Action {
 
 export class CreatePortfolioMediaError implements Action {
   readonly type = CREATE_PORTFOLIO_MEDIA_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 
 export class DeleteAudioByIdError implements Action {
@@ -120,7 +119,6 @@ export class FetchMediaByIdError implements Action {
 
 export class UpdatePorfolioMediaError implements Action {
   readonly type = UPDATE_PORTFOLIO_MEDIA_ERROR;
-  constructor(public payload: { errorCode: number; errorMessage: string }) {}
 }
 
 export class DeleteImageById implements Action {

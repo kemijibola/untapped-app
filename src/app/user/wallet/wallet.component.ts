@@ -59,32 +59,23 @@ export class WalletComponent implements OnInit {
     this.userStore.dispatch(new WalletActions.FetchWallet());
 
     this.userStore.dispatch(new WalletActions.FetchUserTransaction());
-
-    this.fetchUserTransaction();
   }
   componentModal: AppModal;
-  walletData: IWallet | null;
+  walletData: Observable<IWallet>;
   canSetupAccount: boolean = false;
-  userTransactions: Transaction[] = [];
-  userAccountDetails: UserAccount | null;
+  userTransactions: Observable<Transaction[]>;
+  userAccountDetails: Observable<UserAccount>;
 
   ngOnInit(): void {
-    this.userStore
-      .pipe(select(fromWallet.selectCurrentUserWallet))
-      .subscribe((val: IWallet) => {
-        if (_.has(val, "_id")) {
-          this.walletData = val;
-        }
-      });
+    this.walletData = this.userStore.pipe(
+      select(fromWallet.selectCurrentUserWallet)
+    );
 
-    this.store
-      .pipe(select(fromBanks.selectUserAccount))
-      .subscribe((val: UserAccount) => {
-        if (_.has(val, "_id")) {
-          this.userAccountDetails = val;
-          console.log(this.userAccountDetails);
-        }
-      });
+    this.userAccountDetails = this.store.pipe(
+      select(fromBanks.selectUserAccount)
+    );
+
+    this.fetchUserTransaction();
 
     this.userStore
       .pipe(select(fromWallet.selectCompletedStatus))
@@ -112,11 +103,9 @@ export class WalletComponent implements OnInit {
   }
 
   fetchUserTransaction(): void {
-    this.userStore
-      .pipe(select(fromWallet.selectCurrentUserTransaction))
-      .subscribe((val: Transaction[]) => {
-        this.userTransactions = [...val];
-      });
+    this.userTransactions = this.userStore.pipe(
+      select(fromWallet.selectCurrentUserTransaction)
+    );
   }
 
   closeModalDialog(modalId: string) {

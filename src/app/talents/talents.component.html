@@ -52,7 +52,7 @@
       </div>
       <div class="talent-div">
         <app-talent-biodata *ngIf="completed$ | async"></app-talent-biodata>
-        <span>
+        <div style="margin: 0 auto; text-align: center;">
           <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
             ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
           /></a>
@@ -67,7 +67,7 @@
               style="width: 30px; height: 30px; margin: 0 auto;"
               alt="Click button to retry"
           /></a>
-        </span>
+        </div>
       </div>
       <div class="talent-div talent-portfolio-wrapper">
         <div class="right-talent-wrp">

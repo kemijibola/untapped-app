@@ -36,6 +36,7 @@
           [infiniteScrollDistance]="2"
           [infiniteScrollThrottle]="50"
           (scrolled)="onScroll()"
+          *ngIf="contests.length > 0"
         >
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12"
@@ -81,9 +82,20 @@
             </div>
           </div>
         </div>
-        <a *ngIf="(initiated$ | async) || (inProgress$ | async) || showLoading"
-          ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
-        /></a>
+
+        <div
+          *ngIf="contests.length < 1"
+          style="margin: 0 auto; text-align: center;"
+        >
+          <span>There are currently no contest on-going</span>
+        </div>
+        <div style="margin: 0 auto; text-align: center;">
+          <a
+            *ngIf="(initiated$ | async) || (inProgress$ | async) || showLoading"
+            ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+          /></a>
+        </div>
+
         <div style="text-align: center;">
           <span *ngIf="!notEmptyPost"><i>No more items to show</i></span>
         </div>

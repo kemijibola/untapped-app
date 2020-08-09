@@ -45,7 +45,7 @@
 
 <div class="row ml-0 mr-0 wallet-container">
   <div class="col-lg-5 col-sm-12 wallet-summary">
-    <div class="p-3" *ngIf="!walletData">
+    <div class="p-3" *ngIf="!(walletData | async)">
       <a
         (click)="
           openModalDialog(
@@ -58,35 +58,37 @@
         >Create Wallet</a
       >
     </div>
-    <div class="bg-white p-3" *ngIf="walletData">
+    <div class="bg-white p-3" *ngIf="walletData | async">
       <div class="wallet-balance">
         <span class="wallet-balance-text d-block">Wallet Balance</span>
         <span class="wallet-balance-amount d-block">{{
-          walletData?.balance | currency: "NGN":"symbol":"4.2-2"
+          (walletData | async)?.balance | currency: "NGN":"symbol":"4.2-2"
         }}</span>
       </div>
       <div class="wallet-owner">
         <span class="wallet-owner-text d-block font-weight-bold"
-          >UPWallet - UNTAPPEDPOOL/{{ walletData?.user.name }}</span
+          >UPWallet - UNTAPPEDPOOL/{{ (walletData | async)?.user.name }}</span
         >
         <span class="wallet-id d-block"
-          >Wallet ID - {{ walletData?.walletNmber }}</span
+          >Wallet ID - {{ (walletData | async)?.walletNmber }}</span
         >
-        <div *ngIf="userAccountDetails">
+        <div *ngIf="userAccountDetails | async">
           <span class="wallet-id d-block"
-            >Bank Name - {{ userAccountDetails.bankName }}</span
+            >Bank Name - {{ (userAccountDetails | async)?.bankName }}</span
           >
           <span class="wallet-id d-block"
-            >Account Name - {{ userAccountDetails.accountName }}</span
+            >Account Name -
+            {{ (userAccountDetails | async)?.accountName }}</span
           >
           <span class="wallet-id d-block"
-            >Account Number - {{ userAccountDetails.accountNumber }}</span
+            >Account Number -
+            {{ (userAccountDetails | async)?.accountNumber }}</span
           >
         </div>
       </div>
       <div class="mt-4">
         <button
-          [disabled]="walletData?.balance < 100"
+          [disabled]="(walletData | async)?.balance < 100"
           class="wallet-btn"
           style="cursor: pointer; display: inline-block;"
           (click)="
@@ -106,8 +108,8 @@
             display: inline-block;
             width: 123px !important;
           "
-          *ngIf="!userAccountDetails"
-          [disabled]="userAccountDetails"
+          *ngIf="!userAccountDetails | async"
+          [disabled]="!userAccountDetails | async"
           (click)="
             onSetupAccount(
               'account-setup',
@@ -143,11 +145,13 @@
 
   <div
     class="col-lg-7 col-sm-12 wallet-transaction"
-    *ngIf="(transactionIsCompleted$ | async) && userTransactions.length > 0"
+    *ngIf="
+      (transactionIsCompleted$ | async) && (userTransactions | async).length > 0
+    "
   >
     <div
       class="transaction-amount-container"
-      *ngFor="let transaction of userTransactions"
+      *ngFor="let transaction of userTransactions | async"
       [ngStyle]="{
         'border-bottom':
           transaction.transactionType === 'credit'
@@ -172,7 +176,9 @@
   <div
     class="col-lg-7 col-sm-12"
     style="padding: 16px;"
-    *ngIf="(transactionIsCompleted$ | async) && userTransactions.length < 1"
+    *ngIf="
+      (transactionIsCompleted$ | async) && (userTransactions | async).length < 1
+    "
   >
     <div class="p-3">
       <span style="margin: 0 auto; cursor: pointer;">

@@ -189,7 +189,7 @@ export class ChangeProfilePictureComponent implements OnInit {
     if (!this.defaultLoaded) {
       this.imagePath = userImageKey
         ? fetchImageObjectFromCloudFormation(userImageKey, this.editParams)
-        : environment.TALENT_DEFAULT_IMG;
+        : "";
       this.isDefault = userImageKey ? false : true;
       this.defaultLoaded = true;
     } else {

@@ -1,4 +1,11 @@
-import { Component, OnInit, ElementRef, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  Input,
+  AfterViewInit,
+  AfterContentInit,
+} from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import * as ModalsActions from "../../shared/store/modals/modals.actions";
 import * as fromModals from "../../shared/store/modals/modals.reducers";
@@ -38,13 +45,14 @@ import { Observable } from "rxjs";
   templateUrl: "./talent-portfolio-albums.component.html",
   styleUrls: ["./talent-portfolio-albums.component.css"],
 })
-export class TalentPortfolioAlbumsComponent {
+export class TalentPortfolioAlbumsComponent
+  implements OnInit, AfterViewInit, AfterContentInit {
   selectedUser: Observable<UserFilterCategory>;
   appModal: AppModal;
   componentModal: AppModal;
-  imageAlbums: ImagePortfolioPreview[] = [];
-  audioAlbums: AudioPortfolioPreview[] = [];
-  videoAlbums: VideoPortfolioPreview[] = [];
+  imageAlbums: Observable<ImagePortfolioPreview[]>;
+  audioAlbums: Observable<AudioPortfolioPreview[]>;
+  videoAlbums: Observable<VideoPortfolioPreview[]>;
   generalPreviews: TalentPortfolioPreview[] = [];
   defaultEditParams: ImageEditRequest = {
     edits: {
@@ -109,12 +117,37 @@ export class TalentPortfolioAlbumsComponent {
   constructor(
     public store: Store<fromApp.AppState>,
     public element: ElementRef
-  ) {}
+  ) {
+    // this.fetchTalentImages();
+    // this.fetchTalentAudios();
+    // this.fetchTalentVideos();
+  }
 
   ngOnInit() {
-    this.fetchTalentImages();
-    this.fetchTalentAudios();
-    this.fetchTalentVideos();
+    // this.store
+    //   .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
+    //   .subscribe((val: ImagePortfolioPreview[]) => {
+    //     if (val) {
+    //       this.imageAlbums = this.setImageAlbumCover(val);
+
+    //       this.showImage = true;
+    //       // this.triggerTimer();
+    //     } else {
+    //       this.imageAlbums = [];
+    //     }
+    //   });
+
+    this.imageAlbums = this.store.pipe(
+      select(fromTalentImagePortfolio.selectImagePortfolioPreviews)
+    );
+
+    this.audioAlbums = this.store.pipe(
+      select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews)
+    );
+
+    this.videoAlbums = this.store.pipe(
+      select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews)
+    );
 
     this.selectedUser = this.store.pipe(
       select(fromUserFilter.selectCurrentUser)
@@ -226,100 +259,61 @@ export class TalentPortfolioAlbumsComponent {
     }
   }
 
-  fetchTalentImages() {
-    this.store
-      .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
-      .subscribe((val: ImagePortfolioPreview[]) => {
-        if (val) {
-          this.setImageAlbumCover(val);
-        } else {
-          this.imageAlbums = [];
-        }
-      });
+  // fetchTalentImages() {
+  //   this.store
+  //     .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
+  //     .subscribe((val: ImagePortfolioPreview[]) => {
+  //       if (val) {
+  //         this.setImageAlbumCover(val);
+  //         // this.triggerTimer();
+  //       } else {
+  //         this.imageAlbums = [];
+  //       }
+  //     });
+  // }
+
+  // fetchTalentAudios() {
+  //   this.store
+  //     .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
+  //     .subscribe((val: AudioPortfolioPreview[]) => {
+  //       if (val) {
+  //         this.setAudioAlbumCover(val);
+  //       } else {
+  //         this.audioAlbums = [];
+  //       }
+  //     });
+  // }
+
+  // fetchTalentVideos() {
+  //   this.store
+  //     .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
+  //     .subscribe((val: VideoPortfolioPreview[]) => {
+  //       if (val) {
+  //         this.setVideoAlbumCover(val);
+  //       } else {
+  //         this.videoAlbums = [];
+  //       }
+  //     });
+  // }
+
+  ngAfterViewInit() {
+    console.log("I'm fully loaded");
   }
 
-  fetchTalentAudios() {
-    this.store
-      .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
-      .subscribe((val: AudioPortfolioPreview[]) => {
-        if (val) {
-          this.setAudioAlbumCover(val);
-        } else {
-          this.audioAlbums = [];
-        }
-      });
+  ngAfterContentInit() {
+    console.log("I'm fully loaded content");
   }
 
-  fetchTalentVideos() {
-    this.store
-      .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
-      .subscribe((val: VideoPortfolioPreview[]) => {
-        if (val) {
-          this.setVideoAlbumCover(val);
-        } else {
-          this.videoAlbums = [];
-        }
-      });
-  }
-
-  setImageAlbumCover(data: ImagePortfolioPreview[]) {
-    this.imageAlbums = data.map((x) => {
-      return Object.assign({}, x, {
-        albumCover:
-          x.defaultImageKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.defaultImageKey,
-                this.editParams
-              )
-            : fetchNoMediaDefaultImage(),
-        defaultAlbumCover:
-          x.defaultImageKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.defaultImageKey,
-                this.defaultEditParams
-              )
-            : fetchNoMediaDefaultImage(),
-        defaultLoaded: false,
-      });
-    });
-  }
+  triggerImageAlbum() {}
 
   triggerTimer() {
     setTimeout(() => {
       this.triggerImageShow();
-    }, 5000);
+    }, 100);
   }
 
   triggerImageShow() {
     this.showImage = true;
-  }
-
-  setAudioAlbumCover(data: AudioPortfolioPreview[]) {
-    this.audioAlbums = data.map((x) => {
-      return Object.assign({}, x, { albumCover: fetchAudioArt() });
-    });
-  }
-
-  setVideoAlbumCover(data: VideoPortfolioPreview[]) {
-    this.videoAlbums = data.map((x) => {
-      return Object.assign({}, x, {
-        albumCover:
-          x.albumCoverKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.albumCoverKey,
-                this.editParams
-              )
-            : fetchVideoArt(),
-        defaultAlbumCover:
-          x.albumCoverKey !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.albumCoverKey,
-                this.defaultEditParams
-              )
-            : fetchVideoArt(),
-        defaultLoaded: false,
-      });
-    });
   }
 
   closeModalDialog(modalId: string) {

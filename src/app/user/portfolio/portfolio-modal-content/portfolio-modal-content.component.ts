@@ -145,6 +145,20 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   showDiv: boolean = false;
   thumbnailUrl: string = "";
 
+  initiated$ = this.userStore.pipe(
+    select(fromPortfolio.selectSaveInitiatedStatus)
+  );
+
+  inProgress$ = this.userStore.pipe(
+    select(fromPortfolio.selectSaveInProgressStatus)
+  );
+
+  isCompleted$ = this.userStore.pipe(
+    select(fromPortfolio.selectSaveCompletedStatus)
+  );
+
+  failed$ = this.userStore.pipe(select(fromPortfolio.selectSaveFailedStatus));
+
   constructor(
     private store: Store<fromApp.AppState>,
     private userStore: Store<fromUser.UserState>,
@@ -513,7 +527,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       uploadType: this.uploadedItems.uploadType,
     };
 
-    console.log(payload);
     if (this.pageViewMode === "edit") {
       // dispatch update
       this.userStore.dispatch(

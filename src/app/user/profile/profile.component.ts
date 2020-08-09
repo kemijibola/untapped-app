@@ -119,14 +119,6 @@ export class ProfileComponent implements OnInit {
 
     this.userStore.dispatch(new ProfileActions.FetchUserProfile());
 
-    // this.userStore
-    //   .pipe(select(fromUserLocation.selectCurrentUserLocation))
-    //   .subscribe((val: ILocation) => {
-    //     if (val !== null) {
-    //       this.newUserLocation = val.formattedAddres;
-    //     }
-    //   });
-
     this.userStore
       .pipe(select(fromProfileReducer.selectCurrentUserProfile))
       .subscribe((val: IProfile) => {
@@ -186,6 +178,7 @@ export class ProfileComponent implements OnInit {
           Validators.required,
           Validators.pattern(PHONE_REGEX),
           Validators.minLength(11),
+          Validators.maxLength(11),
         ])
       ),
       shortBio: new FormControl(this.shortBio, [
@@ -213,9 +206,8 @@ export class ProfileComponent implements OnInit {
     );
   }
   onUpdateProfile() {
-    console.log("clicked");
+    console.log("clicked", this.userLocation);
     const name: string = this.profileForm.controls["name"].value;
-    // const rcNumber: string = this.profileForm.controls["rcNumber"].value;
     const fullName: string = this.profileForm.controls["fullName"].value;
     const phoneNumber: string = this.profileForm.controls["phoneNumber"].value;
     const shortBio: string = this.profileForm.controls["shortBio"].value;
@@ -227,12 +219,40 @@ export class ProfileComponent implements OnInit {
       "additionalSocial"
     ].value;
 
+    if (shortBio.trim().length < 80) {
+      this.store.dispatch(
+        new SnackBarActions.SnackBarOpen({
+          message: "Short bio length must be greater than 80",
+          action: "X",
+          config: {
+            panelClass: ["info-snackbar"],
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            duration: 70000,
+          },
+        })
+      );
+      return;
+    }
+    if (!this.userLocation.formattedAddres || !this.userLocation.location) {
+      this.store.dispatch(
+        new SnackBarActions.SnackBarOpen({
+          message: "Please provide a valid address",
+          action: "X",
+          config: {
+            panelClass: ["info-snackbar"],
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            duration: 70000,
+          },
+        })
+      );
+      return;
+    }
+
     const profileObj: IProfile = {
       name,
-      // rcNumber,
       fullName,
-      // location:
-      //   this.newUserLocation !== "" ? this.newUserLocation : this.location,
       userAddress: this.userLocation,
       phoneNumbers: [phoneNumber],
       categoryTypes: [...this.selectedCategories],

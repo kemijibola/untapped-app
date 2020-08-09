@@ -3,6 +3,7 @@ import * as fromAdapter from "./audio-preview.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as TalentAudioPreviewActions from "./audio-preview.action";
 import { AudioPortfolioPreview } from "src/app/interfaces";
+import { transformAudioPortfolioPreview } from "src/app/lib/Helper";
 
 export interface AudioPortfolioPreviewState
   extends EntityState<AudioPortfolioPreview> {
@@ -21,7 +22,10 @@ export function reducer(
 ): AudioPortfolioPreviewState {
   switch (action.type) {
     case TalentAudioPreviewActions.FETCH_TALENT_AUDIO_PORTFOLIO_PREVIEWS_SUCCESS:
-      return fromAdapter.adapter.setAll(action.payload.audioPreviews, state);
+      const transformed = transformAudioPortfolioPreview(
+        action.payload.audioPreviews
+      );
+      return fromAdapter.adapter.setAll(transformed, state);
     case TalentAudioPreviewActions.FETCH_TALENT_AUDIO_PORTFOLIO_PREVIEW:
       return Object.assign({
         ...state,

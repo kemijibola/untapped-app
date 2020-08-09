@@ -44,7 +44,7 @@
         <input class="input-design" formControlName="fullName" type="text" />
       </div>
       <div class="col-xl-6">
-        <label for="">Location</label>
+        <label for="">Type/Select Location</label>
         <app-google-places
           [addressType]="'address'"
           [autocompleteInputText]="location"
@@ -131,6 +131,7 @@
         >
         <input
           class="input-design"
+          placeholder="www.instagram/oluwakemi"
           formControlName="instagram"
           [pattern]="instagramPattern"
           type="text"
@@ -148,6 +149,7 @@
         >
         <input
           class="input-design"
+          placeholder="www.facebook/oluwakemi"
           formControlName="facebook"
           [pattern]="facebookPattern"
           type="text"
@@ -165,6 +167,7 @@
         >
         <input
           class="input-design last"
+          placeholder="www.twitter/oluwakemi"
           formControlName="twitter"
           [pattern]="twitterPattern"
           type="text"
@@ -182,6 +185,7 @@
         >
         <input
           class="input-design last"
+          placeholder="www.youtube/oluwakemi"
           formControlName="youtube"
           [pattern]="youtubePattern"
           type="text"
@@ -229,7 +233,12 @@
           "
           (click)="onUpdateProfile()"
         >
-          <span *ngIf="(isInitiated$ | async) || (isCompleted$ | async)"
+          <span
+            *ngIf="
+              (isInitiated$ | async) ||
+              (isCompleted$ | async) ||
+              (failed$ | async)
+            "
             >SAVE CHANGES</span
           >
           <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"

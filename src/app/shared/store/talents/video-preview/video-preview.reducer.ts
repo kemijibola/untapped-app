@@ -3,6 +3,7 @@ import * as fromAdapter from "./video-preview.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as TalentVideoPreviewActions from "./video-preview.action";
 import { VideoPortfolioPreview } from "src/app/interfaces";
+import { transformVideoPortfolioPreview } from "src/app/lib/Helper";
 
 export interface VideoPortfolioPreviewState
   extends EntityState<VideoPortfolioPreview> {
@@ -21,7 +22,10 @@ export function reducer(
 ): VideoPortfolioPreviewState {
   switch (action.type) {
     case TalentVideoPreviewActions.FETCH_TALENT_VIDEO_PORTFOLIO_PREVIEWS_SUCCESS:
-      return fromAdapter.adapter.setAll(action.payload.videoPreviews, state);
+      const transformed = transformVideoPortfolioPreview(
+        action.payload.videoPreviews
+      );
+      return fromAdapter.adapter.setAll(transformed, state);
     case TalentVideoPreviewActions.FETCH_TALENT_VIDEO_PORTFOLIO_PREVIEW:
       return Object.assign({
         ...state,

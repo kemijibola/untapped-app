@@ -1,10 +1,16 @@
-import { ImageEditRequest } from "../interfaces/media/image";
+import { ImageEditRequest, ImageFit } from "../interfaces/media/image";
 import { environment } from "../../../src/environments/environment.prod";
 import { ContestService } from "../services/contest.service";
 import { FormControl } from "@angular/forms";
 import { timer, Observable } from "rxjs";
 import { map, concatMap } from "rxjs/operators";
-import { IContest, IResult } from "../interfaces";
+import {
+  IContest,
+  IResult,
+  ImagePortfolioPreview,
+  AudioPortfolioPreview,
+  VideoPortfolioPreview,
+} from "../interfaces";
 
 export function fetchImageObjectFromCloudFormation(
   key: string,
@@ -74,4 +80,84 @@ export function contestTitleAsyncValidator(
       })
     );
   };
+}
+
+export function transformImagePortfolioPreview(
+  data: ImagePortfolioPreview[]
+): ImagePortfolioPreview[] {
+  return data.map((x) => {
+    return Object.assign({}, x, {
+      albumCover:
+        x.defaultImageKey !== ""
+          ? fetchImageObjectFromCloudFormation(x.defaultImageKey, {
+              edits: {
+                resize: {
+                  width: 413,
+                  height: 225,
+                  fit: ImageFit.fill,
+                },
+                grayscale: false,
+              },
+            })
+          : fetchNoMediaDefaultImage(),
+      defaultAlbumCover:
+        x.defaultImageKey !== ""
+          ? fetchImageObjectFromCloudFormation(x.defaultImageKey, {
+              edits: {
+                resize: {
+                  width: 70,
+                  height: 70,
+                  fit: ImageFit.fill,
+                },
+                grayscale: false,
+              },
+            })
+          : fetchNoMediaDefaultImage(),
+      defaultLoaded: false,
+    });
+  });
+}
+
+export function transformAudioPortfolioPreview(
+  data: AudioPortfolioPreview[]
+): AudioPortfolioPreview[] {
+  return data.map((x) => {
+    return Object.assign({}, x, { albumCover: fetchAudioArt() });
+  });
+}
+
+export function transformVideoPortfolioPreview(
+  data: VideoPortfolioPreview[]
+): VideoPortfolioPreview[] {
+  return data.map((x) => {
+    return Object.assign({}, x, {
+      albumCover:
+        x.albumCoverKey !== ""
+          ? fetchImageObjectFromCloudFormation(x.albumCoverKey, {
+              edits: {
+                resize: {
+                  width: 413,
+                  height: 225,
+                  fit: ImageFit.fill,
+                },
+                grayscale: false,
+              },
+            })
+          : fetchVideoArt(),
+      defaultAlbumCover:
+        x.albumCoverKey !== ""
+          ? fetchImageObjectFromCloudFormation(x.albumCoverKey, {
+              edits: {
+                resize: {
+                  width: 70,
+                  height: 70,
+                  fit: ImageFit.fill,
+                },
+                grayscale: false,
+              },
+            })
+          : fetchVideoArt(),
+      defaultLoaded: false,
+    });
+  });
 }

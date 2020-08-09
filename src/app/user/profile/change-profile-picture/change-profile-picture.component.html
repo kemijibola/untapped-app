@@ -1,12 +1,10 @@
 <div class="profile-pic-wrapper">
   <div class="profile-pic">
-    <!-- <a *ngIf="showUploading"
-      ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
-    /></a> -->
     <img
       #profileImage
+      [defaultImage]="imagePath"
       [lazyLoad]="imagePath"
-      style="width: 120px; height: 120px;"
+      style="width: 120px; height: 120px; background: lightgray;"
     />
     <a *ngIf="!isDefault" class="cancel-btn" style="cursor: pointer;"
       ><img src="assets/img/profile/cross.svg" alt="Cross-btn"

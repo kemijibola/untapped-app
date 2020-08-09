@@ -227,8 +227,37 @@
               ></textarea>
             </div>
             <div class="git-btn pp">
-              <button class="box-btn" (click)="onClickOnActionButton()">
-                {{ actionText }}
+              <button
+                #actionButton
+                class="box-btn login-btn mt-10"
+                [class.box-btn-disable]="
+                  !portfolioForm.valid || !portfolioForm.touched
+                "
+                [disabled]="
+                  !portfolioForm.valid ||
+                  (inProgress$ | async) ||
+                  (!isCompleted$ | async) ||
+                  (!failed$ | async)
+                "
+                class="box-btn"
+                (click)="onClickOnActionButton()"
+              >
+                <span
+                  *ngIf="
+                    (initiated$ | async) ||
+                    (isCompleted$ | async) ||
+                    (failed$ | async)
+                  "
+                  >{{ actionText }}</span
+                >
+                <span
+                  *ngIf="
+                    (inProgress$ | async) ||
+                    (!isCompleted$ | async) ||
+                    (!failed$ | async)
+                  "
+                  >{{ actionText }}...</span
+                >
               </button>
             </div>
           </div>

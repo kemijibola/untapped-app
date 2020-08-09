@@ -25,9 +25,6 @@ import {
 import * as UserCategoryActions from "../store/filtered-categories/talent-category.action";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
-import * as TalentCategoryActions from "../store/filtered-categories/talent-category.action";
-import * as fromTalentWithHighestComment from "../store/filtered-categories/talent-category.reducers";
-import * as ProfessionalCategoryActions from "../store/filtered-categories/professional-category/professional-category.actions";
 import * as fromUserFilter from "../store/filtered-categories/user-filter/user-filter.reducer";
 import * as fromCategory from "../store/category/category.reducers";
 import * as UserFilterActions from "../store/filtered-categories/user-filter/user-filter.action";
@@ -36,14 +33,7 @@ import * as TalentAudioPreviewActions from "../store/talents/audio-preview/audio
 import * as GeneralPreviewActions from "../store/talents/general-preview/general-preview.action";
 import * as TalentImagePreviewActions from "../store/talents/image-preview/image-preview.action";
 import * as TalentVideoPreviewActions from "../store/talents/video-preview/video-preview.action";
-import * as fromUser from "../../user/user.reducers";
-import * as MediaPreviewActions from "../../user/store/portfolio/media/media-preview.actions";
 import * as _ from "underscore";
-import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
-import { timer, Observable } from "rxjs";
-import { concatMap, map, take } from "rxjs/operators";
-import { of } from "core-js/fn/array";
-import { first } from "underscore";
 
 @Component({
   selector: "app-up-user-filter",

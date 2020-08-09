@@ -24,99 +24,118 @@
   <app-talent-album-modal-content body></app-talent-album-modal-content>
 </app-modals>
 
-<div class="head text-center mb-30" *ngIf="(selectedUser | async)?.displayName">
-  <span>{{ (selectedUser | async)?.displayName }}’s</span>
-  <h3>Image Albums</h3>
-</div>
+<!-- <a *ngIf="!showImage">Fetching image album</a> -->
 
-<div *ngIf="imageAlbums.length > 0">
-  <a
-    class="album-img mb-30"
-    (click)="openModalDialog('album-modal', image)"
-    *ngFor="let image of imageAlbums; let i = index"
-  >
-    <img
-      [defaultImage]="image.defaultAlbumCover"
-      [lazyLoad]="image.albumCover"
-      style="height: 225px; background: lightgray;"
-    />
+<div *ngIf="(selectedUser | async)?._id">
+  <div class="head text-center mb-30" *ngIf="(imageAlbums | async).length > 0">
+    <span>{{ (selectedUser | async)?.displayName }}’s</span>
+    <h3>Image Albums</h3>
+  </div>
 
-    <div class="title-content" style="width: 187.83px;">
-      <span class="subject">{{ image.mediaTitle }}</span>
-      <span class="date">{{ image.dateCreated | date }}</span>
-    </div>
-    <span class="number">{{ image.itemsCount }}</span>
-  </a>
-</div>
-
-<div class="head text-center mb-30 mt-45" *ngIf="audioAlbums.length > 0">
-  <span>{{ (selectedUser | async)?.displayName }}’s</span>
-  <h3>Audio Albums</h3>
-</div>
-
-<div *ngIf="audioAlbums.length > 0">
-  <a
-    class="album-img mb-30"
-    *ngFor="let audio of audioAlbums; let i = index"
-    (click)="openModalDialog('album-modal', audio)"
-  >
-    <img src="{{ audio.albumCover }}" style="height: 225px;" alt="" />
-    <div class="title-content" style="width: 187.83px;">
-      <span class="subject">{{ audio.mediaTitle }}</span>
-      <span class="date">{{ audio.dateCreated | date }}</span>
-    </div>
-    <span class="number">{{ audio.itemsCount }}</span>
-  </a>
-</div>
-
-<div class="head text-center mb-30" *ngIf="videoAlbums.length > 0">
-  <span>{{ (selectedUser | async)?.displayName }}’s</span>
-  <h3>Video Albums</h3>
-</div>
-
-<div *ngIf="videoAlbums.length > 0">
-  <a
-    class="album-img mb-30"
-    *ngFor="let video of videoAlbums; let i = index"
-    (click)="openModalDialog('album-modal', video)"
-  >
-    <img
-      [defaultImage]="video.defaultAlbumCover"
-      [lazyLoad]="video.albumCover"
-      style="height: 225px; background: lightgray;"
-    />
-    <div class="title-content" style="width: 187.83px;">
-      <span class="subject">{{ video.mediaTitle }}</span>
-      <span class="date">{{ video.dateCreated | date }}</span>
-    </div>
-    <span class="number">{{ video.itemsCount }}</span>
-  </a>
-</div>
-
-<div class="head text-center mb-30 mt-45" *ngIf="generalPreviews.length > 0">
-  <span>{{ (selectedUser | async)?.displayName }}’s</span>
-  <h3>General Uploads</h3>
-</div>
-
-<div class="uploads">
-  <div class="row grid no-gutters general-img-uploads">
-    <div
-      class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 grid-item"
-      *ngFor="let general of generalPreviews"
+  <div *ngIf="(imageAlbums | async).length > 0">
+    <a
+      class="album-img mb-30"
+      (click)="openModalDialog('album-modal', image)"
+      *ngFor="let image of imageAlbums | async; let i = index"
     >
-      <div class="item" (click)="openModalDialog('album-modal', general)">
-        <img
+      <img
+        [defaultImage]="image.defaultAlbumCover"
+        [lazyLoad]="image.albumCover"
+        style="height: 225px; background: lightgray;"
+      />
+
+      <div class="title-content" style="width: 187.83px;">
+        <span class="subject">{{ image.mediaTitle }}</span>
+        <span class="date">{{ image.dateCreated | date }}</span>
+      </div>
+      <span class="number">{{ image.itemsCount }}</span>
+    </a>
+  </div>
+
+  <div
+    class="head text-center mb-30 mt-45"
+    *ngIf="(audioAlbums | async).length > 0"
+  >
+    <span>{{ (selectedUser | async)?.displayName }}’s</span>
+    <h3>Audio Albums</h3>
+  </div>
+
+  <div *ngIf="(audioAlbums | async).length > 0">
+    <a
+      class="album-img mb-30"
+      *ngFor="let audio of audioAlbums | async; let i = index"
+      (click)="openModalDialog('album-modal', audio)"
+    >
+      <img src="{{ audio.albumCover }}" style="height: 225px;" alt="" />
+      <div class="title-content" style="width: 187.83px;">
+        <span class="subject">{{ audio.mediaTitle }}</span>
+        <span class="date">{{ audio.dateCreated | date }}</span>
+      </div>
+      <span class="number">{{ audio.itemsCount }}</span>
+    </a>
+  </div>
+
+  <div class="head text-center mb-30" *ngIf="(videoAlbums | async).length > 0">
+    <span>{{ (selectedUser | async)?.displayName }}’s</span>
+    <h3>Video Albums</h3>
+  </div>
+
+  <div *ngIf="(videoAlbums | async).length > 0">
+    <a
+      class="album-img mb-30"
+      *ngFor="let video of videoAlbums | async; let i = index"
+      (click)="openModalDialog('album-modal', video)"
+    >
+      <img
+        [defaultImage]="video.defaultAlbumCover"
+        [lazyLoad]="video.albumCover"
+        style="height: 225px; background: lightgray;"
+      />
+      <div class="title-content" style="width: 187.83px;">
+        <span class="subject">{{ video.mediaTitle }}</span>
+        <span class="date">{{ video.dateCreated | date }}</span>
+      </div>
+      <span class="number">{{ video.itemsCount }}</span>
+    </a>
+  </div>
+
+  <div class="head text-center mb-30 mt-45" *ngIf="generalPreviews.length > 0">
+    <span>{{ (selectedUser | async)?.displayName }}’s</span>
+    <h3>General Uploads</h3>
+  </div>
+
+  <div class="uploads">
+    <div class="row grid no-gutters general-img-uploads">
+      <div
+        class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 grid-item"
+        *ngFor="let general of generalPreviews"
+      >
+        <div
+          class="item"
+          (click)="openModalDialog('album-modal', general)"
           style="cursor: pointer;"
-          [defaultImage]="general.defaultAlbumCover"
-          [lazyLoad]="general.albumCover"
-          style="height: 208px; background: lightgray;"
-        />
-        <div class="plays" *ngIf="general.mediaType !== 'image'">
-          <a style="cursor: pointer;"
-            ><img src="assets/img/profile/play.svg"
-          /></a>
+        >
+          <img
+            style="cursor: pointer;"
+            [defaultImage]="general.defaultAlbumCover"
+            [lazyLoad]="general.albumCover"
+            style="height: 208px; background: lightgray; cursor: pointer;"
+          />
+          <div class="plays" *ngIf="general.mediaType !== 'image'">
+            <a style="cursor: pointer;"
+              ><img src="assets/img/profile/play.svg"
+            /></a>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div
+  class="middle-talent-wrp"
+  *ngIf="!(selectedUser | async)?._id"
+  style="text-align: center; margin: 0 auto; margin-top: 40px;"
+>
+  No talent album found
 </div>

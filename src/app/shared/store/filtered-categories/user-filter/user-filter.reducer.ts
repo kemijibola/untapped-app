@@ -32,6 +32,11 @@ export function reducer(
         ...state,
         fetchUsersStatus: OutboundState.completed,
       });
+    case UserFilterActions.FETCH_ALL_USERS_NOOP:
+      return Object.assign({
+        ...state,
+        fetchUsersStatus: OutboundState.completed,
+      });
     case UserFilterActions.FETCH_ALL_USERS_ERROR:
       return Object.assign({
         ...state,
