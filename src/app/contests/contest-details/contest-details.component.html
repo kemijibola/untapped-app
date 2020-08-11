@@ -96,13 +96,13 @@
               >Vote Result</a
             >
           </div>
-          <div class="heading mb-10">
-            <h2>{{ contestDetails.contest.title }}</h2>
+          <div class="heading mb-10 text-word-wrap">
+            <h2 class="text-capitalize">{{ contestDetails.contest.title }}</h2>
           </div>
           <div class="content-block">
-            <div class="content-inner-block">
+            <div class="content-inner-block text-word-wrap">
               <h4>Basic info</h4>
-              <p>
+              <p class="text-capitalize">
                 {{ contestDetails.contest.information }}
               </p>
             </div>
@@ -111,11 +111,11 @@
               *ngIf="eligibleCategories.length > 0"
             >
               <h4>Eligible categories</h4>
-              <p>
+              <p class="text-capitalize">
                 {{ eligibleCategories }}
               </p>
             </div>
-            <div
+            <!-- <div
               class="content-inner-block"
               *ngIf="contestDetails.contest.eligibilityInfo !== null"
             >
@@ -123,14 +123,11 @@
               <p>
                 {{ contestDetails.contest.eligibilityInfo }}
               </p>
-            </div>
-            <div
-              class="content-inner-block"
-              *ngIf="contestDetails.contest.submissionRules !== null"
-            >
-              <h4>Submission rules:</h4>
-              <p>
-                {{ contestDetails.contest.submissionRules }}
+            </div> -->
+            <div class="content-inner-block">
+              <h4>Submission Media Type</h4>
+              <p class="text-capitalize">
+                {{ contestDetails.contest.entryMediaType }}
               </p>
             </div>
             <div class="content-inner-block">
