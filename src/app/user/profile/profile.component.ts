@@ -206,7 +206,6 @@ export class ProfileComponent implements OnInit {
     );
   }
   onUpdateProfile() {
-    console.log("clicked", this.userLocation);
     const name: string = this.profileForm.controls["name"].value;
     const fullName: string = this.profileForm.controls["fullName"].value;
     const phoneNumber: string = this.profileForm.controls["phoneNumber"].value;
@@ -234,7 +233,10 @@ export class ProfileComponent implements OnInit {
       );
       return;
     }
-    if (!this.userLocation.formattedAddres || !this.userLocation.location) {
+    if (
+      !this.userLocation["address"].formattedAddres ||
+      !this.userLocation["address"].location
+    ) {
       this.store.dispatch(
         new SnackBarActions.SnackBarOpen({
           message: "Please provide a valid address",

@@ -108,8 +108,7 @@
             display: inline-block;
             width: 123px !important;
           "
-          *ngIf="!userAccountDetails | async"
-          [disabled]="!userAccountDetails | async"
+          *ngIf="!(userAccountDetails | async)"
           (click)="
             onSetupAccount(
               'account-setup',

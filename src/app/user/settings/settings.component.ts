@@ -55,12 +55,10 @@ export class SettingsComponent implements OnInit {
 
     this.store
       .pipe(select(fromSlideToggle.selectAllToggles))
-      .take(2)
       .subscribe((val: IToggle[]) => {
         console.log(val);
-        if (val !== null) {
-          this.updatedToggles = [...val];
-
+        if (val) {
+          this.updatedToggles = val;
           this.tapToggle = val.filter(
             (x) => x.name === ToggleList.settingstapnotification
           )[0];

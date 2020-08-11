@@ -86,7 +86,12 @@
             class="box-btn profile-save"
             (click)="saveChanges()"
           >
-            <span *ngIf="(isInitiated$ | async) || (isCompleted$ | async)"
+            <span
+              *ngIf="
+                (isInitiated$ | async) ||
+                (isCompleted$ | async) ||
+                (failed$ | async)
+              "
               >SAVE CHANGES</span
             >
             <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)"

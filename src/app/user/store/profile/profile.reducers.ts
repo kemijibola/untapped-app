@@ -51,10 +51,15 @@ export function profileReducer(
         ...state,
         saveProfileState: OutboundState.completed,
       });
-    case ProfileActions.UPDATE_USER_SETTINGS_PREFERENCE_ERROR:
+    case ProfileActions.UPDATE_USER_SETTINGS_PREFERENCE_SUCCESS:
       return Object.assign({
         ...state,
         saveProfileState: OutboundState.completed,
+      });
+    case ProfileActions.UPDATE_USER_SETTINGS_PREFERENCE_ERROR:
+      return Object.assign({
+        ...state,
+        saveProfileState: OutboundState.failed,
       });
     default: {
       return state;
