@@ -71,7 +71,14 @@
           </div>
 
           <div class="btns">
-            <a href="">EDIT CONTEST</a>
+            <a
+              *ngIf="userData.user_data.userType.name === 'Professional'"
+              routerLink="/user/contest/page"
+              [routerLinkActiveOptions]="{ exact: true }"
+              routerLinkActive="visited"
+              [queryParams]="{ tab: 'new' }"
+              >EDIT CONTEST</a
+            >
             <angular4-paystack
               [email]="userEmail"
               (click)="createOrder('paystack')"

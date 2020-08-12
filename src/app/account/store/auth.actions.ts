@@ -41,6 +41,7 @@ export const RESEND_CONFIRMATION_MAIL_SUCCESS =
   "RESEND_CONFIRMATION_MAIL_SUCCESS";
 export const RESEND_CONFIRMATION_MAIL_FAILED =
   "RESEND_CONFIRMATION_MAIL_FAILED";
+export const REDIRECT_TO_LOGIN = "REDIRECT_TO_LOGIN";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -171,6 +172,9 @@ export class ResendConfirmationMailSuccess implements Action {
 export class ResendConfirmationMailFailed implements Action {
   readonly type = RESEND_CONFIRMATION_MAIL_FAILED;
 }
+export class RedirectToLogin implements Action {
+  readonly type = REDIRECT_TO_LOGIN;
+}
 
 export type AuthActions =
   | SignUpSuccess
@@ -204,4 +208,5 @@ export type AuthActions =
   | ResendConfirmationMail
   | ResendConfirmationMailSuccess
   | ResendConfirmationMailFailed
-  | RequsetPasswordResetFailed;
+  | RequsetPasswordResetFailed
+  | RedirectToLogin;
