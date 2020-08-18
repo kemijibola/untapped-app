@@ -35,6 +35,10 @@ export const REMOVE_CONTEST_LIKE = "REMOVE_CONTEST_LIKE";
 export const REMOVE_CONTEST_LIKE_SUCCESS = "REMOVE_CONTEST_LIKE_SUCCESS";
 export const REMOVE_CONTEST_LIKE_ERROR = "REMOVE_CONTEST_LIKE_ERROR";
 
+export const POST_CONTEST_VIEW = "POST_CONTEST_VIEW";
+export const POST_CONTEST_VIEW_SUCCESS = "POST_CONTEST_VIEW_SUCCESS";
+export const POST_CONTEST_VIEW_FAILED = "POST_CONTEST_VIEW_FAILED";
+
 export class FetchContestById implements Action {
   readonly type = FETCH_CONTEST_BY_ID;
   constructor(public payload: { id: string }) {}
@@ -62,6 +66,17 @@ export class CheckUserEligibilitySuccess implements Action {
   constructor(public payload: { response: ContestEligibilityData }) {}
 }
 
+export class PostContestView implements Action {
+  readonly type = POST_CONTEST_VIEW;
+  constructor(public payload: { id: string }) {}
+}
+export class PostContestViewSuccess implements Action {
+  readonly type = POST_CONTEST_VIEW_SUCCESS;
+}
+
+export class PostContestViewFailed implements Action {
+  readonly type = POST_CONTEST_VIEW_FAILED;
+}
 export class CheckUserEligibility implements Action {
   readonly type = CHECK_USER_ELIGIBILITY;
   constructor(public payload: { contestId: string }) {}
@@ -154,4 +169,7 @@ export type ContestsAction =
   | AddContestLikeError
   | RemoveContestLike
   | RemoveContestLikeSuccess
-  | RemoveContestLikeError;
+  | RemoveContestLikeError
+  | PostContestView
+  | PostContestViewFailed
+  | PostContestViewSuccess;

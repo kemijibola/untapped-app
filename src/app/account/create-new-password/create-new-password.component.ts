@@ -22,7 +22,6 @@ export class CreateNewPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.email = params.get("email");
-      console.log(this.email);
     });
     this.newPasswordForm = new FormGroup(
       {

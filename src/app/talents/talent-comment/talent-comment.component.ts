@@ -109,9 +109,7 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     );
   }
 
-  onReplyClicked(commentId: string) {
-    console.log("reply comment");
-  }
+  onReplyClicked(commentId: string) {}
 
   sortCommentsByNewest(comments: IComment[]): IComment[] {
     return comments.sort((a, b) => {

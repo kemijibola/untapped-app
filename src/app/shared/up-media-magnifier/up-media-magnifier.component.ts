@@ -32,9 +32,7 @@ export class UpMediaMagnifierComponent implements OnInit {
       .subscribe((val: MagnifierData) => {
         if (val) {
           this.magnifierData = val;
-          console.log(this.magnifierData);
           const found = val.data[val.index];
-          console.log("found", found);
           this.setCurrentImage(found.path);
         }
       });
@@ -59,7 +57,6 @@ export class UpMediaMagnifierComponent implements OnInit {
   }
 
   onNext() {
-    console.log("next clicked");
     this.currentIndex++;
     if (this.currentIndex > 0 && this.magnifierData.data.length > 1) {
       this.leftDisabled = false;
@@ -74,7 +71,6 @@ export class UpMediaMagnifierComponent implements OnInit {
   }
 
   onPrevious() {
-    console.log("prev clicked");
     this.currentIndex--;
     if (this.currentIndex < this.magnifierData.data.length - 1) {
       this.rightDisabled = false;

@@ -46,17 +46,25 @@
                 />
                 <button
                   (click)="onSubmit()"
+                  type="button"
+                  #changeEmailButton
                   [disabled]="
-                    !changeEmailForm.valid &&
-                    changeEmailForm.touched &&
-                    changeEmailForm.dirty
+                    !changeEmailForm.valid ||
+                    (inProgress$ | async) ||
+                    !changeEmailForm.touched ||
+                    !changeEmailForm.dirty
                   "
                   class="box-btn login-btn reset-pswd mt-50"
                   [class.box-btn-disable]="
                     !changeEmailForm.valid || !changeEmailForm.touched
                   "
                 >
-                  SEND VERIFICATION
+                  <span *ngIf="(initiated$ | async) || (completed$ | async)"
+                    >SEND VERIFICATION</span
+                  >
+                  <span *ngIf="(inProgress$ | async) || (!completed$ | async)"
+                    >SENDING...
+                  </span>
                 </button>
               </div>
             </div>

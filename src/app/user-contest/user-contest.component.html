@@ -2,12 +2,23 @@
 <app-tabs>
   <div class="tab-content" id="myTabContent">
     <app-all-contest
-      *ngIf="activeTab.tag === tabPanel.tabs[0].tag"
+      *ngIf="
+        activeTab.tag === tabPanel.tabs[0].tag &&
+        currentUserType === 'Professional'
+      "
     ></app-all-contest>
     <app-new-contest
-      *ngIf="activeTab.tag === tabPanel.tabs[1].tag"
+      *ngIf="
+        activeTab.tag === tabPanel.tabs[1].tag &&
+        currentUserType === 'Professional'
+      "
     ></app-new-contest>
-    <app-setting *ngIf="activeTab.tag === tabPanel.tabs[2].tag"></app-setting>
+    <app-setting
+      *ngIf="
+        activeTab.tag === tabPanel.tabs[2].tag &&
+        currentUserType === 'Professional'
+      "
+    ></app-setting>
   </div>
 </app-tabs>
 

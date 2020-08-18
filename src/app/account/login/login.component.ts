@@ -10,13 +10,7 @@ import * as AuthActions from "../store/auth.actions";
 import * as fromAuthReducer from "../store/auth.reducers";
 import { Store, select } from "@ngrx/store";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ILogin, SnackBarData, IAuthData } from "src/app/interfaces";
-import * as SnackBarActions from "../../shared/notifications/snackbar/snackbar.action";
-import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
-import { Observable, of } from "rxjs";
-import * as NotificationActions from "../../store/global/notification/notification.action";
-import * as fromNotificationReducer from "../../store/global/notification/notification.reducer";
-import * as fromAuth from "src/app/account/store/auth.reducers";
+import { ILogin } from "src/app/interfaces";
 import { EMAIL_REGEX } from "src/app/lib/constants";
 
 @Component({

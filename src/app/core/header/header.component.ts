@@ -125,7 +125,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log("called");
     this.defaultLoaded = true;
     this.updateUserEmailPreference();
   }
@@ -165,7 +164,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   onToggle() {
-    console.log("this is called");
     this.showDropDown = !this.showDropDown;
   }
 

@@ -122,7 +122,6 @@ export class CommentsEffects {
             commentObj.likedBy = commentObj.likedBy.filter(
               (x) => x._id !== action.payload.likedBy._id
             );
-            console.log("removing optimistic update from store", commentObj);
             return [
               new CommentsAction.AddCommentLikeSuccess({
                 comment: commentObj,

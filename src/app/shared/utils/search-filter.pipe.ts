@@ -11,7 +11,6 @@ export class FilterPipe implements PipeTransform {
    * @returns {any[]}
    */
   transform(items: any[], searchText: string): any[] {
-    console.log(searchText);
     if (!items) {
       return [];
     }

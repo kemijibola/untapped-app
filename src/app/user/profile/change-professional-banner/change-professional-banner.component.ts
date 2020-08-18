@@ -98,12 +98,10 @@ export class ChangeProfessionalBannerComponent implements OnInit {
   }
 
   uploadFiles(files: File[]): void {
-    console.log(files);
     let uploadParams: CloudUploadParams[] = [];
     this.store
       .pipe(select(fromUpload.selectPresignedUrls))
       .subscribe((val: SignedUrl) => {
-        console.log(val);
         if (val) {
           if (val.component === this.uploadComponent) {
             const item: CloudUploadParams = {

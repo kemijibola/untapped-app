@@ -38,7 +38,6 @@ export class HomeComponent implements OnInit {
             (x) => x.name === "Audience"
           )[0]._id;
         }
-        //console.log(this.selectedUserType);
       });
   }
 

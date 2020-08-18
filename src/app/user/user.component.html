@@ -18,16 +18,13 @@
     </div>
     <div>
       <app-talent-contest
-        *ngIf="activeTab?.tag === 'contests' && currentUserType === 'Talent'"
+        *ngIf="
+          activeTab?.tag === 'competitions' && currentUserType === 'Talent'
+        "
       ></app-talent-contest>
     </div>
     <div>
-      <app-settings
-        *ngIf="
-          activeTab?.tag === 'settings' &&
-          (currentUserType === 'Talent' || currentUserType === 'Professional')
-        "
-      ></app-settings>
+      <app-settings *ngIf="activeTab?.tag === 'settings'"></app-settings>
     </div>
   </div>
 </app-tabs>

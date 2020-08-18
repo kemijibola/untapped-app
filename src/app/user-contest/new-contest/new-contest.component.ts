@@ -56,6 +56,7 @@ import * as ServiceActions from "../../shared/store/service/service.actions";
 })
 export class NewContestComponent implements OnInit {
   contestForm: FormGroup;
+  agreementForm: FormGroup;
   bannerImage: string = environment.CONTEST_BANNER_DEFAULT;
   defaultBannerImage: string = "";
   title = "";
@@ -89,11 +90,13 @@ export class NewContestComponent implements OnInit {
       grayscale: false,
     },
   };
+  isNewContest: boolean = true;
   private filesToUpload: File[];
   selectedCategories: string[] = [];
   bannerImageKey: string | null;
   selectedMediaType: string = "";
   showMediaTypes: boolean;
+  contestButton: any;
 
   isInitiated$ = this.userContestStore.pipe(
     select(fromNewContest.selectNewContestInitiatedStatus)
@@ -152,9 +155,11 @@ export class NewContestComponent implements OnInit {
   minDate: Date = addDays(new Date(), 1);
   maxDate: Date = addDays(this.minDate, 30);
   contestDuration: Date[] = [];
+  inEditMode: boolean = false;
   service: IService;
   @ViewChild("createButton", { static: false }) createButton: ElementRef;
   @ViewChild("prizeInput", { static: false }) prizeInput: ElementRef;
+  @ViewChild("contestFm", { static: false }) contestFm: ElementRef;
 
   uploadInitiated$ = this.store.pipe(
     select(fromUpload.selectUploadInitiatedStatus)
@@ -167,11 +172,14 @@ export class NewContestComponent implements OnInit {
   uploadCompleted$ = this.store.pipe(
     select(fromUpload.selectUploadCompletedStatus)
   );
+  canProceed: boolean = false;
+  conditionAccepted: boolean = false;
+  actionButtonText: string = "CREATE CONTEST";
 
   uploadFailed$ = this.store.pipe(select(fromUpload.selectUploadFailedStatus));
 
   uploadReady$ = this.store.pipe(select(fromUpload.selectUploadReadyStatus));
-
+  // @ViewChild("titleInput", { static: false }) titleInput: ElementRef;
   constructor(
     public store: Store<fromApp.AppState>,
     private userContestStore: Store<fromUserContest.UserContestState>,
@@ -193,37 +201,10 @@ export class NewContestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userContestStore
-      .pipe(select(fromNewContest.selectCurrentContest))
-      .subscribe((val: IContest) => {
-        if (_.has(val, "_id")) {
-          console.log(val);
-          this.contestId = val._id;
-          this.contestTitle = val.title;
-          this.contestCode = val.code;
-          this.contestInformation = val.information;
-          this.contestBannerImage = val.bannerImage;
-          this.contestEntryMediaType = val.entryMediaType;
-          this.selectedCategories = val.eligibleCategories;
-          this.minDate = val.startDate;
-          this.maxDate = val.endDate;
-          this.views = val.views;
-          this.createdBy = val.createdBy;
-          if (val.redeemable) {
-            this.contestRewards.removeAt(0);
-            for (let i = 0; i < val.redeemable.length; i++) {
-              this.redeemable.push(
-                new FormGroup({
-                  reward: new FormControl(val.redeemable[i].prizeCash),
-                })
-              );
-            }
-          }
-
-          this.fetchContestBanner();
-        }
-        this.initForm();
-      });
+    this.initForm();
+    this.agreementForm = new FormGroup({
+      terms: new FormControl(false, Validators.requiredTrue),
+    });
 
     this.store
       .pipe(select(fromService.selectAllServices))
@@ -231,7 +212,6 @@ export class NewContestComponent implements OnInit {
       .subscribe((val: IService[]) => {
         this.service = val.filter((x) => x.name === "Contest Setup")[0];
         if (this.service) {
-          console.log(this.service);
           this.store.dispatch(
             new ServiceActions.FetchService({
               serviceId: this.service._id,
@@ -286,6 +266,28 @@ export class NewContestComponent implements OnInit {
       .subscribe((val: string[]) => {
         this.selectedCategories = [...val];
       });
+
+    this.isCompleted$.subscribe((val: boolean) => {
+      if (val) {
+        this.contestForm.reset();
+      }
+    });
+
+    this.userContestStore
+      .pipe(select(fromNewContest.selectAgreementStatus))
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.canProceed = true;
+          this.actionButtonText = "UPDATE CONTEST";
+          this.isNewContest = false;
+          this.fetchContestInEditMode();
+          this.contestForm.markAllAsTouched();
+        }
+      });
+  }
+
+  get agreement() {
+    return this.agreementForm.controls;
   }
 
   private initForm() {
@@ -302,13 +304,46 @@ export class NewContestComponent implements OnInit {
       ]),
       contestDuration: new FormControl(
         [this.minDate, this.maxDate],
-        [Validators.required, this.ValidateContestDuration]
+        [Validators.required]
       ),
       contestRewards: this.redeemable,
-      entryMedia: new FormControl(this.contestEntryMediaType),
+      entryMedia: new FormControl(this.selectedMediaType),
     });
+  }
 
-    console.log(this.contestRewards);
+  private fetchContestInEditMode(): void {
+    this.userContestStore
+      .pipe(select(fromNewContest.selectCurrentContest))
+      .subscribe((val: IContest) => {
+        if (_.has(val, "_id")) {
+          this.contestId = val._id;
+          this.contestTitle = val.title;
+          this.contestCode = val.code;
+          this.contestInformation = val.information;
+          this.contestBannerImage = val.bannerImage;
+          this.selectedMediaType =
+            this.mediaTypes.filter((x) => x.name === val.entryMediaType)[0]
+              .name || this.mediaTypes[0].name;
+          this.selectedCategories = val.eligibleCategories;
+          this.minDate = val.startDate;
+          this.maxDate = val.endDate;
+          this.views = val.views;
+          this.createdBy = val.createdBy;
+          if (val.redeemable) {
+            this.contestRewards.removeAt(0);
+            for (let i = 0; i < val.redeemable.length; i++) {
+              this.redeemable.push(
+                new FormGroup({
+                  reward: new FormControl(val.redeemable[i].prizeCash),
+                })
+              );
+            }
+          }
+
+          this.fetchContestBanner();
+        }
+        this.initForm();
+      });
   }
 
   onClick() {
@@ -330,11 +365,18 @@ export class NewContestComponent implements OnInit {
   }
 
   validateInnerControl(control: AbstractControl) {
-    console.log(control.value["reward"]);
     if (control.value["reward"] < 1) {
       return { prizeNotValid: true };
     }
     return null;
+  }
+
+  onAcceptCondition() {
+    this.conditionAccepted = !this.conditionAccepted;
+  }
+
+  onClickContinue(): void {
+    this.canProceed = true;
   }
 
   onMouseLeave() {
@@ -395,6 +437,7 @@ export class NewContestComponent implements OnInit {
           prizeCash: reward["reward"],
         });
       }
+      console.log(redeemables);
 
       const title: string = this.contestForm.controls["title"].value;
       const basicInfo: string = this.contestForm.controls["basicInfo"].value;
@@ -415,9 +458,17 @@ export class NewContestComponent implements OnInit {
         redeemable: [...redeemables],
       };
 
-      this.userContestStore.dispatch(
-        new NewContestActions.CreateContest({ newContest: contestObj })
-      );
+      this.isNewContest = this.contestId === "" ? true : false;
+      if (!this.isNewContest) {
+        contestObj._id = this.contestId;
+        this.userContestStore.dispatch(
+          new NewContestActions.UpdateContest({ newContest: contestObj })
+        );
+      } else {
+        this.userContestStore.dispatch(
+          new NewContestActions.CreateContest({ newContest: contestObj })
+        );
+      }
     }
   }
 

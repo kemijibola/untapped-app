@@ -11,6 +11,7 @@ export interface AuthState extends EntityState<IAuthData> {
   registerStatus: OutboundState | null;
   resendEmailStatus: OutboundState | null;
   forgotPasswordStatus: OutboundState | null;
+  emailChangeStatus: OutboundState | null;
   newUserEmail: string | null;
 }
 
@@ -19,6 +20,7 @@ const initialState: AuthState = fromAdapter.adapter.getInitialState({
   registerStatus: OutboundState.initiated,
   resendEmailStatus: OutboundState.initiated,
   forgotPasswordStatus: OutboundState.initiated,
+  emailChangeStatus: OutboundState.initiated,
   confirmationResponse: null,
   userData: {
     access_token: "",
@@ -54,6 +56,12 @@ export function reducer(
         ...state,
         loginStatus: OutboundState.inprogress,
       });
+    case AuthActions.CHANGE_EMAIL_ADDRESS:
+      return Object.assign({
+        ...state,
+        emailChangeStatus: OutboundState.inprogress,
+      });
+
     case AuthActions.REQUEST_PASSWORD_RESET:
       return Object.assign({
         ...state,
@@ -64,6 +72,16 @@ export function reducer(
       return Object.assign({
         ...state,
         resendEmailStatus: OutboundState.inprogress,
+      });
+    case AuthActions.CHANGE_EMAIL_ADDRESS_FAILED:
+      return Object.assign({
+        ...state,
+        emailChangeStatus: OutboundState.completed,
+      });
+    case AuthActions.CHANGE_EMAIL_ADDRESS_SUCCESSFUL:
+      return Object.assign({
+        ...state,
+        emailChangeStatus: OutboundState.completed,
       });
     case AuthActions.REQUEST_PASSWORD_RESET_SUCCESS:
       return Object.assign({
@@ -180,6 +198,18 @@ const getResendEmailInitiated = (state: AuthState): boolean =>
 const getResendEmailFailure = (state: AuthState): boolean =>
   state.resendEmailStatus === OutboundState.failed;
 
+const getChangeEmailCompleted = (state: AuthState): boolean =>
+  state.emailChangeStatus === OutboundState.completed;
+
+const getChangeEmailInProgress = (state: AuthState): boolean =>
+  state.emailChangeStatus === OutboundState.inprogress;
+
+const getChangeEmailInitiated = (state: AuthState): boolean =>
+  state.emailChangeStatus === OutboundState.initiated;
+
+const getChangeEmailFailure = (state: AuthState): boolean =>
+  state.emailChangeStatus === OutboundState.failed;
+
 export const getAuthState = createFeatureSelector<AuthState>("authState");
 
 export const selectCurrentUserData = createSelector(
@@ -255,6 +285,26 @@ export const selectResendEmailInitiatedStatus = createSelector(
 export const selectResendEmailFailedStatus = createSelector(
   getAuthState,
   getResendEmailFailure
+);
+
+export const selectChangeEmailInProgressStatus = createSelector(
+  getAuthState,
+  getChangeEmailInProgress
+);
+
+export const selectChangeEmailCompletedStatus = createSelector(
+  getAuthState,
+  getChangeEmailCompleted
+);
+
+export const selectChangeEmailInitiatedStatus = createSelector(
+  getAuthState,
+  getChangeEmailInitiated
+);
+
+export const selectChangeEmailFailedStatus = createSelector(
+  getAuthState,
+  getChangeEmailFailure
 );
 
 export const selectNewUserEmail = createSelector(getAuthState, getNewUserEmail);

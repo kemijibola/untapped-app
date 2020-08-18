@@ -17,7 +17,6 @@ export class UserCategoryService {
   getUserFilterCategoryByReportType(
     params: UserFilterRequest
   ): Observable<IResult<UserFilterCategory[]>> {
-    console.log(params);
     const url = `${this.BASE_URI}/user-categories`;
     return this.http.post<IResult<UserFilterCategory[]>>(url, {
       reportType: params.type || "",

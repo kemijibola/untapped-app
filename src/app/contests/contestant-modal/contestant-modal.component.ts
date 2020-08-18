@@ -241,7 +241,6 @@ export class ContestantModalComponent implements OnInit, OnChanges {
 
   setMedia(type: string, mediaKey: string) {
     const mediaType = type.toUpperCase();
-    console.log("media called", mediaType);
     this.isCurrentImageSet = false;
     this.isCurrentAudioSet = false;
     this.isCurrentVideoSet = false;
@@ -294,9 +293,7 @@ export class ContestantModalComponent implements OnInit, OnChanges {
         : fetchNoMediaDefaultImage();
   }
 
-  onReplyClicked(commentId: string) {
-    console.log("reply comment");
-  }
+  onReplyClicked(commentId: string) {}
 
   sortCommentsByNewest(comments: IComment[]): IComment[] {
     return comments.sort((a, b) => {

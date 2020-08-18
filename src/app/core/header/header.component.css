@@ -1,3 +1,7 @@
 .visited {
-    color: #3db483;
+  color: #3db483;
+}
+
+.drpdown:hover .drpdown-content {
+  display: block;
 }

@@ -8,6 +8,7 @@ import { NotLoggedInComponent } from "./not-logged-in/not-logged-in.component";
 import { AboutUsComponent } from "./shared/about-us/about-us.component";
 import { TermsConditionComponent } from "./shared/terms-condition/terms-condition.component";
 import { CompetitionTermsComponent } from "./shared/competition-terms/competition-terms.component";
+import { PrivacyPolicyComponent } from "./shared/privacy-policy/privacy-policy.component";
 
 const appRoutes: Routes = [
   { path: "", canActivate: [CompleteProfile], component: HomeComponent },
@@ -22,12 +23,12 @@ const appRoutes: Routes = [
       import("./talents/talents.module").then((m) => m.TalentsModule),
   },
   {
-    path: "contests",
+    path: "competitions",
     loadChildren: () =>
       import("./contests/contests.module").then((m) => m.ContestsModule),
   },
   {
-    path: "user/contest",
+    path: "user/competition",
     canActivate: [AuthGuard, CompleteProfile],
     loadChildren: () =>
       import("./user-contest/user-contest.module").then(
@@ -57,6 +58,10 @@ const appRoutes: Routes = [
   {
     path: "competition-terms-condition",
     component: CompetitionTermsComponent,
+  },
+  {
+    path: "privacy-policy",
+    component: PrivacyPolicyComponent,
   },
 
   // {

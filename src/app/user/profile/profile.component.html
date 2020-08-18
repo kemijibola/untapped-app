@@ -89,6 +89,24 @@
       </div>
       <div class="col-xl-12">
         <div class="bio">
+          <span
+            class="error-block"
+            *ngIf="
+              profileForm.get('shortBio').hasError('minlength') &&
+              !profileForm.get('shortBio').hasError('maxlength')
+            "
+          >
+            * Competition Information length must be greater than 80
+          </span>
+          <span
+            class="error-block"
+            *ngIf="
+              !profileForm.get('shortBio').hasError('minlength') &&
+              profileForm.get('shortBio').hasError('maxlength')
+            "
+          >
+            * Competition Information length must be less than 2000
+          </span>
           <h4>Short Bio</h4>
           <small
             class="form-text text-muted"

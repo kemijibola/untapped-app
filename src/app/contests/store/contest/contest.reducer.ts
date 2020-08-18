@@ -29,7 +29,6 @@ export function reducer(
 ): ContestState {
   switch (action.type) {
     case ContestActions.SET_SELECTED_CONTEST:
-      console.log(action.payload.selectedContest);
       return fromAdapter.adapter.setOne(action.payload.selectedContest, state);
     case ContestActions.CHECK_USER_ELIGIBILITY:
       return Object.assign({

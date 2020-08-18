@@ -65,7 +65,8 @@ export class OrderEffect {
                   message:
                     respError.error.response_message ||
                     "No Internet connection",
-                })
+                }),
+                new OrderActions.VerifyOrderFailed()
               )
             )
           )

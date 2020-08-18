@@ -95,7 +95,6 @@ export class ContestAnalysisReportComponent implements OnInit {
         .take(2)
         .subscribe((val: ContestVoteResult) => {
           if (val !== null) {
-            console.log(val);
             this.setContestantProfileIImage(val);
             this.setContestBannerImage(val.contestPhoto);
           }
@@ -139,6 +138,6 @@ export class ContestAnalysisReportComponent implements OnInit {
   }
 
   navigateToPrevious(contestId: string): void {
-    this.router.navigate(["/contests/", contestId]);
+    this.router.navigate(["/competitions/", contestId]);
   }
 }

@@ -73,7 +73,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-7 col-lg-7 col-md-7">
+      <div class="col-xl-7 col-lg-7 col-md-7 contest-details-section">
         <div class="details-content">
           <div style="text-align: right; margin-bottom: 20px;">
             <a
@@ -87,7 +87,7 @@
                 )
               "
             >
-              Enter Contest</a
+              Enter Competition</a
             >
             <a
               class="box-btn details-btn"
@@ -101,6 +101,12 @@
           </div>
           <div class="content-block">
             <div class="content-inner-block text-word-wrap">
+              <span
+                class="error-block"
+                style="font-weight: bold; font-size: 14px;"
+                >* All prize monies in naira</span
+              >
+
               <h4>Basic info</h4>
               <p class="text-capitalize">
                 {{ contestDetails.contest.information }}
@@ -125,7 +131,7 @@
               </p>
             </div> -->
             <div class="content-inner-block">
-              <h4>Submission Media Type</h4>
+              <h4>Submission media type</h4>
               <p class="text-capitalize">
                 {{ contestDetails.contest.entryMediaType }}
               </p>
@@ -173,7 +179,6 @@
             {{ contestDetails.contest.startDate | date: "medium" }} →
             {{ contestDetails.contest.endDate | date: "long" }}
           </li>
-          <!-- <li><span>Winner announced:</span>March 21!</li> -->
         </ul>
       </div>
     </div>

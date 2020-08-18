@@ -75,8 +75,8 @@ export function contestTitleAsyncValidator(
   return (input: FormControl): Observable<any> | Promise<any> => {
     return timer(time).pipe(
       concatMap(() => contestService.findContestByTitle(input.value)),
-      map((res: IResult<IContest[]>) => {
-        return res.data.length === 0 ? null : { titleExist: true };
+      map((res: any) => {
+        return res["isAvailable"] ? null : { titleExist: true };
       })
     );
   };

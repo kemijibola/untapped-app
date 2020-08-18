@@ -2,10 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as fromApp from "../store/app.reducers";
-import { IAppTab, ITab, IService } from "../interfaces";
+import { IAppTab, ITab, IService, IAuthData } from "../interfaces";
 import { AbstractTabComponent } from "../shared/Classes/abstract/abstract-tab/abstract-tab.component";
-import { UUID } from "angular2-uuid";
-import * as CategoryTypeActions from "src/app/shared/store/category-type/category-type.actions";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 
 @Component({
   selector: "app-user-contest",
@@ -21,21 +20,30 @@ export class UserContestComponent extends AbstractTabComponent {
     divClass: "all-contest-area pt-40 pb-60 pl-130",
     navClass: "nav nav-tabs mb-50 all-tablinks",
     tabs: [
-      { index: 0, title: "Contest", tag: "all", active: false },
-      { index: 1, title: "New Contest", tag: "new", active: false },
+      { index: 0, title: "Competitions", tag: "all", active: false },
+      { index: 1, title: "New Competition", tag: "new", active: false },
       { index: 2, title: "Setting", tag: "settings", active: false },
     ],
   };
+  currentUserType: string = "";
   constructor(
     public store: Store<fromApp.AppState>,
     public router: Router,
     public route: ActivatedRoute
   ) {
     super();
+
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        if (val.authenticated) {
+          this.currentUserType = val.user_data.userType.name;
+        }
+      });
   }
 
   navigate(): void {
-    this.router.navigate(["/user/contest/page"], {
+    this.router.navigate(["/user/competition/page"], {
       queryParams: { tab: this.queryParam },
     });
   }

@@ -875,9 +875,8 @@ footer {
 .contest-sidebar span {
   display: block;
   color: #fff;
-  font-size: 20px;
+  font-size: 66px;
   font-family: AvenirNextLTProMedium;
-  margin: 0 10px 10px;
 }
 .contest-pagination {
   margin-top: 100px;
@@ -1264,6 +1263,17 @@ html::-webkit-scrollbar {
 
 .talent-portfolio-wrapper::-webkit-scrollbar-thumb
   .modal-dialog-album-view::-webkit-scrollbar-thumb {
+  background-color: #11868b;
+}
+
+.contest-details-section {
+  max-height: 460px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.contest-details-section::-webkit-scrollbar-thumb {
   background-color: #11868b;
 }
 

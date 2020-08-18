@@ -57,7 +57,6 @@ export class UpCategerySearchComponent implements OnInit {
 
   onSelectCategory(index: number, id: string, fetchData: boolean) {
     this.selectedCategoryId = id;
-    console.log(fetchData);
     if (id === "12345") {
       this.allSelected = true;
       if (fetchData) {

@@ -246,7 +246,6 @@ export class ContestEntryComponent implements OnInit {
         additionalInfo: info || "",
         entry: this.cloudItems.items[0].path,
       };
-      console.log(entryObj);
       this.store.dispatch(
         new ContestEntryActions.EnterContest({
           newContestEntry: entryObj,

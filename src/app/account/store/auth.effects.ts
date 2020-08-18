@@ -148,14 +148,14 @@ export class AuthEffects {
             action.payload.emailChangeVerificationUri
           )
           .pipe(
-            map(
-              (resp: IResult<boolean>) =>
-                new NotificationActions.AddSuccess({
-                  key: AppNotificationKey.success,
-                  code: 200,
-                  message: `Verification link has been sent to ${action.payload.newEmail.toLowerCase()}.`,
-                })
-            ),
+            mergeMap((resp: IResult<boolean>) => [
+              new NotificationActions.AddSuccess({
+                key: AppNotificationKey.success,
+                code: 200,
+                message: `Verification link has been sent to ${action.payload.newEmail.toLowerCase()}.`,
+              }),
+              new AuthActions.ChangeEmailAddressSuccessful(),
+            ]),
             catchError((respError: HttpErrorResponse) =>
               of(
                 new NotificationActions.AddError({
@@ -164,7 +164,8 @@ export class AuthEffects {
                   message:
                     respError.error.response_message ||
                     "No Internet connection",
-                })
+                }),
+                new AuthActions.ChangeEmailAddressFailed()
               )
             )
           )

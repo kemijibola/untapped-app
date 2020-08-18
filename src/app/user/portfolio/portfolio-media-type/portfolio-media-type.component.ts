@@ -47,7 +47,6 @@ export class PortfolioMediaTypeComponent implements OnInit, OnDestroy {
         }
       });
 
-    console.log("setting toggle");
     this.store.dispatch(
       new ToggleActions.FetchToggle({
         appToggleId: ToggleList.modaluploadtoggle,

@@ -56,7 +56,6 @@ export class SettingsComponent implements OnInit {
     this.store
       .pipe(select(fromSlideToggle.selectAllToggles))
       .subscribe((val: IToggle[]) => {
-        console.log(val);
         if (val) {
           this.updatedToggles = val;
           this.tapToggle = val.filter(

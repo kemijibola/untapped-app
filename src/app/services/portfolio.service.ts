@@ -95,7 +95,6 @@ export class PortfolioService {
     mediaId: string,
     itemId: string
   ): Observable<IResult<boolean>> {
-    console.log("delete called");
     const url = `${this.BASE_URI}/media/${mediaId}/item/${itemId}`;
     return this.http.delete<IResult<boolean>>(url);
   }

@@ -24,7 +24,6 @@ export class UploadService {
   }
 
   s3Upload(data: CloudUploadParams[]): Observable<any> {
-    console.log(data[0].file);
     let requests = [];
 
     data.map((x) => {

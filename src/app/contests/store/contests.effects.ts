@@ -120,6 +120,23 @@ export class ContestsEffect {
     )
   );
 
+  postContestPageView = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestsActions.POST_CONTEST_VIEW),
+      concatMap((action: ContestsActions.PostContestView) =>
+        this.contestsService.postContestPageView(action.payload.id).pipe(
+          map(
+            (resp: IResult<boolean>) =>
+              new ContestsActions.PostContestViewSuccess()
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(new ContestsActions.PostContestViewFailed())
+          )
+        )
+      )
+    )
+  );
+
   postContestUnLike = createEffect(() =>
     this.action$.pipe(
       ofType(ContestsActions.REMOVE_CONTEST_LIKE),

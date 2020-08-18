@@ -4,6 +4,9 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  ViewChild,
+  ElementRef,
+  Renderer2,
 } from "@angular/core";
 import * as fromApp from "../../store/app.reducers";
 import * as fromAuth from "src/app/account/store/auth.reducers";
@@ -15,7 +18,8 @@ import { UserService } from "src/app/services/user.service";
 import * as AuthActions from "../store/auth.actions";
 import { Router } from "@angular/router";
 import { environment } from "src/environments/environment";
-import { EMAIL_REGEX } from 'src/app/lib/constants';
+import { EMAIL_REGEX } from "src/app/lib/constants";
+import * as fromAuthReducer from "../store/auth.reducers";
 
 @Component({
   selector: "app-change-email",
@@ -26,9 +30,25 @@ export class ChangeEmailComponent implements OnInit {
   userPreEmailAdress: string = "";
   changeEmailForm: FormGroup;
   emailPattern = EMAIL_REGEX;
+
+  initiated$ = this.store.pipe(
+    select(fromAuthReducer.selectChangeEmailInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromAuthReducer.selectChangeEmailInProgressStatus)
+  );
+
+  completed$ = this.store.pipe(
+    select(fromAuthReducer.selectChangeEmailCompletedStatus)
+  );
+
+  @ViewChild("changeEmailButton", { static: false })
+  changeEmailButton: ElementRef;
   constructor(
     private store: Store<fromApp.AppState>,
-    private userService: UserService
+    private userService: UserService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +69,9 @@ export class ChangeEmailComponent implements OnInit {
   }
 
   onSubmit() {
+    const changeEmailBtn = this.changeEmailButton.nativeElement;
+    this.renderer.setProperty(changeEmailBtn, "disabled", true);
+
     const newEmail: string = this.changeEmailForm.controls["email"].value;
     this.store.dispatch(
       new AuthActions.ChangeEmailAddress({
@@ -56,5 +79,6 @@ export class ChangeEmailComponent implements OnInit {
         emailChangeVerificationUri: environment.EMAIL_CHANGE_ROUTE,
       })
     );
+    this.changeEmailForm.reset();
   }
 }
