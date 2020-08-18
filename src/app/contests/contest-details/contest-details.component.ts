@@ -127,6 +127,10 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
         new ContestsAction.FetchContestById({ id: this.contestId })
       );
 
+      // this.store.dispatch(
+      //   new ContestsAction.PostContestView({ id: this.contestId })
+      // );
+
       this.store
         .pipe(select(fromAuth.selectCurrentUserData))
         .subscribe((val: IAuthData) => {
@@ -173,7 +177,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
       .subscribe((val: ContestData) => {
         if (val) {
           this.setContestantProfileIImage(val);
-          this.setContestBannerImage(val.contest.bannerImage);
+          this.setContestBannerImage(val.contest.bannerImage || "");
           this.entriesCount = val.submissions.length;
           if (
             isAfter(Date.now(), new Date(this.contestDetails.contest.endDate))
@@ -201,7 +205,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
       this.defaultEditParams
     );
     this.fullBannerImage =
-      bannerImageKey !== undefined
+      bannerImageKey !== ""
         ? fetchImageObjectFromCloudFormation(bannerImageKey, this.editParams)
         : fetchDefaultContestBanner();
   }
@@ -271,7 +275,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
   navigateToPrevious() {
     this.store.dispatch(new ContestsAction.ResetContestData());
     this.store.dispatch(new ContestsAction.ResetUserEligibilityStatus());
-    this.router.navigate(["/contests/"]);
+    this.router.navigate(["/competitions/"]);
   }
 
   private hasLikedContest(): boolean {
@@ -372,7 +376,7 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
 
   navigateToAanalysis() {
     this.router.navigate([
-      "/contests/" + this.contestDetails.contest._id + "/result",
+      "/competitions/" + this.contestDetails.contest._id + "/result",
     ]);
   }
 

@@ -18,18 +18,11 @@
             [userTypeId]="professionalUserTypeId"
             [placeholderText]="searchPlaceHolderText"
           ></app-up-search>
-          <app-up-categery-search [userTypeId]="'5dcb6ff6625f0d6058704eef'">
+          <app-up-categery-search [userTypeId]="professionalUserTypeId">
           </app-up-categery-search>
 
           <!-- professionals filter -->
-          <div
-            style="
-              width: 30px;
-              height: 30px;
-              margin: 0 auto;
-              margin-top: -30px;
-            "
-          >
+          <div style="margin: 0 auto; text-align: center;">
             <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
               ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
             /></a>

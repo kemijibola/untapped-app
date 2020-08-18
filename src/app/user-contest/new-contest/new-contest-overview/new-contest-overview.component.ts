@@ -1,6 +1,8 @@
+import { of } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import * as fromUserContest from "../../../user-contest/user-contest.reducers";
 import * as fromNewContest from "../../../user-contest/store/new-contest/new-contest.reducers";
+import * as NewContestActions from "../../../user-contest/store/new-contest/new-contest.actions";
 import { Store, select } from "@ngrx/store";
 import {
   IContest,
@@ -70,6 +72,15 @@ export class NewContestOverviewComponent implements OnInit {
   winnerCount: number = 0;
   paymentProcessor: string;
   currentOrder: IOrder | null;
+
+  isInitiated$ = this.store.pipe(select(fromOrder.selectSaveInitiatedStatus));
+
+  inProgress$ = this.store.pipe(select(fromOrder.selectSaveInProgressStatus));
+
+  isCompleted$ = this.store.pipe(select(fromOrder.selectSaveCompletedStatus));
+
+  failed$ = this.store.pipe(select(fromOrder.selectSaveFailedStatus));
+
   constructor(
     private store: Store<fromApp.AppState>,
     private router: Router,
@@ -104,6 +115,7 @@ export class NewContestOverviewComponent implements OnInit {
     this.userContestStore
       .pipe(select(fromNewContest.selectCurrentContest))
       .subscribe((val: IContest) => {
+        console.log("contest created", val);
         if (val !== null) {
           this.winnerCount = val.redeemable.length;
           this.totalRewardFund = val.redeemable.reduce(
@@ -114,7 +126,7 @@ export class NewContestOverviewComponent implements OnInit {
             0
           );
           this.totalAmount = this.totalRewardFund + this.currentService.price;
-          this.fetchContestBanner(val.bannerImage);
+          this.fetchContestBanner();
           this.contestInEdit = val;
           const difference: number = differenceInDays(
             new Date(val.endDate),
@@ -126,18 +138,40 @@ export class NewContestOverviewComponent implements OnInit {
             this.mapSelectedCategories();
           }
         } else {
-          this.router.navigate(["/user/contest/page/"], {
+          this.router.navigate(["/user/competition/page/"], {
             queryParams: { tab: "new" },
           });
         }
       });
   }
 
-  fetchContestBanner(bannerImageKey: string) {
-    this.bannerImage =
-      bannerImageKey !== undefined
-        ? fetchImageObjectFromCloudFormation(bannerImageKey, this.editParams)
-        : environment.CONTEST_BANNER_DEFAULT;
+  fetchContestBanner() {
+    this.userContestStore
+      .pipe(select(fromNewContest.selectCurrentBannerKey))
+      .subscribe((val: string) => {
+        if (val) {
+          this.bannerImage = fetchImageObjectFromCloudFormation(
+            val,
+            this.editParams
+          );
+        } else {
+          this.bannerImage = environment.CONTEST_BANNER_DEFAULT;
+        }
+      });
+  }
+
+  // fetchContestBanner(bannerImageKey: string) {
+  //   console.log("banner key", bannerImageKey);
+  //   this.bannerImage =
+  //     bannerImageKey !== undefined || bannerImageKey !== ""
+  //       ? fetchImageObjectFromCloudFormation(bannerImageKey, this.editParams)
+  //       : environment.CONTEST_BANNER_DEFAULT;
+  // }
+
+  onClickEdit(): void {
+    this.userContestStore.dispatch(
+      new NewContestActions.SetContestAgreement({ status: true })
+    );
   }
 
   mapSelectedCategories() {
@@ -176,8 +210,13 @@ export class NewContestOverviewComponent implements OnInit {
       (this.userData ? this.userData.user_data._id.substr(20) : "") +
       new Date().getTime();
   }
+
   paymentCancel() {
-    console.log("canceled");
+    this.store.dispatch(new OrderActions.CreateOrderCancelled());
+    this.onClickEdit();
+    this.router.navigate(["/user/competition/page"], {
+      queryParams: { tab: "new" },
+    });
   }
 
   paymentDone(data) {
@@ -190,7 +229,7 @@ export class NewContestOverviewComponent implements OnInit {
         })
       );
 
-      this.router.navigate(["/user/contest/new/order-success"]);
+      this.router.navigate(["/user/competition/new/order-success"]);
     }
   }
 

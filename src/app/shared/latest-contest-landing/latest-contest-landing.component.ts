@@ -138,7 +138,6 @@ export class LatestContestLandingComponent implements OnInit {
             : fetchDefaultContestBanner(),
       });
     });
-    console.log(this.runningContests);
   }
   // hideScrollBar() {
   //   if (this.runningContests.length > 0) {
@@ -146,9 +145,7 @@ export class LatestContestLandingComponent implements OnInit {
   //   }
   // }
 
-  onSelect(data: any) {
-    console.log("clicked", data);
-  }
+  onSelect(data: any) {}
 
   showinfo() {}
 }

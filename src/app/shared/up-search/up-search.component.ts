@@ -86,7 +86,6 @@ export class UpSearchComponent implements OnInit, OnChanges {
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges["placeholderText"]) {
       this.placeholder = this.placeholderText;
-      console.log(this.placeholder);
     }
   }
 }

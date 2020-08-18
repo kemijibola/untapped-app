@@ -141,7 +141,6 @@ export class WalletComponent implements OnInit {
   }
 
   onSetupAccount(modalId: string, contentCss: string) {
-    console.log("clicked");
     this.userStore.dispatch(
       new BankActions.FetchBanks({ processor: PaymentProcessor.paystack })
     );

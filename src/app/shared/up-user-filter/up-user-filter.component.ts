@@ -197,7 +197,6 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
       });
     });
 
-    console.log(this.filteredUsers);
   }
 
   onUserSelected(index: number) {

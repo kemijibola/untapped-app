@@ -170,8 +170,6 @@ export class ProfessionalBiodataComponent implements OnInit {
             this.show = false;
           }
         }
-
-        // console.log(this.selectedUser.bannerPhotoFullPath);
       });
   }
 

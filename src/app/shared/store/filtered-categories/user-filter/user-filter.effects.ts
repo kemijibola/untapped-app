@@ -57,7 +57,6 @@ export class UserFilterEffect {
               })
           ),
           catchError((respError: HttpErrorResponse) => {
-            console.log(respError);
             return of(
               new UserFilterActions.LikeTalentError({
                 user: action.payload.user,

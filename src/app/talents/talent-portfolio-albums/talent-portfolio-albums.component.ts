@@ -296,13 +296,9 @@ export class TalentPortfolioAlbumsComponent
   //     });
   // }
 
-  ngAfterViewInit() {
-    console.log("I'm fully loaded");
-  }
+  ngAfterViewInit() {}
 
-  ngAfterContentInit() {
-    console.log("I'm fully loaded content");
-  }
+  ngAfterContentInit() {}
 
   triggerImageAlbum() {}
 

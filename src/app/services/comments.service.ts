@@ -13,13 +13,11 @@ export class CommentsService {
   }
 
   fetchMediaComments(entityId: string): Observable<IResult<IComment[]>> {
-    console.log(entityId);
     const url = `${this.BASE_URI}/comments/entity/${entityId}`;
     return this.http.get<IResult<IComment[]>>(url);
   }
 
   postMediaComment(data: IComment): Observable<IResult<IComment>> {
-    console.log("calling service to add comment");
     const url = `${this.BASE_URI}/comments`;
     return this.http.post<IResult<IComment>>(url, {
       entity: data.entity,

@@ -26,6 +26,9 @@ export const FAILURE_EMAIL_CONFIRMATION = "FAILURE_EMAIL_CONFIRMATION";
 export const CHECK_TOKEN_EXPIRED = "CHECK_TOKEN_EXPIRED";
 export const PROCEED_TO_ROUTE = "PROCEED_TO_ROUTE";
 export const CHANGE_EMAIL_ADDRESS = "CHANGE_EMAIL_ADDRESS";
+export const CHANGE_EMAIL_ADDRESS_SUCCESSFUL =
+  "CHANGE_EMAIL_ADDRESS_SUCCESSFUL";
+export const CHANGE_EMAIL_ADDRESS_FAILED = "CHANGE_EMAIL_ADDRESS_FAILED";
 export const CHANGE_EMAIL_ADDRESS_SUCCESS = "CHANGE_EMAIL_ADDRESS_SUCCESS";
 export const VERIFY_EMAIL_CHANGE = "VERIFY_EMAIL_CHANGE";
 export const VERIFY_EMAIL_CHANGE_SUCCESS = "VERIFY_EMAIL_CHANGE_SUCCESS";
@@ -41,6 +44,7 @@ export const RESEND_CONFIRMATION_MAIL_SUCCESS =
   "RESEND_CONFIRMATION_MAIL_SUCCESS";
 export const RESEND_CONFIRMATION_MAIL_FAILED =
   "RESEND_CONFIRMATION_MAIL_FAILED";
+export const REDIRECT_TO_LOGIN = "REDIRECT_TO_LOGIN";
 
 export class DoSignUp implements Action {
   readonly type = DO_SIGNUP;
@@ -119,8 +123,14 @@ export class ChangeEmailAddress implements Action {
     public payload: { newEmail: string; emailChangeVerificationUri: string }
   ) {}
 }
+export class ChangeEmailAddressSuccessful implements Action {
+  readonly type = CHANGE_EMAIL_ADDRESS_SUCCESSFUL;
+}
 export class ChangeEmailAddressSuccess implements Action {
   readonly type = CHANGE_EMAIL_ADDRESS_SUCCESS;
+}
+export class ChangeEmailAddressFailed implements Action {
+  readonly type = CHANGE_EMAIL_ADDRESS_FAILED;
 }
 export class VerifyEmailChange implements Action {
   readonly type = VERIFY_EMAIL_CHANGE;
@@ -171,6 +181,9 @@ export class ResendConfirmationMailSuccess implements Action {
 export class ResendConfirmationMailFailed implements Action {
   readonly type = RESEND_CONFIRMATION_MAIL_FAILED;
 }
+export class RedirectToLogin implements Action {
+  readonly type = REDIRECT_TO_LOGIN;
+}
 
 export type AuthActions =
   | SignUpSuccess
@@ -204,4 +217,7 @@ export type AuthActions =
   | ResendConfirmationMail
   | ResendConfirmationMailSuccess
   | ResendConfirmationMailFailed
-  | RequsetPasswordResetFailed;
+  | RequsetPasswordResetFailed
+  | RedirectToLogin
+  | ChangeEmailAddressFailed
+  | ChangeEmailAddressSuccessful;

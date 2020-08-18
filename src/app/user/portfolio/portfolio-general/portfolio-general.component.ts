@@ -56,7 +56,6 @@ export class PortfolioGeneralComponent implements OnInit {
     this.userStore
       .pipe(select(fromMediaPreview.selectUserGeneralPreviews))
       .subscribe((val: GeneralPreview[]) => {
-        console.log(val);
         if (val.length > 0) {
           this.setMedia(val);
         }

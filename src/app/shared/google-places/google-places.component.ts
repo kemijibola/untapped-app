@@ -32,7 +32,6 @@ export class GooglePlacesComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     this.getPlaceAutocomplete();
-    console.log("google places entered");
   }
 
   private getPlaceAutocomplete() {

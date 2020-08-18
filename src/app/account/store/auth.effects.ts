@@ -19,6 +19,7 @@ import {
   take,
   scan,
   filter,
+  delay,
 } from "rxjs/operators";
 import { of, Observable, throwError, empty, pipe, scheduled } from "rxjs";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -128,6 +129,15 @@ export class AuthEffects {
     )
   );
 
+  redirectToLogin = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.REDIRECT_TO_LOGIN),
+        pipe(tap(() => this.router.navigate(["/account/login"])))
+      ),
+    { dispatch: false }
+  );
+
   doEmailChange = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.CHANGE_EMAIL_ADDRESS),
@@ -138,14 +148,14 @@ export class AuthEffects {
             action.payload.emailChangeVerificationUri
           )
           .pipe(
-            map(
-              (resp: IResult<boolean>) =>
-                new NotificationActions.AddSuccess({
-                  key: AppNotificationKey.success,
-                  code: 200,
-                  message: `Verification link has been sent to ${action.payload.newEmail.toLowerCase()}.`,
-                })
-            ),
+            mergeMap((resp: IResult<boolean>) => [
+              new NotificationActions.AddSuccess({
+                key: AppNotificationKey.success,
+                code: 200,
+                message: `Verification link has been sent to ${action.payload.newEmail.toLowerCase()}.`,
+              }),
+              new AuthActions.ChangeEmailAddressSuccessful(),
+            ]),
             catchError((respError: HttpErrorResponse) =>
               of(
                 new NotificationActions.AddError({
@@ -154,7 +164,8 @@ export class AuthEffects {
                   message:
                     respError.error.response_message ||
                     "No Internet connection",
-                })
+                }),
+                new AuthActions.ChangeEmailAddressFailed()
               )
             )
           )
@@ -178,7 +189,8 @@ export class AuthEffects {
                 code: respError.error.response_code || -1,
                 message:
                   respError.error.response_message || "No Internet connection",
-              })
+              }),
+              new AuthActions.RedirectToLogin()
             )
           )
         )
@@ -350,13 +362,22 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  confirmEmailSuccess = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
-        pipe(tap(() => this.router.navigate(["/account/login"])))
-      ),
-    { dispatch: false }
+  confirmEmailSuccess = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.SUCCESS_EMAIL_CONFIRMATION),
+      pipe(
+        map(
+          () =>
+            new NotificationActions.AddSuccess({
+              key: AppNotificationKey.success,
+              code: 200,
+              message: "Email has been confirmed successfully",
+            })
+        ),
+        delay(1000),
+        tap(() => this.router.navigate(["/account/login"]))
+      )
+    )
   );
 
   proceedToRoute = createEffect(

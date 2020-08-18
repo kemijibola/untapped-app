@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
   };
   newUserLocation: string = "";
   userType: string = "";
-  shortbioCount: number = 250;
+  shortbioCount: number = 2000;
   phonePattern = PHONE_REGEX;
   facebookPattern = FACEBOOK_REGEX;
   instagramPattern = INSTAGRAM_REGEX;
@@ -130,7 +130,6 @@ export class ProfileComponent implements OnInit {
           );
           this._id = val._id;
           this.name = val.name;
-          // this.rcNumber = val.rcNumber;
           this.location = val.formattedAddres;
           this.phoneNumber = val.phoneNumbers[0];
           this.shortBio = val.shortBio;
@@ -161,7 +160,6 @@ export class ProfileComponent implements OnInit {
         if (_.has(val, "address")) {
           this.userLocation = val;
           this.location = val["address"].formattedAddres;
-          console.log(this.location);
         }
       });
   }
@@ -183,7 +181,7 @@ export class ProfileComponent implements OnInit {
       ),
       shortBio: new FormControl(this.shortBio, [
         Validators.minLength(80),
-        Validators.maxLength(250),
+        Validators.maxLength(2000),
       ]),
       facebook: new FormControl(this.facebook),
       instagram: new FormControl(this.instagram),

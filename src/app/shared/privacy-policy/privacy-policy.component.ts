@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { environment } from "src/environments/environment";
 
 @Component({
-  selector: 'app-privacy-policy',
-  templateUrl: './privacy-policy.component.html',
-  styleUrls: ['./privacy-policy.component.css']
+  selector: "app-privacy-policy",
+  templateUrl: "./privacy-policy.component.html",
+  styleUrls: ["./privacy-policy.component.css"],
 })
 export class PrivacyPolicyComponent implements OnInit {
+  privacyPolicyUpdateDate = environment.COMPETITION_TERMS_LAST_DATE;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -98,6 +98,6 @@ export class UploadEffect {
   ) {}
 
   private getActionFromHttpEvent(event: HttpEvent<any>) {
-    console.log(event);
+    
   }
 }

@@ -31,11 +31,11 @@
       </li>
       <li (click)="onSideToggleClick()">
         <a
-          routerLink="/contests"
+          routerLink="/competitions"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
         >
-          Contests</a
+          Competitions</a
         >
       </li>
     </ul>
@@ -44,11 +44,11 @@
       <li (click)="onSideToggleClick()">
         <a
           *ngIf="typeOfUser === 'Professional'"
-          routerLink="user/contest/page"
+          routerLink="user/competition/page"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
           [queryParams]="{ tab: 'all' }"
-          >Manage Contest</a
+          >Manage Competition</a
         >
       </li>
       <li (click)="onSideToggleClick()">
@@ -86,7 +86,6 @@
       </li>
       <li (click)="onSideToggleClick()">
         <a
-          *ngIf="typeOfUser === 'Talent'"
           routerLink="./user/{{ userPreEmailAdress }}"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
@@ -134,12 +133,12 @@
         </li>
         <li>
           <a
-            routerLink="/contests"
+            routerLink="/competitions"
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="visited"
             (click)="onSideToggleClick()"
           >
-            Contests</a
+            Competitions</a
           >
         </li>
       </ul>
@@ -215,11 +214,11 @@
               </li>
               <li>
                 <a
-                  routerLink="/contests"
+                  routerLink="/competitions"
                   [routerLinkActiveOptions]="{ exact: true }"
                   routerLinkActive="visited"
                 >
-                  Contests</a
+                  Competitions</a
                 >
               </li>
             </ul>
@@ -242,11 +241,7 @@
                 <li class="bell">
                   <a><i class="far fa-bell"></i></a><span>4</span>
                 </li>
-                <li
-                  class="user"
-                  (click)="onToggle()"
-                  (mouseenter)="onMouseEnter()"
-                >
+                <li class="user" (click)="onToggle()">
                   <img
                     #headerImage
                     [defaultImage]="userImage"
@@ -273,7 +268,6 @@
                   </span>
                   <div
                     class="drpdown"
-                    (mouseleave)="onMouseLeave()"
                     [class.active.drpdown]="showDropDown"
                     [class.user.icon]="showDropDown"
                   >
@@ -281,21 +275,21 @@
                       <li>
                         <a
                           *ngIf="typeOfUser === 'Professional'"
-                          routerLink="user/contest/page"
+                          routerLink="user/competition/page"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'new' }"
-                          >New Contest</a
+                          >New Competition</a
                         >
                       </li>
                       <li>
                         <a
                           *ngIf="typeOfUser === 'Professional'"
-                          routerLink="user/contest/page"
+                          routerLink="user/competition/page"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'all' }"
-                          >Contests</a
+                          >Competitions</a
                         >
                       </li>
                       <li>
@@ -337,7 +331,6 @@
                       </li>
                       <li>
                         <a
-                          *ngIf="typeOfUser === 'Talent'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"

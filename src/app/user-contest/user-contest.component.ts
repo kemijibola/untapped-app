@@ -2,12 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Store, select } from "@ngrx/store";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as fromApp from "../store/app.reducers";
-import { IAppTab, ITab, IService } from "../interfaces";
+import { IAppTab, ITab, IService, IAuthData } from "../interfaces";
 import { AbstractTabComponent } from "../shared/Classes/abstract/abstract-tab/abstract-tab.component";
-import { UUID } from "angular2-uuid";
-import * as fromService from "../shared/store/service/service.reducers";
-import * as ServiceActions from "../shared/store/service/service.actions";
-import * as CategoryTypeActions from "src/app/shared/store/category-type/category-type.actions";
+import * as fromAuth from "src/app/account/store/auth.reducers";
 
 @Component({
   selector: "app-user-contest",
@@ -18,17 +15,17 @@ export class UserContestComponent extends AbstractTabComponent {
   queryParam = "all";
   activeTab: ITab;
   toQueryParam = "all";
-  contest: IService;
   tabPanel: IAppTab = {
     id: "user-contest",
     divClass: "all-contest-area pt-40 pb-60 pl-130",
     navClass: "nav nav-tabs mb-50 all-tablinks",
     tabs: [
-      { index: 0, title: "Contest", tag: "all", active: false },
-      { index: 1, title: "New Contest", tag: "new", active: false },
+      { index: 0, title: "Competitions", tag: "all", active: false },
+      { index: 1, title: "New Competition", tag: "new", active: false },
       { index: 2, title: "Setting", tag: "settings", active: false },
     ],
   };
+  currentUserType: string = "";
   constructor(
     public store: Store<fromApp.AppState>,
     public router: Router,
@@ -36,26 +33,17 @@ export class UserContestComponent extends AbstractTabComponent {
   ) {
     super();
 
-    this.store.dispatch(new ServiceActions.FetchServices());
-
-
     this.store
-      .pipe(select(fromService.selectAllServices))
-      .subscribe((val: IService[]) => {
-        this.contest = val.filter((x) => x.name === "Contest Setup")[0];
-        if (this.contest) {
-          console.log(this.contest);
-          this.store.dispatch(
-            new ServiceActions.FetchService({
-              serviceId: this.contest._id,
-            })
-          );
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        if (val.authenticated) {
+          this.currentUserType = val.user_data.userType.name;
         }
       });
   }
 
   navigate(): void {
-    this.router.navigate(["/user/contest/page"], {
+    this.router.navigate(["/user/competition/page"], {
       queryParams: { tab: this.queryParam },
     });
   }

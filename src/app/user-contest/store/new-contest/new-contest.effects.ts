@@ -47,11 +47,42 @@ export class NewUserContestEffect {
     )
   );
 
+  updateContest = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NewContestActions.UPDATE_CONTEST),
+      concatMap((action: NewContestActions.UpdateContest) =>
+        this.contestsService.updateContest(action.payload.newContest).pipe(
+          mergeMap((resp: IResult<IContest>) => {
+            return [
+              new NewContestActions.SetContest({
+                contest: resp.data,
+              }),
+              new NewContestActions.CreateContestSuccess(),
+            ];
+          }),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              }),
+              new NewContestActions.UpdateContestError()
+            )
+          )
+        )
+      )
+    )
+  );
+
   createContestSuccess = createEffect(
     () =>
       this.actions$.pipe(
         ofType(NewContestActions.CREATE_CONTEST_SUCCESS),
-        pipe(tap(() => this.router.navigate(["/user/contest/new/overview"])))
+        pipe(
+          tap(() => this.router.navigate(["/user/competition/new/overview"]))
+        )
       ),
     { dispatch: false }
   );

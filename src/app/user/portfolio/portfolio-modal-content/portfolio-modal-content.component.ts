@@ -184,7 +184,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromSlideToggle.selectCurrentSlideToggle))
       .subscribe((val: IToggle) => {
-        console.log(val);
         if (val !== undefined) {
           this.modalUploadToggle = val;
           this.multiple = val.state;

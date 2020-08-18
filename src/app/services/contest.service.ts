@@ -47,9 +47,9 @@ export class ContestService {
     return this.http.get<IResult<IUserContest[]>>(url);
   }
 
-  findContestByTitle(title: string): Observable<IResult<IContest[]>> {
-    const url = `${this.BASE_URI}/contests`;
-    return this.http.get<IResult<IContest[]>>(`${url}?title=${title}`);
+  findContestByTitle(title: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/contests/validate/title`;
+    return this.http.get<IResult<boolean>>(`${url}?title=${title}`);
   }
 
   fetchRunningContests(): Observable<IResult<ContestWithEntriesPreview[]>> {
@@ -77,7 +77,6 @@ export class ContestService {
   fetchContestsCreatedByUser(): Observable<
     IResult<IUserContestListAnalysis[]>
   > {
-    console.log("called");
     const url = `${this.BASE_URI}/contests/user/contests`;
     return this.http.get<IResult<IUserContestListAnalysis[]>>(url);
   }
@@ -85,6 +84,16 @@ export class ContestService {
   createContest(item: IContest): Observable<IResult<IContest>> {
     const url = `${this.BASE_URI}/contests`;
     return this.http.post<IResult<IContest>>(url, item);
+  }
+
+  updateContest(data: IContest): Observable<IResult<IContest>> {
+    const url = `${this.BASE_URI}/contests/${data._id}`;
+    return this.http.put<IResult<IContest>>(url, data);
+  }
+
+  postContestPageView(id: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/contests/${id}/page-count`;
+    return this.http.put<IResult<boolean>>(url, {});
   }
 
   enterContest(item: IContestEntry): Observable<IResult<IContestEntry>> {

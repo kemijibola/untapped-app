@@ -1,170 +1,262 @@
-<form [formGroup]="contestForm">
-  <div
-    class="tab-pane fade show active row tab2"
-    id="profile"
-    role="tabpanel"
-    aria-labelledby="profile-tab"
-  >
+<form [formGroup]="contestForm" #contestFm>
+  <div *ngIf="!canProceed">
     <div class="row">
-      <div class="col-xl-7 col-lg-7 col-md-7 col-12">
-        <div class="collect-outer-wrapper">
-          <div>
-            <div
-              class="details-content new-contest-banner-top"
-              style="display: none;"
+      <div class="col-xl-12">
+        <div class="about-author mb-40">
+          <h5><b>Conditions for creating this competition</b></h5>
+          <p>
+            <span>1. </span> Creating this competition is
+            <span style="color: red;">Free</span>
+          </p>
+          <p>
+            <span>2. </span> This competition currency is in
+            <span style="color: red;">Nigerian naira</span>
+          </p>
+          <p>
+            <span>3. </span> Competition creator shall deposit the reward/prize
+            funds for this competition before commencing this competition
+          </p>
+          <p>
+            <span>4. </span> This competition shall be by a dedicated SMS voting
+            system
+          </p>
+          <p>
+            <span>5. </span> Each SMS costs
+            <span style="color: red;">NGN 30</span> for all network providers
+          </p>
+          <p>
+            <span>6. </span> The network providers pay the following per SMS:
+            <li><span>Globacom:</span> NGN 0.7355</li>
+            <li><span>MTN:</span> NGN 3.628</li>
+            <li><span>Airtel:</span> NGN 3.0495</li>
+            <li>
+              <span>Etisalat:</span>
+              N0.7355
+            </li>
+          </p>
+          <p>
+            <span>7. </span> Untapped Pool shall pay competition creator
+            accumulated votes' fund at the expiration of this competition,
+            subject to these conditions
+          </p>
+          <p>
+            <span>8. </span> All payments shall be done every
+            <span style="color: red;">90 - 120 days</span>
+          </p>
+          <p>
+            <span>9. </span> A minimum of
+            <span style="color: red;">1000</span> SMS hits per competition is
+            required before payments shall be made
+          </p>
+          <p>
+            <span>10. </span> This competition shall be rolled over for another
+            <span style="color: red;">90 days</span> where the required minimum
+            number of SMS hits was not met
+          </p>
+          <p>
+            <span>11. </span> Untapped Pool charges a
+            <span style="color: red;">5%</span> of the total amount of
+            accumulated votes' funds before payment shall be made to competition
+            creator
+          </p>
+          <div [formGroup]="agreementForm">
+            <label class="form round">
+              <input formControlName="terms" type="checkbox" />
+              <span
+                class="error-block"
+                *ngIf="agreement.terms.invalid && agreement.terms.errors"
+              >
+                * Required
+              </span>
+              By clicking proceed, you agree to the competition condition above
+              <span class="checkmark"></span>
+            </label>
+
+            <button
+              class="box-btn profile-save"
+              [class.box-btn-disable]="!agreementForm.valid"
+              [disabled]="!agreementForm.valid"
+              (click)="onClickContinue()"
+              type="button"
             >
-              <div class="sidebar-img">
-                <img
-                  [defaultImage]="defaultBannerImage"
-                  [lazyLoad]="bannerImage"
-                  style="width: 482px; height: 200px; background: lightgray;"
-                />
-              </div>
-            </div>
-            <p>
-              Fill contest details; title, information, contest banner, eligible
-              categories, contest duration, entry media type and reward(s)
-              <span class="error-block"
-                >* All prize monies are in Nigeria currency - NGN</span
-              >
-            </p>
-            <p></p>
-            <div class="input-1">
-              <label for="">
-                <span
-                  class="error-block"
-                  *ngIf="
-                    !contestForm.get('title').valid &&
-                    contestForm.get('title').touched &&
-                    !contestForm.get('title').hasError('titleExist')
-                  "
-                >
-                  * Please provide provide
-                </span>
-                <span
-                  class="error-block"
-                  *ngIf="contestForm.get('title').hasError('titleExist')"
-                >
-                  * Contest title exist
-                </span>
-                Contest Title</label
-              >
-              <input
-                type="text"
-                class="input-design"
-                formControlName="title"
-                placeholder="Some fancy title for your contest"
-              />
-            </div>
-            <div class="input-1">
+              <span>CONTINUE</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="canProceed">
+    <div
+      class="tab-pane fade show active row tab2"
+      id="profile"
+      role="tabpanel"
+      aria-labelledby="profile-tab"
+    >
+      <div class="row">
+        <div class="col-xl-7 col-lg-7 col-md-7 col-12">
+          <div class="collect-outer-wrapper">
+            <div>
               <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                  width: 80%;
-                "
+                class="details-content new-contest-banner-top"
+                style="display: none;"
               >
+                <div class="sidebar-img">
+                  <img
+                    [defaultImage]="defaultBannerImage"
+                    [lazyLoad]="bannerImage"
+                    style="width: 482px; height: 200px; background: lightgray;"
+                  />
+                </div>
+              </div>
+              <p>
+                Fill competition details; title, information, competition
+                banner, eligible categories, competition duration, entry media
+                type and reward(s)
+                <span class="error-block">* All prize monies in Naira</span>
+              </p>
+              <p></p>
+              <div class="input-1">
                 <label for="">
                   <span
                     class="error-block"
                     *ngIf="
-                      !contestForm.get('basicInfo').valid &&
-                      contestForm.get('basicInfo').touched &&
-                      !contestForm.get('basicInfo').hasError('minlength') &&
-                      !!contestForm.get('basicInfo').hasError('maxlength')
+                      !contestForm.get('title').valid &&
+                      contestForm.get('title').touched &&
+                      !contestForm.get('title').hasError('titleExist')
                     "
                   >
-                    * Please provide
+                    * Please provide provide
                   </span>
-
                   <span
                     class="error-block"
-                    *ngIf="
-                      contestForm.get('basicInfo').hasError('minlength') &&
-                      !contestForm.get('basicInfo').hasError('maxlength')
-                    "
+                    *ngIf="contestForm.get('title').hasError('titleExist')"
                   >
-                    * Contest Information length must be greater than 80
+                    * Competition title exist
                   </span>
-
-                  <span
-                    class="error-block"
-                    *ngIf="
-                      !contestForm.get('basicInfo').hasError('minlength') &&
-                      contestForm.get('basicInfo').hasError('maxlength')
-                    "
-                  >
-                    * Contest Information length must be less than 250
-                  </span>
-
-                  Contest Information
-                </label>
-                <span *ngIf="basicInfo.value.length < informationLength">
-                  <small class="form-text text-muted"
-                    ><span style="color: red;">{{
-                      basicInfo.value.length
-                    }}</span>
-                    of
-                    <span style="color: red;">{{
-                      informationLength
-                    }}</span></small
-                  >
-                </span>
-              </div>
-              <textarea
-                class="input-design"
-                placeholder="Tell us more about your contest"
-                formControlName="basicInfo"
-                cols="30"
-                rows="10"
-                #basicInfo
-                style="resize: none;"
-              ></textarea>
-            </div>
-            <div class="upload">
-              <div class="head">
-                <label for="">+ Upload contest banner</label>
-                <span>Banner size 500px by 400px</span>
-              </div>
-              <div class="upload-fld">
-                <input readonly placeholder="Drag and drop file to upload or" />
-                <button
-                  [disabled]="
-                    (uploadInitiated$ | async) || (uploadInProgress$ | async)
-                  "
-                  (click)="onClickBrowseBtn()"
+                  Competition Title</label
                 >
-                  <span
-                    *ngIf="
-                      (uploadCompleted$ | async) ||
-                      (uploadFailed$ | async) ||
-                      (uploadReady$ | async)
-                    "
-                  >
-                    BROWSE
+                <input
+                  type="text"
+                  class="input-design"
+                  formControlName="title"
+                  placeholder="Some fancy title for your contest"
+                />
+              </div>
+              <div class="input-1">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 80%;
+                  "
+                >
+                  <label for="">
+                    <span
+                      class="error-block"
+                      *ngIf="
+                        !contestForm.get('basicInfo').valid &&
+                        contestForm.get('basicInfo').touched &&
+                        !contestForm.get('basicInfo').hasError('minlength') &&
+                        !!contestForm.get('basicInfo').hasError('maxlength')
+                      "
+                    >
+                      * Please provide
+                    </span>
+
+                    <span
+                      class="error-block"
+                      *ngIf="
+                        contestForm.get('basicInfo').hasError('minlength') &&
+                        !contestForm.get('basicInfo').hasError('maxlength')
+                      "
+                    >
+                      * Competition Information length must be greater than 80
+                    </span>
+
+                    <span
+                      class="error-block"
+                      *ngIf="
+                        !contestForm.get('basicInfo').hasError('minlength') &&
+                        contestForm.get('basicInfo').hasError('maxlength')
+                      "
+                    >
+                      * Competition Information length must be less than 250
+                    </span>
+
+                    Competition Information
+                  </label>
+                  <span *ngIf="basicInfo.value.length < informationLength">
+                    <small class="form-text text-muted"
+                      ><span style="color: red;">{{
+                        basicInfo.value.length
+                      }}</span>
+                      of
+                      <span style="color: red;">{{
+                        informationLength
+                      }}</span></small
+                    >
                   </span>
-                  <span
-                    *ngIf="
+                </div>
+                <textarea
+                  class="input-design"
+                  placeholder="Tell us more about your competition"
+                  formControlName="basicInfo"
+                  cols="30"
+                  rows="10"
+                  #basicInfo
+                  style="resize: none;"
+                ></textarea>
+              </div>
+              <div class="upload">
+                <div class="head">
+                  <label for="">+ Upload competition banner</label>
+                  <span>Banner size 500px by 400px</span>
+                </div>
+                <div class="upload-fld">
+                  <input
+                    readonly
+                    placeholder="Drag and drop file to upload or"
+                  />
+                  <button
+                    [disabled]="
                       (uploadInitiated$ | async) || (uploadInProgress$ | async)
                     "
+                    (click)="onClickBrowseBtn()"
                   >
-                    UPLOADING...
-                  </span>
-                </button>
-                <!-- upload component goes here -->
-                <app-upload [fileConfig]="fileConfig"> </app-upload>
-                <!-- upload component goes here -->
-              </div>
-              <div class="input-1 col-xl-8" style="padding: inherit;">
-                <label for="">Eligble categories</label>
-                <app-talent-categories
-                  [text]="'Select eligible category'"
-                  [placeholderText]="'Select category'"
-                >
-                </app-talent-categories>
-              </div>
-              <!-- <div class="input-1">
+                    <span
+                      *ngIf="
+                        (uploadCompleted$ | async) ||
+                        (uploadFailed$ | async) ||
+                        (uploadReady$ | async)
+                      "
+                    >
+                      BROWSE
+                    </span>
+                    <span
+                      *ngIf="
+                        (uploadInitiated$ | async) ||
+                        (uploadInProgress$ | async)
+                      "
+                    >
+                      UPLOADING...
+                    </span>
+                  </button>
+                  <!-- upload component goes here -->
+                  <app-upload [fileConfig]="fileConfig"> </app-upload>
+                  <!-- upload component goes here -->
+                </div>
+                <div class="input-1 col-xl-8" style="padding: inherit;">
+                  <label for="">Eligble categories</label>
+                  <app-talent-categories
+                    [text]="'Select eligible category'"
+                    [placeholderText]="'Select category'"
+                  >
+                  </app-talent-categories>
+                </div>
+                <!-- <div class="input-1">
                 <label for="">Eligibility</label>
                 <textarea
                   formControlName="eligibityRule"
@@ -185,201 +277,311 @@
                   style="resize: none;"
                 ></textarea>
               </div> -->
-              <div class="duration">
-                <label for="">
-                  <span
-                    class="error-block"
-                    *ngIf="
-                      !contestForm.get('contestDuration').valid &&
-                      contestForm.get('contestDuration').touched
-                    "
+                <div class="duration">
+                  <label for="">
+                    <span
+                      class="error-block"
+                      *ngIf="
+                        !contestForm.get('contestDuration').valid &&
+                        contestForm.get('contestDuration').touched
+                      "
+                    >
+                      * Competition duration is required
+                    </span>
+                    Competition duration (<small>start date - end date</small
+                    >)</label
                   >
-                    * Contest duration is required
-                  </span>
-                  Contest duration (<small>start date - end date</small>)</label
-                >
-                <div class="duration-inner">
-                  <input
-                    style="cursor: pointer;"
-                    class="input-design"
-                    formControlName="contestDuration"
-                    [owlDateTimeTrigger]="dt10"
-                    [owlDateTime]="dt10"
-                    [selectMode]="'range'"
-                    [min]="minDate"
-                    [max]="maxDate"
-                    title="Click to select start and end date"
-                  />
-                  <owl-date-time #dt10></owl-date-time>
+                  <div class="duration-inner">
+                    <input
+                      style="cursor: pointer;"
+                      class="input-design"
+                      formControlName="contestDuration"
+                      [owlDateTimeTrigger]="dt10"
+                      [owlDateTime]="dt10"
+                      [selectMode]="'range'"
+                      [min]="minDate"
+                      [max]="maxDate"
+                      title="Click to select start and end date"
+                    />
+                    <owl-date-time #dt10></owl-date-time>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="upload" style="width: 70%; margin-top: 5px;">
-              <div class="duration">
-                <label for="" style="margin-top: 1rem;">
-                  <span
-                    class="error-block"
-                    *ngIf="
-                      !contestForm.get('entryMedia').valid &&
-                      contestForm.get('entryMedia').touched
+              <div class="upload" style="width: 70%; margin-top: 5px;">
+                <div class="duration">
+                  <label for="" style="margin-top: 1rem;">
+                    <span
+                      class="error-block"
+                      *ngIf="
+                        !contestForm.get('entryMedia').valid &&
+                        contestForm.get('entryMedia').touched
+                      "
+                    >
+                      Please provide provide
+                    </span>
+                    Submission Media Type</label
+                  >
+                  <input
+                    formControlName="entryMedia"
+                    [(ngModel)]="selectedMediaType"
+                    style="
+                      cursor: pointer;
+                      height: 50px;
+                      background-color: #fafafa;
+                      border: 1px solid #d8d8d8 !important;
+                      width: 86%;
+                      border-radius: 5px;
+                      padding: 10px 15px;
                     "
-                  >
-                    Please provide provide
-                  </span>
-                  Entry Media Type</label
-                >
-                <input
-                  formControlName="entryMedia"
-                  [(ngModel)]="selectedMediaType"
-                  style="
-                    cursor: pointer;
-                    height: 50px;
-                    background-color: #fafafa;
-                    border: 1px solid #d8d8d8 !important;
-                    width: 86%;
-                    border-radius: 5px;
-                    padding: 10px 15px;
-                  "
-                  (click)="onClick()"
-                />
-                <div
-                  class="custom-dropdown-container"
-                  (mouseleave)="onMouseLeave()"
-                  style="
-                    z-index: 100;
-                    position: absolute;
-                    width: 57%;
-                    border-radius: 2px;
-                  "
-                  *ngIf="showMediaTypes"
-                >
+                    (click)="onClick()"
+                  />
                   <div
-                    class="custom-dropdown"
-                    style="cursor: pointer;"
-                    *ngFor="let media of mediaTypes; let i = index"
-                    (click)="onSelectedMedia(i)"
+                    class="custom-dropdown-container"
+                    (mouseleave)="onMouseLeave()"
+                    style="
+                      z-index: 100;
+                      position: absolute;
+                      width: 57%;
+                      border-radius: 2px;
+                    "
+                    *ngIf="showMediaTypes"
                   >
-                    {{ media.name }}
+                    <div
+                      class="custom-dropdown"
+                      style="cursor: pointer;"
+                      *ngFor="let media of mediaTypes; let i = index"
+                      (click)="onSelectedMedia(i)"
+                    >
+                      {{ media.name }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-xl-5 col-lg-5 col-md-5 col-12 new-contest-banner">
-        <div class="right-wrapper">
-          <div class="details-content">
-            <div class="sidebar-img">
-              <img
-                [defaultImage]="defaultBannerImage"
-                [lazyLoad]="bannerImage"
-                style="width: 482px; height: 395px; background: lightgray;"
-              />
+        <div class="col-xl-5 col-lg-5 col-md-5 col-12 new-contest-banner">
+          <div class="right-wrapper">
+            <div class="details-content">
+              <div class="sidebar-img">
+                <img
+                  [defaultImage]="defaultBannerImage"
+                  [lazyLoad]="bannerImage"
+                  style="width: 482px; height: 395px; background: lightgray;"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div
-    class="tab-pane fade show active row tab2"
-    id="profile"
-    role="tabpanel"
-    aria-labelledby="profile-tab"
-  >
-    <div class="row">
-      <div class="col-12">
-        <div class="collect-outer-wrapper">
-          <div>
-            <div class="upload">
-              <div class="prize">
-                <div class="hd">
-                  <h4>
-                    Reward/Rewards
-                  </h4>
-                  <span
-                    class="error-block"
-                    *ngIf="!contestRewards.valid && contestRewards.touched"
-                  >
-                    Please provide reward / rewards
-                  </span>
-                </div>
-              </div>
-              <div class="winer-blk" formArrayName="contestRewards">
-                <div
-                  *ngFor="let reward of contestRewards.controls; let i = index"
-                  [formGroupName]="i"
-                >
-                  <div class="single-winner-blk">
-                    <label for=""> Winner {{ i + 1 }}: </label>
-                    <input
-                      #prizeInput
-                      class="input-design"
-                      currencyMask
-                      formControlName="reward"
-                      [options]="{
-                        prefix: 'NGN ',
-                        thousands: ',',
-                        precision: 0,
-                        decimal: '.',
-                        nullable: false,
-                        allowNegative: false,
-                        allowZero: false,
-                        value: 5000
-                      }"
-                    />
-                    <button
-                      class="btn btn-danger cancel-winner-btn"
-                      (click)="deleteReward(i)"
+    <div
+      class="tab-pane fade show active row tab2"
+      id="profile"
+      role="tabpanel"
+      aria-labelledby="profile-tab"
+    >
+      <div class="row">
+        <div class="col-12">
+          <div class="collect-outer-wrapper">
+            <div>
+              <div class="upload">
+                <div class="prize">
+                  <div class="hd">
+                    <h4>
+                      Reward/Rewards
+                    </h4>
+                    <span
+                      class="error-block"
+                      *ngIf="!contestRewards.valid && contestRewards.touched"
                     >
-                      X
-                    </button>
+                      Please provide reward / rewards
+                    </span>
                   </div>
                 </div>
-                <div class="add-more-blk" style="cursor: pointer;">
-                  <a (click)="onAddReward()"
-                    ><i class="fal fa-plus"></i>Add More winners</a
+                <div class="winer-blk" formArrayName="contestRewards">
+                  <div
+                    *ngFor="
+                      let reward of contestRewards.controls;
+                      let i = index
+                    "
+                    [ngSwitch]="i"
+                    [formGroupName]="i"
                   >
+                    <div class="single-winner-blk" *ngSwitchCase="0">
+                      <label for="" style="margin-right: 0.4rem;">
+                        1st Place:
+                      </label>
+                      <input
+                        #prizeInput
+                        class="input-design"
+                        currencyMask
+                        formControlName="reward"
+                        [options]="{
+                          prefix: 'NGN ',
+                          thousands: ',',
+                          precision: 0,
+                          decimal: '.',
+                          nullable: false,
+                          allowNegative: false,
+                          allowZero: false,
+                          value: 5000
+                        }"
+                      />
+                      <button
+                        class="btn btn-danger cancel-winner-btn"
+                        (click)="deleteReward(i)"
+                      >
+                        X
+                      </button>
+                    </div>
+                    <div class="single-winner-blk" *ngSwitchCase="1">
+                      <label for="" style="margin-right: 0.4rem;">
+                        2nd Place:
+                      </label>
+                      <input
+                        #prizeInput
+                        class="input-design"
+                        currencyMask
+                        formControlName="reward"
+                        [options]="{
+                          prefix: 'NGN ',
+                          thousands: ',',
+                          precision: 0,
+                          decimal: '.',
+                          nullable: false,
+                          allowNegative: false,
+                          allowZero: false,
+                          value: 5000
+                        }"
+                      />
+                      <button
+                        class="btn btn-danger cancel-winner-btn"
+                        (click)="deleteReward(i)"
+                      >
+                        X
+                      </button>
+                    </div>
+                    <div class="single-winner-blk" *ngSwitchCase="2">
+                      <label for="" style="margin-right: 0.4rem;">
+                        3rd Place:
+                      </label>
+                      <input
+                        #prizeInput
+                        class="input-design"
+                        currencyMask
+                        formControlName="reward"
+                        [options]="{
+                          prefix: 'NGN ',
+                          thousands: ',',
+                          precision: 0,
+                          decimal: '.',
+                          nullable: false,
+                          allowNegative: false,
+                          allowZero: false,
+                          value: 5000
+                        }"
+                      />
+                      <button
+                        class="btn btn-danger cancel-winner-btn"
+                        (click)="deleteReward(i)"
+                      >
+                        X
+                      </button>
+                    </div>
+                    <div class="single-winner-blk" *ngSwitchCase="3">
+                      <label for="" style="margin-right: 0.4rem;">
+                        4th Place:
+                      </label>
+                      <input
+                        #prizeInput
+                        class="input-design"
+                        currencyMask
+                        formControlName="reward"
+                        [options]="{
+                          prefix: 'NGN ',
+                          thousands: ',',
+                          precision: 0,
+                          decimal: '.',
+                          nullable: false,
+                          allowNegative: false,
+                          allowZero: false,
+                          value: 5000
+                        }"
+                      />
+                      <button
+                        class="btn btn-danger cancel-winner-btn"
+                        (click)="deleteReward(i)"
+                      >
+                        X
+                      </button>
+                    </div>
+                    <div class="single-winner-blk" *ngSwitchCase="4">
+                      <label for="" style="margin-right: 0.4rem;">
+                        5th Place:
+                      </label>
+                      <input
+                        #prizeInput
+                        class="input-design"
+                        currencyMask
+                        formControlName="reward"
+                        [options]="{
+                          prefix: 'NGN ',
+                          thousands: ',',
+                          precision: 0,
+                          decimal: '.',
+                          nullable: false,
+                          allowNegative: false,
+                          allowZero: false,
+                          value: 5000
+                        }"
+                      />
+                      <button
+                        class="btn btn-danger cancel-winner-btn"
+                        (click)="deleteReward(i)"
+                      >
+                        X
+                      </button>
+                    </div>
+                  </div>
+                  <div class="add-more-blk" style="cursor: pointer;">
+                    <a (click)="onAddReward()"
+                      ><i class="fal fa-plus"></i>Add More winners</a
+                    >
+                  </div>
                 </div>
               </div>
-            </div>
-            <button
-              class="box-btn create-btn"
-              #createButton
-              [class.box-btn-disable]="
-                !contestForm.valid || !contestForm.touched
-              "
-              [disabled]="
-                !contestForm.valid ||
-                (inProgress$ | async) ||
-                (!isCompleted$ | async) ||
-                (!failed$ | async)
-              "
-              type="button"
-              (click)="onClickCreateButton()"
-              style="margin-bottom: 1rem;"
-            >
-              <span
-                *ngIf="
-                  (isInitiated$ | async) ||
-                  (isCompleted$ | async) ||
-                  (failed$ | async)
+              <button
+                class="box-btn create-btn"
+                #createButton
+                [class.box-btn-disable]="
+                  !contestForm.valid || !contestForm.touched
                 "
-              >
-                CREATE CONTEST
-              </span>
-              <span
-                *ngIf="
+                [disabled]="
+                  !contestForm.valid ||
                   (inProgress$ | async) ||
                   (!isCompleted$ | async) ||
                   (!failed$ | async)
                 "
+                type="button"
+                (click)="onClickCreateButton()"
+                style="margin-bottom: 1rem;"
               >
-                PROSESSING...
-              </span>
-            </button>
+                <span
+                  *ngIf="
+                    (isInitiated$ | async) ||
+                    (isCompleted$ | async) ||
+                    (failed$ | async)
+                  "
+                >
+                  {{ actionButtonText }}
+                </span>
+                <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)">
+                  PROCESSING...
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

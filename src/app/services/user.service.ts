@@ -55,7 +55,6 @@ export class UserService {
   }
 
   updateUserBannerImage(imagePath: string): Observable<IResult<IUser>> {
-    console.log(imagePath);
     const url = `${this.BASE_URI}/users/`;
     return this.http.patch<IResult<IUser>>(url, {
       bannerImagePath: imagePath,

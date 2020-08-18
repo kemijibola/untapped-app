@@ -9,13 +9,13 @@
           <h1 style="font-size: 1.8rem; word-break: break-word;">
             {{ contestInEdit.title }}
           </h1>
-          <div class="single-over-view-contnet-blk">
+          <div class="single-over-view-contnet-blk text-word-wrap">
             <h4>Contest information</h4>
             <p>
               {{ contestInEdit.information }}
             </p>
           </div>
-          <div class="single-over-view-contnet-blk">
+          <div class="single-over-view-contnet-blk" *ngIf="eligibleCategories">
             <h4>Eligible category</h4>
             <p>{{ eligibleCategories }}</p>
           </div>
@@ -47,9 +47,32 @@
           </div>
           <div class="single-over-view-contnet-blk">
             <h4>Prize/Prizes</h4>
-            <span *ngFor="let prize of contestInEdit.redeemable">
-              {{ prize.name }} -
-              {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+            <span
+              *ngFor="let prize of contestInEdit.redeemable"
+              [ngSwitch]="prize.name"
+            >
+              <!-- {{ prize.name }} -
+              {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }} -->
+              <li *ngSwitchCase="'position1'">
+                1st Place :
+                {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+              </li>
+              <li *ngSwitchCase="'position2'">
+                2nd Place :
+                {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+              </li>
+              <li *ngSwitchCase="'position3'">
+                3rd Place :
+                {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+              </li>
+              <li *ngSwitchCase="'position4'">
+                4th Place :
+                {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+              </li>
+              <li *ngSwitchCase="'position5'">
+                5th Place :
+                {{ prize.prizeCash | currency: "NGN":"symbol":"4.2-2" }}
+              </li>
             </span>
           </div>
           <div class="single-over-view-contnet-blk">
@@ -60,7 +83,7 @@
               <h4>Max no of Contestants</h4>
               <p>20 Contestants</p>
             </div> -->
-          <div
+          <!-- <div
             class="single-over-view-contnet-blk"
             *ngIf="contestInEdit.evaluations"
           >
@@ -68,21 +91,46 @@
             <p *ngFor="let evaluation of contestInEdit.evaluations">
               {{ evaluation }}
             </p>
-          </div>
+          </div> -->
 
           <div class="btns">
-            <a href="">EDIT CONTEST</a>
+            <a
+              *ngIf="userData.user_data.userType.name === 'Professional'"
+              routerLink="/user/competition/page"
+              (click)="onClickEdit()"
+              [routerLinkActiveOptions]="{ exact: true }"
+              routerLinkActive="visited"
+              [queryParams]="{ tab: 'new' }"
+              >EDIT CONTEST</a
+            >
             <angular4-paystack
               [email]="userEmail"
               (click)="createOrder('paystack')"
               [amount]="totalAmount * 100"
               [ref]="refKey"
               [channels]="['card', 'bank']"
+              [class.box-btn-disable]="
+                (inProgress$ | async) ||
+                (!isCompleted$ | async) ||
+                (!failed$ | async)
+              "
               [class]="'box-btn create-btn'"
-              (close)="paymentCancel()"
+              (onClose)="paymentCancel()"
               (callback)="paymentDone($event)"
-              >PROCEED TO PAYMENT</angular4-paystack
             >
+              <span
+                *ngIf="
+                  (isInitiated$ | async) ||
+                  (isCompleted$ | async) ||
+                  (failed$ | async)
+                "
+              >
+                PROCEED TO PAYMENT
+              </span>
+              <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)">
+                PROCESSING...
+              </span>
+            </angular4-paystack>
           </div>
         </div>
       </div>
@@ -107,32 +155,15 @@
                 </p>
                 <p>
                   Contest setup fee
-                  <span>{{
-                    currentService.price | currency: "NGN":true:"2.2-4"
-                  }}</span>
+                  <span>{{ 0 | currency: "NGN":true:"2.2-4" }}</span>
                 </p>
                 <h4>
                   Total
                   <span>{{ totalAmount | currency: "NGN":true:"2.2-4" }}</span>
                 </h4>
               </div>
-              <!-- <div class="sm-sng-blk btm-blk">
-                  <p>Delivery Time <span>5 Days</span></p>
-                </div> -->
               <div class="sm-btm">
-                <!-- <a class="order-btn" href="">Order now</a> -->
-                <!-- <angular4-paystack
-                    [key]="paystackClientKey"
-                    [email]="userEmail"
-                    [amount]="1050"
-                    [ref]="refKey"
-                    [channels]="['card', 'bank']"
-                    [class]="'order-btn'"
-                    (close)="paymentCancel()"
-                    (callback)="paymentDone($event)"
-                    >PAY NOW</angular4-paystack
-                  > -->
-                <p>You won't be changed yet</p>
+                <p>You won't be charged yet</p>
               </div>
             </div>
 

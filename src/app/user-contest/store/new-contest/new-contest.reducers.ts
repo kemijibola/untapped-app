@@ -9,11 +9,13 @@ export interface NewContestState extends EntityState<IContest> {
   contest: IContest | null;
   bannerImageKey: string | null;
   newContestState: OutboundState;
+  agreementStatus: boolean;
 }
 const initialState: NewContestState = fromAdapter.adapter.getInitialState({
   contest: null,
   bannerImageKey: null,
   newContestState: OutboundState.initiated,
+  agreementStatus: false,
 });
 
 export function newContestReducer(
@@ -27,12 +29,23 @@ export function newContestReducer(
         newContestState: OutboundState.inprogress,
         contest: action.payload.newContest,
       });
-    case NewContestActions.CREATE_CONTEST_SUCCESS:
+    case NewContestActions.UPDATE_CONTEST:
       return Object.assign({
         ...state,
-        newContestState: OutboundState.completed,
+        newContestState: OutboundState.inprogress,
+        contest: action.payload.newContest,
+      });
+    case NewContestActions.SET_CONTEST_AGREEMENT:
+      return Object.assign({
+        ...state,
+        agreementStatus: action.payload.status,
       });
     case NewContestActions.CREATE_CONTEST_ERROR:
+      return Object.assign({
+        ...state,
+        newContestState: OutboundState.failed,
+      });
+    case NewContestActions.UPDATE_CONTEST_ERROR:
       return Object.assign({
         ...state,
         newContestState: OutboundState.failed,
@@ -46,6 +59,7 @@ export function newContestReducer(
       return Object.assign({
         ...state,
         contest: action.payload.contest,
+        newContestState: OutboundState.completed,
       });
     case NewContestActions.SET_CONTEST_BANNER:
       return Object.assign({
@@ -80,6 +94,9 @@ export const selectCurrentBannerKey = createSelector(
 const getSaveCompleted = (state: NewContestState): boolean =>
   state.newContestState === OutboundState.completed;
 
+const getAgreementStatus = (state: NewContestState): boolean =>
+  state.agreementStatus ? true : false;
+
 const getSaveInProgress = (state: NewContestState): boolean =>
   state.newContestState === OutboundState.inprogress;
 
@@ -97,6 +114,11 @@ export const selectNewContestCompletedStatus = createSelector(
 export const selectNewContestInitiatedStatus = createSelector(
   getNewUserContestState,
   getSaveInitiated
+);
+
+export const selectAgreementStatus = createSelector(
+  getNewUserContestState,
+  getAgreementStatus
 );
 
 export const selectNewContestInProgressStatus = createSelector(
