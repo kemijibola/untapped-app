@@ -77,4 +77,5 @@ export enum AppUserType {
   Talent = "Talent",
   Professional = "Professional",
   Audience = "Audience",
+  Admin = "Admin",
 }

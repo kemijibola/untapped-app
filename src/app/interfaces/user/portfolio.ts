@@ -59,7 +59,13 @@ export interface IMediaItem {
   key?: string;
   path: string;
   likedBy?: string[];
-  uploadDate?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isDeleted?: boolean;
+  isApproved?: boolean;
+  approvedBy?: string;
+  approvedDate?: Date;
+  rejectionReason?: string;
 }
 
 export interface IMedia {

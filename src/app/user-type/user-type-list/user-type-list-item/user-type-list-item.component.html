@@ -3,7 +3,11 @@
 /></a>
 
 <a *ngIf="failed$ | async"
-  ><img src="assets/retry.svg" style="width: 20px; height: 20px;"
+  >Something went wrong. Refresh
+  <img
+    src="assets/retry.svg"
+    style="width: 20px; height: 20px; cursor: pointer;"
+    (click)="fetchUserTypes()"
 /></a>
 
 <div *ngIf="completed$ | async">

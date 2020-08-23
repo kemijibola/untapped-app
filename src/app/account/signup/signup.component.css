@@ -3,5 +3,6 @@
 }
 
 a:hover {
-  color: #434297 !important;
+  text-decoration: underline;
+  color: #007bff !important;
 }

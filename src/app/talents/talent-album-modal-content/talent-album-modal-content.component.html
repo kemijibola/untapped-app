@@ -67,7 +67,7 @@
           (click)="fetchComments(selectedMedia._id)"
           *ngIf="failed$ | async"
         >
-          Unable to fetch comments. Try again
+          Something went wrong. Refresh
           <img
             src="assets/retry.svg"
             style="width: 30px; height: 30px; margin: 0 auto;"
