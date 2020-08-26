@@ -1,1 +1,18 @@
-<p>admin works!</p>
+<!-- All -Contest Area Start -->
+<app-tabs>
+  <div class="tab-content" id="myTabContent">
+    <app-media-approvals
+      *ngIf="
+        activeTab.tag === tabPanel.tabs[0].tag && hasPendingMediaViewPermission
+      "
+    ></app-media-approvals>
+  </div>
+  <app-contest-approvals
+    *ngIf="
+      activeTab.tag === tabPanel.tabs[1].tag && hasPendingMediaViewPermission
+    "
+  >
+  </app-contest-approvals>
+</app-tabs>
+
+<!-- All-Contest Area End -->

@@ -131,16 +131,15 @@
   }
   .c-b-votes-btn a {
     font-size: 20px;
-
     padding: 10px 25px;
   }
   .c-name h4 {
     display: inline-block;
     font-size: 18px;
-    color: #06a9b0;
+    color: #231f20;
     font-family: AvenirNextLTProBold;
     margin: 0;
-    width: 300px;
+    /* width: 300px; */
   }
   .c-name img {
     display: inline-block;
@@ -629,7 +628,7 @@
     flex: 0 0 15%;
   }
   .s-c-top-content {
-    padding: 10px;
+    padding: 0px !important;
   }
   .rating-icons a {
     color: #71bb76;
@@ -2286,6 +2285,11 @@
     border-radius: 10px;
     padding: 10px;
   }
+
+  /* .s-c-top-content div {
+    display: absolute;
+  }
+   */
   .c-name img {
     display: inline-block;
     max-width: 50px;
@@ -2314,7 +2318,7 @@
   .c-name h4 {
     display: inline-block;
     font-size: 19px;
-    color: #06a9b0;
+    color: #020202;
     font-family: AvenirNextLTProBold;
     margin: 0;
     width: auto;
@@ -2335,9 +2339,31 @@
     padding-bottom: 25px;
     padding-right: 0;
   }
-  .s-c-top-content {
-    padding: 10px;
+
+  .s-c-top-content div {
+    padding: 10px !important;
+    margin-left: -2rem !important;
+    width: 40px;
+    display: inline-grid !important;
   }
+
+  .s-c-top-content img {
+    margin-bottom: 1rem;
+  }
+
+  .s-c-top-content video {
+    margin-bottom: 1rem;
+  }
+
+  .s-c-top-content button {
+    margin-bottom: 1rem;
+  }
+
+  .s-c-top-content textarea {
+    margin-bottom: 1rem;
+    width: 90%;
+  }
+
   .rating-part h4 {
     font-size: 15px;
 

@@ -16,7 +16,7 @@ import * as AuthActions from "../account/store/auth.actions";
 import { AuthService } from "../services/auth.service";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
   constructor(
     private store: Store<fromApp.AppState>,
     private router: Router,
@@ -30,10 +30,10 @@ export class AuthGuard implements CanActivate {
     );
   }
 
-  canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.getUserDataFromStore().pipe(
-      map((val: IAuthData) => {
-        if (!val.authenticated) {
+      map((user: IAuthData) => {
+        if (!user.authenticated) {
           this.store.dispatch(new AuthActions.DeleteAutData());
           this.authService.removeItem("authData").subscribe((val: boolean) => {
             if (val) {
@@ -44,8 +44,18 @@ export class AuthGuard implements CanActivate {
               });
             }
           });
+        } else {
+          if (
+            route.data.userType &&
+            route.data.userType !== user.user_data.userType.name
+          ) {
+            console.log(route.data.userType);
+            // role not authorised so redirect to home page
+            this.router.navigate(["/"]);
+            return false;
+          }
+          return true;
         }
-        return true;
       })
     );
   }

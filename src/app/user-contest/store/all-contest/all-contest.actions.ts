@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { IUserContest, IUserContestListAnalysis } from "../../../interfaces";
+import { IUserContestListAnalysis } from "../../../interfaces";
 
 export const FETCH_USER_CONTEST_LIST = "FETCH_USER_CONTEST_LIST";
 export const FETCH_USER_CONTEST_LIST_SUCCESS =

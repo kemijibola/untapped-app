@@ -1,0 +1,298 @@
+<div
+  class="single-contest-list"
+  style="margin-bottom: 1rem; cursor: pointer"
+  [ngSwitch]="media.mediaType"
+  *ngFor="let media of pendingMedia; let i = index"
+>
+  <div class="contest-list-main-inner" (click)="onMediaSelected(media, i)">
+    <div class="c-name">
+      <h4 [class.c-name-active]="selectedIndex === i && showContent">
+        {{ media.title }}
+      </h4>
+    </div>
+    <div class="c-rating"></div>
+    <div class="c-comments"></div>
+    <div class="c-b-votes-btn">
+      <!-- <a href="">Buy Vote</a> -->
+      <h5>{{ media.items.length }} {{ media.mediaType | uppercase }}</h5>
+      <i class="fal fa-angle-down"></i>
+      <i class="fal fa-angle-up"></i>
+    </div>
+  </div>
+  <div
+    [class.show-media]="selectedIndex === i && showContent"
+    class="collapse mt-50"
+  >
+    <div class="contestent-inner-content" [formGroup]="rejectionForm">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="s-c-top-content" *ngSwitchCase="'image'">
+            <div
+              *ngFor="let image of media.items"
+              style="
+                display: flex;
+                margin-bottom: 1rem;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+              "
+            >
+              <img
+                style="margin-right: 1rem"
+                src="{{ cloudFrontDomain }}/{{ image.path }}"
+              />
+              <button
+                class="box-btn admin-btn"
+                #approvalButton
+                (click)="onApproveMediaItem(image._id)"
+                [disabled]="
+                  (approvalInProgress$ | async) ||
+                  (!approvalIsCompleted$ | async) ||
+                  (!approvalFailed$ | async) ||
+                  rejectionInProgress
+                "
+                style="margin-right: 1rem"
+                type="button"
+              >
+                <span
+                  *ngIf="
+                    (approvalIsInitiated$ | async) ||
+                    (approvalIsCompleted$ | async) ||
+                    (approvalFailed$ | async)
+                  "
+                  >approve</span
+                >
+                <span
+                  *ngIf="
+                    (approvalInProgress$ | async) ||
+                    (!approvalIsCompleted$ | async)
+                  "
+                  >processing...</span
+                >
+              </button>
+              <button
+                #rejectionButton
+                type="button"
+                (click)="onRejectMediaItem(image._id)"
+                [disabled]="
+                  (rejectionInProgress$ | async) ||
+                  (!rejectionIsCompleted$ | async) ||
+                  (!rejectionFailed$ | async)
+                "
+                class="box-btn admin-btn"
+                style="margin-right: 1rem"
+              >
+                <span
+                  *ngIf="
+                    (rejectionIsInitiated$ | async) ||
+                    (rejectionIsCompleted$ | async) ||
+                    (rejectionFailed$ | async)
+                  "
+                  >reject</span
+                >
+                <span
+                  *ngIf="
+                    (rejectionInProgress$ | async) ||
+                    (!rejectionIsCompleted$ | async)
+                  "
+                  >processing...</span
+                >
+              </button>
+              <textarea
+                class="input-design"
+                placeholder="Rejection reason"
+                cols="30"
+                rows="20"
+                style="resize: none"
+                formControlName="reason"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="s-c-top-content" *ngSwitchCase="'audio'">
+            <div
+              *ngFor="let audio of media.items"
+              style="
+                display: flex;
+                margin-bottom: 1rem;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+              "
+            >
+              <video
+                controls
+                width="320"
+                height="140"
+                style="margin-right: 1rem"
+              >
+                <source
+                  src="https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com/{{
+                    audio.path
+                  }}"
+                  type="{{ audio.type }}"
+                />
+              </video>
+              <button
+                class="box-btn admin-btn"
+                #approvalButton
+                (click)="onApproveMediaItem(audio._id)"
+                [disabled]="
+                  (approvalInProgress$ | async) ||
+                  (!approvalIsCompleted$ | async) ||
+                  (!approvalFailed$ | async) ||
+                  rejectionInProgress
+                "
+                style="margin-right: 1rem"
+                type="button"
+              >
+                <span
+                  *ngIf="
+                    (approvalIsInitiated$ | async) ||
+                    (approvalIsCompleted$ | async) ||
+                    (approvalFailed$ | async)
+                  "
+                  >approve</span
+                >
+                <span
+                  *ngIf="
+                    (approvalInProgress$ | async) ||
+                    (!approvalIsCompleted$ | async)
+                  "
+                  >processing...</span
+                >
+              </button>
+              <button
+                #rejectionButton
+                type="button"
+                (click)="onRejectMediaItem(audio._id)"
+                [disabled]="
+                  (rejectionInProgress$ | async) ||
+                  (!rejectionIsCompleted$ | async) ||
+                  (!rejectionFailed$ | async)
+                "
+                class="box-btn admin-btn"
+                style="margin-right: 1rem"
+              >
+                <span
+                  *ngIf="
+                    (rejectionIsInitiated$ | async) ||
+                    (rejectionIsCompleted$ | async) ||
+                    (rejectionFailed$ | async)
+                  "
+                  >reject</span
+                >
+                <span
+                  *ngIf="
+                    (rejectionInProgress$ | async) ||
+                    (!rejectionIsCompleted$ | async)
+                  "
+                  >processing...</span
+                >
+              </button>
+              <textarea
+                class="input-design"
+                placeholder="Rejection reason"
+                cols="30"
+                rows="10"
+                style="resize: none"
+                formControlName="reason"
+              ></textarea>
+            </div>
+          </div>
+          <div class="s-c-top-content" *ngSwitchCase="'video'">
+            <div
+              *ngFor="let video of media.items"
+              style="
+                display: flex;
+                margin-bottom: 1rem;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+              "
+            >
+              <video
+                controls
+                width="320"
+                height="240"
+                style="margin-right: 1rem"
+              >
+                <source
+                  src="https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com/{{
+                    video.path
+                  }}"
+                  type="{{ video.type }}"
+                />
+              </video>
+              <button
+                class="box-btn admin-btn"
+                #approvalButton
+                (click)="onApproveMediaItem(video._id)"
+                [disabled]="
+                  (approvalInProgress$ | async) ||
+                  (!approvalIsCompleted$ | async) ||
+                  (!approvalFailed$ | async) ||
+                  rejectionInProgress
+                "
+                style="margin-right: 1rem"
+                type="button"
+              >
+                <span
+                  *ngIf="
+                    (approvalIsInitiated$ | async) ||
+                    (approvalIsCompleted$ | async) ||
+                    (approvalFailed$ | async)
+                  "
+                  >approve</span
+                >
+                <span
+                  *ngIf="
+                    (approvalInProgress$ | async) ||
+                    (!approvalIsCompleted$ | async)
+                  "
+                  >processing...</span
+                >
+              </button>
+              <button
+                #rejectionButton
+                type="button"
+                (click)="onRejectMediaItem(video._id)"
+                [disabled]="
+                  (rejectionInProgress$ | async) ||
+                  (!rejectionIsCompleted$ | async) ||
+                  (!rejectionFailed$ | async)
+                "
+                class="box-btn admin-btn"
+                style="margin-right: 1rem"
+              >
+                <span
+                  *ngIf="
+                    (rejectionIsInitiated$ | async) ||
+                    (rejectionIsCompleted$ | async) ||
+                    (rejectionFailed$ | async)
+                  "
+                  >reject</span
+                >
+                <span
+                  *ngIf="
+                    (rejectionInProgress$ | async) ||
+                    (!rejectionIsCompleted$ | async)
+                  "
+                  >processing...</span
+                >
+              </button>
+              <textarea
+                class="input-design"
+                placeholder="Rejection reason"
+                cols="30"
+                rows="10"
+                style="resize: none"
+                formControlName="reason"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -43,10 +43,10 @@
     <ul>
       <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Admin'">
         <a
-          routerLink="./user/{{ userPreEmailAdress }}"
+          routerLink="admin/approvals"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
-          [queryParams]="{ tab: 'approvals' }"
+          [queryParams]="{ tab: 'media' }"
           >Approvals</a
         >
       </li>
@@ -285,10 +285,10 @@
                         *ngIf="typeOfUser === 'Admin'"
                       >
                         <a
-                          routerLink="./user/{{ userPreEmailAdress }}"
+                          routerLink="admin/approvals"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
-                          [queryParams]="{ tab: 'approvals' }"
+                          [queryParams]="{ tab: 'media' }"
                           >Approvals</a
                         >
                       </li>

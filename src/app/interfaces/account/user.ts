@@ -1,4 +1,4 @@
-import { IRole, IPermission } from "./role";
+import { IRole, IRolePermission } from "./role";
 
 export enum SocialMediaTypes {
   facebook = "facebook",
@@ -18,7 +18,7 @@ export interface IUserSocialMedia {
 }
 export interface IAuthData {
   access_token: string;
-  rolePermissions: IPermission[];
+  rolePermissions: IRolePermission[];
   user_data: IUserData;
   authenticated: boolean;
   token_expires: string;

@@ -42,7 +42,11 @@ const appRoutes: Routes = [
         (m) => m.ProfessionalsModule
       ),
   },
-
+  {
+    path: "admin",
+    loadChildren: () =>
+      import("./back-office/admin/admin.module").then((m) => m.AdminModule),
+  },
   {
     path: "",
     loadChildren: () => import("./user/user.module").then((m) => m.UserModule),

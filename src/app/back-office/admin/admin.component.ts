@@ -2,7 +2,13 @@ import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { AbstractTabComponent } from "src/app/shared/Classes/abstract/abstract-tab/abstract-tab.component";
 import { Router } from "@angular/router";
-import { ITab, IAppTab } from 'src/app/interfaces';
+import { ITab, IAppTab, IAuthData } from "src/app/interfaces";
+import { Store, select } from "@ngrx/store";
+import * as fromApp from "../../store/app.reducers";
+import * as fromAuth from "src/app/account/store/auth.reducers";
+import * as fromAdmin from "./admin.reducer";
+import * as PendingMediaActions from "./../store/approvals/media/media.action";
+import { RolePermission } from "src/app/lib/constants";
 
 @Component({
   selector: "app-admin",
@@ -10,26 +16,42 @@ import { ITab, IAppTab } from 'src/app/interfaces';
   styleUrls: ["./admin.component.css"],
 })
 export class AdminComponent extends AbstractTabComponent {
-  queryParam = "all";
+  queryParam = "media";
   activeTab: ITab;
-  toQueryParam = "all";
+  toQueryParam = "media";
   tabPanel: IAppTab = {
-    id: "user-contest",
+    id: "admin-approvals",
     divClass: "all-contest-area pt-40 pb-60 pl-130",
     navClass: "nav nav-tabs mb-50 all-tablinks",
     tabs: [
-      { index: 0, title: "Competitions", tag: "all", active: false },
-      { index: 1, title: "New Competition", tag: "new", active: false },
-      { index: 2, title: "Setting", tag: "settings", active: false },
+      { index: 0, title: "Media", tag: "media", active: false },
+      { index: 1, title: "Contest", tag: "contest", active: false },
+      { index: 2, title: "Submissions", tag: "submission", active: false },
     ],
   };
-  currentUserType: string = "";
-  constructor(public router: Router, public route: ActivatedRoute) {
+  hasPendingMediaViewPermission: boolean = false;
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    public store: Store<fromApp.AppState>,
+    private adminStore: Store<fromAdmin.AdminState>
+  ) {
     super();
+    this.adminStore.dispatch(new PendingMediaActions.FetchPendingApprovals());
+    this.store
+      .pipe(select(fromAuth.selectCurrentUserData))
+      .subscribe((val: IAuthData) => {
+        if (val.authenticated) {
+          this.hasPendingMediaViewPermission =
+            val.rolePermissions.filter(
+              (x) => x.permission.name === RolePermission.canViewPendingMedia
+            ).length > 0;
+        }
+      });
   }
 
   navigate(): void {
-    this.router.navigate(["/user/competition/page"], {
+    this.router.navigate(["/admin/approvals"], {
       queryParams: { tab: this.queryParam },
     });
   }

@@ -5,6 +5,7 @@ export const FETCH_PENDING_APPROVALS = "FETCH_PENDING_APPROVALS";
 export const FETCH_PENDING_APPROVALS_SUCCESS =
   "FETCH_PENDING_APPROVALS_SUCCESS";
 export const FETCH_PENDING_APPROVALS_FAILED = "FETCH_PENDING_APPROVALS";
+export const FETCH_PENDING_APPROVAL = "FETCH_PENDING_APPROVAL";
 
 export const APPROVE_MEDIA = "APPROVE_MEDIA";
 export const APPROVE_MEDIA_SUCCESS = "APPROVE_MEDIA_SUCCESS";
@@ -22,6 +23,10 @@ export class FetchPendingApprovalsSuccess implements Action {
   readonly type = FETCH_PENDING_APPROVALS_SUCCESS;
   constructor(public payload: { pendingApprovals: IMedia[] }) {}
 }
+export class FetchPendingApproval implements Action {
+  readonly type = FETCH_PENDING_APPROVAL;
+  constructor(public payload: { pendingMediaId: string }) {}
+}
 
 export class FetchPendingApprovalsFailed implements Action {
   readonly type = FETCH_PENDING_APPROVALS_FAILED;
@@ -34,7 +39,6 @@ export class ApproveMedia implements Action {
 
 export class ApproveMediaSuccess implements Action {
   readonly type = APPROVE_MEDIA_SUCCESS;
-  constructor(public payload: { mediaItemId: string }) {}
 }
 
 export class ApproveMediaFailed implements Action {
@@ -50,14 +54,13 @@ export class RejectMedia implements Action {
 
 export class RejectMediaSuccess implements Action {
   readonly type = REJECT_MEDIA_SUCCESS;
-  constructor(public payload: { mediaItemId: string }) {}
 }
 
 export class RejectMediaFailed implements Action {
   readonly type = REJECT_MEDIA_FAILED;
 }
 
-export type PendingMedia =
+export type PendingMediaAction =
   | FetchPendingApprovals
   | FetchPendingApprovalsSuccess
   | FetchPendingApprovalsFailed
@@ -66,4 +69,5 @@ export type PendingMedia =
   | ApproveMediaFailed
   | RejectMedia
   | RejectMediaSuccess
-  | RejectMediaFailed;
+  | RejectMediaFailed
+  | FetchPendingApproval;

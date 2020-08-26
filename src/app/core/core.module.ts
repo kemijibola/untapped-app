@@ -40,6 +40,7 @@ import { TransactionService } from "../services/transaction.service";
 import { LazyLoadImageModule } from "ng-lazyload-image";
 import { UtilitiesService } from "../services/utilities.service";
 import { SharedModule } from "../shared/shared.module";
+import { RoleGuard } from "../guard-services/role-guard.service";
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { SharedModule } from "../shared/shared.module";
   providers: [
     AuthService,
     AuthGuard,
+    RoleGuard,
     CompleteProfile,
     UserTypeService,
     ProfileService,

@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       image !== ""
         ? fetchImageObjectFromCloudFormation(image, this.editParams)
         : "";
-    if (this.userImage) {
+    if (this.userImage && this.headerImage) {
       setTimeout(() => {
         const headerImage = this.headerImage.nativeElement;
         const userImage = fetchImageObjectFromCloudFormation(
