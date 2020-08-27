@@ -6,7 +6,7 @@
       <div class="col-lg-12">
         <div class="back-btn">
           <a
-            style="cursor: pointer;"
+            style="cursor: pointer"
             routerLink="/user/{{ userPreEmailAdress }}"
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="visited"
@@ -49,14 +49,14 @@
                   type="button"
                   #changeEmailButton
                   [disabled]="
-                    !changeEmailForm.valid ||
+                    changeEmailForm.invalid ||
                     (inProgress$ | async) ||
                     !changeEmailForm.touched ||
                     !changeEmailForm.dirty
                   "
                   class="box-btn login-btn reset-pswd mt-50"
                   [class.box-btn-disable]="
-                    !changeEmailForm.valid || !changeEmailForm.touched
+                    changeEmailForm.invalid || changeEmailForm.touched
                   "
                 >
                   <span *ngIf="(initiated$ | async) || (completed$ | async)"

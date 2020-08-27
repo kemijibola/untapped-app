@@ -22,7 +22,7 @@
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('name').valid && signupForm.get('name').touched
+                signupForm.get('name').invalid && signupForm.get('name').touched
               "
             >
               * Please enter a valid
@@ -39,7 +39,7 @@
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('email').valid &&
+                signupForm.get('email').invalid &&
                 signupForm.get('email').touched &&
                 !signupForm.get('email').hasError('emailExist')
               "
@@ -63,7 +63,7 @@
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('password').valid &&
+                signupForm.get('password').invalid &&
                 signupForm.get('password').touched
               "
               >*</span
@@ -72,7 +72,7 @@
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('password').valid &&
+                signupForm.get('password').invalid &&
                 signupForm.get('password').touched
               "
             >
@@ -108,8 +108,8 @@
           <button
             #signupButton
             class="box-btn login-btn mt-50"
-            [class.box-btn-disable]="!signupForm.valid || !signupForm.touched"
-            [disabled]="!signupForm.valid || (inProgress$ | async)"
+            [class.box-btn-disable]="signupForm.invalid || !signupForm.touched"
+            [disabled]="signupForm.invalid || (inProgress$ | async)"
             (click)="onSubmit()"
             type="button"
           >

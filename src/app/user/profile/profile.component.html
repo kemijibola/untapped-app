@@ -242,9 +242,9 @@
       <div class="col-xl-12">
         <button
           class="box-btn profile-save"
-          [class.box-btn-disable]="!profileForm.valid || !profileForm.touched"
+          [class.box-btn-disable]="profileForm.invalid || profileForm.touched"
           [disabled]="
-            !profileForm.valid ||
+            profileForm.invalid ||
             (inProgress$ | async) ||
             (!isCompleted$ | async) ||
             (!failed$ | async)

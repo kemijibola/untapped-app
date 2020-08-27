@@ -50,14 +50,14 @@
             <button
               #setUpButton
               [disabled]="
-                !accountSetup.valid ||
+                accountSetup.invalid ||
                 (inProgress$ | async) ||
                 (!isCompleted$ | async) ||
                 (!failed$ | async)
               "
               class="box-btn login-btn mt-10"
               [class.box-btn-disable]="
-                !accountSetup.valid || !accountSetup.touched
+                accountSetup.invalid || !accountSetup.touched
               "
               type="button"
               (click)="onClickSave()"

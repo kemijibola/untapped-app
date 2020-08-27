@@ -13,6 +13,7 @@ import * as fromPendingMedia from "../../store/approvals/media/media.reducer";
 import { IMedia } from "src/app/interfaces";
 import { Observable } from "rxjs";
 import { FormGroup } from "@angular/forms";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-media-approvals",
@@ -27,8 +28,7 @@ export class MediaApprovalsComponent implements OnInit {
   rejectionForm: FormGroup;
   approvalInProgress: boolean = true;
   rejectionInProgress: boolean = false;
-  cloudFrontDomain: string =
-    "https://d1tudbmrz1hh6d.cloudfront.net/fit-in/320x240";
+  cloudFrontDomain: string = `${environment}/fit-in/320x240`;
 
   approvalIsInitiated$ = this.adminStore.pipe(
     select(fromPendingMedia.selectApprovalInitiatedStatus)

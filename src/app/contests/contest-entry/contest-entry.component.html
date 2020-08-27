@@ -71,10 +71,10 @@
             (click)="onSubmitEntry()"
             #enterContestButton
             [class.box-btn-disable]="
-              !contestEntryForm.valid || !contestEntryForm.touched
+              contestEntryForm.invalid || !contestEntryForm.touched
             "
             [disabled]="
-              !contestEntryForm.valid ||
+              contestEntryForm.invalid ||
               (inProgress$ | async) ||
               (!isCompleted$ | async) ||
               (!failed$ | async)

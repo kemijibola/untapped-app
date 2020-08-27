@@ -11,12 +11,12 @@
           <span
             class="error-block"
             *ngIf="
-              (!signinForm.get('email').valid &&
+              (signinForm.get('email').invalid &&
                 signinForm.get('email').touched) ||
               signinForm.get('email').hasError('pattern')
             "
           >
-            * Please enter a valid
+            *Please enter a valid
           </span>
           *Email
         </label>
@@ -30,11 +30,11 @@
           <span
             class="error-block"
             *ngIf="
-              !signinForm.get('password').valid &&
+              signinForm.get('password').invalid &&
               signinForm.get('password').touched
             "
           >
-            * Please enter a valid
+            *Please enter a valid
           </span>
           *Password</label
         >
@@ -52,9 +52,9 @@
         >
         <button
           #loginButton
-          [class.box-btn-disable]="!signinForm.valid || !signinForm.touched"
+          [class.box-btn-disable]="signinForm.invalid || !signinForm.touched"
           class="box-btn login-btn mt-50"
-          [disabled]="!signinForm.valid || (inProgress$ | async)"
+          [disabled]="signinForm.invalid || (inProgress$ | async)"
           (click)="onSignin()"
           type="button"
         >

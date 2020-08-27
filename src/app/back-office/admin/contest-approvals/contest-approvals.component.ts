@@ -11,6 +11,7 @@ import * as fromAdmin from "./../admin.reducer";
 import * as fromPendingContest from "../../store/approvals/contest/contest.reducer";
 import * as PendingContestActions from "../../store/approvals/contest/contest.action";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-contest-approvals",
@@ -22,8 +23,7 @@ export class ContestApprovalsComponent implements OnInit {
   selectedContest: IContest = null;
   showContent: boolean = false;
   pendingContests: IContest[] = [];
-  cloudFrontDomain: string =
-    "https://d1tudbmrz1hh6d.cloudfront.net/fit-in/320x240";
+  cloudFrontDomain: string = `${environment}/fit-in/320x240`;
   contestRejectionForm: FormGroup;
   @ViewChild("contestApprovalButton", { static: false })
   contestApprovalButton: ElementRef;

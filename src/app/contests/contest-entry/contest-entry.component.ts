@@ -240,8 +240,7 @@ export class ContestEntryComponent implements OnInit {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];
-      console.log(modalToDeActivate);
-      if (_.has(this.componentModal, "index")) {
+      if (modalToDeActivate) {
         const modalToClose: IModal = {
           index: modalToDeActivate.index,
           name: modalToDeActivate.name,

@@ -1,13 +1,13 @@
 <div
-  [class]="currentModal.modalCss"
+  [class]="currentModal?.modalCss"
   tabindex="-1"
   #modalPopup
   role="dialog"
-  id="{{ currentModal.name }}"
-  [ngStyle]="{ display: currentModal.display }"
+  id="{{ currentModal?.name }}"
+  [ngStyle]="{ display: currentModal?.display }"
 >
-  <div [class]="currentModal.modalDialogCss" role="document">
-    <div [class]="currentModal.modalContentCss">
+  <div [class]="currentModal?.modalDialogCss" role="document">
+    <div [class]="currentModal?.modalContentCss">
       <div class="row">
         <div class="col-xl-12">
           <ng-content select="[navigate]"></ng-content>
@@ -18,4 +18,4 @@
   </div>
 </div>
 
-<div class="backdrop" [ngStyle]="{ display: currentModal.display }"></div>
+<div class="backdrop" [ngStyle]="{ display: currentModal?.display }"></div>

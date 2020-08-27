@@ -51,6 +51,22 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   canSetUploadedImage: boolean;
   showUpload: boolean = true;
 
+  uploadInitiated$ = this.store.pipe(
+    select(fromUpload.selectUploadInitiatedStatus)
+  );
+
+  uploadInProgress$ = this.store.pipe(
+    select(fromUpload.selectUploadInProgressStatus)
+  );
+
+  uploadCompleted$ = this.store.pipe(
+    select(fromUpload.selectUploadCompletedStatus)
+  );
+
+  uploadFailed$ = this.store.pipe(select(fromUpload.selectUploadFailedStatus));
+
+  uploadReady$ = this.store.pipe(select(fromUpload.selectUploadReadyStatus));
+
   constructor(public store: Store<fromApp.AppState>) {
     this.canSetUploadedImage = false;
     this.store
@@ -201,7 +217,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   }
 
   onClickBrowseBtn() {
-    // console.log("clicked");
+    console.log("clicked");
     // this.store.dispatch(new UploadActions.ResetFileInput());
     this.fileConfig = {
       state: true,

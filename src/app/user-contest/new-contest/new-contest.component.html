@@ -75,8 +75,8 @@
 
             <button
               class="box-btn profile-save"
-              [class.box-btn-disable]="!agreementForm.valid"
-              [disabled]="!agreementForm.valid"
+              [class.box-btn-disable]="agreementForm.invalid"
+              [disabled]="agreementForm.invalid"
               (click)="onClickContinue()"
               type="button"
             >
@@ -126,7 +126,7 @@
                   <span
                     class="error-block"
                     *ngIf="
-                      !contestForm.get('title').valid &&
+                      contestForm.get('title').invalid &&
                       contestForm.get('title').touched &&
                       !contestForm.get('title').hasError('titleExist')
                     "
@@ -161,13 +161,13 @@
                     <span
                       class="error-block"
                       *ngIf="
-                        !contestForm.get('basicInfo').valid &&
+                        contestForm.get('basicInfo').invalid &&
                         contestForm.get('basicInfo').touched &&
                         !contestForm.get('basicInfo').hasError('minlength') &&
-                        !!contestForm.get('basicInfo').hasError('maxlength')
+                        !contestForm.get('basicInfo').hasError('maxlength')
                       "
                     >
-                      * Please provide
+                      *Please provide
                     </span>
 
                     <span
@@ -286,7 +286,7 @@
                     <span
                       class="error-block"
                       *ngIf="
-                        !contestForm.get('contestDuration').valid &&
+                        contestForm.get('contestDuration').invalid &&
                         contestForm.get('contestDuration').touched
                       "
                     >
@@ -317,7 +317,7 @@
                     <span
                       class="error-block"
                       *ngIf="
-                        !contestForm.get('entryMedia').valid &&
+                        contestForm.get('entryMedia').invalid &&
                         contestForm.get('entryMedia').touched
                       "
                     >
@@ -396,9 +396,9 @@
                     <h4>Reward/Rewards</h4>
                     <span
                       class="error-block"
-                      *ngIf="!contestRewards.valid && contestRewards.touched"
+                      *ngIf="contestRewards.invalid && contestRewards.touched"
                     >
-                      Please provide reward / rewards
+                      *Minimum reward/prize is 20000 naira
                     </span>
                   </div>
                 </div>
@@ -413,22 +413,27 @@
                   >
                     <div class="single-winner-blk" *ngSwitchCase="0">
                       <label for="" style="margin-right: 0.4rem">
+                        <span
+                          class="error-block"
+                          *ngIf="contestRewards.at(i).hasError('min')"
+                        >
+                          *Minimum reward/prize is 20000 naira
+                        </span>
                         1st Place:
                       </label>
                       <input
-                        #prizeInput
                         class="input-design"
                         currencyMask
                         formControlName="reward"
                         [options]="{
                           prefix: 'NGN ',
+                          align: 'left',
                           thousands: ',',
                           precision: 0,
                           decimal: '.',
                           nullable: false,
                           allowNegative: false,
-                          allowZero: false,
-                          value: 5000
+                          allowZero: false
                         }"
                       />
                       <button
@@ -558,10 +563,10 @@
                 class="box-btn create-btn"
                 #createButton
                 [class.box-btn-disable]="
-                  !contestForm.valid || !contestForm.touched
+                  contestForm.invalid || contestForm.touched
                 "
                 [disabled]="
-                  !contestForm.valid ||
+                  contestForm.invalid ||
                   (inProgress$ | async) ||
                   (!isCompleted$ | async) ||
                   (!failed$ | async)

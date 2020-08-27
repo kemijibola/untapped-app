@@ -134,6 +134,7 @@ export class NewContestComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.pattern(NUMERIC_REGEX),
+          Validators.min(20000),
           this.validateContestPrize,
         ])
       ),
@@ -158,8 +159,6 @@ export class NewContestComponent implements OnInit {
   inEditMode: boolean = false;
   service: IService;
   @ViewChild("createButton", { static: false }) createButton: ElementRef;
-  @ViewChild("prizeInput", { static: false }) prizeInput: ElementRef;
-  @ViewChild("contestFm", { static: false }) contestFm: ElementRef;
 
   uploadInitiated$ = this.store.pipe(
     select(fromUpload.selectUploadInitiatedStatus)
@@ -518,7 +517,14 @@ export class NewContestComponent implements OnInit {
       if (this.contestRewards.at(currentFormIndex).value["reward"] > 0) {
         (<FormArray>this.contestForm.get("contestRewards")).push(
           new FormGroup({
-            reward: new FormControl(null, Validators.required),
+            reward: new FormControl(
+              null,
+              Validators.compose([
+                Validators.required,
+                Validators.pattern(NUMERIC_REGEX),
+                Validators.min(20000),
+              ])
+            ),
           })
         );
       } else {

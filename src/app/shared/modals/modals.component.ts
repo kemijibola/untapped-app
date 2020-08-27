@@ -46,7 +46,6 @@ export class ModalsComponent implements OnInit, OnDestroy {
         if (modal) {
           if (modal.name === this.id) {
             this.currentModal = { ...this.currentModal, ...modal };
-
             this.renderer.setStyle(this.document.body, "overflow-y", "hidden");
           }
           if (modal.display === "none") {
