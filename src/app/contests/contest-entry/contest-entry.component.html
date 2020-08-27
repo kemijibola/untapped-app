@@ -3,8 +3,10 @@
     <div class="popup-content-wrap pro-page p-0">
       <div class="login-wrapper create-pass-popup">
         <div class="head text-center mb-30">
-          <span>{{ selectedContest.contest.title }}</span>
-          <h3>Submit entry</h3>
+          <small>
+            * Enter the competition uploading only high quality audio, video and
+            pictures. All uploads are subject to Admins' approval.
+          </small>
         </div>
         <div class="login-form" [formGroup]="contestEntryForm">
           <label for="">Title</label>
@@ -23,6 +25,15 @@
           <p>
             <!-- Drag and drop multiple file to upload <br /><br />
             or <br /><br /> -->
+            <span *ngIf="showCompleted">{{ fileName }}</span>
+            <span *ngIf="showUploading">
+              <img src="assets/loader.gif" style="width: 20px" />
+              <p>Uploading...</p>
+            </span>
+            <span *ngIf="showCompleted">
+              <img src="assets/success.gif" style="width: 20px" />
+            </span>
+
             <span
               *ngIf="canUpload"
               style="
@@ -40,30 +51,47 @@
                 class="error-block"
                 *ngIf="newContest.terms.invalid && newContest.terms.errors"
               >
-                *
+                *Required
               </span>
               I agree to be bound by the
               <a
                 routerLink="/competition-terms-condition"
                 routerLinkActive="visited"
                 [routerLinkActiveOptions]="{ exact: true }"
-                style="color: #06a9b0; cursor: pointer;"
+                style="color: #06a9b0; cursor: pointer"
                 >Competition T&C</a
               >
               <span class="checkmark"></span>
             </label>
-            <span *ngIf="showCompleted">{{ fileName }}</span>
-            <span *ngIf="showUploading">
-              <img src="assets/loader.gif" style="width: 20px;" />
-              <p>Uploading...</p>
-            </span>
-            <span *ngIf="showCompleted">
-              <img src="assets/success.gif" style="width: 20px;" />
-            </span>
           </p>
           <app-upload [fileConfig]="fileConfig"></app-upload>
-          <button class="box-btn login-btn mt-20" (click)="onSubmitEntry()">
-            Submit
+          <button
+            style="margin-top: -25rem"
+            class="box-btn login-btn mt-20"
+            (click)="onSubmitEntry()"
+            #enterContestButton
+            [class.box-btn-disable]="
+              !contestEntryForm.valid || !contestEntryForm.touched
+            "
+            [disabled]="
+              !contestEntryForm.valid ||
+              (inProgress$ | async) ||
+              (!isCompleted$ | async) ||
+              (!failed$ | async)
+            "
+          >
+            <span
+              *ngIf="
+                (isInitiated$ | async) ||
+                (isCompleted$ | async) ||
+                (failed$ | async)
+              "
+            >
+              <span>Submit</span>
+            </span>
+            <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)">
+              Submitting...
+            </span>
           </button>
         </div>
       </div>

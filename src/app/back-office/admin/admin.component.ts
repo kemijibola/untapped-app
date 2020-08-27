@@ -9,6 +9,8 @@ import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromAdmin from "./admin.reducer";
 import * as PendingMediaActions from "./../store/approvals/media/media.action";
 import { RolePermission } from "src/app/lib/constants";
+import * as PendingContestActions from "./../store/approvals/contest/contest.action";
+import * as PendingEntryActions from "./../store/approvals/entry/entry.action";
 
 @Component({
   selector: "app-admin",
@@ -38,6 +40,8 @@ export class AdminComponent extends AbstractTabComponent {
   ) {
     super();
     this.adminStore.dispatch(new PendingMediaActions.FetchPendingApprovals());
+    this.adminStore.dispatch(new PendingContestActions.FetchPendingContests());
+    
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {

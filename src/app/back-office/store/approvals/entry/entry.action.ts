@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { IContestEntry } from "src/app/interfaces";
+import { IContestEntryDetails } from "src/app/interfaces";
 
 export const FETCH_PENDING_ENTRIES = "FETCH_PENDING_ENTRIES";
 export const FETCH_PENDING_ENTRIES_SUCCESS = "FETCH_PENDING_ENTRIES_SUCCESS";
@@ -19,7 +19,7 @@ export class FetchPendingEntries implements Action {
 
 export class FetchPendingEntriesSuccess implements Action {
   readonly type = FETCH_PENDING_ENTRIES_SUCCESS;
-  constructor(public payload: { pendingEntries: IContestEntry[] }) {}
+  constructor(public payload: { pendingEntries: IContestEntryDetails[] }) {}
 }
 
 export class FetchPendingEntriesFailed implements Action {
@@ -41,7 +41,7 @@ export class ApproveEntryFailed implements Action {
 
 export class RejectEntry implements Action {
   readonly type = REJECT_ENTRY;
-  constructor(public payload: { entryId: string }) {}
+  constructor(public payload: { entryId: string; reason: string }) {}
 }
 
 export class RejectEntrySuccess implements Action {

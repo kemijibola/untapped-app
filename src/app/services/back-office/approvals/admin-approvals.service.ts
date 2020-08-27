@@ -1,4 +1,4 @@
-import { IContestEntry } from "./../../../interfaces/contests/Contest";
+import { IContestEntryDetails } from "./../../../interfaces/contests/Contest";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
@@ -22,9 +22,9 @@ export class AdminApprovalService {
     return this.http.get<IResult<IContest[]>>(url);
   }
 
-  fetchPendingEntries(): Observable<IResult<IContestEntry[]>> {
+  fetchPendingEntries(): Observable<IResult<IContestEntryDetails[]>> {
     const url = `${this.BASE_URI}/contest-entries/admin/pending`;
-    return this.http.get<IResult<IContestEntry[]>>(url);
+    return this.http.get<IResult<IContestEntryDetails[]>>(url);
   }
 
   approveMediaItem(
@@ -45,14 +45,21 @@ export class AdminApprovalService {
     return this.http.put<IResult<boolean>>(url, {});
   }
 
-  rejectContest(contestId: string): Observable<IResult<boolean>> {
+  rejectContest(
+    contestId: string,
+    reason: string
+  ): Observable<IResult<boolean>> {
     const url = `${this.BASE_URI}/contests/admin/reject/${contestId}`;
-    return this.http.put<IResult<boolean>>(url, {});
+    return this.http.put<IResult<boolean>>(url, {
+      reason: reason,
+    });
   }
 
-  rejectEntry(contestId: string): Observable<IResult<boolean>> {
+  rejectEntry(contestId: string, reason: string): Observable<IResult<boolean>> {
     const url = `${this.BASE_URI}/contest-entries/admin/reject/${contestId}`;
-    return this.http.put<IResult<boolean>>(url, {});
+    return this.http.put<IResult<boolean>>(url, {
+      reason,
+    });
   }
 
   rejectMediaItem(

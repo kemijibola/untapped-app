@@ -1,12 +1,12 @@
-import { IContestEntry } from "src/app/interfaces";
+import { IContestEntryDetails } from "src/app/interfaces";
 import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
 
-export function selectPendingEntryId(a: IContestEntry): string {
+export function selectPendingEntryId(a: IContestEntryDetails): string {
   return a._id;
 }
 
-export const adapter: EntityAdapter<IContestEntry> = createEntityAdapter<
-  IContestEntry
+export const adapter: EntityAdapter<IContestEntryDetails> = createEntityAdapter<
+  IContestEntryDetails
 >({
   selectId: selectPendingEntryId,
 });

@@ -41,7 +41,7 @@ export class ApproveContestFailed implements Action {
 
 export class RejectContest implements Action {
   readonly type = REJECT_CONTEST;
-  constructor(public payload: { contestId: string }) {}
+  constructor(public payload: { contestId: string, reason: string }) {}
 }
 
 export class RejectContestSuccess implements Action {

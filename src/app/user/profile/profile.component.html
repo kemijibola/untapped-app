@@ -29,9 +29,9 @@
   <div [formGroup]="profileForm">
     <div class="row">
       <div class="col-xl-6">
-        <label for="" *ngIf="typeOfUser === 'Talent'">Stage Name</label>
+        <label for="" *ngIf="typeOfUser === 'Talent'">*Stage Name</label>
         <label for="" *ngIf="typeOfUser === 'Professional'"
-          >Business Name</label
+          >*Business Name</label
         >
         <input class="input-design" formControlName="name" type="text" />
       </div>
@@ -40,11 +40,11 @@
         <input class="input-design" formControlName="rcNumber" type="text" />
       </div> -->
       <div class="col-xl-6">
-        <label for="">Full Name</label>
+        <label for="">*Full Name</label>
         <input class="input-design" formControlName="fullName" type="text" />
       </div>
       <div class="col-xl-6">
-        <label for="">Type/Select Location</label>
+        <label for="">*Type / Select Location</label>
         <app-google-places
           [addressType]="'address'"
           [autocompleteInputText]="location"
@@ -66,7 +66,7 @@
           >
             * Please enter a valid
           </span>
-          Mobile Number</label
+          *Mobile Number</label
         >
         <input
           class="input-design"
@@ -107,7 +107,7 @@
           >
             * Competition Information length must be less than 2000
           </span>
-          <h4>Short Bio</h4>
+          <h4>*Short Bio</h4>
           <small
             class="form-text text-muted"
             *ngIf="shortBio.value.length < shortbioCount"

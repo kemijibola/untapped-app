@@ -2,10 +2,10 @@ import { EntityState, createEntityAdapter } from "@ngrx/entity";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import * as fromAdapter from "./entry.adapter";
 import * as PendingEntryActions from "./entry.action";
-import { IContestEntry } from "src/app/interfaces";
+import { IContestEntryDetails } from "src/app/interfaces";
 import { OutboundState } from "src/app/shared/Util";
 
-export interface PendingEntryState extends EntityState<IContestEntry> {
+export interface PendingEntryState extends EntityState<IContestEntryDetails> {
   approveState: OutboundState;
   rejectState: OutboundState;
 }

@@ -17,6 +17,9 @@ import {
   OnChanges,
   SimpleChanges,
   OnDestroy,
+  ViewChild,
+  ElementRef,
+  Renderer2,
 } from "@angular/core";
 import {
   ContestData,
@@ -36,6 +39,7 @@ import * as fromContest from "../store/contests.reducers";
 import { Store, select } from "@ngrx/store";
 import * as fromUpload from "src/app/shared/store/upload/upload.reducers";
 import * as ContestEntryActions from "../store/contest-entry/contest-entry.action";
+import * as fromContestEntry from "../store/contest-entry/contest-entry.reducer";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import { AcceptedMedias } from "src/app/interfaces/media/image";
 import * as NotificationActions from "../../store/global/notification/notification.action";
@@ -63,10 +67,33 @@ export class ContestEntryComponent implements OnInit {
   canUpload: boolean = true;
   fileName: string = "";
 
+  isInitiated$ = this.store.pipe(
+    select(fromContestEntry.selectEntrytrInitiatedStatus)
+  );
+
+  inProgress$ = this.store.pipe(
+    select(fromContestEntry.selectEntryInProgressStatus)
+  );
+
+  isCompleted$ = this.store.pipe(
+    select(fromContestEntry.selectEntryCompletedStatus)
+  );
+
+  failed$ = this.store.pipe(select(fromContestEntry.selectEntryFailedStatus));
   componentModal: AppModal;
-  constructor(private store: Store<fromApp.AppState>) {}
+  @ViewChild("enterContestButton", { static: false })
+  enterContestButton: ElementRef;
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit() {
+    this.isCompleted$.subscribe((val: boolean) => {
+      if (val) {
+        this.closeModalDialog("new-entry");
+      }
+    });
     this.store
       .pipe(select(fromUpload.selectCurrentUploadedItem))
       .subscribe((val: UploadedItems) => {
@@ -213,6 +240,7 @@ export class ContestEntryComponent implements OnInit {
       const modalToDeActivate = this.componentModal.modals.filter(
         (x) => x.name === modalId
       )[0];
+      console.log(modalToDeActivate);
       if (_.has(this.componentModal, "index")) {
         const modalToClose: IModal = {
           index: modalToDeActivate.index,
@@ -238,6 +266,9 @@ export class ContestEntryComponent implements OnInit {
 
   onSubmitEntry() {
     if (this.cloudItems.items) {
+      const enterContestBtn = this.enterContestButton.nativeElement;
+      this.renderer.setProperty(enterContestBtn, "disabled", true);
+
       const title: string = this.contestEntryForm.controls["title"].value;
       const info: string = this.contestEntryForm.controls["info"].value;
       const entryObj: IContestEntry = {

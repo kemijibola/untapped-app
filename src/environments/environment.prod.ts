@@ -6,16 +6,16 @@ export const environment = {
   NO_MEDIA_IMG: "assets/img/no-media.png",
   COMMENTER_DEFAULT_IMAGE: "assets/img/contest/popup-user.png",
   BASE_URL: "https://untappedapi.herokuapp.com/v1",
-  IMAGE_BUCKET: "untapped-pool-image-prod",
-  CLOUD_FORMATION_API: "https://d2f4ubw4w31gp4.cloudfront.net",
+  IMAGE_BUCKET: "untapped-pool-image-production",
+  CLOUD_FORMATION_API: "https://d2t7flob0izurn.cloudfront.net",
   S3BUCKET_OBJECT_URL:
-    "https://untapped-pool-image-prod.s3-eu-west-1.amazonaws.com",
+    "https://untapped-pool-image-production.s3.eu-west-3.amazonaws.com",
   ART_ALBUM_COVER: "assets/img/profile/audio-cover.jpg",
   VIDEO_ALBUM_COVER: "assets/img/profile/video-cover.jpg",
   AUDIO_ACCELERATE_URL:
-    "https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com",
+    "https://untapped-pool-audio-production.s3.eu-west-3.amazonaws.com",
   VIDEO_ACCELERATE_URL:
-    "https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com",
+    "https://untapped-pool-video-production.s3.eu-west-3.amazonaws.com",
   PROFESSIONAL_BANNER_IMAGE_DEFAULT: "assets/img/profile/profile-3.jpg",
   PROFESSIONAL_BIODATA_BANNER_DEFAULT:
     "assets/img/profile/pro_banner_default.png",

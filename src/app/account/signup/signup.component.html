@@ -27,7 +27,7 @@
             >
               * Please enter a valid
             </span>
-            Name
+            *Name
           </label>
           <input
             autofocus
@@ -46,7 +46,7 @@
             >
               * Please enter a valid
             </span>
-            Email
+            *Email
             <span
               class="error-block"
               *ngIf="signupForm.get('email').hasError('emailExist')"
@@ -68,7 +68,7 @@
               "
               >*</span
             >
-            Password
+            *Password
             <span
               class="error-block"
               *ngIf="
@@ -93,16 +93,16 @@
             >
               * Required
             </span>
-            By clicking <span style="font-size: 12px;">Sign Up</span>, you agree
+            By clicking <span style="font-size: 12px">Sign Up</span>, you agree
             to our
             <a
               routerLink="/terms-condition"
               routerLinkActive="visited"
               [routerLinkActiveOptions]="{ exact: true }"
-              style="color: #11868b; cursor: pointer;"
+              style="color: #11868b; cursor: pointer"
               >T&C</a
             >
-            and <a style="color: #11868b; cursor: pointer;">Cookie Policy</a>
+            and <a style="color: #11868b; cursor: pointer">Cookie Policy</a>
             <span class="checkmark"></span>
           </label>
           <button

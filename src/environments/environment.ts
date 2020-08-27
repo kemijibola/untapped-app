@@ -11,15 +11,15 @@ export const environment = {
   COMMENTER_DEFAULT_IMAGE: "assets/img/contest/popup-user.png",
   BASE_URL: "http://127.0.0.1:8900/v1",
   IMAGE_BUCKET: "untapped-pool-image-bucket",
-  CLOUD_FORMATION_API: "https://d7olhgwoyl909.cloudfront.net",
+  CLOUD_FORMATION_API: "https://d1tudbmrz1hh6d.cloudfront.net",
   S3BUCKET_OBJECT_URL:
-    "https://untapped-pool-image-bucket.s3-accelerate.amazonaws.com",
+    "https://untapped-pool-image-bucket.s3.us-east-2.amazonaws.com",
   ART_ALBUM_COVER: "assets/img/profile/audio-cover.jpg",
   VIDEO_ALBUM_COVER: "assets/img/profile/video-cover.jpg",
   AUDIO_ACCELERATE_URL:
     "https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com",
   VIDEO_ACCELERATE_URL:
-    "https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com",
+    "https://untapped-pool-video-bucket.s3.us-east-2-accelerate.amazonaws.com",
   PROFESSIONAL_BANNER_IMAGE_DEFAULT: "assets/img/profile/profile-3.jpg",
   PROFESSIONAL_BIODATA_BANNER_DEFAULT:
     "assets/img/profile/pro_banner_default.png",

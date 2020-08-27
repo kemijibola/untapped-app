@@ -1,15 +1,15 @@
-<div class="row" style="margin-left: 15px; margin-right: 15px;" body>
+<div class="row" style="margin-left: 15px; margin-right: 15px" body>
   <div class="col-xl-12">
     <div class="popup-content-wrap pro-page p-0">
       <div class="create-pass-popup">
         <form class="new-wallet" [formGroup]="accountSetup">
-          <label for=""> Pick a bank</label>
+          <label for="">*Pick a bank</label>
           <input
             type="text"
             [(ngModel)]="searchText"
             class="input-design"
             formControlName="selectedBank"
-            style="margin-bottom: 8px; cursor: pointer;"
+            style="margin-bottom: 8px; cursor: pointer"
             [placeholder]="placeHolderText"
             (click)="onClick()"
           />
@@ -20,7 +20,7 @@
           >
             <div
               class="custom-dropdown"
-              style="cursor: pointer;"
+              style="cursor: pointer"
               *ngFor="
                 let bank of banks | searchFilter: searchText;
                 trackBy: trackByFn
@@ -38,7 +38,7 @@
             >
               * Please enter a valid account number
             </span>
-            Account number
+            *Account number
           </label>
           <input
             class="input-design mb-35"
@@ -46,7 +46,7 @@
             [pattern]="accountPattern"
             formControlName="accountNumber"
           />
-          <div style="z-index: -1;">
+          <div style="z-index: -1">
             <button
               #setUpButton
               [disabled]="

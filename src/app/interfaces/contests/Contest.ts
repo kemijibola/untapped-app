@@ -102,6 +102,19 @@ export interface IContestEntry {
   fullUserProfileImage?: string;
 }
 
+export interface IContestEntryDetails {
+  _id?: string;
+  user?: string;
+  contest: IContest;
+  likedBy?: string[];
+  title: string;
+  additionalInfo?: string;
+  contestantCode?: string;
+  entry: string;
+  fullUserProfileImage?: string;
+  type?: string;
+}
+
 export interface ContestData {
   contest: IContest;
   submissions: IEntryData[];

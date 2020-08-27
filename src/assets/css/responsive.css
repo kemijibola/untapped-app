@@ -9,6 +9,7 @@
     padding-left: 40px;
     padding-right: 40px;
   }
+
   .c-name {
     max-width: 40%;
     -webkit-box-flex: 0;
@@ -1191,6 +1192,10 @@
 
 /* SM Small Device :320px. */
 @media only screen and (min-width: 320px) and (max-width: 767px) {
+  .new-entry {
+    position: absolute !important;
+  }
+
   .success-right-content h1 {
     font-size: 30px;
   }
@@ -2309,6 +2314,7 @@
     text-align: center;
   }
   .c-b-votes-btn {
+    display: grid !important;
     max-width: 100%;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 20%;
@@ -2389,6 +2395,10 @@
 
 /* SM Small Device :550px. */
 @media only screen and (min-width: 576px) and (max-width: 767px) {
+  .new-entry {
+    position: absolute !important;
+  }
+
   .login-wrapper {
     width: 400px;
   }
@@ -2500,6 +2510,12 @@
 }
 
 @media only screen and (max-width: 960px) {
+  .new-entry {
+    position: absolute !important;
+    max-width: 35%;
+    max-height: 605px;
+  }
+
   .overview-mobile {
     display: flex;
     flex-direction: column-reverse;

@@ -1073,6 +1073,7 @@ footer {
 .new-entry {
   width: 50% !important;
   margin: 0 auto;
+  max-height: 570px;
 }
 
 .account-setup {
@@ -5653,4 +5654,12 @@ body.viewport-lg {
   overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+}
+
+.show-media {
+  display: block;
+}
+
+.c-name-active {
+  color: #06a9b0;
 }

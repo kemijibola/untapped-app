@@ -13,6 +13,12 @@
     "
   >
   </app-contest-approvals>
+
+  <app-contest-submissions
+    *ngIf="
+      activeTab.tag === tabPanel.tabs[2].tag && hasPendingMediaViewPermission
+    "
+  ></app-contest-submissions>
 </app-tabs>
 
 <!-- All-Contest Area End -->

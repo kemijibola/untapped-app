@@ -13,7 +13,7 @@ import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "../account/store/auth.reducers";
 import { IAuthData } from "../interfaces";
 import { catchError, take, concatMap } from "rxjs/operators";
-import { environment } from "../../../src/environments/environment.prod";
+import { environment } from "../../../src/environments/environment.dev";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -46,23 +46,11 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   useHeader(url: string): boolean {
-    if (
-      url.startsWith(
-        "https://untapped-pool-image-bucket.s3-accelerate.amazonaws.com"
-      )
-    ) {
+    if (url.startsWith(environment.S3BUCKET_OBJECT_URL)) {
       return false;
-    } else if (
-      url.startsWith(
-        "https://untapped-pool-audio-bucket.s3-accelerate.amazonaws.com"
-      )
-    ) {
+    } else if (url.startsWith(environment.AUDIO_ACCELERATE_URL)) {
       return false;
-    } else if (
-      url.startsWith(
-        "https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com"
-      )
-    ) {
+    } else if (url.startsWith(environment.VIDEO_ACCELERATE_URL)) {
       return false;
     }
     return true;

@@ -65,23 +65,26 @@ export class PendingContestEffect {
     this.action$.pipe(
       ofType(PendingContestAction.REJECT_CONTEST),
       concatMap((action: PendingContestAction.RejectContest) =>
-        this.adminApprovalService.rejectContest(action.payload.contestId).pipe(
-          map(
-            (resp: IResult<boolean>) =>
-              new PendingContestAction.RejectContestSuccess()
-          ),
-          catchError((respError: HttpErrorResponse) =>
-            of(
-              new NotificationActions.AddError({
-                key: AppNotificationKey.error,
-                code: respError.error.response_code || -1,
-                message:
-                  respError.error.response_message || "No Internet connection",
-              }),
-              new PendingContestAction.RejectContestFailed()
+        this.adminApprovalService
+          .rejectContest(action.payload.contestId, action.payload.reason)
+          .pipe(
+            map(
+              (resp: IResult<boolean>) =>
+                new PendingContestAction.RejectContestSuccess()
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                }),
+                new PendingContestAction.RejectContestFailed()
+              )
             )
           )
-        )
       )
     )
   );
