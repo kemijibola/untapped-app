@@ -22,12 +22,12 @@
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('name').valid && signupForm.get('name').touched
+                signupForm.get('name').invalid && signupForm.get('name').touched
               "
             >
               * Please enter a valid
             </span>
-            Name
+            *Name
           </label>
           <input
             autofocus
@@ -39,14 +39,14 @@
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('email').valid &&
+                signupForm.get('email').invalid &&
                 signupForm.get('email').touched &&
                 !signupForm.get('email').hasError('emailExist')
               "
             >
               * Please enter a valid
             </span>
-            Email
+            *Email
             <span
               class="error-block"
               *ngIf="signupForm.get('email').hasError('emailExist')"
@@ -63,16 +63,16 @@
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('password').valid &&
+                signupForm.get('password').invalid &&
                 signupForm.get('password').touched
               "
               >*</span
             >
-            Password
+            *Password
             <span
               class="error-block"
               *ngIf="
-                !signupForm.get('password').valid &&
+                signupForm.get('password').invalid &&
                 signupForm.get('password').touched
               "
             >
@@ -93,23 +93,23 @@
             >
               * Required
             </span>
-            By clicking <span style="font-size: 12px;">Sign Up</span>, you agree
+            By clicking <span style="font-size: 12px">Sign Up</span>, you agree
             to our
             <a
               routerLink="/terms-condition"
               routerLinkActive="visited"
               [routerLinkActiveOptions]="{ exact: true }"
-              style="color: #06a9b0; cursor: pointer;"
+              style="color: #11868b; cursor: pointer"
               >T&C</a
             >
-            and <a>Cookie Policy</a>
+            and <a style="color: #11868b; cursor: pointer">Cookie Policy</a>
             <span class="checkmark"></span>
           </label>
           <button
             #signupButton
             class="box-btn login-btn mt-50"
-            [class.box-btn-disable]="!signupForm.valid || !signupForm.touched"
-            [disabled]="!signupForm.valid || (inProgress$ | async)"
+            [class.box-btn-disable]="signupForm.invalid || !signupForm.touched"
+            [disabled]="signupForm.invalid || (inProgress$ | async)"
             (click)="onSubmit()"
             type="button"
           >

@@ -67,6 +67,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {
+        console.log("curren user", val);
         if (_.has(val, "user_data")) {
           this.showDropDown = false;
           this.showSideToggle = false;
@@ -112,7 +113,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       image !== ""
         ? fetchImageObjectFromCloudFormation(image, this.editParams)
         : "";
-    if (this.userImage) {
+    if (this.userImage && this.headerImage) {
       setTimeout(() => {
         const headerImage = this.headerImage.nativeElement;
         const userImage = fetchImageObjectFromCloudFormation(

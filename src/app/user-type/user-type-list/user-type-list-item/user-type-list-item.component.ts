@@ -41,7 +41,8 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
   );
 
   constructor(private store: Store<fromApp.AppState>) {
-    this.store.dispatch(new UserTypeActions.FetchUserTypes());
+    // this.store.dispatch(new UserTypeActions.FetchUserTypes());
+    this.fetchUserTypes();
   }
   ngOnInit() {
     this.userTypeForm = new FormGroup({
@@ -64,6 +65,10 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new UserTypeActions.FetchUserType({ userTypeId: userType._id })
     );
+  }
+
+  fetchUserTypes() {
+    this.store.dispatch(new UserTypeActions.FetchUserTypes());
   }
 
   ngOnDestroy() {

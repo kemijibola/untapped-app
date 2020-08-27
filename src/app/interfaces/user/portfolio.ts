@@ -58,8 +58,15 @@ export interface IMediaItem {
   _id?: string;
   key?: string;
   path: string;
+  type?: string;
   likedBy?: string[];
-  uploadDate?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isDeleted?: boolean;
+  isApproved?: boolean;
+  approvedBy?: string;
+  approvedDate?: Date;
+  rejectionReason?: string;
 }
 
 export interface IMedia {
@@ -73,6 +80,7 @@ export interface IMedia {
   mediaType: MediaType;
   isApproved: boolean;
   isDeleted: boolean;
+  selected: boolean;
 }
 export interface IGeneralMedia {
   title: string;

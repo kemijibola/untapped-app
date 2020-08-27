@@ -6,7 +6,7 @@
       <div class="col-xl-12">
         <div class="back-btn">
           <a
-            style="cursor: pointer;"
+            style="cursor: pointer"
             (click)="navigateToPrevious()"
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="visited"
@@ -21,7 +21,7 @@
           <img
             [defaultImage]="defaultBannerImage"
             [lazyLoad]="fullBannerImage"
-            style="width: 100%; height: 451px; background: lightgray;"
+            style="width: 100%; height: 451px; background: lightgray"
           />
           <div
             style="
@@ -46,7 +46,7 @@
                 height="22px"
                 viewBox="0 -20 464 464"
                 width="22px"
-                style="vertical-align: none; cursor: pointer;"
+                style="vertical-align: none; cursor: pointer"
               >
                 <path
                   d="m340 0c-44.773438.00390625-86.066406 24.164062-108 63.199219-21.933594-39.035157-63.226562-63.19531275-108-63.199219-68.480469 0-124 63.519531-124 132 0 172 232 292 232 292s232-120 232-292c0-68.480469-55.519531-132-124-132zm0 0"
@@ -63,11 +63,7 @@
               </svg>
             </a>
             <span
-              style="
-                float: right;
-                position: static !important;
-                font-size: 16px;
-              "
+              style="float: right; position: static !important; font-size: 16px"
               >{{ entriesCount }} Entries</span
             >
           </div>
@@ -75,10 +71,10 @@
       </div>
       <div class="col-xl-7 col-lg-7 col-md-7 contest-details-section">
         <div class="details-content">
-          <div style="text-align: right; margin-bottom: 20px;">
+          <div style="text-align: right; margin-bottom: 20px">
             <a
               class="box-btn details-btn"
-              style="cursor: pointer; margin-right: 20px;"
+              style="cursor: pointer; margin-right: 20px"
               *ngIf="!hasEnded && isEligible && isAuthenticated"
               (click)="
                 onNewEntrySelected(
@@ -92,7 +88,7 @@
             <a
               class="box-btn details-btn"
               (click)="navigateToAanalysis()"
-              style="cursor: pointer;"
+              style="cursor: pointer"
               >Vote Result</a
             >
           </div>
@@ -103,7 +99,7 @@
             <div class="content-inner-block text-word-wrap">
               <span
                 class="error-block"
-                style="font-weight: bold; font-size: 14px;"
+                style="font-weight: bold; font-size: 14px"
                 >* All prize monies in naira</span
               >
 
@@ -193,7 +189,7 @@
 
     <app-modals [id]="'new-entry'">
       <div class="pop-icon-bar pop-talent" navigate>
-        <span class="modal-title">Contest Entry</span>
+        <span class="modal-title">Submit Competition Entry</span>
         <button
           type="button"
           class="close"
@@ -210,8 +206,8 @@
     </app-modals>
 
     <app-modals [id]="'talent-entry-details'">
-      <div class="pop-icon-bar" navigate style="padding-right: 16px;">
-        <div class="slide-arrow" style="margin-top: 8px;">
+      <div class="pop-icon-bar" navigate style="padding-right: 16px">
+        <div class="slide-arrow" style="margin-top: 8px">
           <!-- <span class="modal-title">Contest Entry Details</span> -->
           <!-- <button class="left [disabled]="leftDisabled" (click)="onPrevious()"">
             <i class="far fa-angle-left"></i>

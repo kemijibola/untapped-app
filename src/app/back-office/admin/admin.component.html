@@ -1,0 +1,24 @@
+<!-- All -Contest Area Start -->
+<app-tabs>
+  <div class="tab-content" id="myTabContent">
+    <app-media-approvals
+      *ngIf="
+        activeTab.tag === tabPanel.tabs[0].tag && hasPendingMediaViewPermission
+      "
+    ></app-media-approvals>
+  </div>
+  <app-contest-approvals
+    *ngIf="
+      activeTab.tag === tabPanel.tabs[1].tag && hasPendingMediaViewPermission
+    "
+  >
+  </app-contest-approvals>
+
+  <app-contest-submissions
+    *ngIf="
+      activeTab.tag === tabPanel.tabs[2].tag && hasPendingMediaViewPermission
+    "
+  ></app-contest-submissions>
+</app-tabs>
+
+<!-- All-Contest Area End -->

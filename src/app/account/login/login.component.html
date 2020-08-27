@@ -4,21 +4,21 @@
     <form class="login-wrapper" [formGroup]="signinForm">
       <div class="head text-center mb-30">
         <span>Login to</span>
-        <h3>untapped pool</h3>
+        <h3>UntappedPool</h3>
       </div>
       <div class="login-form">
         <label for="">
           <span
             class="error-block"
             *ngIf="
-              (!signinForm.get('email').valid &&
+              (signinForm.get('email').invalid &&
                 signinForm.get('email').touched) ||
               signinForm.get('email').hasError('pattern')
             "
           >
-            * Please enter a valid
+            *Please enter a valid
           </span>
-          Email
+          *Email
         </label>
         <input
           class="input-design mb-35"
@@ -30,13 +30,13 @@
           <span
             class="error-block"
             *ngIf="
-              !signinForm.get('password').valid &&
+              signinForm.get('password').invalid &&
               signinForm.get('password').touched
             "
           >
-            * Please enter a valid
+            *Please enter a valid
           </span>
-          Password</label
+          *Password</label
         >
         <input
           class="input-design"
@@ -44,7 +44,7 @@
           formControlName="password"
         />
         <a
-          style="cursor: pointer; float: right; color: #06a9b0;"
+          style="cursor: pointer; float: right; color: #11868b"
           routerLink="/account/password/forgot"
           routerLinkActive="visited"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -52,9 +52,9 @@
         >
         <button
           #loginButton
-          [class.box-btn-disable]="!signinForm.valid || !signinForm.touched"
+          [class.box-btn-disable]="signinForm.invalid || !signinForm.touched"
           class="box-btn login-btn mt-50"
-          [disabled]="!signinForm.valid || (inProgress$ | async)"
+          [disabled]="signinForm.invalid || (inProgress$ | async)"
           (click)="onSignin()"
           type="button"
         >

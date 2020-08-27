@@ -110,7 +110,7 @@ export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSignUpClicked() {
-    this.router.navigate(["/account/login"]);
+    this.router.navigate(["/account/signup"]);
   }
 
   fetchUsers(): void {

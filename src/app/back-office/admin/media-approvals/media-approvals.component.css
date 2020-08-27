@@ -1,0 +1,17 @@
+.show-media {
+  display: block;
+}
+
+.c-name-active {
+  color: #06a9b0;
+}
+
+.admin-btn {
+  color: #fff;
+  font-size: 12px;
+  border: 0;
+  /* width: 100%; */
+  text-transform: uppercase;
+  font-family: AvenirNextLTProBold;
+  cursor: pointer;
+}

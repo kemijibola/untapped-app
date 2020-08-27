@@ -4,61 +4,62 @@
       <div class="col-xl-12">
         <div class="about-author mb-40">
           <h5><b>Conditions for creating this competition</b></h5>
+          <p><span>1. </span> Creating this competition is Free</p>
+          <p><span>2. </span> This competition currency is in Nigerian naira</p>
           <p>
-            <span>1. </span> Creating this competition is
-            <span style="color: red;">Free</span>
+            <span>3. </span> All competitions must be devoid of sexual appeal,
+            offensive materials and other social vices
           </p>
           <p>
-            <span>2. </span> This competition currency is in
-            <span style="color: red;">Nigerian naira</span>
+            <span>4. </span> All competitions shall be approved by Admin before
+            it goes live
           </p>
           <p>
-            <span>3. </span> Competition creator shall deposit the reward/prize
+            <span>5. </span> Competition creator shall deposit the reward/prize
             funds for this competition before commencing this competition
           </p>
           <p>
-            <span>4. </span> This competition shall be by a dedicated SMS voting
+            <span>6. </span> This competition shall be by a dedicated SMS voting
             system
           </p>
           <p>
-            <span>5. </span> Each SMS costs
-            <span style="color: red;">NGN 30</span> for all network providers
+            <span>7. </span> Each SMS costs
+            <span style="color: red">NGN 30</span> for all network providers
           </p>
           <p>
-            <span>6. </span> The network providers pay the following per SMS:
-            <li><span>Globacom:</span> NGN 0.7355</li>
-            <li><span>MTN:</span> NGN 3.628</li>
-            <li><span>Airtel:</span> NGN 3.0495</li>
-            <li>
-              <span>Etisalat:</span>
-              N0.7355
+            <span>8. </span> The network providers pay the following per SMS:
+            <li style="color: red"><span>Globacom: NGN 0.7355 </span></li>
+            <li style="color: red"><span>MTN: NGN 3.628 </span></li>
+            <li style="color: red"><span>Airtel: NGN 3.0495 </span></li>
+            <li style="color: red">
+              <span>Etisalat: N0.7355 </span>
             </li>
           </p>
           <p>
-            <span>7. </span> Untapped Pool shall pay competition creator
-            accumulated votes' fund at the expiration of this competition,
-            subject to these conditions
+            <span>9. </span> UntappedPool shall pay competition creator
+            accumulated votes' fund, subject to these conditions
           </p>
           <p>
-            <span>8. </span> All payments shall be done every
-            <span style="color: red;">90 - 120 days</span>
+            <span>10. </span> All payments shall be done every
+            <span style="color: red">90 - 120 days</span>
           </p>
           <p>
-            <span>9. </span> A minimum of
-            <span style="color: red;">1000</span> SMS hits per competition is
+            <span>11. </span> A minimum of
+            <span style="color: red">1000</span> SMS hits per competition is
             required before payments shall be made
           </p>
           <p>
-            <span>10. </span> This competition shall be rolled over for another
-            <span style="color: red;">90 days</span> where the required minimum
+            <span>12. </span> This competition shall be rolled over for another
+            <span style="color: red">90 days</span> where the required minimum
             number of SMS hits was not met
           </p>
           <p>
-            <span>11. </span> Untapped Pool charges a
-            <span style="color: red;">5%</span> of the total amount of
+            <span>13. </span> UntappedPool charges a
+            <span style="color: red">5%</span> of the total amount of
             accumulated votes' funds before payment shall be made to competition
             creator
           </p>
+          <p><span>14. </span> Bank charges are inclusive</p>
           <div [formGroup]="agreementForm">
             <label class="form round">
               <input formControlName="terms" type="checkbox" />
@@ -66,7 +67,7 @@
                 class="error-block"
                 *ngIf="agreement.terms.invalid && agreement.terms.errors"
               >
-                * Required
+                *Required
               </span>
               By clicking proceed, you agree to the competition condition above
               <span class="checkmark"></span>
@@ -74,8 +75,8 @@
 
             <button
               class="box-btn profile-save"
-              [class.box-btn-disable]="!agreementForm.valid"
-              [disabled]="!agreementForm.valid"
+              [class.box-btn-disable]="agreementForm.invalid"
+              [disabled]="agreementForm.invalid"
               (click)="onClickContinue()"
               type="button"
             >
@@ -100,20 +101,23 @@
             <div>
               <div
                 class="details-content new-contest-banner-top"
-                style="display: none;"
+                style="display: none"
               >
                 <div class="sidebar-img">
                   <img
                     [defaultImage]="defaultBannerImage"
                     [lazyLoad]="bannerImage"
-                    style="width: 482px; height: 200px; background: lightgray;"
+                    style="width: 482px; height: 200px; background: lightgray"
                   />
                 </div>
               </div>
               <p>
-                Fill competition details; title, information, competition
+                <!-- Fill competition details; title, information, competition
                 banner, eligible categories, competition duration, entry media
-                type and reward(s)
+                type and reward(s) -->
+                Fill competition details. Sponsoring of a competition is however
+                subject to admins' approval. <br />
+                Please note:
                 <span class="error-block">* All prize monies in Naira</span>
               </p>
               <p></p>
@@ -122,7 +126,7 @@
                   <span
                     class="error-block"
                     *ngIf="
-                      !contestForm.get('title').valid &&
+                      contestForm.get('title').invalid &&
                       contestForm.get('title').touched &&
                       !contestForm.get('title').hasError('titleExist')
                     "
@@ -157,13 +161,13 @@
                     <span
                       class="error-block"
                       *ngIf="
-                        !contestForm.get('basicInfo').valid &&
+                        contestForm.get('basicInfo').invalid &&
                         contestForm.get('basicInfo').touched &&
                         !contestForm.get('basicInfo').hasError('minlength') &&
-                        !!contestForm.get('basicInfo').hasError('maxlength')
+                        !contestForm.get('basicInfo').hasError('maxlength')
                       "
                     >
-                      * Please provide
+                      *Please provide
                     </span>
 
                     <span
@@ -190,11 +194,11 @@
                   </label>
                   <span *ngIf="basicInfo.value.length < informationLength">
                     <small class="form-text text-muted"
-                      ><span style="color: red;">{{
+                      ><span style="color: red">{{
                         basicInfo.value.length
                       }}</span>
                       of
-                      <span style="color: red;">{{
+                      <span style="color: red">{{
                         informationLength
                       }}</span></small
                     >
@@ -207,7 +211,7 @@
                   cols="30"
                   rows="10"
                   #basicInfo
-                  style="resize: none;"
+                  style="resize: none"
                 ></textarea>
               </div>
               <div class="upload">
@@ -248,7 +252,7 @@
                   <app-upload [fileConfig]="fileConfig"> </app-upload>
                   <!-- upload component goes here -->
                 </div>
-                <div class="input-1 col-xl-8" style="padding: inherit;">
+                <div class="input-1 col-xl-8" style="padding: inherit">
                   <label for="">Eligble categories</label>
                   <app-talent-categories
                     [text]="'Select eligible category'"
@@ -282,7 +286,7 @@
                     <span
                       class="error-block"
                       *ngIf="
-                        !contestForm.get('contestDuration').valid &&
+                        contestForm.get('contestDuration').invalid &&
                         contestForm.get('contestDuration').touched
                       "
                     >
@@ -293,7 +297,7 @@
                   >
                   <div class="duration-inner">
                     <input
-                      style="cursor: pointer;"
+                      style="cursor: pointer"
                       class="input-design"
                       formControlName="contestDuration"
                       [owlDateTimeTrigger]="dt10"
@@ -307,13 +311,13 @@
                   </div>
                 </div>
               </div>
-              <div class="upload" style="width: 70%; margin-top: 5px;">
+              <div class="upload" style="width: 70%; margin-top: 5px">
                 <div class="duration">
-                  <label for="" style="margin-top: 1rem;">
+                  <label for="" style="margin-top: 1rem">
                     <span
                       class="error-block"
                       *ngIf="
-                        !contestForm.get('entryMedia').valid &&
+                        contestForm.get('entryMedia').invalid &&
                         contestForm.get('entryMedia').touched
                       "
                     >
@@ -348,7 +352,7 @@
                   >
                     <div
                       class="custom-dropdown"
-                      style="cursor: pointer;"
+                      style="cursor: pointer"
                       *ngFor="let media of mediaTypes; let i = index"
                       (click)="onSelectedMedia(i)"
                     >
@@ -367,7 +371,7 @@
                 <img
                   [defaultImage]="defaultBannerImage"
                   [lazyLoad]="bannerImage"
-                  style="width: 482px; height: 395px; background: lightgray;"
+                  style="width: 482px; height: 395px; background: lightgray"
                 />
               </div>
             </div>
@@ -389,14 +393,12 @@
               <div class="upload">
                 <div class="prize">
                   <div class="hd">
-                    <h4>
-                      Reward/Rewards
-                    </h4>
+                    <h4>Reward/Rewards</h4>
                     <span
                       class="error-block"
-                      *ngIf="!contestRewards.valid && contestRewards.touched"
+                      *ngIf="contestRewards.invalid && contestRewards.touched"
                     >
-                      Please provide reward / rewards
+                      *Minimum reward/prize is 20000 naira
                     </span>
                   </div>
                 </div>
@@ -410,23 +412,28 @@
                     [formGroupName]="i"
                   >
                     <div class="single-winner-blk" *ngSwitchCase="0">
-                      <label for="" style="margin-right: 0.4rem;">
+                      <label for="" style="margin-right: 0.4rem">
+                        <span
+                          class="error-block"
+                          *ngIf="contestRewards.at(i).hasError('min')"
+                        >
+                          *Minimum reward/prize is 20000 naira
+                        </span>
                         1st Place:
                       </label>
                       <input
-                        #prizeInput
                         class="input-design"
                         currencyMask
                         formControlName="reward"
                         [options]="{
                           prefix: 'NGN ',
+                          align: 'left',
                           thousands: ',',
                           precision: 0,
                           decimal: '.',
                           nullable: false,
                           allowNegative: false,
-                          allowZero: false,
-                          value: 5000
+                          allowZero: false
                         }"
                       />
                       <button
@@ -437,7 +444,7 @@
                       </button>
                     </div>
                     <div class="single-winner-blk" *ngSwitchCase="1">
-                      <label for="" style="margin-right: 0.4rem;">
+                      <label for="" style="margin-right: 0.4rem">
                         2nd Place:
                       </label>
                       <input
@@ -464,7 +471,7 @@
                       </button>
                     </div>
                     <div class="single-winner-blk" *ngSwitchCase="2">
-                      <label for="" style="margin-right: 0.4rem;">
+                      <label for="" style="margin-right: 0.4rem">
                         3rd Place:
                       </label>
                       <input
@@ -491,7 +498,7 @@
                       </button>
                     </div>
                     <div class="single-winner-blk" *ngSwitchCase="3">
-                      <label for="" style="margin-right: 0.4rem;">
+                      <label for="" style="margin-right: 0.4rem">
                         4th Place:
                       </label>
                       <input
@@ -518,7 +525,7 @@
                       </button>
                     </div>
                     <div class="single-winner-blk" *ngSwitchCase="4">
-                      <label for="" style="margin-right: 0.4rem;">
+                      <label for="" style="margin-right: 0.4rem">
                         5th Place:
                       </label>
                       <input
@@ -545,7 +552,7 @@
                       </button>
                     </div>
                   </div>
-                  <div class="add-more-blk" style="cursor: pointer;">
+                  <div class="add-more-blk" style="cursor: pointer">
                     <a (click)="onAddReward()"
                       ><i class="fal fa-plus"></i>Add More winners</a
                     >
@@ -556,17 +563,17 @@
                 class="box-btn create-btn"
                 #createButton
                 [class.box-btn-disable]="
-                  !contestForm.valid || !contestForm.touched
+                  contestForm.invalid || contestForm.touched
                 "
                 [disabled]="
-                  !contestForm.valid ||
+                  contestForm.invalid ||
                   (inProgress$ | async) ||
                   (!isCompleted$ | async) ||
                   (!failed$ | async)
                 "
                 type="button"
                 (click)="onClickCreateButton()"
-                style="margin-bottom: 1rem;"
+                style="margin-bottom: 1rem"
               >
                 <span
                   *ngIf="

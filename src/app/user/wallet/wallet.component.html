@@ -54,7 +54,7 @@
           )
         "
         class="wallet-btn"
-        style="margin: 0 auto; cursor: pointer;"
+        style="margin: 0 auto; cursor: pointer"
         >Create Wallet</a
       >
     </div>
@@ -90,7 +90,7 @@
         <button
           [disabled]="(walletData | async)?.balance < 100"
           class="wallet-btn"
-          style="cursor: pointer; display: inline-block;"
+          style="cursor: pointer; display: inline-block"
           (click)="
             onWithdraw(
               'wallet-tranfer',
@@ -127,17 +127,17 @@
       *ngIf="
         (transactionInitiated$ | async) || (transactionInProgress$ | async)
       "
-      ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+      ><img src="assets/bars.svg" style="width: 30px; height: 30px"
     /></a>
     <a
-      style="cursor: pointer;"
+      style="cursor: pointer"
       (click)="fetchUserTransaction()"
-      style="cursor: pointer; display: inline-block;"
+      style="cursor: pointer; display: inline-block"
       *ngIf="transactionFailed$ | async"
-      >Unable to fetch transaction. Try again
+      >Something went wrong. Refresh
       <img
         src="assets/retry.svg"
-        style="width: 20px; height: 20px; margin: 0 auto;"
+        style="width: 20px; height: 20px; margin: 0 auto"
         alt="Click button to retry"
     /></a>
   </div>
@@ -174,18 +174,18 @@
 
   <div
     class="col-lg-7 col-sm-12"
-    style="padding: 16px;"
+    style="padding: 16px"
     *ngIf="
       (transactionIsCompleted$ | async) && (userTransactions | async).length < 1
     "
   >
     <div class="p-3">
-      <span style="margin: 0 auto; cursor: pointer;">
-        Start earning by participating in an on-going contest.
+      <span style="margin: 0 auto; cursor: pointer">
+        Start earning by participating in an on-going competition.
         <p>
           Click
           <a
-            style="font-size: 13px; cursor: pointer; color: #06a9b0;"
+            style="font-size: 13px; cursor: pointer; color: #06a9b0"
             [routerLink]="['/competitions']"
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="visited"

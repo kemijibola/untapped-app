@@ -28,21 +28,6 @@ export class AuthGuard implements CanActivate {
       map((val: IAuthData) => (val ? val : new AuthActions.FetchAuthData())),
       map((data: IAuthData) => data)
     );
-    // return this.store
-    //   .select(selectUserData)
-    //   .pipe(
-    //     map((val: IAuthData) => {
-    //       if (!val) {
-    //         this.store.dispatch(new AuthActions.FetchAuthData());
-    //       }
-    //     })
-    //   ).pipe
-    //   .do((val: IAuthData) => {
-    //     if (!val) {
-    //       this.store.dispatch(new AuthActions.FetchAuthData());
-    //     }
-    //   })
-    //   .map((val: IAuthData) => val);
   }
 
   canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -64,19 +49,4 @@ export class AuthGuard implements CanActivate {
       })
     );
   }
-
-  // canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-  //   return this.store.select('auth').map((authState: fromAuth.State) => {
-  //     if (authState.userData.authenticated) {
-  //       return true;
-  //     } else {
-  //       this.router.navigate(['/account/login'], {
-  //         queryParams: {
-  //           return: state.url
-  //         }
-  //       });
-  //       return false;
-  //     }
-  //   });
-  // }
 }

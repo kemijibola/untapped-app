@@ -5,6 +5,7 @@ import {
   ElementRef,
   ViewChild,
   Renderer2,
+  OnDestroy,
 } from "@angular/core";
 import { NUMERIC_REGEX } from "src/app/lib/constants";
 import { Store, select } from "@ngrx/store";
@@ -20,7 +21,7 @@ import * as fromWallet from "../../store/wallet/wallet.reducer";
   templateUrl: "./request-payout.component.html",
   styleUrls: ["./request-payout.component.css"],
 })
-export class RequestPayoutComponent implements OnInit {
+export class RequestPayoutComponent implements OnInit, OnDestroy {
   transferForm: FormGroup;
   pinPattern = /^[0-9]{4}$/;
   amountPattern = NUMERIC_REGEX;
@@ -62,6 +63,7 @@ export class RequestPayoutComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.pattern(NUMERIC_REGEX),
+          Validators.min(1000),
         ])
       ),
       narration: new FormControl(null),
@@ -84,5 +86,9 @@ export class RequestPayoutComponent implements OnInit {
         narration,
       })
     );
+  }
+
+  ngOnDestroy() {
+    console.log("called");
   }
 }

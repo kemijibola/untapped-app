@@ -41,9 +41,17 @@
     </ul>
 
     <ul>
-      <li (click)="onSideToggleClick()">
+      <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Admin'">
         <a
-          *ngIf="typeOfUser === 'Professional'"
+          routerLink="admin/approvals"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'media' }"
+          >Approvals</a
+        >
+      </li>
+      <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Professional'">
+        <a
           routerLink="user/competition/page"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
@@ -51,9 +59,8 @@
           >Manage Competition</a
         >
       </li>
-      <li (click)="onSideToggleClick()">
+      <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Talent'">
         <a
-          *ngIf="typeOfUser === 'Talent'"
           routerLink="./user/{{ userPreEmailAdress }}"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
@@ -64,9 +71,11 @@
     </ul>
 
     <ul class="active-top">
-      <li (click)="onSideToggleClick()">
+      <li
+        (click)="onSideToggleClick()"
+        *ngIf="typeOfUser !== 'Audience' && typeOfUser !== 'Admin'"
+      >
         <a
-          *ngIf="typeOfUser !== 'Audience'"
           routerLink="./user/{{ userPreEmailAdress }}"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
@@ -74,9 +83,8 @@
           >Profile</a
         >
       </li>
-      <li (click)="onSideToggleClick()">
+      <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Talent'">
         <a
-          *ngIf="typeOfUser === 'Talent'"
           routerLink="./user/{{ userPreEmailAdress }}"
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
@@ -84,7 +92,7 @@
           >Portfolio</a
         >
       </li>
-      <li (click)="onSideToggleClick()">
+      <li (click)="onSideToggleClick()" *ngIf="typeOfUser !== 'Admin'">
         <a
           routerLink="./user/{{ userPreEmailAdress }}"
           [routerLinkActiveOptions]="{ exact: true }"
@@ -173,7 +181,7 @@
         <div class="logo">
           <a style="cursor: pointer;" (click)="redirectHome()"
             ><img src="assets/img/main-logo.svg" alt="" /><span
-              >untapped pool</span
+              >UntappedPool</span
             ></a
           >
           <span class="menu-open" (click)="onSideToggleClick()"
@@ -238,9 +246,9 @@
           <div class="mainmenu-main">
             <nav id="mobile-menu-active">
               <ul>
-                <li class="bell">
+                <!-- <li class="bell">
                   <a><i class="far fa-bell"></i></a><span>4</span>
-                </li>
+                </li> -->
                 <li class="user" (click)="onToggle()">
                   <img
                     #headerImage
@@ -272,9 +280,20 @@
                     [class.user.icon]="showDropDown"
                   >
                     <ul class="top">
-                      <li>
+                      <li
+                        (click)="onSideToggleClick()"
+                        *ngIf="typeOfUser === 'Admin'"
+                      >
                         <a
-                          *ngIf="typeOfUser === 'Professional'"
+                          routerLink="admin/approvals"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
+                          [queryParams]="{ tab: 'media' }"
+                          >Approvals</a
+                        >
+                      </li>
+                      <li *ngIf="typeOfUser === 'Professional'">
+                        <a
                           routerLink="user/competition/page"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
@@ -282,9 +301,8 @@
                           >New Competition</a
                         >
                       </li>
-                      <li>
+                      <li *ngIf="typeOfUser === 'Professional'">
                         <a
-                          *ngIf="typeOfUser === 'Professional'"
                           routerLink="user/competition/page"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
@@ -292,9 +310,8 @@
                           >Competitions</a
                         >
                       </li>
-                      <li>
+                      <li *ngIf="typeOfUser === 'Talent'">
                         <a
-                          *ngIf="typeOfUser === 'Talent'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
@@ -309,9 +326,12 @@
                       </li> -->
                     </ul>
                     <ul class="bot">
-                      <li>
+                      <li
+                        *ngIf="
+                          typeOfUser !== 'Audience' && typeOfUser !== 'Admin'
+                        "
+                      >
                         <a
-                          *ngIf="typeOfUser !== 'Audience'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
@@ -319,9 +339,8 @@
                           >Profile</a
                         >
                       </li>
-                      <li>
+                      <li *ngIf="typeOfUser === 'Talent'">
                         <a
-                          *ngIf="typeOfUser === 'Talent'"
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
@@ -329,7 +348,7 @@
                           >Portfolio</a
                         >
                       </li>
-                      <li>
+                      <li *ngIf="typeOfUser !== 'Admin'">
                         <a
                           routerLink="./user/{{ userPreEmailAdress }}"
                           [routerLinkActiveOptions]="{ exact: true }"

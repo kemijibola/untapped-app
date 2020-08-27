@@ -5,7 +5,7 @@
     <div class="row text-center">
       <div class="col-lg-12">
         <div class="hero-text">
-          <h1>Showcase your talent</h1>
+          <h1>Compete and win!</h1>
         </div>
       </div>
     </div>
@@ -64,24 +64,22 @@
           <span><img src="assets/img/sp-2.png" alt="" /></span>
           <img
             src="assets/img/img-7.jpeg"
-            style="width: 453px; height: 431px; border-radius: 10px;"
+            style="width: 453px; height: 431px; border-radius: 10px"
             alt=""
           />
         </div>
       </div>
       <div class="col-lg-7 col-md-7">
         <div class="professsional-txt">
-          <h1>
-            Talent
-          </h1>
+          <h1>Talent</h1>
           <p>
             Create your personalized page to upload your content (image, audio,
-            video) and enter competition.
+            video) and enter various competitions.
           </p>
           <a
             (click)="onSignUpTalent()"
             *ngIf="!isAuthenticated"
-            style="cursor: pointer;"
+            style="cursor: pointer"
             >SIGN UP AS A TALENT<i class="fal fa-arrow-right"></i
           ></a>
         </div>
@@ -170,13 +168,13 @@
           <span *ngIf="!isAuthenticated" (click)="onSignUpProfessional()"
             >Join as a professional</span
           >
-          <h1>Create competition for talents</h1>
+          <h1>Create competitions for talents</h1>
           <p>
-            You will be able to create and pull a variety of talents you so
-            wish. You will have access to trends, talents progress and reviews.
+            You will be able to create competitions and pull a variety of
+            talents you so wish.
           </p>
           <a
-            style="cursor: pointer;"
+            style="cursor: pointer"
             *ngIf="!isAuthenticated"
             (click)="onSignUpProfessional()"
             >Join as a professional<i class="fal fa-arrow-right"></i
@@ -209,8 +207,8 @@
         </p>
       </div>
       <div class="col-lg-4 col-md-5 text-center" (click)="onSignUpAudience()">
-        <a style="cursor: pointer;"
-          >Sign up as audiance<i class="fal fa-arrow-right"></i
+        <a style="cursor: pointer"
+          >Sign up as Audience<i class="fal fa-arrow-right"></i
         ></a>
       </div>
     </div>

@@ -29,13 +29,14 @@ export class ContestEntryEffect {
         this.contestsService.enterContest(action.payload.newContestEntry).pipe(
           mergeMap((resp: IResult<IContestEntry>) => {
             return [
-              new ContestEntryActions.EnterContestSuccess({
+              new ContestEntryActions.EnterContestSuccess(),
+              new ContestEntryActions.SetContestEntry({
                 contestEntry: resp.data,
               }),
               new NotificationActions.AddSuccess({
                 key: AppNotificationKey.success,
                 code: 201,
-                message: "Hooray! You have entered contest.",
+                message: "Entry has been submitted for approval.",
               }),
             ];
           }),

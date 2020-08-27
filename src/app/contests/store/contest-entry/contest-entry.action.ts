@@ -3,6 +3,8 @@ import { IContestEntry, IUserContestListAnalysis } from "src/app/interfaces";
 
 export const ENTER_CONTEST = "ENTER_CONTEST";
 export const ENTER_CONTEST_SUCCESS = "ENTER_CONTEST_SUCCESS";
+export const SET_CONTEST_ENTRY = "SET_CONTEST_ENTRY";
+export const ENTER_CONTEST_FAILED = "ENTER_CONTEST_FAILED";
 export const FETCH_CONTEST_ENTRIES = "FETCH_CONTEST_ENTRIES";
 export const FETCH_CONTEST_ENTRIES_SUCCESS = "FETCH_CONTEST_ENTRIES_SUCCESS";
 export const FETCH_CONTEST_ENTRY = "FETCH_CONTEST_ENTRY";
@@ -19,11 +21,17 @@ export class EnterContest implements Action {
   constructor(public payload: { newContestEntry: IContestEntry }) {}
 }
 
-export class EnterContestSuccess implements Action {
-  readonly type = ENTER_CONTEST_SUCCESS;
+export class SetContestEntry implements Action {
+  readonly type = SET_CONTEST_ENTRY;
   constructor(public payload: { contestEntry: IContestEntry }) {}
 }
+export class EnterContestSuccess implements Action {
+  readonly type = ENTER_CONTEST_SUCCESS;
+}
 
+export class EnterContestFailed implements Action {
+  readonly type = ENTER_CONTEST_FAILED;
+}
 export class FetchContestEntries implements Action {
   readonly type = FETCH_CONTEST_ENTRIES;
 }
@@ -66,4 +74,6 @@ export type ContestEntryActions =
   | FetchUserParticipatedContest
   | FetchUserParticipatedContestSuccess
   | SetUserParticipatedContest
-  | FetchUserParticipatedContestError;
+  | FetchUserParticipatedContestError
+  | SetContestEntry
+  | EnterContestFailed;

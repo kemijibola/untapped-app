@@ -14,8 +14,12 @@
             class="head text-left"
             *ngIf="!(currentUser | async).authenticated"
           >
-            <span (click)="onSignUpClicked()" style="cursor: pointer;"
-              >Sign Up </span
+            <a
+              routerLink="/account/signup"
+              routerLinkActive="visited"
+              [routerLinkActiveOptions]="{ exact: true }"
+              style="cursor: pointer; color: #11868b !important;"
+              >Sign Up </a
             ><span>to</span>
             <h3>Join the Community</h3>
           </div>
@@ -29,17 +33,17 @@
           <!-- talents filter -->
           <div style="margin: 0 auto; text-align: center;">
             <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-              ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+              ><img src="assets/bars.svg" style="width: 20px; height: 20px;"
             /></a>
 
             <a
               style="cursor: pointer;"
               (click)="fetchUsers()"
               *ngIf="failed$ | async"
-              >Unable to load data. Try again
+              >Something went wrong. Refresh
               <img
                 src="assets/retry.svg"
-                style="width: 30px; height: 30px; margin: 0 auto;"
+                style="width: 20px; height: 20px; margin: 0 auto;"
                 alt="Click button to retry"
             /></a>
           </div>
@@ -54,17 +58,17 @@
         <app-talent-biodata *ngIf="completed$ | async"></app-talent-biodata>
         <div style="margin: 0 auto; text-align: center;">
           <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-            ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+            ><img src="assets/bars.svg" style="width: 20px; height: 20px;"
           /></a>
 
           <a
             style="cursor: pointer;"
             (click)="fetchUsers()"
             *ngIf="failed$ | async"
-            >Unable to load data. Try again
+            >Something went wrong. Refresh
             <img
               src="assets/retry.svg"
-              style="width: 30px; height: 30px; margin: 0 auto;"
+              style="width: 20px; height: 20px; margin: 0 auto;"
               alt="Click button to retry"
           /></a>
         </div>
@@ -76,7 +80,7 @@
           ></app-talent-portfolio-albums>
           <span>
             <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-              ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+              ><img src="assets/bars.svg" style="width: 20px; height: 20px;"
             /></a>
 
             <a
@@ -84,10 +88,10 @@
               (click)="fetchUsers()"
               *ngIf="failed$ | async"
             >
-              Unable to load data. Try again
+              Something went wrong. Refresh
               <img
                 src="assets/retry.svg"
-                style="width: 30px; height: 30px; margin: 0 auto;"
+                style="width: 20px; height: 20px; margin: 0 auto;"
                 alt="Click button to retry"
             /></a>
           </span>

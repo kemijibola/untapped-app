@@ -21,3 +21,10 @@ export const FACEBOOK_REGEX = /(?:(?:http|https):\/\/)?(?:www.|m.)?facebook.com\
 export const INSTAGRAM_REGEX = /(?:(?:http|https):\/\/)?(?:www.|m.)?instagram.com\/(?!home.com)(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.com\?id=(?=\d.*))?([\w\.-]+)/;
 export const TWITTER_REGEX = /(?:(?:http|https):\/\/)?(?:www.|m.)?twitter.com\/(?!home.com)(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.com\?id=(?=\d.*))?([\w\.-]+)/;
 export const YOUTUBE_REGEX = /(?:(?:http|https):\/\/)?(?:www.|m.)?youtube.com\/(?!home.com)(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.com\?id=(?=\d.*))?([\w\.-]+)/;
+
+export enum RolePermission {
+  canViewPendingMedia = "canViewPendingMedia",
+  canApproveMedia = "canApproveMedia",
+  canRejectMedia = "canRejectMedia",
+  canViewPendingContest = "canViewPendingContest",
+}

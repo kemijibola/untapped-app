@@ -9,12 +9,14 @@ export interface ContestEntryState extends EntityState<IContestEntry> {
   selectedContestEntryId: string | number | null;
   contestsParticipatedIn: IUserContestListAnalysis[] | null;
   contestEntryStatus: OutboundState | null;
+  enterContestState: OutboundState | null;
 }
 
 const initialState: ContestEntryState = fromAdapter.adapter.getInitialState({
   selectedContestEntryId: null,
   contestsParticipatedIn: null,
   contestEntryStatus: OutboundState.initiated,
+  enterContestState: OutboundState.initiated,
 });
 
 export function reducer(
@@ -27,7 +29,22 @@ export function reducer(
         ...state,
         contestEntryStatus: OutboundState.inprogress,
       });
+    case ContestEntryActions.ENTER_CONTEST:
+      return Object.assign({
+        ...state,
+        enterContestState: OutboundState.inprogress,
+      });
     case ContestEntryActions.ENTER_CONTEST_SUCCESS:
+      return Object.assign({
+        ...state,
+        enterContestState: OutboundState.completed,
+      });
+    case ContestEntryActions.ENTER_CONTEST_FAILED:
+      return Object.assign({
+        ...state,
+        enterContestState: OutboundState.failed,
+      });
+    case ContestEntryActions.SET_CONTEST_ENTRY:
       return fromAdapter.adapter.setOne(action.payload.contestEntry, state);
     case ContestEntryActions.FETCH_CONTEST_ENTRIES_SUCCESS:
       return fromAdapter.adapter.setAll(action.payload.entries, state);
@@ -71,6 +88,18 @@ const getContestEntryInitiated = (state: ContestEntryState): boolean =>
 
 const getContestEntryFailure = (state: ContestEntryState): boolean =>
   state.contestEntryStatus === OutboundState.failed;
+
+const getEntryCompleted = (state: ContestEntryState): boolean =>
+  state.enterContestState === OutboundState.completed;
+
+const getEntryInProgress = (state: ContestEntryState): boolean =>
+  state.enterContestState === OutboundState.inprogress;
+
+const getEntryInitiated = (state: ContestEntryState): boolean =>
+  state.enterContestState === OutboundState.initiated;
+
+const getEntryFailure = (state: ContestEntryState): boolean =>
+  state.enterContestState === OutboundState.failed;
 
 const getContestsUserParticipatedIn = (state: ContestEntryState) =>
   state.contestsParticipatedIn;
@@ -116,6 +145,26 @@ export const selectContestEntrytrInitiatedStatus = createSelector(
 export const selectContestEntryFailedStatus = createSelector(
   getContestEntryState,
   getContestEntryFailure
+);
+
+export const selectEntryInProgressStatus = createSelector(
+  getContestEntryState,
+  getEntryInProgress
+);
+
+export const selectEntryCompletedStatus = createSelector(
+  getContestEntryState,
+  getEntryCompleted
+);
+
+export const selectEntrytrInitiatedStatus = createSelector(
+  getContestEntryState,
+  getEntryInitiated
+);
+
+export const selectEntryFailedStatus = createSelector(
+  getContestEntryState,
+  getEntryFailure
 );
 
 export const selectAllContestEntries = createSelector(
