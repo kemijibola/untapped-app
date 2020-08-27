@@ -180,6 +180,7 @@ export class ProfileComponent implements OnInit {
         ])
       ),
       shortBio: new FormControl(this.shortBio, [
+        Validators.required,
         Validators.minLength(80),
         Validators.maxLength(2000),
       ]),
@@ -231,13 +232,10 @@ export class ProfileComponent implements OnInit {
       );
       return;
     }
-    if (
-      !this.userLocation["address"].formattedAddres ||
-      !this.userLocation["address"].location
-    ) {
+    if (!this.userLocation["address"] || !this.userLocation["address"]) {
       this.store.dispatch(
         new SnackBarActions.SnackBarOpen({
-          message: "Please provide a valid address",
+          message: "Please select a valid location from the list",
           action: "X",
           config: {
             panelClass: ["info-snackbar"],
