@@ -8,13 +8,13 @@
     <div class="col-xl-12">
       <div class="profile-des" *ngIf="typeOfUser === 'Talent'">
         <p>
-          Fill your details; your personal details, contact detail, talents,
+          Fill your details; your personal details, contact details, talents,
           location and social media handles.
         </p>
       </div>
       <div class="profile-des" *ngIf="typeOfUser === 'Professional'">
         <p>
-          Fill your details; business, personal, contact detail, interests,
+          Fill your details; business, personal, contact details, interests,
           office location and social media handles.
         </p>
       </div>
@@ -242,7 +242,7 @@
       <div class="col-xl-12">
         <button
           class="box-btn profile-save"
-          [class.box-btn-disable]="profileForm.invalid || profileForm.touched"
+          [class.box-btn-disable]="profileForm.invalid || !profileForm.touched"
           [disabled]="
             profileForm.invalid ||
             (inProgress$ | async) ||

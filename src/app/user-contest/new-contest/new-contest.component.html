@@ -217,7 +217,10 @@
               <div class="upload">
                 <div class="head">
                   <label for="">+ Upload competition banner</label>
-                  <span>Banner size 500px by 400px</span>
+                  <span
+                    >We recommend you use a square logo with dimensions 500px by
+                    400px.</span
+                  >
                 </div>
                 <div class="upload-fld">
                   <input
@@ -563,7 +566,7 @@
                 class="box-btn create-btn"
                 #createButton
                 [class.box-btn-disable]="
-                  contestForm.invalid || contestForm.touched
+                  contestForm.invalid || !contestForm.touched
                 "
                 [disabled]="
                   contestForm.invalid ||
