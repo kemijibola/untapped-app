@@ -16,6 +16,9 @@ import { pendingContestReducer } from "../store/approvals/contest/contest.reduce
 import { PendingContestEffect } from "../store/approvals/contest/contest.effects";
 import { pendingEntryReducer } from "../store/approvals/entry/entry.reducer";
 import { PendingEntryEffect } from "../store/approvals/entry/entry.effects";
+import { ProfileApprovalComponent } from "./profile-approval/profile-approval.component";
+import { pendingUserReducer } from "../store/approvals/profile/profile.reducer";
+import { PendingUserEffect } from "../store/approvals/profile/profile.effect";
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { PendingEntryEffect } from "../store/approvals/entry/entry.effects";
     MediaApprovalsComponent,
     ContestApprovalsComponent,
     ContestSubmissionsComponent,
+    ProfileApprovalComponent,
   ],
   imports: [
     SharedModule,
@@ -32,10 +36,12 @@ import { PendingEntryEffect } from "../store/approvals/entry/entry.effects";
     StoreModule.forFeature("pendingMediaState", pendingMediaReducer),
     StoreModule.forFeature("pendingContestState", pendingContestReducer),
     StoreModule.forFeature("pendingEntryState", pendingEntryReducer),
+    StoreModule.forFeature("pendingUserState", pendingUserReducer),
     EffectsModule.forFeature([
       PendingMediaEffect,
       PendingContestEffect,
       PendingEntryEffect,
+      PendingUserEffect,
     ]),
   ],
   providers: [AdminApprovalService],

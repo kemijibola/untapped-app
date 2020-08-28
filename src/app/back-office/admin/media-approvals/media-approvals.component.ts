@@ -28,7 +28,9 @@ export class MediaApprovalsComponent implements OnInit {
   rejectionForm: FormGroup;
   approvalInProgress: boolean = true;
   rejectionInProgress: boolean = false;
-  cloudFrontDomain: string = `${environment}/fit-in/320x240`;
+  cloudFrontDomain: string = `${environment.CLOUD_FORMATION_API}/fit-in/320x240`;
+  audioPath: string = environment.AUDIO_ACCELERATE_URL;
+  videoPath: string = environment.VIDEO_ACCELERATE_URL;
 
   approvalIsInitiated$ = this.adminStore.pipe(
     select(fromPendingMedia.selectApprovalInitiatedStatus)

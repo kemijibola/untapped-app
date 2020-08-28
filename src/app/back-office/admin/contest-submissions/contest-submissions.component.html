@@ -7,7 +7,7 @@
   <div class="contest-list-main-inner" (click)="onEntrySelected(entry, i)">
     <div class="c-name">
       <h4 [class.c-name-entry-active]="selectedIndex === i && showContent">
-        {{ entry.title }}
+        {{ i + 1 }}. {{ entry.title }}
       </h4>
     </div>
     <div class="c-rating"></div>
@@ -127,9 +127,7 @@
                 style="margin-right: 1rem"
               >
                 <source
-                  src="https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com/{{
-                    entry.entry
-                  }}"
+                  src="{{ audioPath }}/{{ entry.entry }}"
                   type="{{ entry.type }}"
                 />
               </video>
@@ -143,9 +141,7 @@
                 style="margin-right: 1rem"
               >
                 <source
-                  src="https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com/{{
-                    entry.entry
-                  }}"
+                  src="{{ videoPath }}/{{ entry.entry }}"
                   type="{{ entry.type }}"
                 />
               </video>

@@ -6,7 +6,7 @@
   <div class="contest-list-main-inner" (click)="onContestSelected(contest, i)">
     <div class="c-name">
       <h4 [class.c-name-contest-active]="selectedIndex === i && showContent">
-        {{ contest.title }}
+        {{ i + 1 }}. {{ contest.title }}
       </h4>
     </div>
     <div class="c-rating"></div>
@@ -21,9 +21,6 @@
         <div class="row overview-mobile">
           <div class="col-lg-7">
             <div class="over-view-all-content">
-              <!-- <h1 style="font-size: 1.8rem; word-break: break-word">
-                {{ cont.title }}
-              </h1> -->
               <div class="single-over-view-contnet-blk text-word-wrap">
                 <h4>Contest information</h4>
                 <p>

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { IProfile, IResult } from "../interfaces";
+import { IProfile, IResult, TalentProfile } from "../interfaces";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 
@@ -14,6 +14,11 @@ export class ProfileService {
   fetchUserProfile(): Observable<IResult<IProfile>> {
     const url = `${this.BASE_URI}/profiles/user`;
     return this.http.get<IResult<IProfile>>(url);
+  }
+
+  fetchUserPendingApproval(): Observable<IResult<TalentProfile[]>> {
+    const url = `${this.BASE_URI}/profiles/admin/talents/pending`;
+    return this.http.get<IResult<TalentProfile[]>>(url);
   }
 
   createProfile(data: IProfile): Observable<IResult<IProfile>> {
