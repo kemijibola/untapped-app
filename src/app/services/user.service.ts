@@ -54,6 +54,13 @@ export class UserService {
     });
   }
 
+  updateUserProfileStatus(userId: string): Observable<IResult<boolean>> {
+    const url = `${this.BASE_URI}/users/admin/approve`;
+    return this.http.patch<IResult<boolean>>(url, {
+      userId: userId,
+    });
+  }
+
   updateUserBannerImage(imagePath: string): Observable<IResult<IUser>> {
     const url = `${this.BASE_URI}/users/`;
     return this.http.patch<IResult<IUser>>(url, {

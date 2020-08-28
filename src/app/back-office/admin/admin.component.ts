@@ -29,6 +29,12 @@ export class AdminComponent extends AbstractTabComponent {
       { index: 0, title: "Media", tag: "media", active: false },
       { index: 1, title: "Contest", tag: "contest", active: false },
       { index: 2, title: "Submissions", tag: "submission", active: false },
+      {
+        index: 3,
+        title: "Talent Profile",
+        tag: "talentprofile",
+        active: false,
+      },
     ],
   };
   hasPendingMediaViewPermission: boolean = false;
@@ -41,7 +47,7 @@ export class AdminComponent extends AbstractTabComponent {
     super();
     this.adminStore.dispatch(new PendingMediaActions.FetchPendingApprovals());
     this.adminStore.dispatch(new PendingContestActions.FetchPendingContests());
-    
+
     this.store
       .pipe(select(fromAuth.selectCurrentUserData))
       .subscribe((val: IAuthData) => {

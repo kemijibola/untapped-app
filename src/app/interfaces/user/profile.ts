@@ -29,3 +29,14 @@ export interface IProfile extends UserProfileAddress {
   physicalStats?: IPhysicalAttribute;
   bannerImagePath?: string;
 }
+
+export interface TalentProfile {
+  talentId: string;
+  talentName: string;
+  emailConfirmed: boolean;
+  profilePicture: string;
+  dateJoined: Date;
+  portfolioApproved: boolean;
+  shortBio: string;
+  phoneNumber: string;
+}

@@ -7,7 +7,7 @@
   <div class="contest-list-main-inner" (click)="onMediaSelected(media, i)">
     <div class="c-name">
       <h4 [class.c-name-active]="selectedIndex === i && showContent">
-        {{ media.title }}
+        {{ i + 1 }}. {{ media.title }}
       </h4>
     </div>
     <div class="c-rating"></div>

@@ -23,7 +23,7 @@ export class ContestApprovalsComponent implements OnInit {
   selectedContest: IContest = null;
   showContent: boolean = false;
   pendingContests: IContest[] = [];
-  cloudFrontDomain: string = `${environment}/fit-in/320x240`;
+  cloudFrontDomain: string = `${environment.CLOUD_FORMATION_API}/fit-in/320x240`;
   contestRejectionForm: FormGroup;
   @ViewChild("contestApprovalButton", { static: false })
   contestApprovalButton: ElementRef;

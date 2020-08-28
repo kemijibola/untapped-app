@@ -27,7 +27,9 @@ export class ContestSubmissionsComponent implements OnInit {
   showContent: boolean = false;
   pendingEntries: IContestEntryDetails[] = [];
   entryRejectionForm: FormGroup;
-  cloudFrontDomain: string = `${environment}/fit-in/320x240`;
+  cloudFrontDomain: string = `${environment.CLOUD_FORMATION_API}/fit-in/320x240`;
+  audioPath: string = environment.AUDIO_ACCELERATE_URL;
+  videoPath: string = environment.VIDEO_ACCELERATE_URL;
   @ViewChild("contestApprovalButton", { static: false })
   contestApprovalButton: ElementRef;
   @ViewChild("contestRejectionButton", { static: false })
