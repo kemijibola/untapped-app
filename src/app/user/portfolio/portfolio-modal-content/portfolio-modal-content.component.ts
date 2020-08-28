@@ -29,6 +29,7 @@ import {
   ModalDisplay,
   AppModal,
   UPLOADACTION,
+  PageViewMode,
 } from "src/app/interfaces";
 import { Store, select } from "@ngrx/store";
 import { map } from "rxjs/operators";
@@ -144,6 +145,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   showCompleted: boolean = false;
   showDiv: boolean = false;
   thumbnailUrl: string = "";
+  portfolioEntered: boolean = false;
 
   initiated$ = this.userStore.pipe(
     select(fromPortfolio.selectSaveInitiatedStatus)
@@ -174,7 +176,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromUpload.selectCurrentUploadStatus))
       .subscribe((val: boolean) => {
-        if (val) {
+        if (val && this.portfolioEntered) {
           this.showDiv = true;
           this.showUploading = true;
           this.showCompleted = false;
@@ -210,7 +212,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromUpload.selectUploadStatus))
       .subscribe((val: boolean) => {
-        if (val) {
+        if (val && this.portfolioEntered) {
           this.showDiv = true;
           this.showCompleted = true;
           this.showUploading = false;
@@ -285,6 +287,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
       .pipe(select(fromModal.selectCurrentActiveModal))
       .subscribe((val: IModal) => {
         if (val) {
+          this.portfolioEntered = true;
           this.defaultImagePath = "";
           this.otherImagesPath = [];
           this.canViewDetails = false;
@@ -332,7 +335,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   setMedia(media: UploadedItems) {
-    if (media.items) {
+    if (_.has(media, "items")) {
       this.canViewDetails = true;
       this.showCompleted = false;
       this.showUploading = false;
@@ -412,7 +415,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     const description = this.uploadedItems?.shortDescription || "";
     this.portfolioForm = new FormGroup({
       title: new FormControl(title, Validators.required),
-      description: new FormControl(description, Validators.maxLength(250)),
+      description: new FormControl(description, Validators.maxLength(150)),
     });
   }
 
