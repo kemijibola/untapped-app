@@ -220,13 +220,27 @@
 
           <div [formGroup]="portfolioForm">
             <div class="input-1 pro-page pp">
-              <label for="">*Title</label>
+              <label for="">
+                <span
+                  class="error-block"
+                  *ngIf="
+                    portfolioForm.get('title').invalid &&
+                    portfolioForm.get('title').touched
+                  "
+                  ><em>*Description must nt be greater than 150</em>
+                </span>
+                *Title</label
+              >
               <input type="text" formControlName="title" class="input-design" />
             </div>
             <div class="input-1 pro-page pp">
               <label for=""
                 >Description
-                <span><em>(Limited to 150 characters)</em></span></label
+                <span
+                  class="error-block"
+                  *ngIf="portfolioForm.get('description').hasError('maxLength')"
+                  ><em>*Description must nt be greater than 150</em></span
+                ></label
               >
               <textarea
                 formControlName="description"
@@ -239,7 +253,7 @@
                 #actionButton
                 class="box-btn login-btn mt-10"
                 [class.box-btn-disable]="
-                  portfolioForm.invalid || portfolioForm.touched
+                  portfolioForm.invalid || !portfolioForm.touched
                 "
                 [disabled]="
                   portfolioForm.invalid ||
