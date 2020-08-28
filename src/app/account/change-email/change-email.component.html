@@ -27,9 +27,9 @@
                     class="error-block"
                     *ngIf="changeEmailForm.get('email').hasError('pattern')"
                   >
-                    * Please enter a valid email
+                    *Please enter a valid email
                   </span>
-                  New Email Address
+                  *New Email Address
                   <span
                     class="error-block"
                     *ngIf="changeEmailForm.get('email').hasError('emailExist')"
@@ -56,7 +56,7 @@
                   "
                   class="box-btn login-btn reset-pswd mt-50"
                   [class.box-btn-disable]="
-                    changeEmailForm.invalid || changeEmailForm.touched
+                    changeEmailForm.invalid || !changeEmailForm.touched
                   "
                 >
                   <span *ngIf="(initiated$ | async) || (completed$ | async)"

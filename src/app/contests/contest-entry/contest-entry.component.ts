@@ -168,8 +168,8 @@ export class ContestEntryComponent implements OnInit {
       });
 
     this.contestEntryForm = new FormGroup({
-      title: new FormControl("", Validators.required),
-      info: new FormControl("", Validators.maxLength(150)),
+      title: new FormControl(null, Validators.required),
+      info: new FormControl(null, Validators.maxLength(150)),
       terms: new FormControl(false, Validators.requiredTrue),
     });
   }

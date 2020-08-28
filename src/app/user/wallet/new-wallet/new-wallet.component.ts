@@ -47,9 +47,9 @@ export class NewWalletComponent implements OnInit {
         null,
         Validators.compose([
           Validators.required,
+          Validators.pattern(this.pinPattern),
           Validators.minLength(4),
           Validators.maxLength(4),
-          Validators.pattern(NUMERIC_REGEX),
         ])
       ),
     });

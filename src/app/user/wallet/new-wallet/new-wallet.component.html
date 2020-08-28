@@ -8,15 +8,14 @@
               class="error-block"
               *ngIf="newWalletForm.get('walletPin').hasError('pattern')"
             >
-              * Please enter a valid 4 digit
+              *Please enter a valid 4 digit
             </span>
-            Create wallet pin</label
+            *Create wallet pin</label
           >
           <input
             type="password"
             formControlName="walletPin"
-            [pattern]="pinPattern"
-            class="input-design mb-10"
+            class="input-design"
           />
           <button
             #walletButton
