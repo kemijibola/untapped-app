@@ -13,7 +13,7 @@ import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "../account/store/auth.reducers";
 import { IAuthData } from "../interfaces";
 import { catchError, take, concatMap } from "rxjs/operators";
-import { environment } from "../../../src/environments/environment.dev";
+import { environment } from "../../../src/environments/environment";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
