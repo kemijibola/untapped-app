@@ -52,6 +52,12 @@ export class ChangeEmailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.completed$.subscribe((val: boolean) => {
+      if (val) {
+        this.changeEmailForm.reset();
+      }
+    });
+
     this.changeEmailForm = new FormGroup({
       email: new FormControl(
         null,
@@ -69,6 +75,7 @@ export class ChangeEmailComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log("called");
     const changeEmailBtn = this.changeEmailButton.nativeElement;
     this.renderer.setProperty(changeEmailBtn, "disabled", true);
 
@@ -79,6 +86,5 @@ export class ChangeEmailComponent implements OnInit {
         emailChangeVerificationUri: environment.EMAIL_CHANGE_ROUTE,
       })
     );
-    this.changeEmailForm.reset();
   }
 }

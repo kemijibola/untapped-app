@@ -145,6 +145,7 @@ export class ProfileComponent implements OnInit {
             }
           }
         }
+
         this.initForm();
       });
 
@@ -179,11 +180,14 @@ export class ProfileComponent implements OnInit {
           Validators.maxLength(11),
         ])
       ),
-      shortBio: new FormControl(this.shortBio, [
-        Validators.required,
-        Validators.minLength(80),
-        Validators.maxLength(2000),
-      ]),
+      shortBio: new FormControl(
+        this.shortBio,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(80),
+          Validators.maxLength(2000),
+        ])
+      ),
       facebook: new FormControl(this.facebook),
       instagram: new FormControl(this.instagram),
       twitter: new FormControl(this.twitter),
@@ -191,6 +195,9 @@ export class ProfileComponent implements OnInit {
       additionalSocial: this.otherSocialMedias,
     });
     this.profileForm.controls["emailAddress"].disable();
+    if (this._id) {
+      this.profileForm.markAllAsTouched();
+    }
   }
 
   get additionalSocial(): FormArray {

@@ -4,12 +4,23 @@
       <div class="login-wrapper create-pass-popup">
         <div class="head text-center mb-30">
           <small>
-            * Enter the competition uploading only high quality audio, video and
-            pictures. All uploads are subject to Admins' approval.
+            *Enter the competition uploading only high quality audio, video and
+            pictures. Upload is subject to admins' approval.
           </small>
         </div>
         <div class="login-form" [formGroup]="contestEntryForm">
-          <label for="">Title</label>
+          <label for="">
+            <span
+              class="error-block"
+              *ngIf="
+                contestEntryForm.get('title').invalid &&
+                contestEntryForm.get('title').touched
+              "
+            >
+              *Please enter valid
+            </span>
+            *Title</label
+          >
           <input
             type="text"
             formControlName="title"
