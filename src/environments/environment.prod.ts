@@ -20,7 +20,7 @@ export const environment = {
   PROFESSIONAL_BIODATA_BANNER_DEFAULT:
     "assets/img/profile/pro_banner_default.png",
   CONTEST_BANNER_DEFAULT: "assets/img/contest/contest-1.jpg",
-  PAYSTACK_CLIENT_KEY: "pk_test_59348c251942c0500c9bf1058fdbd9956cadc060",
+  PAYSTACK_CLIENT_KEY: "pk_live_bd4b94fbc002f8922e69c4ead360087cc6487f1e",
   EMAIL_CHANGE_ROUTE: "account/email-change/verify",
   RESET_PASSWORD_URL: "account/reset/password-request/verify",
   CONTEST_KEYWORD: "TALENT",
