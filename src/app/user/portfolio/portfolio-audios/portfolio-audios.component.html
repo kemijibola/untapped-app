@@ -3,11 +3,11 @@
     <div class="profile-alb-head">
       <h4>
         Audio Portfolio
-        <span *ngIf="userAudiosLength === 1"
-          >({{ userAudiosLength }} album)</span
+        <span *ngIf="userAudioPreviews.length === 1"
+          >({{ userAudioPreviews.length }} album)</span
         >
-        <span *ngIf="userAudiosLength > 1"
-          >({{ userAudiosLength }} albums)</span
+        <span *ngIf="userAudioPreviews.length > 1"
+          >({{ userAudioPreviews.length }} albums)</span
         >
       </h4>
     </div>
