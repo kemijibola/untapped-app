@@ -115,7 +115,6 @@ export class ContestSubmissionsComponent implements OnInit {
         .pop()}`;
       media.contest.entryMediaType = media.contest.entryMediaType.toLowerCase();
     }
-    console.log("entie", entries);
     return entries;
   }
 

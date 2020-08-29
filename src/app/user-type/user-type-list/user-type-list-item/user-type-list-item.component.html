@@ -1,21 +1,23 @@
 <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-  ><img src="assets/bars.svg" style="width: 20px; height: 20px;"
+  ><img src="assets/bars.svg" style="width: 20px; height: 20px"
 /></a>
 
 <a *ngIf="failed$ | async"
   >Something went wrong. Refresh
   <img
     src="assets/retry.svg"
-    style="width: 20px; height: 20px; cursor: pointer;"
+    style="width: 20px; height: 20px; cursor: pointer"
     (click)="fetchUserTypes()"
 /></a>
 
 <div *ngIf="completed$ | async">
-  <li *ngFor="let item of userTypes$ | async; let i = index">
+  <li
+    *ngFor="let item of userTypes$ | async; trackBy: trackByFn; let i = index"
+  >
     <div
       class="community-wrp"
       [formGroup]="userTypeForm"
-      style="cursor: pointer;"
+      style="cursor: pointer"
       (click)="onClick(item)"
     >
       <label class="round">

@@ -36,15 +36,15 @@
     <a
       class="album-img mb-30"
       (click)="openModalDialog('album-modal', image)"
-      *ngFor="let image of imageAlbums | async; let i = index"
+      *ngFor="let image of imageAlbums | async; trackBy: imageTrackByFn"
     >
       <img
         [defaultImage]="image.defaultAlbumCover"
         [lazyLoad]="image.albumCover"
-        style="height: 225px; background: lightgray;"
+        style="height: 225px; background: lightgray"
       />
 
-      <div class="title-content" style="width: 187.83px;">
+      <div class="title-content" style="width: 187.83px">
         <span class="subject">{{ image.mediaTitle }}</span>
         <span class="date">{{ image.dateCreated | date }}</span>
       </div>
@@ -63,11 +63,11 @@
   <div *ngIf="(audioAlbums | async).length > 0">
     <a
       class="album-img mb-30"
-      *ngFor="let audio of audioAlbums | async; let i = index"
+      *ngFor="let audio of audioAlbums | async; trackBy: audioTrackByFn"
       (click)="openModalDialog('album-modal', audio)"
     >
-      <img src="{{ audio.albumCover }}" style="height: 225px;" alt="" />
-      <div class="title-content" style="width: 187.83px;">
+      <img src="{{ audio.albumCover }}" style="height: 225px" alt="" />
+      <div class="title-content" style="width: 187.83px">
         <span class="subject">{{ audio.mediaTitle }}</span>
         <span class="date">{{ audio.dateCreated | date }}</span>
       </div>
@@ -83,15 +83,15 @@
   <div *ngIf="(videoAlbums | async).length > 0">
     <a
       class="album-img mb-30"
-      *ngFor="let video of videoAlbums | async; let i = index"
+      *ngFor="let video of videoAlbums | async; trackBy: videoTrackByFn"
       (click)="openModalDialog('album-modal', video)"
     >
       <img
         [defaultImage]="video.defaultAlbumCover"
         [lazyLoad]="video.albumCover"
-        style="height: 225px; background: lightgray;"
+        style="height: 225px; background: lightgray"
       />
-      <div class="title-content" style="width: 187.83px;">
+      <div class="title-content" style="width: 187.83px">
         <span class="subject">{{ video.mediaTitle }}</span>
         <span class="date">{{ video.dateCreated | date }}</span>
       </div>
@@ -113,16 +113,16 @@
         <div
           class="item"
           (click)="openModalDialog('album-modal', general)"
-          style="cursor: pointer;"
+          style="cursor: pointer"
         >
           <img
-            style="cursor: pointer;"
+            style="cursor: pointer"
             [defaultImage]="general.defaultAlbumCover"
             [lazyLoad]="general.albumCover"
-            style="height: 208px; background: lightgray; cursor: pointer;"
+            style="height: 208px; background: lightgray; cursor: pointer"
           />
           <div class="plays" *ngIf="general.mediaType !== 'image'">
-            <a style="cursor: pointer;"
+            <a style="cursor: pointer"
               ><img src="assets/img/profile/play.svg"
             /></a>
           </div>
@@ -135,7 +135,7 @@
 <div
   class="middle-talent-wrp"
   *ngIf="!(selectedUser | async)?._id"
-  style="text-align: center; margin: 0 auto; margin-top: 40px;"
+  style="text-align: center; margin: 0 auto; margin-top: 40px"
 >
   No talent album found
 </div>

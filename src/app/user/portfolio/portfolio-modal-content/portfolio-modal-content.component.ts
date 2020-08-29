@@ -253,6 +253,7 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
           this.portfolioForm.controls["description"].setValue(
             val.shortDescription
           );
+
           this.setMedia(this.uploadedItems);
           this.itemToUpdate = this.uploadedItems;
         }
@@ -485,6 +486,10 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
     );
   }
 
+  trackByFn(index: number, item: MediaItem) {
+    return item._id;
+  }
+
   setOtherAudio(media: MediaItem[]) {
     this.otherAudioPath = media.reduce(
       (theMap: MediaItem[], theItem: MediaItem) => {
@@ -500,7 +505,6 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
   }
 
   setImage(media: UploadedItems) {
-    console.log(media);
     this.isImageUpload = true;
     if (media.uploadType === "multiple") {
       this.isMultipleImage = true;

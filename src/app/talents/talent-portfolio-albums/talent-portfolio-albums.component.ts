@@ -45,8 +45,7 @@ import { Observable } from "rxjs";
   templateUrl: "./talent-portfolio-albums.component.html",
   styleUrls: ["./talent-portfolio-albums.component.css"],
 })
-export class TalentPortfolioAlbumsComponent
-  implements OnInit, AfterViewInit, AfterContentInit {
+export class TalentPortfolioAlbumsComponent implements OnInit {
   selectedUser: Observable<UserFilterCategory>;
   appModal: AppModal;
   componentModal: AppModal;
@@ -117,26 +116,9 @@ export class TalentPortfolioAlbumsComponent
   constructor(
     public store: Store<fromApp.AppState>,
     public element: ElementRef
-  ) {
-    // this.fetchTalentImages();
-    // this.fetchTalentAudios();
-    // this.fetchTalentVideos();
-  }
+  ) {}
 
   ngOnInit() {
-    // this.store
-    //   .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
-    //   .subscribe((val: ImagePortfolioPreview[]) => {
-    //     if (val) {
-    //       this.imageAlbums = this.setImageAlbumCover(val);
-
-    //       this.showImage = true;
-    //       // this.triggerTimer();
-    //     } else {
-    //       this.imageAlbums = [];
-    //     }
-    //   });
-
     this.imageAlbums = this.store.pipe(
       select(fromTalentImagePortfolio.selectImagePortfolioPreviews)
     );
@@ -259,48 +241,17 @@ export class TalentPortfolioAlbumsComponent
     }
   }
 
-  // fetchTalentImages() {
-  //   this.store
-  //     .pipe(select(fromTalentImagePortfolio.selectImagePortfolioPreviews))
-  //     .subscribe((val: ImagePortfolioPreview[]) => {
-  //       if (val) {
-  //         this.setImageAlbumCover(val);
-  //         // this.triggerTimer();
-  //       } else {
-  //         this.imageAlbums = [];
-  //       }
-  //     });
-  // }
+  imageTrackByFn(index: number, item: ImagePortfolioPreview) {
+    return item._id;
+  }
 
-  // fetchTalentAudios() {
-  //   this.store
-  //     .pipe(select(fromTalentAudioPortfolio.selectAudioPortfolioPreviews))
-  //     .subscribe((val: AudioPortfolioPreview[]) => {
-  //       if (val) {
-  //         this.setAudioAlbumCover(val);
-  //       } else {
-  //         this.audioAlbums = [];
-  //       }
-  //     });
-  // }
+  audioTrackByFn(index: number, item: AudioPortfolioPreview) {
+    return item._id;
+  }
 
-  // fetchTalentVideos() {
-  //   this.store
-  //     .pipe(select(fromTalentVideoPortfolio.selectVideoPortfolioPreviews))
-  //     .subscribe((val: VideoPortfolioPreview[]) => {
-  //       if (val) {
-  //         this.setVideoAlbumCover(val);
-  //       } else {
-  //         this.videoAlbums = [];
-  //       }
-  //     });
-  // }
-
-  ngAfterViewInit() {}
-
-  ngAfterContentInit() {}
-
-  triggerImageAlbum() {}
+  videoTrackByFn(index: number, item: VideoPortfolioPreview) {
+    return item._id;
+  }
 
   triggerTimer() {
     setTimeout(() => {

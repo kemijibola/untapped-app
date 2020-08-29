@@ -163,7 +163,11 @@
             <div class="scene-inner pp">
               <div
                 class="scene-img"
-                *ngFor="let item of otherAudioPath; let i = index"
+                *ngFor="
+                  let item of otherAudioPath;
+                  trackBy: trackByFn;
+                  let i = index
+                "
                 (click)="onClickPlaylistItem(item, i)"
                 [class.selected]="item === currentAudioItem"
               >
@@ -194,11 +198,14 @@
             <div class="scene-inner pp">
               <div
                 class="scene-img"
-                *ngFor="let item of otherVideoPath; let i = index"
+                *ngFor="
+                  let item of otherVideoPath;
+                  trackBy: trackByFn;
+                  let i = index
+                "
                 (click)="onClickPlaylistVideo(item, i)"
                 [class.selected]="item === currentVideoItem"
               >
-                <!-- <img src="assets/img/prff.jpg" alt="" /> -->
                 <img src="assets/img/profile/Video-1.jpg" alt="" />
                 <div class="plays" (click)="onClickPlaylistVideo(item, i)">
                   <a><img src="assets/img/profile/play.svg" alt="" /></a>

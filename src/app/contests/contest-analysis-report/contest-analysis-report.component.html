@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="success-top-text">
-          <div class="back-btn" style="cursor: pointer;">
+          <div class="back-btn" style="cursor: pointer">
             <a
               (click)="navigateToPrevious(contestId)"
               [routerLinkActiveOptions]="{ exact: true }"
@@ -20,7 +20,7 @@
           <img
             [defaultImage]="defaultBannerImage"
             [lazyLoad]="fullBannerImage"
-            style="width: 370px; height: 307px; background: lightgray;"
+            style="width: 370px; height: 307px; background: lightgray"
           />
           <!-- <img src="assets/img/contest/sidebar-img.jpg" alt="" /> -->
         </div>
@@ -42,24 +42,24 @@
               {{ contestVoteResult?.contestDuration }}
             </span>
           </h4>
-          <div class="vote-box" style="background: #ffb90f;">
-            <h4 style="color: antiquewhite;">
+          <div class="vote-box" style="background: #ffb90f">
+            <h4 style="color: antiquewhite">
               votes
               <span>
                 {{ contestVoteResult?.contestTotalVote }}
               </span>
             </h4>
           </div>
-          <div class="vote-box" style="background: #006400;">
-            <h4 style="color: antiquewhite;">
+          <div class="vote-box" style="background: #006400">
+            <h4 style="color: antiquewhite">
               valid
               <span>
                 {{ contestVoteResult?.contestTotalValidVote }}
               </span>
             </h4>
           </div>
-          <div class="vote-box" style="background: #d23d2e;">
-            <h4 style="color: antiquewhite;">
+          <div class="vote-box" style="background: #d23d2e">
+            <h4 style="color: antiquewhite">
               invalid
               <span>
                 {{ contestVoteResult?.contestTotalInvalidVote }}
@@ -78,7 +78,7 @@
       </div>
       <div
         class="col-lg-3 col-md-4 col-sm-12 mt-4"
-        *ngFor="let entry of contestVoteResult?.entries"
+        *ngFor="let entry of contestVoteResult?.entries; trackBy: trackByFn"
       >
         <div class="selected-contest-list">
           <div
@@ -97,44 +97,44 @@
                 >
                   <span
                     *ngIf="entry.position === 'disqualified'"
-                    style="background-color: #d23d2e;"
+                    style="background-color: #d23d2e"
                     >Disqualified</span
                   >
                   <span
                     *ngIf="entry.position === 'participant'"
-                    style="background-color: #bebebe;"
+                    style="background-color: #bebebe"
                     >Participant</span
                   >
                   <span
                     *ngIf="entry.position === 'firstplace'"
-                    style="background-color: #20b2aa;"
+                    style="background-color: #20b2aa"
                     >1st Place</span
                   >
                   <span
                     *ngIf="entry.position === 'secondplace'"
-                    style="background-color: #20b2aa;"
+                    style="background-color: #20b2aa"
                     >2nd Place</span
                   >
                   <span
                     *ngIf="entry.position === 'thirdplace'"
-                    style="background-color: #20b2aa;"
+                    style="background-color: #20b2aa"
                     >3rd Place</span
                   >
                   <span
                     *ngIf="entry.position === 'fourthplace'"
-                    style="background-color: #20b2aa;"
+                    style="background-color: #20b2aa"
                     >4th Place</span
                   >
                   <span
                     *ngIf="entry.position === 'fifthplace'"
-                    style="background-color: #20b2aa;"
+                    style="background-color: #20b2aa"
                     >5th Place</span
                   >
                 </div>
                 <img
                   [defaultImage]="entry.defaultUserProfileImage"
                   [lazyLoad]="entry.fullUserProfileImage"
-                  style="width: 270px; height: 222px; background: lightgray;"
+                  style="width: 270px; height: 222px; background: lightgray"
                 />
                 <!-- <img
                   src="assets/img/winner.png"
@@ -143,33 +143,33 @@
                 /> -->
                 <div
                   class="p-2 text-left"
-                  style="width: 100%; background-color: #f7f7f7;"
+                  style="width: 100%; background-color: #f7f7f7"
                 >
                   <span
                     class=""
-                    style="font-size: 13px; text-decoration: underline;"
+                    style="font-size: 13px; text-decoration: underline"
                     >{{ entry.contestantName }}</span
                   >
                   <span
-                    style="float: right;"
+                    style="float: right"
                     *ngIf="entry.contestantTotalVote > 0"
                     >{{ entry.contestantTotalVote }} Votes</span
                   >
                   <span
-                    style="float: right;"
+                    style="float: right"
                     *ngIf="entry.contestantTotalVote < 1"
                     >{{ entry.contestantTotalVote }} Vote</span
                   >
                   <span
                     *ngIf="!contestVoteResult?.contestHasEnded"
                     class="mt-2 d-block"
-                    style="font-size: 18px; color: #000;"
+                    style="font-size: 18px; color: #000"
                     >Text
-                    <span style="font-weight: bold;"
+                    <span style="font-weight: bold"
                       >{{ keyword }} {{ entry.contestantCode }}</span
                     >
                     to
-                    <span style="font-weight: bold;">{{
+                    <span style="font-weight: bold">{{
                       textNumber
                     }}</span></span
                   >

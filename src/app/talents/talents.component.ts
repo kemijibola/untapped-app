@@ -123,22 +123,5 @@ export class TalentsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    // if (_.has(this.componentModal, "id")) {
-    //   const modalToClose: IModal = {
-    //     index: 0,
-    //     name: "album-modal",
-    //     display: ModalDisplay.none,
-    //     modalCss: "",
-    //     modalDialogCss: "",
-    //     showMagnifier: false,
-    //   };
-    //   this.store.dispatch(
-    //     new ModalsActions.ToggleModal({
-    //       appModal: this.componentModal,
-    //       modal: modalToClose,
-    //     })
-    //   );
-    // }
-  }
+  ngOnDestroy() {}
 }

@@ -28,3 +28,6 @@ export enum RolePermission {
   canRejectMedia = "canRejectMedia",
   canViewPendingContest = "canViewPendingContest",
 }
+
+export const audioAccept: string =
+  ".mpeg, .opus, .flac, .webm, .weba, .wav, .ogg, .m4a, .mp3, .oga, .mid, .amr, .aiff, .wma, .au, .aac";

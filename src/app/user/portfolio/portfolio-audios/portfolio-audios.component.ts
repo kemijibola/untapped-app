@@ -47,11 +47,10 @@ export class PortfolioAudiosComponent {
     this.userStore
       .pipe(select(fromMediaPreview.selectUserAudioPreviews))
       .subscribe((val: AudioPreview[]) => {
-        this.userAudioPreviews = val;
-        this.userAudiosLength = val.length;
-        if (val.length > 0) {
-          this.setAlbumCovers();
-        }
+        val.map((x) => {
+          x = this.setAlbumCover(x);
+          this.userAudioPreviews.push(x);
+        });
       });
   }
 
@@ -64,10 +63,12 @@ export class PortfolioAudiosComponent {
     );
   }
 
-  setAlbumCovers() {
-    this.userAudioPreviews = this.userAudioPreviews.map((x) => {
-      return Object.assign({}, x, { artCover: fetchAudioArt() });
-    });
+  trackByFn(index: number, item: AudioPreview) {
+    return item._id;
+  }
+
+  setAlbumCover(data: AudioPreview): AudioPreview {
+    return Object.assign({}, data, { artCover: fetchAudioArt() });
   }
 
   fetchAudio(audioId: string): void {

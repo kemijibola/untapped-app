@@ -88,7 +88,5 @@ export class RequestPayoutComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    console.log("called");
-  }
+  ngOnDestroy() {}
 }

@@ -1,11 +1,11 @@
-<div class="no-gutters" style="min-width: 1050px;">
-  <div class="" style="width: 50%; float: left;">
+<div class="no-gutters" style="min-width: 1050px">
+  <div class="" style="width: 50%; float: left">
     <div class="popup-img h-auto">
       <img
         [defaultImage]="defaultImagePath"
         [lazyLoad]="imagePath"
         *ngIf="isCurrentImageSet"
-        style="width: 529px; height: 517px; background: lightgray;"
+        style="width: 529px; height: 517px; background: lightgray"
       />
 
       <app-audio-payer
@@ -23,7 +23,7 @@
       ></app-video-player>
     </div>
   </div>
-  <div class="" style="width: 50%; float: left;">
+  <div class="" style="width: 50%; float: left">
     <div class="popup-content-wrap">
       <div class="user-part">
         <div class="p-user">
@@ -62,13 +62,13 @@
           <span
             *ngIf="mediaComments.length <= 1"
             class="comment-num"
-            style="float: right;"
+            style="float: right"
             >{{ mediaComments.length }} comment</span
           >
           <span
             *ngIf="mediaComments.length > 1"
             class="comment-num"
-            style="float: right;"
+            style="float: right"
             >{{ mediaComments.length }} comments</span
           >
         </div>
@@ -76,7 +76,7 @@
 
       <div
         class="col-xl-12 d-inline-block talent-comment-container"
-        style="width: 100% !important;"
+        style="width: 100% !important"
       >
         <div class="album-popup-content-wrap">
           <div class="collapse cmnt-bx show" id="collapseExample">
@@ -91,11 +91,7 @@
                 cols="10"
                 rows="1"
                 formControlName="mediaComment"
-                style="
-                  line-height: 20px;
-                  padding-right: 50px;
-                  padding-top: 5px;
-                "
+                style="line-height: 20px; padding-right: 50px; padding-top: 5px"
               ></textarea>
               <a
                 [class.disabled]="true"
@@ -124,8 +120,11 @@
               >
             </div>
           </div>
-          <div class="pop-review-outer-section" style="height: 297px;">
-            <div class="pop-review-section" *ngFor="let item of mediaComments">
+          <div class="pop-review-outer-section" style="height: 297px">
+            <div
+              class="pop-review-section"
+              *ngFor="let item of mediaComments; trackBy: trackByFn"
+            >
               <div class="p-rv-head">
                 <div class="p-rev-img">
                   <img src="{{ item.commenterfullProfileImagePath }}" />
@@ -167,9 +166,7 @@
 
             <div class="pop-review-section" *ngIf="commentsLength < 1">
               <div class="p-rv-content">
-                <p>
-                  Be the first to comment.
-                </p>
+                <p>Be the first to comment.</p>
               </div>
             </div>
           </div>

@@ -115,7 +115,6 @@ export class NewContestOverviewComponent implements OnInit {
     this.userContestStore
       .pipe(select(fromNewContest.selectCurrentContest))
       .subscribe((val: IContest) => {
-        console.log("contest created", val);
         if (val !== null) {
           this.winnerCount = val.redeemable.length;
           this.totalRewardFund = val.redeemable.reduce(
@@ -160,14 +159,6 @@ export class NewContestOverviewComponent implements OnInit {
       });
   }
 
-  // fetchContestBanner(bannerImageKey: string) {
-  //   console.log("banner key", bannerImageKey);
-  //   this.bannerImage =
-  //     bannerImageKey !== undefined || bannerImageKey !== ""
-  //       ? fetchImageObjectFromCloudFormation(bannerImageKey, this.editParams)
-  //       : environment.CONTEST_BANNER_DEFAULT;
-  // }
-
   onClickEdit(): void {
     this.userContestStore.dispatch(
       new NewContestActions.SetContestAgreement({ status: true })
@@ -201,9 +192,7 @@ export class NewContestOverviewComponent implements OnInit {
       });
   }
 
-  paymentInit() {
-    console.log("Payment initialized");
-  }
+  paymentInit() {}
 
   generatePaymentKey() {
     this.refKey =

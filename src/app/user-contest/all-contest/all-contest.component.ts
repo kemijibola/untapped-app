@@ -59,6 +59,10 @@ export class AllContestComponent implements OnInit {
       });
   }
 
+  trackByFn(index: number, item: IUserContestListAnalysis) {
+    return item.contestId;
+  }
+
   setContestBannerImage() {
     this.userContests = this.userContests.map((x) => {
       return Object.assign({}, x, {

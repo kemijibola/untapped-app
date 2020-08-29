@@ -123,6 +123,10 @@ export class ContestsComponent implements OnInit, OnDestroy {
     );
   }
 
+  trackByFn(index: number, item: IContestList) {
+    return item._id;
+  }
+
   getContestsRetry(pageNumber: number = 1) {
     this.store.dispatch(
       new ContestsAction.FetchContestsPreview({

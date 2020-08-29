@@ -3,12 +3,12 @@ import {
   OnInit,
   HostBinding,
   Renderer2,
-  ElementRef
-} from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as fromShared from '../shared/shared.reducers';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+  ElementRef,
+} from "@angular/core";
+import { Store, select } from "@ngrx/store";
+import * as fromShared from "../shared/shared.reducers";
+import { takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 // @Directive({
 //     selector: '[appFileInput]'

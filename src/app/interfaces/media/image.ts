@@ -19,7 +19,7 @@ export enum ImageFit {
   contain = "contain",
   fill = "fill",
   inside = "inside",
-  outside = "outside"
+  outside = "outside",
 }
 interface Resize {
   width: number;
@@ -33,20 +33,15 @@ interface SmartCrop {
 }
 
 export const AcceptedMedias = {
-  png: "image",
-  jpeg: "image",
-  jpg: "image",
-  gif: "image",
-  svg: "image",
-  mp4: "video",
-  mpeg: "video",
-  avi: "video",
-  flv: "video",
-  mp3: "audio",
-  wma: "audio",
-  webm: "audio",
-  wav: "audio",
-  "3gp": "video",
-  m4p: "audio",
-  aac: "audio"
+  audio: "audio",
+  video: "video",
+  image: "image",
+};
+
+export const MediaTypeExtension = {
+  audio:
+    ".mpeg, .opus, .flac, .webm, .weba, .wav, .ogg, .m4a, .mp3, .oga, .mid, .amr, .aiff, .wma, .au, .aac",
+  image:
+    ".tiff, .pjp, .jfif, .gif, .svg, .bmp, .png, .jpeg, .svgz, .jpg, .webp, .ico, .xbm, .dib, .tif, .pjpeg, .avif",
+  video: ".ogm, .wmv, .mpg, .webm, .ogv, .mov, .asx, .mpeg, .mp4, .m4v, .avi",
 };

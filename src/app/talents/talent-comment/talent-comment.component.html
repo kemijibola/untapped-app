@@ -12,7 +12,7 @@
           cols="10"
           rows="1"
           formControlName="mediaComment"
-          style="line-height: 20px; padding-right: 50px; padding-top: 5px;"
+          style="line-height: 20px; padding-right: 50px; padding-top: 5px"
         ></textarea>
         <a
           [class.disabled]="true"
@@ -41,8 +41,11 @@
         >
       </div>
     </div>
-    <div class="pop-review-outer-section" style="height: 297px;">
-      <div class="pop-review-section" *ngFor="let item of mediaComments">
+    <div class="pop-review-outer-section" style="height: 297px">
+      <div
+        class="pop-review-section"
+        *ngFor="let item of mediaComments; trackBy: trackByFn"
+      >
         <div class="p-rv-head">
           <div class="p-rev-img">
             <img src="{{ item.commenterfullProfileImagePath }}" alt="" />
@@ -84,9 +87,7 @@
 
       <div class="pop-review-section" *ngIf="commentsLength < 1">
         <div class="p-rv-content">
-          <p>
-            Be the first to comment.
-          </p>
+          <p>Be the first to comment.</p>
         </div>
       </div>
     </div>

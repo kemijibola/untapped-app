@@ -1,12 +1,12 @@
 <div class="middle-talent-wrp" *ngIf="show">
   <div
     class="prohead-img"
-    style="text-align: center; background-color: lightgray;"
+    style="text-align: center; background-color: lightgray"
   >
     <img
       [defaultImage]="defaultBannerImage"
       [lazyLoad]="selectedUser.bannerPhotoFullPath"
-      style="width: 877px; height: 275px; background: lightgray;"
+      style="width: 877px; height: 275px; background: lightgray"
       alt=""
     />
   </div>
@@ -15,7 +15,7 @@
       <img
         [defaultImage]="defaultDisplayImage"
         [lazyLoad]="selectedUser.displayPhotoFullPath"
-        style="width: 160px; height: 152px; background: lightgray;"
+        style="width: 160px; height: 152px; background: lightgray"
         alt=""
       />
     </div>
@@ -76,8 +76,8 @@
         </div>
       </div>
       <div
-        style="width: 239px; margin-right: 1rem;"
-        *ngFor="let contest of selectedUser.contests"
+        style="width: 239px; margin-right: 1rem"
+        *ngFor="let contest of selectedUser.contests; trackBy: trackByFn"
       >
         <div class="entries-img mb-20">
           <a
@@ -87,7 +87,7 @@
             ><img
               [defaultImage]="contest.defaultContestBannerImage"
               [lazyLoad]="contest.fullContestBannerImage"
-              style="width: 239px; height: 149px; background: lightgray;"
+              style="width: 239px; height: 149px; background: lightgray"
           /></a>
           <div class="entries-content all-ent">
             <span class="ent-num">{{ contest.entryCount }}</span>
@@ -120,7 +120,7 @@
 
 <div
   class="middle-talent-wrp"
-  style="text-align: center; margin: 0 auto; margin-top: 40px;"
+  style="text-align: center; margin: 0 auto; margin-top: 40px"
   *ngIf="!show"
 >
   <i>No record found</i>

@@ -119,4 +119,8 @@ export class ContestApprovalsComponent implements OnInit {
 
     this.contestRejectionForm.controls["reason"].setValue("");
   }
+
+  trackByFn(index: number, item: IContest) {
+    return item._id;
+  }
 }

@@ -75,7 +75,6 @@ export class ChangeEmailComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("called");
     const changeEmailBtn = this.changeEmailButton.nativeElement;
     this.renderer.setProperty(changeEmailBtn, "disabled", true);
 

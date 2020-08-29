@@ -117,15 +117,6 @@
                 {{ eligibleCategories }}
               </p>
             </div>
-            <!-- <div
-              class="content-inner-block"
-              *ngIf="contestDetails.contest.eligibilityInfo !== null"
-            >
-              <h4>Eligibility:</h4>
-              <p>
-                {{ contestDetails.contest.eligibilityInfo }}
-              </p>
-            </div> -->
             <div class="content-inner-block">
               <h4>Submission media type</h4>
               <p class="text-capitalize">
@@ -208,13 +199,6 @@
     <app-modals [id]="'talent-entry-details'">
       <div class="pop-icon-bar" navigate style="padding-right: 16px">
         <div class="slide-arrow" style="margin-top: 8px">
-          <!-- <span class="modal-title">Contest Entry Details</span> -->
-          <!-- <button class="left [disabled]="leftDisabled" (click)="onPrevious()"">
-            <i class="far fa-angle-left"></i>
-          </button>
-          <button class="right" [disabled]="rightDisabled" (click)="onNext()">
-            <i class="far fa-angle-right"></i>
-          </button> -->
           <button class="left" [disabled]="leftDisabled" (click)="onPrevious()">
             <i class="far fa-angle-left"></i>
           </button>
@@ -251,8 +235,12 @@
                 i
               )
             "
-            ><img src="assets/img/contest/entries-1.jpg"
-          /></a>
+          >
+            <img
+              src="assets/img/contest/entry.jpg"
+              style="width: 351px; height: 190px"
+            />
+          </a>
 
           <div class="entries-content">
             <h4>{{ item.entry.user["fullName"] || "" }}</h4>

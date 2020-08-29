@@ -150,7 +150,7 @@
   >
     <div
       class="transaction-amount-container"
-      *ngFor="let transaction of userTransactions | async"
+      *ngFor="let transaction of userTransactions | async; trackBy: trackByFn"
       [ngStyle]="{
         'border-bottom':
           transaction.transactionType === 'credit'

@@ -1,15 +1,15 @@
 <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-  ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+  ><img src="assets/bars.svg" style="width: 30px; height: 30px"
 /></a>
 
 <a
-  style="cursor: pointer;"
+  style="cursor: pointer"
   (click)="fetchTalentEntries()"
   *ngIf="failed$ | async"
   >Something went wrong. Refresh
   <img
     src="assets/retry.svg"
-    style="width: 20px; height: 20px; margin: 0 auto;"
+    style="width: 20px; height: 20px; margin: 0 auto"
     alt="Click button to retry"
 /></a>
 
@@ -22,10 +22,20 @@
 >
   <div
     class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
-    *ngFor="let contest of userContests"
+    *ngFor="let contest of userContests; trackBy: trackByFn"
   >
     <div class="entries-img mb-20">
-      <a href="#"><img src="assets/img/contest/all-contest-1.jpg" alt="" /></a>
+      <a
+        [routerLink]="['/competitions', contest.contestId]"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="visited"
+      >
+        <img
+          [defaultImage]="contest.defaultContestBannerImage"
+          [lazyLoad]="contest.fullContestBannerImage"
+          style="width: 318px; height: 225px"
+        />
+      </a>
       <div class="entries-content all-ent">
         <span class="ent-num"
           >{{ contest.entryCount }}
@@ -55,7 +65,7 @@
     </div>
   </div>
   <div class="info-ta" *ngIf="userContests.length < 1">
-    <p style="margin-left: 16px; margin-right: 16px;">
+    <p style="margin-left: 16px; margin-right: 16px">
       You have not participated in any contest. Click
       <a
         [routerLink]="['/competitions']"
