@@ -90,6 +90,7 @@ export class PortfolioImagesComponent implements OnInit {
           x = this.setAlbumCover(x);
           this.userImagePreviews.push(x);
         });
+        console.log(this.userImagePreviews);
       });
   }
 

@@ -1,13 +1,13 @@
-<div class="row mb-50" *ngIf="userVideosLength > 0">
+<div class="row mb-50" *ngIf="userVideoPreviews.length > 0">
   <div class="col-xl-12">
     <div class="profile-alb-head">
       <h4>
         Video Portfolio
-        <span *ngIf="userVideosLength === 1"
-          >({{ userVideosLength }} album)</span
+        <span *ngIf="userVideoPreviews.length === 1"
+          >({{ userVideoPreviews.length }} album)</span
         >
-        <span *ngIf="userVideosLength > 1"
-          >({{ userVideosLength }} albums)</span
+        <span *ngIf="userVideoPreviews.length > 1"
+          >({{ userVideoPreviews.length }} albums)</span
         >
       </h4>
     </div>
