@@ -14,7 +14,11 @@
   </div>
   <div
     class="col-xl-4 col-lg-4 col-md-4 col-sm-6"
-    *ngFor="let image of userImagePreviews; let i = index"
+    *ngFor="
+      let image of userImagePreviews | async;
+      trackBy: trackByFn;
+      let i = index
+    "
   >
     <div
       class="profile-alb-wrapper mb-30"
@@ -24,7 +28,7 @@
         <img
           [defaultImage]="image.defaultAlbumCover"
           [lazyLoad]="image.albumCover"
-          style="height: 168px; width: 320px; background: lightgray;"
+          style="height: 168px; width: 320px; background: lightgray"
           (click)="openModalDialog('gigs-modal', image._id)"
         />
 

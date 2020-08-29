@@ -75,29 +75,11 @@ export class PortfolioVideosComponent {
     this.userStore
       .pipe(select(fromMediaPreview.selectUserVideoPreviews))
       .subscribe((val: VideoPreview[]) => {
-        this.userVideoPreviews = val;
-        this.userVideosLength = val.length;
-        if (val.length > 0) {
-          this.setAlbumCover();
-        }
+        val.map((x) => {
+          x = this.setAlbumCover(x);
+          this.userVideoPreviews.push(x);
+        });
       });
-
-    // this.userStore
-    //   .pipe(select(selectVidthis[ieoDeleteSuccess))
-    //   .subscribe((deleted: boolean) => {
-    //     if (deleted) {
-    //       this.userVideoPreviews = this.userVideoPreviews.filter(
-    //         (item) => item._id !== this.mediaIdToDelete
-    //       );
-
-    //       console.log(this.userVideoPreviews);
-
-    //       this.userStore.dispatch(
-    //         new PortfolioActions.ResetDeleteVideoByIdSucess()
-    //       );
-    //       // TODO:: show snackback for success delete
-    //     }
-    //   });
   }
 
   onDelete(id: string) {
@@ -109,26 +91,23 @@ export class PortfolioVideosComponent {
     );
   }
 
-  setAlbumCover() {
-    // this.userVideoPreviews = this.userVideoPreviews.map((x) => {
-    //   return Object.assign({}, x, { albumCover: fetchVideoArt() });
-    // });
-    // console.log(this.userVideoPreviews);
+  trackByFn(index: number, item: VideoPreview) {
+    return item._id;
+  }
 
-    this.userVideoPreviews = this.userVideoPreviews.map((x) => {
-      return Object.assign({}, x, {
-        defaultAlbumCover: fetchImageObjectFromCloudFormation(
-          x.defaultMediaPath,
-          this.defaultParams
-        ),
-        albumCover:
-          x.defaultMediaPath !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.defaultMediaPath,
-                this.editParams
-              )
-            : fetchVideoArt(),
-      });
+  setAlbumCover(data: VideoPreview): VideoPreview {
+    return Object.assign({}, data, {
+      defaultAlbumCover: fetchImageObjectFromCloudFormation(
+        data.defaultMediaPath,
+        this.defaultParams
+      ),
+      albumCover:
+        data.defaultMediaPath !== ""
+          ? fetchImageObjectFromCloudFormation(
+              data.defaultMediaPath,
+              this.editParams
+            )
+          : fetchVideoArt(),
     });
   }
 

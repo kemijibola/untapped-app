@@ -98,6 +98,9 @@ export class PortfolioGeneralComponent implements OnInit {
     });
   }
 
+  trackByFn(index: number, item: GeneralPreview) {
+    return item._id;
+  }
   setVideoAlbumCover(video: GeneralPreview): GeneralPreview {
     return Object.assign({}, video, {
       albumCover:
@@ -111,7 +114,6 @@ export class PortfolioGeneralComponent implements OnInit {
   }
 
   openModalDialog(modalId: string, itemId: string) {
-    console.log("clicked");
     this.store.dispatch(
       new ModalsActions.FetchAppModal({ appModalId: "portfolio" })
     );

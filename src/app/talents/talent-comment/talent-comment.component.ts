@@ -68,14 +68,11 @@ export class TalentCommentComponent implements OnInit, OnChanges {
       .subscribe((val: IComment[]) => {
         this.commentsLength = val.length;
         if (this.commentsLength > 0) {
-          this.mediaComments = this.sortCommentsByNewest(val);
-          this.mediaComments = this.fetchCommenterProfileImage(val);
-          // if (this.currentUser._id !== "") {
-          //   this.checkIfUserHasLikedComment(
-          //     this.currentUser._id,
-          //     this.mediaComments
-          //   );
-          // }
+          val = this.sortCommentsByNewest(val);
+          val.map((x) => {
+            x = this.fetchCommenterProfileImage(x);
+            this.mediaComments.push(x);
+          });
         } else {
           this.mediaComments = [];
         }
@@ -94,6 +91,10 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     this.store.dispatch(
       new CommentsActions.AddCommentLike({ comment: commentToLike, likedBy })
     );
+  }
+
+  trackByFn(index: number, item: IComment) {
+    return item._id;
   }
 
   onUnLikeClicked(commentToUnLike: IComment) {
@@ -117,17 +118,15 @@ export class TalentCommentComponent implements OnInit, OnChanges {
     });
   }
 
-  fetchCommenterProfileImage(comments: IComment[]): IComment[] {
-    return comments.map((x) => {
-      return Object.assign({}, x, {
-        commenterfullProfileImagePath:
-          x.user.profileImagePath === undefined
-            ? fetchCommenterDefaultImage()
-            : fetchImageObjectFromCloudFormation(
-                x.user.profileImagePath,
-                this.commenterImageParams
-              ),
-      });
+  fetchCommenterProfileImage(comment: IComment): IComment {
+    return Object.assign({}, comment, {
+      commenterfullProfileImagePath:
+        comment.user.profileImagePath === undefined
+          ? fetchCommenterDefaultImage()
+          : fetchImageObjectFromCloudFormation(
+              comment.user.profileImagePath,
+              this.commenterImageParams
+            ),
     });
   }
 

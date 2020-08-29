@@ -137,6 +137,10 @@ export class ContestAnalysisReportComponent implements OnInit {
     });
   }
 
+  trackByFn(index: number, item: ContestVoteResult) {
+    return item.contestId;
+  }
+
   navigateToPrevious(contestId: string): void {
     this.router.navigate(["/competitions/", contestId]);
   }

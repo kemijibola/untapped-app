@@ -17,22 +17,7 @@ import { pipe, of } from "rxjs";
 
 @Injectable()
 export class InitEffects {
-  // @Effect()
-  // init = this.actions$
-  //   .pipe(ofType(InitActions.FETCH_CONFIGS))
-  //   .switchMap(() => {
-  //     console.log('here effects');
-  //     return this.http.get('../../assets/config.json');
-  //   })
-  //   .pipe(
-  //     map((res: string) => {
-  //       console.log('setting in effects');
-  //       return {
-  //         type: InitActions.SET_BASE_URL,
-  //         payload: res
-  //       };
-  //     })
-  //   );
+
 
   constructor(private actions$: Actions, private http: HttpClient) {}
-}
+

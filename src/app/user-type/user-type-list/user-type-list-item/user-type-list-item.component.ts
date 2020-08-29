@@ -71,6 +71,10 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UserTypeActions.FetchUserTypes());
   }
 
+  trackByFn(index: number, item: IUserType) {
+    return item._id;
+  }
+
   ngOnDestroy() {
     // set selected user type to default select
     if (_.has(this.selectedUserType, "_id")) {

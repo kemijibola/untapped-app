@@ -436,7 +436,6 @@ export class NewContestComponent implements OnInit {
           prizeCash: reward["reward"],
         });
       }
-      console.log(redeemables);
 
       const title: string = this.contestForm.controls["title"].value;
       const basicInfo: string = this.contestForm.controls["basicInfo"].value;

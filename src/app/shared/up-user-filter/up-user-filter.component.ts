@@ -122,52 +122,10 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
           );
         }
       });
+  }
 
-    // this.store
-    //   .pipe(select(fromUserFilter.selectSearchText))
-    //   .subscribe((val: string) => {
-    //     if (val !== null) {
-    //       this.searchText = val;
-    //       if (this.searchText.length > 2) {
-    //         this.store.dispatch(
-    //           new UserFilterActions.FetchAllUsers({
-    //             queryParams: {
-    //               searchText: val,
-    //               categoryId: this.category,
-    //               userTypeId: this.userTypeId,
-    //             },
-    //           })
-    //         );
-    //       } else if (this.searchText.length === 0) {
-    //         this.store.dispatch(
-    //           new UserFilterActions.FetchAllUsers({
-    //             queryParams: {
-    //               userTypeId: this.userTypeId,
-    //               categoryId: this.category,
-    //             },
-    //           })
-    //         );
-    //       }
-    //     }
-    //   });
-
-    // this.store
-    //   .pipe(select(fromCategory.selectCurrentCategory))
-    //   .subscribe((val: Category) => {
-    //     console.log("category", val);
-    //     if (val) {
-    //       this.category = val._id;
-    //       this.store.dispatch(
-    //         new UserFilterActions.FetchAllUsers({
-    //           queryParams: {
-    //             searchText: this.searchText,
-    //             categoryId: val._id,
-    //             userTypeId: this.userTypeId,
-    //           },
-    //         })
-    //       );
-    //     }
-    //   });
+  trackByFn(index: number, item: UserFilterCategory) {
+    return item._id;
   }
 
   setUserImage(data: UserFilterCategory): UserFilterCategory {
@@ -196,7 +154,6 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
         ),
       });
     });
-
   }
 
   onUserSelected(index: number) {

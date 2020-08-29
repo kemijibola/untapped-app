@@ -16,12 +16,12 @@
   <div class="col-xl-12">
     <div class="album-viewer">
       <div class="popup-img d-inline-block popup-img-mobile">
-        <div style="overflow: auto;">
+        <div style="overflow: auto">
           <img
             [defaultImage]="defaultImagePath"
             [lazyLoad]="imagePath"
             *ngIf="isCurrentImageSet"
-            style="width: 435px; height: 289px; background: lightgray;"
+            style="width: 435px; height: 289px; background: lightgray"
           />
 
           <app-audio-payer
@@ -48,29 +48,28 @@
           </div>
         </div>
       </div>
-      <!-- <app-talent-comment></app-talent-comment> -->
 
-      <div style="width: 47%; float: right;">
+      <div style="width: 47%; float: right">
         <app-talent-comment
           [mediaId]="selectedMedia?._id"
           *ngIf="completed$ | async"
         ></app-talent-comment>
       </div>
 
-      <div style="width: 47%; float: right;">
+      <div style="width: 47%; float: right">
         <a *ngIf="(initiated$ | async) || (inProgress$ | async)"
-          ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+          ><img src="assets/bars.svg" style="width: 30px; height: 30px"
         /></a>
 
         <a
-          style="cursor: pointer;"
+          style="cursor: pointer"
           (click)="fetchComments(selectedMedia._id)"
           *ngIf="failed$ | async"
         >
           Something went wrong. Refresh
           <img
             src="assets/retry.svg"
-            style="width: 30px; height: 30px; margin: 0 auto;"
+            style="width: 30px; height: 30px; margin: 0 auto"
             alt="Click button to retry"
         /></a>
       </div>

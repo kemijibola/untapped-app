@@ -120,9 +120,6 @@ export class TalentCategoriesComponent implements OnInit {
   }
 
   OnItemDeSelect(item: any) {
-    // console.log(item);
-    // console.log(this.selectedItems);
-
     this.setSelectedCategory();
     this.store.dispatch(
       new CategoryTypeActions.SetSelectedCategoryType({
@@ -130,10 +127,6 @@ export class TalentCategoriesComponent implements OnInit {
       })
     );
   }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  onDeSelectAll(items: any) {
-    console.log(items);
-  }
+  onSelectAll(items: any) {}
+  onDeSelectAll(items: any) {}
 }

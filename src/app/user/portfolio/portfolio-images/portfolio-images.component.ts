@@ -31,6 +31,7 @@ import * as fromMediaPreview from "../../store/portfolio/media/media-preview.red
 import * as MediaPreviewActions from "../../store/portfolio/media/media-preview.actions";
 import * as fromModal from "../../../shared/store/modals/modals.reducers";
 import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-portfolio-images",
@@ -65,6 +66,8 @@ export class PortfolioImagesComponent implements OnInit {
   data: IMedia;
   uploadedItems: UploadedItems;
   viewMode: ModalViewModel = ModalViewModel.none;
+  defaultCloudFrontDomain: string = `${environment.CLOUD_FORMATION_API}/fit-in/20x8`;
+  imgCloudFrontDomain: string = `${environment.CLOUD_FORMATION_API}/fit-in/320x168`;
 
   constructor(
     private userStore: Store<fromUser.UserState>,
@@ -83,29 +86,15 @@ export class PortfolioImagesComponent implements OnInit {
     this.userStore
       .pipe(select(fromMediaPreview.selectUserImagePreviews))
       .subscribe((val: ImagePreview[]) => {
-        this.userImagePreviews = val;
-        this.userImagesLength = val.length;
-        if (val.length > 0) {
-          this.setAlbumCovers();
-        }
+        val.map((x) => {
+          x = this.setAlbumCover(x);
+          this.userImagePreviews.push(x);
+        });
       });
+  }
 
-    // this.userStore
-    //   .pipe(select(selectImageDeleteSuccess))
-    //   .subscribe((deleted: boolean) => {
-    //     if (deleted) {
-    //       this.userImagePreviews = this.userImagePreviews.filter(
-    //         (item) => item._id !== this.mediaIdToDelete
-    //       );
-
-    //       console.log(this.userImagePreviews);
-
-    //       this.userStore.dispatch(
-    //         new PortfolioActions.ResetDeleteImageByIdSucess()
-    //       );
-    //       // TODO:: show snackback for success delete
-    //     }
-    //   });
+  trackByFn(index: number, item: ImagePreview) {
+    return item._id;
   }
 
   onDelete(id: string) {
@@ -114,23 +103,38 @@ export class PortfolioImagesComponent implements OnInit {
     );
   }
 
-  setAlbumCovers() {
-    this.userImagePreviews = this.userImagePreviews.map((x) => {
-      return Object.assign({}, x, {
-        defaultAlbumCover: fetchImageObjectFromCloudFormation(
-          x.defaultMediaPath,
-          this.defaultParams
-        ),
-        albumCover:
-          x.defaultMediaPath !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.defaultMediaPath,
-                this.editParams
-              )
-            : fetchNoMediaDefaultImage(),
-      });
+  setAlbumCover(data: ImagePreview): ImagePreview {
+    return Object.assign({}, data, {
+      defaultAlbumCover: fetchImageObjectFromCloudFormation(
+        data.defaultMediaPath,
+        this.defaultParams
+      ),
+      albumCover:
+        data.defaultMediaPath !== ""
+          ? fetchImageObjectFromCloudFormation(
+              data.defaultMediaPath,
+              this.editParams
+            )
+          : fetchNoMediaDefaultImage(),
     });
   }
+  // setAlbumCovers() {
+  //   this.userImagePreviews = this.userImagePreviews.map((x) => {
+  //     return Object.assign({}, x, {
+  //       defaultAlbumCover: fetchImageObjectFromCloudFormation(
+  //         x.defaultMediaPath,
+  //         this.defaultParams
+  //       ),
+  //       albumCover:
+  //         x.defaultMediaPath !== ""
+  //           ? fetchImageObjectFromCloudFormation(
+  //               x.defaultMediaPath,
+  //               this.editParams
+  //             )
+  //           : fetchNoMediaDefaultImage(),
+  //     });
+  //   });
+  // }
 
   openModalDialog(modalId: string, itemId: string) {
     this.store.dispatch(

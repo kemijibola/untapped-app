@@ -46,17 +46,6 @@ import * as _ from "underscore";
 })
 export class ContestantModalComponent implements OnInit, OnChanges {
   @Input() mediaType: string;
-  // entryData: IContestEntry = {
-  //   _id: "",
-  //   user: "",
-  //   contest: "",
-  //   likedBy: [],
-  //   title: "",
-  //   additionalInfo: "",
-  //   contestantCode: "",
-  //   entry: "",
-  //   fullUserProfileImage: "",
-  // };
 
   entryData: IEntryData = {
     commentCount: 0,
@@ -180,8 +169,11 @@ export class ContestantModalComponent implements OnInit, OnChanges {
       .subscribe((val: IComment[]) => {
         this.commentsLength = val.length;
         if (this.commentsLength > 0) {
-          this.mediaComments = this.sortCommentsByNewest(val);
-          this.mediaComments = this.fetchCommenterProfileImage(val);
+          val = this.sortCommentsByNewest(val);
+          val.map((x) => {
+            x = this.fetchCommenterProfileImage(x);
+            this.mediaComments.push(x);
+          });
           if (_.has(this.currentUser, "_id")) {
             this.checkIfUserHasLikedComment(
               this.currentUser._id,
@@ -196,6 +188,10 @@ export class ContestantModalComponent implements OnInit, OnChanges {
     this.contestantCommentForm = new FormGroup({
       mediaComment: new FormControl("", Validators.required),
     });
+  }
+
+  trackByFn(index: number, item: IComment) {
+    return item._id;
   }
 
   onLikeClicked(commentToLike: IComment) {
@@ -301,17 +297,15 @@ export class ContestantModalComponent implements OnInit, OnChanges {
     });
   }
 
-  fetchCommenterProfileImage(comments: IComment[]): IComment[] {
-    return comments.map((x) => {
-      return Object.assign({}, x, {
-        commenterfullProfileImagePath:
-          x.user.profileImagePath === undefined
-            ? fetchCommenterDefaultImage()
-            : fetchImageObjectFromCloudFormation(
-                x.user.profileImagePath,
-                this.commenterImageParams
-              ),
-      });
+  fetchCommenterProfileImage(comment: IComment): IComment {
+    return Object.assign({}, comment, {
+      commenterfullProfileImagePath:
+        comment.user.profileImagePath === undefined
+          ? fetchCommenterDefaultImage()
+          : fetchImageObjectFromCloudFormation(
+              comment.user.profileImagePath,
+              this.commenterImageParams
+            ),
     });
   }
 

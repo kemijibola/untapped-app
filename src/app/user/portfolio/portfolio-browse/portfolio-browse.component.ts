@@ -30,7 +30,9 @@ import {
   AcceptedMedias,
   ImageFit,
   ImageEditRequest,
+  MediaTypeExtension,
 } from "src/app/interfaces/media/image";
+import { audioAccept } from "src/app/lib/constants";
 
 @Component({
   selector: "app-portfolio-browse",
@@ -137,7 +139,8 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
               []
             );
 
-            var fileType = files[0].file_type.split("/");
+            var fileType = this.mediaAccept.split("/");
+
             this.file = {
               mediaType: fileType[0],
               component: UPLOADCOMPONENT.portfolio,
@@ -201,10 +204,8 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
 
             this.store.dispatch(new UploadActions.UploadFiles(uploadParams));
 
-            const uploadExtension = this.uploadedItems.items[0].path
-              .split(".")
-              .pop();
-            this.uploadedItems.type = AcceptedMedias[uploadExtension];
+            this.uploadedItems.type =
+              AcceptedMedias[this.mediaAccept.split("/")[0]];
 
             this.store.dispatch(
               new UploadActions.SetUploadedItems({
@@ -217,14 +218,12 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   }
 
   onClickBrowseBtn() {
-    console.log("clicked");
-    // this.store.dispatch(new UploadActions.ResetFileInput());
     this.fileConfig = {
       state: true,
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: this.isMultiple,
-      accept: this.mediaAccept,
+      accept: MediaTypeExtension[this.mediaAccept.split("/")[0]],
       minHeight: 199,
       minWidth: 299,
     };

@@ -105,6 +105,10 @@ export class UpCategerySearchComponent implements OnInit {
     //
   }
 
+  trackByFn(index: number, item: ICategory) {
+    return item._id;
+  }
+
   reOrderCategories(pick: number, categories: ICategory[]) {
     this.orderedCategories = categories.filter((x: ICategory, i: number) => {
       return i < pick;

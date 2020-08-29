@@ -1,6 +1,6 @@
 <div
   class="single-contest-list"
-  *ngFor="let contest of pendingContests; let i = index"
+  *ngFor="let contest of pendingContests; trackBy: trackByFn; let i = index"
   style="margin-bottom: 1rem; cursor: pointer"
 >
   <div class="contest-list-main-inner" (click)="onContestSelected(contest, i)">

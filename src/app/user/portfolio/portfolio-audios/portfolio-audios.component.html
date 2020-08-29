@@ -14,7 +14,7 @@
   </div>
   <div
     class="col-xl-4 col-lg-4 col-md-4 col-sm-6"
-    *ngFor="let item of userAudioPreviews; let i = index"
+    *ngFor="let item of userAudioPreviews; trackBy: trackByFn; let i = index"
   >
     <div
       class="profile-alb-wrapper mb-30"
@@ -23,7 +23,7 @@
       <div class="alb-image">
         <img
           src="{{ item.artCover }}"
-          style="height: 168px; width: 320px; background: lightgray;"
+          style="height: 168px; width: 320px; background: lightgray"
         />
 
         <!-- <div class="edit">

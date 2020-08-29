@@ -69,7 +69,6 @@ export class PortfolioService {
   fetchUserPortfolioPreviewList(
     queryParams: MediaQueryParams
   ): Observable<IResult<MediaPreview[]>> {
-    // console.log(queryParams);
     const url = `${this.BASE_URI}/media/me/preview?mediaType=${queryParams.type}&uploadType=${queryParams.uploadType}`;
     return this.http.get<IResult<MediaPreview[]>>(url);
   }

@@ -22,7 +22,7 @@
   <div class="container-fluid">
     <div class="row">
       <a
-        style="cursor: pointer;"
+        style="cursor: pointer"
         (click)="getContestsRetry()"
         *ngIf="failed$ | async"
         >Something went wrong. Refresh
@@ -40,12 +40,12 @@
         >
           <div
             class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12"
-            style="cursor: pointer;"
-            *ngFor="let contest of contests; let i = index"
+            style="cursor: pointer"
+            *ngFor="let contest of contests; trackBy: trackByFn; let i = index"
           >
             <div
               class="contest-wrapper mb-30"
-              style="width: 257px; margin: 10px auto;"
+              style="width: 257px; margin: 10px auto"
               (click)="navigateToDetail(contest._id)"
             >
               <div class="contest-img">
@@ -57,7 +57,7 @@
                     class="contets-mobile"
                     [defaultImage]="contest.defaultBannerImage"
                     [lazyLoad]="contest.fullBannerImage"
-                    style="background: lightgray;"
+                    style="background: lightgray"
                 /></a>
                 <div class="entries-content all-ent contest">
                   <span class="ent-num">
@@ -88,18 +88,18 @@
 
         <div
           *ngIf="contests.length < 1"
-          style="margin: 0 auto; text-align: center;"
+          style="margin: 0 auto; text-align: center"
         >
           <span>There are currently no contest on-going</span>
         </div>
-        <div style="margin: 0 auto; text-align: center;">
+        <div style="margin: 0 auto; text-align: center">
           <a
             *ngIf="(initiated$ | async) || (inProgress$ | async) || showLoading"
-            ><img src="assets/bars.svg" style="width: 30px; height: 30px;"
+            ><img src="assets/bars.svg" style="width: 30px; height: 30px"
           /></a>
         </div>
 
-        <div style="text-align: center;">
+        <div style="text-align: center">
           <span *ngIf="!notEmptyPost"><i>No more items to show</i></span>
         </div>
       </div>

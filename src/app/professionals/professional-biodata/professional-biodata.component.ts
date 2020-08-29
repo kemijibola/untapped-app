@@ -7,6 +7,7 @@ import {
   UserFilterCategory,
   ReportType,
   IUserSocialMedia,
+  IUserContestListAnalysis,
 } from "src/app/interfaces";
 import {
   fetchProfessionalBiodataBanner,
@@ -171,6 +172,10 @@ export class ProfessionalBiodataComponent implements OnInit {
           }
         }
       });
+  }
+
+  trackByFn(index: number, item: IUserContestListAnalysis) {
+    return item.contestId;
   }
 
   setUserContestBannerImage() {

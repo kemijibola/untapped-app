@@ -1,6 +1,6 @@
 <div
   aria-label="Page navigation example row"
-  style="cursor: pointer; display: block;"
+  style="cursor: pointer; display: block"
 >
   <ul class="pagination">
     <li class="page-item" (click)="onSelectCategory(-1, '12345', true)">
@@ -9,7 +9,11 @@
     <li
       class="page-item"
       (click)="onSelectCategory(i, category._id, true)"
-      *ngFor="let category of orderedCategories; let i = index"
+      *ngFor="
+        let category of orderedCategories;
+        trackBy: trackByFn;
+        let i = index
+      "
     >
       <a
         class="page-link"

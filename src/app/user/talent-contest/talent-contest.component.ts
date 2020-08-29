@@ -10,6 +10,7 @@ import {
   fetchDefaultContestBanner,
 } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-talent-contest",
@@ -18,6 +19,7 @@ import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 })
 export class TalentContestComponent implements OnInit {
   userContests: IUserContestListAnalysis[] = [];
+  cloudFrontDomain: string = `${environment.CLOUD_FORMATION_API}/fit-in/318x225`;
 
   editParams: ImageEditRequest = {
     edits: {
@@ -80,15 +82,19 @@ export class TalentContestComponent implements OnInit {
     this.store.dispatch(new ContestEntryActions.FetchUserParticipatedContest());
   }
 
+  trackByFn(index: number, item: IUserContestListAnalysis) {
+    return item.contestId;
+  }
+
   setContestBannerImage(
     data: IUserContestListAnalysis
   ): IUserContestListAnalysis {
     return Object.assign({}, data, {
-      defaultBannerImage: fetchImageObjectFromCloudFormation(
+      defaultContestBannerImage: fetchImageObjectFromCloudFormation(
         data.contestBanner,
         this.defaultParams
       ),
-      fullBannerImage:
+      fullContestBannerImage:
         data.contestBanner !== ""
           ? fetchImageObjectFromCloudFormation(
               data.contestBanner,

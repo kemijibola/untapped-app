@@ -108,6 +108,10 @@ export class WalletComponent implements OnInit {
     );
   }
 
+  trackByFn(index: number, item: Transaction) {
+    return item.paymentReference;
+  }
+
   closeModalDialog(modalId: string) {
     if (this.componentModal) {
       const modalToDeActivate = this.componentModal.modals.filter(
