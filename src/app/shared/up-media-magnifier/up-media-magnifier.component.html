@@ -1,9 +1,6 @@
 <!-- this is only an image maginifier -->
 
-<div
-  style="display: table-cell; width: 100%; text-align: center;"
-  *ngIf="showMagnifier"
->
+<div style="display: table-cell; width: 100%; text-align: center">
   <img src="{{ imagePath }}" style="max-width: 100%" alt="" />
   <span
     (click)="onPrevious()"
@@ -18,7 +15,13 @@
 
   <span
     (click)="onClose()"
-    style="color: #fff; font-size: 30px; position:fixed; right: 60px; top: 20px "
+    style="
+      color: #fff;
+      font-size: 30px;
+      position: fixed;
+      right: 60px;
+      top: 20px;
+    "
     >Close</span
   >
 </div>

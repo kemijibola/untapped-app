@@ -77,6 +77,7 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
     type: "",
     fullVideoPath: "",
   };
+  showMgnifier: boolean = false;
   currentIndex = 0;
   mediaItems: MediaItem[] = [];
   defaultImageParams: ImageEditRequest = {
@@ -217,6 +218,11 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
         data: this.selectedMedia.items,
       })
     );
+  }
+
+  onMagnifyImage(): void {
+    console.log("i should be magnified");
+    this.showMgnifier = !this.showMgnifier;
   }
 
   setCurrentVideo(video: VideoItem) {

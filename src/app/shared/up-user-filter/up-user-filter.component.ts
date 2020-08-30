@@ -180,7 +180,7 @@ export class UpUserFilterComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new TalentsActions.FetchTalentPortfolio({
         type: MediaType.ALL,
-        uploadType: MediaUploadType.all,
+        uploadType: MediaUploadType.multiple,
         user: userId,
       })
     );
