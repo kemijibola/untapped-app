@@ -127,9 +127,9 @@ export class ContestDetailsComponent implements OnInit, OnDestroy {
         new ContestsAction.FetchContestById({ id: this.contestId })
       );
 
-      // this.store.dispatch(
-      //   new ContestsAction.PostContestView({ id: this.contestId })
-      // );
+      this.store.dispatch(
+        new ContestsAction.PostContestView({ id: this.contestId })
+      );
 
       this.store
         .pipe(select(fromAuth.selectCurrentUserData))

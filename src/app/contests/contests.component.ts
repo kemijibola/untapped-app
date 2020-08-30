@@ -78,6 +78,7 @@ export class ContestsComponent implements OnInit, OnDestroy {
     this.store
       .pipe(select(fromContests.selectAllContestsPreviews))
       .subscribe((val: IContestList[]) => {
+        console.log(val);
         if (this.contests.length === 0) {
           this.showLoading = false;
           val.map((x: IContestList) => {

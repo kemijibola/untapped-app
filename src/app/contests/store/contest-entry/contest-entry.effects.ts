@@ -36,7 +36,7 @@ export class ContestEntryEffect {
               new NotificationActions.AddSuccess({
                 key: AppNotificationKey.success,
                 code: 201,
-                message: "Entry has been submitted for approval.",
+                message: "🎉 Woohoo! Entry has been submitted for approval!",
               }),
             ];
           }),
