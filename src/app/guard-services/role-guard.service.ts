@@ -49,7 +49,6 @@ export class RoleGuard implements CanActivate {
             route.data.userType &&
             route.data.userType !== user.user_data.userType.name
           ) {
-            console.log(route.data.userType);
             // role not authorised so redirect to home page
             this.router.navigate(["/"]);
             return false;

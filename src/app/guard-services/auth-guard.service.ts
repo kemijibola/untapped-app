@@ -34,12 +34,13 @@ export class AuthGuard implements CanActivate {
     return this.getUserDataFromStore().pipe(
       map((val: IAuthData) => {
         if (!val.authenticated) {
+          
           this.store.dispatch(new AuthActions.DeleteAutData());
           this.authService.removeItem("authData").subscribe((val: boolean) => {
             if (val) {
               return this.router.navigate(["/account/login"], {
                 queryParams: {
-                  return: state.url,
+                  returnUrl: state.url,
                 },
               });
             }
