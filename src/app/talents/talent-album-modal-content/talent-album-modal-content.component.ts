@@ -221,7 +221,6 @@ export class TalentAlbumModalContentComponent implements OnInit, OnDestroy {
   }
 
   onMagnifyImage(): void {
-    console.log("i should be magnified");
     this.showMgnifier = !this.showMgnifier;
   }
 

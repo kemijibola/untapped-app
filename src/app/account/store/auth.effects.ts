@@ -295,7 +295,11 @@ export class AuthEffects {
               new AuthActions.SetAuthData(resp.data),
             ]),
             tap((data) => this.authService.setItem("userData", data.payload)),
-            tap(() => this.router.navigate(["/"])),
+            tap(() => {
+              const returnUrl =
+                this.route.snapshot.queryParams["returnUrl"] || "/";
+              this.router.navigateByUrl(returnUrl);
+            }),
             catchError((respError: HttpErrorResponse) =>
               of(
                 new NotificationActions.AddError({
@@ -306,11 +310,6 @@ export class AuthEffects {
                     "No Internet connection",
                 }),
                 new AuthActions.SignInFailure()
-                // new NotificationActions.AddSuccess({
-                //   key: AppNotificationKey.success,
-                //   code: 200,
-                //   message: "Show me!",
-                // })
               )
             )
           )
@@ -491,6 +490,7 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private store: Store<fromApp.AppState>,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 }
