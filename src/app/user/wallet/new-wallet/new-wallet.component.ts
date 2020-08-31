@@ -13,7 +13,7 @@ import * as fromUser from "../../user.reducers";
 import * as fromApp from "../../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
 import { HelperService } from "src/app/shared/utils/helper.service";
-import { environment } from "../../../../environments/environment.prod";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-new-wallet",

@@ -127,9 +127,7 @@
                 style="margin-right: 1rem"
               >
                 <source
-                  src="https://untapped-pool-audio-bucket.s3.us-east-2.amazonaws.com/{{
-                    audio.path
-                  }}"
+                  src="{{ audioPath }}/{{ audio.path }}"
                   type="{{ audio.type }}"
                 />
               </video>
@@ -218,9 +216,7 @@
                 style="margin-right: 1rem"
               >
                 <source
-                  src="https://untapped-pool-video-bucket.s3-accelerate.amazonaws.com/{{
-                    video.path
-                  }}"
+                  src="{{ videoPath }}/{{ video.path }}"
                   type="{{ video.type }}"
                 />
               </video>

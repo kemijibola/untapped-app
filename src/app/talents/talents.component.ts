@@ -36,7 +36,7 @@ import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
 } from "ngx-perfect-scrollbar";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-talents",

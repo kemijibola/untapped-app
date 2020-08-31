@@ -16,7 +16,7 @@ import {
 import * as fromApp from "../../../store/app.reducers";
 import * as fromCategoryType from "../../../shared/store/category-type/category-type.reducers";
 import { Router } from "@angular/router";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import { differenceInDays } from "date-fns";

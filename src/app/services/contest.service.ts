@@ -14,7 +14,7 @@ import {
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
 import { ContestWithEntriesPreview } from "../interfaces/shared/dashboard";
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class ContestService {

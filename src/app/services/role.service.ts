@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IRole, IResult } from "src/app/interfaces";
 import { ConfigService } from "./config.service";
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class RoleService {

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   clientId: "ADMINWEB",
-  TALENT_DEFAULT_IMG: "assets/img/profile/talent_default_img.png",
+  TALENT_DEFAULT_IMG: "assetas/img/profile/talent_default_img.png",
   PROFESSIONAL_DEFAULT_IMG: "assets/img/profile/professional_default_img.png",
   NO_MEDIA_IMG: "assets/img/no-media.png",
   COMMENTER_DEFAULT_IMAGE: "assets/img/contest/popup-user.png",
