@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IService, IResult } from "src/app/interfaces";
 import { ServiceTypes } from "../lib/constants";
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class ServicesService {

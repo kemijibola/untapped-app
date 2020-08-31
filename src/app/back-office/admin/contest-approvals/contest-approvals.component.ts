@@ -11,7 +11,7 @@ import * as fromAdmin from "./../admin.reducer";
 import * as fromPendingContest from "../../store/approvals/contest/contest.reducer";
 import * as PendingContestActions from "../../store/approvals/contest/contest.action";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-contest-approvals",

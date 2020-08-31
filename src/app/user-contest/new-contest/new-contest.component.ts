@@ -41,7 +41,7 @@ import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as NewContestActions from "../../user-contest/store/new-contest/new-contest.actions";
 import * as fromUserContest from "../../user-contest/user-contest.reducers";
 import * as fromNewContest from "../../user-contest/store/new-contest/new-contest.reducers";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import * as fromCategoryType from "src/app/shared/store/category-type/category-type.reducers";
 import { addDays } from "date-fns";
 import { NUMERIC_REGEX } from "src/app/lib/constants";

@@ -7,7 +7,7 @@ import { IOrder, IContest, PaymentProcessor } from "src/app/interfaces";
 import * as fromUserContest from "../../../user-contest/user-contest.reducers";
 import * as fromNewContest from "../../../user-contest/store/new-contest/new-contest.reducers";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
 
 @Component({

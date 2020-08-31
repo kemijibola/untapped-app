@@ -13,7 +13,7 @@ import * as fromPendingMedia from "../../store/approvals/media/media.reducer";
 import { IMedia } from "src/app/interfaces";
 import { Observable } from "rxjs";
 import { FormGroup } from "@angular/forms";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-media-approvals",

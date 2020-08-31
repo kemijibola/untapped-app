@@ -7,7 +7,7 @@ import {
   ReportType,
   UserFilterRequest,
 } from "../interfaces";
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class UserCategoryService {

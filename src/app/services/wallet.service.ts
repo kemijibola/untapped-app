@@ -2,13 +2,12 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IResult } from "src/app/interfaces";
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 import { IWallet, Transaction } from "../interfaces/account/wallet";
 
 @Injectable({ providedIn: "root" })
 export class WalletService {
   private BASE_URI = environment.BASE_URL;
-
   constructor(private http: HttpClient) {}
 
   fetchUserWalletData(): Observable<IResult<IWallet>> {

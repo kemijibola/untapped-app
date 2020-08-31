@@ -10,7 +10,7 @@ import {
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as fromApp from "../../store/app.reducers";
 import { Store, select } from "@ngrx/store";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-forgot-password",

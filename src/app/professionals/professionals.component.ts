@@ -15,7 +15,7 @@ import * as UserFilterActions from "../shared/store/filtered-categories/user-fil
 import * as fromUserFilter from "../shared/store/filtered-categories/user-filter/user-filter.reducer";
 import * as fromUserTypeReducer from "../user-type/store/user-type.reducers";
 import * as UserTypeActions from "../user-type/store/user-type.actions";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-professionals",

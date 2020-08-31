@@ -16,7 +16,7 @@ import * as fromService from "../shared/store/service/service.reducers";
 import * as fromModal from "../shared/store/modals/modals.reducers";
 import * as fromToggle from "../shared/store/slide-toggle/slide-toggle.reducers";
 import * as fromComments from "../shared/store/comments/comments.reducers";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import * as fromTalentPorfolio from "../shared/store/talents/talents.reducers";
 import * as fromTalentAudioPortfolio from "../shared/store/talents/audio-preview/audio-preview.reducer";
 import * as fromTalentVideoPorfolio from "../shared/store/talents/video-preview/video-preview.reducer";

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { IResult, IUser } from "../interfaces";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 import { ImageEditRequest } from "../interfaces/media/image";
 import { UserAccount } from "../interfaces/account/wallet";
 

@@ -13,7 +13,7 @@ import * as fromUser from "../../user.reducers";
 import * as WalletActions from "../../store/wallet/wallet.actions";
 import { PaymentProcessor } from "src/app/interfaces";
 import { HelperService } from "src/app/shared/utils/helper.service";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import * as fromWallet from "../../store/wallet/wallet.reducer";
 
 @Component({

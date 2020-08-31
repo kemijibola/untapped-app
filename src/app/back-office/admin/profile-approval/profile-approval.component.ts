@@ -10,7 +10,7 @@ import * as fromAdmin from "./../admin.reducer";
 import * as PendingUserActions from "../../store/approvals/profile/profile.action";
 import * as fromPendingUser from "../../store/approvals/profile/profile.reducer";
 import { TalentProfile } from "src/app/interfaces";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-profile-approval",

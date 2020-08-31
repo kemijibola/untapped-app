@@ -10,7 +10,7 @@ import * as fromApp from "../../store/app.reducers";
 import * as ContestsAction from "../store/contests.action";
 import * as fromContest from "../store/contests.reducers";
 import { PusherService } from "src/app/services/pusher.service";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import {
   fetchImageObjectFromCloudFormation,

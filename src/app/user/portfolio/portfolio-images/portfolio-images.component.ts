@@ -31,7 +31,7 @@ import * as fromMediaPreview from "../../store/portfolio/media/media-preview.red
 import * as MediaPreviewActions from "../../store/portfolio/media/media-preview.actions";
 import * as fromModal from "../../../shared/store/modals/modals.reducers";
 import * as SnackBarActions from "../../../shared/notifications/snackbar/snackbar.action";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-portfolio-images",
