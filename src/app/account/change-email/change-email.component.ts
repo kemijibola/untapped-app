@@ -17,7 +17,7 @@ import { emailAsyncValidator } from "../async-email.validator";
 import { UserService } from "src/app/services/user.service";
 import * as AuthActions from "../store/auth.actions";
 import { Router } from "@angular/router";
-import { environment } from "src/environments/environment";
+import { environment } from "src/environments/environment.prod";
 import { EMAIL_REGEX } from "src/app/lib/constants";
 import * as fromAuthReducer from "../store/auth.reducers";
 

@@ -11,7 +11,7 @@ import {
   MediaPreview,
 } from "../interfaces";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment";
+import { environment } from "../../environments/environment.prod";
 
 @Injectable({ providedIn: "root" })
 export class PortfolioService {

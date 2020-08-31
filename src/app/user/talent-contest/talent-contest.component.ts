@@ -10,7 +10,7 @@ import {
   fetchDefaultContestBanner,
 } from "src/app/lib/Helper";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
-import { environment } from "src/environments/environment";
+import { environment } from "src/environments/environment.prod";
 
 @Component({
   selector: "app-talent-contest",
