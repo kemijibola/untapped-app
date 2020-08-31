@@ -24,7 +24,6 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log(req.url);
     if (this.useHeader(req.url)) {
       return this.store.select(fromAuth.selectCurrentUserData).pipe(
         take(1),

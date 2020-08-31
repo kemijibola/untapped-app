@@ -36,7 +36,11 @@ import {
 } from "src/app/lib/Helper";
 import { ContestService } from "src/app/services/contest.service";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
-import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
+import {
+  ImageEditRequest,
+  ImageFit,
+  MediaTypeExtension,
+} from "src/app/interfaces/media/image";
 import * as UploadActions from "../../shared/store/upload/upload.actions";
 import * as NewContestActions from "../../user-contest/store/new-contest/new-contest.actions";
 import * as fromUserContest from "../../user-contest/user-contest.reducers";
@@ -477,10 +481,11 @@ export class NewContestComponent implements OnInit {
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
+      type: "image",
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: false,
-      accept: MediaAcceptType.IMAGE,
+      accept: MediaTypeExtension["image"],
       minHeight: 400,
       minWidth: 500,
     };

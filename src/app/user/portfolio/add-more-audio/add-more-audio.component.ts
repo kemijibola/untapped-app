@@ -118,6 +118,7 @@ export class AddMoreAudioComponent implements OnInit {
   onAddAudioItem() {
     this.fileConfig = {
       state: true,
+      type: "Audio",
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: true,

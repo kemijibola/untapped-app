@@ -117,6 +117,7 @@ export class AddMoreVideoComponent implements OnInit {
   onAddVideoItem() {
     this.fileConfig = {
       state: true,
+      type: "Video",
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: true,

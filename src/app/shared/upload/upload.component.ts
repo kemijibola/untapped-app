@@ -98,7 +98,7 @@ export class UploadComponent
     const fileList: FileList = data.target.files;
     for (let index = 0; index < fileList.length; index++) {
       const file = fileList[index];
-      if (this.fileConfig.accept === MediaAcceptType.IMAGE) {
+      if (this.fileConfig.type === "image") {
         const URL = window.URL || window.webkitURL;
         const imageSrc = URL.createObjectURL(file);
         const fileDimension = await this.getImageSize(imageSrc);
@@ -106,7 +106,7 @@ export class UploadComponent
           this.fileArray.push({ data: file });
         }
       } else {
-        if (this.fileConfig.accept === MediaAcceptType.VIDEO && index === 0) {
+        if (this.fileConfig.type === "video" && index === 0) {
           const base64 = await this.getBase64(file);
           var videoBlob = this.dataURItoBlob(base64);
           const thumbnails = await getThumbnails(videoBlob, {
@@ -124,6 +124,7 @@ export class UploadComponent
             action: UPLOADACTION.uploadthumbnail,
             files: [imageFile],
           };
+
           this.store.dispatch(
             new UploadActions.SetMediaThumbnail({ thumbnail: mediaThumbnail })
           );

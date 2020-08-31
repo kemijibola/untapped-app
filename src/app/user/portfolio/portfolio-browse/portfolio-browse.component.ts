@@ -33,6 +33,7 @@ import {
   MediaTypeExtension,
 } from "src/app/interfaces/media/image";
 import { audioAccept } from "src/app/lib/constants";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-portfolio-browse",
@@ -73,7 +74,6 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
     this.canSetUploadedImage = false;
     this.store
       .select(fromUpload.selectMediaThumbnailFile)
-      .take(2)
       .subscribe((val: IFileModel) => {
         if (val !== null) {
           const file: IPresignRequest = {
@@ -124,7 +124,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
       .pipe(select(fromUpload.selectFilesToUpload))
       .take(2)
       .subscribe((val: IFileModel) => {
-        if (val !== null) {
+        if (_.has(val, "files")) {
           if (val.action === this.uploadAction) {
             this.filesToUpload = val.files;
             const files: IFileMetaData[] = val.files.reduce(
@@ -220,6 +220,7 @@ export class PortfolioBrowseComponent implements OnInit, OnChanges {
   onClickBrowseBtn() {
     this.fileConfig = {
       state: true,
+      type: this.mediaAccept.split("/")[0],
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: this.isMultiple,

@@ -124,6 +124,7 @@ export class ChangeProfessionalBannerComponent implements OnInit {
   onClickUploadImageBtn() {
     this.fileConfig = {
       state: true,
+      type: "Image",
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: false,

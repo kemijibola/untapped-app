@@ -53,6 +53,7 @@ export interface IFileInputModel {
   accept: string;
   minHeight?: number;
   minWidth?: number;
+  type: string;
 }
 export interface IFileMetaData {
   file: string;
