@@ -226,6 +226,7 @@ export class ContestEntryComponent implements OnInit {
     const accept = MediaAcceptType[mediaAccept.toUpperCase()];
     this.fileConfig = {
       state: true,
+      type: this.selectedContest.contest.entryMediaType,
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: false,

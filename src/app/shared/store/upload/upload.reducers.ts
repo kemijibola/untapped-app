@@ -138,6 +138,7 @@ export function reducer(
         uploadedItems: action.payload.uploadedItems,
       });
     case UploadActions.SET_MEDIA_THUMBNAIL:
+      console.log("got to reducer", action.payload.thumbnail);
       return Object.assign({
         ...state,
         mediaThumbnail: action.payload.thumbnail,

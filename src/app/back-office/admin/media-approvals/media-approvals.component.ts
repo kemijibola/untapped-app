@@ -91,9 +91,11 @@ export class MediaApprovalsComponent implements OnInit {
           this.selectedMedia,
           0
         );
-        this.pendingMedia[modifiedMediaIndex].items = this.pendingMedia[
-          modifiedMediaIndex
-        ].items.filter((x) => x._id !== this.selectedItemId);
+        if (this.pendingMedia.length > 0) {
+          this.pendingMedia[modifiedMediaIndex].items = this.pendingMedia[
+            modifiedMediaIndex
+          ].items.filter((x) => x._id !== this.selectedItemId);
+        }
       }
     });
 

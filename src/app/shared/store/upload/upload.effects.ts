@@ -97,7 +97,5 @@ export class UploadEffect {
     private store: Store<fromApp.AppState>
   ) {}
 
-  private getActionFromHttpEvent(event: HttpEvent<any>) {
-    
-  }
+  private getActionFromHttpEvent(event: HttpEvent<any>) {}
 }

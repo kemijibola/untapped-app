@@ -118,6 +118,7 @@ export class AddMoreImageComponent implements OnInit {
   onAddImageItem() {
     this.fileConfig = {
       state: true,
+      type: "Image",
       component: this.uploadComponent,
       action: this.uploadAction,
       multiple: true,
