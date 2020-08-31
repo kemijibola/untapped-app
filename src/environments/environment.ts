@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   clientId: "ADMINWEB",
   TALENT_DEFAULT_IMG: "assets/img/profile/talent_default_img.png",
   PROFESSIONAL_DEFAULT_IMG: "assets/img/profile/professional_default_img.png",
