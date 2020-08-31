@@ -18,7 +18,6 @@ import {
   fetchNoMediaDefaultImage,
   fetchImageObjectFromCloudFormation,
 } from "src/app/lib/Helper";
-import { environment } from "src/environments/environment";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import * as ToggleActions from "../../shared/store/slide-toggle/slide-toggle.actions";
 import * as fromSlideToggle from "../../shared/store/slide-toggle/slide-toggle.reducers";

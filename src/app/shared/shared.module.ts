@@ -38,7 +38,7 @@ import { VgBufferingModule } from "ngx-videogular";
 import { UpMediaMagnifierComponent } from "./up-media-magnifier/up-media-magnifier.component";
 
 import { Angular4PaystackModule } from "angular4-paystack";
-import { environment } from "src/environments/environment";
+import { environment } from "src/environments/environment.prod";
 import { GooglePlacesComponent } from "./google-places/google-places.component";
 import { LatestContestLandingComponent } from "./latest-contest-landing/latest-contest-landing.component";
 import { NguiInViewComponent } from "./ngui-in-view.component";

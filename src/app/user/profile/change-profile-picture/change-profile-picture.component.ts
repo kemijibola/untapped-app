@@ -29,7 +29,6 @@ import * as fromApp from "../../../store/app.reducers";
 import * as fromUpload from "../../../shared/store/upload/upload.reducers";
 import * as UploadActions from "../../../shared/store/upload/upload.actions";
 import * as UserImageActions from "../../../shared/store/user-image/user-image.action";
-import { environment } from "src/environments/environment";
 import { ImageEditRequest, ImageFit } from "src/app/interfaces/media/image";
 import {
   fetchImageObjectFromCloudFormation,

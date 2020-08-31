@@ -13,7 +13,7 @@ import * as fromApp from "../store/app.reducers";
 import * as fromAuth from "../account/store/auth.reducers";
 import { IAuthData } from "../interfaces";
 import { catchError, take, concatMap } from "rxjs/operators";
-import { environment } from "../../../src/environments/environment";
+import { environment } from "../../../src/environments/environment.prod";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -24,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log(req.url);
     if (this.useHeader(req.url)) {
       return this.store.select(fromAuth.selectCurrentUserData).pipe(
         take(1),

@@ -1,7 +1,7 @@
 import { IContestEntryDetails } from "./../../../interfaces/contests/Contest";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
+import { environment } from "src/environments/environment.prod";
 import { Observable } from "rxjs";
 import { IResult, IMedia, IContest } from "src/app/interfaces";
 

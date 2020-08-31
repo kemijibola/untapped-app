@@ -16,7 +16,7 @@ import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
 import { select, Store } from "@ngrx/store";
 import * as fromApp from "../../../store/app.reducers";
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
-import { environment } from "src/environments/environment";
+import { environment } from "src/environments/environment.prod";
 import * as fromAuth from "src/app/account/store/auth.reducers";
 import * as fromUpload from "../../../shared/store/upload/upload.reducers";
 import * as UploadActions from "../../../shared/store/upload/upload.actions";

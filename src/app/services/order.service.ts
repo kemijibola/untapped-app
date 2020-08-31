@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { IResult, IOrder } from "../interfaces";
 import { Observable } from "rxjs";
 import { ImageEditRequest } from "../interfaces/media/image";
-import { environment } from "../../environments/environment";
+import { environment } from "../../environments/environment.prod";
 
 @Injectable({ providedIn: "root" })
 export class OrderService {

@@ -36,7 +36,7 @@ import {
 } from "src/app/lib/Helper";
 import { Router } from "@angular/router";
 import { UUID } from "angular2-uuid";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../environments/environment.prod";
 import * as _ from "underscore";
 
 @Component({

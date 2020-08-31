@@ -11,7 +11,7 @@ import {
   IConfirmEmail,
 } from "../interfaces";
 import { LocalStorage } from "@ngx-pwa/local-storage";
-import { environment } from "../../environments/environment";
+import { environment } from "../../environments/environment.prod";
 import { of } from "rxjs";
 
 @Injectable({ providedIn: "root" })
