@@ -21,6 +21,8 @@ export const SET_NAVIGATION_PROPERTIES = "SET_NAVIGATION_PROPERTIES";
 export const SET_MAGNIFIER_DATA = "SET_MAGNIFIER_DATA";
 export const TOGGLE_MAGNIFIER = "TOGGLE_MAGNIFIER";
 
+export const STOP_MEDIA = "STOP_MEDIA";
+
 export class ToggleModal implements Action {
   readonly type = TOGGLE_MODAL;
   constructor(public payload: { appModal: AppModal; modal: IModal }) {}
@@ -80,6 +82,10 @@ export class SetMagnifierData implements Action {
   constructor(public payload: MagnifierData) {}
 }
 
+export class StopMedia implements Action {
+  readonly type = STOP_MEDIA;
+}
+
 export type ModalsActions =
   | ToggleModal
   | SetModalNavigationProperties
@@ -93,4 +99,5 @@ export type ModalsActions =
   | SetCurrentModal
   | ResetCurrentModal
   | AddComponentModal
-  | AddComponentModals;
+  | AddComponentModals
+  | StopMedia;

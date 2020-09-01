@@ -422,10 +422,10 @@ export class PortfolioModalContentComponent implements OnInit, OnDestroy {
 
   setVideo(media: UploadedItems) {
     this.isVideoUpload = true;
+    var currentVideo = media.items[this.currentVideoIndex];
     if (media.uploadType === "multiple") {
       this.isMultipleVideo = true;
       this.defaultVideoSet = true;
-      var currentVideo = media.items[this.currentVideoIndex];
       this.setDefaultVideo(currentVideo);
       this.setOtherVideo(media.items);
     }

@@ -15,6 +15,7 @@ import { ModalDisplay } from "src/app/interfaces/shared/modal";
 import { select, Store } from "@ngrx/store";
 import * as fromModal from "../../shared/store/modals/modals.reducers";
 import { DOCUMENT } from "@angular/common";
+import * as ModalsAction from "../../shared/store/modals/modals.actions";
 @Component({
   selector: "app-modals",
   templateUrl: "./modals.component.html",
@@ -49,6 +50,7 @@ export class ModalsComponent implements OnInit, OnDestroy {
             this.renderer.setStyle(this.document.body, "overflow-y", "hidden");
           }
           if (modal.display === "none") {
+            // trigger close media here
             this.renderer.setStyle(this.document.body, "overflow-y", "scroll");
           }
         }
