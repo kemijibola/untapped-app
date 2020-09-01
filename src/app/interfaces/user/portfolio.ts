@@ -7,6 +7,12 @@ export interface AppPageState {
   mediaType: MediaType;
 }
 
+export enum MediaState {
+  pause = "pause",
+  play = "play",
+  stop = "stop",
+}
+
 export enum PageViewMode {
   New = "New",
   Edit = "Edit",

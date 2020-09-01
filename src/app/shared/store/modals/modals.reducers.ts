@@ -8,7 +8,7 @@ import {
   MagnifierData,
 } from "src/app/interfaces/shared/modal";
 import * as ModalsActions from "./modals.actions";
-import { MediaType } from "src/app/interfaces";
+import { MediaType, MediaState } from "src/app/interfaces";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 import * as fromAdapter from "./modals.adapter";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
@@ -19,6 +19,7 @@ export interface ModalState extends EntityState<AppModal> {
   magnifierData: MagnifierData | null;
   showMagnifier: boolean | null;
   selectAppModalId: string | number | null;
+  mediaClosed: MediaState | null;
 }
 
 const initialState: ModalState = fromAdapter.adapter.getInitialState({
@@ -27,6 +28,7 @@ const initialState: ModalState = fromAdapter.adapter.getInitialState({
   magnifierData: null,
   showMagnifier: null,
   selectAppModalId: null,
+  mediaClosed: MediaState.pause,
 });
 
 export function reducer(
@@ -79,6 +81,12 @@ export function reducer(
         ...state,
         activeModal: null,
       });
+    case ModalsActions.STOP_MEDIA:
+      console.log("stopping media....");
+      return Object.assign({
+        ...state,
+        mediaClosed: MediaState.stop,
+      });
     default: {
       return state;
     }
@@ -94,6 +102,10 @@ const getSelectedMagnifiedData = (state: ModalState) => state.magnifierData;
 const getSelectedNavigationData = (state: ModalState) => state.navigationData;
 
 const getSelectedShowMagnifier = (state: ModalState) => state.showMagnifier;
+
+const getMediaStopped = (state: ModalState): boolean =>
+  state.mediaClosed === MediaState.stop ||
+  state.mediaClosed === MediaState.pause;
 
 export const getAppModalState = createFeatureSelector<ModalState>("modalState");
 
@@ -129,6 +141,11 @@ export const selectCurrentActiveModal = createSelector(
 export const selectCurrentNavigationData = createSelector(
   getAppModalState,
   getSelectedNavigationData
+);
+
+export const selectMediaClosed = createSelector(
+  getAppModalState,
+  getMediaStopped
 );
 
 export const selectCurrentMagnifiedData = createSelector(
