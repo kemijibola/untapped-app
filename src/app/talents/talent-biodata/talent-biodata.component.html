@@ -1,23 +1,23 @@
 <div class="middle-talent-wrp" *ngIf="show">
-  <div class="talent-img" style="text-align: center; background: lightgray;">
+  <div class="talent-img" style="text-align: center; background: lightgray">
     <img
       [defaultImage]="defaultImage"
-      [lazyLoad]="selectedUser?.displayPhotoFullPath"
-      style="width: 442px; height: 293px; background: lightgray;"
+      [lazyLoad]="displayPhotoFullPath"
+      style="width: 442px; height: 293px; background: lightgray"
     />
   </div>
   <div class="middle-outer-wrp">
     <div class="nam">
       <h3>{{ selectedUser?.displayName }}</h3>
       <a
-        style="cursor: pointer;"
+        style="cursor: pointer"
         class="box-btn"
         (click)="likeTalent()"
         *ngIf="(loggedInUser | async).authenticated && !hasLiked"
         >LIKE TALENT</a
       >
       <a
-        style="cursor: pointer;"
+        style="cursor: pointer"
         class="box-btn"
         (click)="unLikeTalent()"
         *ngIf="(loggedInUser | async).authenticated && hasLiked"
@@ -70,7 +70,7 @@
 <div
   class="middle-talent-wrp"
   *ngIf="!show"
-  style="text-align: center; margin: 0 auto; margin-top: 40px;"
+  style="text-align: center; margin: 0 auto; margin-top: 40px"
 >
   No talent found
 </div>
