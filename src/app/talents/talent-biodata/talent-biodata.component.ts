@@ -19,6 +19,7 @@ import * as _ from "underscore";
 export class TalentBiodataComponent implements OnInit {
   selectedUser: UserFilterCategory;
   defaultImage: string = "";
+  displayPhotoFullPath: string = "";
   defaultParams: ImageEditRequest = {
     edits: {
       resize: {
@@ -66,7 +67,7 @@ export class TalentBiodataComponent implements OnInit {
               val.displayPhoto,
               this.defaultParams
             );
-            this.selectedUser.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
+            this.displayPhotoFullPath = fetchImageObjectFromCloudFormation(
               val.displayPhoto,
               this.editParams
             );
