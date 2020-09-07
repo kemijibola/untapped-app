@@ -7,6 +7,7 @@ import * as UserTypeActions from "../../store/user-type.actions";
 import * as fromApp from "../../../store/app.reducers";
 import * as fromUserTypeReducer from "../../store/user-type.reducers";
 import * as _ from "underscore";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-user-type-list-item",
@@ -15,7 +16,6 @@ import * as _ from "underscore";
 })
 export class UserTypeListItemComponent implements OnInit, OnDestroy {
   selectedUserType$: Observable<IUserType>;
-  userTypes$: Observable<IUserType[]>;
   selectedUserType: IUserType;
   userTypeForm: FormGroup;
   icons = {
@@ -23,6 +23,7 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     Professional: "assets/img/i3.svg",
     Audience: "assets/img/audience.svg",
   };
+  talentUserTypeId: string = environment.TALENT_USER_TYPE_ID;
 
   initiated$ = this.store.pipe(
     select(fromUserTypeReducer.selectFetchUserTypesInitiatedStatus)
@@ -40,22 +41,27 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     select(fromUserTypeReducer.selectUserTypesFailedStatus)
   );
 
+  userTypes$ = this.store.select(fromUserTypeReducer.selectAllUserTypes);
+
   constructor(private store: Store<fromApp.AppState>) {
     // this.store.dispatch(new UserTypeActions.FetchUserTypes());
-    this.fetchUserTypes();
+    // this.fetchUserTypes();
   }
   ngOnInit() {
     this.userTypeForm = new FormGroup({
       typeOfUser: new FormControl("", Validators.required),
     });
-    this.userTypes$ = this.store.select(fromUserTypeReducer.selectAllUserTypes);
 
     this.store
       .select(fromUserTypeReducer.selectCurrentUserType)
+      .take(2)
       .subscribe((val: IUserType) => {
+        console.log("entered", val);
         if (val) {
           this.selectedUserType = val;
           this.userTypeForm.get("typeOfUser").setValue(val._id);
+        } else {
+          this.userTypeForm.get("typeOfUser").setValue(this.talentUserTypeId);
         }
       });
   }
@@ -67,9 +73,7 @@ export class UserTypeListItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  fetchUserTypes() {
-    this.store.dispatch(new UserTypeActions.FetchUserTypes());
-  }
+  fetchUserTypes() {}
 
   trackByFn(index: number, item: IUserType) {
     return item._id;

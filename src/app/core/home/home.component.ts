@@ -6,6 +6,7 @@ import { IAuthData, IUserType } from "src/app/interfaces";
 import * as fromUserTypeReducer from "../../user-type/store/user-type.reducers";
 import * as UserTypeActions from "../../user-type/store/user-type.actions";
 import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-home",
@@ -15,9 +16,9 @@ import { Router } from "@angular/router";
 export class HomeComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>, public router: Router) {}
   isAuthenticated: boolean;
-  talentUserTypeId: string = "";
-  professionalUserTypeId: string = "";
-  audienceUserTypeId: string = "";
+  talentUserTypeId: string = environment.TALENT_USER_TYPE_ID;
+  professionalUserTypeId: string = environment.PROFESSIONAL_USER_TYPE_ID;
+  audienceUserTypeId: string = environment.AUDIENCE_USER_TYPE_ID;
 
   ngOnInit() {
     this.store
@@ -25,23 +26,10 @@ export class HomeComponent implements OnInit {
       .subscribe((val: IAuthData) => {
         this.isAuthenticated = val.authenticated;
       });
-
-    this.store
-      .select(fromUserTypeReducer.selectAllUserTypes)
-      .subscribe((val: IUserType[]) => {
-        if (val.length > 0) {
-          this.talentUserTypeId = val.filter((x) => x.name === "Talent")[0]._id;
-          this.professionalUserTypeId = val.filter(
-            (x) => x.name === "Professional"
-          )[0]._id;
-          this.audienceUserTypeId = val.filter(
-            (x) => x.name === "Audience"
-          )[0]._id;
-        }
-      });
   }
 
   onSignUpProfessional() {
+    console.log("clicked");
     this.store.dispatch(
       new UserTypeActions.FetchUserType({
         userTypeId: this.professionalUserTypeId,
