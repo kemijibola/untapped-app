@@ -1,11 +1,19 @@
 <!-- Header title section start -->
 
-<div class="hero-teat-arrea">
+<div class="hero-teat-arrea pt-5 pb-5 mb-100">
   <div class="container">
     <div class="row text-center">
-      <div class="col-lg-12">
-        <div class="hero-text">
-          <h1>Compete and win!</h1>
+      <div class="col-lg-12 home-page">
+        <div class="hero-text ml-0 mr-0 mb-5">
+          <h1 class="">What is UntappedPool?</h1>
+          <p class="">
+            UntappedPool is Africa's 1st online talent platform for budding
+            talents of all types, where they converge, compete and get rewarded.
+            We ensure direct engagement between talents and targeted audiences.
+            We provide talents with opportunity to turn their budding careers
+            into profitable ventures. Whether you're a green horn or an
+            established star, our power - packed platfom will help you to grow.
+          </p>
         </div>
       </div>
     </div>
@@ -16,36 +24,48 @@
 
 <!-- Show-case area start -->
 
-<div class="showcase-area fx-padding">
-  <img class="path-1" src="assets/img/sp-1.png" alt="" />
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-3 col-md-3 p-top-2">
-        <div class="left-bg">
-          <img src="assets/img/img01.jpg" alt="" />
-        </div>
+<div class="showcase-area fx-padding" style="margin-bottom: 50px">
+  <!-- <img
+    class="path-1"
+    src="assets/img/sp-1.png"
+    style="width: 459px; height: 689px"
+  /> -->
+  <div class="container-fluid home-page">
+    <div class="row showcase-content-mobile">
+      <div class="col-lg-6">
+        <img src="assets/img/sms_vote.svg" style="height: 350px" />
       </div>
-      <div class="col-lg-6 col-md-6 d-none d-md-block">
-        <div class="center-bg">
-          <div class="row">
-            <div class="col-lg-8 col-md-8">
-              <img src="assets/img/img-2.jpg" alt="" />
-            </div>
-            <div class="col-lg-4 col-md-4 p-top p-top-1">
-              <img src="assets/img/img-3.jpg" alt="" />
-            </div>
-            <div class="col-lg-4 col-md-4 p-top">
-              <img src="assets/img/img-5.jpg" alt="" />
-            </div>
-            <div class="col-lg-8 col-md-8 p-top">
-              <img src="assets/img/img-6.jpg" alt="" />
-            </div>
-          </div>
+      <div class="col-lg-6">
+        <p class="title-summary">PROFESSIONALS</p>
+        <div class="hero-text ml-0 mr-0 mb-5">
+          <h1 class="">SMS vote Competition</h1>
+          <p class="">
+            Sponsor competitions with UntappedPool by creating custom
+            competition online in less than 1 minute. We automate the entire
+            competition and SMS voting process - from SMS confirmations to data
+            collection.
+          </p>
         </div>
-      </div>
-      <div class="col-lg-3 p-top-3 col-md-3 d-none d-md-block">
-        <div class="right-bg">
-          <img src="assets/img/img-4.jpg" alt="" />
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+          "
+        >
+          <a
+            (click)="onSignUpTalent()"
+            *ngIf="!isAuthenticated"
+            style="cursor: pointer"
+            >READ MORE<i class="fal fa-arrow-right"></i
+          ></a>
+          <a
+            (click)="onSignUpProfessional()"
+            *ngIf="!isAuthenticated"
+            style="cursor: pointer"
+            >SIGN UP AS A PROFESSIONAL<i class="fal fa-arrow-right"></i
+          ></a>
         </div>
       </div>
     </div>
@@ -56,26 +76,73 @@
 
 <!-- professional-content-area Start -->
 
-<div class="professional-content-area fx-padding">
-  <div class="container-fluid">
+<div class="professional-content-area fx-padding" style="margin-bottom: 50px">
+  <div class="container-fluid home-page">
     <div class="row">
-      <div class="col-lg-5 col-md-5">
-        <div class="tm-img">
-          <span><img src="assets/img/sp-2.png" alt="" /></span>
-          <img
-            src="assets/img/img-7.jpeg"
-            style="width: 453px; height: 431px; border-radius: 10px"
-            alt=""
-          />
-        </div>
-      </div>
-      <div class="col-lg-7 col-md-7">
-        <div class="professsional-txt">
-          <h1>Talent</h1>
-          <p>
-            Create your personalized page to upload your content (image, audio,
-            video) and enter various competitions.
+      <div class="col-lg-6">
+        <p class="title-summary">TALENTS</p>
+        <div class="hero-text ml-0 mr-0 mb-5">
+          <h1 class="">Showcase your Craft</h1>
+          <p class="">
+            Display your talent to the world audience, sponsors, and mentors.You
+            can also upload your original videos, images, or audios for free and
+            we will support you to become a deserving global star.
           </p>
+        </div>
+        <a
+          (click)="onSignUpTalent()"
+          *ngIf="!isAuthenticated"
+          style="cursor: pointer"
+          >SIGN UP AS A TALENT<i class="fal fa-arrow-right"></i
+        ></a>
+      </div>
+      <div class="col-lg-6">
+        <img src="assets/img/talent_portfolio.svg" style="height: 350px" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="professional-content-area home-page fx-padding"
+  style="margin-bottom: 50px"
+>
+  <div class="container-fluid home-page">
+    <div class="row professional-content-mobile">
+      <div class="col-lg-5">
+        <img src="assets/img/selected.svg" style="height: 350px" />
+      </div>
+      <div class="col-lg-7">
+        <p class="title-summary">COMPETITIONS</p>
+        <div class="hero-text ml-0 mr-0 mb-5">
+          <h1 class="">Enter Competition for Free and Win</h1>
+          <p class="">
+            Connect and stay entertained with your favourite contestants by
+            posting comments on their portfolios and participating in voting for
+            them to win amazing prizes.
+          </p>
+        </div>
+        <!-- <div class="row text-white mt-5">
+          <div class="col-6">
+            <span class="count">175</span><br />
+            <span class="count-rider">Producers Signed</span>
+          </div>
+          <div class="col-6">
+            <span class="count">175</span><br />
+            <span class="count-rider">Producers Signed</span>
+          </div>
+        </div> -->
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+          "
+        >
+          <a href="#" *ngIf="!isAuthenticated" style="cursor: pointer"
+            >READ MORE<i class="fal fa-arrow-right"></i
+          ></a>
           <a
             (click)="onSignUpTalent()"
             *ngIf="!isAuthenticated"
@@ -88,118 +155,37 @@
   </div>
 </div>
 
-<!-- professional-content-area end -->
-
-<!-- <div class="blog-slide-area fx-padding ">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 col-md-12 text-center">
-        <h4>Join any of the many talent cetegories</h4>
-      </div>
-      <div class="col-lg-12 col-md-12">
-        <div class="blog-slide owl-carousel">
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-          <div class="single-slide">
-            <img src="assets/img/img-7.png" alt="" />
-            <div class="slide-txt">
-              <span>Music</span>
-              <p>200+ music talents</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<div class="contact-area fx-padding">
+<div class="contact-area home-page fx-padding">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-6 col-md-6">
         <div class="contact-txt">
-          <span *ngIf="!isAuthenticated" (click)="onSignUpProfessional()"
-            >Join as a professional</span
-          >
-          <h1>Create competitions for talents</h1>
+          <span *ngIf="!isAuthenticated">AUDIENCE</span>
+          <h1>Support your favourite Talent</h1>
           <p>
-            You will be able to create competitions and pull a variety of
-            talents you so wish.
+            Connect and stay entertained with your favourite contestants by
+            posting comments on their portfolio and participating in voting.
           </p>
           <a
             style="cursor: pointer"
             *ngIf="!isAuthenticated"
-            (click)="onSignUpProfessional()"
-            >Join as a professional<i class="fal fa-arrow-right"></i
+            (click)="onSignUpAudience()"
+            >Sign up as Audience<i class="fal fa-arrow-right"></i
           ></a>
         </div>
       </div>
       <div class="col-lg-6 col-md-6">
         <div class="left-bg-contact">
-          <span class="ptrn"><img src="assets/img/patrn-2.png" alt="" /></span>
           <div class="row">
             <div class="col-lg-12 col-md-12 p-btn">
-              <img src="assets/img/img-8.png" alt="" />
-            </div>
-            <div class="col-lg-4 col-md-4">
-              <img src="assets/img/img-9.png" alt="" />
-            </div>
-            <div class="col-lg-8 col-md-8">
-              <img src="assets/img/img-10.png" alt="" />
+              <img src="assets/img/fans.svg" style="height: 390px" alt="" />
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row contact-bottom" *ngIf="!isAuthenticated">
+    <!-- <div class="row contact-bottom" *ngIf="!isAuthenticated">
       <div class="col-lg-8 col-md-7">
         <p>
           Not a talent or professional? <br />
@@ -211,6 +197,6 @@
           >Sign up as Audience<i class="fal fa-arrow-right"></i
         ></a>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

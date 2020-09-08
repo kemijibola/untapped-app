@@ -21,10 +21,6 @@ export class UserTypeEffects {
             new UserTypeActions.SetUserTypes({
               userTypes: response.data,
             }),
-            new UserTypeActions.FetchUserType({
-              userTypeId: response.data.filter((x) => x.name === "Talent")[0]
-                ._id,
-            }),
             new UserTypeActions.FetchUserTypesSucess(),
           ]),
           catchError((respError: HttpErrorResponse) =>

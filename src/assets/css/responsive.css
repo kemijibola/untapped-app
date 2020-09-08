@@ -188,6 +188,15 @@
   .contact-txt h1 {
     font-size: 38px;
   }
+
+  .hero-text p {
+    color: #222;
+    letter-spacing: 0.5px;
+    line-height: 30px;
+    font-weight: 400;
+    font-size: 18px;
+  }
+
   .contact-txt p {
     color: #fff;
     letter-spacing: 0.5px;
@@ -1355,6 +1364,27 @@
     padding-top: 5px;
     padding-right: 0;
   }
+
+  .professional-content-area a {
+    margin-right: 2rem;
+    font-size: 10px;
+  }
+
+  .showcase-area a {
+    margin-right: 2rem;
+    font-size: 10px;
+  }
+
+  .professional-content-mobile {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .showcase-content-mobile {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
   .professional-content-area::after {
     background-image: url(../img/ptrn.png);
     left: 0;
@@ -1376,6 +1406,15 @@
   .tm-img span {
     display: none;
   }
+
+  .hero-text p {
+    color: #333;
+    letter-spacing: 0.5px;
+    line-height: 30px;
+    font-weight: 400;
+    font-size: 18px;
+  }
+
   .contact-txt p {
     color: #fff;
     letter-spacing: 0.5px;
@@ -1390,6 +1429,7 @@
   .hero-teat-arrea {
     padding: 46px 0;
     padding-bottom: 0;
+    margin-bottom: -120px !important;
   }
   .contact-bottom p {
     letter-spacing: 0.5px;
@@ -1407,7 +1447,6 @@
     padding-right: 0px !important;
   }
   .footer-social li {
-    float: left;
     margin: 0 7px;
     display: inline-block;
     list-style: none;
@@ -1450,8 +1489,16 @@
   .p-top-3 img {
     top: 0;
   }
+
+  .showcase-area {
+    margin-bottom: 0px !important;
+  }
+
   .showcase-area img {
+    margin-top: 20px;
     margin-bottom: 20px;
+    width: auto !important;
+    height: auto !important;
   }
 
   .menu-open {

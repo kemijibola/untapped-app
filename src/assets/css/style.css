@@ -1,5 +1,69 @@
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
+.wt-border-btn {
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 6px;
+  margin-top: 5rem;
+}
+/* .stat-container {
+  background-image: url(../img/cover.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  min-height: 500px;
+} */
+
+/* .stat-talent-container {
+  background-image: url(../img/competition-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  min-height: 500px;
+} */
+
+.wt-border-btn:hover {
+  text-decoration: none;
+}
+
+.slider {
+  position: absolute;
+  left: -100px;
+  -webkit-animation: slide 0.5s forwards;
+  -webkit-animation-delay: 2s;
+  animation: slide 0.5s forwards;
+  animation-delay: 10s;
+}
+
+.slider:hover {
+  transition: 2s;
+  left: 0;
+}
+
+.count {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.count-rider {
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.title-content {
+  font-size: 1rem;
+}
+
+/* .hero-teat-arrea {
+  background-color: #ffffff;
+} */
+
+.home h1 h5 {
+  color: #000000 !important;
+}
+
 .alignleft {
   float: left;
   margin-right: 15px;
@@ -158,7 +222,6 @@ a:hover {
   display: inline-block;
 }
 .header-menu-area {
-  -webkit-box-shadow: 0 1px 4px #eee;
   box-shadow: 0 1px 4px #eee;
   padding: 20px 0;
 }
@@ -221,18 +284,73 @@ a:hover {
   padding: 120px 0;
 }
 .hero-text {
-  max-width: 800px;
   margin: 0 auto;
 }
+
 .hero-text h1 {
   font-size: 45px;
-  letter-spacing: 0.5px;
-  font-weight: 500;
+  letter-spacing: 1px;
+  font-weight: 600;
   color: #333;
-  line-height: 60px;
   font-family: AvenirNextLTProBold;
 }
 
+.hero-text span {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 25px;
+  display: inline-block;
+  text-transform: uppercase;
+}
+.hero-text p {
+  color: #fff;
+  letter-spacing: 0.5px;
+  line-height: 37px;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.about-header-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.about-header-wrapper svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  overflow: visible;
+}
+
+
+.home-page a:hover {
+  color: #222;
+}
+
+.home-page i {
+  margin-left: 50px;
+}
+
+.home-page a {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #11868b;
+  display: inline-block;
+  padding: 13px 16px;
+  margin-top: 2px;
+  background: #cdeeef;
+  border-radius: 5px;
+  cursor: pointer;
+}
 .path-1 {
   position: absolute;
   right: 0;
@@ -245,9 +363,7 @@ a:hover {
   padding-left: 200px !important;
   padding-right: 200px !important;
 } */
-.showcase-area img {
-  width: 100%;
-}
+
 .menu-open {
   position: absolute;
   right: 27px;
@@ -293,13 +409,59 @@ a:hover {
   padding-bottom: 70px;
 }
 
+.color-white {
+  color: #fff !important;
+}
+
 .add-more-blk.sb-rls {
   margin-left: 0;
   margin-bottom: 32px;
 }
 
+.sponsor-bar-wrapper {
+  position: relative;
+}
+
+.margin-vertical {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.base-12 {
+  width: 100%;
+}
+
+.slick-initialized .slick-slide {
+  display: block;
+}
+
+.sponsor-bar-wrapper:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.sponsor-bar-wrapper .slick-initialized .slick-track {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.slick-slide {
+  float: left;
+  height: 100%;
+  min-height: 1px;
+}
+
+.slick-slide img {
+  display: block;
+}
+
 .professional-content-area {
-  padding: 180px 0;
+  padding: 50px 0;
   position: relative;
   z-index: 1;
 }
@@ -344,7 +506,7 @@ a:hover {
   display: none;
 }
 
-.professional-content-area::after {
+/* .professional-content-area::after {
   background-image: url(../img/ptrn.png);
   left: 0;
   top: 5%;
@@ -355,7 +517,7 @@ a:hover {
   z-index: -1;
   background-size: cover;
   background-position: center;
-}
+} */
 
 .mainmenu-main ul li a svg {
   margin-right: 7px;
