@@ -13,12 +13,26 @@
         currentUserType === 'Professional'
       "
     ></app-new-contest>
-    <app-setting
+    <app-sms-vote
       *ngIf="
         activeTab.tag === tabPanel.tabs[2].tag &&
         currentUserType === 'Professional'
       "
-    ></app-setting>
+    >
+    </app-sms-vote>
+    <!-- <app-competition-report
+      *ngIf="
+        activeTab.tag === tabPanel.tabs[3].tag &&
+        currentUserType === 'Professional'
+      "
+    >
+    </app-competition-report> -->
+    <!-- <app-setting
+      *ngIf="
+        activeTab.tag === tabPanel.tabs[3].tag &&
+        currentUserType === 'Professional'
+      "
+    ></app-setting> -->
   </div>
 </app-tabs>
 

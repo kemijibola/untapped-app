@@ -68,19 +68,6 @@ export function fetchVideoItemFullPath(key: string): string {
   return `${environment.VIDEO_ACCELERATE_URL}/${key}`;
 }
 
-export function contestTitleAsyncValidator(
-  time: number = 500,
-  contestService: ContestService
-) {
-  return (input: FormControl): Observable<any> | Promise<any> => {
-    return timer(time).pipe(
-      concatMap(() => contestService.findContestByTitle(input.value)),
-      map((res: any) => {
-        return res["isAvailable"] ? null : { titleExist: true };
-      })
-    );
-  };
-}
 
 export function transformImagePortfolioPreview(
   data: ImagePortfolioPreview[]

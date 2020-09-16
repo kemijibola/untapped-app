@@ -21,6 +21,9 @@ import { AllUserContestEffect } from "./store/all-contest/all-contest.effects";
 import { NewContestOverviewComponent } from "./new-contest/new-contest-overview/new-contest-overview.component";
 import { NewContestSuccessComponent } from "./new-contest/new-contest-success/new-contest-success.component";
 import { LazyLoadImageModule } from "ng-lazyload-image";
+import { SmsVoteComponent } from './sms-vote/sms-vote.component';
+import { CompetitionReportComponent } from './competition-report/competition-report.component';
+import { DataTablesModule } from 'angular-datatables';
 // import { DatePipe } from "@angular/common";
 
 @NgModule({
@@ -33,9 +36,12 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
     AllContestItemComponent,
     NewContestOverviewComponent,
     NewContestSuccessComponent,
+    SmsVoteComponent,
+    CompetitionReportComponent,
   ],
   imports: [
     SharedModule,
+    DataTablesModule,
     MatSliderModule,
     MatSelectModule,
     FormsModule,

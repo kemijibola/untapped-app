@@ -4,46 +4,102 @@
   role="tabpanel"
   aria-labelledby="home-tab"
 >
-  <div
-    class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"
-    *ngFor="let contest of userContests; trackBy: trackByFn"
-  >
-    <div style="width: 330px; height: 200px" class="entries-img mb-20">
-      <a
-        [routerLink]="['/competitions', contest.contestId]"
-        [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="visited"
-        ><img
-          [defaultImage]="contest.defaultContestBannerImage"
-          [lazyLoad]="contest.fullContestBannerImage"
-          style="width: 100%; height: 100%; background: lightgray"
-      /></a>
-      <div class="entries-content all-ent">
-        <span class="ent-num"
-          >{{ contest.entryCount }}
-          {{ contest.entryCount > 1 ? "Entries" : "Entry" }}</span
+  <div class="table-responsive col-xl-12" *ngIf="userContests.length > 0">
+    <table datatable [dtOptions]="dtOptions" class="row-border hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Title</th>
+          <th>Total Entries</th>
+          <th>Total Votes</th>
+          <th>Date Created</th>
+          <th>Payment Status</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let contest of userContests;
+            let i = index;
+            trackBy: trackByFn
+          "
         >
-      </div>
-      <div class="entries-bot-cont">
-        <h5>{{ contest.contestTitle }}</h5>
-        <div class="action">
-          <span
-            ><img src="assets/img/gigs/eye.svg" alt="" />{{
-              contest.contestViewCount
-            }}</span
-          >
-          <span
-            ><img src="assets/img/gigs/heart.svg" alt="" />{{
-              contest.contestLikedByCount
-            }}</span
-          >
-          <span
-            ><img src="assets/img/message-icon.svg" alt="" />{{
-              contest.commentCount
-            }}</span
-          >
-        </div>
-      </div>
-    </div>
+          <td>{{ i + 1 }}</td>
+          <td style="width: 30%">{{ contest.code }}</td>
+          <td style="width: 70%">{{ contest.title }}</td>
+          <td>{{ contest.totalEntries }}</td>
+          <td>{{ contest.totalVotes }}</td>
+          <td style="width: 30%">{{ contest.createdDate | date: "short" }}</td>
+          <td *ngIf="contest.paymentStatus === 'Completed'">
+            <span style="color: green">Paid</span>
+          </td>
+          <td *ngIf="contest.paymentStatus === 'UnPaid'">
+            <span style="color: red">Not Paid</span>
+          </td>
+          <td style="width: 30%">
+            {{ contest.contestStartDate | date: "short" }}
+          </td>
+          <td style="width: 30%">
+            {{ contest.contestEndDate | date: "short" }}
+          </td>
+          <td style="width: 30%">
+            <button
+              [class.box-btn-disable]="contest.totalEntries < 1"
+              [disabled]="
+                (codeProgress$ | async) ||
+                (!codeCompleted$ | async) ||
+                (!codeFailed$ | async)
+              "
+              (click)="onClickDownloadParticipantData(contest._id)"
+              style="width: 250px; margin-bottom: 0.3rem"
+              type="button"
+            >
+              <span
+                *ngIf="
+                  (codeInitiated$ | async) ||
+                  (codeCompleted$ | async) ||
+                  (codeFailed$ | async)
+                "
+                >DOWNLOAD PARTICIPANTS</span
+              >
+              <span *ngIf="(codeProgress$ | async) || (!codeCompleted$ | async)"
+                >DOWNLOADING...
+              </span>
+            </button>
+            <button
+              [disabled]="
+                (resultProgress$ | async) ||
+                (!resultCompleted$ | async) ||
+                (!resultFailed$ | async)
+              "
+              (click)="onClickDownloadVoteResult(contest._id)"
+              style="width: 250px; margin-bottom: 0.3rem"
+              [class.box-btn-disable]="contest.totalVotes < 1"
+            >
+              <span
+                *ngIf="
+                  (resultInitiated$ | async) ||
+                  (resultCompleted$ | async) ||
+                  (resultFailed$ | async)
+                "
+                >DOWNLOAD VOTE RESULT</span
+              >
+              <span
+                *ngIf="(resultProgress$ | async) || (!resultCompleted$ | async)"
+                >DOWNLOADING...
+              </span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-responsive col-xl-12" *ngIf="userContests.length < 1">
+    <span>No competitions created</span>
   </div>
 </div>

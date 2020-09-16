@@ -1,4 +1,8 @@
-import { IUserContestListAnalysis } from "./../../interfaces/user/filter-category";
+import {
+  IUserContestListAnalysis,
+  AllContestViewModel,
+  CompetitionParticipant,
+} from "./../../interfaces/user/filter-category";
 import { Component, OnInit } from "@angular/core";
 import * as NewContestActions from "../../user-contest/store/new-contest/new-contest.actions";
 import * as fromUserContest from "../../user-contest/user-contest.reducers";
@@ -12,6 +16,9 @@ import {
   fetchDefaultContestBanner,
 } from "src/app/lib/Helper";
 import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
+import * as _ from "underscore";
+import { ExcelService } from "src/app/shared/utils/excel.service";
+import { IVoteResult } from "src/app/interfaces";
 
 @Component({
   selector: "app-all-contest",
@@ -19,42 +26,94 @@ import { ImageFit, ImageEditRequest } from "src/app/interfaces/media/image";
   styleUrls: ["./all-contest.component.css"],
 })
 export class AllContestComponent implements OnInit {
-  userContests: IUserContestListAnalysis[] = [];
-  editParams: ImageEditRequest = {
-    edits: {
-      resize: {
-        width: 300,
-        height: 187,
-        fit: ImageFit.fill,
-      },
-      grayscale: false,
-    },
+  page: number = 1;
+  perPage: number = 9;
+  userContests: AllContestViewModel[] = [];
+  dtOptions: DataTables.Settings = {
+    pagingType: "full_numbers",
+    pageLength: 10,
+    processing: true,
   };
+  selectedIndex: number = -1;
+  showContent: boolean = false;
+  downloadParticipants: boolean = false;
+  downloadResult: boolean = false;
 
-  defaultParams: ImageEditRequest = {
-    edits: {
-      resize: {
-        width: 70,
-        height: 70,
-        fit: ImageFit.fill,
-      },
-      grayscale: false,
-    },
-  };
+  codeInitiated$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadCodeInitiatedStatus)
+  );
+
+  codeProgress$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadCodeInProgressStatus)
+  );
+
+  codeCompleted$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadCodeCompletedStatus)
+  );
+
+  codeFailed$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadCodeFailedStatus)
+  );
+
+  resultInitiated$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadResultInitiatedStatus)
+  );
+
+  resultProgress$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadResultInProgressStatus)
+  );
+
+  resultCompleted$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadResultCompletedStatus)
+  );
+
+  resultFailed$ = this.userContestStore.pipe(
+    select(fromAllContest.selectDownloadResultFailedStatus)
+  );
+
   constructor(
     public store: Store<fromApp.AppState>,
-    private userContestStore: Store<fromUserContest.UserContestState>
+    private userContestStore: Store<fromUserContest.UserContestState>,
+    private excelService: ExcelService
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(new AllContestActions.FetchUserContestList());
+    this.store.dispatch(
+      new AllContestActions.FetchUserContestList({
+        perPage: this.perPage,
+        page: this.page,
+      })
+    );
 
     this.userContestStore
       .pipe(select(fromAllContest.selectAllUserContests))
-      .subscribe((val: IUserContestListAnalysis[]) => {
-        if (val !== null) {
-          this.userContests = [...val];
-          this.setContestBannerImage();
+      .subscribe((val: AllContestViewModel[]) => {
+        if (val) {
+          this.userContests = val;
+        }
+      });
+
+    this.userContestStore
+      .pipe(select(fromAllContest.selectContestParticipants))
+      .subscribe((val: CompetitionParticipant[]) => {
+        if (val && this.downloadParticipants) {
+          this.excelService.exportAsExcelFile(
+            val,
+            `${val[0].competition_code}_participants_${new Date()}`
+          );
+          this.downloadParticipants = false;
+        }
+      });
+
+    this.userContestStore
+      .pipe(select(fromAllContest.selectContestResult))
+      .subscribe((val: IVoteResult[]) => {
+        if (val && this.downloadResult) {
+          this.excelService.exportAsExcelFile(
+            val,
+            `${val[0].competition_code}_result_${Date.now()}`
+          );
+          this.downloadResult = false;
         }
       });
   }
@@ -63,21 +122,21 @@ export class AllContestComponent implements OnInit {
     return item.contestId;
   }
 
-  setContestBannerImage() {
-    this.userContests = this.userContests.map((x) => {
-      return Object.assign({}, x, {
-        defaultContestBannerImage: fetchImageObjectFromCloudFormation(
-          x.contestBanner,
-          this.defaultParams
-        ),
-        fullContestBannerImage:
-          x.contestBanner !== ""
-            ? fetchImageObjectFromCloudFormation(
-                x.contestBanner,
-                this.editParams
-              )
-            : fetchDefaultContestBanner(),
-      });
-    });
+  selectedRow(index: number): void {
+    this.selectedIndex = index;
+  }
+
+  onClickDownloadParticipantData(contestId: string): void {
+    this.userContestStore.dispatch(
+      new AllContestActions.FetchCompetitionParticipants({ contestId })
+    );
+    this.downloadParticipants = true;
+  }
+
+  onClickDownloadVoteResult(contestId: string): void {
+    this.userContestStore.dispatch(
+      new AllContestActions.FetchCompetitionResult({ contestId })
+    );
+    this.downloadResult = true;
   }
 }

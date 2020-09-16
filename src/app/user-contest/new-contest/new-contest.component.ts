@@ -30,10 +30,7 @@ import {
   UPLOADACTION,
   IService,
 } from "src/app/interfaces";
-import {
-  contestTitleAsyncValidator,
-  fetchImageObjectFromCloudFormation,
-} from "src/app/lib/Helper";
+import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { ContestService } from "src/app/services/contest.service";
 import * as fromUpload from "../../shared/store/upload/upload.reducers";
 import {
@@ -52,6 +49,8 @@ import { NUMERIC_REGEX } from "src/app/lib/constants";
 import * as _ from "underscore";
 import * as fromService from "../../shared/store/service/service.reducers";
 import * as ServiceActions from "../../shared/store/service/service.actions";
+import { timer, Observable } from "rxjs";
+import { concatMap, map } from "rxjs/operators";
 
 @Component({
   selector: "app-new-contest",
@@ -298,7 +297,7 @@ export class NewContestComponent implements OnInit {
       title: new FormControl(
         this.contestTitle,
         [Validators.required, Validators.minLength(1)],
-        contestTitleAsyncValidator(500, this.contestService).bind(this)
+        this.contestTitleAsyncValidator(500).bind(this)
       ),
       basicInfo: new FormControl(this.contestInformation, [
         Validators.required,
@@ -413,6 +412,19 @@ export class NewContestComponent implements OnInit {
           }
         }
       });
+  }
+
+  contestTitleAsyncValidator(time: number = 500) {
+    return (input: FormControl): Observable<any> | Promise<any> => {
+      return timer(time).pipe(
+        concatMap(() => this.contestService.findContestByTitle(input.value)),
+        map((res: any) => {
+          console.log(res["contestId"]);
+          this.contestId = res["contestId"] ? res["contestId"] : "";
+          return res["isAvailable"] ? null : { titleExist: true };
+        })
+      );
+    };
   }
 
   onClickCreateButton() {

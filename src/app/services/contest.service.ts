@@ -10,6 +10,9 @@ import {
   IContestEntry,
   ContestEligibilityData,
   IUserContestListAnalysis,
+  AllContestViewModel,
+  CompetitionParticipant,
+  IVoteResult,
 } from "../interfaces";
 import { Observable } from "rxjs";
 import { IJudge } from "../interfaces/contests/Judge";
@@ -74,15 +77,35 @@ export class ContestService {
     return this.http.put<IResult<boolean>>(url, {});
   }
 
-  fetchContestsCreatedByUser(): Observable<
-    IResult<IUserContestListAnalysis[]>
-  > {
-    const url = `${this.BASE_URI}/contests/user/contests`;
-    return this.http.get<IResult<IUserContestListAnalysis[]>>(url);
+  fetchContestsCreatedByUser(
+    pageNo: number,
+    size: number
+  ): Observable<IResult<AllContestViewModel[]>> {
+    const url = `${this.BASE_URI}/contests/user/contests/?pageNo=${pageNo}&size=${size}`;
+    return this.http.get<IResult<AllContestViewModel[]>>(url);
+  }
+
+  fetchContestParticipants(
+    contestId: string
+  ): Observable<IResult<CompetitionParticipant[]>> {
+    const url = `${this.BASE_URI}/contests/${contestId}/participants`;
+    return this.http.get<IResult<CompetitionParticipant[]>>(url);
+  }
+
+  fetchUserCompetitionResult(
+    contestId: string
+  ): Observable<IResult<IVoteResult[]>> {
+    const url = `${this.BASE_URI}/votes/contests/${contestId}/result`;
+    return this.http.get<IResult<IVoteResult[]>>(url);
   }
 
   createContest(item: IContest): Observable<IResult<IContest>> {
     const url = `${this.BASE_URI}/contests`;
+    return this.http.post<IResult<IContest>>(url, item);
+  }
+
+  createSMSContest(item: IContest): Observable<IResult<IContest>> {
+    const url = `${this.BASE_URI}/contests/sms-vote/competition`;
     return this.http.post<IResult<IContest>>(url, item);
   }
 

@@ -1,9 +1,9 @@
-<form [formGroup]="contestForm" #contestFm>
+<form [formGroup]="contestForm">
   <div *ngIf="!canProceed">
     <div class="row">
       <div class="col-xl-12">
         <div class="about-author mb-40">
-          <h5><b>Conditions for creating this competition</b></h5>
+          <h2>Conditions for creating this competition</h2>
           <p><span>1. </span> Creating this competition is Free</p>
           <p><span>2. </span> This competition currency is in Nigerian naira</p>
           <p>
@@ -137,7 +137,7 @@
                     class="error-block"
                     *ngIf="contestForm.get('title').hasError('titleExist')"
                   >
-                    * Competition title exist
+                    *Competition title exist
                   </span>
                   Competition Title</label
                 >

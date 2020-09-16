@@ -1,0 +1,19 @@
+.error-block {
+  color: red;
+}
+
+.input-1 textarea {
+  width: 80% !important;
+}
+
+p li {
+  padding-left: 30px !important;
+}
+
+p li span {
+  font-weight: bold;
+}
+
+p span {
+  font-weight: bold;
+}
