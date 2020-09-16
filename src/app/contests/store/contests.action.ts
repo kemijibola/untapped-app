@@ -1,10 +1,6 @@
 import { Action } from "@ngrx/store";
 import {
   IContestList,
-  IContest,
-  IContestIssue,
-  IUserContest,
-  CreateContest,
   ContestData,
   ContestEligibilityData,
   ContestVoteResult,

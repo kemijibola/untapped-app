@@ -41,6 +41,7 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
 import { UtilitiesService } from "../services/utilities.service";
 import { SharedModule } from "../shared/shared.module";
 import { RoleGuard } from "../guard-services/role-guard.service";
+import { ExcelService } from "../shared/utils/excel.service";
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { RoleGuard } from "../guard-services/role-guard.service";
     WalletService,
     TransactionService,
     UtilitiesService,
+    ExcelService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

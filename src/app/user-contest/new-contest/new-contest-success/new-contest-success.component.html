@@ -7,8 +7,17 @@
         <div class="success-top-text">
           <h3>Payment Success</h3>
           <h1>
-            Order #{{ currentOrder.order.orderNumber }}
-            <a (click)="onViewContestDetail()">view contest</a>
+            Order #{{ currentOrder.order.orderNumber }} <br />
+            <span style="font-size: 16px"
+              >Your competition will go live once it has been reviewed and
+              approved by an Admin</span
+            >
+            <!-- <a
+              [routerLink]="['/competitions', currentContest._id]"
+              [routerLinkActiveOptions]="{ exact: true }"
+              routerLinkActive="visited"
+              >view competition</a
+            > -->
           </h1>
         </div>
       </div>
@@ -17,7 +26,7 @@
       <div class="col-lg-4">
         <div class="success-left-img">
           <img
-            style="width: 366.33px; height: 300.14;"
+            style="width: 366.33px; height: 300.14"
             src="{{ bannerImage }}"
             alt=""
           />
@@ -27,10 +36,12 @@
         <div class="success-right-content">
           <h1>{{ currentContest.title }}</h1>
           <h4>
-            Contest Start date
+            Contest Start date:
             <span>{{ currentContest.startDate | date }}</span>
           </h4>
-          <h4>Contest duration <span>2 weeks</span></h4>
+          <h4>
+            Contest duration: <span>{{ differenceInDays }}</span>
+          </h4>
           <!-- <div class="sc-des" *ngIf="currentContest.submissionRules !== ''">
             <h4>Submission rules</h4>
             <p>

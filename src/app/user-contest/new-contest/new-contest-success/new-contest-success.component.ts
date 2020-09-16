@@ -9,6 +9,8 @@ import * as fromNewContest from "../../../user-contest/store/new-contest/new-con
 import { fetchImageObjectFromCloudFormation } from "src/app/lib/Helper";
 import { environment } from "src/environments/environment";
 import { ImageEditRequest } from "src/app/interfaces/media/image";
+import { differenceInDays } from "date-fns";
+import * as _ from "underscore";
 
 @Component({
   selector: "app-new-contest-success",
@@ -55,6 +57,8 @@ export class NewContestSuccessComponent implements OnInit {
       grayscale: false,
     },
   };
+  differenceInDays: string = "";
+
   constructor(
     private store: Store<fromApp.AppState>,
     private userContestStore: Store<fromUserContest.UserContestState>
@@ -64,7 +68,7 @@ export class NewContestSuccessComponent implements OnInit {
     this.store
       .pipe(select(fromOrder.selectCurrentOrder))
       .subscribe((val: IOrder) => {
-        if (val !== null) {
+        if (_.has(val, "_id")) {
           this.currentOrder = val;
         }
       });
@@ -72,8 +76,14 @@ export class NewContestSuccessComponent implements OnInit {
     this.userContestStore
       .pipe(select(fromNewContest.selectCurrentContest))
       .subscribe((val: IContest) => {
-        if (val !== null) {
+        if (_.has(val, "_id")) {
           this.currentContest = val;
+          const difference: number = differenceInDays(
+            new Date(val.endDate),
+            new Date(val.startDate)
+          );
+          this.differenceInDays =
+            difference > 1 ? `${difference} days` : `${difference} day`;
           this.fetchContestBanner(val.bannerImage);
         }
       });

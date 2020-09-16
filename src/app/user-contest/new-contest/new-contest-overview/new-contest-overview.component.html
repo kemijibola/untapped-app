@@ -155,7 +155,9 @@
                 </p>
                 <p>
                   Contest setup fee
-                  <span>{{ 0 | currency: "NGN":true:"2.2-4" }}</span>
+                  <span>{{
+                    currentService.price | currency: "NGN":true:"2.2-4"
+                  }}</span>
                 </p>
                 <h4>
                   Total
@@ -169,8 +171,8 @@
 
             <div class="box-bottom-blk">
               <img
-                src="assets/img/paystack_image.png"
-                alt="Secured By Paystacl"
+                src="assets/img/paystack_img2.png"
+                alt="Secured By Paystack"
               />
               <!-- <h3>
                 <span><i class="fas fa-lock"></i>SSL</span> SECURED PAYMENT

@@ -306,6 +306,15 @@
                           routerLink="user/competition/page"
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
+                          [queryParams]="{ tab: 'sms-vote' }"
+                          >SMS Vote</a
+                        >
+                      </li>
+                      <li *ngIf="typeOfUser === 'Professional'">
+                        <a
+                          routerLink="user/competition/page"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="visited"
                           [queryParams]="{ tab: 'all' }"
                           >Competitions</a
                         >

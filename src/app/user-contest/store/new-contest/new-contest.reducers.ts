@@ -9,12 +9,14 @@ export interface NewContestState extends EntityState<IContest> {
   contest: IContest | null;
   bannerImageKey: string | null;
   newContestState: OutboundState;
+  smsContestState: OutboundState;
   agreementStatus: boolean;
 }
 const initialState: NewContestState = fromAdapter.adapter.getInitialState({
   contest: null,
   bannerImageKey: null,
   newContestState: OutboundState.initiated,
+  smsContestState: OutboundState.initiated,
   agreementStatus: false,
 });
 
@@ -28,6 +30,22 @@ export function newContestReducer(
         ...state,
         newContestState: OutboundState.inprogress,
         contest: action.payload.newContest,
+      });
+    case NewContestActions.CREATE_SMS_VOTE:
+      return Object.assign({
+        ...state,
+        smsContestState: OutboundState.inprogress,
+      });
+    case NewContestActions.CREATE_SMS_VOTE_SUCCESS:
+      return Object.assign({
+        ...state,
+        smsContestState: OutboundState.completed,
+        contest: action.payload.smsContest,
+      });
+    case NewContestActions.CREATE_SMS_VOTE_FAILED:
+      return Object.assign({
+        ...state,
+        smsContestState: OutboundState.failed,
       });
     case NewContestActions.UPDATE_CONTEST:
       return Object.assign({
@@ -106,6 +124,18 @@ const getSaveInitiated = (state: NewContestState): boolean =>
 const getFailedStatus = (state: NewContestState): boolean =>
   state.newContestState === OutboundState.failed;
 
+const getSmsSaveCompleted = (state: NewContestState): boolean =>
+  state.smsContestState === OutboundState.completed;
+
+const getSmsSaveInProgress = (state: NewContestState): boolean =>
+  state.smsContestState === OutboundState.inprogress;
+
+const getSmsSaveInitiated = (state: NewContestState): boolean =>
+  state.smsContestState === OutboundState.initiated;
+
+const getSmsFailedStatus = (state: NewContestState): boolean =>
+  state.smsContestState === OutboundState.failed;
+
 export const selectNewContestCompletedStatus = createSelector(
   getNewUserContestState,
   getSaveCompleted
@@ -129,4 +159,24 @@ export const selectNewContestInProgressStatus = createSelector(
 export const selectNewContestFailedStatus = createSelector(
   getNewUserContestState,
   getFailedStatus
+);
+
+export const selectSmsContestCompletedStatus = createSelector(
+  getNewUserContestState,
+  getSmsSaveCompleted
+);
+
+export const selectSmsContestInitiatedStatus = createSelector(
+  getNewUserContestState,
+  getSmsSaveInitiated
+);
+
+export const selectSmsContestInProgressStatus = createSelector(
+  getNewUserContestState,
+  getSmsSaveInProgress
+);
+
+export const selectSmsContestFailedStatus = createSelector(
+  getNewUserContestState,
+  getSmsFailedStatus
 );

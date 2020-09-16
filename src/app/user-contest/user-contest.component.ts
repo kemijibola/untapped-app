@@ -22,7 +22,7 @@ export class UserContestComponent extends AbstractTabComponent {
     tabs: [
       { index: 0, title: "Competitions", tag: "all", active: false },
       { index: 1, title: "New Competition", tag: "new", active: false },
-      { index: 2, title: "Setting", tag: "settings", active: false },
+      { index: 2, title: "SMS Voting System", tag: "sms-vote", active: false },
     ],
   };
   currentUserType: string = "";

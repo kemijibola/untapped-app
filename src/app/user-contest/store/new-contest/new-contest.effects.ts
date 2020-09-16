@@ -47,6 +47,37 @@ export class NewUserContestEffect {
     )
   );
 
+  createSmsContest = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NewContestActions.CREATE_SMS_VOTE),
+      concatMap((action: NewContestActions.CreateSmsVote) =>
+        this.contestsService.createSMSContest(action.payload.smsContest).pipe(
+          mergeMap((resp: IResult<IContest>) => [
+            new NotificationActions.AddSuccess({
+              key: AppNotificationKey.success,
+              code: 200,
+              message: "SMS Vote created successfully",
+            }),
+            new NewContestActions.CreateSmsVoteSuccess({
+              smsContest: resp.data,
+            }),
+          ]),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection",
+              }),
+              new NewContestActions.CreateSmsVoteFailed()
+            )
+          )
+        )
+      )
+    )
+  );
+
   updateContest = createEffect(() =>
     this.actions$.pipe(
       ofType(NewContestActions.UPDATE_CONTEST),

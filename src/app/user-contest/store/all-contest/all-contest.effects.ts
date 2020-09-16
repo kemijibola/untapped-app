@@ -12,6 +12,9 @@ import {
   AppNotificationKey,
   IUserContest,
   IUserContestListAnalysis,
+  AllContestViewModel,
+  CompetitionParticipant,
+  IVoteResult,
 } from "src/app/interfaces";
 import { HttpErrorResponse } from "@angular/common/http";
 import { of } from "rxjs";
@@ -21,54 +24,94 @@ export class AllUserContestEffect {
   fetchContestsCreatedByUser = createEffect(() =>
     this.action$.pipe(
       ofType(AllContestActions.FETCH_USER_CONTEST_LIST),
-      concatMap(() =>
-        this.contestService.fetchContestsCreatedByUser().pipe(
-          map(
-            (resp: IResult<IUserContestListAnalysis[]>) =>
-              new AllContestActions.FetchUserContestListSuccess({
-                userContests: resp.data,
-              })
-          ),
-          catchError((respError: HttpErrorResponse) =>
-            of(
-              new NotificationActions.AddError({
-                key: AppNotificationKey.error,
-                code: respError.error.response_code || -1,
-                message:
-                  respError.error.response_message || "No Internet connection",
-              })
+      concatMap((action: AllContestActions.FetchUserContestList) =>
+        this.contestService
+          .fetchContestsCreatedByUser(
+            action.payload.page,
+            action.payload.perPage
+          )
+          .pipe(
+            map(
+              (resp: IResult<AllContestViewModel[]>) =>
+                new AllContestActions.FetchUserContestListSuccess({
+                  userContests: resp.data,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                })
+              )
             )
           )
-        )
       )
     )
   );
 
-  // fetchContestsCreatedByCurrentUser = createEffect(() =>
-  //   this.action$.pipe(
-  //     ofType(AllContestActions.FETCH_CONTESTS_CREATED_BY_USER),
-  //     concatMap(() =>
-  //       this.contestService.fetchContestsCreatedByUser().pipe(
-  //         map(
-  //           (resp: IResult<IUserContestListAnalysis[]>) =>
-  //             new AllContestActions.FatchContestCreatedByUserSuccess({
-  //               createdbyUser: resp.data,
-  //             })
-  //         ),
-  //         catchError((respError: HttpErrorResponse) =>
-  //           of(
-  //             new NotificationActions.AddError({
-  //               key: AppNotificationKey.error,
-  //               code: respError.error.response_code || -1,
-  //               message:
-  //                 respError.error.response_message || "No Internet connection",
-  //             })
-  //           )
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
+  fetchContestParticipants = createEffect(() =>
+    this.action$.pipe(
+      ofType(AllContestActions.FETCH_COMPETITION_PARTICIPANTS),
+      concatMap((action: AllContestActions.FetchCompetitionParticipants) =>
+        this.contestService
+          .fetchContestParticipants(action.payload.contestId)
+          .pipe(
+            map(
+              (resp: IResult<CompetitionParticipant[]>) =>
+                new AllContestActions.FetchCompetitionParticipantsSuccess({
+                  participants: resp.data,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                }),
+                new AllContestActions.FetchCompetitionParticipantsFailed()
+              )
+            )
+          )
+      )
+    )
+  );
+
+  fetchUserCompetitionResult = createEffect(() =>
+    this.action$.pipe(
+      ofType(AllContestActions.FETCH_COMPETITION_RESULT),
+      concatMap((action: AllContestActions.FetchCompetitionResult) =>
+        this.contestService
+          .fetchUserCompetitionResult(action.payload.contestId)
+          .pipe(
+            map(
+              (resp: IResult<IVoteResult[]>) =>
+                new AllContestActions.FetchCompetitionResultSuccess({
+                  competitionResults: resp.data,
+                })
+            ),
+            catchError((respError: HttpErrorResponse) =>
+              of(
+                new NotificationActions.AddError({
+                  key: AppNotificationKey.error,
+                  code: respError.error.response_code || -1,
+                  message:
+                    respError.error.response_message ||
+                    "No Internet connection",
+                }),
+                new AllContestActions.FetchCompetitionResultFailed()
+              )
+            )
+          )
+      )
+    )
+  );
 
   constructor(
     private action$: Actions,

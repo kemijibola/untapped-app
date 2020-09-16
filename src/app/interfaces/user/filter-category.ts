@@ -1,4 +1,26 @@
 import { IUserSocialMedia } from "../account/user";
+import { IContest } from "../contests/Contest";
+
+export interface AllContestViewModel {
+  _id: string;
+  code: string;
+  title: string;
+  totalEntries: number;
+  totalVotes: number;
+  createdDate: Date;
+  paymentStatus: string;
+  contestStartDate: Date;
+  contestEndDate: Date;
+}
+
+export interface CompetitionParticipant {
+  sn: number;
+  id: string;
+  competition_code: string;
+  contestant_code: string;
+  entry: string;
+  entry_date: Date;
+}
 
 export interface IUserContestListAnalysis {
   contestId: string;

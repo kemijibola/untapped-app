@@ -96,6 +96,33 @@ export class ContestsEffect {
     )
   );
 
+  fetchContestResult = createEffect(() =>
+    this.action$.pipe(
+      ofType(ContestsActions.FETCH_CONTEST_VOTE_RESULT),
+      concatMap((action: ContestsActions.FetchContestVoteResult) =>
+        this.pusherService.fetchContestResult(action.payload.contestId).pipe(
+          map(
+            (resp: IResult<ContestVoteResult>) =>
+              new ContestsActions.SetContestVoteResult({
+                voteResult: resp.data,
+              })
+          ),
+          catchError((respError: HttpErrorResponse) =>
+            of(
+              new NotificationActions.AddError({
+                key: AppNotificationKey.error,
+                code: respError.error.response_code || -1,
+                message:
+                  respError.error.response_message || "No Internet connection.",
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+
   postContestLike = createEffect(() =>
     this.action$.pipe(
       ofType(ContestsActions.ADD_CONTEST_LIKE),
