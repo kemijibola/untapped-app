@@ -38,6 +38,8 @@ export class AllContestComponent implements OnInit {
   showContent: boolean = false;
   downloadParticipants: boolean = false;
   downloadResult: boolean = false;
+  enableParticipant: boolean = true;
+  enableVote: boolean = true;
 
   codeInitiated$ = this.userContestStore.pipe(
     select(fromAllContest.selectDownloadCodeInitiatedStatus)
@@ -99,9 +101,10 @@ export class AllContestComponent implements OnInit {
         if (val && this.downloadParticipants) {
           this.excelService.exportAsExcelFile(
             val,
-            `${val[0].competition_code}_participants_${new Date()}`
+            `${val[0].competition_code}-participants-${Date.now()}`
           );
           this.downloadParticipants = false;
+          this.enableParticipant = true;
         }
       });
 
@@ -111,7 +114,7 @@ export class AllContestComponent implements OnInit {
         if (val && this.downloadResult) {
           this.excelService.exportAsExcelFile(
             val,
-            `${val[0].competition_code}_result_${Date.now()}`
+            `${val[0].competition_code}-votes-${Date.now()}`
           );
           this.downloadResult = false;
         }

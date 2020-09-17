@@ -20,9 +20,9 @@ export class UserContestComponent extends AbstractTabComponent {
     divClass: "all-contest-area pt-40 pb-60 pl-130",
     navClass: "nav nav-tabs mb-50 all-tablinks",
     tabs: [
-      { index: 0, title: "Competitions", tag: "all", active: false },
+      { index: 0, title: "My Competitions", tag: "all", active: false },
       { index: 1, title: "New Competition", tag: "new", active: false },
-      { index: 2, title: "SMS Voting System", tag: "sms-vote", active: false },
+      { index: 2, title: "SMS Voting", tag: "sms-vote", active: false },
     ],
   };
   currentUserType: string = "";
