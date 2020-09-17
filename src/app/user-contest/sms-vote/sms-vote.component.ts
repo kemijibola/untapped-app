@@ -71,14 +71,6 @@ export class SmsVoteComponent implements OnInit {
         [Validators.required]
       ),
     });
-
-    this.isCompleted$.subscribe((val: boolean) => {
-      if (val) {
-        this.router.navigate(["/user/competition/page"], {
-          queryParams: { tab: "all" },
-        });
-      }
-    });
   }
 
   onClickContinue(): void {
@@ -114,6 +106,14 @@ export class SmsVoteComponent implements OnInit {
       this.userContestStore.dispatch(
         new NewContestActions.CreateSmsVote({ smsContest: contestObj })
       );
+
+      this.isCompleted$.subscribe((val: boolean) => {
+        if (val) {
+          this.router.navigate(["/user/competition/page"], {
+            queryParams: { tab: "all" },
+          });
+        }
+      });
     }
   }
 }
