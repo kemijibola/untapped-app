@@ -56,7 +56,25 @@
           [routerLinkActiveOptions]="{ exact: true }"
           routerLinkActive="visited"
           [queryParams]="{ tab: 'all' }"
-          >Manage Competition</a
+          >My Competitions</a
+        >
+      </li>
+      <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Professional'">
+        <a
+          routerLink="user/competition/page"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'new' }"
+          >New Competition</a
+        >
+      </li>
+      <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Professional'">
+        <a
+          routerLink="user/competition/page"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="visited"
+          [queryParams]="{ tab: 'sms-vote' }"
+          >SMS Voting System</a
         >
       </li>
       <li (click)="onSideToggleClick()" *ngIf="typeOfUser === 'Talent'">
@@ -316,7 +334,7 @@
                           [routerLinkActiveOptions]="{ exact: true }"
                           routerLinkActive="visited"
                           [queryParams]="{ tab: 'all' }"
-                          >Competitions</a
+                          >My Competitions</a
                         >
                       </li>
                       <li *ngIf="typeOfUser === 'Talent'">
