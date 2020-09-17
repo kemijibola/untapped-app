@@ -99,9 +99,11 @@
     </table>
   </div>
 
-  <div class="col-xl-9" *ngIf="userContests.length < 1">
-    <div style="margin: 0 auto; text-align: center">
-      <img src="assets/bars.svg" style="width: 20px; height: 20px" />
-    </div>
+  <div
+    class="col-xl-9"
+    *ngIf="userContests.length < 1"
+    style="min-height: 400vh"
+  >
+    <div style="margin: 0 auto; text-align: center">No competitions!!!</div>
   </div>
 </div>
