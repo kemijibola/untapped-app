@@ -86,11 +86,14 @@
         <div class="col-xl-12">
           <div class="collect-outer-wrapper">
             <div>
-              <p>
-                Fill competition details. Sponsoring of a competition is however
-                subject to admins' approval.
+              <p style="font-size: 16px">
+                Text format: send TALENT/Talent/talent<span style="color: red"
+                  >[put a space]</span
+                >additional optional info
+                <span style="color: red">to</span>
+                <b> 32811</b>
               </p>
-              <p></p>
+              <br />
               <div class="input-1">
                 <label for="">
                   <span
@@ -108,7 +111,7 @@
                   type="text"
                   class="input-design"
                   formControlName="title"
-                  style="width: 65%"
+                  style="width: 90%"
                   placeholder="Competition Title"
                 />
               </div>
@@ -130,7 +133,7 @@
                   min="2"
                   class="input-design"
                   formControlName="noOfParticipants"
-                  style="width: 65%"
+                  style="width: 35%"
                   placeholder="Number of participants"
                 />
               </div>
@@ -204,7 +207,7 @@
                     (failed$ | async)
                   "
                 >
-                  CREATE
+                  GENERATE CONTESTANT CODE
                 </span>
                 <span *ngIf="(inProgress$ | async) || (!isCompleted$ | async)">
                   PROCESSING...
