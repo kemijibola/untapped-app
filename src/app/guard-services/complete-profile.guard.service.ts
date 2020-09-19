@@ -3,7 +3,7 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  Router
+  Router,
 } from "@angular/router";
 import { Store } from "@ngrx/store";
 import * as fromApp from "../store/app.reducers";
@@ -27,8 +27,7 @@ export class CompleteProfile implements CanActivate {
       map((val: IAuthData) => {
         if (val.authenticated) {
           if (
-            (val.user_data.userType.name === "Talent" ||
-              val.user_data.userType.name === "Professional") &&
+            val.user_data.userType.name === "Talent" &&
             !val.user_data.profile_is_completed
           ) {
             this.router.navigate(["/complete-profile"]);

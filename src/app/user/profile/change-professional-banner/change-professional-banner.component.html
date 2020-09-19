@@ -1,8 +1,12 @@
 <div class="upload-details">
   <div class="details-images">
-    <img src="{{ imagePath }}" style="height: 222px; width: 1031px;" alt="" />
+    <img
+      [defaultImage]="imagePath"
+      [lazyLoad]="imagePath"
+      style="height: 222px; width: 1031px; background: lightgray"
+    />
     <div class="edit-upload">
-      <a style="cursor: pointer;" (click)="onClickUploadImageBtn()"
+      <a style="cursor: pointer" (click)="onClickUploadImageBtn()"
         ><img src="assets/img/profile/edit-upload.svg" alt=""
       /></a>
     </div>
