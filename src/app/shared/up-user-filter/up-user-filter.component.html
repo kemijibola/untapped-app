@@ -18,8 +18,9 @@
       >
         <div class="accor-img">
           <img
-            src="{{ user.displayPhotoFullPath }}"
-            style="width: 108px; height: 65.83px; background: lightgray"
+            [defaultImage]="user.defaultImageFullPath"
+            [lazyLoad]="user.displayPhotoFullPath"
+            style="width: 108px; height: 65px; background: lightgray"
           />
         </div>
         <div class="accor-content">
