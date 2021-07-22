@@ -80,7 +80,7 @@
     "underscore": "^1.9.1",
     "video-metadata-thumbnails": "^1.0.17",
     "videogular2": "^7.0.1",
-    "xlsx": "^0.16.7",
+    "xlsx": "^0.17.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
